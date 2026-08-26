@@ -3,8 +3,13 @@ import { describe, expect, test } from "vitest";
 
 type CssRule = {
   atRules: string[];
-  declarations: Map<string, string>;
+  declarations: CssDeclaration[];
   selectors: string[];
+};
+
+type CssDeclaration = {
+  property: string;
+  value: string;
 };
 
 type CascadeCandidate = {
@@ -41,18 +46,19 @@ function closingBrace(source: string, openingBrace: number): number {
   throw new Error(`Missing closing brace after character ${openingBrace}`);
 }
 
-function parseDeclarations(block: string): Map<string, string> {
-  return new Map(
-    block
-      .split(";")
-      .map((declaration) => declaration.trim())
-      .filter(Boolean)
-      .map((declaration) => {
-        const separator = declaration.indexOf(":");
-        if (separator < 1) throw new Error(`Invalid declaration: ${declaration}`);
-        return [declaration.slice(0, separator).trim(), declaration.slice(separator + 1).trim()];
-      }),
-  );
+function parseDeclarations(block: string): CssDeclaration[] {
+  return block
+    .split(";")
+    .map((declaration) => declaration.trim())
+    .filter(Boolean)
+    .map((declaration) => {
+      const separator = declaration.indexOf(":");
+      if (separator < 1) throw new Error(`Invalid declaration: ${declaration}`);
+      return {
+        property: declaration.slice(0, separator).trim(),
+        value: declaration.slice(separator + 1).trim(),
+      };
+    });
 }
 
 function parseCssRules(source: string, atRules: string[] = []): CssRule[] {
@@ -120,22 +126,26 @@ function effectiveDeclaration(
   atRule?: string,
 ): string | undefined {
   const candidates: CascadeCandidate[] = [];
+  let order = 0;
 
-  for (const [order, rule] of parseCssRules(source).entries()) {
+  for (const rule of parseCssRules(source)) {
     if (atRule ? !rule.atRules.includes(atRule) : rule.atRules.length > 0) continue;
 
     for (const selector of selectors) {
       if (!rule.selectors.includes(selector)) continue;
-      const rawValue = rule.declarations.get(property);
-      if (!rawValue) continue;
 
-      const important = /\s*!important\s*$/i.test(rawValue);
-      candidates.push({
-        important,
-        order,
-        specificity: selectorSpecificity(selector),
-        value: rawValue.replace(/\s*!important\s*$/i, "").trim(),
-      });
+      for (const declaration of rule.declarations) {
+        order += 1;
+        if (declaration.property !== property) continue;
+
+        const important = /\s*!important\s*$/i.test(declaration.value);
+        candidates.push({
+          important,
+          order,
+          specificity: selectorSpecificity(selector),
+          value: declaration.value.replace(/\s*!important\s*$/i, "").trim(),
+        });
+      }
     }
   }
 
@@ -153,7 +163,9 @@ function declarationsFor(source: string, selector: string, atRule?: string): Map
     throw new Error(`Missing rule for ${selector}${atRule ? ` in ${atRule}` : ""}`);
   }
 
-  const properties = new Set(matchingRules.flatMap((rule) => [...rule.declarations.keys()]));
+  const properties = new Set(
+    matchingRules.flatMap((rule) => rule.declarations.map(({ property }) => property)),
+  );
   return new Map(
     [...properties].map((property) => {
       const value = effectiveDeclaration(source, [selector], property, atRule);
@@ -314,6 +326,154 @@ const focusTargets = [
   ".site-button:focus-visible",
 ] as const;
 
+const protectedProperties = new Set(["color", "outline", "outline-offset"]);
+
+type ProtectedDeclarationGroup = {
+  atRules?: string[];
+  classification: "base theme" | "dark theme" | "focus treatment" | "semantic role" | "shiki";
+  property: "color" | "outline" | "outline-offset";
+  selectors: string[];
+  value: string;
+};
+
+const protectedDeclarationGroups: ProtectedDeclarationGroup[] = [
+  {
+    classification: "base theme",
+    selectors: ["html"],
+    property: "color",
+    value: "#171717",
+  },
+  {
+    classification: "base theme",
+    selectors: ["a"],
+    property: "color",
+    value: "inherit",
+  },
+  {
+    classification: "semantic role",
+    selectors: [".site-shell"],
+    property: "color",
+    value: "var(--site-foreground)",
+  },
+  {
+    classification: "semantic role",
+    selectors: [".site-nav", ".hero-copy", ".content-page p", ".content-page li", ".site-footer"],
+    property: "color",
+    value: "var(--site-muted)",
+  },
+  {
+    classification: "semantic role",
+    selectors: [".site-brand:hover", ".site-nav a:hover", ".site-footer a:hover"],
+    property: "color",
+    value: "var(--site-accent-foreground)",
+  },
+  {
+    classification: "semantic role",
+    selectors: [".eyebrow", ".content-page .eyebrow", ".hero-credit a"],
+    property: "color",
+    value: "var(--site-accent-foreground)",
+  },
+  {
+    classification: "semantic role",
+    selectors: ['.site-button[data-primary="true"]'],
+    property: "color",
+    value: "var(--site-primary-foreground)",
+  },
+  {
+    classification: "focus treatment",
+    selectors: [...focusTargets],
+    property: "outline",
+    value: "2px solid var(--site-accent-foreground)",
+  },
+  {
+    classification: "focus treatment",
+    selectors: [...focusTargets],
+    property: "outline-offset",
+    value: "3px",
+  },
+  {
+    classification: "shiki",
+    selectors: [".shiki", ".shiki span"],
+    property: "color",
+    value: "var(--shiki-light)",
+  },
+  {
+    atRules: [darkMedia],
+    classification: "dark theme",
+    selectors: ["html"],
+    property: "color",
+    value: "#f5f5f5",
+  },
+  {
+    atRules: [darkMedia],
+    classification: "dark theme",
+    selectors: [".site-shell"],
+    property: "color",
+    value: "var(--site-foreground)",
+  },
+  {
+    atRules: [darkMedia],
+    classification: "shiki",
+    selectors: [".shiki", ".shiki span"],
+    property: "color",
+    value: "var(--shiki-dark)",
+  },
+];
+
+function protectedDeclarationKey(
+  atRules: string[],
+  selector: string,
+  property: string,
+  value: string,
+): string {
+  return JSON.stringify([atRules, selector, property, value]);
+}
+
+const allowedProtectedDeclarations = new Map(
+  protectedDeclarationGroups.flatMap((group) =>
+    group.selectors.map((selector) => [
+      protectedDeclarationKey(group.atRules ?? [], selector, group.property, group.value),
+      group.classification,
+    ]),
+  ),
+);
+
+function assertProtectedDeclarationAudit(source: string): void {
+  const seen = new Set<string>();
+
+  for (const rule of parseCssRules(source)) {
+    for (const declaration of rule.declarations) {
+      if (!protectedProperties.has(declaration.property)) continue;
+
+      for (const selector of rule.selectors) {
+        const identity = protectedDeclarationKey(rule.atRules, selector, declaration.property, "");
+        if (seen.has(identity)) {
+          throw new Error(
+            `Duplicate protected declaration for ${selector} ${declaration.property}${
+              rule.atRules.length > 0 ? ` in ${rule.atRules.join(" in ")}` : ""
+            }`,
+          );
+        }
+        seen.add(identity);
+
+        const key = protectedDeclarationKey(
+          rule.atRules,
+          selector,
+          declaration.property,
+          declaration.value,
+        );
+        if (!allowedProtectedDeclarations.has(key)) {
+          throw new Error(
+            `Unclassified protected declaration: ${selector} { ${declaration.property}: ${declaration.value} }${
+              rule.atRules.length > 0 ? ` in ${rule.atRules.join(" in ")}` : ""
+            }`,
+          );
+        }
+      }
+    }
+  }
+}
+
 function effectiveRoleDeclaration(source: string, contract: RoleContract): string {
   const direct = effectiveDeclaration(source, contract.selectors, contract.property);
   if (direct && direct !== "inherit") return direct;
@@ -348,6 +508,8 @@ function assertRoleColorContracts(source: string): void {
       }
     }
   }
+
+  assertProtectedDeclarationAudit(source);
 }
 
 describe("CSS contract parser", () => {
@@ -380,6 +542,20 @@ describe("CSS contract parser", () => {
         "color",
       ),
     ).toBe("#111111");
+  });
+
+  test("keeps duplicate declarations ordered before applying important priority", () => {
+    expect(
+      effectiveDeclaration(
+        ".scope a { color: #111111 !important; color: #222222; }",
+        [".scope a"],
+        "color",
+      ),
+    ).toBe("#111111");
+  });
+
+  test("classifies every protected declaration in the foundation stylesheet", () => {
+    expect(() => assertProtectedDeclarationAudit(css)).not.toThrow();
   });
 
   test("rejects a removed role declaration", () => {
@@ -419,6 +595,78 @@ describe("CSS contract parser", () => {
     const mutated = `${css}\n.site-button:focus-visible { outline: none; }\n`;
     expect(() => assertRoleColorContracts(mutated)).toThrow(/site-button:focus-visible outline/);
   });
+
+  test.each([
+    ["arbitrary selector", ".unreviewed-copy { color: #ffffff; }"],
+    ["more-specific navigation ancestor", ".site-shell .site-nav a { color: #ffffff; }"],
+    [
+      "more-specific important navigation ancestor",
+      "body .site-nav a { color: #ffffff !important; }",
+    ],
+    ["more-specific content ancestor", ".site-shell .content-page a { color: #ffffff; }"],
+    [
+      "more-specific important content ancestor",
+      "body .content-page a { color: #ffffff !important; }",
+    ],
+    [
+      "more-specific primary control ancestor",
+      '.site-shell .site-button[data-primary="true"] { color: #ffffff; }',
+    ],
+    [
+      "more-specific important primary control ancestor",
+      'body .site-button[data-primary="true"] { color: #ffffff !important; }',
+    ],
+    ["more-specific focus ancestor", ".site-shell .site-button:focus-visible { outline: none; }"],
+    [
+      "more-specific important focus ancestor",
+      "body .site-button:focus-visible { outline: none !important; }",
+    ],
+  ])("rejects an unclassified %s protected override", (_label, override) => {
+    const mutated = `${css}\n${override}\n`;
+    expect(() => assertProtectedDeclarationAudit(mutated)).toThrow(
+      /Unclassified protected declaration/,
+    );
+  });
+
+  test("audits protected overrides inside responsive at-rules", () => {
+    const mutated = `${css}\n@media (max-width: 36rem) { .site-nav a { color: #ffffff; } }\n`;
+    expect(() => assertProtectedDeclarationAudit(mutated)).toThrow(
+      /Unclassified protected declaration.*@media \(max-width: 36rem\)/,
+    );
+  });
+
+  test("audits every selector in a grouped protected rule", () => {
+    const mutated = css.replace(
+      ".site-brand:focus-visible,",
+      ".unreviewed-focus:focus-visible,\n.site-brand:focus-visible,",
+    );
+    expect(mutated).not.toBe(css);
+    expect(() => assertProtectedDeclarationAudit(mutated)).toThrow(
+      /Unclassified protected declaration: \.unreviewed-focus:focus-visible/,
+    );
+  });
+
+  test.each([
+    [
+      "color",
+      "  color: var(--site-muted);",
+      "  color: #ffffff !important;\n  color: var(--site-muted);",
+    ],
+    [
+      "outline",
+      "  outline: 2px solid var(--site-accent-foreground);",
+      "  outline: none !important;\n  outline: 2px solid var(--site-accent-foreground);",
+    ],
+  ])(
+    "rejects duplicate protected %s declarations without collapsing them",
+    (_property, from, to) => {
+      const mutated = css.replace(from, to);
+      expect(mutated).not.toBe(css);
+      expect(() => assertProtectedDeclarationAudit(mutated)).toThrow(
+        /(?:Unclassified|Duplicate) protected declaration/,
+      );
+    },
+  );
 });
 
 describe("documentation color contrast", () => {
