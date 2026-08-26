@@ -1,5 +1,6 @@
 <script lang="ts">
 import type { Snippet } from "svelte";
+import "@coss-sv/ui/styles/globals.css";
 import "./preview.css";
 
 let { children }: { children: Snippet } = $props();

@@ -51,9 +51,25 @@ describe("theme boundaries", () => {
     const layout = await readFile(new URL("../../routes/+layout.svelte", import.meta.url), "utf8");
 
     expect(layout).toContain('page.url.pathname.startsWith("/preview")');
+    expect(layout.indexOf('import "../tailwind.css";')).toBeLessThan(
+      layout.indexOf('import "../app.css";'),
+    );
     expect(layout).toContain("<SiteHeader />");
     expect(layout).not.toContain("onMount");
     expect(layout).not.toContain("hydrated");
     expect(layout).not.toContain("mounted");
+  });
+
+  test("the preview imports canonical component tokens before its canvas overrides", async () => {
+    const previewLayout = await readFile(
+      new URL("../../routes/preview/+layout.svelte", import.meta.url),
+      "utf8",
+    );
+
+    const componentStyles = previewLayout.indexOf('import "@coss-sv/ui/styles/globals.css";');
+    const canvasStyles = previewLayout.indexOf('import "./preview.css";');
+
+    expect(componentStyles).toBeGreaterThan(-1);
+    expect(canvasStyles).toBeGreaterThan(componentStyles);
   });
 });

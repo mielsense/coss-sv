@@ -1,11 +1,4 @@
 {
-  "extends": "./.svelte-kit/tsconfig.json",
-  "compilerOptions": {
-    "allowJs": true,
-    "checkJs": true,
-    "exactOptionalPropertyTypes": true,
-    "noUncheckedIndexedAccess": true,
-    "skipLibCheck": true,
-    "strict": true
-  }
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": ["@coss-sv/typescript-config/sveltekit.json", "./.svelte-kit/tsconfig.json"]
 }

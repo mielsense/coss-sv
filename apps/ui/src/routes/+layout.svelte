@@ -1,6 +1,7 @@
 <script lang="ts">
 import type { Snippet } from "svelte";
 import { page } from "$app/state";
+import "../tailwind.css";
 import "../app.css";
 import { SiteFooter, SiteHeader } from "$lib/site/index.js";
 

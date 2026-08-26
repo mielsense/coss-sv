@@ -17,14 +17,17 @@
     "@coss-sv/ui": "workspace:*"
   },
   "devDependencies": {
+    "@coss-sv/typescript-config": "workspace:*",
     "@sveltejs/adapter-vercel": "catalog:dev",
     "@sveltejs/kit": "catalog:dev",
     "@sveltejs/vite-plugin-svelte": "catalog:dev",
+    "@tailwindcss/vite": "catalog:dev",
     "@types/node": "catalog:dev",
     "mdsvex": "catalog:dev",
     "shiki": "catalog:dev",
     "svelte": "catalog:dev",
     "svelte-check": "catalog:dev",
+    "tailwindcss": "catalog:dev",
     "typescript": "catalog:dev",
     "unified": "9.2.2",
     "vite": "catalog:dev",
