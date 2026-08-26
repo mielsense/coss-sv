@@ -1,4 +1,4 @@
-import { mkdir, mkdtemp, rm, writeFile } from "node:fs/promises";
+import { access, mkdir, mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { afterEach, describe, expect, test } from "vitest";
@@ -8,6 +8,7 @@ import {
   type RegistryItem,
   validateRegistry,
 } from "../../registry/registry.js";
+import { buildValidatedRegistry } from "../../scripts/registry/build.mjs";
 
 const temporaryDirectories: string[] = [];
 
@@ -45,6 +46,26 @@ afterEach(async () => {
 });
 
 describe("registry validation", () => {
+  test.each([
+    "../escape",
+    "..\\escape",
+    "/absolute",
+    "C:\\absolute",
+    ".",
+    "..",
+    "dot.name",
+    "name/child",
+    "name\\child",
+    "Uppercase",
+  ])("rejects unsafe registry item name %s", async (name) => {
+    const { root, sourcePath } = await makeSource();
+    const invalid = { ...item(sourcePath), name };
+
+    await expect(
+      validateRegistry(definition(invalid), { allowedSourceRoots: [root] }),
+    ).rejects.toThrow("safe lowercase slug");
+  });
+
   test("rejects unknown registry types", async () => {
     const { root, sourcePath } = await makeSource();
     const invalid = { ...item(sourcePath), type: "registry:react" } as unknown as RegistryItem;
@@ -77,6 +98,23 @@ describe("registry validation", () => {
     await expect(
       validateRegistry(definition(invalid), { allowedSourceRoots: [root] }),
     ).rejects.toThrow("forbidden dependency");
+  });
+
+  test.each([
+    ["dependencies", "compat@npm:react@19.0.0"],
+    ["dependencies", "compat@npm:@base-ui-components/react@1.0.0"],
+    ["devDependencies", "@scope/compat@npm:@base-ui/react@1.0.0"],
+    ["overrideDependencies", "compat@npm:@base-ui-components/react@1.0.0"],
+    ["overrideDependencies", "npm:react@19.0.0"],
+  ] as const)("rejects %s entry %s", async (field, dependency) => {
+    const { root, sourcePath } = await makeSource();
+    const registry = definition(item(sourcePath));
+    if (field === "overrideDependencies") registry.overrideDependencies = [dependency];
+    else registry.items[0] = { ...registry.items[0], [field]: [dependency] } as RegistryItem;
+
+    await expect(validateRegistry(registry, { allowedSourceRoots: [root] })).rejects.toThrow(
+      "forbidden dependency",
+    );
   });
 
   test("rejects destinations outside configured aliases", async () => {
@@ -147,6 +185,40 @@ describe("registry validation", () => {
       validateRegistry(registry, { allowedSourceRoots: [first.root] }),
     ).resolves.toBeUndefined();
   });
+});
+
+test("validated CLI build contains item output and blocks escaping names", async () => {
+  const { root, sourcePath } = await makeSource("registry/safe-item.svelte");
+  const registryPath = join(root, "registry.json");
+  const outputPath = join(root, "output");
+  const safeRegistry = definition({ ...item(sourcePath), name: "safe-item" });
+  await writeFile(
+    join(root, "package.json"),
+    `${JSON.stringify({ name: "registry-containment-test", private: true, dependencies: { svelte: "5.56.10" } })}\n`,
+    "utf8",
+  );
+  await writeFile(registryPath, `${JSON.stringify(safeRegistry, null, 2)}\n`, "utf8");
+
+  await buildValidatedRegistry(safeRegistry, {
+    registryPath,
+    outputPath,
+    validation: { allowedSourceRoots: [root], projectRoot: root },
+    quiet: true,
+  });
+  await expect(access(join(outputPath, "safe-item.json"))).resolves.toBeUndefined();
+  await expect(access(join(outputPath, "index.json"))).resolves.toBeUndefined();
+
+  const escapingRegistry = definition({ ...item(sourcePath), name: "../escaped" });
+  await writeFile(registryPath, `${JSON.stringify(escapingRegistry, null, 2)}\n`, "utf8");
+  await expect(
+    buildValidatedRegistry(escapingRegistry, {
+      registryPath,
+      outputPath,
+      validation: { allowedSourceRoots: [root], projectRoot: root },
+      quiet: true,
+    }),
+  ).rejects.toThrow("safe lowercase slug");
+  await expect(access(join(root, "escaped.json"))).rejects.toMatchObject({ code: "ENOENT" });
 });
 
 test("freshness check reports stale generated JSON", async () => {

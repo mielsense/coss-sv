@@ -1,4 +1,4 @@
-import { mkdir, mkdtemp, readdir, readFile, rm, writeFile } from "node:fs/promises";
+import { access, mkdir, mkdtemp, readdir, readFile, rm, writeFile } from "node:fs/promises";
 import { createServer, type Server } from "node:http";
 import type { AddressInfo } from "node:net";
 import { tmpdir } from "node:os";
@@ -148,6 +148,7 @@ function registryItems(registryRoot: string): RegistryItem[] {
       name: "private-bundle",
       type: "registry:block",
       description: "Private local dependency bundle fixture.",
+      dependencies: ["clsx@2.1.1"],
       registryDependencies: [
         "local:private-leaf",
         "local:private-compound",
@@ -155,6 +156,11 @@ function registryItems(registryRoot: string): RegistryItem[] {
         "local:private-special",
         "local:private-styled",
       ],
+      cssVars: {
+        theme: { "color-private-accent": "var(--private-accent)" },
+        light: { "private-accent": "oklch(0.65 0.2 40)" },
+        dark: { "private-accent": "oklch(0.72 0.18 40)" },
+      },
       files: [
         {
           path: source("registry/private-bundle/private-bundle.svelte"),
@@ -356,14 +362,56 @@ function isolatedEnvironment(temporaryRoot: string): NodeJS.ProcessEnv {
     ...process.env,
     CI: "1",
     COREPACK_HOME: resolve(temporaryRoot, "corepack"),
+    HOME: resolve(temporaryRoot, "home"),
     NPM_CONFIG_CACHE: resolve(temporaryRoot, "npm-cache"),
+    NPM_CONFIG_PREFIX: resolve(temporaryRoot, "npm-prefix"),
+    NPM_CONFIG_STORE_DIR: resolve(temporaryRoot, "pnpm-store"),
     NPM_CONFIG_USERCONFIG: resolve(temporaryRoot, "npmrc"),
     PATH: childPath,
     PNPM_HOME: resolve(temporaryRoot, "pnpm-home"),
     XDG_CACHE_HOME: resolve(temporaryRoot, "xdg-cache"),
     XDG_CONFIG_HOME: resolve(temporaryRoot, "xdg-config"),
     XDG_DATA_HOME: resolve(temporaryRoot, "xdg-data"),
+    USERPROFILE: resolve(temporaryRoot, "user-profile"),
   };
+}
+
+async function verifyIsolatedEnvironment(
+  environment: NodeJS.ProcessEnv,
+  temporaryRoot: string,
+): Promise<void> {
+  const expectedHome = resolve(temporaryRoot, "home");
+  const expectedUserProfile = resolve(temporaryRoot, "user-profile");
+  await mkdir(expectedHome, { recursive: true });
+  await mkdir(expectedUserProfile, { recursive: true });
+
+  if (environment.HOME !== expectedHome || environment.USERPROFILE !== expectedUserProfile) {
+    throw new Error("Smoke environment did not replace inherited home directories.");
+  }
+
+  const effective = JSON.parse(
+    await run(
+      process.execPath,
+      [
+        "-e",
+        "process.stdout.write(JSON.stringify({ HOME: process.env.HOME, USERPROFILE: process.env.USERPROFILE }))",
+      ],
+      { env: environment, quiet: true },
+    ),
+  ) as { HOME?: string; USERPROFILE?: string };
+  if (effective.HOME !== expectedHome || effective.USERPROFILE !== expectedUserProfile) {
+    throw new Error("Child processes did not receive the isolated home directories.");
+  }
+}
+
+async function assertRemoved(path: string): Promise<void> {
+  try {
+    await access(path);
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code === "ENOENT") return;
+    throw error;
+  }
+  throw new Error(`Smoke cleanup left its temporary root behind: ${path}`);
 }
 
 async function verifyInstalledFixture(fixtureRoot: string): Promise<void> {
@@ -395,8 +443,13 @@ async function verifyInstalledFixture(fixtureRoot: string): Promise<void> {
     throw new Error("Smoke install changed the fixture's Svelte peer baseline.");
   if (/"react(?:-dom)?"|@base-ui/.test(packageJsonText.toLowerCase()))
     throw new Error("Smoke fixture contains a forbidden dependency.");
-  if (!appCss.includes("private-accent") || !appCss.includes("color-private-accent"))
-    throw new Error("Smoke install did not merge private CSS variables.");
+  if (
+    !appCss.includes("--private-accent") ||
+    !appCss.includes("oklch(0.65 0.2 40)") ||
+    !appCss.includes("oklch(0.72 0.18 40)")
+  ) {
+    throw new Error("Smoke install did not merge light and dark private CSS variables.");
+  }
 
   const rootPrefix = `${fixtureRoot}/`;
   const installedPaths = await listFiles(fixtureRoot);
@@ -418,6 +471,7 @@ let server: Server | undefined;
 try {
   await mkdir(registryRoot, { recursive: true });
   await mkdir(fixtureRoot, { recursive: true });
+  await verifyIsolatedEnvironment(environment, temporaryRoot);
   await writePrivateRegistry(registryRoot);
   await runLocalShadcn(
     ["registry", "build", "registry.json", "-c", registryRoot, "-o", "static/r"],
@@ -445,27 +499,18 @@ try {
 
   const registryServer = await startRegistryServer(registryOutput);
   server = registryServer.server;
-  for (const itemName of [
-    "private-leaf",
-    "private-compound",
-    "private-overlay",
-    "private-special",
-    "private-styled",
-    "private-bundle",
-  ]) {
-    await runLocalShadcn(
-      [
-        "add",
-        `${registryServer.baseUrl}/${itemName}.json`,
-        "-c",
-        fixtureRoot,
-        "--yes",
-        "--overwrite",
-        "--no-deps-install",
-      ],
-      { env: environment, quiet: true },
-    );
-  }
+  await runLocalShadcn(
+    [
+      "add",
+      `${registryServer.baseUrl}/private-bundle.json`,
+      "-c",
+      fixtureRoot,
+      "--yes",
+      "--overwrite",
+      "--no-deps-install",
+    ],
+    { env: environment, quiet: true },
+  );
 
   await run(
     "pnpm",
@@ -498,8 +543,9 @@ try {
       `Private smoke items leaked into production output: ${productionItems.join(", ")}`,
     );
   }
-  console.log("Private registry URL install, svelte-check, and production build passed.");
+  console.log("Bundle-first registry URL install, svelte-check, and production build passed.");
 } finally {
   await closeServer(server);
   await rm(temporaryRoot, { recursive: true, force: true });
+  await assertRemoved(temporaryRoot);
 }

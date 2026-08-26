@@ -71,7 +71,7 @@ export type RegistryDefinition = {
   items: RegistryItem[];
 };
 
-type ValidationOptions = {
+export type ValidationOptions = {
   allowedSourceRoots?: string[];
   allowedInstallRoots?: string[];
   projectRoot?: string;
@@ -130,24 +130,45 @@ function isWithin(root: string, candidate: string): boolean {
 }
 
 function packageName(specifier: string): string {
-  if (specifier.startsWith("@")) {
-    const separator = specifier.indexOf("@", specifier.indexOf("/") + 1);
-    return (separator === -1 ? specifier : specifier.slice(0, separator)).toLowerCase();
+  const trimmed = specifier.trim().toLowerCase();
+  const aliasSeparator = trimmed.indexOf("@npm:");
+  const packageSpecifier =
+    aliasSeparator === -1
+      ? trimmed.startsWith("npm:")
+        ? trimmed.slice("npm:".length)
+        : trimmed
+      : trimmed.slice(aliasSeparator + "@npm:".length);
+
+  if (packageSpecifier.startsWith("@")) {
+    const separator = packageSpecifier.indexOf("@", packageSpecifier.indexOf("/") + 1);
+    return separator === -1 ? packageSpecifier : packageSpecifier.slice(0, separator);
   }
 
-  const separator = specifier.indexOf("@");
-  return (separator === -1 ? specifier : specifier.slice(0, separator)).toLowerCase();
+  const separator = packageSpecifier.indexOf("@");
+  return separator === -1 ? packageSpecifier : packageSpecifier.slice(0, separator);
 }
 
 function isForbiddenDependency(specifier: string): boolean {
   const name = packageName(specifier);
-  const alias = specifier.toLowerCase().match(/(?:^|@)npm:([^@]+)/)?.[1];
   return (
     forbiddenPackages.has(name) ||
-    (alias ? isForbiddenDependency(alias) : false) ||
     name.startsWith("@base-ui/") ||
     name.startsWith("@base-ui-components/")
   );
+}
+
+function validateDependencies(owner: string, dependencies: readonly string[]): void {
+  for (const dependency of dependencies) {
+    if (isForbiddenDependency(dependency)) {
+      throw new Error(`${owner} has a forbidden dependency: ${dependency}`);
+    }
+  }
+}
+
+function validateItemName(name: string): void {
+  if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(name)) {
+    throw new Error(`Registry item name must be a safe lowercase slug: ${name}`);
+  }
 }
 
 function validateTarget(itemName: string, target: string, allowedInstallRoots: string[]): void {
@@ -199,22 +220,23 @@ export async function validateRegistry(
   const installRoots = options.allowedInstallRoots ?? defaultInstallRoots;
   const itemNames = new Set<string>();
 
+  validateDependencies("Registry overrideDependencies", registry.overrideDependencies ?? []);
+
   for (const item of registry.items) {
     if (!isRegistryType(item.type)) {
       throw new Error(
         `Registry item ${item.name} has an unsupported registry type: ${String(item.type)}`,
       );
     }
-    if (!item.name || itemNames.has(item.name)) {
-      throw new Error(`Registry item names must be non-empty and unique: ${item.name}`);
-    }
+    validateItemName(item.name);
+    if (itemNames.has(item.name))
+      throw new Error(`Registry item names must be unique: ${item.name}`);
     itemNames.add(item.name);
 
-    for (const dependency of [...(item.dependencies ?? []), ...(item.devDependencies ?? [])]) {
-      if (isForbiddenDependency(dependency)) {
-        throw new Error(`Registry item ${item.name} has a forbidden dependency: ${dependency}`);
-      }
-    }
+    validateDependencies(`Registry item ${item.name}`, [
+      ...(item.dependencies ?? []),
+      ...(item.devDependencies ?? []),
+    ]);
 
     for (const file of item.files) {
       if (!isRegistryFileType(file.type)) {

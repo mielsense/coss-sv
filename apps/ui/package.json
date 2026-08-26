@@ -11,7 +11,7 @@
     "dev": "vite dev",
     "prepare": "svelte-kit sync",
     "preview": "vite preview",
-    "registry:build": "pnpm registry:generate && pnpm exec shadcn-svelte registry build registry.json -o static/r && pnpm registry:check",
+    "registry:build": "pnpm registry:generate && tsx scripts/registry/build.mts && pnpm registry:check",
     "registry:check": "pnpm registry:test && tsx scripts/registry/check.mts",
     "registry:generate": "tsx scripts/registry/generate.mts",
     "registry:smoke": "tsx scripts/registry/smoke-install.mts",

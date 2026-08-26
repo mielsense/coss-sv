@@ -10,4 +10,6 @@ Svelte 5 package name and dependency boundary used by future COSS registry items
 
 The production manifests stay empty until reviewed COSS components and examples land. The smoke test
 creates private leaf, compound, overlay, hook, CSS variable, dependency, and `local:` bundle items in a
-temporary directory. It deletes those items after the install and build checks.
+temporary directory. A fresh consumer installs the bundle first, so every dependency file must arrive
+through `local:` URLs. Child processes use temporary home, profile, cache, config, and pnpm store paths.
+The script confirms cleanup after the install and build checks.
