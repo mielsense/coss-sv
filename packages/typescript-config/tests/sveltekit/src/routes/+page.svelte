@@ -5,3 +5,4 @@ let { data }: PageProps = $props();
 </script>
 
 <p>{data.pathname}</p>
+<p>{data.navigation.join(" / ")}</p>

@@ -19,7 +19,7 @@
     "test": "pnpm test:base && pnpm test:svelte-library && pnpm test:sveltekit",
     "test:base": "tsc --project tests/base/tsconfig.json",
     "test:svelte-library": "svelte-check --tsconfig tests/svelte-library/tsconfig.json",
-    "test:sveltekit": "pnpm --dir tests/sveltekit exec svelte-kit sync && svelte-check --tsconfig tests/sveltekit/tsconfig.json"
+    "test:sveltekit": "pnpm --dir tests/sveltekit exec svelte-kit sync && node tests/sveltekit/assert-config.mjs && svelte-check --tsconfig tests/sveltekit/tsconfig.json"
   },
   "devDependencies": {
     "@sveltejs/kit": "catalog:dev",
