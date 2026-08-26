@@ -20,12 +20,14 @@
     "format": "biome format --write .",
     "format:check": "biome format .",
     "lint": "biome lint .",
+    "parity:check": "node scripts/parity/inventory.mts --check",
+    "parity:write": "node scripts/parity/inventory.mts --write",
     "registry:build": "pnpm --filter @coss-sv/docs registry:build",
     "registry:check": "pnpm --filter @coss-sv/docs registry:check",
     "test": "pnpm test:repo && turbo run test",
     "test:e2e": "pnpm --filter @coss-sv/docs test:e2e",
-    "test:repo": "node --test scripts/*.test.ts",
-    "verify": "pnpm test:repo && pnpm format:check && pnpm lint && pnpm check && pnpm registry:check"
+    "test:repo": "node --test scripts/*.test.ts scripts/parity/*.test.ts",
+    "verify": "pnpm test:repo && pnpm parity:check && pnpm format:check && pnpm lint && pnpm check && pnpm registry:check"
   },
   "devDependencies": {
     "@biomejs/biome": "2.5.10",
