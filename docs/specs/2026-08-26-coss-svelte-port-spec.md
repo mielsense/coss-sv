@@ -313,6 +313,8 @@ Every implementation lane receives two independent reviews before integration.
 
 The reviewer must freshly read the same COSS and Shards inputs. It must then compare the running React reference and Svelte implementation in the in-app browser.
 
+The Codex in-app browser is the only manual visual-review surface. Agents must not use the Chrome app or Chrome connector. Headless Playwright is reserved for deterministic automated coverage.
+
 The review covers:
 
 - matching light and dark themes;

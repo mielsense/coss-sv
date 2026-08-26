@@ -390,7 +390,7 @@ Use mdsvex for authored documentation and Shiki for code rendering, matching the
 
 The app package name is `@coss-sv/docs`. It depends on `@coss-sv/ui` through `workspace:*` and extends the shared SvelteKit TypeScript config after F2 lands.
 
-The visible shell must say “COSS for Svelte” and “Unofficial Svelte port made by Miel.” The shell is intentionally minimal in F4; complete upstream visual parity belongs to Plan 3.
+The visible shell must say “COSS for Svelte” and include a restrained “Unofficial Svelte port made by Miel” attribution. The initial shell may establish routing and test infrastructure, but it is not a visually acceptable deliverable: the COSS homepage and shared chrome must be ported from the inspected upstream files before foundation sign-off. The attribution must not replace the upstream hero, category grid, or documentation structure.
 
 ### Step 3: Isolate documentation color
 

@@ -49,6 +49,8 @@ Do not introduce `export let`, `$:`, `on:`, `<slot>`, `createEventDispatcher`, `
 
 Before changing Svelte code, read the relevant Svelte Edge reference files. After changing it, run `pnpm check` plus focused tests and browser coverage.
 
+Manual visual inspection and source-versus-port comparison must use the Codex in-app browser. Do not use the Chrome app or Chrome connector. Headless Playwright remains allowed for automated CI coverage, but it must not open the user's external browser.
+
 ## Parallel ownership
 
 - Every implementation lane works in an isolated Git worktree.
@@ -87,4 +89,3 @@ fix(apps/ui): align preview spacing
 ## Writing
 
 Use direct, project-specific prose. Apply the Unslop checklist to README, documentation, contribution text, issue templates, and release notes before review.
-
