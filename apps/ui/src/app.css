@@ -204,6 +204,18 @@ a {
   padding: 1rem;
 }
 
+.shiki,
+.shiki span {
+  color: var(--shiki-light);
+  font-style: var(--shiki-light-font-style);
+  font-weight: var(--shiki-light-font-weight);
+  text-decoration: var(--shiki-light-text-decoration);
+}
+
+.shiki {
+  background-color: var(--shiki-light-bg);
+}
+
 .site-footer {
   display: flex;
   min-height: 5rem;
@@ -249,5 +261,17 @@ a {
       ),
       #0a0a0a;
     color: #f5f5f5;
+  }
+
+  .shiki,
+  .shiki span {
+    color: var(--shiki-dark);
+    font-style: var(--shiki-dark-font-style);
+    font-weight: var(--shiki-dark-font-weight);
+    text-decoration: var(--shiki-dark-text-decoration);
+  }
+
+  .shiki {
+    background-color: var(--shiki-dark-bg);
   }
 }
