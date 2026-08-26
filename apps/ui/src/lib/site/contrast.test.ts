@@ -7,6 +7,21 @@ type CssRule = {
   selectors: string[];
 };
 
+type CascadeCandidate = {
+  important: boolean;
+  order: number;
+  specificity: [ids: number, classes: number, elements: number];
+  value: string;
+};
+
+type RoleContract = {
+  expected: string;
+  inheritedFrom?: string[];
+  label: string;
+  property: string;
+  selectors: string[];
+};
+
 type Rgb = [red: number, green: number, blue: number];
 
 const css = await readFile(new URL("../../app.css", import.meta.url), "utf8");
@@ -68,6 +83,65 @@ function parseCssRules(source: string, atRules: string[] = []): CssRule[] {
   return rules;
 }
 
+function selectorSpecificity(selector: string): CascadeCandidate["specificity"] {
+  const ids = selector.match(/#[\w-]+/g)?.length ?? 0;
+  const classes = selector.match(/\.[\w-]+|\[[^\]]+\]|:(?!:)[\w-]+/g)?.length ?? 0;
+  const elements =
+    selector
+      .replace(/#[\w-]+|\.[\w-]+|\[[^\]]+\]|::?[\w-]+/g, " ")
+      .match(/(?:^|[\s>+~])([a-z][\w-]*)/gi)?.length ?? 0;
+
+  return [ids, classes, elements];
+}
+
+function compareSpecificity(
+  left: CascadeCandidate["specificity"],
+  right: CascadeCandidate["specificity"],
+): number {
+  for (let index = 0; index < left.length; index += 1) {
+    const difference = (left[index] ?? 0) - (right[index] ?? 0);
+    if (difference !== 0) return difference;
+  }
+
+  return 0;
+}
+
+function compareCandidates(left: CascadeCandidate, right: CascadeCandidate): number {
+  if (left.important !== right.important) return left.important ? 1 : -1;
+
+  const specificity = compareSpecificity(left.specificity, right.specificity);
+  return specificity !== 0 ? specificity : left.order - right.order;
+}
+
+function effectiveDeclaration(
+  source: string,
+  selectors: string[],
+  property: string,
+  atRule?: string,
+): string | undefined {
+  const candidates: CascadeCandidate[] = [];
+
+  for (const [order, rule] of parseCssRules(source).entries()) {
+    if (atRule ? !rule.atRules.includes(atRule) : rule.atRules.length > 0) continue;
+
+    for (const selector of selectors) {
+      if (!rule.selectors.includes(selector)) continue;
+      const rawValue = rule.declarations.get(property);
+      if (!rawValue) continue;
+
+      const important = /\s*!important\s*$/i.test(rawValue);
+      candidates.push({
+        important,
+        order,
+        specificity: selectorSpecificity(selector),
+        value: rawValue.replace(/\s*!important\s*$/i, "").trim(),
+      });
+    }
+  }
+
+  return candidates.sort(compareCandidates).at(-1)?.value;
+}
+
 function declarationsFor(source: string, selector: string, atRule?: string): Map<string, string> {
   const matchingRules = parseCssRules(source).filter(
     (candidate) =>
@@ -79,7 +153,14 @@ function declarationsFor(source: string, selector: string, atRule?: string): Map
     throw new Error(`Missing rule for ${selector}${atRule ? ` in ${atRule}` : ""}`);
   }
 
-  return new Map(matchingRules.flatMap((rule) => [...rule.declarations]));
+  const properties = new Set(matchingRules.flatMap((rule) => [...rule.declarations.keys()]));
+  return new Map(
+    [...properties].map((property) => {
+      const value = effectiveDeclaration(source, [selector], property, atRule);
+      if (!value) throw new Error(`Missing ${property} declaration for ${selector}`);
+      return [property, value];
+    }),
+  );
 }
 
 function requiredDeclaration(
@@ -139,23 +220,132 @@ function composite(foreground: Rgb, background: Rgb, alpha: number): Rgb {
   ) as Rgb;
 }
 
-const roleColorContracts = [
-  [".site-nav", "color", "var(--site-muted)"],
-  [".hero-copy", "color", "var(--site-muted)"],
-  [".content-page p", "color", "var(--site-muted)"],
-  [".content-page li", "color", "var(--site-muted)"],
-  [".site-footer", "color", "var(--site-muted)"],
-  [".eyebrow", "color", "var(--site-accent-foreground)"],
-  [".content-page .eyebrow", "color", "var(--site-accent-foreground)"],
-  [".hero-credit a", "color", "var(--site-accent-foreground)"],
-  ['.site-button[data-primary="true"]', "color", "var(--site-primary-foreground)"],
+const roleColorContracts: RoleContract[] = [
+  {
+    expected: "var(--site-muted)",
+    label: ".site-nav",
+    property: "color",
+    selectors: [".site-nav"],
+  },
+  {
+    expected: "var(--site-muted)",
+    inheritedFrom: [".site-nav"],
+    label: ".site-nav a",
+    property: "color",
+    selectors: ["a", ".site-nav a"],
+  },
+  {
+    expected: "var(--site-muted)",
+    label: ".hero-copy",
+    property: "color",
+    selectors: [".hero-copy"],
+  },
+  {
+    expected: "var(--site-muted)",
+    label: ".content-page p",
+    property: "color",
+    selectors: [".content-page p"],
+  },
+  {
+    expected: "var(--site-muted)",
+    label: ".content-page li",
+    property: "color",
+    selectors: [".content-page li"],
+  },
+  {
+    expected: "var(--site-muted)",
+    inheritedFrom: [".content-page p"],
+    label: ".content-page a",
+    property: "color",
+    selectors: ["a", ".content-page a", ".content-page p a"],
+  },
+  {
+    expected: "var(--site-muted)",
+    inheritedFrom: [".content-page li"],
+    label: ".content-page a",
+    property: "color",
+    selectors: ["a", ".content-page a", ".content-page li a"],
+  },
+  {
+    expected: "var(--site-muted)",
+    label: ".site-footer",
+    property: "color",
+    selectors: [".site-footer"],
+  },
+  {
+    expected: "var(--site-muted)",
+    inheritedFrom: [".site-footer"],
+    label: ".site-footer a",
+    property: "color",
+    selectors: ["a", ".site-footer a"],
+  },
+  {
+    expected: "var(--site-accent-foreground)",
+    label: ".eyebrow",
+    property: "color",
+    selectors: [".eyebrow"],
+  },
+  {
+    expected: "var(--site-accent-foreground)",
+    label: ".content-page .eyebrow",
+    property: "color",
+    selectors: [".eyebrow", ".content-page p", ".content-page .eyebrow"],
+  },
+  {
+    expected: "var(--site-accent-foreground)",
+    label: ".hero-credit a",
+    property: "color",
+    selectors: ["a", ".hero-credit a"],
+  },
+  {
+    expected: "var(--site-primary-foreground)",
+    label: '.site-button[data-primary="true"]',
+    property: "color",
+    selectors: ["a", ".site-button", '.site-button[data-primary="true"]'],
+  },
+];
+
+const focusTargets = [
+  ".site-brand:focus-visible",
+  ".site-nav a:focus-visible",
+  ".site-footer a:focus-visible",
+  ".hero-credit a:focus-visible",
+  ".content-page a:focus-visible",
+  ".site-button:focus-visible",
 ] as const;
 
+function effectiveRoleDeclaration(source: string, contract: RoleContract): string {
+  const direct = effectiveDeclaration(source, contract.selectors, contract.property);
+  if (direct && direct !== "inherit") return direct;
+
+  for (const inheritedSelector of contract.inheritedFrom ?? []) {
+    const inherited = effectiveDeclaration(source, [inheritedSelector], contract.property);
+    if (inherited && inherited !== "inherit") return inherited;
+  }
+
+  throw new Error(`Missing ${contract.property} declaration for ${contract.label}`);
+}
+
 function assertRoleColorContracts(source: string): void {
-  for (const [selector, property, expected] of roleColorContracts) {
-    const actual = requiredDeclaration(source, selector, property);
-    if (actual !== expected) {
-      throw new Error(`Expected ${selector} ${property} to be ${expected}, received ${actual}`);
+  for (const contract of roleColorContracts) {
+    const actual = effectiveRoleDeclaration(source, contract);
+    if (actual !== contract.expected) {
+      throw new Error(
+        `Expected ${contract.label} ${contract.property} to be ${contract.expected}, received ${actual}`,
+      );
+    }
+  }
+
+  for (const selector of focusTargets) {
+    for (const [property, expected] of [
+      ["outline", "2px solid var(--site-accent-foreground)"],
+      ["outline-offset", "3px"],
+    ] as const) {
+      const actual = effectiveDeclaration(source, [selector], property);
+      if (!actual) throw new Error(`Missing ${selector} ${property} declaration`);
+      if (actual !== expected) {
+        throw new Error(`Expected ${selector} ${property} to be ${expected}, received ${actual}`);
+      }
     }
   }
 }
@@ -166,6 +356,30 @@ describe("CSS contract parser", () => {
     expect(requiredDeclaration(css, ".content-page .eyebrow", "color")).toBe(
       "var(--site-accent-foreground)",
     );
+  });
+
+  test("resolves source order, specificity, and important priority", () => {
+    expect(
+      effectiveDeclaration(
+        ".scope a { color: #111111; } .scope a { color: #222222; }",
+        [".scope a"],
+        "color",
+      ),
+    ).toBe("#222222");
+    expect(
+      effectiveDeclaration(
+        "a { color: #111111; } .scope a { color: #222222; }",
+        ["a", ".scope a"],
+        "color",
+      ),
+    ).toBe("#222222");
+    expect(
+      effectiveDeclaration(
+        ".scope a { color: #111111 !important; } .scope a { color: #222222; }",
+        [".scope a"],
+        "color",
+      ),
+    ).toBe("#111111");
   });
 
   test("rejects a removed role declaration", () => {
@@ -183,6 +397,27 @@ describe("CSS contract parser", () => {
     );
     expect(mutated).not.toBe(css);
     expect(() => assertRoleColorContracts(mutated)).toThrow(/Expected .hero-credit a color/);
+  });
+
+  test("rejects a later navigation-link color override", () => {
+    const mutated = `${css}\n.site-nav a { color: #ffffff; }\n`;
+    expect(() => assertRoleColorContracts(mutated)).toThrow(/site-nav a color/);
+  });
+
+  test("rejects a later content-link color override", () => {
+    const mutated = `${css}\n.content-page a { color: #ffffff; }\n`;
+    expect(() => assertRoleColorContracts(mutated)).toThrow(/content-page a color/);
+  });
+
+  test("rejects removing the button from the shared focus rule", () => {
+    const mutated = css.replace(",\n.site-button:focus-visible {", " {");
+    expect(mutated).not.toBe(css);
+    expect(() => assertRoleColorContracts(mutated)).toThrow(/site-button:focus-visible outline/);
+  });
+
+  test("rejects a later focus rule that removes the button outline", () => {
+    const mutated = `${css}\n.site-button:focus-visible { outline: none; }\n`;
+    expect(() => assertRoleColorContracts(mutated)).toThrow(/site-button:focus-visible outline/);
   });
 });
 
