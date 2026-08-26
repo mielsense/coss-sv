@@ -47,6 +47,10 @@ function closingBrace(source: string, openingBrace: number): number {
 }
 
 function parseDeclarations(block: string): CssDeclaration[] {
+  if (block.includes("{") || block.includes("}")) {
+    throw new Error("Native CSS nesting in ordinary rules requires explicit review");
+  }
+
   return block
     .split(";")
     .map((declaration) => declaration.trim())
@@ -787,6 +791,27 @@ describe("CSS contract parser", () => {
     const mutated = `${css}\n${atRule}\n`;
     expect(() => assertProtectedDeclarationAudit(mutated)).toThrow(
       /Unclassified @property at-rule requires explicit review/,
+    );
+  });
+
+  test.each([
+    [
+      "nested site-token override",
+      ".site-shell { &.site-shell { --site-primary:#171717!important; } display:block; }",
+    ],
+    [
+      "nested Shiki-token override",
+      ".shiki { & span { --shiki-light:#fff!important; } display:block; }",
+    ],
+    ["nested descendant selector", ".content-page { a { color:#fff; } }"],
+    [
+      "nested responsive rule",
+      ".site-nav { @media (max-width:36rem) { color:#fff; } display:flex; }",
+    ],
+  ])("rejects a %s", (_label, rule) => {
+    const mutated = `${css}\n${rule}\n`;
+    expect(() => assertProtectedDeclarationAudit(mutated)).toThrow(
+      /Native CSS nesting in ordinary rules requires explicit review/,
     );
   });
 
