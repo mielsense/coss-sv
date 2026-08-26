@@ -1,0 +1,29 @@
+# Dependencies and package-manager state
+node_modules/
+.pnpm-store/
+
+# Build and tool output
+.svelte-kit/
+.turbo/
+build/
+dist/
+coverage/
+playwright-report/
+test-results/
+artifacts/
+
+# Local deployment and environment files
+.vercel/
+.env
+.env.*
+!.env.example
+
+# Local reference repositories and agent worktrees
+reference/
+shardsui/
+.worktrees/
+
+# Editor and operating-system files
+.DS_Store
+*.log
+
