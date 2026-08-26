@@ -1,7 +1,11 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { findUnapprovedReferencePaths } from "./check-license-boundary.mjs";
+import { checkEvidenceDirectory, findUnapprovedReferencePaths } from "./check-license-boundary.mjs";
+
+test("accepts a clean checkout before component evidence exists", () => {
+  assert.deepEqual(checkEvidenceDirectory("docs/porting/components-that-do-not-exist"), []);
+});
 
 test("accepts files inside the MIT-designated apps/ui tree", () => {
   assert.deepEqual(

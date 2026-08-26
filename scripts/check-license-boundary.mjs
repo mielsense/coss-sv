@@ -1,4 +1,4 @@
-import { readdirSync, readFileSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { extname, join } from "node:path";
 import { pathToFileURL } from "node:url";
 
@@ -10,6 +10,8 @@ export function findUnapprovedReferencePaths(text) {
 }
 
 function evidenceFiles(root) {
+  if (!existsSync(root)) return [];
+
   return readdirSync(root, { withFileTypes: true })
     .filter((entry) => entry.isFile() && extname(entry.name) === ".md")
     .map((entry) => join(root, entry.name));
