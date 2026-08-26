@@ -72,6 +72,20 @@ function parseDeclarations(block: string): CssDeclaration[] {
     });
 }
 
+function atRuleName(header: string): string | undefined {
+  const withoutComments = header.replace(/\/\*[\s\S]*?\*\//g, "");
+  if (withoutComments.includes("/*") || withoutComments.includes("*/")) {
+    throw new Error(`Unterminated comment in at-rule header: ${header}`);
+  }
+
+  const normalized = withoutComments.trim();
+  if (!normalized.startsWith("@")) return undefined;
+
+  const match = /^@\s*([a-z-]+)/i.exec(normalized);
+  if (!match?.[1]) throw new Error(`Invalid at-rule header: ${header}`);
+  return match[1].replace(/[A-Z]/g, (character) => character.toLowerCase());
+}
+
 function parseCssRules(source: string, atRules: string[] = []): CssRule[] {
   const rules: CssRule[] = [];
   let cursor = 0;
@@ -84,7 +98,11 @@ function parseCssRules(source: string, atRules: string[] = []): CssRule[] {
     const end = closingBrace(source, openingBrace);
     const block = source.slice(openingBrace + 1, end);
 
-    if (header.startsWith("@")) {
+    const name = atRuleName(header);
+    if (name) {
+      if (name !== "media") {
+        throw new Error(`Unclassified @${name} at-rule requires explicit review`);
+      }
       rules.push(...parseCssRules(block, [...atRules, header]));
     } else {
       rules.push({
@@ -338,10 +356,6 @@ const focusTargets = [
 ] as const;
 
 const protectedProperties = new Set([
-  "--site-accent-foreground",
-  "--site-foreground",
-  "--site-muted",
-  "--site-primary-foreground",
   "-webkit-text-fill-color",
   "all",
   "color",
@@ -351,6 +365,38 @@ const protectedProperties = new Set([
   "outline-style",
   "outline-width",
 ]);
+
+const sitePresentationTokens = [
+  "--site-primary",
+  "--site-primary-foreground",
+  "--site-accent-foreground",
+  "--site-background",
+  "--site-foreground",
+  "--site-border",
+  "--site-muted",
+  "--site-panel",
+] as const;
+
+const shikiPresentationTokens = [
+  "--shiki-light",
+  "--shiki-light-bg",
+  "--shiki-light-font-style",
+  "--shiki-light-font-weight",
+  "--shiki-light-text-decoration",
+  "--shiki-dark",
+  "--shiki-dark-bg",
+  "--shiki-dark-font-style",
+  "--shiki-dark-font-weight",
+  "--shiki-dark-text-decoration",
+] as const;
+
+function isProtectedProperty(property: string): boolean {
+  return (
+    protectedProperties.has(property) ||
+    property.startsWith("--site-") ||
+    property.startsWith("--shiki-")
+  );
+}
 
 type ProtectedDeclarationGroup = {
   atRules?: string[];
@@ -382,6 +428,12 @@ const protectedDeclarationGroups: ProtectedDeclarationGroup[] = [
   {
     classification: "semantic token",
     selectors: [".site-shell"],
+    property: "--site-primary",
+    value: "#ff3e00",
+  },
+  {
+    classification: "semantic token",
+    selectors: [".site-shell"],
     property: "--site-primary-foreground",
     value: "#171717",
   },
@@ -394,14 +446,32 @@ const protectedDeclarationGroups: ProtectedDeclarationGroup[] = [
   {
     classification: "semantic token",
     selectors: [".site-shell"],
+    property: "--site-background",
+    value: "#fafafa",
+  },
+  {
+    classification: "semantic token",
+    selectors: [".site-shell"],
     property: "--site-foreground",
     value: "#171717",
   },
   {
     classification: "semantic token",
     selectors: [".site-shell"],
+    property: "--site-border",
+    value: "#e5e5e5",
+  },
+  {
+    classification: "semantic token",
+    selectors: [".site-shell"],
     property: "--site-muted",
     value: "#646464",
+  },
+  {
+    classification: "semantic token",
+    selectors: [".site-shell"],
+    property: "--site-panel",
+    value: "#ffffff",
   },
   {
     classification: "semantic role",
@@ -469,6 +539,20 @@ const protectedDeclarationGroups: ProtectedDeclarationGroup[] = [
     atRules: [darkMedia],
     classification: "semantic token",
     selectors: [".site-shell"],
+    property: "--site-background",
+    value: "#0a0a0a",
+  },
+  {
+    atRules: [darkMedia],
+    classification: "semantic token",
+    selectors: [".site-shell"],
+    property: "--site-border",
+    value: "#262626",
+  },
+  {
+    atRules: [darkMedia],
+    classification: "semantic token",
+    selectors: [".site-shell"],
     property: "--site-foreground",
     value: "#f5f5f5",
   },
@@ -478,6 +562,13 @@ const protectedDeclarationGroups: ProtectedDeclarationGroup[] = [
     selectors: [".site-shell"],
     property: "--site-muted",
     value: "#a3a3a3",
+  },
+  {
+    atRules: [darkMedia],
+    classification: "semantic token",
+    selectors: [".site-shell"],
+    property: "--site-panel",
+    value: "#171717",
   },
   {
     atRules: [darkMedia],
@@ -526,7 +617,7 @@ function assertProtectedDeclarationAudit(source: string): void {
 
   for (const rule of parseCssRules(source)) {
     for (const declaration of rule.declarations) {
-      if (!protectedProperties.has(declaration.property)) continue;
+      if (!isProtectedProperty(declaration.property)) continue;
 
       for (const selector of rule.selectors) {
         const identity = protectedDeclarationKey(rule.atRules, selector, declaration.property, "");
@@ -646,6 +737,57 @@ describe("CSS contract parser", () => {
 
   test("classifies every protected declaration in the foundation stylesheet", () => {
     expect(() => assertProtectedDeclarationAudit(css)).not.toThrow();
+  });
+
+  test("tracks every site and Shiki presentation token used by the stylesheet", () => {
+    const referencedSiteTokens = new Set(
+      [...css.matchAll(/var\((--site-[\w-]+)\)/g)].flatMap((match) => match[1] ?? []),
+    );
+    const declaredSiteTokens = new Set(
+      parseCssRules(css)
+        .flatMap((rule) => rule.declarations)
+        .map((declaration) => declaration.property)
+        .filter((property) => property.startsWith("--site-")),
+    );
+    const shikiTokenReferences = [...css.matchAll(/var\((--shiki-[\w-]+)\)/g)].flatMap(
+      (match) => match[1] ?? [],
+    );
+    const referencedShikiTokens = new Set(shikiTokenReferences);
+
+    expect(referencedSiteTokens).toEqual(new Set(sitePresentationTokens));
+    expect(declaredSiteTokens).toEqual(new Set(sitePresentationTokens));
+    expect(referencedShikiTokens).toEqual(new Set(shikiPresentationTokens));
+    for (const token of shikiPresentationTokens) {
+      expect(shikiTokenReferences.filter((reference) => reference === token)).toHaveLength(1);
+    }
+  });
+
+  test.each([
+    [
+      "property descriptor",
+      '@property --site-muted { inherits:false; initial-value:#ffffff; syntax:"<color>"; }',
+    ],
+    [
+      "uppercase property descriptor",
+      '@PROPERTY --site-muted { inherits:false; initial-value:#ffffff; syntax:"<color>"; }',
+    ],
+    [
+      "comment-split property descriptor",
+      '@/**/property --site-muted { inherits:false; initial-value:#ffffff; syntax:"<color>"; }',
+    ],
+    [
+      "comment-prefixed property descriptor",
+      '/**/@property --site-muted { inherits:false; initial-value:#ffffff; syntax:"<color>"; }',
+    ],
+    [
+      "spaced property descriptor",
+      '@ property --site-muted { inherits:false; initial-value:#ffffff; syntax:"<color>"; }',
+    ],
+  ])("rejects an unclassified %s at-rule", (_label, atRule) => {
+    const mutated = `${css}\n${atRule}\n`;
+    expect(() => assertProtectedDeclarationAudit(mutated)).toThrow(
+      /Unclassified @property at-rule requires explicit review/,
+    );
   });
 
   test("rejects a removed role declaration", () => {
@@ -783,6 +925,25 @@ describe("CSS contract parser", () => {
     ["site foreground", ".content-page { --site-foreground: #ffffff; }"],
   ])("rejects an unclassified %s token override", (_label, override) => {
     const mutated = `${css}\n${override}\n`;
+    expect(() => assertProtectedDeclarationAudit(mutated)).toThrow(
+      /Unclassified protected declaration/,
+    );
+  });
+
+  test.each(
+    sitePresentationTokens.flatMap((token) => [
+      [`more-specific ${token}`, `.site-shell.site-shell { ${token}: #ffffff; }`],
+      [`important ${token}`, `.site-shell { ${token}: #ffffff !important; }`],
+    ]),
+  )("rejects a %s site-token override", (_label, override) => {
+    const mutated = `${css}\n${override}\n`;
+    expect(() => assertProtectedDeclarationAudit(mutated)).toThrow(
+      /(?:Unclassified|Duplicate) protected declaration/,
+    );
+  });
+
+  test.each(shikiPresentationTokens)("rejects a stylesheet override of %s", (token) => {
+    const mutated = `${css}\n.shiki { ${token}: initial !important; }\n`;
     expect(() => assertProtectedDeclarationAudit(mutated)).toThrow(
       /Unclassified protected declaration/,
     );
