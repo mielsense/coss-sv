@@ -1,4 +1,5 @@
-import { readFile, realpath } from "node:fs/promises";
+import { type BigIntStats, constants } from "node:fs";
+import { type FileHandle, lstat, open, readFile, realpath } from "node:fs/promises";
 import { dirname, isAbsolute, relative, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -75,6 +76,17 @@ export type ValidationOptions = {
   allowedSourceRoots?: string[];
   allowedInstallRoots?: string[];
   projectRoot?: string;
+};
+
+export type CapturedRegistrySource = {
+  itemIndex: number;
+  fileIndex: number;
+  bytes: Uint8Array;
+};
+
+export type ValidatedRegistry = {
+  manifest: RegistryDefinition;
+  sources: CapturedRegistrySource[];
 };
 
 const appRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
@@ -202,10 +214,123 @@ function validateSourceImports(itemName: string, sourcePath: string, content: st
   }
 }
 
+function sameFileIdentity(
+  left: { dev: bigint; ino: bigint },
+  right: { dev: bigint; ino: bigint },
+): boolean {
+  return left.dev === right.dev && left.ino === right.ino;
+}
+
+async function captureSourceFile(
+  itemName: string,
+  sourcePath: string,
+  absolutePath: string,
+  sourceRoots: string[],
+): Promise<Uint8Array> {
+  let pathBefore: BigIntStats;
+  try {
+    pathBefore = await lstat(absolutePath, { bigint: true });
+  } catch {
+    throw new Error(`Registry item ${itemName} points to a missing source file: ${sourcePath}`);
+  }
+  if (pathBefore.isSymbolicLink()) {
+    throw new Error(`Registry item ${itemName} source must not be a symbolic link: ${sourcePath}`);
+  }
+  if (!pathBefore.isFile()) {
+    throw new Error(`Registry item ${itemName} source must be a regular file: ${sourcePath}`);
+  }
+
+  let handle: FileHandle;
+  try {
+    handle = await open(absolutePath, constants.O_RDONLY | constants.O_NOFOLLOW);
+  } catch (error) {
+    const code = (error as NodeJS.ErrnoException).code;
+    if (code === "ELOOP") {
+      throw new Error(
+        `Registry item ${itemName} source must not be a symbolic link: ${sourcePath}`,
+      );
+    }
+    throw new Error(`Registry item ${itemName} could not open source file: ${sourcePath}`, {
+      cause: error,
+    });
+  }
+
+  try {
+    const openedBefore = await handle.stat({ bigint: true });
+    if (!openedBefore.isFile()) {
+      throw new Error(`Registry item ${itemName} source must be a regular file: ${sourcePath}`);
+    }
+    if (!sameFileIdentity(pathBefore, openedBefore)) {
+      throw new Error(
+        `Registry item ${itemName} source changed while it was being validated: ${sourcePath}`,
+      );
+    }
+
+    const canonicalPath = await realpath(absolutePath);
+    if (!sourceRoots.some((root) => isWithin(root, canonicalPath))) {
+      throw new Error(
+        `Registry item ${itemName} source is outside the allowed source roots: ${sourcePath}`,
+      );
+    }
+
+    const bytes = await handle.readFile();
+    const openedAfter = await handle.stat({ bigint: true });
+    const pathAfter = await lstat(absolutePath, { bigint: true });
+    const canonicalPathAfter = await realpath(absolutePath);
+    if (
+      pathAfter.isSymbolicLink() ||
+      !pathAfter.isFile() ||
+      !sameFileIdentity(openedBefore, openedAfter) ||
+      !sameFileIdentity(openedAfter, pathAfter) ||
+      openedBefore.size !== openedAfter.size ||
+      openedBefore.mtimeNs !== openedAfter.mtimeNs ||
+      openedBefore.ctimeNs !== openedAfter.ctimeNs ||
+      !sourceRoots.some((root) => isWithin(root, canonicalPathAfter))
+    ) {
+      throw new Error(
+        `Registry item ${itemName} source changed while it was being validated: ${sourcePath}`,
+      );
+    }
+    return Uint8Array.from(bytes);
+  } finally {
+    await handle.close();
+  }
+}
+
+function validateLocalDependencyCycles(items: readonly RegistryItem[]): void {
+  const itemsByName = new Map(items.map((item) => [item.name, item]));
+  const state = new Map<string, "visiting" | "visited">();
+  const path: string[] = [];
+
+  function visit(name: string): void {
+    const currentState = state.get(name);
+    if (currentState === "visited") return;
+    if (currentState === "visiting") {
+      const cycleStart = path.indexOf(name);
+      const cycle = [...path.slice(cycleStart), name];
+      throw new Error(`Local registry dependency cycle: ${cycle.join(" -> ")}`);
+    }
+
+    state.set(name, "visiting");
+    path.push(name);
+    const item = itemsByName.get(name);
+    if (item) {
+      for (const dependency of item.registryDependencies) {
+        if (dependency.startsWith("local:")) visit(dependency.slice("local:".length));
+      }
+    }
+    path.pop();
+    state.set(name, "visited");
+  }
+
+  for (const item of items) visit(item.name);
+}
+
 export async function validateRegistry(
   registry: RegistryDefinition,
   options: ValidationOptions = {},
-): Promise<void> {
+): Promise<ValidatedRegistry> {
+  const manifest = structuredClone(registry);
   const projectRoot = resolve(options.projectRoot ?? appRoot);
   const sourceRoots = await Promise.all(
     (options.allowedSourceRoots ?? defaultSourceRoots).map(async (root) => {
@@ -219,10 +344,11 @@ export async function validateRegistry(
   );
   const installRoots = options.allowedInstallRoots ?? defaultInstallRoots;
   const itemNames = new Set<string>();
+  const sources: CapturedRegistrySource[] = [];
 
-  validateDependencies("Registry overrideDependencies", registry.overrideDependencies ?? []);
+  validateDependencies("Registry overrideDependencies", manifest.overrideDependencies ?? []);
 
-  for (const item of registry.items) {
+  for (const [itemIndex, item] of manifest.items.entries()) {
     if (!isRegistryType(item.type)) {
       throw new Error(
         `Registry item ${item.name} has an unsupported registry type: ${String(item.type)}`,
@@ -242,7 +368,7 @@ export async function validateRegistry(
       item.registryDependencies.filter((dependency) => !dependency.startsWith("local:")),
     );
 
-    for (const file of item.files) {
+    for (const [fileIndex, file] of item.files.entries()) {
       if (!isRegistryFileType(file.type)) {
         throw new Error(
           `Registry item ${item.name} has an unsupported registry file type: ${String(file.type)}`,
@@ -256,24 +382,17 @@ export async function validateRegistry(
       if (file.target) validateTarget(item.name, file.target, installRoots);
 
       const absolutePath = resolve(projectRoot, file.path);
-      let canonicalPath: string;
-      try {
-        canonicalPath = await realpath(absolutePath);
-      } catch {
-        throw new Error(`Registry item ${item.name} points to a missing source file: ${file.path}`);
-      }
-      if (!sourceRoots.some((root) => isWithin(root, canonicalPath))) {
-        throw new Error(
-          `Registry item ${item.name} source is outside the allowed source roots: ${file.path}`,
-        );
-      }
-
-      const content = await readFile(canonicalPath, "utf8");
-      validateSourceImports(item.name, file.path, content);
+      const bytes = await captureSourceFile(item.name, file.path, absolutePath, sourceRoots);
+      validateSourceImports(
+        item.name,
+        file.path,
+        new TextDecoder("utf-8", { fatal: true }).decode(bytes),
+      );
+      sources.push({ itemIndex, fileIndex, bytes });
     }
   }
 
-  for (const item of registry.items) {
+  for (const item of manifest.items) {
     for (const dependency of item.registryDependencies) {
       if (!dependency.startsWith("local:")) continue;
       const dependencyName = dependency.slice("local:".length);
@@ -284,6 +403,9 @@ export async function validateRegistry(
       }
     }
   }
+
+  validateLocalDependencyCycles(manifest.items);
+  return { manifest, sources };
 }
 
 export async function assertGeneratedFileCurrent(path: string, expected: string): Promise<void> {

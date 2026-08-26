@@ -9,6 +9,7 @@ import {
   serializeRegistry,
   validateRegistry,
 } from "../../registry/registry.js";
+import { buildValidatedRegistry } from "./build.mjs";
 import { appRoot, listFiles, run, runLocalShadcn } from "./lib.mjs";
 
 const sourceFiles: Record<string, string> = {
@@ -473,13 +474,17 @@ try {
   await mkdir(fixtureRoot, { recursive: true });
   await verifyIsolatedEnvironment(environment, temporaryRoot);
   await writePrivateRegistry(registryRoot);
-  await runLocalShadcn(
-    ["registry", "build", "registry.json", "-c", registryRoot, "-o", "static/r"],
-    {
-      env: environment,
-      quiet: true,
+  await buildValidatedRegistry({
+    registryPath: resolve(registryRoot, "registry.json"),
+    outputPath: registryOutput,
+    projectPath: registryRoot,
+    validation: {
+      allowedSourceRoots: [resolve(registryRoot, "registry")],
+      projectRoot: registryRoot,
     },
-  );
+    env: environment,
+    quiet: true,
+  });
 
   const bundle = JSON.parse(
     await readFile(resolve(registryOutput, "private-bundle.json"), "utf8"),

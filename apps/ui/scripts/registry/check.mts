@@ -2,6 +2,7 @@ import { mkdtemp, readFile, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { assertGeneratedFileCurrent } from "../../registry/registry.js";
+import { buildValidatedRegistry } from "./build.mjs";
 import { registrySource } from "./generate.mjs";
 import { appRoot, listFiles, normalizedJson, runLocalShadcn } from "./lib.mjs";
 
@@ -20,7 +21,7 @@ try {
   }
 
   await assertGeneratedFileCurrent(registryPath, await registrySource());
-  await runLocalShadcn(["registry", "build", registryPath, "-o", temporaryOutput], { quiet: true });
+  await buildValidatedRegistry({ registryPath, outputPath: temporaryOutput, quiet: true });
 
   const expectedFiles = await listFiles(temporaryOutput);
   const actualFiles = await listFiles(committedOutput);
