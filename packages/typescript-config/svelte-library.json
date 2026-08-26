@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "display": "COSS for Svelte Library",
+  "extends": "./base.json",
+  "compilerOptions": {
+    "allowArbitraryExtensions": true,
+    "customConditions": ["svelte"],
+    "declaration": true,
+    "declarationMap": true
+  }
+}

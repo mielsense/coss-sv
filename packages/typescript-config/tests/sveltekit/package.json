@@ -1,0 +1,5 @@
+{
+  "name": "@coss-sv/typescript-config-sveltekit-contract",
+  "private": true,
+  "type": "module"
+}
