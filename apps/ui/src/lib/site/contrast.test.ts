@@ -55,6 +55,11 @@ function parseDeclarations(block: string): CssDeclaration[] {
       const separator = declaration.indexOf(":");
       if (separator < 1) throw new Error(`Invalid declaration: ${declaration}`);
       const rawProperty = declaration.slice(0, separator).trim();
+      if (rawProperty.includes("/*") || rawProperty.includes("*/")) {
+        throw new Error(
+          `Comments in CSS property identifiers require explicit review: ${rawProperty}`,
+        );
+      }
       if (rawProperty.includes("\\")) {
         throw new Error(`Escaped CSS property identifiers require explicit review: ${rawProperty}`);
       }
@@ -750,6 +755,25 @@ describe("CSS contract parser", () => {
     expect(() => assertProtectedDeclarationAudit(mutated)).toThrow(
       /Escaped CSS property identifiers require explicit review/,
     );
+  });
+
+  test.each([
+    ["comment before the color colon", ".site-nav a { color/**/:#ffffff; }"],
+    ["comment before color", ".site-nav a { /**/color:#ffffff; }"],
+    ["comment before the outline colon", ".site-button:focus-visible { outline/**/:none; }"],
+    ["spaced property comment", ".site-nav a { color /* review */ : #ffffff; }"],
+    ["unterminated property comment", ".site-nav a { color/*: #ffffff; }"],
+  ])("fails closed on a %s", (_label, override) => {
+    const mutated = `${css}\n${override}\n`;
+    expect(() => assertProtectedDeclarationAudit(mutated)).toThrow(
+      /Comments in CSS property identifiers require explicit review/,
+    );
+  });
+
+  test("allows comments outside property identifiers", () => {
+    expect(parseDeclarations("display: /* layout rationale */ block;")).toEqual([
+      { property: "display", value: "/* layout rationale */ block" },
+    ]);
   });
 
   test.each([
