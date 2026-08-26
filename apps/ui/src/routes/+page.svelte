@@ -1,25 +1,47 @@
 <script lang="ts">
-import { authorUrl, repositoryUrl } from "$lib/site/site.js";
+import CategoryThumbnail from "$lib/site/CategoryThumbnail.svelte";
+import { componentCategories } from "$lib/site/categories.js";
 </script>
 
 <svelte:head>
-  <title>COSS for Svelte</title>
+  <title>A new, modern UI component library built on top of Shards UI - COSS for Svelte</title>
   <meta
     name="description"
-    content="An unofficial Svelte 5 port of the COSS component library, built on Shards UI."
+    content="COSS for Svelte is a modern Svelte 5 component library built on top of Shards UI."
   >
 </svelte:head>
 
-<section class="hero">
-  <p class="eyebrow">Svelte 5 component library</p>
-  <h1>COSS for Svelte</h1>
-  <p class="hero-copy">
-    A Svelte 5 port of the COSS component library, built on Shards UI and designed to preserve COSS
-    styling, behavior, and accessibility.
-  </p>
-  <p class="hero-credit">Unofficial Svelte port made by <a href={authorUrl}>Miel</a>.</p>
-  <div class="hero-actions">
-    <a class="site-button" data-primary="true" href="/docs/introduction">Read the documentation</a>
-    <a class="site-button" href={repositoryUrl}>View the source</a>
+<section class="hero-section">
+  <div class="site-container">
+    <div class="hero">
+      <h1>A new, modern UI component library built on top of Shards UI.</h1>
+      <p class="hero-copy">Built for developers and AI.</p>
+      <div class="hero-actions">
+        <a class="site-button" data-primary="true" href="/docs/introduction">Get started</a>
+        <a class="site-button" href="/particles">Browse 508 particles</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="categories-section" aria-label="Components">
+  <div class="frame-markers" aria-hidden="true"></div>
+  <div class="site-container">
+    <div class="category-grid">
+      {#each componentCategories as category (category.slug)}
+        <article class="category-card" data-category={category.slug}>
+          <div class="category-card-header">
+            <h2><a href={`/docs/components/${category.slug}`}>{category.name}</a></h2>
+            <p>{category.description}</p>
+          </div>
+          <div class="category-preview">
+            {#if category.isNew}
+              <span class="new-badge">New</span>
+            {/if}
+            <CategoryThumbnail slug={category.slug} />
+          </div>
+        </article>
+      {/each}
+    </div>
   </div>
 </section>

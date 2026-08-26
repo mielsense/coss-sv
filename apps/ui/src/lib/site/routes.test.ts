@@ -4,15 +4,29 @@ import { describe, expect, test } from "vitest";
 import HomePage from "../../routes/+page.svelte";
 import CreditsPage from "../../routes/credits/+page.svelte";
 import HealthPage from "../../routes/preview/_health/+page.svelte";
+import SiteFooter from "./SiteFooter.svelte";
+import SiteHeader from "./SiteHeader.svelte";
 
 describe("documentation routes", () => {
-  test("the home route identifies the project and its author", () => {
+  test("the home route preserves the COSS page hierarchy with Svelte product facts", () => {
     const { body } = render(HomePage);
-    const visibleText = body.replaceAll(/<!--.*?-->|<[^>]+>/gs, "");
 
-    expect(body).toContain("COSS for Svelte");
-    expect(visibleText).toContain("Unofficial Svelte port made by Miel.");
-    expect(body).toContain("https://github.com/mielsense");
+    expect(body).toContain("A new, modern UI component library built on top of Shards UI.");
+    expect(body).toContain("Built for developers and AI.");
+    expect(body).toContain("Browse 508 particles");
+    expect(body.match(/data-category=/g)).toHaveLength(55);
+    expect(body).not.toContain("github.com/mielsense/coss-sv");
+  });
+
+  test("shared chrome retains COSS provenance and the restrained Miel credit", () => {
+    const header = render(SiteHeader).body;
+    const footer = render(SiteFooter).body;
+
+    expect(header).toContain("https://github.com/cosscom/coss");
+    expect(header).toContain('aria-label="Search documentation"');
+    expect(header).toContain('aria-label="Toggle Menu"');
+    expect(footer).toContain("Unofficial Svelte port made by");
+    expect(footer).toContain("https://github.com/mielsense");
   });
 
   test("the credits route links to the upstream project, Miel, and legal files", () => {
@@ -42,7 +56,7 @@ describe("theme boundaries", () => {
     );
 
     expect(appCss).toMatch(/\.site-shell\s*\{[^}]*--site-primary:\s*#ff3e00;/s);
-    expect(appCss).not.toMatch(/--primary:\s*#ff3e00/);
+    expect(appCss).not.toMatch(/(^|\n)\s*--primary:\s*#ff3e00/);
     expect(previewCss).not.toContain("--site-");
     expect(previewCss).toMatch(/\.preview-canvas\s*\{[^}]*--primary:/s);
   });
