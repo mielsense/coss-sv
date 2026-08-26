@@ -1,0 +1,13 @@
+{
+  "$schema": "https://shadcn-svelte.com/schema/registry.json",
+  "name": "coss-sv",
+  "homepage": "https://coss-sv.vercel.app",
+  "aliases": {
+    "lib": "$lib",
+    "ui": "$lib/components/ui",
+    "components": "$lib/components",
+    "utils": "$lib/utils",
+    "hooks": "$lib/hooks"
+  },
+  "items": []
+}

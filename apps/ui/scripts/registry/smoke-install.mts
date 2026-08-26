@@ -1,0 +1,505 @@
+import { mkdir, mkdtemp, readdir, readFile, rm, writeFile } from "node:fs/promises";
+import { createServer, type Server } from "node:http";
+import type { AddressInfo } from "node:net";
+import { tmpdir } from "node:os";
+import { dirname, join, resolve } from "node:path";
+import {
+  type RegistryDefinition,
+  type RegistryItem,
+  serializeRegistry,
+  validateRegistry,
+} from "../../registry/registry.js";
+import { appRoot, listFiles, run, runLocalShadcn } from "./lib.mjs";
+
+const sourceFiles: Record<string, string> = {
+  "registry/private-leaf/private-leaf.svelte": `<script lang="ts">
+  import type { Snippet } from "svelte";
+
+  let { children, tone = "quiet" }: { children?: Snippet; tone?: "quiet" | "loud" } = $props();
+</script>
+
+<span data-tone={tone}>{@render children?.()}</span>
+`,
+  "registry/private-compound/private-compound-root.svelte": `<script lang="ts">
+  import type { Snippet } from "svelte";
+
+  let { children }: { children?: Snippet } = $props();
+</script>
+
+<section data-private-compound="root">{@render children?.()}</section>
+`,
+  "registry/private-compound/private-compound-panel.svelte": `<script lang="ts">
+  import type { Snippet } from "svelte";
+
+  let { children }: { children?: Snippet } = $props();
+</script>
+
+<div data-private-compound="panel">{@render children?.()}</div>
+`,
+  "registry/private-compound/index.ts": `export { default as Root } from "./private-compound-root.svelte";
+export { default as Panel } from "./private-compound-panel.svelte";
+`,
+  "registry/private-overlay/private-overlay.svelte": `<script lang="ts">
+  import type { Snippet } from "svelte";
+
+  let { children, open = false }: { children?: Snippet; open?: boolean } = $props();
+</script>
+
+{#if open}
+  <dialog open aria-label="Private overlay fixture">{@render children?.()}</dialog>
+{/if}
+`,
+  "registry/private-special/use-private-special.svelte.ts": `export class PrivateSpecialState {
+  value = $state(0);
+
+  increment(): void {
+    this.value += 1;
+  }
+}
+`,
+  "registry/private-special/private-special.svelte": `<script lang="ts">
+  import { PrivateSpecialState } from "$lib/hooks/use-private-special.svelte.js";
+
+  const state = new PrivateSpecialState();
+</script>
+
+<button type="button" onclick={() => state.increment()}>Count: {state.value}</button>
+`,
+  "registry/private-styled/private-styled.svelte": `<script lang="ts">
+  import { clsx } from "clsx";
+
+  let { active = false }: { active?: boolean } = $props();
+</script>
+
+<div class={clsx("private-styled", { active })}>Styled fixture</div>
+`,
+  "registry/private-bundle/private-bundle.svelte": `<p data-private-bundle>Bundle fixture</p>
+`,
+};
+
+function registryItems(registryRoot: string): RegistryItem[] {
+  const source = (path: string) => resolve(registryRoot, path);
+  return [
+    {
+      name: "private-leaf",
+      type: "registry:ui",
+      description: "Private leaf fixture.",
+      registryDependencies: [],
+      files: [{ path: source("registry/private-leaf/private-leaf.svelte"), type: "registry:ui" }],
+    },
+    {
+      name: "private-compound",
+      type: "registry:ui",
+      description: "Private compound fixture.",
+      registryDependencies: [],
+      files: [
+        {
+          path: source("registry/private-compound/private-compound-root.svelte"),
+          type: "registry:ui",
+        },
+        {
+          path: source("registry/private-compound/private-compound-panel.svelte"),
+          type: "registry:ui",
+        },
+        { path: source("registry/private-compound/index.ts"), type: "registry:ui" },
+      ],
+    },
+    {
+      name: "private-overlay",
+      type: "registry:ui",
+      description: "Private overlay fixture.",
+      registryDependencies: [],
+      files: [
+        { path: source("registry/private-overlay/private-overlay.svelte"), type: "registry:ui" },
+      ],
+    },
+    {
+      name: "private-special",
+      type: "registry:component",
+      description: "Private Svelte state fixture.",
+      registryDependencies: [],
+      files: [
+        {
+          path: source("registry/private-special/use-private-special.svelte.ts"),
+          type: "registry:hook",
+        },
+        {
+          path: source("registry/private-special/private-special.svelte"),
+          type: "registry:component",
+        },
+      ],
+    },
+    {
+      name: "private-styled",
+      type: "registry:ui",
+      description: "Private CSS variable and dependency fixture.",
+      dependencies: ["clsx@2.1.1"],
+      registryDependencies: [],
+      cssVars: {
+        theme: { "color-private-accent": "var(--private-accent)" },
+        light: { "private-accent": "oklch(0.65 0.2 40)" },
+        dark: { "private-accent": "oklch(0.72 0.18 40)" },
+      },
+      files: [
+        { path: source("registry/private-styled/private-styled.svelte"), type: "registry:ui" },
+      ],
+    },
+    {
+      name: "private-bundle",
+      type: "registry:block",
+      description: "Private local dependency bundle fixture.",
+      registryDependencies: [
+        "local:private-leaf",
+        "local:private-compound",
+        "local:private-overlay",
+        "local:private-special",
+        "local:private-styled",
+      ],
+      files: [
+        {
+          path: source("registry/private-bundle/private-bundle.svelte"),
+          type: "registry:component",
+        },
+      ],
+    },
+  ];
+}
+
+async function writePrivateRegistry(registryRoot: string): Promise<RegistryDefinition> {
+  await writeFile(
+    resolve(registryRoot, "package.json"),
+    `${JSON.stringify(
+      {
+        name: "coss-sv-private-registry-author",
+        version: "0.0.0",
+        private: true,
+        type: "module",
+        dependencies: { clsx: "2.1.1", svelte: "5.56.10" },
+      },
+      null,
+      2,
+    )}\n`,
+    "utf8",
+  );
+
+  for (const [path, content] of Object.entries(sourceFiles)) {
+    const output = resolve(registryRoot, path);
+    await mkdir(dirname(output), { recursive: true });
+    await writeFile(output, content, "utf8");
+  }
+
+  const registry: RegistryDefinition = {
+    $schema: "https://shadcn-svelte.com/schema/registry.json",
+    name: "coss-sv-private-smoke",
+    homepage: "http://127.0.0.1",
+    aliases: {
+      lib: "$lib",
+      ui: "$lib/components/ui",
+      components: "$lib/components",
+      utils: "$lib/utils",
+      hooks: "$lib/hooks",
+    },
+    items: registryItems(registryRoot),
+  };
+
+  await validateRegistry(registry, {
+    allowedSourceRoots: [resolve(registryRoot, "registry")],
+    projectRoot: registryRoot,
+  });
+  await writeFile(resolve(registryRoot, "registry.json"), serializeRegistry(registry), "utf8");
+  return registry;
+}
+
+async function writeConsumerFixture(fixtureRoot: string): Promise<void> {
+  const files: Record<string, string> = {
+    "package.json": `${JSON.stringify(
+      {
+        name: "coss-sv-registry-smoke",
+        version: "0.0.0",
+        private: true,
+        type: "module",
+        packageManager: "pnpm@10.22.0",
+        engines: { node: ">=22.18 <25" },
+        scripts: {
+          check: "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+          build: "vite build",
+        },
+        devDependencies: {
+          "@sveltejs/kit": "2.70.3",
+          "@sveltejs/vite-plugin-svelte": "7.3.0",
+          "@types/node": "24.13.3",
+          svelte: "5.56.10",
+          "svelte-check": "4.7.6",
+          "shadcn-svelte": "1.5.0",
+          tailwindcss: "4.3.3",
+          typescript: "6.0.3",
+          vite: "8.2.2",
+        },
+      },
+      null,
+      2,
+    )}\n`,
+    "vite.config.ts": `import { sveltekit } from "@sveltejs/kit/vite";
+import { defineConfig } from "vite";
+
+export default defineConfig({ plugins: [sveltekit()] });
+`,
+    "tsconfig.json": `${JSON.stringify(
+      {
+        extends: "./.svelte-kit/tsconfig.json",
+        compilerOptions: {
+          baseUrl: ".",
+          ignoreDeprecations: "6.0",
+          paths: {
+            $lib: ["src/lib"],
+            "$lib/*": ["src/lib/*"],
+          },
+        },
+      },
+      null,
+      2,
+    )}\n`,
+    "src/app.css": `:root {}
+.dark {}
+`,
+    "src/app.d.ts": `declare global {}
+
+export {};
+`,
+    "src/app.html": `<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    %sveltekit.head%
+  </head>
+  <body data-sveltekit-preload-data="hover">
+    <div style="display: contents">%sveltekit.body%</div>
+  </body>
+</html>
+`,
+    "src/routes/+layout.svelte": `<script lang="ts">
+  import "../app.css";
+  import type { Snippet } from "svelte";
+
+  let { children }: { children: Snippet } = $props();
+</script>
+
+{@render children()}
+`,
+    "src/routes/+page.svelte": `<h1>Registry smoke fixture</h1>
+`,
+  };
+
+  for (const [path, content] of Object.entries(files)) {
+    const output = resolve(fixtureRoot, path);
+    await mkdir(dirname(output), { recursive: true });
+    await writeFile(output, content, "utf8");
+  }
+
+  const componentsTemplate = await readFile(
+    resolve(appRoot, "tests/registry/fixtures/components.json"),
+    "utf8",
+  );
+  await writeFile(resolve(fixtureRoot, "components.json"), componentsTemplate, "utf8");
+}
+
+async function startRegistryServer(
+  outputRoot: string,
+): Promise<{ server: Server; baseUrl: string }> {
+  const server = createServer(async (request, response) => {
+    try {
+      const requestUrl = new URL(request.url ?? "/", "http://127.0.0.1");
+      const relativePath = decodeURIComponent(requestUrl.pathname).replace(/^\/r\//, "");
+      if (
+        !relativePath.endsWith(".json") ||
+        relativePath.includes("..") ||
+        relativePath.includes("/")
+      ) {
+        response.writeHead(404).end("Not found");
+        return;
+      }
+
+      const body = await readFile(resolve(outputRoot, relativePath));
+      response.writeHead(200, {
+        "cache-control": "no-store",
+        "content-type": "application/json; charset=utf-8",
+      });
+      response.end(body);
+    } catch {
+      response.writeHead(404).end("Not found");
+    }
+  });
+
+  await new Promise<void>((resolvePromise, reject) => {
+    server.once("error", reject);
+    server.listen(0, "127.0.0.1", () => resolvePromise());
+  });
+  const address = server.address() as AddressInfo;
+  return { server, baseUrl: `http://127.0.0.1:${address.port}/r` };
+}
+
+async function closeServer(server: Server | undefined): Promise<void> {
+  if (!server) return;
+  server.closeAllConnections();
+  await new Promise<void>((resolvePromise, reject) => {
+    server.close((error) => (error ? reject(error) : resolvePromise()));
+  });
+}
+
+function isolatedEnvironment(temporaryRoot: string): NodeJS.ProcessEnv {
+  const childPath = [resolve(dirname(process.execPath)), "/usr/local/bin", "/usr/bin", "/bin"].join(
+    ":",
+  );
+
+  return {
+    ...process.env,
+    CI: "1",
+    COREPACK_HOME: resolve(temporaryRoot, "corepack"),
+    NPM_CONFIG_CACHE: resolve(temporaryRoot, "npm-cache"),
+    NPM_CONFIG_USERCONFIG: resolve(temporaryRoot, "npmrc"),
+    PATH: childPath,
+    PNPM_HOME: resolve(temporaryRoot, "pnpm-home"),
+    XDG_CACHE_HOME: resolve(temporaryRoot, "xdg-cache"),
+    XDG_CONFIG_HOME: resolve(temporaryRoot, "xdg-config"),
+    XDG_DATA_HOME: resolve(temporaryRoot, "xdg-data"),
+  };
+}
+
+async function verifyInstalledFixture(fixtureRoot: string): Promise<void> {
+  const files = await listFiles(resolve(fixtureRoot, "src/lib"));
+  const expectedFiles = [
+    "components/private-bundle.svelte",
+    "components/private-special.svelte",
+    "components/ui/private-compound/index.ts",
+    "components/ui/private-compound/private-compound-panel.svelte",
+    "components/ui/private-compound/private-compound-root.svelte",
+    "components/ui/private-leaf.svelte",
+    "components/ui/private-overlay.svelte",
+    "components/ui/private-styled.svelte",
+    "hooks/use-private-special.svelte.ts",
+  ];
+  if (JSON.stringify(files) !== JSON.stringify(expectedFiles)) {
+    throw new Error(`Smoke install wrote unexpected alias destinations: ${files.join(", ")}`);
+  }
+
+  const packageJsonText = await readFile(resolve(fixtureRoot, "package.json"), "utf8");
+  const packageJson = JSON.parse(packageJsonText) as {
+    dependencies?: Record<string, string>;
+    devDependencies?: Record<string, string>;
+  };
+  const appCss = await readFile(resolve(fixtureRoot, "src/app.css"), "utf8");
+  if (!packageJson.dependencies?.clsx)
+    throw new Error("Smoke install did not record the clsx dependency.");
+  if (packageJson.devDependencies?.svelte !== "5.56.10")
+    throw new Error("Smoke install changed the fixture's Svelte peer baseline.");
+  if (/"react(?:-dom)?"|@base-ui/.test(packageJsonText.toLowerCase()))
+    throw new Error("Smoke fixture contains a forbidden dependency.");
+  if (!appCss.includes("private-accent") || !appCss.includes("color-private-accent"))
+    throw new Error("Smoke install did not merge private CSS variables.");
+
+  const rootPrefix = `${fixtureRoot}/`;
+  const installedPaths = await listFiles(fixtureRoot);
+  for (const file of installedPaths) {
+    const absolutePath = resolve(fixtureRoot, file);
+    if (!absolutePath.startsWith(rootPrefix))
+      throw new Error(`Smoke install escaped the fixture root: ${file}`);
+  }
+}
+
+const temporaryRoot = await mkdtemp(join(tmpdir(), "coss-sv-registry-smoke-"));
+const registryRoot = resolve(temporaryRoot, "registry-author");
+const registryOutput = resolve(registryRoot, "static/r");
+const fixtureRoot = resolve(temporaryRoot, "consumer");
+const storeRoot = resolve(temporaryRoot, "pnpm-store");
+const environment = isolatedEnvironment(temporaryRoot);
+let server: Server | undefined;
+
+try {
+  await mkdir(registryRoot, { recursive: true });
+  await mkdir(fixtureRoot, { recursive: true });
+  await writePrivateRegistry(registryRoot);
+  await runLocalShadcn(
+    ["registry", "build", "registry.json", "-c", registryRoot, "-o", "static/r"],
+    {
+      env: environment,
+      quiet: true,
+    },
+  );
+
+  const bundle = JSON.parse(
+    await readFile(resolve(registryOutput, "private-bundle.json"), "utf8"),
+  ) as {
+    registryDependencies?: string[];
+  };
+  if (!bundle.registryDependencies?.every((dependency) => dependency.startsWith("./"))) {
+    throw new Error("The CLI did not convert local: registry dependencies to relative JSON URLs.");
+  }
+
+  await writeConsumerFixture(fixtureRoot);
+  await run(
+    "pnpm",
+    ["install", "--ignore-workspace", "--frozen-lockfile=false", "--store-dir", storeRoot],
+    { cwd: fixtureRoot, env: environment, quiet: true },
+  );
+
+  const registryServer = await startRegistryServer(registryOutput);
+  server = registryServer.server;
+  for (const itemName of [
+    "private-leaf",
+    "private-compound",
+    "private-overlay",
+    "private-special",
+    "private-styled",
+    "private-bundle",
+  ]) {
+    await runLocalShadcn(
+      [
+        "add",
+        `${registryServer.baseUrl}/${itemName}.json`,
+        "-c",
+        fixtureRoot,
+        "--yes",
+        "--overwrite",
+        "--no-deps-install",
+      ],
+      { env: environment, quiet: true },
+    );
+  }
+
+  await run(
+    "pnpm",
+    ["install", "--ignore-workspace", "--frozen-lockfile=false", "--store-dir", storeRoot],
+    { cwd: fixtureRoot, env: environment, quiet: true },
+  );
+  await verifyInstalledFixture(fixtureRoot);
+  await writeFile(
+    resolve(fixtureRoot, "tsconfig.json"),
+    `${JSON.stringify({ extends: "./.svelte-kit/tsconfig.json" }, null, 2)}\n`,
+    "utf8",
+  );
+  await run("pnpm", ["exec", "svelte-kit", "sync"], {
+    cwd: fixtureRoot,
+    env: environment,
+    quiet: true,
+  });
+  await run("pnpm", ["exec", "svelte-check", "--tsconfig", "./tsconfig.json"], {
+    cwd: fixtureRoot,
+    env: environment,
+    quiet: true,
+  });
+  await run("pnpm", ["exec", "vite", "build"], { cwd: fixtureRoot, env: environment, quiet: true });
+
+  const productionItems = (await readdir(resolve(appRoot, "static/r"))).filter(
+    (name) => name !== "index.json",
+  );
+  if (productionItems.length > 0) {
+    throw new Error(
+      `Private smoke items leaked into production output: ${productionItems.join(", ")}`,
+    );
+  }
+  console.log("Private registry URL install, svelte-check, and production build passed.");
+} finally {
+  await closeServer(server);
+  await rm(temporaryRoot, { recursive: true, force: true });
+}

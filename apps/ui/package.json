@@ -11,7 +11,12 @@
     "dev": "vite dev",
     "prepare": "svelte-kit sync",
     "preview": "vite preview",
-    "test": "vitest run"
+    "registry:build": "pnpm registry:generate && pnpm exec shadcn-svelte registry build registry.json -o static/r && pnpm registry:check",
+    "registry:check": "pnpm registry:test && tsx scripts/registry/check.mts",
+    "registry:generate": "tsx scripts/registry/generate.mts",
+    "registry:smoke": "tsx scripts/registry/smoke-install.mts",
+    "registry:test": "vitest run --config tests/registry/vitest.config.ts",
+    "test": "vitest run && pnpm registry:test"
   },
   "dependencies": {
     "@coss-sv/ui": "workspace:*"
@@ -25,9 +30,11 @@
     "@types/node": "catalog:dev",
     "mdsvex": "catalog:dev",
     "shiki": "catalog:dev",
+    "shadcn-svelte": "1.5.0",
     "svelte": "catalog:dev",
     "svelte-check": "catalog:dev",
     "tailwindcss": "catalog:dev",
+    "tsx": "catalog:dev",
     "typescript": "catalog:dev",
     "unified": "9.2.2",
     "vite": "catalog:dev",
