@@ -54,8 +54,14 @@ function parseDeclarations(block: string): CssDeclaration[] {
     .map((declaration) => {
       const separator = declaration.indexOf(":");
       if (separator < 1) throw new Error(`Invalid declaration: ${declaration}`);
+      const rawProperty = declaration.slice(0, separator).trim();
+      if (rawProperty.includes("\\")) {
+        throw new Error(`Escaped CSS property identifiers require explicit review: ${rawProperty}`);
+      }
       return {
-        property: declaration.slice(0, separator).trim(),
+        property: rawProperty.startsWith("--")
+          ? rawProperty
+          : rawProperty.replace(/[A-Z]/g, (character) => character.toLowerCase()),
         value: declaration.slice(separator + 1).trim(),
       };
     });
@@ -326,12 +332,31 @@ const focusTargets = [
   ".site-button:focus-visible",
 ] as const;
 
-const protectedProperties = new Set(["color", "outline", "outline-offset"]);
+const protectedProperties = new Set([
+  "--site-accent-foreground",
+  "--site-foreground",
+  "--site-muted",
+  "--site-primary-foreground",
+  "-webkit-text-fill-color",
+  "all",
+  "color",
+  "outline",
+  "outline-color",
+  "outline-offset",
+  "outline-style",
+  "outline-width",
+]);
 
 type ProtectedDeclarationGroup = {
   atRules?: string[];
-  classification: "base theme" | "dark theme" | "focus treatment" | "semantic role" | "shiki";
-  property: "color" | "outline" | "outline-offset";
+  classification:
+    | "base theme"
+    | "dark theme"
+    | "focus treatment"
+    | "semantic role"
+    | "semantic token"
+    | "shiki";
+  property: string;
   selectors: string[];
   value: string;
 };
@@ -348,6 +373,30 @@ const protectedDeclarationGroups: ProtectedDeclarationGroup[] = [
     selectors: ["a"],
     property: "color",
     value: "inherit",
+  },
+  {
+    classification: "semantic token",
+    selectors: [".site-shell"],
+    property: "--site-primary-foreground",
+    value: "#171717",
+  },
+  {
+    classification: "semantic token",
+    selectors: [".site-shell"],
+    property: "--site-accent-foreground",
+    value: "#c93200",
+  },
+  {
+    classification: "semantic token",
+    selectors: [".site-shell"],
+    property: "--site-foreground",
+    value: "#171717",
+  },
+  {
+    classification: "semantic token",
+    selectors: [".site-shell"],
+    property: "--site-muted",
+    value: "#646464",
   },
   {
     classification: "semantic role",
@@ -406,6 +455,27 @@ const protectedDeclarationGroups: ProtectedDeclarationGroup[] = [
   },
   {
     atRules: [darkMedia],
+    classification: "semantic token",
+    selectors: [".site-shell"],
+    property: "--site-accent-foreground",
+    value: "#ff3e00",
+  },
+  {
+    atRules: [darkMedia],
+    classification: "semantic token",
+    selectors: [".site-shell"],
+    property: "--site-foreground",
+    value: "#f5f5f5",
+  },
+  {
+    atRules: [darkMedia],
+    classification: "semantic token",
+    selectors: [".site-shell"],
+    property: "--site-muted",
+    value: "#a3a3a3",
+  },
+  {
+    atRules: [darkMedia],
     classification: "dark theme",
     selectors: [".site-shell"],
     property: "color",
@@ -429,17 +499,25 @@ function protectedDeclarationKey(
   return JSON.stringify([atRules, selector, property, value]);
 }
 
-const allowedProtectedDeclarations = new Map(
-  protectedDeclarationGroups.flatMap((group) =>
-    group.selectors.map((selector) => [
-      protectedDeclarationKey(group.atRules ?? [], selector, group.property, group.value),
-      group.classification,
-    ]),
+const allowedProtectedDeclarationEntries = protectedDeclarationGroups.flatMap((group) =>
+  group.selectors.map(
+    (selector) =>
+      [
+        protectedDeclarationKey(group.atRules ?? [], selector, group.property, group.value),
+        group.classification,
+      ] as const,
   ),
 );
 
+const allowedProtectedDeclarations = new Map(allowedProtectedDeclarationEntries);
+
+if (allowedProtectedDeclarations.size !== allowedProtectedDeclarationEntries.length) {
+  throw new Error("Protected declaration allowlist contains a duplicate entry");
+}
+
 function assertProtectedDeclarationAudit(source: string): void {
   const seen = new Set<string>();
+  const observedAllowlistEntries = new Set<string>();
 
   for (const rule of parseCssRules(source)) {
     for (const declaration of rule.declarations) {
@@ -469,7 +547,14 @@ function assertProtectedDeclarationAudit(source: string): void {
             }`,
           );
         }
+        observedAllowlistEntries.add(key);
       }
+    }
+  }
+
+  for (const [key, classification] of allowedProtectedDeclarations) {
+    if (!observedAllowlistEntries.has(key)) {
+      throw new Error(`Missing classified ${classification} protected declaration: ${key}`);
     }
   }
 }
@@ -643,6 +728,66 @@ describe("CSS contract parser", () => {
     expect(mutated).not.toBe(css);
     expect(() => assertProtectedDeclarationAudit(mutated)).toThrow(
       /Unclassified protected declaration: \.unreviewed-focus:focus-visible/,
+    );
+  });
+
+  test.each([
+    ["uppercase color", ".site-nav a { COLOR: #ffffff; }"],
+    ["uppercase outline", ".site-button:focus-visible { OUTLINE: none; }"],
+    ["outline color", ".site-button:focus-visible { outline-color: transparent; }"],
+    ["outline style", ".site-button:focus-visible { outline-style: none; }"],
+    ["all reset", ".site-button:focus-visible { all: unset; }"],
+    ["WebKit text fill", ".site-nav a { -webkit-text-fill-color: #ffffff; }"],
+  ])("rejects the %s protected-property bypass", (_label, override) => {
+    const mutated = `${css}\n${override}\n`;
+    expect(() => assertProtectedDeclarationAudit(mutated)).toThrow(
+      /(?:Unclassified|Duplicate) protected declaration/,
+    );
+  });
+
+  test("fails closed on escaped CSS property identifiers", () => {
+    const mutated = `${css}\n${String.raw`.site-nav a { c\6flor: #ffffff; }`}\n`;
+    expect(() => assertProtectedDeclarationAudit(mutated)).toThrow(
+      /Escaped CSS property identifiers require explicit review/,
+    );
+  });
+
+  test.each([
+    ["muted text", ".site-nav { --site-muted: #ffffff; }"],
+    ["accent and focus", ".hero-credit { --site-accent-foreground: #ffffff; }"],
+    ["primary foreground", ".site-button { --site-primary-foreground: #ffffff; }"],
+    ["site foreground", ".content-page { --site-foreground: #ffffff; }"],
+  ])("rejects an unclassified %s token override", (_label, override) => {
+    const mutated = `${css}\n${override}\n`;
+    expect(() => assertProtectedDeclarationAudit(mutated)).toThrow(
+      /Unclassified protected declaration/,
+    );
+  });
+
+  test("requires every classified hover declaration to remain present", () => {
+    const mutated = css.replace(".site-brand:hover,\n", "");
+    expect(mutated).not.toBe(css);
+    expect(() => assertProtectedDeclarationAudit(mutated)).toThrow(
+      /Missing classified semantic role protected declaration/,
+    );
+  });
+
+  test.each([
+    [
+      "base",
+      "html {\n  min-width: 20rem;\n  background: #fafafa;\n  color: #171717;\n}",
+      "html {\n  min-width: 20rem;\n  background: #fafafa;\n}",
+    ],
+    [
+      "dark",
+      "  html {\n    background: #0a0a0a;\n    color: #f5f5f5;\n  }",
+      "  html {\n    background: #0a0a0a;\n  }",
+    ],
+  ])("requires the %s html text color", (_theme, from, to) => {
+    const mutated = css.replace(from, to);
+    expect(mutated).not.toBe(css);
+    expect(() => assertProtectedDeclarationAudit(mutated)).toThrow(
+      /Missing classified (?:base|dark) theme protected declaration/,
     );
   });
 
