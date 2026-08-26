@@ -2,14 +2,14 @@ import { expect, test } from "@playwright/test";
 import {
   assertNoAxeViolations,
   attachPreviewEvidence,
+  fixedClockTime,
   monitorConsole,
   openReadyPreview,
+  prepareDeterministicPage,
   runKeyboardTrace,
 } from "./helpers/preview.js";
 
 const referenceBaseUrl = "http://127.0.0.1:4000/ui";
-// biome-ignore lint/suspicious/noUndeclaredEnvVars: this matches the optional Playwright reference-server hook.
-const referenceCommandConfigured = Boolean(process.env.COSS_REFERENCE_COMMAND);
 
 function projectTheme(projectName: string): "dark" | "light" {
   return projectName === "dark" ? "dark" : "light";
@@ -24,12 +24,23 @@ test.describe("preview harness", () => {
       page,
       "_fixture",
       projectTheme(testInfo.project.name),
+      "desktop",
     );
     const fixture = ready.locator('[data-preview-fixture="true"]');
     const serverHydrationId = /data-hydration-id="([^"]+)"/.exec(serverHtml)?.[1];
 
     expect(serverHydrationId).toBeTruthy();
     await expect(fixture).toHaveAttribute("data-hydration-id", serverHydrationId ?? "");
+    const expectedTheme = projectTheme(testInfo.project.name);
+    const frame = page.locator("[data-preview-theme]");
+    await expect(frame).toHaveAttribute("data-preview-theme", expectedTheme);
+    expect(await frame.evaluate((element) => getComputedStyle(element).colorScheme)).toBe(
+      expectedTheme,
+    );
+    await expect(ready).toHaveAttribute("data-preview-width", "desktop");
+    await expect(ready).toHaveAttribute("data-preview-width-px", "1200");
+    expect((await ready.boundingBox())?.width).toBe(1200);
+    expect(await page.evaluate(() => Date.now())).toBe(Date.parse(fixedClockTime));
 
     const button = page.getByRole("button", { name: "Advance count" });
     await button.focus();
@@ -57,9 +68,12 @@ test.describe("preview harness", () => {
       page,
       "does-not-exist",
       projectTheme(testInfo.project.name),
+      "mobile",
     );
 
     await expect(ready).toHaveAttribute("data-preview-missing", "true");
+    await expect(ready).toHaveAttribute("data-preview-width-px", "390");
+    expect((await ready.boundingBox())?.width).toBe(390);
     await expect(page.getByRole("heading", { name: "Preview not found" })).toBeVisible();
     await expect(page.getByText("does-not-exist", { exact: true })).toBeVisible();
     guard.assertNoErrors();
@@ -67,7 +81,12 @@ test.describe("preview harness", () => {
 
   test("turns console errors and axe findings into test failures", async ({ page }, testInfo) => {
     const guard = monitorConsole(page);
-    await openReadyPreview(page, "_fixture", projectTheme(testInfo.project.name));
+    const { externalRequests } = await openReadyPreview(
+      page,
+      "_fixture",
+      projectTheme(testInfo.project.name),
+      "desktop",
+    );
 
     await page.evaluate(() => console.error("intentional harness proof"));
     expect(() => guard.assertNoErrors()).toThrow(/intentional harness proof/);
@@ -84,12 +103,31 @@ test.describe("preview harness", () => {
       .evaluate((element) => element.remove());
     await assertNoAxeViolations(page, '[data-preview-ready="true"]');
     guard.assertNoErrors();
+
+    await expect(
+      page.evaluate(() => fetch("https://example.com/remote-font.woff2")),
+    ).rejects.toThrow();
+    expect(() => externalRequests.assertNoExternalRequests()).toThrow(/example\.com/);
+    externalRequests.clear();
+    externalRequests.assertNoExternalRequests();
   });
 
-  test("starts the configured React reference server", async ({ page }) => {
-    test.skip(!referenceCommandConfigured, "COSS_REFERENCE_COMMAND is not configured.");
-
+  test("starts the pnpm React reference server by default", async ({ page }) => {
+    const externalRequests = await prepareDeterministicPage(page);
     const response = await page.goto(referenceBaseUrl, { waitUntil: "domcontentloaded" });
     expect(response?.ok()).toBe(true);
+    externalRequests.assertNoExternalRequests();
+  });
+
+  test("rejects invalid preview theme and width parameters visibly", async ({ page }) => {
+    const externalRequests = await prepareDeterministicPage(page);
+    const response = await page.goto("/preview/_fixture?theme=sepia&width=wide");
+
+    expect(response?.ok()).toBe(true);
+    const invalid = page.locator('[data-preview-invalid="true"]');
+    await expect(invalid).toBeVisible();
+    await expect(invalid).toContainText("theme must be light or dark");
+    await expect(invalid).toContainText("width must be mobile, tablet, or desktop");
+    externalRequests.assertNoExternalRequests();
   });
 });

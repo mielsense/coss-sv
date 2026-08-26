@@ -1,10 +1,11 @@
 <script lang="ts">
 import { page } from "$app/state";
+import { parsePreviewQuery } from "./preview-contract.js";
 import { getPreview } from "./preview-registry.js";
 
 const name = $derived(page.params.name ?? "");
-const theme = $derived(page.url.searchParams.get("theme") === "dark" ? "dark" : "light");
-const Preview = $derived(getPreview(name));
+const query = $derived(parsePreviewQuery(page.url.searchParams));
+const Preview = $derived(query.ok ? getPreview(name) : undefined);
 </script>
 
 <svelte:head>
@@ -12,25 +13,47 @@ const Preview = $derived(getPreview(name));
 </svelte:head>
 
 <div
-  class={["preview-frame", { dark: theme === "dark" }]}
+  class={["preview-frame", { dark: query.ok && query.theme === "dark" }]}
   data-preview-name={name}
-  data-preview-theme={theme}
-  style={`color-scheme: ${theme}`}
+  data-preview-theme={query.ok ? query.theme : undefined}
+  style:color-scheme={query.ok ? query.theme : "light"}
 >
-  {#if Preview}
-    <div data-preview-ready="true" data-preview-found="true">
-      <Preview />
-    </div>
-  {:else}
-    <section class="missing-preview" data-preview-ready="true" data-preview-missing="true">
-      <h1>Preview not found</h1>
-      <p>No particle is registered as <code>{name}</code>.</p>
+  {#if !query.ok}
+    <section class="invalid-preview" data-preview-invalid="true">
+      <h1>Invalid preview configuration</h1>
+      <ul>
+        {#each query.errors as error (error)}
+          <li>{error}</li>
+        {/each}
+      </ul>
     </section>
+  {:else}
+    <div
+      class="preview-surface"
+      data-preview-ready="true"
+      data-preview-found={Preview ? "true" : undefined}
+      data-preview-missing={Preview ? undefined : "true"}
+      data-preview-width={query.width}
+      data-preview-width-px={query.widthPixels}
+      style:--preview-width={`${query.widthPixels}px`}
+    >
+      {#if Preview}
+        <Preview />
+      {:else}
+        <section class="missing-preview">
+          <h1>Preview not found</h1>
+          <p>No particle is registered as <code>{name}</code>.</p>
+        </section>
+      {/if}
+    </div>
   {/if}
 </div>
 
 <style>
 .preview-frame {
+  --background: #ffffff;
+  --foreground: #171717;
+  --border: #e5e5e5;
   display: grid;
   width: 100%;
   min-height: calc(100vh - 4rem);
@@ -39,22 +62,37 @@ const Preview = $derived(getPreview(name));
   color: var(--foreground);
 }
 
-.preview-frame > div {
-  width: 100%;
+.preview-frame.dark {
+  --background: #171717;
+  --foreground: #fafafa;
+  --border: #404040;
 }
 
+.preview-surface {
+  width: min(100%, var(--preview-width));
+  min-height: 24rem;
+  background: var(--background);
+}
+
+.invalid-preview,
 .missing-preview {
+  box-sizing: border-box;
+  width: min(100%, 32rem);
+  margin-inline: auto;
   max-width: 32rem;
   padding: 1.5rem;
   border: 1px solid var(--border);
   border-radius: 0.75rem;
 }
 
+.invalid-preview h1,
+.invalid-preview ul,
 .missing-preview h1,
 .missing-preview p {
   margin: 0;
 }
 
+.invalid-preview ul,
 .missing-preview p {
   margin-top: 0.5rem;
 }

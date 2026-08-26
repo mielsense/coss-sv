@@ -7,6 +7,22 @@ type ConsoleGuard = {
   failures: string[];
 };
 
+type ExternalRequestGuard = {
+  assertNoExternalRequests: () => void;
+  clear: () => void;
+  failures: string[];
+};
+
+export const fixedClockTime = "2026-01-15T12:00:00.000Z";
+export const localPreviewOrigins = new Set([
+  "http://127.0.0.1:4000",
+  "http://127.0.0.1:4173",
+  "http://localhost:4000",
+  "http://localhost:4173",
+]);
+
+const deterministicPages = new WeakMap<Page, ExternalRequestGuard>();
+
 export type ComputedStyleSnapshot = {
   boundingBox: Awaited<ReturnType<Locator["boundingBox"]>>;
   properties: Record<string, string>;
@@ -58,17 +74,64 @@ export function monitorConsole(page: Page): ConsoleGuard {
   };
 }
 
-export async function openReadyPreview(page: Page, name: string, theme: "dark" | "light") {
-  const response = await page.goto(`/preview/${encodeURIComponent(name)}?theme=${theme}`, {
-    waitUntil: "networkidle",
+export async function prepareDeterministicPage(page: Page): Promise<ExternalRequestGuard> {
+  const existing = deterministicPages.get(page);
+  if (existing) return existing;
+
+  const failures: string[] = [];
+  const guard: ExternalRequestGuard = {
+    failures,
+    assertNoExternalRequests() {
+      if (failures.length > 0) {
+        throw new Error(`Preview requested external resources:\n${failures.join("\n")}`);
+      }
+    },
+    clear() {
+      failures.length = 0;
+    },
+  };
+
+  await page.clock.setFixedTime(new Date(fixedClockTime));
+  await page.route("**/*", async (route) => {
+    const request = route.request();
+    const url = new URL(request.url());
+    if (
+      localPreviewOrigins.has(url.origin) ||
+      url.protocol === "data:" ||
+      url.protocol === "blob:"
+    ) {
+      await route.continue();
+      return;
+    }
+
+    failures.push(`${request.method()} ${request.url()}`);
+    await route.abort("blockedbyclient");
   });
+  deterministicPages.set(page, guard);
+  return guard;
+}
+
+export async function openReadyPreview(
+  page: Page,
+  name: string,
+  theme: "dark" | "light",
+  width: "desktop" | "mobile" | "tablet",
+) {
+  const externalRequests = await prepareDeterministicPage(page);
+  const response = await page.goto(
+    `/preview/${encodeURIComponent(name)}?theme=${theme}&width=${width}`,
+    {
+      waitUntil: "networkidle",
+    },
+  );
   if (!response?.ok()) {
     throw new Error(`Preview request failed with ${response?.status() ?? "no response"}.`);
   }
 
   const ready = page.locator('[data-preview-ready="true"]');
   await ready.waitFor({ state: "visible" });
-  return { ready, serverHtml: await response.text() };
+  externalRequests.assertNoExternalRequests();
+  return { externalRequests, ready, serverHtml: await response.text() };
 }
 
 export async function snapshotComputedStyles(

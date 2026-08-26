@@ -1,6 +1,7 @@
 import { existsSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import { basename, dirname, extname, join, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import ts from "typescript";
 
 export type ParityKind = "component" | "doc" | "particle";
 export type ParityStatus = "missing" | "implemented" | "reviewed" | "approved";
@@ -28,6 +29,27 @@ export type ReferenceInventory = {
   particleComponents: Record<string, string[]>;
 };
 
+export type TargetManifestDefinition = {
+  exportName: string;
+  idProperty: "id" | "name";
+  kind: ParityKind;
+  path: string;
+  wrapperName: string;
+};
+
+export type TargetManifestSnapshot = TargetManifestDefinition & {
+  duplicates: string[];
+  exists: boolean;
+  ids: string[];
+};
+
+export type TargetManifests = Record<ParityKind, TargetManifestSnapshot>;
+
+export type TargetManifestComparison = Record<
+  ParityKind,
+  { duplicates: string[]; extra: string[]; missing: string[] }
+>;
+
 const scriptDirectory = dirname(fileURLToPath(import.meta.url));
 const repositoryRoot = resolve(scriptDirectory, "../..");
 const matrixPath = join(repositoryRoot, "docs/porting/PARITY-MATRIX.md");
@@ -36,6 +58,31 @@ const artifactPath = join(repositoryRoot, "artifacts/parity/reference-inventory.
 const startMarker = "<!-- parity:start -->";
 const endMarker = "<!-- parity:end -->";
 const statusOrder: ParityStatus[] = ["missing", "implemented", "reviewed", "approved"];
+
+export const targetManifestDefinitions = [
+  {
+    exportName: "registryUi",
+    idProperty: "name",
+    kind: "component",
+    path: "apps/ui/registry/registry-ui.ts",
+    wrapperName: "defineRegistryItems",
+  },
+  {
+    exportName: "registryParticles",
+    idProperty: "name",
+    kind: "particle",
+    path: "apps/ui/registry/registry-particles.ts",
+    wrapperName: "defineRegistryItems",
+  },
+  {
+    // D1 owns this completeness manifest. Homepage categories are navigation metadata, not parity evidence.
+    exportName: "docsManifest",
+    idProperty: "id",
+    kind: "doc",
+    path: "apps/ui/src/lib/content/docs-manifest.ts",
+    wrapperName: "defineDocsManifest",
+  },
+] as const satisfies readonly TargetManifestDefinition[];
 
 function filesWithExtension(directory: string, extension: string) {
   return readdirSync(directory, { withFileTypes: true })
@@ -103,12 +150,13 @@ function entry(
   id: string,
   source: string,
   target: string,
+  manifest: string,
 ): ParityEntry {
   return {
     id,
     kind,
     sourcePaths: [sourcePath(referenceDirectory, source)],
-    targetPaths: [targetPath(root, target)],
+    targetPaths: [targetPath(root, target), manifest],
     status: "missing",
   };
 }
@@ -144,6 +192,7 @@ export function collectReferenceInventory(root = repositoryRoot): ReferenceInven
       id,
       source,
       join(root, `packages/ui/src/components/ui/${id}`),
+      "apps/ui/registry/registry-ui.ts",
     );
   });
 
@@ -157,6 +206,7 @@ export function collectReferenceInventory(root = repositoryRoot): ReferenceInven
         `components/${id}`,
         source,
         join(root, `apps/ui/content/docs/components/${id}.md`),
+        "apps/ui/src/lib/content/docs-manifest.ts",
       );
     },
   );
@@ -170,6 +220,7 @@ export function collectReferenceInventory(root = repositoryRoot): ReferenceInven
       id,
       source,
       join(root, `apps/ui/content/docs/${id}.md`),
+      "apps/ui/src/lib/content/docs-manifest.ts",
     );
   });
 
@@ -182,6 +233,7 @@ export function collectReferenceInventory(root = repositoryRoot): ReferenceInven
       `hooks/${id}`,
       source,
       join(root, `apps/ui/content/docs/hooks/${id}.md`),
+      "apps/ui/src/lib/content/docs-manifest.ts",
     );
   });
 
@@ -196,6 +248,7 @@ export function collectReferenceInventory(root = repositoryRoot): ReferenceInven
       id,
       source,
       join(root, `apps/ui/registry/default/particles/${id}.svelte`),
+      "apps/ui/registry/registry-particles.ts",
     );
   });
 
@@ -248,6 +301,178 @@ export function applyStatusBaseline(entries: ParityEntry[], baseline: StatusBase
   return entries.map((item) => ({ ...item, status: statuses.get(parityKey(item)) ?? "missing" }));
 }
 
+export function createAllMissingBaseline(entries: ParityEntry[]): StatusBaseline {
+  return {
+    version: 1,
+    entries: entries.map(({ id, kind }) => ({ id, kind, status: "missing" })),
+  };
+}
+
+function unwrapExpression(expression: ts.Expression): ts.Expression {
+  let current = expression;
+  while (
+    ts.isParenthesizedExpression(current) ||
+    ts.isAsExpression(current) ||
+    ts.isSatisfiesExpression(current) ||
+    ts.isTypeAssertionExpression(current)
+  ) {
+    current = current.expression;
+  }
+  return current;
+}
+
+function propertyName(property: ts.PropertyName) {
+  if (ts.isIdentifier(property) || ts.isStringLiteral(property)) return property.text;
+  return undefined;
+}
+
+function readTargetManifest(root: string, definition: TargetManifestDefinition) {
+  const absolutePath = join(root, definition.path);
+  if (!existsSync(absolutePath)) {
+    return { ...definition, duplicates: [], exists: false, ids: [] };
+  }
+
+  const sourceFile = ts.createSourceFile(
+    definition.path,
+    readFileSync(absolutePath, "utf8"),
+    ts.ScriptTarget.Latest,
+    true,
+    ts.ScriptKind.TS,
+  );
+  let initializer: ts.Expression | undefined;
+
+  for (const statement of sourceFile.statements) {
+    if (!ts.isVariableStatement(statement)) continue;
+    const isExported = statement.modifiers?.some(
+      (modifier) => modifier.kind === ts.SyntaxKind.ExportKeyword,
+    );
+    if (!isExported) continue;
+    for (const declaration of statement.declarationList.declarations) {
+      if (ts.isIdentifier(declaration.name) && declaration.name.text === definition.exportName) {
+        initializer = declaration.initializer;
+      }
+    }
+  }
+
+  const unwrappedInitializer = initializer ? unwrapExpression(initializer) : undefined;
+  if (
+    !unwrappedInitializer ||
+    !ts.isCallExpression(unwrappedInitializer) ||
+    !ts.isIdentifier(unwrappedInitializer.expression) ||
+    unwrappedInitializer.expression.text !== definition.wrapperName
+  ) {
+    throw new Error(
+      `${definition.path} must export ${definition.exportName} = ${definition.wrapperName}([...]).`,
+    );
+  }
+
+  const firstArgument = unwrappedInitializer.arguments[0];
+  const manifestArray = firstArgument ? unwrapExpression(firstArgument) : undefined;
+  if (!manifestArray || !ts.isArrayLiteralExpression(manifestArray)) {
+    throw new Error(`${definition.path} must pass a literal array to ${definition.wrapperName}.`);
+  }
+
+  const ids: string[] = [];
+  for (const element of manifestArray.elements) {
+    const record = unwrapExpression(element);
+    if (!ts.isObjectLiteralExpression(record)) {
+      throw new Error(`${definition.path} manifest entries must be literal objects.`);
+    }
+    const idAssignment = record.properties.find(
+      (property): property is ts.PropertyAssignment =>
+        ts.isPropertyAssignment(property) && propertyName(property.name) === definition.idProperty,
+    );
+    const idExpression = idAssignment ? unwrapExpression(idAssignment.initializer) : undefined;
+    if (
+      !idExpression ||
+      (!ts.isStringLiteral(idExpression) && !ts.isNoSubstitutionTemplateLiteral(idExpression))
+    ) {
+      throw new Error(
+        `${definition.path} entries need a literal ${definition.idProperty} property.`,
+      );
+    }
+    ids.push(idExpression.text);
+  }
+
+  const seen = new Set<string>();
+  const duplicateSet = new Set<string>();
+  for (const id of ids) {
+    if (seen.has(id)) duplicateSet.add(id);
+    seen.add(id);
+  }
+
+  return {
+    ...definition,
+    duplicates: [...duplicateSet].sort((left, right) => left.localeCompare(right)),
+    exists: true,
+    ids,
+  };
+}
+
+export function collectTargetManifests(
+  root = repositoryRoot,
+  definitions: readonly TargetManifestDefinition[] = targetManifestDefinitions,
+): TargetManifests {
+  const snapshots = definitions.map((definition) => readTargetManifest(root, definition));
+  const byKind = new Map(snapshots.map((snapshot) => [snapshot.kind, snapshot]));
+
+  for (const kind of ["component", "doc", "particle"] as const) {
+    if (!byKind.has(kind)) throw new Error(`No canonical ${kind} target manifest is configured.`);
+  }
+  if (byKind.size !== snapshots.length) {
+    throw new Error("Each target manifest kind must have exactly one canonical definition.");
+  }
+
+  return Object.fromEntries(byKind) as TargetManifests;
+}
+
+export function compareTargetManifests(
+  entries: ParityEntry[],
+  manifests: TargetManifests,
+): TargetManifestComparison {
+  return Object.fromEntries(
+    (["component", "doc", "particle"] as const).map((kind) => {
+      const expected = new Set(entries.filter((entry) => entry.kind === kind).map(({ id }) => id));
+      const actual = new Set(manifests[kind].ids);
+      return [
+        kind,
+        {
+          duplicates: manifests[kind].duplicates,
+          extra: [...actual]
+            .filter((id) => !expected.has(id))
+            .sort((left, right) => left.localeCompare(right)),
+          missing: [...expected]
+            .filter((id) => !actual.has(id))
+            .sort((left, right) => left.localeCompare(right)),
+        },
+      ];
+    }),
+  ) as TargetManifestComparison;
+}
+
+export function validateTargetManifestParity(entries: ParityEntry[], manifests: TargetManifests) {
+  const comparison = compareTargetManifests(entries, manifests);
+  const errors: string[] = [];
+  const extras = (["component", "doc", "particle"] as const).flatMap((kind) =>
+    comparison[kind].extra.map((id) => `${kind}:${id}`),
+  );
+  const duplicates = (["component", "doc", "particle"] as const).flatMap((kind) =>
+    comparison[kind].duplicates.map((id) => `${kind}:${id}`),
+  );
+
+  if (extras.length > 0) errors.push(`Extra: ${extras.join(", ")}.`);
+  if (duplicates.length > 0) errors.push(`Duplicates: ${duplicates.join(", ")}.`);
+
+  for (const item of entries) {
+    if (item.status === "missing" || manifests[item.kind].ids.includes(item.id)) continue;
+    errors.push(
+      `${parityKey(item)} is ${item.status} but absent from ${manifests[item.kind].path}.`,
+    );
+  }
+
+  if (errors.length > 0) throw new Error(`Target manifest mismatch. ${errors.join(" ")}`);
+}
+
 function renderPathList(paths: string[]) {
   return paths.map((path) => `\`${path}\``).join("<br>");
 }
@@ -293,22 +518,30 @@ export function renderInventory(inventory: ReferenceInventory) {
   ].join("\n\n");
 }
 
-export function formatMissingReport(entries: ParityEntry[]) {
-  const missing = entries.filter(({ status }) => status === "missing");
-  const componentCount = missing.filter(({ kind }) => kind === "component").length;
-  const docCount = missing.filter(({ kind }) => kind === "doc").length;
-  const particleCount = missing.filter(({ kind }) => kind === "particle").length;
-  const lines = missing.map((item) => `- ${parityKey(item)}`);
+export function formatOutstandingReport(entries: ParityEntry[]) {
+  const outstanding = entries.filter(({ status }) => status !== "approved");
+  const statusCounts = Object.fromEntries(
+    statusOrder.map((status) => [
+      status,
+      entries.filter((entry) => entry.status === status).length,
+    ]),
+  ) as Record<ParityStatus, number>;
+  const summary = [
+    "Parity work remaining",
+    `components: ${outstanding.filter(({ kind }) => kind === "component").length}`,
+    `docs: ${outstanding.filter(({ kind }) => kind === "doc").length}`,
+    `particles: ${outstanding.filter(({ kind }) => kind === "particle").length}`,
+    `total: ${outstanding.length}`,
+    ...statusOrder.map((status) => `${status}: ${statusCounts[status]}`),
+  ];
+  const groups = statusOrder
+    .filter((status) => status !== "approved" && statusCounts[status] > 0)
+    .flatMap((status) => [
+      `## ${status} (${statusCounts[status]})`,
+      ...entries.filter((entry) => entry.status === status).map((item) => `- ${parityKey(item)}`),
+    ]);
 
-  return [
-    "Planned parity work",
-    `components: ${componentCount}`,
-    `docs: ${docCount}`,
-    `particles: ${particleCount}`,
-    `total: ${missing.length}`,
-    "",
-    ...lines,
-  ].join("\n");
+  return [...summary, "", ...groups].join("\n");
 }
 
 export function updateGeneratedSection(document: string, generated: string) {
@@ -337,9 +570,20 @@ export function expectedMatrix(root = repositoryRoot) {
   );
 }
 
-function writeNormalizedArtifact(inventory: ReferenceInventory) {
+function writeNormalizedArtifact(inventory: ReferenceInventory, manifests: TargetManifests) {
   mkdirSync(dirname(artifactPath), { recursive: true });
-  writeFileSync(artifactPath, `${JSON.stringify(inventory, null, 2)}\n`);
+  writeFileSync(
+    artifactPath,
+    `${JSON.stringify(
+      {
+        ...inventory,
+        targetComparison: compareTargetManifests(inventory.entries, manifests),
+        targetManifests: manifests,
+      },
+      null,
+      2,
+    )}\n`,
+  );
 }
 
 function writeBaseline(inventory: ReferenceInventory) {
@@ -361,17 +605,6 @@ function writeBaseline(inventory: ReferenceInventory) {
   return baseline;
 }
 
-function assertPromotedTargetsExist(root: string, entries: ParityEntry[]) {
-  for (const item of entries) {
-    if (item.status === "missing") continue;
-    for (const path of item.targetPaths) {
-      if (!existsSync(join(root, path))) {
-        throw new Error(`${parityKey(item)} is ${item.status}, but target ${path} does not exist.`);
-      }
-    }
-  }
-}
-
 function main() {
   const mode = process.argv[2] ?? "--check";
   const inventory = collectReferenceInventory();
@@ -379,9 +612,11 @@ function main() {
   if (mode === "--write") {
     const baseline = writeBaseline(inventory);
     const completedInventory = withBaseline(inventory, baseline);
+    const manifests = collectTargetManifests();
+    validateTargetManifestParity(completedInventory.entries, manifests);
     const current = readFileSync(matrixPath, "utf8");
     writeFileSync(matrixPath, updateGeneratedSection(current, renderInventory(completedInventory)));
-    writeNormalizedArtifact(completedInventory);
+    writeNormalizedArtifact(completedInventory, manifests);
     console.log("Updated the parity status baseline and generated matrix section.");
     return;
   }
@@ -391,8 +626,9 @@ function main() {
   }
 
   const completedInventory = withBaseline(inventory, loadStatusBaseline());
-  assertPromotedTargetsExist(repositoryRoot, completedInventory.entries);
-  writeNormalizedArtifact(completedInventory);
+  const manifests = collectTargetManifests();
+  validateTargetManifestParity(completedInventory.entries, manifests);
+  writeNormalizedArtifact(completedInventory, manifests);
 
   const current = readFileSync(matrixPath, "utf8");
   const expected = updateGeneratedSection(current, renderInventory(completedInventory));
@@ -400,7 +636,7 @@ function main() {
     throw new Error("docs/porting/PARITY-MATRIX.md is stale. Run pnpm parity:write.");
   }
 
-  const report = formatMissingReport(completedInventory.entries);
+  const report = formatOutstandingReport(completedInventory.entries);
   if (
     mode === "--require-complete" &&
     completedInventory.entries.some(({ status }) => status !== "approved")
@@ -411,7 +647,7 @@ function main() {
   }
 
   console.log("Parity inventory and status baseline are current.");
-  console.log(report.split("\n").slice(0, 5).join("\n"));
+  console.log(report);
 }
 
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {

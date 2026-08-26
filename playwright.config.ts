@@ -1,24 +1,29 @@
+import { delimiter, dirname } from "node:path";
 import { defineConfig, devices } from "@playwright/test";
 
 export const referenceBaseUrl = "http://127.0.0.1:4000/ui";
 export const targetBaseUrl = "http://127.0.0.1:4173";
 
-// biome-ignore lint/suspicious/noUndeclaredEnvVars: this optional command is an explicit local/CI harness input.
-const referenceCommand = process.env.COSS_REFERENCE_COMMAND?.trim();
+const referenceCommand =
+  // biome-ignore lint/suspicious/noUndeclaredEnvVars: CI may override the pnpm-only temporary reference launcher.
+  process.env.COSS_REFERENCE_COMMAND?.trim() || "exec node scripts/parity/start-reference.mts";
+const webServerEnvironment = {
+  ...process.env,
+  PATH: [dirname(process.execPath), process.env.PATH].filter(Boolean).join(delimiter),
+};
 const webServer = [
-  ...(referenceCommand
-    ? [
-        {
-          command: referenceCommand,
-          url: referenceBaseUrl,
-          reuseExistingServer: !process.env.CI,
-          timeout: 180_000,
-        },
-      ]
-    : []),
+  {
+    command: referenceCommand,
+    env: webServerEnvironment,
+    gracefulShutdown: { signal: "SIGTERM", timeout: 10_000 },
+    url: referenceBaseUrl,
+    reuseExistingServer: !process.env.CI,
+    timeout: 300_000,
+  },
   {
     command:
       "pnpm --filter @coss-sv/ui build && pnpm --filter @coss-sv/docs build && pnpm --filter @coss-sv/docs preview --host 127.0.0.1 --port 4173",
+    env: webServerEnvironment,
     url: `${targetBaseUrl}/preview/_health`,
     reuseExistingServer: !process.env.CI,
     timeout: 180_000,
@@ -48,6 +53,7 @@ export default defineConfig({
     trace: "retain-on-failure",
     screenshot: "only-on-failure",
     video: "retain-on-failure",
+    serviceWorkers: "block",
   },
   projects: [
     {

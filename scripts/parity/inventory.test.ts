@@ -1,13 +1,21 @@
 import assert from "node:assert/strict";
+import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { dirname, join } from "node:path";
 import test from "node:test";
 
 import {
   applyStatusBaseline,
   collectReferenceInventory,
-  formatMissingReport,
+  collectTargetManifests,
+  compareTargetManifests,
+  createAllMissingBaseline,
+  formatOutstandingReport,
   loadStatusBaseline,
   renderInventory,
+  targetManifestDefinitions,
   validateStatusBaseline,
+  validateTargetManifestParity,
 } from "./inventory.mts";
 
 const inventory = collectReferenceInventory();
@@ -41,7 +49,12 @@ test("derives every particle component link from its source imports", () => {
 test("requires an explicit status for every source entry", () => {
   assert.doesNotThrow(() => validateStatusBaseline(inventory.entries, baseline));
   assert.equal(baseline.entries.length, 626);
-  assert.ok(baseline.entries.every(({ status }) => status === "missing"));
+  assert.equal(
+    baseline.entries.filter(({ status }) =>
+      ["missing", "implemented", "reviewed", "approved"].includes(status),
+    ).length,
+    baseline.entries.length,
+  );
 
   assert.throws(
     () =>
@@ -64,17 +77,165 @@ test("requires an explicit status for every source entry", () => {
   );
 });
 
-test("reports every planned missing item without truncation", () => {
-  const output = formatMissingReport(entries);
+test("allows deliberate status promotion without weakening the checked-in schema", () => {
+  const fixture = createAllMissingBaseline(inventory.entries);
+  fixture.entries[0] = { ...fixture.entries[0], status: "implemented" };
+  fixture.entries[1] = { ...fixture.entries[1], status: "reviewed" };
+  fixture.entries[2] = { ...fixture.entries[2], status: "approved" };
 
-  for (const entry of entries) {
+  assert.doesNotThrow(() => validateStatusBaseline(inventory.entries, fixture));
+  assert.deepEqual(
+    applyStatusBaseline(inventory.entries, fixture)
+      .slice(0, 3)
+      .map(({ status }) => status),
+    ["implemented", "reviewed", "approved"],
+  );
+});
+
+test("reports every non-approved item by real status without truncation", () => {
+  const fixture = createAllMissingBaseline(inventory.entries);
+  fixture.entries[0] = { ...fixture.entries[0], status: "implemented" };
+  fixture.entries[1] = { ...fixture.entries[1], status: "reviewed" };
+  fixture.entries[2] = { ...fixture.entries[2], status: "approved" };
+  const fixtureEntries = applyStatusBaseline(inventory.entries, fixture);
+  const output = formatOutstandingReport(fixtureEntries);
+
+  for (const entry of fixtureEntries.filter(({ status }) => status !== "approved")) {
     assert.match(output, new RegExp(`^\\- ${entry.kind}:${entry.id}$`, "m"));
   }
+
+  assert.doesNotMatch(
+    output,
+    new RegExp(`^\\- ${fixtureEntries[2]?.kind}:${fixtureEntries[2]?.id}$`, "m"),
+  );
+  assert.match(output, /missing: 623/);
+  assert.match(output, /implemented: 1/);
+  assert.match(output, /reviewed: 1/);
+  assert.match(output, /approved: 1/);
+  assert.match(output, /total: 625/);
+  assert.match(output, /## implemented \(1\)/);
+  assert.match(output, /## reviewed \(1\)/);
+});
+
+test("reports the foundation all-missing fixture independently of promoted project state", () => {
+  const fixtureEntries = applyStatusBaseline(
+    inventory.entries,
+    createAllMissingBaseline(inventory.entries),
+  );
+  const output = formatOutstandingReport(fixtureEntries);
 
   assert.match(output, /components: 54/);
   assert.match(output, /docs: 64/);
   assert.match(output, /particles: 508/);
   assert.match(output, /total: 626/);
+});
+
+test("never reports total zero while implemented or reviewed work remains", () => {
+  const fixture = createAllMissingBaseline(inventory.entries);
+  for (const entry of fixture.entries) entry.status = "approved";
+  fixture.entries[0] = { ...fixture.entries[0], status: "implemented" };
+  fixture.entries[1] = { ...fixture.entries[1], status: "reviewed" };
+  const output = formatOutstandingReport(applyStatusBaseline(inventory.entries, fixture));
+
+  assert.match(output, /missing: 0/);
+  assert.match(output, /implemented: 1/);
+  assert.match(output, /reviewed: 1/);
+  assert.match(output, /total: 2/);
+  assert.match(output, /## implemented \(1\)/);
+  assert.match(output, /## reviewed \(1\)/);
+});
+
+test("reads only canonical exported manifests and compares exact target IDs", () => {
+  const root = mkdtempSync(join(tmpdir(), "coss-sv-target-manifests-"));
+
+  try {
+    const sources = new Map([
+      [
+        "component",
+        `const inert = [{ name: "inert-component" }];\nexport const registryUi = defineRegistryItems([{ name: "accordion" }, { name: "renamed-button" }]);\n`,
+      ],
+      [
+        "particle",
+        `export const registryParticles = defineRegistryItems([{ name: "p-accordion-1" }, { name: "p-accordion-1" }]);\n`,
+      ],
+      [
+        "doc",
+        `export const docsManifest = defineDocsManifest([{ id: "components/accordion" }]);\n`,
+      ],
+    ]);
+
+    for (const definition of targetManifestDefinitions) {
+      const source = sources.get(definition.kind);
+      assert.ok(source);
+      const path = join(root, definition.path);
+      mkdirSync(dirname(path), { recursive: true });
+      writeFileSync(path, source);
+    }
+
+    const manifests = collectTargetManifests(root);
+    const expected = [
+      { id: "accordion", kind: "component", status: "missing" },
+      { id: "button", kind: "component", status: "missing" },
+      { id: "p-accordion-1", kind: "particle", status: "missing" },
+      { id: "components/accordion", kind: "doc", status: "missing" },
+    ].map((entry) => ({ ...entry, sourcePaths: [], targetPaths: [] })) as typeof inventory.entries;
+    const comparison = compareTargetManifests(expected, manifests);
+
+    assert.deepEqual(comparison.component.missing, ["button"]);
+    assert.deepEqual(comparison.component.extra, ["renamed-button"]);
+    assert.deepEqual(comparison.particle.duplicates, ["p-accordion-1"]);
+    assert.ok(!manifests.component.ids.includes("inert-component"));
+    assert.throws(
+      () => validateTargetManifestParity(expected, manifests),
+      /Extra: component:renamed-button.*Duplicates: particle:p-accordion-1/s,
+    );
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test("allows absent foundation manifests but requires membership before promotion", () => {
+  const root = mkdtempSync(join(tmpdir(), "coss-sv-empty-manifests-"));
+
+  try {
+    const categoriesPath = join(root, "apps/ui/src/lib/site/categories.ts");
+    mkdirSync(dirname(categoriesPath), { recursive: true });
+    writeFileSync(
+      categoriesPath,
+      'export const componentCategories = [{ slug: "accordion", name: "Accordion" }];\n',
+    );
+    const manifests = collectTargetManifests(root);
+    const expected = [
+      {
+        id: "accordion",
+        kind: "component",
+        sourcePaths: [],
+        targetPaths: ["packages/ui/src/components/ui/accordion"],
+        status: "missing",
+      },
+      {
+        id: "components/accordion",
+        kind: "doc",
+        sourcePaths: [],
+        targetPaths: ["apps/ui/content/docs/components/accordion.md"],
+        status: "missing",
+      },
+    ] as typeof inventory.entries;
+
+    assert.deepEqual(compareTargetManifests(expected, manifests).component.missing, ["accordion"]);
+    assert.equal(manifests.doc.exists, false, "homepage categories are not the D1 docs manifest");
+    assert.doesNotThrow(() => validateTargetManifestParity(expected, manifests));
+    assert.throws(
+      () => validateTargetManifestParity([{ ...expected[0], status: "implemented" }], manifests),
+      /component:accordion is implemented but absent from apps\/ui\/registry\/registry-ui.ts/,
+    );
+    assert.throws(
+      () => validateTargetManifestParity([{ ...expected[1], status: "reviewed" }], manifests),
+      /doc:components\/accordion is reviewed but absent from apps\/ui\/src\/lib\/content\/docs-manifest.ts/,
+    );
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
 });
 
 test("renders every source, target, status, and particle component map", () => {

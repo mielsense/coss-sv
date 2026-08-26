@@ -4,14 +4,7 @@ import { playwright } from "@vitest/browser-playwright";
 import { defineConfig } from "vitest/config";
 
 export default defineConfig({
-  plugins: [
-    svelte({
-      compilerOptions: {
-        runes: true,
-      },
-    }),
-    svelteTesting({ resolveBrowser: false }),
-  ],
+  plugins: [svelte(), svelteTesting({ resolveBrowser: false })],
   test: {
     expect: {
       requireAssertions: true,
