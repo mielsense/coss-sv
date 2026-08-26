@@ -1,4 +1,4 @@
-import { access, mkdir, mkdtemp, rm, writeFile } from "node:fs/promises";
+import { access, mkdir, mkdtemp, readdir, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { afterEach, describe, expect, test } from "vitest";
@@ -117,6 +117,21 @@ describe("registry validation", () => {
     );
   });
 
+  test.each([
+    "react",
+    "npm:react@19.0.0",
+    "compat@npm:react@19.0.0",
+    "compat@npm:@base-ui-components/react@1.0.0",
+    "@scope/compat@npm:@base-ui/react@1.0.0",
+  ])("rejects forbidden non-local registry dependency %s", async (dependency) => {
+    const { root, sourcePath } = await makeSource();
+    const invalid = { ...item(sourcePath), registryDependencies: [dependency] };
+
+    await expect(
+      validateRegistry(definition(invalid), { allowedSourceRoots: [root] }),
+    ).rejects.toThrow("forbidden dependency");
+  });
+
   test("rejects destinations outside configured aliases", async () => {
     const { root, sourcePath } = await makeSource();
     const invalid = item(sourcePath);
@@ -187,7 +202,7 @@ describe("registry validation", () => {
   });
 });
 
-test("validated CLI build contains item output and blocks escaping names", async () => {
+test("validated CLI build reads its registry file and blocks escaping names", async () => {
   const { root, sourcePath } = await makeSource("registry/safe-item.svelte");
   const registryPath = join(root, "registry.json");
   const outputPath = join(root, "output");
@@ -199,7 +214,7 @@ test("validated CLI build contains item output and blocks escaping names", async
   );
   await writeFile(registryPath, `${JSON.stringify(safeRegistry, null, 2)}\n`, "utf8");
 
-  await buildValidatedRegistry(safeRegistry, {
+  await buildValidatedRegistry({
     registryPath,
     outputPath,
     validation: { allowedSourceRoots: [root], projectRoot: root },
@@ -207,11 +222,14 @@ test("validated CLI build contains item output and blocks escaping names", async
   });
   await expect(access(join(outputPath, "safe-item.json"))).resolves.toBeUndefined();
   await expect(access(join(outputPath, "index.json"))).resolves.toBeUndefined();
+  await expect(readdir(root)).resolves.not.toContainEqual(
+    expect.stringMatching(/^\.registry\.json\.validated-/),
+  );
 
   const escapingRegistry = definition({ ...item(sourcePath), name: "../escaped" });
   await writeFile(registryPath, `${JSON.stringify(escapingRegistry, null, 2)}\n`, "utf8");
   await expect(
-    buildValidatedRegistry(escapingRegistry, {
+    buildValidatedRegistry({
       registryPath,
       outputPath,
       validation: { allowedSourceRoots: [root], projectRoot: root },

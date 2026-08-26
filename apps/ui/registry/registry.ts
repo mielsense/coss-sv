@@ -237,6 +237,10 @@ export async function validateRegistry(
       ...(item.dependencies ?? []),
       ...(item.devDependencies ?? []),
     ]);
+    validateDependencies(
+      `Registry item ${item.name} registryDependencies`,
+      item.registryDependencies.filter((dependency) => !dependency.startsWith("local:")),
+    );
 
     for (const file of item.files) {
       if (!isRegistryFileType(file.type)) {
