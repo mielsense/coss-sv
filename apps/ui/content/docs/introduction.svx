@@ -1,0 +1,22 @@
+<svelte:head>
+  <title>Introduction | COSS for Svelte</title>
+  <meta name="description" content="Start using the COSS component library in a Svelte 5 app." />
+</svelte:head>
+
+<p class="eyebrow">Documentation</p>
+
+# Introduction
+
+COSS for Svelte ports the COSS component library to Svelte 5. Components keep the upstream visual
+design while their public APIs follow current Svelte and Shards UI conventions.
+
+The component port is in progress. The registry command will be documented once the first reviewed
+component ships.
+
+```svelte
+<script lang="ts">
+  import { Button } from "$lib/components/ui/button/index.js";
+</script>
+
+<Button>Save changes</Button>
+```
