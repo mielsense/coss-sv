@@ -1,0 +1,34 @@
+packages:
+  - apps/*
+  - packages/*
+
+catalogs:
+  dev:
+    '@playwright/test': 1.62.1
+    '@sveltejs/adapter-vercel': 6.3.4
+    '@sveltejs/kit': 2.70.3
+    '@sveltejs/package': 2.5.8
+    '@sveltejs/vite-plugin-svelte': 7.3.0
+    '@tailwindcss/vite': 4.3.3
+    '@types/node': ^24.0.0
+    '@vitest/browser': 4.1.11
+    '@vitest/browser-playwright': 4.1.11
+    mdsvex: 0.12.8
+    playwright: 1.62.1
+    shiki: 4.4.3
+    svelte: 5.56.10
+    svelte-check: 4.7.6
+    tailwindcss: 4.3.3
+    tsx: 4.23.12
+    typescript: 6.0.3
+    vite: 8.2.2
+    vitest: 4.1.11
+
+allowBuilds:
+  '@tailwindcss/oxide': true
+  esbuild: true
+
+onlyBuiltDependencies:
+  - '@tailwindcss/oxide'
+  - esbuild
+

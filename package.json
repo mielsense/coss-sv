@@ -1,0 +1,35 @@
+{
+  "name": "coss-sv",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@10.22.0",
+  "engines": {
+    "node": ">=22.18 <25"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mielsense/coss-sv.git"
+  },
+  "scripts": {
+    "build": "turbo run build",
+    "check": "turbo run check",
+    "ci": "pnpm verify && pnpm test && pnpm build",
+    "dev": "turbo run dev --parallel",
+    "format": "biome format --write .",
+    "format:check": "biome format .",
+    "lint": "biome lint .",
+    "registry:build": "pnpm --filter @coss-sv/docs registry:build",
+    "registry:check": "pnpm --filter @coss-sv/docs registry:check",
+    "test": "pnpm test:repo && turbo run test",
+    "test:e2e": "pnpm --filter @coss-sv/docs test:e2e",
+    "test:repo": "node --test scripts/*.test.ts",
+    "verify": "pnpm test:repo && pnpm format:check && pnpm lint && pnpm check && pnpm registry:check"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.5.10",
+    "turbo": "2.10.12",
+    "typescript": "6.0.3"
+  }
+}
