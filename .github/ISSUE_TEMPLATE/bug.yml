@@ -1,0 +1,42 @@
+name: Bug report
+description: Report a reproducible problem in the Svelte package or documentation site.
+title: "bug: "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: Do not report security vulnerabilities here. Use private vulnerability reporting instead.
+  - type: input
+    id: component
+    attributes:
+      label: Component or route
+      placeholder: accordion or /docs/components/accordion
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction
+      description: Include a minimal repository, registry item, or exact steps.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+    validations:
+      required: true
+  - type: input
+    id: versions
+    attributes:
+      label: Versions
+      description: Include coss-sv, Svelte, SvelteKit, browser, Node.js, and pnpm versions.
+    validations:
+      required: true
+

@@ -1,0 +1,26 @@
+name: Feature request
+description: Propose work that is outside current COSS parity.
+title: "feature: "
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: Explain the consumer problem rather than only the proposed API.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed change
+    validations:
+      required: true
+  - type: textarea
+    id: parity
+    attributes:
+      label: Effect on COSS parity
+      description: State whether COSS already has this behavior and link the reference when it does.
+    validations:
+      required: true
+

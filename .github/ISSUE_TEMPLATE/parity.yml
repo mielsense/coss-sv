@@ -1,0 +1,45 @@
+name: Reference parity problem
+description: Report a visible, interaction, keyboard, or accessibility difference from COSS.
+title: "parity: "
+labels: [parity]
+body:
+  - type: input
+    id: component
+    attributes:
+      label: Component or example ID
+    validations:
+      required: true
+  - type: input
+    id: reference
+    attributes:
+      label: COSS reference route
+    validations:
+      required: true
+  - type: input
+    id: target
+    attributes:
+      label: Svelte route
+    validations:
+      required: true
+  - type: dropdown
+    id: category
+    attributes:
+      label: Difference type
+      options:
+        - Visual styling or layout
+        - Pointer interaction
+        - Keyboard or focus behavior
+        - Accessibility semantics
+        - Responsive behavior
+        - Motion or reduced motion
+        - Example content or source
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence
+      description: Include viewport, theme, state, measurements, screenshots, DOM, or accessibility output.
+    validations:
+      required: true
+

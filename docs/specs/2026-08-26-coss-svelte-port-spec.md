@@ -121,7 +121,7 @@ The initial baseline follows the current local Shards UI toolchain so the wrappe
 | Framework | Svelte `5.56.10`, SvelteKit `2.70.3` |
 | Build | Vite `8.2.2`, `@sveltejs/vite-plugin-svelte` `7.3.0` |
 | Language | TypeScript `^6.0.3`, strict mode |
-| Headless primitives | `@shardsui/svelte` `0.1.0-beta.1`, pinned exactly until stable |
+| Headless primitives | Published `@shardsui/svelte` `0.1.0-beta.0`, pinned exactly, with local `0.1.0-beta.1` source used for inspection and guarded by compatibility tests until it is published |
 | Styling | Tailwind CSS 4, CSS custom properties, upstream COSS class strings |
 | Formatting and linting | Biome `2.5.10` with Svelte full support enabled |
 | Static analysis | `svelte-check` `4.7.6` |
