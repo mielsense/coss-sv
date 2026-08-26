@@ -32,6 +32,10 @@ a {
 
 .site-shell {
   --site-primary: #ff3e00;
+  --site-primary-foreground: #171717;
+  --site-accent-foreground: #c93200;
+  --site-background: #fafafa;
+  --site-foreground: #171717;
   --site-border: #e5e5e5;
   --site-muted: #737373;
   --site-panel: #ffffff;
@@ -43,8 +47,8 @@ a {
       color-mix(in srgb, var(--site-primary) 12%, transparent),
       transparent 36rem
     ),
-    #fafafa;
-  color: #171717;
+    var(--site-background);
+  color: var(--site-foreground);
 }
 
 .site-header,
@@ -82,11 +86,10 @@ a {
   text-underline-offset: 0.25em;
 }
 
+.site-brand:hover,
 .site-nav a:hover,
-.site-nav a:focus-visible,
-.site-footer a:hover,
-.site-footer a:focus-visible {
-  color: var(--site-primary);
+.site-footer a:hover {
+  color: var(--site-accent-foreground);
 }
 
 .site-main {
@@ -100,9 +103,10 @@ a {
   padding-block: clamp(5rem, 13vw, 10rem);
 }
 
-.eyebrow {
+.eyebrow,
+.content-page .eyebrow {
   margin: 0;
-  color: var(--site-primary);
+  color: var(--site-accent-foreground);
   font-size: 0.8125rem;
   font-weight: 650;
   letter-spacing: 0.08em;
@@ -132,7 +136,7 @@ a {
 }
 
 .hero-credit a {
-  color: var(--site-primary);
+  color: var(--site-accent-foreground);
   font-weight: 650;
   text-underline-offset: 0.25em;
 }
@@ -160,13 +164,22 @@ a {
 .site-button[data-primary="true"] {
   border-color: var(--site-primary);
   background: var(--site-primary);
-  color: #ffffff;
+  color: var(--site-primary-foreground);
 }
 
-.site-button:hover,
-.site-button:focus-visible {
+.site-button:hover {
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--site-primary) 22%, transparent);
-  outline: none;
+}
+
+.site-brand:focus-visible,
+.site-nav a:focus-visible,
+.site-footer a:focus-visible,
+.hero-credit a:focus-visible,
+.content-page a:focus-visible,
+.site-button:focus-visible {
+  border-radius: 0.125rem;
+  outline: 2px solid var(--site-accent-foreground);
+  outline-offset: 3px;
 }
 
 .content-page {
@@ -249,7 +262,10 @@ a {
   }
 
   .site-shell {
+    --site-accent-foreground: #ff3e00;
+    --site-background: #0a0a0a;
     --site-border: #262626;
+    --site-foreground: #f5f5f5;
     --site-muted: #a3a3a3;
     --site-panel: #171717;
 
@@ -259,8 +275,8 @@ a {
         color-mix(in srgb, var(--site-primary) 17%, transparent),
         transparent 36rem
       ),
-      #0a0a0a;
-    color: #f5f5f5;
+      var(--site-background);
+    color: var(--site-foreground);
   }
 
   .shiki,

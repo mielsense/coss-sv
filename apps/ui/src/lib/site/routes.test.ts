@@ -43,7 +43,7 @@ describe("theme boundaries", () => {
 
     expect(appCss).toMatch(/\.site-shell\s*\{[^}]*--site-primary:\s*#ff3e00;/s);
     expect(appCss).not.toMatch(/--primary:\s*#ff3e00/);
-    expect(previewCss).not.toContain("--site-primary");
+    expect(previewCss).not.toContain("--site-");
     expect(previewCss).toMatch(/\.preview-canvas\s*\{[^}]*--primary:/s);
   });
 
