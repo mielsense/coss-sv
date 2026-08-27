@@ -9,6 +9,20 @@ afterEach(() => {
   document.body.innerHTML = "";
 });
 describe("Sheet browser contract", () => {
+  test("resets edited form values after close and preserves the COSS Button close slot", async () => {
+    render(Fixture);
+    const trigger = page.getByRole("button", { name: "Open right" });
+    await trigger.click();
+    await expect.element(page.getByLabelText("Close")).toHaveAttribute("data-slot", "button");
+    const name = page.getByLabelText("Sheet seed 1");
+    await name.fill("Edited sheet name");
+    await expect.element(name).toHaveValue("Edited sheet name");
+    document.querySelector<HTMLButtonElement>('[data-slot="sheet-close"]')?.click();
+    await expect.element(page.getByTestId("sheet-popup")).not.toBeInTheDocument();
+    await trigger.click();
+    await expect.element(page.getByLabelText("Sheet seed 1")).toHaveValue("Margaret Welsh");
+  });
+
   test("supports detached handles and typed payload content", async () => {
     render(Fixture);
     await page.getByRole("button", { name: "Open detached sheet" }).click();

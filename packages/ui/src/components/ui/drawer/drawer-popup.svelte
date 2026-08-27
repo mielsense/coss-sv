@@ -91,6 +91,7 @@ const classes = $derived(
           <D.Close
             aria-label="Close"
             class={buttonVariants({ class: "absolute end-2 top-2", size: "icon", variant: "ghost" })}
+            data-slot="button"
             ><svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"

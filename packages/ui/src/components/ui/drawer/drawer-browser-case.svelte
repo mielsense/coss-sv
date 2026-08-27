@@ -5,7 +5,7 @@ import Input from "../input/input.svelte";
 let { position }: { position: DrawerPosition } = $props();
 let open = $state(false);
 let snapPoint = $state<number | string | null>("100px");
-let values = $state([
+const initialValues = [
   "Bora Baloglu",
   "bora@example.com",
   "Margaret Welsh",
@@ -14,11 +14,15 @@ let values = $state([
   "@maggie.welsh",
   "Margaret Welsh",
   "@maggie.welsh",
-]);
+] as const;
+function setOpen(next: boolean) {
+  open = next;
+}
 </script>
 {#if position === "bottom"}
   <Drawer.Root
-    bind:open
+    {open}
+    onOpenChange={setOpen}
     {position}
     bind:snapPoint
     snapPoints={["100px", "200px", 1]}
@@ -26,6 +30,7 @@ let values = $state([
   >
     <Drawer.Trigger>Open {position} drawer</Drawer.Trigger>
     <Drawer.Popup data-position={position} data-testid={`${position}-drawer`} showBar>
+      {const values = $state<string[]>([...initialValues])}
       <Drawer.Header
         ><Drawer.Title>{position} drawer</Drawer.Title
         ><Drawer.Description>{position} content.</Drawer.Description></Drawer.Header
@@ -51,7 +56,7 @@ let values = $state([
     </Drawer.Popup>
   </Drawer.Root>
 {:else}
-  <Drawer.Root bind:open {position}
+  <Drawer.Root {open} onOpenChange={setOpen} {position}
     ><Drawer.Trigger>Open {position} drawer</Drawer.Trigger
     ><Drawer.Popup
       data-position={position}

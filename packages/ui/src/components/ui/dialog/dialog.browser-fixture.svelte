@@ -3,18 +3,22 @@ import * as Dialog from "./index.js";
 import Input from "../input/input.svelte";
 let dialogOpen = $state(false);
 let nestedOpen = $state(false);
-let values = $state([
+const initialValues = [
   "Margaret Welsh",
   "@maggie.welsh",
   "Bora Baloglu",
   "bora@example.com",
   "Margaret Welsh",
   "@maggie.welsh",
-]);
+] as const;
+function setDialogOpen(next: boolean) {
+  dialogOpen = next;
+}
 </script>
-<Dialog.Root bind:open={dialogOpen} onOpenChange={(next) => (dialogOpen = next)}>
+<Dialog.Root open={dialogOpen} onOpenChange={setDialogOpen}>
   <Dialog.Trigger>Open dialog</Dialog.Trigger>
   <Dialog.Popup>
+    {const values = $state<string[]>([...initialValues])}
     <Dialog.Header
       ><Dialog.Title>Profile</Dialog.Title
       ><Dialog.Description>Edit your profile.</Dialog.Description></Dialog.Header

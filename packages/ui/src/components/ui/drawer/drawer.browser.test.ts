@@ -5,6 +5,11 @@ import { render } from "vitest-browser-svelte";
 import Fixture from "./drawer.browser-fixture.svelte";
 import HydrationFixture from "./drawer.hydration-fixture.svelte";
 import { drawerSsrHtml } from "./drawer.hydration-html.js";
+function getTransformScale(element: HTMLElement | null): number {
+  if (!element) throw new Error("Drawer popup did not mount.");
+  const transform = getComputedStyle(element).transform;
+  return transform === "none" ? 1 : new DOMMatrixReadOnly(transform).a;
+}
 function pointerDrag(target: HTMLElement, deltaX: number, deltaY: number, pointerId: number): void {
   const rect = target.getBoundingClientRect();
   const startX = rect.left + rect.width / 2;
@@ -131,7 +136,22 @@ describe("Drawer browser contract", () => {
     await page.getByRole("button", { name: "Open detached drawer" }).click();
     await expect.element(page.getByRole("dialog", { name: "Detached drawer" })).toBeVisible();
     await expect.element(page.getByText("Detached drawer payload")).toBeVisible();
+    await expect.element(page.getByLabelText("Close")).toHaveAttribute("data-slot", "button");
     await page.getByRole("button", { name: "Close detached drawer" }).click();
+  });
+  test("resets edited form values after close and reopen", async () => {
+    render(Fixture);
+    const trigger = page.getByRole("button", { name: "Open bottom drawer" });
+    await trigger.click();
+    const name = page.getByLabelText("Drawer seed 1");
+    await name.fill("Edited drawer name");
+    await expect.element(name).toHaveValue("Edited drawer name");
+    await page.getByRole("button", { name: "Close bottom" }).click();
+    await expect
+      .element(page.getByRole("dialog", { name: "bottom drawer" }))
+      .not.toBeInTheDocument();
+    await trigger.click();
+    await expect.element(page.getByLabelText("Drawer seed 1")).toHaveValue("Bora Baloglu");
   });
   test("renders each direction, traps focus, dismisses, and restores focus", async () => {
     render(Fixture);
@@ -209,17 +229,23 @@ describe("Drawer browser contract", () => {
     await expect.element(page.getByTestId("bottom-state")).toHaveTextContent("true:200px");
     pointerSwipe(header, 0, -24, 22);
     await expect.element(page.getByTestId("bottom-state")).toHaveTextContent("true:1");
-    await page.getByRole("button", { name: "Open nested drawer" }).click();
+    const parentScale = getTransformScale(popup);
+    const nestedTrigger = page.getByRole("button", { name: "Open nested drawer" });
+    await nestedTrigger.click();
     await expect.element(page.getByRole("dialog", { name: "Nested drawer" })).toBeVisible();
     expect(document.querySelectorAll('[data-slot="drawer-popup"]')).toHaveLength(2);
     expect(popup?.hasAttribute("data-nested-drawer-open")).toBe(true);
     expect(popup?.style.getPropertyValue("--nested-drawers")).toBe("1");
+    await expect.poll(() => getTransformScale(popup)).toBeLessThan(parentScale);
+    const nestedScale = getTransformScale(popup);
     await userEvent.keyboard("{Escape}");
     await expect
       .element(page.getByRole("dialog", { name: "Nested drawer" }))
       .not.toBeInTheDocument();
     await expect.poll(() => popup?.hasAttribute("data-nested-drawer-open")).toBe(false);
     expect(popup?.style.getPropertyValue("--nested-drawers")).toBe("0");
+    await expect.poll(() => getTransformScale(popup)).toBeGreaterThan(nestedScale);
+    await expect.element(nestedTrigger).toHaveFocus();
     await userEvent.keyboard("{Escape}");
   });
 

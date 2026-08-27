@@ -1,18 +1,16 @@
 <script lang="ts">
 import { Button, Field, Form, Input, Sheet, buttonVariants } from "@coss-sv/ui";
 const sides = ["right", "left", "top", "bottom"] as const;
-const profiles = $state([
-  { name: "Margaret Welsh", username: "@maggie.welsh", variant: "default" as const },
-  { name: "Margaret Welsh", username: "@maggie.welsh", variant: "inset" as const },
-]);
+const variants = ["default", "inset"] as const;
 </script>
 <div class="fixture">
-  {#each profiles as profile, index}
+  {#each variants as variant, index}
     <section data-particle={`p-sheet-${index + 1}`}>
       <Sheet.Root
         ><Sheet.Trigger class={buttonVariants({ variant: "outline" })}>Open Sheet</Sheet.Trigger
-        ><Sheet.Popup variant={profile.variant}
-          ><Sheet.Header
+        ><Sheet.Popup {variant}
+          >{const profile = $state({ name: "Margaret Welsh", username: "@maggie.welsh" })}
+          <Sheet.Header
             ><Sheet.Title>Edit profile</Sheet.Title
             ><Sheet.Description
               >Make changes to your profile here. Click save when you're done.</Sheet.Description

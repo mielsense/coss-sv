@@ -14,12 +14,6 @@ let settingsOpen = $state(false);
 let composeOpen = $state(false);
 let confirmOpen = $state(false);
 let message = $state("");
-let firstProfileName = $state("Margaret Welsh");
-let firstProfileUsername = $state("@maggie.welsh");
-let memberName = $state("Bora Baloglu");
-let memberEmail = $state("bora@example.com");
-let bareProfileName = $state("Margaret Welsh");
-let bareProfileUsername = $state("@maggie.welsh");
 function requestCompose(next: boolean) {
   if (!next && message) confirmOpen = true;
   else composeOpen = next;
@@ -34,7 +28,8 @@ function submitCompose(event: SubmitEvent) {
     <Dialog.Root
       ><Dialog.Trigger class={buttonVariants({ variant: "outline" })}>Open Dialog</Dialog.Trigger
       ><Dialog.Popup class="sm:max-w-sm"
-        ><Dialog.Header
+        >{const firstProfile = $state({ name: "Margaret Welsh", username: "@maggie.welsh" })}
+        <Dialog.Header
           ><Dialog.Title>Edit profile</Dialog.Title
           ><Dialog.Description
             >Make changes to your profile here. Click save when you're done.</Dialog.Description
@@ -44,10 +39,10 @@ function submitCompose(event: SubmitEvent) {
           ><Dialog.Panel class="grid gap-4"
             ><Field.Root
               ><Field.Label>Name</Field.Label>
-              <Input bind:value={firstProfileName} type="text" /></Field.Root
+              <Input bind:value={firstProfile.name} type="text" /></Field.Root
             ><Field.Root
               ><Field.Label>Username</Field.Label>
-              <Input bind:value={firstProfileUsername} type="text" /></Field.Root
+              <Input bind:value={firstProfile.username} type="text" /></Field.Root
             ></Dialog.Panel
           ><Dialog.Footer
             ><Dialog.Close class={buttonVariants({ variant: "ghost" })}>Cancel</Dialog.Close
@@ -99,7 +94,8 @@ function submitCompose(event: SubmitEvent) {
             ><Dialog.Trigger class={buttonVariants({ variant: "outline" })}
               >Edit details</Dialog.Trigger
             ><Dialog.Popup showCloseButton={false}
-              ><Dialog.Header
+              >{const member = $state({ email: "bora@example.com", name: "Bora Baloglu" })}
+              <Dialog.Header
                 ><Dialog.Title>Edit details</Dialog.Title
                 ><Dialog.Description
                   >Make changes to the member's information.</Dialog.Description
@@ -107,10 +103,10 @@ function submitCompose(event: SubmitEvent) {
               ><Dialog.Panel class="grid gap-4"
                 ><Field.Root
                   ><Field.Label>Name</Field.Label>
-                  <Input bind:value={memberName} type="text" /></Field.Root
+                  <Input bind:value={member.name} type="text" /></Field.Root
                 ><Field.Root
                   ><Field.Label>Email</Field.Label>
-                  <Input bind:value={memberEmail} type="text" /></Field.Root
+                  <Input bind:value={member.email} type="text" /></Field.Root
                 ></Dialog.Panel
               ><Dialog.Footer
                 ><Dialog.Close class={buttonVariants({ variant: "ghost" })}>Cancel</Dialog.Close
@@ -244,7 +240,8 @@ function submitCompose(event: SubmitEvent) {
     <Dialog.Root
       ><Dialog.Trigger class={buttonVariants({ variant: "outline" })}>Open Dialog</Dialog.Trigger
       ><Dialog.Popup class="sm:max-w-sm"
-        ><Dialog.Header
+        >{const bareProfile = $state({ name: "Margaret Welsh", username: "@maggie.welsh" })}
+        <Dialog.Header
           ><Dialog.Title>Edit profile</Dialog.Title
           ><Dialog.Description
             >Make changes to your profile here. Click save when you're done.</Dialog.Description
@@ -254,10 +251,10 @@ function submitCompose(event: SubmitEvent) {
           ><Dialog.Panel class="grid gap-4"
             ><Field.Root
               ><Field.Label>Name</Field.Label>
-              <Input bind:value={bareProfileName} type="text" /></Field.Root
+              <Input bind:value={bareProfile.name} type="text" /></Field.Root
             ><Field.Root
               ><Field.Label>Username</Field.Label>
-              <Input bind:value={bareProfileUsername} type="text" /></Field.Root
+              <Input bind:value={bareProfile.username} type="text" /></Field.Root
             ></Dialog.Panel
           ><Dialog.Footer variant="bare"
             ><Dialog.Close class={buttonVariants({ variant: "ghost" })}>Cancel</Dialog.Close

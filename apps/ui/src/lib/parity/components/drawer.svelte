@@ -6,14 +6,6 @@ const positions = ["right", "left", "top", "bottom"] as const;
 const boxes = Array.from({ length: 48 }, (_, index) => index);
 const isMobile = new MediaQuery("(max-width: 768px)", false);
 let snapPoint = $state<string | number | null>("300px");
-let nestedMemberName = $state("Bora Baloglu");
-let nestedMemberEmail = $state("bora@example.com");
-let profileName = $state("Margaret Welsh");
-let profileUsername = $state("@maggie.welsh");
-let responsiveDrawerName = $state("Margaret Welsh");
-let responsiveDrawerUsername = $state("@maggie.welsh");
-let responsiveDialogName = $state("Margaret Welsh");
-let responsiveDialogUsername = $state("@maggie.welsh");
 </script>
 
 <div class="fixture">
@@ -178,7 +170,8 @@ let responsiveDialogUsername = $state("@maggie.welsh");
             ><Drawer.Trigger class={buttonVariants({ variant: "outline" })}
               >Edit details</Drawer.Trigger
             ><Drawer.Popup variant="inset"
-              ><Drawer.Header
+              >{const nestedMember = $state({ email: "bora@example.com", name: "Bora Baloglu" })}
+              <Drawer.Header
                 ><Drawer.Title>Edit details</Drawer.Title
                 ><Drawer.Description
                   >Make changes to the member's information.</Drawer.Description
@@ -186,10 +179,10 @@ let responsiveDialogUsername = $state("@maggie.welsh");
               ><Drawer.Panel class="grid gap-4"
                 ><Field.Root
                   ><Field.Label>Name</Field.Label>
-                  <Input bind:value={nestedMemberName} type="text" /></Field.Root
+                  <Input bind:value={nestedMember.name} type="text" /></Field.Root
                 ><Field.Root
                   ><Field.Label>Email</Field.Label>
-                  <Input bind:value={nestedMemberEmail} type="email" /></Field.Root
+                  <Input bind:value={nestedMember.email} type="email" /></Field.Root
                 ></Drawer.Panel
               ><Drawer.Footer
                 ><Drawer.Close class={buttonVariants({ variant: "ghost" })}>Cancel</Drawer.Close
@@ -231,7 +224,8 @@ let responsiveDialogUsername = $state("@maggie.welsh");
           ><Drawer.Trigger class={buttonVariants({ variant: "outline" })}
             >{footerVariant === "default" ? "Default footer" : "Bare footer"}</Drawer.Trigger
           ><Drawer.Popup variant="inset"
-            ><Drawer.Header
+            >{const profile = $state({ name: "Margaret Welsh", username: "@maggie.welsh" })}
+            <Drawer.Header
               ><Drawer.Title>Edit profile</Drawer.Title
               ><Drawer.Description
                 >Make changes to your profile here. Click save when you're done.</Drawer.Description
@@ -241,12 +235,12 @@ let responsiveDialogUsername = $state("@maggie.welsh");
               ><Drawer.Panel class="grid gap-4"
                 ><Field.Root
                   ><Field.Label>Name</Field.Label>
-                  <Input bind:value={profileName} type="text" /></Field.Root
+                  <Input bind:value={profile.name} type="text" /></Field.Root
                 ><Field.Root
                   ><Field.Label>Username</Field.Label>
-                  <Input bind:value={profileUsername} type="text" /></Field.Root
+                  <Input bind:value={profile.username} type="text" /></Field.Root
                 ></Drawer.Panel
-              ><Drawer.Footer variant={footerVariant as "default" | "bare"}
+              ><Drawer.Footer variant={footerVariant}
                 ><Drawer.Close class={buttonVariants({ variant: "ghost" })}>Cancel</Drawer.Close
                 ><Button>Save</Button></Drawer.Footer
               ></Form
@@ -283,7 +277,11 @@ let responsiveDialogUsername = $state("@maggie.welsh");
       <Drawer.Root
         ><Drawer.Trigger class={buttonVariants({ variant: "outline" })}>Open</Drawer.Trigger
         ><Drawer.Popup showBar
-          ><Drawer.Header
+          >{const responsiveDrawer = $state({
+            name: "Margaret Welsh",
+            username: "@maggie.welsh",
+          })}
+          <Drawer.Header
             ><Drawer.Title>Edit profile</Drawer.Title
             ><Drawer.Description
               >Make changes to your profile here. Click save when you're done.</Drawer.Description
@@ -293,10 +291,10 @@ let responsiveDialogUsername = $state("@maggie.welsh");
             ><Drawer.Panel class="grid gap-4" scrollable={false}
               ><Field.Root
                 ><Field.Label>Name</Field.Label>
-                <Input bind:value={responsiveDrawerName} type="text" /></Field.Root
+                <Input bind:value={responsiveDrawer.name} type="text" /></Field.Root
               ><Field.Root
                 ><Field.Label>Username</Field.Label>
-                <Input bind:value={responsiveDrawerUsername} type="text" /></Field.Root
+                <Input bind:value={responsiveDrawer.username} type="text" /></Field.Root
               ></Drawer.Panel
             ><Drawer.Footer
               ><Drawer.Close class={buttonVariants({ variant: "ghost" })}>Cancel</Drawer.Close
@@ -309,7 +307,11 @@ let responsiveDialogUsername = $state("@maggie.welsh");
       <Dialog.Root
         ><Dialog.Trigger class={buttonVariants({ variant: "outline" })}>Open</Dialog.Trigger
         ><Dialog.Popup class="sm:max-w-sm"
-          ><Dialog.Header
+          >{const responsiveDialog = $state({
+            name: "Margaret Welsh",
+            username: "@maggie.welsh",
+          })}
+          <Dialog.Header
             ><Dialog.Title>Edit profile</Dialog.Title
             ><Dialog.Description
               >Make changes to your profile here. Click save when you're done.</Dialog.Description
@@ -319,10 +321,10 @@ let responsiveDialogUsername = $state("@maggie.welsh");
             ><Dialog.Panel class="grid gap-4"
               ><Field.Root
                 ><Field.Label>Name</Field.Label>
-                <Input bind:value={responsiveDialogName} type="text" /></Field.Root
+                <Input bind:value={responsiveDialog.name} type="text" /></Field.Root
               ><Field.Root
                 ><Field.Label>Username</Field.Label>
-                <Input bind:value={responsiveDialogUsername} type="text" /></Field.Root
+                <Input bind:value={responsiveDialog.username} type="text" /></Field.Root
               ></Dialog.Panel
             ><Dialog.Footer
               ><Dialog.Close class={buttonVariants({ variant: "ghost" })}>Cancel</Dialog.Close

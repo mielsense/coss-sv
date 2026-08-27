@@ -18,11 +18,11 @@ Sheet uses Shards Dialog because COSS Sheet is a positioned Dialog. The complete
 
 The Svelte port keeps the COSS Trigger, Close, Backdrop, Viewport, Popup, Header, Footer, Title, Description, and Panel classes and slots. `Popup` defaults to the right side, supports right, left, top, and bottom, and supports the default and inset variants. `Content` and `Overlay` remain aliases.
 
-The public namespace uses `Sheet.Root` and named parts. Named `Sheet*` exports support direct imports. Root, Trigger, Handle, and `createHandle` preserve the Dialog payload generic. `Popup` owns the portal, backdrop, viewport, and optional close button, matching COSS.
+The public namespace uses `Sheet.Root` and named parts. Named `Sheet*` exports support direct imports. Root, Trigger, Handle, and `createHandle` preserve the Dialog payload generic. `Popup` owns the portal, backdrop, viewport, and optional close button, matching COSS. The optional close control keeps the shared Button's `data-slot="button"` marker.
 
 ## Parity checks
 
-The fixture covers the default right sheet, inset sheet, and all four sides. Its four React `defaultValue` controls use initialized Svelte bindings. Automated coverage checks those four values, SSR output, payload types, genuine SSR hydration, detached payloads, focus trap and restoration, escape and backdrop dismissal, side-specific DOM classes, inset classes, callback propagation, and accessible naming.
+The fixture covers the default right sheet, inset sheet, and all four sides. Its four React `defaultValue` controls map to initialized Svelte bindings. Closing either owning Sheet resets its two bindings, so reopening restores the React defaults after an edit. Automated coverage checks the four initial values, an edit and close/reopen reset, the built-in close Button marker, SSR output, payload types, genuine SSR hydration, detached payloads, focus trap and restoration, escape and backdrop dismissal, side-specific DOM classes, inset classes, callback propagation, and accessible naming.
 
 The coordinator inspected the live COSS route at `http://localhost:4000` and the Svelte target at `http://localhost:5410/preview/sheet` in the Codex in-app browser. Geometry, sides, styling, and focus behavior matched.
 

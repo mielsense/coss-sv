@@ -35,7 +35,7 @@ const detached = Drawer.createHandle<{ label: string }>();
 </Drawer.Trigger>
 <Drawer.Root handle={detached}>
   {#snippet children({ payload })}
-    <Drawer.Popup>
+    <Drawer.Popup showCloseButton>
       <Drawer.Title>Detached drawer</Drawer.Title>
       <Drawer.Description>{payload?.label}</Drawer.Description>
       <Drawer.Close>Close detached drawer</Drawer.Close>
@@ -52,5 +52,17 @@ const detached = Drawer.createHandle<{ label: string }>();
 :global([data-slot="drawer-popup"]) {
   position: relative;
   z-index: 1;
+}
+:global([data-testid="bottom-drawer"][data-nested-drawer-open]) {
+  transform: scale(
+    clamp(
+      0,
+      calc(
+        max(0, 1 - (var(--nested-drawers) * 0.05)) +
+        (0.05 * clamp(0, var(--drawer-swipe-progress, 0), 1))
+      ),
+      1
+    )
+  );
 }
 </style>

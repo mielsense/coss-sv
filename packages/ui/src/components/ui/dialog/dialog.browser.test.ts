@@ -12,6 +12,22 @@ afterEach(() => {
 });
 
 describe("Dialog browser contract", () => {
+  test("resets edited form values after close and preserves the COSS Button close slot", async () => {
+    render(Fixture);
+    const trigger = page.getByRole("button", { name: "Open dialog" });
+    await trigger.click();
+    await expect
+      .element(page.getByRole("button", { name: "Close" }))
+      .toHaveAttribute("data-slot", "button");
+    const name = page.getByLabelText("Dialog seed 1");
+    await name.fill("Edited dialog name");
+    await expect.element(name).toHaveValue("Edited dialog name");
+    document.querySelector<HTMLButtonElement>('[data-slot="dialog-close"]')?.click();
+    await expect.element(page.getByRole("dialog", { name: "Profile" })).not.toBeInTheDocument();
+    await trigger.click();
+    await expect.element(page.getByLabelText("Dialog seed 1")).toHaveValue("Margaret Welsh");
+  });
+
   test("supports detached payloads and controlled close veto", async () => {
     render(AdvancedFixture);
     await page.getByRole("button", { name: "Open detached" }).click();

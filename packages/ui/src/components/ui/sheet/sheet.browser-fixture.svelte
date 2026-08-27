@@ -4,19 +4,23 @@ import type { SheetSide } from "./index.js";
 import Input from "../input/input.svelte";
 let open = $state(false);
 let side = $state<SheetSide>("right");
-let values = $state(["Margaret Welsh", "@maggie.welsh", "Margaret Welsh", "@maggie.welsh"]);
+const initialValues = ["Margaret Welsh", "@maggie.welsh", "Margaret Welsh", "@maggie.welsh"];
 const detached = Sheet.createHandle<{ label: string }>();
 function show(next: SheetSide) {
   side = next;
   open = true;
 }
+function setOpen(next: boolean) {
+  open = next;
+}
 </script>
 {#each ["right", "left", "top", "bottom"] as item}
   <button type="button" onclick={() => show(item as SheetSide)}>Open {item}</button>
 {/each}
-<Sheet.Root bind:open
+<Sheet.Root {open} onOpenChange={setOpen}
   ><Sheet.Popup {side} variant="inset" data-testid="sheet-popup"
-    ><Sheet.Header
+    >{const values = $state([...initialValues])}
+    <Sheet.Header
       ><Sheet.Title>{side} sheet</Sheet.Title
       ><Sheet.Description>Sheet content.</Sheet.Description></Sheet.Header
     ><Sheet.Panel
