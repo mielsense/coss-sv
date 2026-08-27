@@ -1,0 +1,4632 @@
+{
+  "version": 1,
+  "counts": {
+    "componentPages": 55,
+    "hookPages": 2,
+    "particles": 508,
+    "registryComponents": 54,
+    "rootPages": 7
+  },
+  "ownership": [
+    {
+      "particle": "p-accordion-1",
+      "primaryPage": "components/accordion",
+      "consumingPages": ["components/accordion"],
+      "componentImports": ["accordion"],
+      "implementationLane": "D4",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-accordion-1.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-accordion-1.svelte"
+    },
+    {
+      "particle": "p-accordion-2",
+      "primaryPage": "components/accordion",
+      "consumingPages": ["components/accordion"],
+      "componentImports": ["accordion"],
+      "implementationLane": "D4",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-accordion-2.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-accordion-2.svelte"
+    },
+    {
+      "particle": "p-accordion-3",
+      "primaryPage": "components/accordion",
+      "consumingPages": ["components/accordion"],
+      "componentImports": ["accordion"],
+      "implementationLane": "D4",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-accordion-3.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-accordion-3.svelte"
+    },
+    {
+      "particle": "p-accordion-4",
+      "primaryPage": "components/accordion",
+      "consumingPages": ["components/accordion"],
+      "componentImports": ["accordion", "button"],
+      "implementationLane": "D4",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-accordion-4.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-accordion-4.svelte"
+    },
+    {
+      "particle": "p-alert-1",
+      "primaryPage": "components/alert",
+      "consumingPages": ["components/alert"],
+      "componentImports": ["alert"],
+      "implementationLane": "D10",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-alert-1.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-alert-1.svelte"
+    },
+    {
+      "particle": "p-alert-2",
+      "primaryPage": "components/alert",
+      "consumingPages": ["components/alert"],
+      "componentImports": ["alert"],
+      "implementationLane": "D10",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-alert-2.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-alert-2.svelte"
+    },
+    {
+      "particle": "p-alert-3",
+      "primaryPage": "components/alert",
+      "consumingPages": ["components/alert"],
+      "componentImports": ["alert", "button"],
+      "implementationLane": "D10",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-alert-3.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-alert-3.svelte"
+    },
+    {
+      "particle": "p-alert-4",
+      "primaryPage": "components/alert",
+      "consumingPages": ["components/alert"],
+      "componentImports": ["alert"],
+      "implementationLane": "D10",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-alert-4.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-alert-4.svelte"
+    },
+    {
+      "particle": "p-alert-5",
+      "primaryPage": "components/alert",
+      "consumingPages": ["components/alert"],
+      "componentImports": ["alert"],
+      "implementationLane": "D10",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-alert-5.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-alert-5.svelte"
+    },
+    {
+      "particle": "p-alert-6",
+      "primaryPage": "components/alert",
+      "consumingPages": ["components/alert"],
+      "componentImports": ["alert"],
+      "implementationLane": "D10",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-alert-6.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-alert-6.svelte"
+    },
+    {
+      "particle": "p-alert-7",
+      "primaryPage": "components/alert",
+      "consumingPages": ["components/alert"],
+      "componentImports": ["alert"],
+      "implementationLane": "D10",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-alert-7.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-alert-7.svelte"
+    },
+    {
+      "particle": "p-alert-dialog-1",
+      "primaryPage": "components/alert-dialog",
+      "consumingPages": ["components/alert-dialog"],
+      "componentImports": ["alert-dialog", "button"],
+      "implementationLane": "D7",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-alert-dialog-1.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-alert-dialog-1.svelte"
+    },
+    {
+      "particle": "p-alert-dialog-2",
+      "primaryPage": "components/alert-dialog",
+      "consumingPages": ["components/alert-dialog"],
+      "componentImports": ["alert-dialog", "button"],
+      "implementationLane": "D7",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-alert-dialog-2.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-alert-dialog-2.svelte"
+    },
+    {
+      "particle": "p-autocomplete-1",
+      "primaryPage": "components/autocomplete",
+      "consumingPages": ["components/autocomplete"],
+      "componentImports": ["autocomplete"],
+      "implementationLane": "D8",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-autocomplete-1.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-autocomplete-1.svelte"
+    },
+    {
+      "particle": "p-autocomplete-10",
+      "primaryPage": "components/autocomplete",
+      "consumingPages": ["components/autocomplete"],
+      "componentImports": ["autocomplete"],
+      "implementationLane": "D8",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-autocomplete-10.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-autocomplete-10.svelte"
+    },
+    {
+      "particle": "p-autocomplete-11",
+      "primaryPage": "components/autocomplete",
+      "consumingPages": ["components/autocomplete"],
+      "componentImports": ["autocomplete"],
+      "implementationLane": "D8",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-autocomplete-11.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-autocomplete-11.svelte"
+    },
+    {
+      "particle": "p-autocomplete-12",
+      "primaryPage": "components/autocomplete",
+      "consumingPages": ["components/autocomplete"],
+      "componentImports": ["autocomplete", "spinner"],
+      "implementationLane": "D8",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-autocomplete-12.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-autocomplete-12.svelte"
+    },
+    {
+      "particle": "p-autocomplete-13",
+      "primaryPage": "components/autocomplete",
+      "consumingPages": ["components/autocomplete"],
+      "componentImports": ["autocomplete", "button", "field", "form"],
+      "implementationLane": "D8",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-autocomplete-13.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-autocomplete-13.svelte"
+    },
+    {
+      "particle": "p-autocomplete-14",
+      "primaryPage": "components/autocomplete",
+      "consumingPages": ["components/autocomplete"],
+      "componentImports": ["autocomplete"],
+      "implementationLane": "D8",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-autocomplete-14.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-autocomplete-14.svelte"
+    },
+    {
+      "particle": "p-autocomplete-15",
+      "primaryPage": "components/autocomplete",
+      "consumingPages": [],
+      "componentImports": ["autocomplete"],
+      "implementationLane": "D8",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-autocomplete-15.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-autocomplete-15.svelte"
+    },
+    {
+      "particle": "p-autocomplete-16",
+      "primaryPage": "components/autocomplete",
+      "consumingPages": [],
+      "componentImports": ["autocomplete", "spinner"],
+      "implementationLane": "D8",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-autocomplete-16.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-autocomplete-16.svelte"
+    },
+    {
+      "particle": "p-autocomplete-2",
+      "primaryPage": "components/autocomplete",
+      "consumingPages": ["components/autocomplete"],
+      "componentImports": ["autocomplete"],
+      "implementationLane": "D8",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-autocomplete-2.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-autocomplete-2.svelte"
+    },
+    {
+      "particle": "p-autocomplete-3",
+      "primaryPage": "components/autocomplete",
+      "consumingPages": ["components/autocomplete"],
+      "componentImports": ["autocomplete"],
+      "implementationLane": "D8",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-autocomplete-3.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-autocomplete-3.svelte"
+    },
+    {
+      "particle": "p-autocomplete-4",
+      "primaryPage": "components/autocomplete",
+      "consumingPages": ["components/autocomplete"],
+      "componentImports": ["autocomplete"],
+      "implementationLane": "D8",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-autocomplete-4.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-autocomplete-4.svelte"
+    },
+    {
+      "particle": "p-autocomplete-5",
+      "primaryPage": "components/autocomplete",
+      "consumingPages": ["components/autocomplete"],
+      "componentImports": ["autocomplete", "label"],
+      "implementationLane": "D8",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-autocomplete-5.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-autocomplete-5.svelte"
+    },
+    {
+      "particle": "p-autocomplete-6",
+      "primaryPage": "components/autocomplete",
+      "consumingPages": ["components/autocomplete"],
+      "componentImports": ["autocomplete"],
+      "implementationLane": "D8",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-autocomplete-6.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-autocomplete-6.svelte"
+    },
+    {
+      "particle": "p-autocomplete-7",
+      "primaryPage": "components/autocomplete",
+      "consumingPages": ["components/autocomplete"],
+      "componentImports": ["autocomplete"],
+      "implementationLane": "D8",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-autocomplete-7.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-autocomplete-7.svelte"
+    },
+    {
+      "particle": "p-autocomplete-8",
+      "primaryPage": "components/autocomplete",
+      "consumingPages": ["components/autocomplete"],
+      "componentImports": ["autocomplete"],
+      "implementationLane": "D8",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-autocomplete-8.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-autocomplete-8.svelte"
+    },
+    {
+      "particle": "p-autocomplete-9",
+      "primaryPage": "components/autocomplete",
+      "consumingPages": ["components/autocomplete"],
+      "componentImports": ["autocomplete"],
+      "implementationLane": "D8",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-autocomplete-9.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-autocomplete-9.svelte"
+    },
+    {
+      "particle": "p-avatar-1",
+      "primaryPage": "components/avatar",
+      "consumingPages": ["components/avatar"],
+      "componentImports": ["avatar"],
+      "implementationLane": "D10",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-avatar-1.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-avatar-1.svelte"
+    },
+    {
+      "particle": "p-avatar-10",
+      "primaryPage": "components/avatar",
+      "consumingPages": [],
+      "componentImports": ["avatar", "badge"],
+      "implementationLane": "D10",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-avatar-10.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-avatar-10.svelte"
+    },
+    {
+      "particle": "p-avatar-11",
+      "primaryPage": "components/avatar",
+      "consumingPages": [],
+      "componentImports": ["avatar", "badge"],
+      "implementationLane": "D10",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-avatar-11.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-avatar-11.svelte"
+    },
+    {
+      "particle": "p-avatar-12",
+      "primaryPage": "components/avatar",
+      "consumingPages": [],
+      "componentImports": ["avatar"],
+      "implementationLane": "D10",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-avatar-12.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-avatar-12.svelte"
+    },
+    {
+      "particle": "p-avatar-13",
+      "primaryPage": "components/avatar",
+      "consumingPages": [],
+      "componentImports": ["avatar"],
+      "implementationLane": "D10",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-avatar-13.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-avatar-13.svelte"
+    },
+    {
+      "particle": "p-avatar-14",
+      "primaryPage": "components/avatar",
+      "consumingPages": [],
+      "componentImports": ["avatar"],
+      "implementationLane": "D10",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-avatar-14.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-avatar-14.svelte"
+    },
+    {
+      "particle": "p-avatar-2",
+      "primaryPage": "components/avatar",
+      "consumingPages": ["components/avatar"],
+      "componentImports": ["avatar"],
+      "implementationLane": "D10",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-avatar-2.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-avatar-2.svelte"
+    },
+    {
+      "particle": "p-avatar-3",
+      "primaryPage": "components/avatar",
+      "consumingPages": ["components/avatar"],
+      "componentImports": ["avatar"],
+      "implementationLane": "D10",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-avatar-3.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-avatar-3.svelte"
+    },
+    {
+      "particle": "p-avatar-4",
+      "primaryPage": "components/avatar",
+      "consumingPages": ["components/avatar"],
+      "componentImports": ["avatar"],
+      "implementationLane": "D10",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-avatar-4.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-avatar-4.svelte"
+    },
+    {
+      "particle": "p-avatar-5",
+      "primaryPage": "components/avatar",
+      "consumingPages": ["components/avatar"],
+      "componentImports": ["avatar"],
+      "implementationLane": "D10",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-avatar-5.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-avatar-5.svelte"
+    },
+    {
+      "particle": "p-avatar-6",
+      "primaryPage": "components/avatar",
+      "consumingPages": [],
+      "componentImports": ["avatar"],
+      "implementationLane": "D10",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-avatar-6.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-avatar-6.svelte"
+    },
+    {
+      "particle": "p-avatar-7",
+      "primaryPage": "components/avatar",
+      "consumingPages": [],
+      "componentImports": ["avatar"],
+      "implementationLane": "D10",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-avatar-7.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-avatar-7.svelte"
+    },
+    {
+      "particle": "p-avatar-8",
+      "primaryPage": "components/avatar",
+      "consumingPages": [],
+      "componentImports": ["avatar"],
+      "implementationLane": "D10",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-avatar-8.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-avatar-8.svelte"
+    },
+    {
+      "particle": "p-avatar-9",
+      "primaryPage": "components/avatar",
+      "consumingPages": [],
+      "componentImports": ["avatar"],
+      "implementationLane": "D10",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-avatar-9.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-avatar-9.svelte"
+    },
+    {
+      "particle": "p-badge-1",
+      "primaryPage": "components/badge",
+      "consumingPages": ["components/badge"],
+      "componentImports": ["badge"],
+      "implementationLane": "D10",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-badge-1.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-badge-1.svelte"
+    },
+    {
+      "particle": "p-badge-10",
+      "primaryPage": "components/badge",
+      "consumingPages": ["components/badge"],
+      "componentImports": ["badge"],
+      "implementationLane": "D10",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-badge-10.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-badge-10.svelte"
+    },
+    {
+      "particle": "p-badge-11",
+      "primaryPage": "components/badge",
+      "consumingPages": ["components/badge"],
+      "componentImports": ["badge"],
+      "implementationLane": "D10",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-badge-11.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-badge-11.svelte"
+    },
+    {
+      "particle": "p-badge-12",
+      "primaryPage": "components/badge",
+      "consumingPages": ["components/badge"],
+      "componentImports": ["badge"],
+      "implementationLane": "D10",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-badge-12.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-badge-12.svelte"
+    },
+    {
+      "particle": "p-badge-13",
+      "primaryPage": "components/badge",
+      "consumingPages": ["components/badge"],
+      "componentImports": ["badge"],
+      "implementationLane": "D10",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-badge-13.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-badge-13.svelte"
+    },
+    {
+      "particle": "p-badge-14",
+      "primaryPage": "components/badge",
+      "consumingPages": [],
+      "componentImports": ["badge"],
+      "implementationLane": "D10",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-badge-14.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-badge-14.svelte"
+    },
+    {
+      "particle": "p-badge-15",
+      "primaryPage": "components/badge",
+      "consumingPages": [],
+      "componentImports": ["badge"],
+      "implementationLane": "D10",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-badge-15.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-badge-15.svelte"
+    },
+    {
+      "particle": "p-badge-16",
+      "primaryPage": "components/badge",
+      "consumingPages": [],
+      "componentImports": ["badge"],
+      "implementationLane": "D10",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-badge-16.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-badge-16.svelte"
+    },
+    {
+      "particle": "p-badge-17",
+      "primaryPage": "components/badge",
+      "consumingPages": [],
+      "componentImports": ["badge"],
+      "implementationLane": "D10",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-badge-17.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-badge-17.svelte"
+    },
+    {
+      "particle": "p-badge-18",
+      "primaryPage": "components/badge",
+      "consumingPages": [],
+      "componentImports": ["badge"],
+      "implementationLane": "D10",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-badge-18.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-badge-18.svelte"
+    },
+    {
+      "particle": "p-badge-19",
+      "primaryPage": "components/badge",
+      "consumingPages": [],
+      "componentImports": ["badge", "checkbox"],
+      "implementationLane": "D10",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-badge-19.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-badge-19.svelte"
+    },
+    {
+      "particle": "p-badge-2",
+      "primaryPage": "components/badge",
+      "consumingPages": ["components/badge"],
+      "componentImports": ["badge"],
+      "implementationLane": "D10",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-badge-2.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-badge-2.svelte"
+    },
+    {
+      "particle": "p-badge-20",
+      "primaryPage": "components/badge",
+      "consumingPages": [],
+      "componentImports": ["badge"],
+      "implementationLane": "D10",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-badge-20.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-badge-20.svelte"
+    },
+    {
+      "particle": "p-badge-3",
+      "primaryPage": "components/badge",
+      "consumingPages": ["components/badge"],
+      "componentImports": ["badge"],
+      "implementationLane": "D10",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-badge-3.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-badge-3.svelte"
+    },
+    {
+      "particle": "p-badge-4",
+      "primaryPage": "components/badge",
+      "consumingPages": ["components/badge"],
+      "componentImports": ["badge"],
+      "implementationLane": "D10",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-badge-4.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-badge-4.svelte"
+    },
+    {
+      "particle": "p-badge-5",
+      "primaryPage": "components/badge",
+      "consumingPages": ["components/badge"],
+      "componentImports": ["badge"],
+      "implementationLane": "D10",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-badge-5.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-badge-5.svelte"
+    },
+    {
+      "particle": "p-badge-6",
+      "primaryPage": "components/badge",
+      "consumingPages": ["components/badge"],
+      "componentImports": ["badge"],
+      "implementationLane": "D10",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-badge-6.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-badge-6.svelte"
+    },
+    {
+      "particle": "p-badge-7",
+      "primaryPage": "components/badge",
+      "consumingPages": ["components/badge"],
+      "componentImports": ["badge"],
+      "implementationLane": "D10",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-badge-7.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-badge-7.svelte"
+    },
+    {
+      "particle": "p-badge-8",
+      "primaryPage": "components/badge",
+      "consumingPages": ["components/badge"],
+      "componentImports": ["badge"],
+      "implementationLane": "D10",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-badge-8.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-badge-8.svelte"
+    },
+    {
+      "particle": "p-badge-9",
+      "primaryPage": "components/badge",
+      "consumingPages": ["components/badge"],
+      "componentImports": ["badge"],
+      "implementationLane": "D10",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-badge-9.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-badge-9.svelte"
+    },
+    {
+      "particle": "p-breadcrumb-1",
+      "primaryPage": "components/breadcrumb",
+      "consumingPages": ["components/breadcrumb"],
+      "componentImports": ["breadcrumb", "button", "menu"],
+      "implementationLane": "D9",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-breadcrumb-1.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-breadcrumb-1.svelte"
+    },
+    {
+      "particle": "p-breadcrumb-2",
+      "primaryPage": "components/breadcrumb",
+      "consumingPages": ["components/breadcrumb"],
+      "componentImports": ["breadcrumb"],
+      "implementationLane": "D9",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-breadcrumb-2.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-breadcrumb-2.svelte"
+    },
+    {
+      "particle": "p-breadcrumb-3",
+      "primaryPage": "components/breadcrumb",
+      "consumingPages": [],
+      "componentImports": ["breadcrumb"],
+      "implementationLane": "D9",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-breadcrumb-3.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-breadcrumb-3.svelte"
+    },
+    {
+      "particle": "p-breadcrumb-4",
+      "primaryPage": "components/breadcrumb",
+      "consumingPages": [],
+      "componentImports": ["breadcrumb", "button", "menu"],
+      "implementationLane": "D9",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-breadcrumb-4.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-breadcrumb-4.svelte"
+    },
+    {
+      "particle": "p-breadcrumb-5",
+      "primaryPage": "components/breadcrumb",
+      "consumingPages": [],
+      "componentImports": ["breadcrumb"],
+      "implementationLane": "D9",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-breadcrumb-5.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-breadcrumb-5.svelte"
+    },
+    {
+      "particle": "p-breadcrumb-6",
+      "primaryPage": "components/breadcrumb",
+      "consumingPages": [],
+      "componentImports": ["breadcrumb"],
+      "implementationLane": "D9",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-breadcrumb-6.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-breadcrumb-6.svelte"
+    },
+    {
+      "particle": "p-breadcrumb-7",
+      "primaryPage": "components/breadcrumb",
+      "consumingPages": [],
+      "componentImports": ["breadcrumb", "select"],
+      "implementationLane": "D9",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-breadcrumb-7.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-breadcrumb-7.svelte"
+    },
+    {
+      "particle": "p-button-1",
+      "primaryPage": "components/button",
+      "consumingPages": ["components/button"],
+      "componentImports": ["button"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-button-1.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-button-1.svelte"
+    },
+    {
+      "particle": "p-button-10",
+      "primaryPage": "components/button",
+      "consumingPages": ["components/button"],
+      "componentImports": ["button"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-button-10.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-button-10.svelte"
+    },
+    {
+      "particle": "p-button-11",
+      "primaryPage": "components/button",
+      "consumingPages": ["components/button"],
+      "componentImports": ["button"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-button-11.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-button-11.svelte"
+    },
+    {
+      "particle": "p-button-12",
+      "primaryPage": "components/button",
+      "consumingPages": ["components/button"],
+      "componentImports": ["button"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-button-12.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-button-12.svelte"
+    },
+    {
+      "particle": "p-button-13",
+      "primaryPage": "components/button",
+      "consumingPages": ["components/button"],
+      "componentImports": ["button"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-button-13.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-button-13.svelte"
+    },
+    {
+      "particle": "p-button-14",
+      "primaryPage": "components/button",
+      "consumingPages": ["components/button"],
+      "componentImports": ["button"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-button-14.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-button-14.svelte"
+    },
+    {
+      "particle": "p-button-15",
+      "primaryPage": "components/button",
+      "consumingPages": ["components/button"],
+      "componentImports": ["button"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-button-15.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-button-15.svelte"
+    },
+    {
+      "particle": "p-button-16",
+      "primaryPage": "components/button",
+      "consumingPages": ["components/button"],
+      "componentImports": ["button"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-button-16.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-button-16.svelte"
+    },
+    {
+      "particle": "p-button-17",
+      "primaryPage": "components/button",
+      "consumingPages": ["components/button"],
+      "componentImports": ["button"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-button-17.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-button-17.svelte"
+    },
+    {
+      "particle": "p-button-18",
+      "primaryPage": "components/button",
+      "consumingPages": ["components/button", "components/spinner"],
+      "componentImports": ["button", "spinner"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-button-18.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-button-18.svelte"
+    },
+    {
+      "particle": "p-button-19",
+      "primaryPage": "components/button",
+      "consumingPages": [],
+      "componentImports": ["button"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-button-19.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-button-19.svelte"
+    },
+    {
+      "particle": "p-button-2",
+      "primaryPage": "components/button",
+      "consumingPages": ["components/button"],
+      "componentImports": ["button"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-button-2.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-button-2.svelte"
+    },
+    {
+      "particle": "p-button-20",
+      "primaryPage": "components/button",
+      "consumingPages": [],
+      "componentImports": ["button"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-button-20.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-button-20.svelte"
+    },
+    {
+      "particle": "p-button-21",
+      "primaryPage": "components/button",
+      "consumingPages": [],
+      "componentImports": ["button"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-button-21.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-button-21.svelte"
+    },
+    {
+      "particle": "p-button-22",
+      "primaryPage": "components/button",
+      "consumingPages": [],
+      "componentImports": ["button"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-button-22.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-button-22.svelte"
+    },
+    {
+      "particle": "p-button-23",
+      "primaryPage": "components/button",
+      "consumingPages": [],
+      "componentImports": ["button"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-button-23.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-button-23.svelte"
+    },
+    {
+      "particle": "p-button-24",
+      "primaryPage": "components/button",
+      "consumingPages": [],
+      "componentImports": ["button"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-button-24.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-button-24.svelte"
+    },
+    {
+      "particle": "p-button-26",
+      "primaryPage": "components/button",
+      "consumingPages": [],
+      "componentImports": ["button"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-button-26.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-button-26.svelte"
+    },
+    {
+      "particle": "p-button-27",
+      "primaryPage": "components/button",
+      "consumingPages": [],
+      "componentImports": ["button", "group"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-button-27.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-button-27.svelte"
+    },
+    {
+      "particle": "p-button-28",
+      "primaryPage": "components/button",
+      "consumingPages": [],
+      "componentImports": ["avatar", "button"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-button-28.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-button-28.svelte"
+    },
+    {
+      "particle": "p-button-29",
+      "primaryPage": "components/button",
+      "consumingPages": [],
+      "componentImports": ["button"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-button-29.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-button-29.svelte"
+    },
+    {
+      "particle": "p-button-3",
+      "primaryPage": "components/button",
+      "consumingPages": ["components/button"],
+      "componentImports": ["button"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-button-3.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-button-3.svelte"
+    },
+    {
+      "particle": "p-button-30",
+      "primaryPage": "components/button",
+      "consumingPages": [],
+      "componentImports": ["button"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-button-30.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-button-30.svelte"
+    },
+    {
+      "particle": "p-button-31",
+      "primaryPage": "components/button",
+      "consumingPages": [],
+      "componentImports": ["button", "kbd"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-button-31.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-button-31.svelte"
+    },
+    {
+      "particle": "p-button-32",
+      "primaryPage": "components/button",
+      "consumingPages": [],
+      "componentImports": ["badge", "button"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-button-32.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-button-32.svelte"
+    },
+    {
+      "particle": "p-button-33",
+      "primaryPage": "components/button",
+      "consumingPages": [],
+      "componentImports": ["button"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-button-33.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-button-33.svelte"
+    },
+    {
+      "particle": "p-button-34",
+      "primaryPage": "components/button",
+      "consumingPages": [],
+      "componentImports": ["button"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-button-34.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-button-34.svelte"
+    },
+    {
+      "particle": "p-button-35",
+      "primaryPage": "components/button",
+      "consumingPages": [],
+      "componentImports": ["button"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-button-35.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-button-35.svelte"
+    },
+    {
+      "particle": "p-button-36",
+      "primaryPage": "components/button",
+      "consumingPages": [],
+      "componentImports": ["button"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-button-36.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-button-36.svelte"
+    },
+    {
+      "particle": "p-button-37",
+      "primaryPage": "components/button",
+      "consumingPages": [],
+      "componentImports": ["button"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-button-37.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-button-37.svelte"
+    },
+    {
+      "particle": "p-button-38",
+      "primaryPage": "components/button",
+      "consumingPages": [],
+      "componentImports": ["button"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-button-38.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-button-38.svelte"
+    },
+    {
+      "particle": "p-button-39",
+      "primaryPage": "components/button",
+      "consumingPages": [],
+      "componentImports": ["button"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-button-39.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-button-39.svelte"
+    },
+    {
+      "particle": "p-button-4",
+      "primaryPage": "components/button",
+      "consumingPages": ["components/button"],
+      "componentImports": ["button"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-button-4.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-button-4.svelte"
+    },
+    {
+      "particle": "p-button-40",
+      "primaryPage": "components/button",
+      "consumingPages": [],
+      "componentImports": ["button", "group", "spinner", "toast", "tooltip"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-button-40.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-button-40.svelte"
+    },
+    {
+      "particle": "p-button-41",
+      "primaryPage": "components/button",
+      "consumingPages": ["components/button"],
+      "componentImports": ["button"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-button-41.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-button-41.svelte"
+    },
+    {
+      "particle": "p-button-5",
+      "primaryPage": "components/button",
+      "consumingPages": ["components/button"],
+      "componentImports": ["button"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-button-5.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-button-5.svelte"
+    },
+    {
+      "particle": "p-button-6",
+      "primaryPage": "components/button",
+      "consumingPages": ["components/button"],
+      "componentImports": ["button"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-button-6.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-button-6.svelte"
+    },
+    {
+      "particle": "p-button-7",
+      "primaryPage": "components/button",
+      "consumingPages": ["components/button"],
+      "componentImports": ["button"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-button-7.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-button-7.svelte"
+    },
+    {
+      "particle": "p-button-8",
+      "primaryPage": "components/button",
+      "consumingPages": ["components/button"],
+      "componentImports": ["button"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-button-8.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-button-8.svelte"
+    },
+    {
+      "particle": "p-button-9",
+      "primaryPage": "components/button",
+      "consumingPages": ["components/button"],
+      "componentImports": ["button"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-button-9.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-button-9.svelte"
+    },
+    {
+      "particle": "p-calendar-1",
+      "primaryPage": "components/calendar",
+      "consumingPages": ["components/calendar"],
+      "componentImports": ["calendar"],
+      "implementationLane": "D9",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-calendar-1.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-calendar-1.svelte"
+    },
+    {
+      "particle": "p-calendar-10",
+      "primaryPage": "components/calendar",
+      "consumingPages": [],
+      "componentImports": ["calendar"],
+      "implementationLane": "D9",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-calendar-10.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-calendar-10.svelte"
+    },
+    {
+      "particle": "p-calendar-11",
+      "primaryPage": "components/calendar",
+      "consumingPages": [],
+      "componentImports": ["calendar"],
+      "implementationLane": "D9",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-calendar-11.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-calendar-11.svelte"
+    },
+    {
+      "particle": "p-calendar-12",
+      "primaryPage": "components/calendar",
+      "consumingPages": [],
+      "componentImports": ["calendar"],
+      "implementationLane": "D9",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-calendar-12.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-calendar-12.svelte"
+    },
+    {
+      "particle": "p-calendar-13",
+      "primaryPage": "components/calendar",
+      "consumingPages": [],
+      "componentImports": ["calendar", "combobox"],
+      "implementationLane": "D9",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-calendar-13.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-calendar-13.svelte"
+    },
+    {
+      "particle": "p-calendar-14",
+      "primaryPage": "components/calendar",
+      "consumingPages": [],
+      "componentImports": ["calendar", "select"],
+      "implementationLane": "D9",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-calendar-14.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-calendar-14.svelte"
+    },
+    {
+      "particle": "p-calendar-15",
+      "primaryPage": "components/calendar",
+      "consumingPages": [],
+      "componentImports": ["button", "calendar"],
+      "implementationLane": "D9",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-calendar-15.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-calendar-15.svelte"
+    },
+    {
+      "particle": "p-calendar-16",
+      "primaryPage": "components/calendar",
+      "consumingPages": [],
+      "componentImports": ["button", "calendar"],
+      "implementationLane": "D9",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-calendar-16.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-calendar-16.svelte"
+    },
+    {
+      "particle": "p-calendar-17",
+      "primaryPage": "components/calendar",
+      "consumingPages": [],
+      "componentImports": ["calendar", "field", "input-group"],
+      "implementationLane": "D9",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-calendar-17.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-calendar-17.svelte"
+    },
+    {
+      "particle": "p-calendar-18",
+      "primaryPage": "components/calendar",
+      "consumingPages": [],
+      "componentImports": ["calendar", "field", "input-group"],
+      "implementationLane": "D9",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-calendar-18.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-calendar-18.svelte"
+    },
+    {
+      "particle": "p-calendar-19",
+      "primaryPage": "components/calendar",
+      "consumingPages": [],
+      "componentImports": ["calendar", "scroll-area", "toggle", "toggle-group"],
+      "implementationLane": "D9",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-calendar-19.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-calendar-19.svelte"
+    },
+    {
+      "particle": "p-calendar-2",
+      "primaryPage": "components/calendar",
+      "consumingPages": ["components/calendar"],
+      "componentImports": ["calendar"],
+      "implementationLane": "D9",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-calendar-2.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-calendar-2.svelte"
+    },
+    {
+      "particle": "p-calendar-20",
+      "primaryPage": "components/calendar",
+      "consumingPages": [],
+      "componentImports": ["button", "calendar"],
+      "implementationLane": "D9",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-calendar-20.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-calendar-20.svelte"
+    },
+    {
+      "particle": "p-calendar-21",
+      "primaryPage": "components/calendar",
+      "consumingPages": [],
+      "componentImports": ["button", "calendar"],
+      "implementationLane": "D9",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-calendar-21.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-calendar-21.svelte"
+    },
+    {
+      "particle": "p-calendar-22",
+      "primaryPage": "components/calendar",
+      "consumingPages": [],
+      "componentImports": ["calendar"],
+      "implementationLane": "D9",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-calendar-22.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-calendar-22.svelte"
+    },
+    {
+      "particle": "p-calendar-23",
+      "primaryPage": "components/calendar",
+      "consumingPages": [],
+      "componentImports": ["calendar"],
+      "implementationLane": "D9",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-calendar-23.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-calendar-23.svelte"
+    },
+    {
+      "particle": "p-calendar-24",
+      "primaryPage": "components/calendar",
+      "consumingPages": [],
+      "componentImports": ["calendar"],
+      "implementationLane": "D9",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-calendar-24.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-calendar-24.svelte"
+    },
+    {
+      "particle": "p-calendar-25",
+      "primaryPage": "components/calendar",
+      "consumingPages": [],
+      "componentImports": ["autocomplete", "calendar", "field"],
+      "implementationLane": "D9",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-calendar-25.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-calendar-25.svelte"
+    },
+    {
+      "particle": "p-calendar-3",
+      "primaryPage": "components/calendar",
+      "consumingPages": ["components/calendar"],
+      "componentImports": ["calendar"],
+      "implementationLane": "D9",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-calendar-3.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-calendar-3.svelte"
+    },
+    {
+      "particle": "p-calendar-4",
+      "primaryPage": "components/calendar",
+      "consumingPages": ["components/calendar"],
+      "componentImports": ["calendar"],
+      "implementationLane": "D9",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-calendar-4.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-calendar-4.svelte"
+    },
+    {
+      "particle": "p-calendar-5",
+      "primaryPage": "components/calendar",
+      "consumingPages": ["components/calendar"],
+      "componentImports": ["calendar", "select"],
+      "implementationLane": "D9",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-calendar-5.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-calendar-5.svelte"
+    },
+    {
+      "particle": "p-calendar-6",
+      "primaryPage": "components/calendar",
+      "consumingPages": ["components/calendar"],
+      "componentImports": ["calendar", "combobox"],
+      "implementationLane": "D9",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-calendar-6.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-calendar-6.svelte"
+    },
+    {
+      "particle": "p-calendar-7",
+      "primaryPage": "components/calendar",
+      "consumingPages": [],
+      "componentImports": ["calendar"],
+      "implementationLane": "D9",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-calendar-7.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-calendar-7.svelte"
+    },
+    {
+      "particle": "p-calendar-8",
+      "primaryPage": "components/calendar",
+      "consumingPages": [],
+      "componentImports": ["calendar"],
+      "implementationLane": "D9",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-calendar-8.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-calendar-8.svelte"
+    },
+    {
+      "particle": "p-calendar-9",
+      "primaryPage": "components/calendar",
+      "consumingPages": [],
+      "componentImports": ["calendar"],
+      "implementationLane": "D9",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-calendar-9.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-calendar-9.svelte"
+    },
+    {
+      "particle": "p-card-1",
+      "primaryPage": "components/card",
+      "consumingPages": ["components/card"],
+      "componentImports": ["button", "card", "field", "form", "input", "select"],
+      "implementationLane": "D4",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-card-1.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-card-1.svelte"
+    },
+    {
+      "particle": "p-card-10",
+      "primaryPage": "components/card",
+      "consumingPages": [],
+      "componentImports": ["button", "card", "field", "form", "frame", "input", "select"],
+      "implementationLane": "D4",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-card-10.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-card-10.svelte"
+    },
+    {
+      "particle": "p-card-11",
+      "primaryPage": "components/card",
+      "consumingPages": [],
+      "componentImports": ["button", "card", "empty"],
+      "implementationLane": "D4",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-card-11.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-card-11.svelte"
+    },
+    {
+      "particle": "p-card-2",
+      "primaryPage": "components/card",
+      "consumingPages": [],
+      "componentImports": ["button", "card", "field", "form", "input"],
+      "implementationLane": "D4",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-card-2.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-card-2.svelte"
+    },
+    {
+      "particle": "p-card-3",
+      "primaryPage": "components/card",
+      "consumingPages": [],
+      "componentImports": ["button", "card", "field", "form", "input"],
+      "implementationLane": "D4",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-card-3.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-card-3.svelte"
+    },
+    {
+      "particle": "p-card-4",
+      "primaryPage": "components/card",
+      "consumingPages": [],
+      "componentImports": ["button", "card", "field", "form", "input", "select"],
+      "implementationLane": "D4",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-card-4.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-card-4.svelte"
+    },
+    {
+      "particle": "p-card-5",
+      "primaryPage": "components/card",
+      "consumingPages": [],
+      "componentImports": ["button", "card", "field", "form", "input", "select"],
+      "implementationLane": "D4",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-card-5.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-card-5.svelte"
+    },
+    {
+      "particle": "p-card-6",
+      "primaryPage": "components/card",
+      "consumingPages": [],
+      "componentImports": ["button", "card", "field", "form", "input", "select"],
+      "implementationLane": "D4",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-card-6.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-card-6.svelte"
+    },
+    {
+      "particle": "p-card-7",
+      "primaryPage": "components/card",
+      "consumingPages": [],
+      "componentImports": ["button", "card", "field", "form", "input", "select"],
+      "implementationLane": "D4",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-card-7.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-card-7.svelte"
+    },
+    {
+      "particle": "p-card-8",
+      "primaryPage": "components/card",
+      "consumingPages": [],
+      "componentImports": ["button", "card", "field", "form", "frame", "input", "select"],
+      "implementationLane": "D4",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-card-8.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-card-8.svelte"
+    },
+    {
+      "particle": "p-card-9",
+      "primaryPage": "components/card",
+      "consumingPages": [],
+      "componentImports": ["button", "card", "field", "form", "frame", "input", "select"],
+      "implementationLane": "D4",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-card-9.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-card-9.svelte"
+    },
+    {
+      "particle": "p-checkbox-1",
+      "primaryPage": "components/checkbox",
+      "consumingPages": ["components/checkbox"],
+      "componentImports": ["checkbox", "label"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-checkbox-1.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-checkbox-1.svelte"
+    },
+    {
+      "particle": "p-checkbox-2",
+      "primaryPage": "components/checkbox",
+      "consumingPages": ["components/checkbox"],
+      "componentImports": ["checkbox", "label"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-checkbox-2.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-checkbox-2.svelte"
+    },
+    {
+      "particle": "p-checkbox-3",
+      "primaryPage": "components/checkbox",
+      "consumingPages": ["components/checkbox"],
+      "componentImports": ["checkbox", "label"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-checkbox-3.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-checkbox-3.svelte"
+    },
+    {
+      "particle": "p-checkbox-4",
+      "primaryPage": "components/checkbox",
+      "consumingPages": ["components/checkbox"],
+      "componentImports": ["checkbox", "label"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-checkbox-4.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-checkbox-4.svelte"
+    },
+    {
+      "particle": "p-checkbox-5",
+      "primaryPage": "components/checkbox",
+      "consumingPages": ["components/checkbox"],
+      "componentImports": ["button", "checkbox", "field", "form"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-checkbox-5.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-checkbox-5.svelte"
+    },
+    {
+      "particle": "p-checkbox-group-1",
+      "primaryPage": "components/checkbox-group",
+      "consumingPages": ["components/checkbox-group"],
+      "componentImports": ["checkbox", "checkbox-group", "label"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-checkbox-group-1.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-checkbox-group-1.svelte"
+    },
+    {
+      "particle": "p-checkbox-group-2",
+      "primaryPage": "components/checkbox-group",
+      "consumingPages": ["components/checkbox-group"],
+      "componentImports": ["checkbox", "checkbox-group", "label"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-checkbox-group-2.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-checkbox-group-2.svelte"
+    },
+    {
+      "particle": "p-checkbox-group-3",
+      "primaryPage": "components/checkbox-group",
+      "consumingPages": ["components/checkbox-group"],
+      "componentImports": ["checkbox", "checkbox-group", "label"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-checkbox-group-3.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-checkbox-group-3.svelte"
+    },
+    {
+      "particle": "p-checkbox-group-4",
+      "primaryPage": "components/checkbox-group",
+      "consumingPages": ["components/checkbox-group"],
+      "componentImports": ["checkbox", "checkbox-group", "label"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-checkbox-group-4.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-checkbox-group-4.svelte"
+    },
+    {
+      "particle": "p-checkbox-group-5",
+      "primaryPage": "components/checkbox-group",
+      "consumingPages": ["components/checkbox-group"],
+      "componentImports": ["button", "checkbox", "checkbox-group", "field", "fieldset", "form"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-checkbox-group-5.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-checkbox-group-5.svelte"
+    },
+    {
+      "particle": "p-collapsible-1",
+      "primaryPage": "components/collapsible",
+      "consumingPages": ["components/collapsible"],
+      "componentImports": ["collapsible"],
+      "implementationLane": "D4",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-collapsible-1.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-collapsible-1.svelte"
+    },
+    {
+      "particle": "p-combobox-1",
+      "primaryPage": "components/combobox",
+      "consumingPages": ["components/combobox"],
+      "componentImports": ["combobox"],
+      "implementationLane": "D8",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-combobox-1.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-combobox-1.svelte"
+    },
+    {
+      "particle": "p-combobox-10",
+      "primaryPage": "components/combobox",
+      "consumingPages": ["components/combobox"],
+      "componentImports": ["button", "combobox"],
+      "implementationLane": "D8",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-combobox-10.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-combobox-10.svelte"
+    },
+    {
+      "particle": "p-combobox-11",
+      "primaryPage": "components/combobox",
+      "consumingPages": ["components/combobox"],
+      "componentImports": ["button", "combobox", "field", "form"],
+      "implementationLane": "D8",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-combobox-11.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-combobox-11.svelte"
+    },
+    {
+      "particle": "p-combobox-12",
+      "primaryPage": "components/combobox",
+      "consumingPages": ["components/combobox"],
+      "componentImports": ["button", "combobox", "field", "form"],
+      "implementationLane": "D8",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-combobox-12.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-combobox-12.svelte"
+    },
+    {
+      "particle": "p-combobox-13",
+      "primaryPage": "components/combobox",
+      "consumingPages": ["components/combobox"],
+      "componentImports": ["combobox"],
+      "implementationLane": "D8",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-combobox-13.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-combobox-13.svelte"
+    },
+    {
+      "particle": "p-combobox-14",
+      "primaryPage": "components/combobox",
+      "consumingPages": ["components/combobox"],
+      "componentImports": ["combobox"],
+      "implementationLane": "D8",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-combobox-14.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-combobox-14.svelte"
+    },
+    {
+      "particle": "p-combobox-15",
+      "primaryPage": "components/combobox",
+      "consumingPages": [],
+      "componentImports": ["combobox"],
+      "implementationLane": "D8",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-combobox-15.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-combobox-15.svelte"
+    },
+    {
+      "particle": "p-combobox-16",
+      "primaryPage": "components/combobox",
+      "consumingPages": [],
+      "componentImports": ["combobox"],
+      "implementationLane": "D8",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-combobox-16.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-combobox-16.svelte"
+    },
+    {
+      "particle": "p-combobox-17",
+      "primaryPage": "components/combobox",
+      "consumingPages": [],
+      "componentImports": ["combobox", "select"],
+      "implementationLane": "D8",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-combobox-17.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-combobox-17.svelte"
+    },
+    {
+      "particle": "p-combobox-18",
+      "primaryPage": "components/combobox",
+      "consumingPages": ["components/combobox", "components/select"],
+      "componentImports": ["combobox", "select"],
+      "implementationLane": "D8",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-combobox-18.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-combobox-18.svelte"
+    },
+    {
+      "particle": "p-combobox-19",
+      "primaryPage": "components/combobox",
+      "consumingPages": [],
+      "componentImports": ["avatar", "badge", "button", "combobox"],
+      "implementationLane": "D8",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-combobox-19.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-combobox-19.svelte"
+    },
+    {
+      "particle": "p-combobox-2",
+      "primaryPage": "components/combobox",
+      "consumingPages": ["components/combobox"],
+      "componentImports": ["combobox"],
+      "implementationLane": "D8",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-combobox-2.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-combobox-2.svelte"
+    },
+    {
+      "particle": "p-combobox-20",
+      "primaryPage": "components/combobox",
+      "consumingPages": [],
+      "componentImports": ["avatar", "badge", "button", "combobox"],
+      "implementationLane": "D8",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-combobox-20.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-combobox-20.svelte"
+    },
+    {
+      "particle": "p-combobox-3",
+      "primaryPage": "components/combobox",
+      "consumingPages": ["components/combobox"],
+      "componentImports": ["combobox"],
+      "implementationLane": "D8",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-combobox-3.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-combobox-3.svelte"
+    },
+    {
+      "particle": "p-combobox-4",
+      "primaryPage": "components/combobox",
+      "consumingPages": ["components/combobox"],
+      "componentImports": ["combobox"],
+      "implementationLane": "D8",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-combobox-4.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-combobox-4.svelte"
+    },
+    {
+      "particle": "p-combobox-5",
+      "primaryPage": "components/combobox",
+      "consumingPages": ["components/combobox"],
+      "componentImports": ["combobox", "label"],
+      "implementationLane": "D8",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-combobox-5.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-combobox-5.svelte"
+    },
+    {
+      "particle": "p-combobox-6",
+      "primaryPage": "components/combobox",
+      "consumingPages": ["components/combobox"],
+      "componentImports": ["combobox"],
+      "implementationLane": "D8",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-combobox-6.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-combobox-6.svelte"
+    },
+    {
+      "particle": "p-combobox-7",
+      "primaryPage": "components/combobox",
+      "consumingPages": ["components/combobox"],
+      "componentImports": ["combobox"],
+      "implementationLane": "D8",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-combobox-7.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-combobox-7.svelte"
+    },
+    {
+      "particle": "p-combobox-8",
+      "primaryPage": "components/combobox",
+      "consumingPages": ["components/combobox"],
+      "componentImports": ["combobox"],
+      "implementationLane": "D8",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-combobox-8.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-combobox-8.svelte"
+    },
+    {
+      "particle": "p-combobox-9",
+      "primaryPage": "components/combobox",
+      "consumingPages": ["components/combobox"],
+      "componentImports": ["combobox"],
+      "implementationLane": "D8",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-combobox-9.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-combobox-9.svelte"
+    },
+    {
+      "particle": "p-command-1",
+      "primaryPage": "components/command",
+      "consumingPages": ["components/command"],
+      "componentImports": ["button", "command", "kbd"],
+      "implementationLane": "D8",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-command-1.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-command-1.svelte"
+    },
+    {
+      "particle": "p-command-2",
+      "primaryPage": "components/command",
+      "consumingPages": [],
+      "componentImports": [
+        "autocomplete",
+        "button",
+        "command",
+        "empty",
+        "input",
+        "kbd",
+        "scroll-area",
+        "skeleton",
+        "spinner"
+      ],
+      "implementationLane": "D8",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-command-2.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-command-2.svelte"
+    },
+    {
+      "particle": "p-context-menu-1",
+      "primaryPage": "components/context-menu",
+      "consumingPages": ["components/context-menu"],
+      "componentImports": ["context-menu"],
+      "implementationLane": "D8",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-context-menu-1.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-context-menu-1.svelte"
+    },
+    {
+      "particle": "p-context-menu-2",
+      "primaryPage": "components/context-menu",
+      "consumingPages": ["components/context-menu"],
+      "componentImports": ["context-menu"],
+      "implementationLane": "D8",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-context-menu-2.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-context-menu-2.svelte"
+    },
+    {
+      "particle": "p-context-menu-3",
+      "primaryPage": "components/context-menu",
+      "consumingPages": ["components/context-menu"],
+      "componentImports": ["context-menu"],
+      "implementationLane": "D8",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-context-menu-3.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-context-menu-3.svelte"
+    },
+    {
+      "particle": "p-context-menu-4",
+      "primaryPage": "components/context-menu",
+      "consumingPages": ["components/context-menu"],
+      "componentImports": ["context-menu"],
+      "implementationLane": "D8",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-context-menu-4.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-context-menu-4.svelte"
+    },
+    {
+      "particle": "p-context-menu-5",
+      "primaryPage": "components/context-menu",
+      "consumingPages": ["components/context-menu"],
+      "componentImports": ["context-menu"],
+      "implementationLane": "D8",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-context-menu-5.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-context-menu-5.svelte"
+    },
+    {
+      "particle": "p-context-menu-6",
+      "primaryPage": "components/context-menu",
+      "consumingPages": ["components/context-menu"],
+      "componentImports": ["context-menu"],
+      "implementationLane": "D8",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-context-menu-6.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-context-menu-6.svelte"
+    },
+    {
+      "particle": "p-context-menu-7",
+      "primaryPage": "components/context-menu",
+      "consumingPages": ["components/context-menu"],
+      "componentImports": ["context-menu"],
+      "implementationLane": "D8",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-context-menu-7.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-context-menu-7.svelte"
+    },
+    {
+      "particle": "p-context-menu-8",
+      "primaryPage": "components/context-menu",
+      "consumingPages": ["components/context-menu"],
+      "componentImports": ["context-menu"],
+      "implementationLane": "D8",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-context-menu-8.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-context-menu-8.svelte"
+    },
+    {
+      "particle": "p-date-picker-1",
+      "primaryPage": "components/date-picker",
+      "consumingPages": ["components/date-picker"],
+      "componentImports": ["button", "calendar", "popover"],
+      "implementationLane": "D9",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-date-picker-1.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-date-picker-1.svelte"
+    },
+    {
+      "particle": "p-date-picker-2",
+      "primaryPage": "components/date-picker",
+      "consumingPages": ["components/date-picker"],
+      "componentImports": ["button", "calendar", "popover"],
+      "implementationLane": "D9",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-date-picker-2.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-date-picker-2.svelte"
+    },
+    {
+      "particle": "p-date-picker-3",
+      "primaryPage": "components/date-picker",
+      "consumingPages": ["components/date-picker"],
+      "componentImports": ["button", "calendar", "combobox", "field", "popover"],
+      "implementationLane": "D9",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-date-picker-3.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-date-picker-3.svelte"
+    },
+    {
+      "particle": "p-date-picker-4",
+      "primaryPage": "components/date-picker",
+      "consumingPages": ["components/date-picker"],
+      "componentImports": ["button", "calendar", "popover"],
+      "implementationLane": "D9",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-date-picker-4.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-date-picker-4.svelte"
+    },
+    {
+      "particle": "p-date-picker-5",
+      "primaryPage": "components/date-picker",
+      "consumingPages": ["components/date-picker"],
+      "componentImports": ["button", "calendar", "input-group", "popover"],
+      "implementationLane": "D9",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-date-picker-5.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-date-picker-5.svelte"
+    },
+    {
+      "particle": "p-date-picker-6",
+      "primaryPage": "components/date-picker",
+      "consumingPages": ["components/date-picker"],
+      "componentImports": ["button", "calendar", "popover"],
+      "implementationLane": "D9",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-date-picker-6.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-date-picker-6.svelte"
+    },
+    {
+      "particle": "p-date-picker-7",
+      "primaryPage": "components/date-picker",
+      "consumingPages": [],
+      "componentImports": ["badge", "button", "calendar", "popover"],
+      "implementationLane": "D9",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-date-picker-7.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-date-picker-7.svelte"
+    },
+    {
+      "particle": "p-date-picker-8",
+      "primaryPage": "components/date-picker",
+      "consumingPages": [],
+      "componentImports": ["calendar", "popover", "select"],
+      "implementationLane": "D9",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-date-picker-8.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-date-picker-8.svelte"
+    },
+    {
+      "particle": "p-date-picker-9",
+      "primaryPage": "components/date-picker",
+      "consumingPages": [],
+      "componentImports": ["button", "calendar", "popover"],
+      "implementationLane": "D9",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-date-picker-9.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-date-picker-9.svelte"
+    },
+    {
+      "particle": "p-dialog-1",
+      "primaryPage": "components/dialog",
+      "consumingPages": ["components/dialog"],
+      "componentImports": ["button", "dialog", "field", "form", "input"],
+      "implementationLane": "D7",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-dialog-1.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-dialog-1.svelte"
+    },
+    {
+      "particle": "p-dialog-2",
+      "primaryPage": "components/dialog",
+      "consumingPages": ["components/dialog", "components/menu"],
+      "componentImports": ["button", "dialog", "menu"],
+      "implementationLane": "D7",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-dialog-2.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-dialog-2.svelte"
+    },
+    {
+      "particle": "p-dialog-3",
+      "primaryPage": "components/dialog",
+      "consumingPages": ["components/dialog"],
+      "componentImports": ["button", "dialog", "field", "input"],
+      "implementationLane": "D7",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-dialog-3.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-dialog-3.svelte"
+    },
+    {
+      "particle": "p-dialog-4",
+      "primaryPage": "components/alert-dialog",
+      "consumingPages": ["components/alert-dialog", "components/dialog"],
+      "componentImports": ["alert-dialog", "button", "dialog", "field", "form", "textarea"],
+      "implementationLane": "D7",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-dialog-4.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-dialog-4.svelte"
+    },
+    {
+      "particle": "p-dialog-5",
+      "primaryPage": "components/dialog",
+      "consumingPages": ["components/dialog"],
+      "componentImports": ["button", "dialog"],
+      "implementationLane": "D7",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-dialog-5.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-dialog-5.svelte"
+    },
+    {
+      "particle": "p-dialog-6",
+      "primaryPage": "components/dialog",
+      "consumingPages": ["components/dialog"],
+      "componentImports": ["button", "dialog", "field", "form", "input"],
+      "implementationLane": "D7",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-dialog-6.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-dialog-6.svelte"
+    },
+    {
+      "particle": "p-drawer-1",
+      "primaryPage": "components/drawer",
+      "consumingPages": ["components/drawer"],
+      "componentImports": ["button", "drawer"],
+      "implementationLane": "D7",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-drawer-1.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-drawer-1.svelte"
+    },
+    {
+      "particle": "p-drawer-10",
+      "primaryPage": "components/drawer",
+      "consumingPages": [],
+      "componentImports": ["button", "drawer", "field", "form", "input"],
+      "implementationLane": "D7",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-drawer-10.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-drawer-10.svelte"
+    },
+    {
+      "particle": "p-drawer-11",
+      "primaryPage": "components/drawer",
+      "consumingPages": ["components/drawer"],
+      "componentImports": ["button", "drawer"],
+      "implementationLane": "D7",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-drawer-11.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-drawer-11.svelte"
+    },
+    {
+      "particle": "p-drawer-12",
+      "primaryPage": "components/drawer",
+      "consumingPages": ["components/drawer"],
+      "componentImports": ["button", "dialog", "drawer", "field", "form", "input"],
+      "implementationLane": "D7",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-drawer-12.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-drawer-12.svelte"
+    },
+    {
+      "particle": "p-drawer-13",
+      "primaryPage": "components/drawer",
+      "consumingPages": ["components/drawer"],
+      "componentImports": ["button", "drawer", "menu"],
+      "implementationLane": "D7",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-drawer-13.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-drawer-13.svelte"
+    },
+    {
+      "particle": "p-drawer-14",
+      "primaryPage": "components/drawer",
+      "consumingPages": [],
+      "componentImports": ["button", "drawer"],
+      "implementationLane": "D7",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-drawer-14.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-drawer-14.svelte"
+    },
+    {
+      "particle": "p-drawer-2",
+      "primaryPage": "components/drawer",
+      "consumingPages": [],
+      "componentImports": ["button", "drawer"],
+      "implementationLane": "D7",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-drawer-2.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-drawer-2.svelte"
+    },
+    {
+      "particle": "p-drawer-3",
+      "primaryPage": "components/drawer",
+      "consumingPages": [],
+      "componentImports": ["button", "drawer"],
+      "implementationLane": "D7",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-drawer-3.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-drawer-3.svelte"
+    },
+    {
+      "particle": "p-drawer-4",
+      "primaryPage": "components/drawer",
+      "consumingPages": ["components/drawer"],
+      "componentImports": ["button", "drawer"],
+      "implementationLane": "D7",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-drawer-4.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-drawer-4.svelte"
+    },
+    {
+      "particle": "p-drawer-5",
+      "primaryPage": "components/drawer",
+      "consumingPages": ["components/drawer"],
+      "componentImports": ["button", "drawer"],
+      "implementationLane": "D7",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-drawer-5.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-drawer-5.svelte"
+    },
+    {
+      "particle": "p-drawer-6",
+      "primaryPage": "components/drawer",
+      "consumingPages": ["components/drawer"],
+      "componentImports": ["button", "drawer"],
+      "implementationLane": "D7",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-drawer-6.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-drawer-6.svelte"
+    },
+    {
+      "particle": "p-drawer-7",
+      "primaryPage": "components/drawer",
+      "consumingPages": ["components/drawer"],
+      "componentImports": ["button", "drawer"],
+      "implementationLane": "D7",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-drawer-7.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-drawer-7.svelte"
+    },
+    {
+      "particle": "p-drawer-8",
+      "primaryPage": "components/drawer",
+      "consumingPages": [],
+      "componentImports": ["button", "drawer", "field", "input"],
+      "implementationLane": "D7",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-drawer-8.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-drawer-8.svelte"
+    },
+    {
+      "particle": "p-drawer-9",
+      "primaryPage": "components/drawer",
+      "consumingPages": ["components/drawer"],
+      "componentImports": ["button", "drawer"],
+      "implementationLane": "D7",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-drawer-9.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-drawer-9.svelte"
+    },
+    {
+      "particle": "p-empty-1",
+      "primaryPage": "components/empty",
+      "consumingPages": ["components/empty"],
+      "componentImports": ["button", "empty"],
+      "implementationLane": "D4",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-empty-1.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-empty-1.svelte"
+    },
+    {
+      "particle": "p-field-1",
+      "primaryPage": "components/field",
+      "consumingPages": ["components/field"],
+      "componentImports": ["field", "input"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-field-1.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-field-1.svelte"
+    },
+    {
+      "particle": "p-field-10",
+      "primaryPage": "components/field",
+      "consumingPages": ["components/field"],
+      "componentImports": ["field", "textarea"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-field-10.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-field-10.svelte"
+    },
+    {
+      "particle": "p-field-11",
+      "primaryPage": "components/field",
+      "consumingPages": ["components/field"],
+      "componentImports": ["field", "select"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-field-11.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-field-11.svelte"
+    },
+    {
+      "particle": "p-field-12",
+      "primaryPage": "components/field",
+      "consumingPages": ["components/field"],
+      "componentImports": ["checkbox", "field"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-field-12.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-field-12.svelte"
+    },
+    {
+      "particle": "p-field-13",
+      "primaryPage": "components/field",
+      "consumingPages": ["components/field"],
+      "componentImports": ["checkbox", "checkbox-group", "field", "fieldset"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-field-13.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-field-13.svelte"
+    },
+    {
+      "particle": "p-field-14",
+      "primaryPage": "components/field",
+      "consumingPages": ["components/field"],
+      "componentImports": ["field", "fieldset", "radio-group"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-field-14.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-field-14.svelte"
+    },
+    {
+      "particle": "p-field-15",
+      "primaryPage": "components/field",
+      "consumingPages": ["components/field"],
+      "componentImports": ["field", "switch"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-field-15.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-field-15.svelte"
+    },
+    {
+      "particle": "p-field-16",
+      "primaryPage": "components/field",
+      "consumingPages": ["components/field"],
+      "componentImports": ["field", "slider"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-field-16.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-field-16.svelte"
+    },
+    {
+      "particle": "p-field-17",
+      "primaryPage": "components/field",
+      "consumingPages": ["components/field"],
+      "componentImports": ["field", "number-field"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-field-17.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-field-17.svelte"
+    },
+    {
+      "particle": "p-field-18",
+      "primaryPage": "components/field",
+      "consumingPages": ["components/field"],
+      "componentImports": ["button", "checkbox", "field", "form", "input", "select"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-field-18.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-field-18.svelte"
+    },
+    {
+      "particle": "p-field-2",
+      "primaryPage": "components/field",
+      "consumingPages": ["components/field"],
+      "componentImports": ["field", "input"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-field-2.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-field-2.svelte"
+    },
+    {
+      "particle": "p-field-3",
+      "primaryPage": "components/field",
+      "consumingPages": ["components/field"],
+      "componentImports": ["field", "input"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-field-3.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-field-3.svelte"
+    },
+    {
+      "particle": "p-field-4",
+      "primaryPage": "components/field",
+      "consumingPages": ["components/field"],
+      "componentImports": ["field", "input"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-field-4.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-field-4.svelte"
+    },
+    {
+      "particle": "p-field-5",
+      "primaryPage": "components/field",
+      "consumingPages": ["components/field"],
+      "componentImports": ["field", "input"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-field-5.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-field-5.svelte"
+    },
+    {
+      "particle": "p-field-6",
+      "primaryPage": "components/field",
+      "consumingPages": ["components/field"],
+      "componentImports": ["button", "field", "input-group"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-field-6.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-field-6.svelte"
+    },
+    {
+      "particle": "p-field-7",
+      "primaryPage": "components/field",
+      "consumingPages": ["components/field"],
+      "componentImports": ["autocomplete", "field"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-field-7.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-field-7.svelte"
+    },
+    {
+      "particle": "p-field-8",
+      "primaryPage": "components/field",
+      "consumingPages": ["components/field"],
+      "componentImports": ["combobox", "field"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-field-8.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-field-8.svelte"
+    },
+    {
+      "particle": "p-field-9",
+      "primaryPage": "components/field",
+      "consumingPages": ["components/field"],
+      "componentImports": ["combobox", "field"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-field-9.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-field-9.svelte"
+    },
+    {
+      "particle": "p-fieldset-1",
+      "primaryPage": "components/fieldset",
+      "consumingPages": ["components/fieldset"],
+      "componentImports": ["field", "fieldset", "input"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-fieldset-1.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-fieldset-1.svelte"
+    },
+    {
+      "particle": "p-form-1",
+      "primaryPage": "components/form",
+      "consumingPages": ["components/form", "components/input"],
+      "componentImports": ["button", "field", "form", "input"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-form-1.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-form-1.svelte"
+    },
+    {
+      "particle": "p-form-2",
+      "primaryPage": "components/form",
+      "consumingPages": ["components/form"],
+      "componentImports": ["button", "field", "form", "input"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-form-2.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-form-2.svelte"
+    },
+    {
+      "particle": "p-frame-1",
+      "primaryPage": "components/frame",
+      "consumingPages": ["components/frame"],
+      "componentImports": ["frame"],
+      "implementationLane": "D4",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-frame-1.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-frame-1.svelte"
+    },
+    {
+      "particle": "p-frame-2",
+      "primaryPage": "components/frame",
+      "consumingPages": [],
+      "componentImports": ["button", "collapsible", "frame"],
+      "implementationLane": "D4",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-frame-2.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-frame-2.svelte"
+    },
+    {
+      "particle": "p-frame-3",
+      "primaryPage": "components/frame",
+      "consumingPages": ["components/frame"],
+      "componentImports": ["frame"],
+      "implementationLane": "D4",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-frame-3.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-frame-3.svelte"
+    },
+    {
+      "particle": "p-frame-4",
+      "primaryPage": "components/frame",
+      "consumingPages": [],
+      "componentImports": ["frame", "separator"],
+      "implementationLane": "D4",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-frame-4.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-frame-4.svelte"
+    },
+    {
+      "particle": "p-group-1",
+      "primaryPage": "components/group",
+      "consumingPages": ["components/group"],
+      "componentImports": ["button", "group", "menu"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-group-1.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-group-1.svelte"
+    },
+    {
+      "particle": "p-group-10",
+      "primaryPage": "components/group",
+      "consumingPages": ["components/group"],
+      "componentImports": ["button", "group"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-group-10.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-group-10.svelte"
+    },
+    {
+      "particle": "p-group-11",
+      "primaryPage": "components/group",
+      "consumingPages": ["components/group"],
+      "componentImports": ["badge", "button", "group", "popover"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-group-11.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-group-11.svelte"
+    },
+    {
+      "particle": "p-group-12",
+      "primaryPage": "components/group",
+      "consumingPages": ["components/group"],
+      "componentImports": ["button", "group", "input-group", "tooltip"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-group-12.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-group-12.svelte"
+    },
+    {
+      "particle": "p-group-13",
+      "primaryPage": "components/group",
+      "consumingPages": ["components/group"],
+      "componentImports": ["button", "group", "menu"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-group-13.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-group-13.svelte"
+    },
+    {
+      "particle": "p-group-14",
+      "primaryPage": "components/group",
+      "consumingPages": ["components/group"],
+      "componentImports": ["button", "group", "number-field", "select"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-group-14.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-group-14.svelte"
+    },
+    {
+      "particle": "p-group-15",
+      "primaryPage": "components/group",
+      "consumingPages": [],
+      "componentImports": ["button", "group", "input", "select"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-group-15.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-group-15.svelte"
+    },
+    {
+      "particle": "p-group-16",
+      "primaryPage": "components/group",
+      "consumingPages": [],
+      "componentImports": ["button", "group", "input"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-group-16.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-group-16.svelte"
+    },
+    {
+      "particle": "p-group-17",
+      "primaryPage": "components/group",
+      "consumingPages": [],
+      "componentImports": ["group", "input", "label"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-group-17.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-group-17.svelte"
+    },
+    {
+      "particle": "p-group-18",
+      "primaryPage": "components/group",
+      "consumingPages": [],
+      "componentImports": ["group", "input", "select"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-group-18.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-group-18.svelte"
+    },
+    {
+      "particle": "p-group-19",
+      "primaryPage": "components/group",
+      "consumingPages": [],
+      "componentImports": ["group", "input", "select"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-group-19.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-group-19.svelte"
+    },
+    {
+      "particle": "p-group-2",
+      "primaryPage": "components/group",
+      "consumingPages": ["components/group"],
+      "componentImports": ["button", "group", "input", "tooltip"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-group-2.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-group-2.svelte"
+    },
+    {
+      "particle": "p-group-20",
+      "primaryPage": "components/group",
+      "consumingPages": [],
+      "componentImports": ["button", "group", "input"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-group-20.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-group-20.svelte"
+    },
+    {
+      "particle": "p-group-22",
+      "primaryPage": "components/group",
+      "consumingPages": [],
+      "componentImports": ["group", "label", "number-field"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-group-22.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-group-22.svelte"
+    },
+    {
+      "particle": "p-group-23",
+      "primaryPage": "components/group",
+      "consumingPages": [],
+      "componentImports": ["avatar", "badge", "button", "combobox", "group"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-group-23.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-group-23.svelte"
+    },
+    {
+      "particle": "p-group-3",
+      "primaryPage": "components/group",
+      "consumingPages": ["components/group"],
+      "componentImports": ["button", "group", "menu"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-group-3.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-group-3.svelte"
+    },
+    {
+      "particle": "p-group-4",
+      "primaryPage": "components/group",
+      "consumingPages": ["components/group"],
+      "componentImports": ["button", "group", "menu"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-group-4.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-group-4.svelte"
+    },
+    {
+      "particle": "p-group-5",
+      "primaryPage": "components/group",
+      "consumingPages": ["components/group"],
+      "componentImports": ["button", "group", "menu"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-group-5.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-group-5.svelte"
+    },
+    {
+      "particle": "p-group-6",
+      "primaryPage": "components/group",
+      "consumingPages": ["components/group"],
+      "componentImports": ["button", "group", "menu"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-group-6.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-group-6.svelte"
+    },
+    {
+      "particle": "p-group-7",
+      "primaryPage": "components/group",
+      "consumingPages": ["components/group"],
+      "componentImports": ["group", "input", "label"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-group-7.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-group-7.svelte"
+    },
+    {
+      "particle": "p-group-8",
+      "primaryPage": "components/group",
+      "consumingPages": ["components/group"],
+      "componentImports": ["group", "input", "label"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-group-8.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-group-8.svelte"
+    },
+    {
+      "particle": "p-group-9",
+      "primaryPage": "components/group",
+      "consumingPages": ["components/group"],
+      "componentImports": ["button", "group"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-group-9.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-group-9.svelte"
+    },
+    {
+      "particle": "p-input-1",
+      "primaryPage": "components/input",
+      "consumingPages": ["components/input"],
+      "componentImports": ["input"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-input-1.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-input-1.svelte"
+    },
+    {
+      "particle": "p-input-10",
+      "primaryPage": "components/input",
+      "consumingPages": [],
+      "componentImports": ["button", "input-group", "popover"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-input-10.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-input-10.svelte"
+    },
+    {
+      "particle": "p-input-11",
+      "primaryPage": "components/input",
+      "consumingPages": [],
+      "componentImports": ["input-group", "kbd"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-input-11.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-input-11.svelte"
+    },
+    {
+      "particle": "p-input-12",
+      "primaryPage": "components/spinner",
+      "consumingPages": ["components/spinner"],
+      "componentImports": ["input-group", "spinner"],
+      "implementationLane": "D10",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-input-12.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-input-12.svelte"
+    },
+    {
+      "particle": "p-input-13",
+      "primaryPage": "components/input",
+      "consumingPages": [],
+      "componentImports": ["input", "label"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-input-13.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-input-13.svelte"
+    },
+    {
+      "particle": "p-input-14",
+      "primaryPage": "components/input",
+      "consumingPages": [],
+      "componentImports": ["input", "label"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-input-14.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-input-14.svelte"
+    },
+    {
+      "particle": "p-input-15",
+      "primaryPage": "components/input",
+      "consumingPages": [],
+      "componentImports": ["input"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-input-15.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-input-15.svelte"
+    },
+    {
+      "particle": "p-input-16",
+      "primaryPage": "components/input",
+      "consumingPages": [],
+      "componentImports": ["input-group", "spinner"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-input-16.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-input-16.svelte"
+    },
+    {
+      "particle": "p-input-17",
+      "primaryPage": "components/input",
+      "consumingPages": [],
+      "componentImports": ["input"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-input-17.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-input-17.svelte"
+    },
+    {
+      "particle": "p-input-18",
+      "primaryPage": "components/input",
+      "consumingPages": [],
+      "componentImports": ["field", "input"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-input-18.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-input-18.svelte"
+    },
+    {
+      "particle": "p-input-19",
+      "primaryPage": "components/input",
+      "consumingPages": [],
+      "componentImports": ["input"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-input-19.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-input-19.svelte"
+    },
+    {
+      "particle": "p-input-2",
+      "primaryPage": "components/input",
+      "consumingPages": ["components/input"],
+      "componentImports": ["input"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-input-2.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-input-2.svelte"
+    },
+    {
+      "particle": "p-input-3",
+      "primaryPage": "components/input",
+      "consumingPages": ["components/input"],
+      "componentImports": ["input"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-input-3.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-input-3.svelte"
+    },
+    {
+      "particle": "p-input-4",
+      "primaryPage": "components/input",
+      "consumingPages": ["components/input"],
+      "componentImports": ["input"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-input-4.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-input-4.svelte"
+    },
+    {
+      "particle": "p-input-5",
+      "primaryPage": "components/input",
+      "consumingPages": ["components/input"],
+      "componentImports": ["input"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-input-5.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-input-5.svelte"
+    },
+    {
+      "particle": "p-input-6",
+      "primaryPage": "components/input",
+      "consumingPages": ["components/input", "components/label"],
+      "componentImports": ["input", "label"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-input-6.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-input-6.svelte"
+    },
+    {
+      "particle": "p-input-7",
+      "primaryPage": "components/input",
+      "consumingPages": ["components/input"],
+      "componentImports": ["button", "group", "input"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-input-7.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-input-7.svelte"
+    },
+    {
+      "particle": "p-input-8",
+      "primaryPage": "components/input",
+      "consumingPages": [],
+      "componentImports": ["button", "input-group", "popover"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-input-8.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-input-8.svelte"
+    },
+    {
+      "particle": "p-input-9",
+      "primaryPage": "components/input",
+      "consumingPages": [],
+      "componentImports": ["button", "input-group", "tooltip"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-input-9.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-input-9.svelte"
+    },
+    {
+      "particle": "p-input-group-1",
+      "primaryPage": "components/input-group",
+      "consumingPages": ["components/input-group"],
+      "componentImports": ["input-group"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-input-group-1.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-input-group-1.svelte"
+    },
+    {
+      "particle": "p-input-group-10",
+      "primaryPage": "components/input-group",
+      "consumingPages": ["components/input-group"],
+      "componentImports": ["badge", "input-group"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-input-group-10.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-input-group-10.svelte"
+    },
+    {
+      "particle": "p-input-group-11",
+      "primaryPage": "components/input-group",
+      "consumingPages": ["components/input-group", "components/kbd"],
+      "componentImports": ["input-group", "kbd"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-input-group-11.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-input-group-11.svelte"
+    },
+    {
+      "particle": "p-input-group-12",
+      "primaryPage": "components/input-group",
+      "consumingPages": ["components/input-group"],
+      "componentImports": ["button", "input-group", "label", "popover"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-input-group-12.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-input-group-12.svelte"
+    },
+    {
+      "particle": "p-input-group-13",
+      "primaryPage": "components/input-group",
+      "consumingPages": ["components/input-group"],
+      "componentImports": ["input-group"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-input-group-13.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-input-group-13.svelte"
+    },
+    {
+      "particle": "p-input-group-14",
+      "primaryPage": "components/input-group",
+      "consumingPages": ["components/input-group"],
+      "componentImports": ["input-group"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-input-group-14.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-input-group-14.svelte"
+    },
+    {
+      "particle": "p-input-group-15",
+      "primaryPage": "components/input-group",
+      "consumingPages": ["components/input-group"],
+      "componentImports": ["button", "input-group"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-input-group-15.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-input-group-15.svelte"
+    },
+    {
+      "particle": "p-input-group-16",
+      "primaryPage": "components/input-group",
+      "consumingPages": ["components/input-group"],
+      "componentImports": ["input-group", "spinner"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-input-group-16.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-input-group-16.svelte"
+    },
+    {
+      "particle": "p-input-group-17",
+      "primaryPage": "components/input-group",
+      "consumingPages": ["components/input-group"],
+      "componentImports": ["button", "input-group", "menu", "tooltip"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-input-group-17.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-input-group-17.svelte"
+    },
+    {
+      "particle": "p-input-group-18",
+      "primaryPage": "components/input-group",
+      "consumingPages": [],
+      "componentImports": ["badge", "button", "input-group", "menu"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-input-group-18.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-input-group-18.svelte"
+    },
+    {
+      "particle": "p-input-group-19",
+      "primaryPage": "components/input-group",
+      "consumingPages": [],
+      "componentImports": ["button", "input-group", "toggle"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-input-group-19.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-input-group-19.svelte"
+    },
+    {
+      "particle": "p-input-group-2",
+      "primaryPage": "components/input-group",
+      "consumingPages": ["components/input-group"],
+      "componentImports": ["input-group"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-input-group-2.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-input-group-2.svelte"
+    },
+    {
+      "particle": "p-input-group-20",
+      "primaryPage": "components/input-group",
+      "consumingPages": [],
+      "componentImports": ["input-group"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-input-group-20.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-input-group-20.svelte"
+    },
+    {
+      "particle": "p-input-group-21",
+      "primaryPage": "components/input-group",
+      "consumingPages": [],
+      "componentImports": ["button", "input-group", "tooltip"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-input-group-21.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-input-group-21.svelte"
+    },
+    {
+      "particle": "p-input-group-22",
+      "primaryPage": "components/input-group",
+      "consumingPages": [],
+      "componentImports": ["button", "input-group"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-input-group-22.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-input-group-22.svelte"
+    },
+    {
+      "particle": "p-input-group-23",
+      "primaryPage": "components/input-group",
+      "consumingPages": [],
+      "componentImports": ["button", "input-group", "tooltip"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-input-group-23.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-input-group-23.svelte"
+    },
+    {
+      "particle": "p-input-group-24",
+      "primaryPage": "components/input-group",
+      "consumingPages": [],
+      "componentImports": ["input-group"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-input-group-24.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-input-group-24.svelte"
+    },
+    {
+      "particle": "p-input-group-26",
+      "primaryPage": "components/input-group",
+      "consumingPages": [],
+      "componentImports": ["button", "input-group", "label"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-input-group-26.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-input-group-26.svelte"
+    },
+    {
+      "particle": "p-input-group-27",
+      "primaryPage": "components/input-group",
+      "consumingPages": [],
+      "componentImports": ["button", "input-group", "select", "tooltip"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-input-group-27.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-input-group-27.svelte"
+    },
+    {
+      "particle": "p-input-group-28",
+      "primaryPage": "components/input-group",
+      "consumingPages": [],
+      "componentImports": ["button", "input-group", "tooltip"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-input-group-28.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-input-group-28.svelte"
+    },
+    {
+      "particle": "p-input-group-29",
+      "primaryPage": "components/input-group",
+      "consumingPages": [],
+      "componentImports": ["button", "input-group", "tooltip"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-input-group-29.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-input-group-29.svelte"
+    },
+    {
+      "particle": "p-input-group-3",
+      "primaryPage": "components/input-group",
+      "consumingPages": ["components/input-group"],
+      "componentImports": ["input-group"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-input-group-3.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-input-group-3.svelte"
+    },
+    {
+      "particle": "p-input-group-4",
+      "primaryPage": "components/input-group",
+      "consumingPages": ["components/input-group"],
+      "componentImports": ["input-group"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-input-group-4.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-input-group-4.svelte"
+    },
+    {
+      "particle": "p-input-group-5",
+      "primaryPage": "components/input-group",
+      "consumingPages": ["components/input-group"],
+      "componentImports": ["input-group"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-input-group-5.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-input-group-5.svelte"
+    },
+    {
+      "particle": "p-input-group-6",
+      "primaryPage": "components/input-group",
+      "consumingPages": ["components/input-group"],
+      "componentImports": ["input-group", "number-field"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-input-group-6.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-input-group-6.svelte"
+    },
+    {
+      "particle": "p-input-group-7",
+      "primaryPage": "components/input-group",
+      "consumingPages": ["components/input-group", "components/popover"],
+      "componentImports": ["button", "input-group", "popover"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-input-group-7.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-input-group-7.svelte"
+    },
+    {
+      "particle": "p-input-group-8",
+      "primaryPage": "components/input-group",
+      "consumingPages": ["components/input-group"],
+      "componentImports": ["button", "input-group", "tooltip"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-input-group-8.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-input-group-8.svelte"
+    },
+    {
+      "particle": "p-input-group-9",
+      "primaryPage": "components/input-group",
+      "consumingPages": ["components/input-group"],
+      "componentImports": ["button", "input-group"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-input-group-9.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-input-group-9.svelte"
+    },
+    {
+      "particle": "p-kbd-1",
+      "primaryPage": "components/kbd",
+      "consumingPages": ["components/kbd"],
+      "componentImports": ["kbd"],
+      "implementationLane": "D10",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-kbd-1.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-kbd-1.svelte"
+    },
+    {
+      "particle": "p-menu-1",
+      "primaryPage": "components/menu",
+      "consumingPages": ["components/menu"],
+      "componentImports": ["button", "menu"],
+      "implementationLane": "D8",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-menu-1.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-menu-1.svelte"
+    },
+    {
+      "particle": "p-menu-2",
+      "primaryPage": "components/menu",
+      "consumingPages": ["components/menu"],
+      "componentImports": ["button", "menu"],
+      "implementationLane": "D8",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-menu-2.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-menu-2.svelte"
+    },
+    {
+      "particle": "p-menu-3",
+      "primaryPage": "components/menu",
+      "consumingPages": ["components/menu"],
+      "componentImports": ["button", "menu"],
+      "implementationLane": "D8",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-menu-3.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-menu-3.svelte"
+    },
+    {
+      "particle": "p-menu-4",
+      "primaryPage": "components/menu",
+      "consumingPages": ["components/menu"],
+      "componentImports": ["button", "menu"],
+      "implementationLane": "D8",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-menu-4.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-menu-4.svelte"
+    },
+    {
+      "particle": "p-menu-5",
+      "primaryPage": "components/menu",
+      "consumingPages": ["components/menu"],
+      "componentImports": ["button", "menu"],
+      "implementationLane": "D8",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-menu-5.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-menu-5.svelte"
+    },
+    {
+      "particle": "p-menu-6",
+      "primaryPage": "components/menu",
+      "consumingPages": ["components/menu"],
+      "componentImports": ["button", "menu"],
+      "implementationLane": "D8",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-menu-6.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-menu-6.svelte"
+    },
+    {
+      "particle": "p-menu-7",
+      "primaryPage": "components/menu",
+      "consumingPages": ["components/menu"],
+      "componentImports": ["button", "menu"],
+      "implementationLane": "D8",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-menu-7.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-menu-7.svelte"
+    },
+    {
+      "particle": "p-menu-8",
+      "primaryPage": "components/menu",
+      "consumingPages": ["components/menu"],
+      "componentImports": ["button", "menu"],
+      "implementationLane": "D8",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-menu-8.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-menu-8.svelte"
+    },
+    {
+      "particle": "p-menu-9",
+      "primaryPage": "components/menu",
+      "consumingPages": ["components/menu"],
+      "componentImports": ["button", "menu"],
+      "implementationLane": "D8",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-menu-9.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-menu-9.svelte"
+    },
+    {
+      "particle": "p-meter-1",
+      "primaryPage": "components/meter",
+      "consumingPages": ["components/meter"],
+      "componentImports": ["meter"],
+      "implementationLane": "D10",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-meter-1.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-meter-1.svelte"
+    },
+    {
+      "particle": "p-meter-2",
+      "primaryPage": "components/meter",
+      "consumingPages": ["components/meter"],
+      "componentImports": ["meter"],
+      "implementationLane": "D10",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-meter-2.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-meter-2.svelte"
+    },
+    {
+      "particle": "p-meter-3",
+      "primaryPage": "components/meter",
+      "consumingPages": ["components/meter"],
+      "componentImports": ["meter"],
+      "implementationLane": "D10",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-meter-3.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-meter-3.svelte"
+    },
+    {
+      "particle": "p-meter-4",
+      "primaryPage": "components/meter",
+      "consumingPages": ["components/meter"],
+      "componentImports": ["meter"],
+      "implementationLane": "D10",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-meter-4.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-meter-4.svelte"
+    },
+    {
+      "particle": "p-navigation-1",
+      "primaryPage": "components/segmented-control",
+      "consumingPages": ["components/segmented-control"],
+      "componentImports": ["segmented-control"],
+      "implementationLane": "D9",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-navigation-1.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-navigation-1.svelte"
+    },
+    {
+      "particle": "p-navigation-2",
+      "primaryPage": "components/segmented-control",
+      "consumingPages": ["components/segmented-control"],
+      "componentImports": ["segmented-control"],
+      "implementationLane": "D9",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-navigation-2.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-navigation-2.svelte"
+    },
+    {
+      "particle": "p-navigation-3",
+      "primaryPage": "components/segmented-control",
+      "consumingPages": ["components/segmented-control"],
+      "componentImports": ["segmented-control"],
+      "implementationLane": "D9",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-navigation-3.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-navigation-3.svelte"
+    },
+    {
+      "particle": "p-number-field-1",
+      "primaryPage": "components/number-field",
+      "consumingPages": ["components/number-field"],
+      "componentImports": ["number-field"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-number-field-1.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-number-field-1.svelte"
+    },
+    {
+      "particle": "p-number-field-10",
+      "primaryPage": "components/number-field",
+      "consumingPages": ["components/number-field"],
+      "componentImports": ["button", "field", "form", "number-field"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-number-field-10.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-number-field-10.svelte"
+    },
+    {
+      "particle": "p-number-field-11",
+      "primaryPage": "components/number-field",
+      "consumingPages": [],
+      "componentImports": ["number-field"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-number-field-11.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-number-field-11.svelte"
+    },
+    {
+      "particle": "p-number-field-2",
+      "primaryPage": "components/number-field",
+      "consumingPages": ["components/number-field"],
+      "componentImports": ["number-field"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-number-field-2.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-number-field-2.svelte"
+    },
+    {
+      "particle": "p-number-field-3",
+      "primaryPage": "components/number-field",
+      "consumingPages": ["components/number-field"],
+      "componentImports": ["number-field"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-number-field-3.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-number-field-3.svelte"
+    },
+    {
+      "particle": "p-number-field-4",
+      "primaryPage": "components/number-field",
+      "consumingPages": ["components/number-field"],
+      "componentImports": ["number-field"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-number-field-4.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-number-field-4.svelte"
+    },
+    {
+      "particle": "p-number-field-5",
+      "primaryPage": "components/number-field",
+      "consumingPages": ["components/number-field"],
+      "componentImports": ["label", "number-field"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-number-field-5.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-number-field-5.svelte"
+    },
+    {
+      "particle": "p-number-field-6",
+      "primaryPage": "components/number-field",
+      "consumingPages": ["components/number-field"],
+      "componentImports": ["number-field"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-number-field-6.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-number-field-6.svelte"
+    },
+    {
+      "particle": "p-number-field-7",
+      "primaryPage": "components/number-field",
+      "consumingPages": ["components/number-field"],
+      "componentImports": ["number-field"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-number-field-7.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-number-field-7.svelte"
+    },
+    {
+      "particle": "p-number-field-8",
+      "primaryPage": "components/number-field",
+      "consumingPages": ["components/number-field"],
+      "componentImports": ["number-field"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-number-field-8.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-number-field-8.svelte"
+    },
+    {
+      "particle": "p-number-field-9",
+      "primaryPage": "components/number-field",
+      "consumingPages": ["components/number-field"],
+      "componentImports": ["number-field"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-number-field-9.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-number-field-9.svelte"
+    },
+    {
+      "particle": "p-otp-field-1",
+      "primaryPage": "components/otp-field",
+      "consumingPages": ["components/otp-field"],
+      "componentImports": ["otp-field"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-otp-field-1.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-otp-field-1.svelte"
+    },
+    {
+      "particle": "p-otp-field-10",
+      "primaryPage": "components/otp-field",
+      "consumingPages": ["components/otp-field"],
+      "componentImports": ["field", "otp-field"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-otp-field-10.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-otp-field-10.svelte"
+    },
+    {
+      "particle": "p-otp-field-2",
+      "primaryPage": "components/otp-field",
+      "consumingPages": ["components/otp-field"],
+      "componentImports": ["otp-field"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-otp-field-2.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-otp-field-2.svelte"
+    },
+    {
+      "particle": "p-otp-field-3",
+      "primaryPage": "components/otp-field",
+      "consumingPages": ["components/otp-field"],
+      "componentImports": ["otp-field"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-otp-field-3.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-otp-field-3.svelte"
+    },
+    {
+      "particle": "p-otp-field-4",
+      "primaryPage": "components/otp-field",
+      "consumingPages": ["components/otp-field"],
+      "componentImports": ["field", "otp-field"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-otp-field-4.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-otp-field-4.svelte"
+    },
+    {
+      "particle": "p-otp-field-6",
+      "primaryPage": "components/otp-field",
+      "consumingPages": ["components/otp-field"],
+      "componentImports": ["field", "otp-field"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-otp-field-6.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-otp-field-6.svelte"
+    },
+    {
+      "particle": "p-otp-field-7",
+      "primaryPage": "components/otp-field",
+      "consumingPages": ["components/otp-field"],
+      "componentImports": ["field", "otp-field"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-otp-field-7.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-otp-field-7.svelte"
+    },
+    {
+      "particle": "p-otp-field-8",
+      "primaryPage": "components/otp-field",
+      "consumingPages": ["components/otp-field"],
+      "componentImports": ["field", "otp-field"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-otp-field-8.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-otp-field-8.svelte"
+    },
+    {
+      "particle": "p-otp-field-9",
+      "primaryPage": "components/otp-field",
+      "consumingPages": ["components/otp-field"],
+      "componentImports": ["field", "otp-field"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-otp-field-9.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-otp-field-9.svelte"
+    },
+    {
+      "particle": "p-pagination-1",
+      "primaryPage": "components/pagination",
+      "consumingPages": ["components/pagination"],
+      "componentImports": ["pagination"],
+      "implementationLane": "D9",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-pagination-1.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-pagination-1.svelte"
+    },
+    {
+      "particle": "p-pagination-2",
+      "primaryPage": "components/pagination",
+      "consumingPages": [],
+      "componentImports": ["button", "pagination"],
+      "implementationLane": "D9",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-pagination-2.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-pagination-2.svelte"
+    },
+    {
+      "particle": "p-pagination-3",
+      "primaryPage": "components/pagination",
+      "consumingPages": [],
+      "componentImports": ["button", "pagination", "select"],
+      "implementationLane": "D9",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-pagination-3.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-pagination-3.svelte"
+    },
+    {
+      "particle": "p-popover-1",
+      "primaryPage": "components/popover",
+      "consumingPages": ["components/popover"],
+      "componentImports": ["button", "field", "form", "popover", "textarea"],
+      "implementationLane": "D7",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-popover-1.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-popover-1.svelte"
+    },
+    {
+      "particle": "p-popover-2",
+      "primaryPage": "components/popover",
+      "consumingPages": ["components/popover"],
+      "componentImports": ["button", "popover"],
+      "implementationLane": "D7",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-popover-2.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-popover-2.svelte"
+    },
+    {
+      "particle": "p-popover-3",
+      "primaryPage": "components/popover",
+      "consumingPages": ["components/popover"],
+      "componentImports": ["avatar", "button", "popover"],
+      "implementationLane": "D7",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-popover-3.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-popover-3.svelte"
+    },
+    {
+      "particle": "p-popover-4",
+      "primaryPage": "components/popover",
+      "consumingPages": [],
+      "componentImports": [
+        "badge",
+        "button",
+        "checkbox",
+        "checkbox-group",
+        "group",
+        "label",
+        "popover"
+      ],
+      "implementationLane": "D7",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-popover-4.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-popover-4.svelte"
+    },
+    {
+      "particle": "p-preview-card-1",
+      "primaryPage": "components/preview-card",
+      "consumingPages": ["components/preview-card"],
+      "componentImports": ["button", "preview-card"],
+      "implementationLane": "D7",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-preview-card-1.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-preview-card-1.svelte"
+    },
+    {
+      "particle": "p-progress-1",
+      "primaryPage": "components/progress",
+      "consumingPages": ["components/progress"],
+      "componentImports": ["progress"],
+      "implementationLane": "D10",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-progress-1.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-progress-1.svelte"
+    },
+    {
+      "particle": "p-progress-2",
+      "primaryPage": "components/progress",
+      "consumingPages": ["components/progress"],
+      "componentImports": ["progress"],
+      "implementationLane": "D10",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-progress-2.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-progress-2.svelte"
+    },
+    {
+      "particle": "p-progress-3",
+      "primaryPage": "components/progress",
+      "consumingPages": ["components/progress"],
+      "componentImports": ["progress"],
+      "implementationLane": "D10",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-progress-3.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-progress-3.svelte"
+    },
+    {
+      "particle": "p-radio-group-1",
+      "primaryPage": "components/radio-group",
+      "consumingPages": ["components/radio-group"],
+      "componentImports": ["label", "radio-group"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-radio-group-1.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-radio-group-1.svelte"
+    },
+    {
+      "particle": "p-radio-group-2",
+      "primaryPage": "components/radio-group",
+      "consumingPages": ["components/radio-group"],
+      "componentImports": ["label", "radio-group"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-radio-group-2.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-radio-group-2.svelte"
+    },
+    {
+      "particle": "p-radio-group-3",
+      "primaryPage": "components/radio-group",
+      "consumingPages": ["components/radio-group"],
+      "componentImports": ["label", "radio-group"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-radio-group-3.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-radio-group-3.svelte"
+    },
+    {
+      "particle": "p-radio-group-4",
+      "primaryPage": "components/radio-group",
+      "consumingPages": ["components/radio-group"],
+      "componentImports": ["label", "radio-group"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-radio-group-4.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-radio-group-4.svelte"
+    },
+    {
+      "particle": "p-radio-group-5",
+      "primaryPage": "components/radio-group",
+      "consumingPages": ["components/radio-group"],
+      "componentImports": ["button", "field", "fieldset", "form", "radio-group"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-radio-group-5.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-radio-group-5.svelte"
+    },
+    {
+      "particle": "p-radio-group-6",
+      "primaryPage": "components/radio-group",
+      "consumingPages": [],
+      "componentImports": ["field", "fieldset", "radio-group"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-radio-group-6.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-radio-group-6.svelte"
+    },
+    {
+      "particle": "p-radio-group-7",
+      "primaryPage": "components/segmented-control",
+      "consumingPages": ["components/segmented-control"],
+      "componentImports": ["radio-group", "segmented-control"],
+      "implementationLane": "D9",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-radio-group-7.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-radio-group-7.svelte"
+    },
+    {
+      "particle": "p-radio-group-8",
+      "primaryPage": "components/segmented-control",
+      "consumingPages": ["components/segmented-control"],
+      "componentImports": ["radio-group", "segmented-control"],
+      "implementationLane": "D9",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-radio-group-8.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-radio-group-8.svelte"
+    },
+    {
+      "particle": "p-radio-group-9",
+      "primaryPage": "components/segmented-control",
+      "consumingPages": ["components/segmented-control"],
+      "componentImports": ["radio-group", "segmented-control"],
+      "implementationLane": "D9",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-radio-group-9.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-radio-group-9.svelte"
+    },
+    {
+      "particle": "p-scroll-area-1",
+      "primaryPage": "components/scroll-area",
+      "consumingPages": ["components/scroll-area"],
+      "componentImports": ["scroll-area"],
+      "implementationLane": "D9",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-scroll-area-1.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-scroll-area-1.svelte"
+    },
+    {
+      "particle": "p-scroll-area-2",
+      "primaryPage": "components/scroll-area",
+      "consumingPages": ["components/scroll-area"],
+      "componentImports": ["scroll-area"],
+      "implementationLane": "D9",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-scroll-area-2.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-scroll-area-2.svelte"
+    },
+    {
+      "particle": "p-scroll-area-3",
+      "primaryPage": "components/scroll-area",
+      "consumingPages": ["components/scroll-area"],
+      "componentImports": ["scroll-area"],
+      "implementationLane": "D9",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-scroll-area-3.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-scroll-area-3.svelte"
+    },
+    {
+      "particle": "p-scroll-area-4",
+      "primaryPage": "components/scroll-area",
+      "consumingPages": ["components/scroll-area"],
+      "componentImports": ["scroll-area"],
+      "implementationLane": "D9",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-scroll-area-4.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-scroll-area-4.svelte"
+    },
+    {
+      "particle": "p-scroll-area-5",
+      "primaryPage": "components/scroll-area",
+      "consumingPages": ["components/scroll-area"],
+      "componentImports": ["scroll-area"],
+      "implementationLane": "D9",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-scroll-area-5.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-scroll-area-5.svelte"
+    },
+    {
+      "particle": "p-select-1",
+      "primaryPage": "components/select",
+      "consumingPages": ["components/select"],
+      "componentImports": ["select"],
+      "implementationLane": "D8",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-select-1.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-select-1.svelte"
+    },
+    {
+      "particle": "p-select-10",
+      "primaryPage": "components/select",
+      "consumingPages": ["components/select"],
+      "componentImports": ["select"],
+      "implementationLane": "D8",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-select-10.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-select-10.svelte"
+    },
+    {
+      "particle": "p-select-11",
+      "primaryPage": "components/select",
+      "consumingPages": ["components/select"],
+      "componentImports": ["button", "field", "form", "select"],
+      "implementationLane": "D8",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-select-11.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-select-11.svelte"
+    },
+    {
+      "particle": "p-select-12",
+      "primaryPage": "components/select",
+      "consumingPages": [],
+      "componentImports": ["select"],
+      "implementationLane": "D8",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-select-12.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-select-12.svelte"
+    },
+    {
+      "particle": "p-select-13",
+      "primaryPage": "components/select",
+      "consumingPages": [],
+      "componentImports": ["select"],
+      "implementationLane": "D8",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-select-13.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-select-13.svelte"
+    },
+    {
+      "particle": "p-select-14",
+      "primaryPage": "components/select",
+      "consumingPages": [],
+      "componentImports": ["select"],
+      "implementationLane": "D8",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-select-14.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-select-14.svelte"
+    },
+    {
+      "particle": "p-select-15",
+      "primaryPage": "components/select",
+      "consumingPages": [],
+      "componentImports": ["select"],
+      "implementationLane": "D8",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-select-15.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-select-15.svelte"
+    },
+    {
+      "particle": "p-select-16",
+      "primaryPage": "components/select",
+      "consumingPages": [],
+      "componentImports": ["select"],
+      "implementationLane": "D8",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-select-16.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-select-16.svelte"
+    },
+    {
+      "particle": "p-select-17",
+      "primaryPage": "components/select",
+      "consumingPages": [],
+      "componentImports": ["select"],
+      "implementationLane": "D8",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-select-17.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-select-17.svelte"
+    },
+    {
+      "particle": "p-select-18",
+      "primaryPage": "components/select",
+      "consumingPages": [],
+      "componentImports": ["select"],
+      "implementationLane": "D8",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-select-18.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-select-18.svelte"
+    },
+    {
+      "particle": "p-select-19",
+      "primaryPage": "components/select",
+      "consumingPages": [],
+      "componentImports": ["avatar", "select"],
+      "implementationLane": "D8",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-select-19.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-select-19.svelte"
+    },
+    {
+      "particle": "p-select-2",
+      "primaryPage": "components/select",
+      "consumingPages": ["components/select"],
+      "componentImports": ["select"],
+      "implementationLane": "D8",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-select-2.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-select-2.svelte"
+    },
+    {
+      "particle": "p-select-20",
+      "primaryPage": "components/select",
+      "consumingPages": [],
+      "componentImports": ["avatar", "select"],
+      "implementationLane": "D8",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-select-20.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-select-20.svelte"
+    },
+    {
+      "particle": "p-select-21",
+      "primaryPage": "components/select",
+      "consumingPages": [],
+      "componentImports": ["select"],
+      "implementationLane": "D8",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-select-21.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-select-21.svelte"
+    },
+    {
+      "particle": "p-select-22",
+      "primaryPage": "components/select",
+      "consumingPages": [],
+      "componentImports": ["select"],
+      "implementationLane": "D8",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-select-22.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-select-22.svelte"
+    },
+    {
+      "particle": "p-select-23",
+      "primaryPage": "components/select",
+      "consumingPages": ["components/select"],
+      "componentImports": ["select"],
+      "implementationLane": "D8",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-select-23.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-select-23.svelte"
+    },
+    {
+      "particle": "p-select-3",
+      "primaryPage": "components/select",
+      "consumingPages": ["components/select"],
+      "componentImports": ["select"],
+      "implementationLane": "D8",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-select-3.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-select-3.svelte"
+    },
+    {
+      "particle": "p-select-4",
+      "primaryPage": "components/select",
+      "consumingPages": ["components/select"],
+      "componentImports": ["select"],
+      "implementationLane": "D8",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-select-4.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-select-4.svelte"
+    },
+    {
+      "particle": "p-select-5",
+      "primaryPage": "components/select",
+      "consumingPages": ["components/select"],
+      "componentImports": ["select"],
+      "implementationLane": "D8",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-select-5.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-select-5.svelte"
+    },
+    {
+      "particle": "p-select-6",
+      "primaryPage": "components/select",
+      "consumingPages": ["components/select"],
+      "componentImports": ["select"],
+      "implementationLane": "D8",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-select-6.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-select-6.svelte"
+    },
+    {
+      "particle": "p-select-7",
+      "primaryPage": "components/select",
+      "consumingPages": ["components/select"],
+      "componentImports": ["select"],
+      "implementationLane": "D8",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-select-7.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-select-7.svelte"
+    },
+    {
+      "particle": "p-select-8",
+      "primaryPage": "components/select",
+      "consumingPages": ["components/select"],
+      "componentImports": ["select"],
+      "implementationLane": "D8",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-select-8.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-select-8.svelte"
+    },
+    {
+      "particle": "p-select-9",
+      "primaryPage": "components/select",
+      "consumingPages": ["components/select"],
+      "componentImports": ["select"],
+      "implementationLane": "D8",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-select-9.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-select-9.svelte"
+    },
+    {
+      "particle": "p-separator-1",
+      "primaryPage": "components/separator",
+      "consumingPages": ["components/separator"],
+      "componentImports": ["separator"],
+      "implementationLane": "D4",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-separator-1.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-separator-1.svelte"
+    },
+    {
+      "particle": "p-sheet-1",
+      "primaryPage": "components/sheet",
+      "consumingPages": ["components/sheet"],
+      "componentImports": ["button", "field", "form", "input", "sheet"],
+      "implementationLane": "D7",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-sheet-1.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-sheet-1.svelte"
+    },
+    {
+      "particle": "p-sheet-2",
+      "primaryPage": "components/sheet",
+      "consumingPages": ["components/sheet"],
+      "componentImports": ["button", "field", "form", "input", "sheet"],
+      "implementationLane": "D7",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-sheet-2.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-sheet-2.svelte"
+    },
+    {
+      "particle": "p-sheet-3",
+      "primaryPage": "components/sheet",
+      "consumingPages": ["components/sheet"],
+      "componentImports": ["button", "sheet"],
+      "implementationLane": "D7",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-sheet-3.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-sheet-3.svelte"
+    },
+    {
+      "particle": "p-skeleton-1",
+      "primaryPage": "components/skeleton",
+      "consumingPages": ["components/skeleton"],
+      "componentImports": ["avatar", "button", "skeleton"],
+      "implementationLane": "D4",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-skeleton-1.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-skeleton-1.svelte"
+    },
+    {
+      "particle": "p-skeleton-2",
+      "primaryPage": "components/skeleton",
+      "consumingPages": ["components/skeleton"],
+      "componentImports": ["skeleton"],
+      "implementationLane": "D4",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-skeleton-2.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-skeleton-2.svelte"
+    },
+    {
+      "particle": "p-slider-1",
+      "primaryPage": "components/slider",
+      "consumingPages": ["components/slider"],
+      "componentImports": ["slider"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-slider-1.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-slider-1.svelte"
+    },
+    {
+      "particle": "p-slider-10",
+      "primaryPage": "components/slider",
+      "consumingPages": [],
+      "componentImports": ["slider"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-slider-10.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-slider-10.svelte"
+    },
+    {
+      "particle": "p-slider-11",
+      "primaryPage": "components/slider",
+      "consumingPages": [],
+      "componentImports": ["field", "slider"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-slider-11.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-slider-11.svelte"
+    },
+    {
+      "particle": "p-slider-12",
+      "primaryPage": "components/slider",
+      "consumingPages": [],
+      "componentImports": ["number-field", "slider"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-slider-12.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-slider-12.svelte"
+    },
+    {
+      "particle": "p-slider-13",
+      "primaryPage": "components/slider",
+      "consumingPages": [],
+      "componentImports": ["number-field", "slider"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-slider-13.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-slider-13.svelte"
+    },
+    {
+      "particle": "p-slider-14",
+      "primaryPage": "components/slider",
+      "consumingPages": [],
+      "componentImports": ["button", "field", "slider"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-slider-14.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-slider-14.svelte"
+    },
+    {
+      "particle": "p-slider-15",
+      "primaryPage": "components/slider",
+      "consumingPages": [],
+      "componentImports": ["fieldset", "slider"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-slider-15.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-slider-15.svelte"
+    },
+    {
+      "particle": "p-slider-16",
+      "primaryPage": "components/slider",
+      "consumingPages": [],
+      "componentImports": ["field", "slider"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-slider-16.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-slider-16.svelte"
+    },
+    {
+      "particle": "p-slider-17",
+      "primaryPage": "components/slider",
+      "consumingPages": [],
+      "componentImports": ["slider"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-slider-17.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-slider-17.svelte"
+    },
+    {
+      "particle": "p-slider-18",
+      "primaryPage": "components/slider",
+      "consumingPages": [],
+      "componentImports": ["slider"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-slider-18.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-slider-18.svelte"
+    },
+    {
+      "particle": "p-slider-19",
+      "primaryPage": "components/slider",
+      "consumingPages": [],
+      "componentImports": ["number-field", "slider"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-slider-19.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-slider-19.svelte"
+    },
+    {
+      "particle": "p-slider-2",
+      "primaryPage": "components/slider",
+      "consumingPages": ["components/slider"],
+      "componentImports": ["field", "slider"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-slider-2.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-slider-2.svelte"
+    },
+    {
+      "particle": "p-slider-20",
+      "primaryPage": "components/slider",
+      "consumingPages": [],
+      "componentImports": ["slider"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-slider-20.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-slider-20.svelte"
+    },
+    {
+      "particle": "p-slider-21",
+      "primaryPage": "components/slider",
+      "consumingPages": [],
+      "componentImports": ["button", "fieldset", "label", "number-field", "slider"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-slider-21.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-slider-21.svelte"
+    },
+    {
+      "particle": "p-slider-22",
+      "primaryPage": "components/slider",
+      "consumingPages": [],
+      "componentImports": ["button", "input-group", "number-field", "slider"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-slider-22.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-slider-22.svelte"
+    },
+    {
+      "particle": "p-slider-23",
+      "primaryPage": "components/slider",
+      "consumingPages": [],
+      "componentImports": ["button", "field", "fieldset", "form", "slider"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-slider-23.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-slider-23.svelte"
+    },
+    {
+      "particle": "p-slider-3",
+      "primaryPage": "components/slider",
+      "consumingPages": ["components/slider"],
+      "componentImports": ["slider"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-slider-3.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-slider-3.svelte"
+    },
+    {
+      "particle": "p-slider-4",
+      "primaryPage": "components/slider",
+      "consumingPages": ["components/slider"],
+      "componentImports": ["slider"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-slider-4.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-slider-4.svelte"
+    },
+    {
+      "particle": "p-slider-5",
+      "primaryPage": "components/slider",
+      "consumingPages": ["components/slider"],
+      "componentImports": ["slider"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-slider-5.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-slider-5.svelte"
+    },
+    {
+      "particle": "p-slider-6",
+      "primaryPage": "components/slider",
+      "consumingPages": [],
+      "componentImports": ["slider"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-slider-6.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-slider-6.svelte"
+    },
+    {
+      "particle": "p-slider-7",
+      "primaryPage": "components/slider",
+      "consumingPages": [],
+      "componentImports": ["slider"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-slider-7.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-slider-7.svelte"
+    },
+    {
+      "particle": "p-slider-8",
+      "primaryPage": "components/slider",
+      "consumingPages": [],
+      "componentImports": ["slider"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-slider-8.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-slider-8.svelte"
+    },
+    {
+      "particle": "p-slider-9",
+      "primaryPage": "components/slider",
+      "consumingPages": [],
+      "componentImports": ["slider"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-slider-9.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-slider-9.svelte"
+    },
+    {
+      "particle": "p-spinner-1",
+      "primaryPage": "components/spinner",
+      "consumingPages": ["components/spinner"],
+      "componentImports": ["spinner"],
+      "implementationLane": "D10",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-spinner-1.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-spinner-1.svelte"
+    },
+    {
+      "particle": "p-switch-1",
+      "primaryPage": "components/switch",
+      "consumingPages": ["components/switch"],
+      "componentImports": ["label", "switch"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-switch-1.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-switch-1.svelte"
+    },
+    {
+      "particle": "p-switch-2",
+      "primaryPage": "components/switch",
+      "consumingPages": ["components/switch"],
+      "componentImports": ["label", "switch"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-switch-2.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-switch-2.svelte"
+    },
+    {
+      "particle": "p-switch-3",
+      "primaryPage": "components/switch",
+      "consumingPages": ["components/switch"],
+      "componentImports": ["label", "switch"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-switch-3.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-switch-3.svelte"
+    },
+    {
+      "particle": "p-switch-4",
+      "primaryPage": "components/switch",
+      "consumingPages": ["components/switch"],
+      "componentImports": ["label", "switch"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-switch-4.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-switch-4.svelte"
+    },
+    {
+      "particle": "p-switch-5",
+      "primaryPage": "components/switch",
+      "consumingPages": ["components/switch"],
+      "componentImports": ["button", "field", "form", "switch"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-switch-5.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-switch-5.svelte"
+    },
+    {
+      "particle": "p-switch-6",
+      "primaryPage": "components/switch",
+      "consumingPages": ["components/switch"],
+      "componentImports": ["switch"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-switch-6.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-switch-6.svelte"
+    },
+    {
+      "particle": "p-switch-7",
+      "primaryPage": "components/switch",
+      "consumingPages": [],
+      "componentImports": [
+        "button",
+        "checkbox",
+        "checkbox-group",
+        "combobox",
+        "label",
+        "popover",
+        "select",
+        "switch",
+        "tooltip"
+      ],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-switch-7.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-switch-7.svelte"
+    },
+    {
+      "particle": "p-switch-8",
+      "primaryPage": "components/switch",
+      "consumingPages": [],
+      "componentImports": [
+        "button",
+        "checkbox",
+        "checkbox-group",
+        "combobox",
+        "group",
+        "label",
+        "popover",
+        "switch",
+        "tooltip"
+      ],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-switch-8.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-switch-8.svelte"
+    },
+    {
+      "particle": "p-switch-9",
+      "primaryPage": "components/switch",
+      "consumingPages": [],
+      "componentImports": [
+        "button",
+        "checkbox",
+        "checkbox-group",
+        "combobox",
+        "group",
+        "label",
+        "popover",
+        "switch",
+        "tooltip"
+      ],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-switch-9.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-switch-9.svelte"
+    },
+    {
+      "particle": "p-table-1",
+      "primaryPage": "components/table",
+      "consumingPages": ["components/table"],
+      "componentImports": ["badge", "table"],
+      "implementationLane": "D9",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-table-1.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-table-1.svelte"
+    },
+    {
+      "particle": "p-table-2",
+      "primaryPage": "components/table",
+      "consumingPages": ["components/table"],
+      "componentImports": ["badge", "frame", "table"],
+      "implementationLane": "D9",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-table-2.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-table-2.svelte"
+    },
+    {
+      "particle": "p-table-3",
+      "primaryPage": "components/table",
+      "consumingPages": [],
+      "componentImports": ["badge", "checkbox", "frame", "table"],
+      "implementationLane": "D9",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-table-3.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-table-3.svelte"
+    },
+    {
+      "particle": "p-table-4",
+      "primaryPage": "components/table",
+      "consumingPages": [],
+      "componentImports": ["badge", "button", "checkbox", "frame", "pagination", "select", "table"],
+      "implementationLane": "D9",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-table-4.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-table-4.svelte"
+    },
+    {
+      "particle": "p-table-5",
+      "primaryPage": "components/table",
+      "consumingPages": ["components/table"],
+      "componentImports": ["badge", "table"],
+      "implementationLane": "D9",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-table-5.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-table-5.svelte"
+    },
+    {
+      "particle": "p-table-6",
+      "primaryPage": "components/table",
+      "consumingPages": ["components/table"],
+      "componentImports": ["badge", "card", "checkbox", "table"],
+      "implementationLane": "D9",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-table-6.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-table-6.svelte"
+    },
+    {
+      "particle": "p-table-7",
+      "primaryPage": "components/table",
+      "consumingPages": ["components/table"],
+      "componentImports": ["badge", "card", "table"],
+      "implementationLane": "D9",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-table-7.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-table-7.svelte"
+    },
+    {
+      "particle": "p-table-8",
+      "primaryPage": "components/table",
+      "consumingPages": [],
+      "componentImports": ["badge", "button", "card", "checkbox", "pagination", "select", "table"],
+      "implementationLane": "D9",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-table-8.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-table-8.svelte"
+    },
+    {
+      "particle": "p-tabs-1",
+      "primaryPage": "components/segmented-control",
+      "consumingPages": ["components/segmented-control", "components/tabs"],
+      "componentImports": ["tabs"],
+      "implementationLane": "D9",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-tabs-1.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-tabs-1.svelte"
+    },
+    {
+      "particle": "p-tabs-10",
+      "primaryPage": "components/tabs",
+      "consumingPages": [],
+      "componentImports": ["badge", "tabs"],
+      "implementationLane": "D4",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-tabs-10.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-tabs-10.svelte"
+    },
+    {
+      "particle": "p-tabs-11",
+      "primaryPage": "components/tabs",
+      "consumingPages": [],
+      "componentImports": ["tabs"],
+      "implementationLane": "D4",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-tabs-11.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-tabs-11.svelte"
+    },
+    {
+      "particle": "p-tabs-12",
+      "primaryPage": "components/tabs",
+      "consumingPages": [],
+      "componentImports": ["badge", "tabs"],
+      "implementationLane": "D4",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-tabs-12.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-tabs-12.svelte"
+    },
+    {
+      "particle": "p-tabs-13",
+      "primaryPage": "components/tabs",
+      "consumingPages": [],
+      "componentImports": ["tabs", "tooltip"],
+      "implementationLane": "D4",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-tabs-13.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-tabs-13.svelte"
+    },
+    {
+      "particle": "p-tabs-14",
+      "primaryPage": "components/tabs",
+      "consumingPages": ["components/tabs"],
+      "componentImports": ["tabs"],
+      "implementationLane": "D4",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-tabs-14.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-tabs-14.svelte"
+    },
+    {
+      "particle": "p-tabs-15",
+      "primaryPage": "components/tabs",
+      "consumingPages": ["components/tabs"],
+      "componentImports": ["tabs"],
+      "implementationLane": "D4",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-tabs-15.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-tabs-15.svelte"
+    },
+    {
+      "particle": "p-tabs-2",
+      "primaryPage": "components/tabs",
+      "consumingPages": ["components/tabs"],
+      "componentImports": ["tabs"],
+      "implementationLane": "D4",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-tabs-2.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-tabs-2.svelte"
+    },
+    {
+      "particle": "p-tabs-3",
+      "primaryPage": "components/tabs",
+      "consumingPages": ["components/tabs"],
+      "componentImports": ["tabs"],
+      "implementationLane": "D4",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-tabs-3.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-tabs-3.svelte"
+    },
+    {
+      "particle": "p-tabs-4",
+      "primaryPage": "components/tabs",
+      "consumingPages": ["components/tabs"],
+      "componentImports": ["tabs"],
+      "implementationLane": "D4",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-tabs-4.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-tabs-4.svelte"
+    },
+    {
+      "particle": "p-tabs-5",
+      "primaryPage": "components/tabs",
+      "consumingPages": [],
+      "componentImports": ["tabs"],
+      "implementationLane": "D4",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-tabs-5.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-tabs-5.svelte"
+    },
+    {
+      "particle": "p-tabs-6",
+      "primaryPage": "components/tabs",
+      "consumingPages": [],
+      "componentImports": ["tabs"],
+      "implementationLane": "D4",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-tabs-6.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-tabs-6.svelte"
+    },
+    {
+      "particle": "p-tabs-7",
+      "primaryPage": "components/tabs",
+      "consumingPages": [],
+      "componentImports": ["tabs"],
+      "implementationLane": "D4",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-tabs-7.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-tabs-7.svelte"
+    },
+    {
+      "particle": "p-tabs-8",
+      "primaryPage": "components/tabs",
+      "consumingPages": [],
+      "componentImports": ["tabs"],
+      "implementationLane": "D4",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-tabs-8.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-tabs-8.svelte"
+    },
+    {
+      "particle": "p-tabs-9",
+      "primaryPage": "components/tabs",
+      "consumingPages": [],
+      "componentImports": ["tabs"],
+      "implementationLane": "D4",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-tabs-9.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-tabs-9.svelte"
+    },
+    {
+      "particle": "p-textarea-1",
+      "primaryPage": "components/textarea",
+      "consumingPages": ["components/textarea"],
+      "componentImports": ["textarea"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-textarea-1.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-textarea-1.svelte"
+    },
+    {
+      "particle": "p-textarea-10",
+      "primaryPage": "components/textarea",
+      "consumingPages": [],
+      "componentImports": ["textarea"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-textarea-10.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-textarea-10.svelte"
+    },
+    {
+      "particle": "p-textarea-11",
+      "primaryPage": "components/textarea",
+      "consumingPages": [],
+      "componentImports": ["field", "textarea"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-textarea-11.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-textarea-11.svelte"
+    },
+    {
+      "particle": "p-textarea-12",
+      "primaryPage": "components/textarea",
+      "consumingPages": [],
+      "componentImports": ["field", "textarea"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-textarea-12.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-textarea-12.svelte"
+    },
+    {
+      "particle": "p-textarea-13",
+      "primaryPage": "components/textarea",
+      "consumingPages": [],
+      "componentImports": ["textarea"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-textarea-13.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-textarea-13.svelte"
+    },
+    {
+      "particle": "p-textarea-14",
+      "primaryPage": "components/textarea",
+      "consumingPages": [],
+      "componentImports": ["button", "textarea"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-textarea-14.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-textarea-14.svelte"
+    },
+    {
+      "particle": "p-textarea-15",
+      "primaryPage": "components/textarea",
+      "consumingPages": [],
+      "componentImports": ["button", "textarea"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-textarea-15.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-textarea-15.svelte"
+    },
+    {
+      "particle": "p-textarea-2",
+      "primaryPage": "components/textarea",
+      "consumingPages": ["components/textarea"],
+      "componentImports": ["textarea"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-textarea-2.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-textarea-2.svelte"
+    },
+    {
+      "particle": "p-textarea-3",
+      "primaryPage": "components/textarea",
+      "consumingPages": ["components/textarea"],
+      "componentImports": ["textarea"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-textarea-3.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-textarea-3.svelte"
+    },
+    {
+      "particle": "p-textarea-4",
+      "primaryPage": "components/textarea",
+      "consumingPages": ["components/textarea"],
+      "componentImports": ["textarea"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-textarea-4.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-textarea-4.svelte"
+    },
+    {
+      "particle": "p-textarea-5",
+      "primaryPage": "components/textarea",
+      "consumingPages": ["components/textarea"],
+      "componentImports": ["label", "textarea"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-textarea-5.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-textarea-5.svelte"
+    },
+    {
+      "particle": "p-textarea-6",
+      "primaryPage": "components/textarea",
+      "consumingPages": ["components/textarea"],
+      "componentImports": ["button", "field", "form", "textarea"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-textarea-6.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-textarea-6.svelte"
+    },
+    {
+      "particle": "p-textarea-7",
+      "primaryPage": "components/textarea",
+      "consumingPages": [],
+      "componentImports": ["label", "textarea"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-textarea-7.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-textarea-7.svelte"
+    },
+    {
+      "particle": "p-textarea-8",
+      "primaryPage": "components/textarea",
+      "consumingPages": [],
+      "componentImports": ["label", "textarea"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-textarea-8.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-textarea-8.svelte"
+    },
+    {
+      "particle": "p-textarea-9",
+      "primaryPage": "components/textarea",
+      "consumingPages": [],
+      "componentImports": ["textarea"],
+      "implementationLane": "D6",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-textarea-9.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-textarea-9.svelte"
+    },
+    {
+      "particle": "p-toast-1",
+      "primaryPage": "components/toast",
+      "consumingPages": ["components/toast"],
+      "componentImports": ["button", "toast"],
+      "implementationLane": "D10",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-toast-1.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-toast-1.svelte"
+    },
+    {
+      "particle": "p-toast-10",
+      "primaryPage": "components/toast",
+      "consumingPages": ["components/toast"],
+      "componentImports": ["button", "toast"],
+      "implementationLane": "D10",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-toast-10.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-toast-10.svelte"
+    },
+    {
+      "particle": "p-toast-11",
+      "primaryPage": "components/toast",
+      "consumingPages": [],
+      "componentImports": ["button", "toast"],
+      "implementationLane": "D10",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-toast-11.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-toast-11.svelte"
+    },
+    {
+      "particle": "p-toast-12",
+      "primaryPage": "components/toast",
+      "consumingPages": ["components/toast"],
+      "componentImports": ["button", "toast", "tooltip"],
+      "implementationLane": "D10",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-toast-12.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-toast-12.svelte"
+    },
+    {
+      "particle": "p-toast-13",
+      "primaryPage": "components/toast",
+      "consumingPages": [],
+      "componentImports": ["button", "toast", "tooltip"],
+      "implementationLane": "D10",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-toast-13.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-toast-13.svelte"
+    },
+    {
+      "particle": "p-toast-2",
+      "primaryPage": "components/toast",
+      "consumingPages": ["components/toast"],
+      "componentImports": ["button", "toast"],
+      "implementationLane": "D10",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-toast-2.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-toast-2.svelte"
+    },
+    {
+      "particle": "p-toast-3",
+      "primaryPage": "components/toast",
+      "consumingPages": ["components/toast"],
+      "componentImports": ["button", "toast"],
+      "implementationLane": "D10",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-toast-3.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-toast-3.svelte"
+    },
+    {
+      "particle": "p-toast-4",
+      "primaryPage": "components/toast",
+      "consumingPages": ["components/toast"],
+      "componentImports": ["button", "toast"],
+      "implementationLane": "D10",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-toast-4.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-toast-4.svelte"
+    },
+    {
+      "particle": "p-toast-5",
+      "primaryPage": "components/toast",
+      "consumingPages": ["components/toast"],
+      "componentImports": ["button", "toast"],
+      "implementationLane": "D10",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-toast-5.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-toast-5.svelte"
+    },
+    {
+      "particle": "p-toast-6",
+      "primaryPage": "components/toast",
+      "consumingPages": ["components/toast"],
+      "componentImports": ["button", "toast"],
+      "implementationLane": "D10",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-toast-6.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-toast-6.svelte"
+    },
+    {
+      "particle": "p-toast-7",
+      "primaryPage": "components/toast",
+      "consumingPages": ["components/toast"],
+      "componentImports": ["button", "toast", "tooltip"],
+      "implementationLane": "D10",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-toast-7.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-toast-7.svelte"
+    },
+    {
+      "particle": "p-toast-8",
+      "primaryPage": "components/toast",
+      "consumingPages": ["components/toast"],
+      "componentImports": ["button", "spinner", "toast"],
+      "implementationLane": "D10",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-toast-8.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-toast-8.svelte"
+    },
+    {
+      "particle": "p-toast-9",
+      "primaryPage": "components/toast",
+      "consumingPages": [],
+      "componentImports": ["button", "toast"],
+      "implementationLane": "D10",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-toast-9.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-toast-9.svelte"
+    },
+    {
+      "particle": "p-toggle-1",
+      "primaryPage": "components/toggle",
+      "consumingPages": ["components/toggle"],
+      "componentImports": ["toggle"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-toggle-1.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-toggle-1.svelte"
+    },
+    {
+      "particle": "p-toggle-2",
+      "primaryPage": "components/toggle",
+      "consumingPages": ["components/toggle"],
+      "componentImports": ["toggle"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-toggle-2.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-toggle-2.svelte"
+    },
+    {
+      "particle": "p-toggle-3",
+      "primaryPage": "components/toggle",
+      "consumingPages": ["components/toggle"],
+      "componentImports": ["toggle"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-toggle-3.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-toggle-3.svelte"
+    },
+    {
+      "particle": "p-toggle-4",
+      "primaryPage": "components/toggle",
+      "consumingPages": ["components/toggle"],
+      "componentImports": ["toggle"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-toggle-4.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-toggle-4.svelte"
+    },
+    {
+      "particle": "p-toggle-5",
+      "primaryPage": "components/toggle",
+      "consumingPages": ["components/toggle"],
+      "componentImports": ["toggle"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-toggle-5.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-toggle-5.svelte"
+    },
+    {
+      "particle": "p-toggle-6",
+      "primaryPage": "components/toggle",
+      "consumingPages": ["components/toggle"],
+      "componentImports": ["toggle"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-toggle-6.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-toggle-6.svelte"
+    },
+    {
+      "particle": "p-toggle-7",
+      "primaryPage": "components/toggle",
+      "consumingPages": ["components/toggle"],
+      "componentImports": ["toggle"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-toggle-7.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-toggle-7.svelte"
+    },
+    {
+      "particle": "p-toggle-8",
+      "primaryPage": "components/toggle",
+      "consumingPages": [],
+      "componentImports": ["toast", "toggle", "tooltip"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-toggle-8.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-toggle-8.svelte"
+    },
+    {
+      "particle": "p-toggle-group-1",
+      "primaryPage": "components/toggle-group",
+      "consumingPages": ["components/toggle-group"],
+      "componentImports": ["toggle-group"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-toggle-group-1.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-toggle-group-1.svelte"
+    },
+    {
+      "particle": "p-toggle-group-2",
+      "primaryPage": "components/toggle-group",
+      "consumingPages": ["components/toggle-group"],
+      "componentImports": ["toggle-group"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-toggle-group-2.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-toggle-group-2.svelte"
+    },
+    {
+      "particle": "p-toggle-group-3",
+      "primaryPage": "components/toggle-group",
+      "consumingPages": ["components/toggle-group"],
+      "componentImports": ["toggle-group"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-toggle-group-3.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-toggle-group-3.svelte"
+    },
+    {
+      "particle": "p-toggle-group-4",
+      "primaryPage": "components/toggle-group",
+      "consumingPages": ["components/toggle-group"],
+      "componentImports": ["toggle-group"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-toggle-group-4.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-toggle-group-4.svelte"
+    },
+    {
+      "particle": "p-toggle-group-5",
+      "primaryPage": "components/toggle-group",
+      "consumingPages": ["components/toggle-group"],
+      "componentImports": ["toggle-group"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-toggle-group-5.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-toggle-group-5.svelte"
+    },
+    {
+      "particle": "p-toggle-group-6",
+      "primaryPage": "components/toggle-group",
+      "consumingPages": ["components/toggle-group"],
+      "componentImports": ["toggle-group"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-toggle-group-6.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-toggle-group-6.svelte"
+    },
+    {
+      "particle": "p-toggle-group-7",
+      "primaryPage": "components/toggle-group",
+      "consumingPages": ["components/toggle-group"],
+      "componentImports": ["toggle-group"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-toggle-group-7.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-toggle-group-7.svelte"
+    },
+    {
+      "particle": "p-toggle-group-8",
+      "primaryPage": "components/toggle-group",
+      "consumingPages": ["components/toggle-group"],
+      "componentImports": ["toggle-group"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-toggle-group-8.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-toggle-group-8.svelte"
+    },
+    {
+      "particle": "p-toggle-group-9",
+      "primaryPage": "components/toggle-group",
+      "consumingPages": ["components/toggle-group"],
+      "componentImports": ["toggle-group", "tooltip"],
+      "implementationLane": "D5",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-toggle-group-9.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-toggle-group-9.svelte"
+    },
+    {
+      "particle": "p-toolbar-1",
+      "primaryPage": "components/toolbar",
+      "consumingPages": ["components/toolbar"],
+      "componentImports": ["button", "select", "toggle-group", "toolbar", "tooltip"],
+      "implementationLane": "D8",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-toolbar-1.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-toolbar-1.svelte"
+    },
+    {
+      "particle": "p-tooltip-1",
+      "primaryPage": "components/tooltip",
+      "consumingPages": ["components/tooltip"],
+      "componentImports": ["button", "tooltip"],
+      "implementationLane": "D7",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-tooltip-1.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-tooltip-1.svelte"
+    },
+    {
+      "particle": "p-tooltip-2",
+      "primaryPage": "components/tooltip",
+      "consumingPages": ["components/tooltip"],
+      "componentImports": ["toggle-group", "tooltip"],
+      "implementationLane": "D7",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-tooltip-2.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-tooltip-2.svelte"
+    },
+    {
+      "particle": "p-tooltip-3",
+      "primaryPage": "components/tooltip",
+      "consumingPages": ["components/tooltip"],
+      "componentImports": ["toggle-group", "tooltip"],
+      "implementationLane": "D7",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-tooltip-3.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-tooltip-3.svelte"
+    },
+    {
+      "particle": "p-tooltip-4",
+      "primaryPage": "components/tooltip",
+      "consumingPages": [],
+      "componentImports": ["button", "group", "tooltip"],
+      "implementationLane": "D7",
+      "sourcePath": "reference/apps/ui/registry/default/particles/p-tooltip-4.tsx",
+      "targetPath": "apps/ui/registry/default/particles/p-tooltip-4.svelte"
+    }
+  ]
+}
