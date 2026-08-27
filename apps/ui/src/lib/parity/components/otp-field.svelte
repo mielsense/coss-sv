@@ -61,7 +61,7 @@ function handleTierInvalid(value: string) {
       <Field.Label>Verification code</Field.Label>
       <OTPField.Root length={4}>
         {#each Array(4) as _, index (index)}
-          <OTPField.Input aria-label={`Character ${index + 1} of 4`} />
+          <OTPField.Input aria-label={index === 0 ? undefined : `Character ${index + 1} of 4`} />
         {/each}
       </OTPField.Root>
       <Field.Description>Enter the 4-digit code sent to your email.</Field.Description>
@@ -81,7 +81,7 @@ function handleTierInvalid(value: string) {
         {#each Array(6) as _, index (index)}
           <OTPField.Input
             aria-invalid={invalidPulse > 0 && focusedIndex === index ? true : undefined}
-            aria-label={`Character ${index + 1} of 6`}
+            aria-label={index === 0 ? undefined : `Character ${index + 1} of 6`}
             onfocus={() => (focusedIndex = index)}
           />
         {/each}
@@ -103,7 +103,7 @@ function handleTierInvalid(value: string) {
         {#each Array(6) as _, index (index)}
           <OTPField.Input
             aria-invalid={validationInvalid ? true : undefined}
-            aria-label={`Character ${index + 1} of 6`}
+            aria-label={index === 0 ? undefined : `Character ${index + 1} of 6`}
           />
         {/each}
       </OTPField.Root>
@@ -122,7 +122,7 @@ function handleTierInvalid(value: string) {
       <Field.Label>Recovery code</Field.Label>
       <OTPField.Root length={6} validationType="alphanumeric">
         {#each Array(6) as _, index (index)}
-          <OTPField.Input aria-label={`Character ${index + 1} of 6`} />
+          <OTPField.Input aria-label={index === 0 ? undefined : `Character ${index + 1} of 6`} />
         {/each}
       </OTPField.Root>
       <Field.Description>
@@ -138,7 +138,7 @@ function handleTierInvalid(value: string) {
       <OTPField.Root length={6}>
         {#each Array(6) as _, index (index)}
           <OTPField.Input
-            aria-label={`Character ${index + 1} of 6`}
+            aria-label={index === 0 ? undefined : `Character ${index + 1} of 6`}
             class="placeholder:text-muted-foreground focus-visible:placeholder:text-transparent"
             placeholder="•"
           />
@@ -155,7 +155,7 @@ function handleTierInvalid(value: string) {
       <Field.Label>Access code</Field.Label>
       <OTPField.Root length={6} mask>
         {#each Array(6) as _, index (index)}
-          <OTPField.Input aria-label={`Character ${index + 1} of 6`} />
+          <OTPField.Input aria-label={index === 0 ? undefined : `Character ${index + 1} of 6`} />
         {/each}
       </OTPField.Root>
       <Field.Description>

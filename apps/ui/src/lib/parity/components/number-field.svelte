@@ -469,7 +469,7 @@ const priceCount = $derived(
         min={0}
         onValueChange={(value: number | null) => (rangeValues = [Math.min(value ?? 0, rangeValues[1] ?? 50), rangeValues[1] ?? 50])}
         size="sm"
-        value={rangeValues[0]}
+        value={rangeValues[0] as number}
         ><NumberField.Input /></NumberField.Root
       >
       <Slider.Root
@@ -488,7 +488,7 @@ const priceCount = $derived(
         min={rangeValues[0] as number}
         onValueChange={(value: number | null) => (rangeValues = [rangeValues[0] ?? 0, Math.max(value ?? 0, rangeValues[0] ?? 0)])}
         size="sm"
-        value={rangeValues[1]}
+        value={rangeValues[1] as number}
         ><NumberField.Input /></NumberField.Root
       >
     </div>
@@ -596,7 +596,7 @@ const priceCount = $derived(
             max={priceValues[1] as number}
             min={priceMin}
             onValueChange={(value: number | null) => (priceValues = [Math.min(value ?? priceMin, priceValues[1] ?? priceMax), priceValues[1] ?? priceMax])}
-            value={priceValues[0]}
+            value={priceValues[0] as number}
             ><NumberField.Input class="text-left" /></NumberField.Root
           >
           <InputGroup.Addon><InputGroup.Text>$</InputGroup.Text></InputGroup.Addon>
@@ -607,7 +607,7 @@ const priceCount = $derived(
             max={priceMax}
             min={priceValues[0] as number}
             onValueChange={(value: number | null) => (priceValues = [priceValues[0] ?? priceMin, Math.max(value ?? priceMin, priceValues[0] ?? priceMin)])}
-            value={priceValues[1]}
+            value={priceValues[1] as number}
             ><NumberField.Input class="text-left" /></NumberField.Root
           >
           <InputGroup.Addon><InputGroup.Text>$</InputGroup.Text></InputGroup.Addon>
