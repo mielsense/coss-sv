@@ -174,4 +174,21 @@ describe("theme boundaries", () => {
     );
     expect(registry).toContain("Object.entries(componentModules)");
   });
+
+  test("the preview centers short fixtures without clipping the top of tall aggregates", async () => {
+    const previewPage = await readFile(
+      new URL("../../routes/preview/[name]/+page.svelte", import.meta.url),
+      "utf8",
+    );
+    const frameRule = previewPage.match(/\.preview-frame\s*\{([^}]*)\}/)?.[1] ?? "";
+    const surfaceRule = previewPage.match(/\.preview-surface\s*\{([^}]*)\}/)?.[1] ?? "";
+
+    expect(frameRule).toContain("display: flex;");
+    expect(frameRule).toContain("align-items: flex-start;");
+    expect(frameRule).toContain("justify-content: center;");
+    expect(frameRule).toContain("overflow: auto;");
+    expect(frameRule).not.toContain("place-items: center;");
+    expect(surfaceRule).toContain("flex: 0 0 auto;");
+    expect(surfaceRule).toContain("margin-block: auto;");
+  });
 });

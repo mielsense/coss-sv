@@ -77,19 +77,22 @@ function documentTheme(theme: "dark" | "light") {
 .preview-frame {
   position: fixed;
   inset: 0;
-  display: grid;
   box-sizing: border-box;
+  display: flex;
   min-width: 0;
   min-height: 0;
+  align-items: flex-start;
+  justify-content: center;
   overflow: auto;
-  place-items: center;
   background: var(--background);
   color: var(--foreground);
 }
 
 .preview-surface {
+  flex: 0 0 auto;
   width: min(100%, var(--preview-width));
   min-height: 24rem;
+  margin-block: auto;
   background: var(--background);
 }
 
