@@ -14,8 +14,17 @@ export {
   AccordionTrigger,
   type AccordionTriggerProps,
 } from "./components/ui/accordion/index.js";
+export {
+  Alert,
+  AlertAction,
+  AlertDescription,
+  type AlertProps,
+  AlertTitle,
+  type AlertVariant,
+} from "./components/ui/alert/index.js";
 export * as AlertDialog from "./components/ui/alert-dialog/index.js";
 export {
+  AlertDialog as AlertDialogRoot,
   AlertDialogBackdrop,
   type AlertDialogBackdropProps,
   AlertDialogClose,
@@ -34,7 +43,6 @@ export {
   type AlertDialogPopupProps,
   AlertDialogPortal,
   AlertDialogPrimitive,
-  AlertDialog as AlertDialogRoot,
   AlertDialogTitle,
   type AlertDialogTitleProps,
   AlertDialogTrigger,
@@ -42,14 +50,6 @@ export {
   AlertDialogViewport,
   type AlertDialogViewportProps,
 } from "./components/ui/alert-dialog/index.js";
-export {
-  Alert,
-  AlertAction,
-  AlertDescription,
-  type AlertProps,
-  AlertTitle,
-  type AlertVariant,
-} from "./components/ui/alert/index.js";
 export * as Avatar from "./components/ui/avatar/index.js";
 export {
   AvatarFallback,
@@ -140,6 +140,7 @@ export {
 } from "./components/ui/collapsible/index.js";
 export * as ContextMenu from "./components/ui/context-menu/index.js";
 export {
+  ContextMenu as ContextMenuRoot,
   ContextMenuCheckboxItem,
   type ContextMenuCheckboxItemProps,
   ContextMenuGroup,
@@ -158,7 +159,6 @@ export {
   type ContextMenuRadioGroupProps,
   ContextMenuRadioItem,
   type ContextMenuRadioItemProps,
-  ContextMenu as ContextMenuRoot,
   type ContextMenuRootProps,
   ContextMenuSeparator,
   type ContextMenuSeparatorProps,
@@ -176,6 +176,7 @@ export {
 } from "./components/ui/context-menu/index.js";
 export * as Dialog from "./components/ui/dialog/index.js";
 export {
+  Dialog as DialogRoot,
   DialogBackdrop,
   type DialogBackdropProps,
   DialogClose,
@@ -196,7 +197,6 @@ export {
   type DialogPopupProps,
   DialogPortal,
   DialogPrimitive,
-  Dialog as DialogRoot,
   DialogTitle,
   type DialogTitleProps,
   DialogTrigger,
@@ -206,6 +206,7 @@ export {
 } from "./components/ui/dialog/index.js";
 export * as Drawer from "./components/ui/drawer/index.js";
 export {
+  Drawer as DrawerRoot,
   DrawerBackdrop,
   type DrawerBackdropProps,
   DrawerBar,
@@ -247,11 +248,10 @@ export {
   type DrawerPanelProps,
   DrawerPopup,
   type DrawerPopupProps,
-  type DrawerPosition,
   DrawerPortal,
+  type DrawerPosition,
   DrawerPrimitive,
   DrawerProvider,
-  Drawer as DrawerRoot,
   type DrawerRootProps,
   type DrawerSnapPoint,
   DrawerSwipeArea,
@@ -375,9 +375,10 @@ export {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
+  Menu as MenuRoot,
+  type MenuCheckableItemState,
   MenuCheckboxItem,
   type MenuCheckboxItemProps,
-  type MenuCheckableItemState,
   MenuCreateHandle,
   MenuGroup,
   MenuGroupLabel,
@@ -395,7 +396,6 @@ export {
   type MenuRadioGroupProps,
   MenuRadioItem,
   type MenuRadioItemProps,
-  Menu as MenuRoot,
   type MenuRootProps,
   type MenuRootState,
   MenuSeparator,
@@ -426,6 +426,41 @@ export {
   MeterValue,
   type MeterValueProps,
 } from "./components/ui/meter/index.js";
+export * as NumberField from "./components/ui/number-field/index.js";
+export {
+  CursorGrowIcon,
+  type CursorGrowIconProps,
+  clampValue,
+  createNumberLocale,
+  formatNumber,
+  NumberField as NumberFieldRoot,
+  NumberFieldDecrement,
+  type NumberFieldDecrementProps,
+  NumberFieldGroup,
+  type NumberFieldGroupProps,
+  NumberFieldIncrement,
+  type NumberFieldIncrementProps,
+  NumberFieldInput,
+  type NumberFieldInputProps,
+  type NumberFieldRootProps,
+  NumberFieldScrubArea,
+  type NumberFieldScrubAreaProps,
+  type NumberFieldSize,
+  parseNumber,
+} from "./components/ui/number-field/index.js";
+export * as OTPField from "./components/ui/otp-field/index.js";
+export {
+  normalizeOTP,
+  OTPField as OTPFieldRoot,
+  OTPFieldInput,
+  type OTPFieldInputProps,
+  type OTPFieldRootProps,
+  OTPFieldSeparator,
+  type OTPFieldSeparatorProps,
+  type OTPFieldSize,
+  type OTPValidationType,
+  replaceOTPRange,
+} from "./components/ui/otp-field/index.js";
 export * as Pagination from "./components/ui/pagination/index.js";
 export {
   PaginationContent,
@@ -520,6 +555,7 @@ export {
 } from "./components/ui/separator/index.js";
 export * as Sheet from "./components/ui/sheet/index.js";
 export {
+  Sheet as SheetRoot,
   SheetBackdrop,
   type SheetBackdropProps,
   SheetClose,
@@ -540,7 +576,6 @@ export {
   type SheetPopupProps,
   SheetPortal,
   SheetPrimitive,
-  Sheet as SheetRoot,
   type SheetSide,
   SheetTitle,
   type SheetTitleProps,
@@ -647,6 +682,7 @@ export {
 } from "./components/ui/toggle-group/index.js";
 export * as Toolbar from "./components/ui/toolbar/index.js";
 export {
+  Toolbar as ToolbarRoot,
   ToolbarButton,
   type ToolbarButtonProps,
   ToolbarGroup,
@@ -658,7 +694,6 @@ export {
   type ToolbarLinkState,
   type ToolbarOrientation,
   ToolbarPrimitive,
-  Toolbar as ToolbarRoot,
   type ToolbarRootProps,
   type ToolbarRootState,
   ToolbarSeparator,
