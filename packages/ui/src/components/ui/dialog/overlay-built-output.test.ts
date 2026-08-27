@@ -158,6 +158,11 @@ let publicOverlayProps!: PublicOverlayProps;
 <Sheet.Root handle={sheet}>{#snippet children({ payload })}{payload?.id}{/snippet}</Sheet.Root>
 <Drawer.Trigger handle={drawer} payload={{ id: 1 }}>Drawer</Drawer.Trigger>
 <Drawer.Root handle={drawer}>{#snippet children({ payload })}{payload?.id}{/snippet}</Drawer.Root>
+<Drawer.Root>
+  <Drawer.Popup>
+    <Drawer.Close as="a" href="#drawer-close">Close drawer link</Drawer.Close>
+  </Drawer.Popup>
+</Drawer.Root>
 `,
   );
 

@@ -1,8 +1,10 @@
 <!-- biome-ignore-all lint/a11y/useValidAnchor: The COSS particles intentionally use hash-only placeholder links. -->
 <script lang="ts">
-import { Button, Dialog, Drawer, Field, Form, Input, Menu, buttonVariants } from "@coss-sv/ui";
+import { Button, buttonVariants, Dialog, Drawer, Field, Form, Input, Menu } from "@coss-sv/ui";
 import { MediaQuery } from "svelte/reactivity";
+
 const positions = ["right", "left", "top", "bottom"] as const;
+const footerVariants = ["default", "bare"] as const;
 const boxes = Array.from({ length: 48 }, (_, index) => index);
 const isMobile = new MediaQuery("(max-width: 768px)", false);
 let snapPoint = $state<string | number | null>("300px");
@@ -227,7 +229,7 @@ let snapPoint = $state<string | number | null>("300px");
 
   <section data-particle="p-drawer-10">
     <div class="flex flex-wrap gap-2">
-      {#each ["default", "bare"] as footerVariant}
+      {#each footerVariants as footerVariant}
         <Drawer.Root position="right"
           ><Drawer.Trigger class={buttonVariants({ variant: "outline" })}
             >{footerVariant === "default" ? "Default footer" : "Bare footer"}</Drawer.Trigger

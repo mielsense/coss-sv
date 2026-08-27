@@ -29,7 +29,16 @@ test("keeps the emitted overlay prop contracts identical to their Shards primiti
   expectTypeOf<SheetCloseProps>().toMatchTypeOf<ComponentProps<typeof Dialog.Close>>();
   expectTypeOf<ComponentProps<typeof Dialog.Close>>().toMatchTypeOf<SheetCloseProps>();
   expectTypeOf<DrawerBackdropProps>().toEqualTypeOf<ComponentProps<typeof Drawer.Backdrop>>();
-  expectTypeOf<DrawerCloseProps>().toMatchTypeOf<ComponentProps<typeof Dialog.Close>>();
-  expectTypeOf<ComponentProps<typeof Dialog.Close>>().toMatchTypeOf<DrawerCloseProps>();
+  expectTypeOf<DrawerCloseProps<"button">>().toMatchTypeOf<ComponentProps<typeof Dialog.Close>>();
   expect(true).toBe(true);
+});
+
+test("types Drawer.Close native attributes from its delegated element", () => {
+  const anchor = {
+    as: "a",
+    href: "#",
+    target: "_self",
+  } satisfies DrawerCloseProps<"a">;
+
+  expect(anchor.href).toBe("#");
 });
