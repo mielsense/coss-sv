@@ -1,7 +1,14 @@
 <script module lang="ts">
-import type { Dialog as ShardsDialog } from "@shardsui/svelte";
-import type { ComponentProps } from "svelte";
-export type DialogBackdropProps = ComponentProps<typeof ShardsDialog.Backdrop>;
+import type { Snippet } from "svelte";
+import type { SvelteHTMLElements } from "svelte/elements";
+export type DialogBackdropProps = Omit<SvelteHTMLElements["div"], "children" | "id"> & {
+  as?: keyof HTMLElementTagNameMap;
+  children?: Snippet<
+    [{ open: boolean; transitionStatus: "starting" | "ending" | "idle" | undefined }]
+  >;
+  id?: string;
+  ref?: HTMLElement | null;
+};
 </script>
 <script lang="ts">
 import { Dialog as DialogPrimitive } from "@shardsui/svelte";

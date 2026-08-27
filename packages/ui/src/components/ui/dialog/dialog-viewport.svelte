@@ -1,7 +1,21 @@
 <script module lang="ts">
-import type { Dialog as ShardsDialog } from "@shardsui/svelte";
-import type { ComponentProps } from "svelte";
-export type DialogViewportProps = ComponentProps<typeof ShardsDialog.Viewport>;
+import type { Snippet } from "svelte";
+import type { SvelteHTMLElements } from "svelte/elements";
+export type DialogViewportProps = Omit<SvelteHTMLElements["div"], "children" | "id"> & {
+  as?: keyof HTMLElementTagNameMap;
+  children?: Snippet<
+    [
+      {
+        nested: boolean;
+        nestedDialogOpen: boolean;
+        open: boolean;
+        transitionStatus: "starting" | "ending" | "idle" | undefined;
+      },
+    ]
+  >;
+  id?: string;
+  ref?: HTMLElement | null;
+};
 </script>
 <script lang="ts">
 import { Dialog as DialogPrimitive } from "@shardsui/svelte";

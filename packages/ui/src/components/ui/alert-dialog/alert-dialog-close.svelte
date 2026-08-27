@@ -1,10 +1,11 @@
 <script module lang="ts">
-import type { AlertDialog as ShardsP } from "@shardsui/svelte";
-import type { ComponentProps } from "svelte";
-export type AlertDialogCloseProps = ComponentProps<typeof ShardsP.Close>;
+import type { DialogCloseProps } from "../dialog/dialog-close.svelte";
+export type AlertDialogCloseProps = DialogCloseProps;
 </script>
 <script lang="ts">
 import { AlertDialog as P } from "@shardsui/svelte";
+import type { Component } from "svelte";
+const ClosePrimitive = P.Close as unknown as Component<AlertDialogCloseProps, object, "ref">;
 let { ref = $bindable(null), ...props }: AlertDialogCloseProps = $props();
 </script>
-<P.Close bind:ref data-slot="alert-dialog-close" {...props} />
+<ClosePrimitive bind:ref data-slot="alert-dialog-close" {...props} />

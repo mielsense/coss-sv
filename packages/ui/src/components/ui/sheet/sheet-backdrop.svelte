@@ -1,7 +1,6 @@
 <script module lang="ts">
-import type { Dialog as ShardsP } from "@shardsui/svelte";
-import type { ComponentProps } from "svelte";
-export type SheetBackdropProps = ComponentProps<typeof ShardsP.Backdrop>;
+import type { DialogBackdropProps } from "../dialog/dialog-backdrop.svelte";
+export type SheetBackdropProps = DialogBackdropProps;
 </script>
 <script lang="ts">
 import { Dialog as P } from "@shardsui/svelte";

@@ -1,7 +1,6 @@
 <script module lang="ts">
-import type { AlertDialog as ShardsP } from "@shardsui/svelte";
-import type { ComponentProps } from "svelte";
-export type AlertDialogBackdropProps = ComponentProps<typeof ShardsP.Backdrop>;
+import type { DialogBackdropProps } from "../dialog/dialog-backdrop.svelte";
+export type AlertDialogBackdropProps = DialogBackdropProps;
 </script>
 <script lang="ts">
 import { AlertDialog as P } from "@shardsui/svelte";
