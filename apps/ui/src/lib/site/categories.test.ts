@@ -79,8 +79,12 @@ describe("COSS homepage category parity", () => {
     const source = await readFile(new URL("./categories.ts", import.meta.url), "utf8");
     const digest = createHash("sha256").update(source).digest("hex");
 
-    expect(digest).toBe("db937bf9ef7d1be6c590382cfc095e37344fe3a5a785f87788f410918893b782");
+    expect(digest).toBe("0f5c45cc0bb56ff652225ccfe5d529220f4668c6f124cf40c5d0bd393d76e9cc");
     expect(componentCategories.every(({ name, description }) => name && description)).toBe(true);
+    expect(componentCategories.find(({ slug }) => slug === "otp-field")).toMatchObject({
+      name: "Otp Field",
+      docsName: "OTP Field",
+    });
   });
 
   test("ports every upstream thumbnail explicitly and leaves Segmented Control blank", async () => {
@@ -129,5 +133,16 @@ describe("COSS homepage category parity", () => {
     for (const body of [accordion, alert, autocomplete, drawer]) {
       expect(body).toContain("border-border");
     }
+  });
+
+  test("literally ports the inspected Calendar rows and blank cells", async () => {
+    const source = await readFile(new URL("./CategoryThumbnail.svelte", import.meta.url), "utf8");
+    const calendar = render(CategoryThumbnail, { props: { slug: "calendar" } }).body;
+
+    expect(calendar.match(/flex items-center gap-2/g)).toHaveLength(5);
+    expect(calendar.match(/bg-transparent/g)).toHaveLength(5);
+    expect(calendar.match(/bg-primary/g)).toHaveLength(1);
+    expect(source).not.toContain("row + column");
+    expect(source).not.toContain("row === 2");
   });
 });

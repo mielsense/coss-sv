@@ -26,9 +26,9 @@ const groups: CommandGroup[] = [
   { value: "Overview", items: [...overviewNavigation] },
   {
     value: "Components",
-    items: componentCategories.map(({ name, slug }) => ({
+    items: componentCategories.map(({ docsName, name, slug }) => ({
       href: `/docs/components/${slug}`,
-      label: name,
+      label: docsName ?? name,
       componentSlug: slug,
     })),
   },

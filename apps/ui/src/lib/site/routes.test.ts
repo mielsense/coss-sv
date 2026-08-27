@@ -14,6 +14,7 @@ describe("documentation routes", () => {
     expect(body).toContain("A new, modern UI component library built on top of Shards UI.");
     expect(body).toContain("Built for developers and AI.");
     expect(body).toContain("Browse 508 particles");
+    expect(body).toContain('href="/docs"');
     expect(body.match(/data-category=/g)).toHaveLength(55);
     expect(body).not.toContain("github.com/mielsense/coss-sv");
   });
@@ -74,12 +75,37 @@ describe("theme boundaries", () => {
         .map((match) => match[1] ?? "")
         .find((rule) => rule.includes("width:")) ?? "";
     const panelRule = appCss.match(/\.mobile-menu-panel\s*\{([^}]*)\}/)?.[1] ?? "";
+    const viewportRule = appCss.match(/\.mobile-menu-viewport\s*\{([^}]*)\}/)?.[1] ?? "";
+    const footerMobileRule =
+      appCss.match(/@media \(max-width: 39\.999rem\)[\s\S]*?\.footer-inner\s*\{([^}]*)\}/)?.[1] ??
+      "";
 
     expect(dialogRule).toContain("width: min(22rem, calc(100% - 3rem));");
     expect(dialogRule).toContain("0 10px 15px -3px rgb(0 0 0 / 5%)");
     expect(dialogRule).toContain("0 4px 6px -4px rgb(0 0 0 / 5%)");
     expect(panelRule).toContain("outline: none;");
+    expect(panelRule).toContain("touch-action: pan-y;");
     expect(panelRule).not.toContain("box-shadow");
+    expect(viewportRule).toContain("touch-action: none;");
+    expect(dialogRule).toContain("transform: translateX(var(--drawer-swipe-movement-x));");
+    expect(footerMobileRule).toContain("min-height: 6rem;");
+  });
+
+  test("routes the upstream header, CTA, and Introduction entry through /docs", async () => {
+    const pageSource = await readFile(
+      new URL("../../routes/+page.svelte", import.meta.url),
+      "utf8",
+    );
+    const siteSource = await readFile(new URL("./site.ts", import.meta.url), "utf8");
+    const docsRoute = await readFile(
+      new URL("../../routes/docs/+page.svelte", import.meta.url),
+      "utf8",
+    );
+
+    expect(pageSource).toContain('href="/docs">Get started</a>');
+    expect(siteSource.match(/href: "\/docs"/g)).toHaveLength(2);
+    expect(siteSource).not.toContain('/docs/introduction", label: "Introduction"');
+    expect(docsRoute).toContain("$content/docs/introduction.svx");
   });
 
   test("the root layout renders navigation during SSR and removes chrome from previews", async () => {

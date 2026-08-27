@@ -36,9 +36,19 @@ describe("COSS command and mobile navigation parity", () => {
   test("the mobile trigger exposes dialog state to assistive technology", async () => {
     const source = await readFile(new URL("./MobileNav.svelte", import.meta.url), "utf8");
 
+    expect(source).toContain('from "@shardsui/svelte/drawer"');
+    expect(source).toContain("<Drawer.Root");
+    expect(source).toContain('swipeDirection="left"');
+    expect(source).toContain("<Drawer.Viewport");
+    expect(source).toContain("<Drawer.Popup");
+    expect(source).toContain("<Drawer.Content");
+    expect(source).toContain("<Drawer.Close");
     expect(source).toContain('aria-haspopup="dialog"');
     expect(source).toContain("aria-expanded={menuOpen}");
     expect(source).toContain("mobile-hooks-heading");
     expect(source).toContain("mobile-resources-heading");
+    expect(source).toContain("item.docsName ?? item.name");
+    expect(source).not.toContain("<dialog");
+    expect(source).not.toContain("showModal");
   });
 });

@@ -56,3 +56,8 @@ jobs:
       - name: Build packages and documentation
         run: pnpm build
 
+      - name: Install Playwright Chromium
+        run: pnpm --filter @coss-sv/docs exec playwright install --with-deps chromium
+
+      - name: Run documentation browser tests
+        run: pnpm test:e2e

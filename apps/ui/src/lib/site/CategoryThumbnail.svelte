@@ -155,16 +155,34 @@ let { slug }: { slug: string } = $props();
             <Text class="w-[60%]" variant="secondary" />
             <Icon name="chevron-right" />
           </div>
-          {#each [0, 1, 2, 3] as row}
-            <div class="flex items-center gap-2">
-              {#each [0, 1, 2, 3, 4] as column}
-                <Text
-                  class={`flex-1 ${row === 2 && column === 2 ? "bg-primary" : (row + column) % 4 === 2 ? "bg-transparent" : ""}`}
-                  variant={row === 0 ? "secondary" : "main"}
-                />
-              {/each}
-            </div>
-          {/each}</Panel
+          <div class="flex items-center gap-2">
+            <Text class="flex-1" variant="secondary" />
+            <Text class="flex-1" variant="secondary" />
+            <Text class="flex-1" variant="main" />
+            <Text class="flex-1 bg-transparent" variant="main" />
+            <Text class="flex-1" variant="main" />
+          </div>
+          <div class="flex items-center gap-2">
+            <Text class="flex-1" variant="main" />
+            <Text class="flex-1 bg-transparent" variant="main" />
+            <Text class="flex-1" variant="main" />
+            <Text class="flex-1" variant="main" />
+            <Text class="flex-1" variant="main" />
+          </div>
+          <div class="flex items-center gap-2">
+            <Text class="flex-1 bg-transparent" variant="main" />
+            <Text class="flex-1" variant="main" />
+            <Text class="flex-1 bg-primary" variant="main" />
+            <Text class="flex-1" variant="main" />
+            <Text class="flex-1 bg-transparent" variant="main" />
+          </div>
+          <div class="flex items-center gap-2">
+            <Text class="flex-1" variant="main" />
+            <Text class="flex-1" variant="main" />
+            <Text class="flex-1 bg-transparent" variant="main" />
+            <Text class="flex-1" variant="secondary" />
+            <Text class="flex-1" variant="secondary" />
+          </div></Panel
         ></Card
       >
     {:else if slug === "card"}

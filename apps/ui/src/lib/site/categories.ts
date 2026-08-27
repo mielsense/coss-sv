@@ -1,6 +1,7 @@
 export type ComponentCategory = {
   slug: string;
   name: string;
+  docsName?: string;
   description: string;
   isNew?: boolean;
 };
@@ -154,6 +155,7 @@ export const componentCategories: readonly ComponentCategory[] = [
   {
     slug: "otp-field",
     name: "Otp Field",
+    docsName: "OTP Field",
     description: "A segmented input for one-time passwords and verification codes.",
   },
   {

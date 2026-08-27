@@ -17,7 +17,7 @@ import { componentCategories } from "$lib/site/categories.js";
       <h1>A new, modern UI component library built on top of Shards UI.</h1>
       <p class="hero-copy">Built for developers and AI.</p>
       <div class="hero-actions">
-        <a class="site-button" data-primary="true" href="/docs/introduction">Get started</a>
+        <a class="site-button" data-primary="true" href="/docs">Get started</a>
         <a class="site-button" href="/particles">Browse 508 particles</a>
       </div>
     </div>

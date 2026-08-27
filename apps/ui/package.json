@@ -16,10 +16,12 @@
     "registry:generate": "tsx scripts/registry/generate.mts",
     "registry:smoke": "tsx scripts/registry/smoke-install.mts",
     "registry:test": "vitest run --config tests/registry/vitest.config.ts",
-    "test": "vitest run && pnpm registry:test"
+    "test": "vitest run && pnpm registry:test",
+    "test:e2e": "node tests/site/command-menu.browser.mjs"
   },
   "dependencies": {
-    "@coss-sv/ui": "workspace:*"
+    "@coss-sv/ui": "workspace:*",
+    "@shardsui/svelte": "0.1.0-beta.0"
   },
   "devDependencies": {
     "@coss-sv/typescript-config": "workspace:*",
@@ -29,6 +31,7 @@
     "@tailwindcss/vite": "catalog:dev",
     "@types/node": "catalog:dev",
     "mdsvex": "catalog:dev",
+    "playwright": "catalog:dev",
     "shiki": "catalog:dev",
     "shadcn-svelte": "1.5.0",
     "svelte": "catalog:dev",

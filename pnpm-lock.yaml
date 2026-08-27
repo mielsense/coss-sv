@@ -77,6 +77,9 @@ importers:
       '@coss-sv/ui':
         specifier: workspace:*
         version: link:../../packages/ui
+      '@shardsui/svelte':
+        specifier: 0.1.0-beta.0
+        version: 0.1.0-beta.0(svelte@5.56.10)
     devDependencies:
       '@coss-sv/typescript-config':
         specifier: workspace:*
@@ -99,6 +102,9 @@ importers:
       mdsvex:
         specifier: catalog:dev
         version: 0.12.8(svelte@5.56.10)
+      playwright:
+        specifier: catalog:dev
+        version: 1.62.1
       shiki:
         specifier: catalog:dev
         version: 4.4.3
