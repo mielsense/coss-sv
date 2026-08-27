@@ -25,8 +25,10 @@ describe("NumberField browser contract", () => {
     await expect.element(input).toHaveValue("1,5");
 
     await userEvent.click(input);
-    await userEvent.keyboard("{ArrowUp}{PageUp}");
-    await expect.element(input).toHaveValue("3,0");
+    await userEvent.keyboard("{ArrowUp}");
+    await expect.element(input).toHaveValue("2,0");
+    await userEvent.keyboard("{PageUp}{PageDown}");
+    await expect.element(input).toHaveValue("2,0");
     await userEvent.keyboard("{Home}");
     await expect.element(input).toHaveValue("-2,0");
     await userEvent.keyboard("{End}");
@@ -50,6 +52,40 @@ describe("NumberField browser contract", () => {
     const form = document.querySelector<HTMLFormElement>('[data-testid="number-form"]');
     expect(new FormData(form ?? undefined).get("quantity")).toBe("-1,25");
     await expect.element(page.getByTestId("number-state")).toHaveTextContent("-1.25:");
+  });
+
+  test("rejects invalid fill and delegates its root to one exact group element", async () => {
+    render(NumberFieldFixture);
+    const invalid = document.querySelector<HTMLInputElement>('[data-testid="invalid-fill-number"]');
+    if (!invalid) throw new Error("invalid fill number missing");
+    invalid.value = "abc";
+    invalid.dispatchEvent(new InputEvent("input", { bubbles: true, data: "c" }));
+    expect(invalid.value).toBe("0");
+    invalid.focus();
+    await userEvent.keyboard("{Home}{End}{PageUp}{PageDown}");
+    expect(invalid.value).toBe("0");
+    expect(
+      document
+        .querySelector<HTMLFormElement>('[data-testid="required-number-form"]')
+        ?.checkValidity(),
+    ).toBe(false);
+
+    const delegated = document.querySelector<HTMLDivElement>('[data-testid="delegated-number"]');
+    expect(
+      delegated?.parentElement?.querySelectorAll('[data-testid="delegated-number"]'),
+    ).toHaveLength(1);
+    expect(delegated?.dataset.slot).toBe("number-field");
+    expect(delegated?.getAttribute("role")).toBe("group");
+    expect(delegated?.className).toContain("rounded-lg");
+    expect(delegated?.className).toContain("gap-0");
+    expect(delegated?.querySelector('[data-testid="delegated-number-input"]')).not.toBeNull();
+    await expect.element(page.getByTestId("delegate-ref")).toHaveTextContent("number-field");
+
+    const scrub = document.querySelector('[data-slot="number-field-scrub-area"]');
+    expect(scrub?.tagName).toBe("SPAN");
+    expect(scrub?.getAttribute("role")).toBe("presentation");
+    expect(scrub?.getAttribute("style")).toContain("touch-action: none");
+    expect(scrub?.querySelector('[data-slot="label"]')?.className).toContain("font-medium");
   });
 
   test("does not step on wheel by default and preserves disabled semantics", async () => {
@@ -77,12 +113,35 @@ describe("NumberField browser contract", () => {
       new WheelEvent("wheel", { bubbles: true, cancelable: true, deltaY: -100 }),
     );
     await expect.element(page.getByTestId("wheel-number")).toHaveValue("3");
+
+    const cancelled = document.querySelector<HTMLInputElement>(
+      '[data-testid="cancelled-wheel-number"]',
+    );
+    cancelled?.focus();
+    const cancelledEvent = new WheelEvent("wheel", {
+      bubbles: true,
+      cancelable: true,
+      deltaY: -100,
+    });
+    cancelled?.dispatchEvent(cancelledEvent);
+    expect(cancelledEvent.defaultPrevented).toBe(true);
+    await expect.element(page.getByTestId("cancelled-wheel-number")).toHaveValue("1");
+
+    const removed = document.querySelector<HTMLInputElement>(
+      '[data-testid="remount-wheel-number"]',
+    );
+    await userEvent.click(page.getByTestId("toggle-wheel"));
+    removed?.dispatchEvent(
+      new WheelEvent("wheel", { bubbles: true, cancelable: true, deltaY: -100 }),
+    );
+    await userEvent.click(page.getByTestId("toggle-wheel"));
+    await expect.element(page.getByTestId("remount-wheel-number")).toHaveValue("1");
   });
 
   test("hydrates its SSR root without a mismatch", async () => {
     const warning = vi.spyOn(console, "warn").mockImplementation(() => undefined);
     const target = document.createElement("div");
-    target.innerHTML = `<!--[--><!--$s1--><div class="flex w-full flex-col items-start gap-2" data-size="default" data-slot="number-field"><!----></div><!--]-->`;
+    target.innerHTML = `<!--[--><!--$s1--><!--[-1--><div class="flex w-full flex-col items-start gap-2" data-size="default" data-slot="number-field"><!----></div><!--]--><!--]-->`;
     document.body.append(target);
     const component = hydrate(NumberFieldRoot, { target });
     expect(target.querySelector('[data-slot="number-field"]')).not.toBeNull();

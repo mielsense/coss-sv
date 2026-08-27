@@ -9,6 +9,7 @@ export type OTPFieldRootProps = Omit<HTMLAttributes<HTMLDivElement>, "children">
   children?: Snippet;
   defaultValue?: string;
   disabled?: boolean;
+  form?: string;
   inputmode?: "decimal" | "email" | "none" | "numeric" | "search" | "tel" | "text" | "url";
   length: number;
   mask?: boolean;
@@ -29,7 +30,10 @@ export type OTPFieldRootProps = Omit<HTMLAttributes<HTMLDivElement>, "children">
 
 <script lang="ts">
 import { cn } from "$lib/utils.js";
+import { untrack } from "svelte";
+import type { Attachment } from "svelte/attachments";
 import { setOTPFieldContext } from "./context.js";
+import type { OTPFieldSlot } from "./context.js";
 import { normalizeOTP, replaceOTPRange } from "./otp-field-machine.js";
 
 let {
@@ -42,6 +46,7 @@ let {
   class: className,
   defaultValue = "",
   disabled = false,
+  form,
   inputmode = "numeric",
   length,
   mask = false,
@@ -60,15 +65,18 @@ let {
   ...props
 }: OTPFieldRootProps = $props();
 
-let nextIndex = 0;
 let activeIndex = $state(0);
-const inputs = new Map<number, HTMLInputElement>();
+let slotVersion = $state(0);
+const slots: OTPFieldSlot[] = [];
 const isReadonly = $derived(readonly || readOnly);
+const initialValue = untrack(() => clean(defaultValue).slice(0, length));
 
 function clean(raw: string): string {
   const normalized = normalizeValue?.(raw) ?? raw;
   const accepted = normalizeOTP(normalized, validationType);
-  if (accepted !== raw) onValueInvalid?.(raw);
+  if (accepted !== normalized || Array.from(normalized).length < Array.from(raw).length) {
+    onValueInvalid?.(raw);
+  }
   return accepted;
 }
 
@@ -81,14 +89,35 @@ function update(next: string): void {
 }
 
 function focus(index: number): void {
+  reorderSlots();
   const next = Math.min(length - 1, Math.max(0, index));
   activeIndex = next;
   queueMicrotask(() => {
-    const input = inputs.get(next);
+    const input = slots[next]?.element;
     input?.focus();
     input?.select();
   });
 }
+
+function reorderSlots(): void {
+  slots.sort((a, b) => {
+    if (!a.element || !b.element || a.element === b.element) return 0;
+    return a.element.compareDocumentPosition(b.element) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1;
+  });
+  activeIndex = Math.min(Math.max(0, activeIndex), Math.max(0, slots.length - 1));
+  slotVersion += 1;
+}
+
+const formReset: Attachment<HTMLDivElement> = (node) => {
+  const owner = form
+    ? document.getElementById(form) instanceof HTMLFormElement
+      ? (document.getElementById(form) as HTMLFormElement)
+      : null
+    : node.closest("form");
+  const reset = () => queueMicrotask(() => update(initialValue));
+  owner?.addEventListener("reset", reset);
+  return () => owner?.removeEventListener("reset", reset);
+};
 
 setOTPFieldContext({
   get activeIndex() {
@@ -112,6 +141,9 @@ setOTPFieldContext({
   get disabled() {
     return disabled;
   },
+  get form() {
+    return form;
+  },
   get inputMode() {
     return inputmode;
   },
@@ -130,15 +162,22 @@ setOTPFieldContext({
   get validationType() {
     return validationType;
   },
-  claimIndex() {
-    const claimed = nextIndex;
-    nextIndex += 1;
-    return claimed;
+  createSlot() {
+    const slot: OTPFieldSlot = { key: Symbol("otp-field-slot"), element: null };
+    slots.push(slot);
+    return slot;
   },
-  delete(index, backward) {
+  delete(slot, backward) {
     if (disabled || isReadonly) return;
+    const index = slots.indexOf(slot);
+    if (index < 0) return;
     const existing = value[index] ?? "";
-    if (backward && !existing && index > 0) {
+    if (backward && existing) {
+      update(value.slice(0, index) + value.slice(index + 1));
+      focus(Math.max(0, index - 1));
+      return;
+    }
+    if (backward && index > 0) {
       const target = index - 1;
       update(value.slice(0, target) + value.slice(target + 1));
       focus(target);
@@ -148,18 +187,31 @@ setOTPFieldContext({
     focus(index);
   },
   focus,
-  insert(raw, index) {
+  indexOf(slot) {
+    slotVersion;
+    return slots.indexOf(slot);
+  },
+  insert(raw, slot) {
     if (disabled || isReadonly) return;
+    const index = slots.indexOf(slot);
+    if (index < 0) return;
     const accepted = clean(raw);
     if (!accepted) return;
     update(replaceOTPRange(value, accepted, index, length));
     focus(Math.min(length - 1, index + accepted.length));
   },
-  register(index, input) {
-    if (input) inputs.set(index, input);
-    else inputs.delete(index);
+  register(slot, input) {
+    slot.element = input;
+    queueMicrotask(reorderSlots);
   },
-  valueAt(index) {
+  unregister(slot) {
+    const index = slots.indexOf(slot);
+    if (index >= 0) slots.splice(index, 1);
+    reorderSlots();
+  },
+  valueAt(slot) {
+    slotVersion;
+    const index = slots.indexOf(slot);
     return value[index] ?? "";
   },
 });
@@ -167,6 +219,7 @@ setOTPFieldContext({
 
 <!-- biome-ignore lint/a11y/useSemanticElements: COSS and Base UI expose the segmented inputs through a div group. -->
 <div
+  {@attach formReset}
   bind:this={ref}
   aria-describedby={ariaDescribedBy}
   aria-label={ariaLabel}
@@ -183,6 +236,6 @@ setOTPFieldContext({
 >
   {@render children?.()}
   {#if name}
-    <input type="hidden" {name} {value} {disabled}>
+    <input type="hidden" {name} {value} {disabled} {form}>
   {/if}
 </div>

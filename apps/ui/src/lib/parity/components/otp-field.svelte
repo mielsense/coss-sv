@@ -1,8 +1,30 @@
 <script lang="ts">
-import { OTPField } from "@coss-sv/ui";
+import { Field, OTPField } from "@coss-sv/ui";
+import { onDestroy } from "svelte";
 
 let controlled = $state("");
 let completed = $state("");
+let focusedIndex = $state(0);
+let invalidPulse = $state(0);
+let statusMessage = $state("");
+let invalidTimeout: ReturnType<typeof setTimeout> | undefined;
+let validatedValue = $state("");
+let validationInvalid = $state(false);
+const validationValid = $derived(validatedValue.length === 6 && validatedValue === "123456");
+
+onDestroy(() => {
+  if (invalidTimeout) clearTimeout(invalidTimeout);
+});
+
+function handleTierInvalid(value: string) {
+  invalidPulse += 1;
+  statusMessage = `Unsupported characters were ignored from ${value}.`;
+  if (invalidTimeout) clearTimeout(invalidTimeout);
+  invalidTimeout = setTimeout(() => {
+    invalidTimeout = undefined;
+    invalidPulse = 0;
+  }, 400);
+}
 </script>
 
 <div class="fixture">
@@ -34,39 +56,113 @@ let completed = $state("");
     </OTPField.Root>
   </section>
 
-  <section data-particle="p-otp-field-8">
-    <div class="field-copy">
-      <label for="recovery-code-0">Recovery code</label>
-      <OTPField.Root length={6} validationType="alphanumeric">
+  <section data-particle="p-otp-field-4">
+    <Field.Root class="items-center">
+      <Field.Label>Verification code</Field.Label>
+      <OTPField.Root length={4}>
+        {#each Array(4) as _, index (index)}
+          <OTPField.Input aria-label={`Character ${index + 1} of 4`} />
+        {/each}
+      </OTPField.Root>
+      <Field.Description>Enter the 4-digit code sent to your email.</Field.Description>
+    </Field.Root>
+  </section>
+
+  <section data-particle="p-otp-field-6">
+    <Field.Root class="items-center">
+      <Field.Label>Tier code</Field.Label>
+      <OTPField.Root
+        inputmode="numeric"
+        length={6}
+        normalizeValue={(value: string) => value.replace(/[^0-3]/g, "")}
+        onValueInvalid={handleTierInvalid}
+        validationType="none"
+      >
         {#each Array(6) as _, index (index)}
           <OTPField.Input
+            aria-invalid={invalidPulse > 0 && focusedIndex === index ? true : undefined}
             aria-label={`Character ${index + 1} of 6`}
-            id={index === 0 ? "recovery-code-0" : undefined}
+            onfocus={() => (focusedIndex = index)}
           />
         {/each}
       </OTPField.Root>
-      <p>Accept letters and numbers for backup codes such as <code>A7C9XZ</code>.</p>
-    </div>
+      <Field.Description>Digits 0-3 only.</Field.Description>
+      <span aria-live="polite" class="sr-only">{statusMessage}</span>
+    </Field.Root>
+  </section>
+
+  <section data-particle="p-otp-field-7">
+    <Field.Root class="items-center">
+      <Field.Label>Verification code</Field.Label>
+      <OTPField.Root
+        bind:value={validatedValue}
+        length={6}
+        onValueChange={(nextValue: string) =>
+          (validationInvalid = nextValue.length === 6 ? nextValue !== "123456" : false)}
+      >
+        {#each Array(6) as _, index (index)}
+          <OTPField.Input
+            aria-invalid={validationInvalid ? true : undefined}
+            aria-label={`Character ${index + 1} of 6`}
+          />
+        {/each}
+      </OTPField.Root>
+      {#if !validationValid && !validationInvalid}
+        <Field.Description>Enter `123456` to pass validation.</Field.Description>
+      {:else if validationInvalid}
+        <Field.Error>Code must be 123456.</Field.Error>
+      {:else}
+        <Field.Description>Code verified.</Field.Description>
+      {/if}
+    </Field.Root>
+  </section>
+
+  <section data-particle="p-otp-field-8">
+    <Field.Root class="items-center">
+      <Field.Label>Recovery code</Field.Label>
+      <OTPField.Root length={6} validationType="alphanumeric">
+        {#each Array(6) as _, index (index)}
+          <OTPField.Input aria-label={`Character ${index + 1} of 6`} />
+        {/each}
+      </OTPField.Root>
+      <Field.Description>
+        Accept letters and numbers for backup codes such as
+        <code class="font-mono text-foreground">A7C9XZ</code>.
+      </Field.Description>
+    </Field.Root>
   </section>
 
   <section data-particle="p-otp-field-9">
-    <OTPField.Root aria-label="Placeholder code" length={6}>
-      {#each Array(6) as _, index (index)}
-        <OTPField.Input
-          aria-label={`Character ${index + 1} of 6`}
-          class="placeholder:text-muted-foreground focus-visible:placeholder:text-transparent"
-          placeholder="•"
-        />
-      {/each}
-    </OTPField.Root>
+    <Field.Root class="items-center">
+      <Field.Label>Verification code</Field.Label>
+      <OTPField.Root length={6}>
+        {#each Array(6) as _, index (index)}
+          <OTPField.Input
+            aria-label={`Character ${index + 1} of 6`}
+            class="placeholder:text-muted-foreground focus-visible:placeholder:text-transparent"
+            placeholder="•"
+          />
+        {/each}
+      </OTPField.Root>
+      <Field.Description>
+        Placeholder hints stay visible until the focused slot is active.
+      </Field.Description>
+    </Field.Root>
   </section>
 
   <section data-particle="p-otp-field-10">
-    <OTPField.Root aria-label="Masked access code" length={6} mask>
-      {#each Array(6) as _, index (index)}
-        <OTPField.Input aria-label={`Character ${index + 1} of 6`} />
-      {/each}
-    </OTPField.Root>
+    <Field.Root class="items-center">
+      <Field.Label>Access code</Field.Label>
+      <OTPField.Root length={6} mask>
+        {#each Array(6) as _, index (index)}
+          <OTPField.Input aria-label={`Character ${index + 1} of 6`} />
+        {/each}
+      </OTPField.Root>
+      <Field.Description>
+        Use <code class="font-mono text-foreground">mask</code> to obscure the code on shared
+        screens.
+      </Field.Description>
+    </Field.Root>
   </section>
 
   <section data-review-probes="otp-field">
@@ -99,17 +195,12 @@ let completed = $state("");
   align-items: center;
   justify-content: center;
 }
-.field-copy,
 [data-review-probes="otp-field"] {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 0.5rem;
 }
-.field-copy label {
-  font-weight: 500;
-}
-.field-copy p,
 output {
   color: var(--muted-foreground);
   font-size: 0.75rem;

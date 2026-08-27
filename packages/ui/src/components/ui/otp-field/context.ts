@@ -10,18 +10,26 @@ export interface OTPFieldContext {
   readonly ariaLabelledBy: HTMLAttributes<HTMLDivElement>["aria-labelledby"];
   readonly autocomplete: string | undefined;
   readonly disabled: boolean;
+  readonly form: string | undefined;
   readonly inputMode: "decimal" | "email" | "none" | "numeric" | "search" | "tel" | "text" | "url";
   readonly length: number;
   readonly mask: boolean;
   readonly readonly: boolean;
   readonly required: boolean;
   readonly validationType: OTPValidationType;
-  claimIndex(): number;
-  delete(index: number, backward: boolean): void;
+  createSlot(): OTPFieldSlot;
+  delete(slot: OTPFieldSlot, backward: boolean): void;
   focus(index: number): void;
-  insert(raw: string, index: number): void;
-  register(index: number, input: HTMLInputElement | null): void;
-  valueAt(index: number): string;
+  indexOf(slot: OTPFieldSlot): number;
+  insert(raw: string, slot: OTPFieldSlot): void;
+  register(slot: OTPFieldSlot, input: HTMLInputElement | null): void;
+  unregister(slot: OTPFieldSlot): void;
+  valueAt(slot: OTPFieldSlot): string;
+}
+
+export interface OTPFieldSlot {
+  readonly key: symbol;
+  element: HTMLInputElement | null;
 }
 
 export const [getOTPFieldContext, setOTPFieldContext] = createContext<OTPFieldContext>();

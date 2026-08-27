@@ -65,7 +65,11 @@ const inputBehavior: Attachment<HTMLInputElement> = (node) => {
 function handleInput(event: Event): void {
   const target = event.currentTarget as HTMLInputElement;
   oninput?.(event as Parameters<NonNullable<typeof oninput>>[0]);
-  if (!event.defaultPrevented) context.setInput(target.value);
+  if (!event.defaultPrevented) {
+    context.setInput(target.value);
+    target.value = context.displayValue;
+    inputValue = context.displayValue;
+  }
 }
 
 function handleFocus(event: FocusEvent): void {
@@ -81,16 +85,7 @@ function handleBlur(event: FocusEvent): void {
 function handleKeydown(event: KeyboardEvent): void {
   onkeydown?.(event as Parameters<NonNullable<typeof onkeydown>>[0]);
   if (event.defaultPrevented) return;
-  const multiplier =
-    event.key === "ArrowUp"
-      ? 1
-      : event.key === "ArrowDown"
-        ? -1
-        : event.key === "PageUp"
-          ? 10
-          : event.key === "PageDown"
-            ? -10
-            : 0;
+  const multiplier = event.key === "ArrowUp" ? 1 : event.key === "ArrowDown" ? -1 : 0;
   if (multiplier !== 0) {
     event.preventDefault();
     context.stepBy(multiplier);

@@ -1,6 +1,7 @@
 <script module lang="ts">
 import type { Snippet } from "svelte";
 import type { HTMLAttributes } from "svelte/elements";
+import type { NumberFieldGroupProps } from "./number-field-group.svelte";
 
 export type NumberFieldSize = "sm" | "default" | "lg";
 
@@ -8,6 +9,7 @@ export type NumberFieldRootProps = Omit<HTMLAttributes<HTMLDivElement>, "childre
   allowWheel?: boolean;
   children?: Snippet;
   defaultValue?: number | null;
+  delegate?: Snippet<[NumberFieldGroupProps]>;
   disabled?: boolean;
   form?: string;
   format?: Intl.NumberFormatOptions;
@@ -29,6 +31,8 @@ export type NumberFieldRootProps = Omit<HTMLAttributes<HTMLDivElement>, "childre
 
 <script lang="ts">
 import { untrack } from "svelte";
+import type { Attachment } from "svelte/attachments";
+import { createAttachmentKey } from "svelte/attachments";
 import { cn } from "$lib/utils.js";
 import { setNumberFieldContext } from "./context.js";
 import {
@@ -49,6 +53,7 @@ let {
   children,
   class: className,
   defaultValue = null,
+  delegate,
   disabled = false,
   form,
   format,
@@ -97,9 +102,16 @@ function commit(): void {
 }
 
 function setInput(next: string): void {
+  const parsed = parseNumber(next, numberLocale);
+  const partial =
+    next === "-" ||
+    next === numberLocale.minus ||
+    next === numberLocale.decimal ||
+    next === `-${numberLocale.decimal}` ||
+    next === `${numberLocale.minus}${numberLocale.decimal}`;
+  if (parsed === null && next !== "" && !partial) return;
   editing = true;
   raw = next;
-  const parsed = parseNumber(next, numberLocale);
   if (
     parsed !== null &&
     parsed >= (min ?? Number.NEGATIVE_INFINITY) &&
@@ -200,15 +212,37 @@ setNumberFieldContext({
   setInput,
   stepBy,
 });
+
+const refAttachmentKey = createAttachmentKey();
+const setRef: Attachment<HTMLDivElement> = (node) => {
+  ref = node;
+  return () => {
+    if (ref === node) ref = null;
+  };
+};
+const rootClass = "flex w-full flex-col items-start gap-2";
+const delegateProps = $derived({
+  ...props,
+  ...(children ? { children } : {}),
+  "data-disabled": disabled ? "" : undefined,
+  "data-size": size,
+  "data-slot": "number-field",
+  class: cn(rootClass, className),
+  [refAttachmentKey]: setRef,
+} satisfies NumberFieldGroupProps);
 </script>
 
-<div
-  bind:this={ref}
-  class={cn("flex w-full flex-col items-start gap-2", className)}
-  data-disabled={disabled ? "" : undefined}
-  data-size={size}
-  data-slot="number-field"
-  {...props}
->
-  {@render children?.()}
-</div>
+{#if delegate}
+  {@render delegate(delegateProps)}
+{:else}
+  <div
+    bind:this={ref}
+    class={cn(rootClass, className)}
+    data-disabled={disabled ? "" : undefined}
+    data-size={size}
+    data-slot="number-field"
+    {...props}
+  >
+    {@render children?.()}
+  </div>
+{/if}

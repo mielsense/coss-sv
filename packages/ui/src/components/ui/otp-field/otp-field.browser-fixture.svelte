@@ -6,6 +6,10 @@ let value = $state("");
 let complete = $state("");
 let changes = $state(0);
 let invalidValue = $state("");
+let normalizedInvalidValue = $state("");
+let normalizedValue = $state("");
+let dynamicMiddle = $state(true);
+let resetValue = $state("12");
 </script>
 
 <form data-testid="otp-form" onsubmit={(event) => event.preventDefault()}>
@@ -16,6 +20,7 @@ let invalidValue = $state("");
     name="code"
     onComplete={(next) => (complete = next)}
     onValueChange={() => (changes += 1)}
+    required
   >
     {#each Array(3) as _, index (index)}
       <OTPField.Input aria-label={index === 0 ? undefined : `Character ${index + 1} of 6`} />
@@ -32,6 +37,51 @@ let invalidValue = $state("");
   {#each Array(4) as _, index (index)}
     <OTPField.Input aria-label={`Recovery character ${index + 1}`} />
   {/each}
+</OTPField.Root>
+
+<OTPField.Root aria-label="Alpha code" length={2} validationType="alpha">
+  <OTPField.Input data-testid="alpha-otp" />
+  <OTPField.Input />
+</OTPField.Root>
+
+<OTPField.Root
+  aria-label="Normalized alpha code"
+  bind:value={normalizedValue}
+  length={2}
+  normalizeValue={(next) => next.toUpperCase()}
+  onValueInvalid={(next) => (normalizedInvalidValue = next)}
+  validationType="alpha"
+>
+  <OTPField.Input data-testid="normalized-otp" />
+  <OTPField.Input />
+</OTPField.Root>
+
+<OTPField.Root aria-label="Dynamic code" length={3}>
+  <OTPField.Input data-testid="dynamic-first" />
+  {#if dynamicMiddle}
+    <OTPField.Input data-testid="dynamic-middle" />
+  {/if}
+  <OTPField.Input data-testid="dynamic-last" />
+</OTPField.Root>
+<button data-testid="toggle-dynamic" type="button" onclick={() => (dynamicMiddle = !dynamicMiddle)}>
+  Toggle dynamic slot
+</button>
+
+<form id="external-otp-form" data-testid="external-otp-form">
+  <button type="reset">Reset external</button>
+  <button type="submit">Submit external</button>
+</form>
+<OTPField.Root
+  aria-label="External code"
+  bind:value={resetValue}
+  defaultValue="12"
+  form="external-otp-form"
+  length={2}
+  name="external-code"
+  required
+>
+  <OTPField.Input data-testid="external-first" />
+  <OTPField.Input data-testid="external-second" />
 </OTPField.Root>
 
 <OTPField.Root aria-label="Disabled code" disabled length={2}>
@@ -65,3 +115,5 @@ let invalidValue = $state("");
 
 <output data-testid="otp-state">{value}:{complete}:{changes}</output>
 <output data-testid="otp-invalid-state">{invalidValue}</output>
+<output data-testid="normalized-state">{normalizedValue}:{normalizedInvalidValue}</output>
+<output data-testid="reset-state">{resetValue}</output>

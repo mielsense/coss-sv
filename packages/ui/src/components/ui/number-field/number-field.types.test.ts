@@ -1,11 +1,16 @@
 import { createRawSnippet } from "svelte";
 import { expect, expectTypeOf, test } from "vitest";
-import type { NumberFieldInputProps, NumberFieldRootProps } from "./index.js";
+import type {
+  NumberFieldGroupProps,
+  NumberFieldInputProps,
+  NumberFieldRootProps,
+} from "./index.js";
 
 test("types bindable state, callbacks, formatting, native attributes, snippets, and refs", () => {
   const root = {
     children: createRawSnippet(() => ({ render: () => "content" })),
     defaultValue: 1.5,
+    delegate: createRawSnippet<[NumberFieldGroupProps]>((_props) => ({ render: () => "group" })),
     format: { style: "currency", currency: "EUR" },
     locale: "de-DE",
     max: 10,

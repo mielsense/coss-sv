@@ -5,6 +5,7 @@ import type { OTPFieldInputProps, OTPFieldRootProps } from "./index.js";
 test("types length, value binding, validation callbacks, native input props, and refs", () => {
   const root = {
     children: createRawSnippet(() => ({ render: () => "slots" })),
+    form: "verification-form",
     length: 6,
     normalizeValue: (value: string) => value.toUpperCase(),
     onComplete: (value: string) => value,

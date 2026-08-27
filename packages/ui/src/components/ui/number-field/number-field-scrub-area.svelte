@@ -1,12 +1,13 @@
 <script module lang="ts">
 import type { HTMLAttributes } from "svelte/elements";
-export type NumberFieldScrubAreaProps = Omit<HTMLAttributes<HTMLDivElement>, "children"> & {
+export type NumberFieldScrubAreaProps = Omit<HTMLAttributes<HTMLSpanElement>, "children"> & {
   label: string;
-  ref?: HTMLDivElement | null;
+  ref?: HTMLSpanElement | null;
 };
 </script>
 <script lang="ts">
 import { cn } from "$lib/utils.js";
+import Label from "../label/label.svelte";
 import { getNumberFieldContext } from "./context.js";
 import CursorGrowIcon from "./cursor-grow-icon.svelte";
 
@@ -15,6 +16,7 @@ let {
   label,
   onpointerdown,
   ref = $bindable(null),
+  style,
   ...props
 }: NumberFieldScrubAreaProps = $props();
 const context = getNumberFieldContext();
@@ -32,11 +34,11 @@ function pointerdown(event: PointerEvent): void {
   scrubbing = true;
   cursorX = event.clientX;
   cursorY = event.clientY;
-  const node = event.currentTarget as HTMLDivElement;
+  const node = event.currentTarget as HTMLSpanElement;
   node.setPointerCapture(event.pointerId);
 }
 function pointermove(event: PointerEvent): void {
-  if (!(event.currentTarget as HTMLDivElement).hasPointerCapture(event.pointerId)) return;
+  if (!(event.currentTarget as HTMLSpanElement).hasPointerCapture(event.pointerId)) return;
   cursorX = event.clientX;
   cursorY = event.clientY;
   const steps = Math.trunc((event.clientX - origin) / 8);
@@ -49,17 +51,19 @@ function pointerup(): void {
   scrubbing = false;
 }
 </script>
-<div
+<span
   bind:this={ref}
   class={cn("flex cursor-ew-resize", className)}
   data-slot="number-field-scrub-area"
+  role="presentation"
+  style={`touch-action: none; -webkit-user-select: none; user-select: none;${style ? ` ${style}` : ""}`}
   onpointercancel={pointerup}
   onpointerdown={pointerdown}
   onpointermove={pointermove}
   onpointerup={pointerup}
   {...props}
 >
-  <label class="cursor-ew-resize" for={context.id}>{label}</label>
+  <Label class="cursor-ew-resize" for={context.id}>{label}</Label>
   {#if scrubbing}
     <span
       aria-hidden="true"
@@ -69,4 +73,4 @@ function pointerup(): void {
       ><CursorGrowIcon /></span
     >
   {/if}
-</div>
+</span>

@@ -18,6 +18,8 @@ The React file exports `OTPField`, `OTPFieldInput`, `OTPFieldSeparator`, and `OT
 
 Fresh source search found nine direct particles, all read completely: `p-otp-field-1`, `p-otp-field-2`, `p-otp-field-3`, `p-otp-field-4`, and `p-otp-field-6` through `p-otp-field-10`. The missing `p-otp-field-5` is also absent from the upstream registry. The particles cover default and large slots, a visual separator, visible field labels, custom normalization and rejection feedback, controlled validation, alphanumeric codes, placeholders, and masking.
 
+The parity fixture represents all nine particles. In particular, `p-otp-field-4` retains the label, four-digit email copy, and centered Field layout. `p-otp-field-6` retains the Tier code normalizer, invalid pulse, live status copy, and cleanup timer. `p-otp-field-7` retains the exact `123456` validation states and messages.
+
 ## Rendered evidence
 
 Automated headless Playwright inspection used `https://coss.com/ui/docs/components/otp-field`; root will repeat final manual comparison in the Codex in-app browser.
@@ -25,10 +27,11 @@ Automated headless Playwright inspection used `https://coss.com/ui/docs/componen
 - The root is `div[role="group"][data-slot="otp-field"]` and carries the accessible label. At desktop six default slots occupy 232 by 32 px; four large slots occupy 168 by 36 px. A separated six-slot field occupies 252 px.
 - Every slot is a real `input[type="text"]`. Default slots measure 32 by 32 px at desktop with 14 px type, 32 px line height, 10 px radius, centered text, and an 8 px root gap. Large slots measure 36 by 36 px.
 - The first slot carries `autocomplete="one-time-code"`, `maxlength` equal to root length, `tabindex="0"`, and the root label. Later slots use `autocomplete="off"` and `tabindex="-1"`. All use `autocorrect="off"`, `spellcheck="false"`, and a validation-specific `pattern`.
-- Typing a valid character advances focus. Multiple inserted or pasted characters fill following slots. Arrow keys move focus. Backspace clears the current slot or moves backward when empty; Delete clears without moving backward. Selecting a slot and typing replaces it.
-- Validation modes are `numeric`, `alpha`, `alphanumeric`, and `none`. `normalizeValue` runs before validation. Rejected characters call `onValueInvalid`; accepted changes call `onValueChange`. `onComplete` fires when the normalized value reaches `length`.
+- Typing a valid character advances focus. Multiple inserted or pasted characters fill following slots. Arrow keys move focus. Backspace on a populated slot removes that character, shifts later values left, and focuses the previous slot. Backspace on an empty trailing slot removes the previous value and focuses it. Delete removes at the active position without moving backward. Selecting a slot and typing replaces it.
+- Validation modes are `numeric`, `alpha`, `alphanumeric`, and `none`. `normalizeValue` runs before validation. A same-length transform such as `a` to `A` is accepted without calling `onValueInvalid`. Characters removed by normalization or rejected by `validationType` call `onValueInvalid`; accepted changes call `onValueChange`. `onComplete` fires when the normalized value reaches `length`.
 - `mask` changes slots to password inputs while keeping the same composition. Disabled fields expose native disabled inputs and root opacity. Read-only slots remain focusable but do not mutate.
-- The root is controlled or uncontrolled, stores one string, exposes deliberate Svelte `bind:value`, and submits one hidden input when `name` is supplied so segmented slots do not submit duplicate values.
+- The root is controlled or uncontrolled, stores one string, exposes deliberate Svelte `bind:value`, and submits one hidden input when `name` is supplied so segmented slots do not submit duplicate values. Native form reset restores `defaultValue`. A `form` prop associates the slots and hidden value with an external form, including native required rejection.
+- Slot identity is stable across mount, removal, remount, and DOM reordering. The root derives indices from registered element order instead of assigning a counter that can become stale.
 
 ## COSS class contract
 
@@ -36,7 +39,7 @@ The complete source class strings are retained. The root uses an 8 px flex gap a
 
 ## Svelte and Shards mapping
 
-Shards has no OTP primitive. Its input and field code establishes the native attribute, field labeling, invalid state, form, and attachment conventions. The port uses native inputs inside a typed compound context so DOM order defines slot order exactly as upstream does.
+Shards has no OTP primitive. Its input and field code establishes the native attribute, field labeling, invalid state, form, and attachment conventions. The first slot uses Shards `Input` for Field registration. Later slots use native inputs so explicit per-slot labels are not overwritten by the shared Field label. A typed compound context derives slot position from live DOM order.
 
 ```svelte
 <OTPField.Root bind:value length={6} aria-label="Verification code">
@@ -50,11 +53,11 @@ Shards has no OTP primitive. Its input and field code establishes the native att
 </OTPField.Root>
 ```
 
-Named compatibility exports remain available. `value` is bindable; `onValueChange`, `onValueInvalid`, and `onComplete` are callback props. `length` stays required. Slot indices are assigned by DOM registration, not exposed as consumer props.
+Named compatibility exports remain available. `value` is bindable; `onValueChange`, `onValueInvalid`, and `onComplete` are callback props. `length` stays required. Slot indices are derived from live DOM registration, not exposed as consumer props.
 
 ## Tests and review routes
 
-Tests cover SSR, hydration, numeric, alpha, alphanumeric and custom normalization, full and partial paste, replacement, forward and backward focus movement, Backspace and Delete, disabled/read-only, input mode and autocomplete, completion callback, controlled binding, hidden form value, masking, invalid attributes, exact classes, and separator geometry.
+Tests cover SSR, hydration, numeric, alpha, alphanumeric and custom normalization, full and partial paste, selection replacement, forward and backward focus movement, Backspace and Delete shifting, disabled/read-only, input mode and autocomplete, completion callback, controlled binding, native submit/rejection/reset and external form association, dynamic slot removal/remount, masking, invalid attributes, exact classes, and semantic separator geometry.
 
 - Reference: `https://coss.com/ui/docs/components/otp-field`
 - Target: `/preview/otp-field?theme=light&width=desktop`

@@ -59,11 +59,22 @@ describe("OTPField browser contract", () => {
     expect(document.activeElement).toBe(slots[3]);
     await userEvent.keyboard("9");
     expect(slots[3]?.value).toBe("9");
+    slots[3]?.focus();
     await userEvent.keyboard("{Backspace}");
-    expect(slots[3]?.value).toBe("");
-    expect(document.activeElement).toBe(slots[3]);
+    expect(slots.map((slot) => slot.value)).toEqual(["1", "2", "3", "", "", ""]);
+    expect(document.activeElement).toBe(slots[2]);
     await userEvent.keyboard("{Delete}");
-    expect(document.activeElement).toBe(slots[3]);
+    expect(document.activeElement).toBe(slots[2]);
+
+    const transfer = new DataTransfer();
+    transfer.setData("text/plain", "87");
+    slots[1]?.focus();
+    slots[1]?.setSelectionRange(0, 1);
+    slots[1]?.dispatchEvent(
+      new ClipboardEvent("paste", { bubbles: true, clipboardData: transfer }),
+    );
+    await expect.element(slots[1] as HTMLInputElement).toHaveValue("8");
+    expect(slots.map((slot) => slot.value)).toEqual(["1", "8", "7", "", "", ""]);
   });
 
   test("supports alphanumeric, disabled, read-only, and accessibility semantics", async () => {
@@ -75,6 +86,18 @@ describe("OTPField browser contract", () => {
     recoverySlots[0]?.focus();
     await userEvent.keyboard("A-7x");
     expect(recoverySlots.map((slot) => slot.value).join("")).toBe("A7x");
+
+    const alpha = page.getByTestId("alpha-otp");
+    await userEvent.click(alpha);
+    await userEvent.keyboard("a7B");
+    const alphaRoot = document.querySelector('[aria-label="Alpha code"]');
+    expect(
+      Array.from(
+        alphaRoot?.querySelectorAll<HTMLInputElement>('[data-slot="otp-field-input"]') ?? [],
+      )
+        .map((slot) => slot.value)
+        .join(""),
+    ).toBe("aB");
 
     const disabled = document.querySelector('[aria-label="Disabled code"]');
     expect(disabled?.querySelectorAll("input:disabled")).toHaveLength(2);
@@ -95,6 +118,72 @@ describe("OTPField browser contract", () => {
     await userEvent.keyboard("4");
     await expect.element(custom).toHaveValue("");
     await expect.element(page.getByTestId("otp-invalid-state")).toHaveTextContent("4");
+
+    const normalized = page.getByTestId("normalized-otp");
+    await userEvent.click(normalized);
+    await userEvent.keyboard("a");
+    await expect.element(page.getByTestId("normalized-state")).toHaveTextContent("A:");
+  });
+
+  test("reconciles dynamic slots and native internal and external forms", async () => {
+    render(OTPFieldFixture);
+    const dynamicFirst = page.getByTestId("dynamic-first");
+    await userEvent.click(dynamicFirst);
+    await userEvent.keyboard("123");
+    await userEvent.click(page.getByTestId("toggle-dynamic"));
+    const remaining = Array.from(
+      document.querySelectorAll<HTMLInputElement>(
+        '[aria-label="Dynamic code"] [data-slot="otp-field-input"]',
+      ),
+    );
+    expect(remaining).toHaveLength(2);
+    expect(remaining.map((slot) => slot.value)).toEqual(["1", "2"]);
+    await userEvent.click(page.getByTestId("toggle-dynamic"));
+    const remounted = Array.from(
+      document.querySelectorAll<HTMLInputElement>(
+        '[aria-label="Dynamic code"] [data-slot="otp-field-input"]',
+      ),
+    );
+    expect(remounted).toHaveLength(3);
+    remounted[1]?.focus();
+    await userEvent.keyboard("9");
+    expect(remounted.map((slot) => slot.value)).toEqual(["1", "9", "3"]);
+
+    const external = document.querySelector<HTMLFormElement>("#external-otp-form");
+    const externalFirst = document.querySelector<HTMLInputElement>(
+      '[data-testid="external-first"]',
+    );
+    const externalSecond = document.querySelector<HTMLInputElement>(
+      '[data-testid="external-second"]',
+    );
+    expect(externalFirst?.form).toBe(external);
+    expect(externalSecond?.form).toBe(external);
+    expect(new FormData(external ?? undefined).getAll("external-code")).toEqual(["12"]);
+    externalFirst?.focus();
+    await userEvent.keyboard("9");
+    expect(new FormData(external ?? undefined).getAll("external-code")).toEqual(["92"]);
+    external?.reset();
+    await Promise.resolve();
+    await expect.element(page.getByTestId("reset-state")).toHaveTextContent("12");
+
+    const slots = primarySlots();
+    expect(slots[0]?.form).toBe(document.querySelector('[data-testid="otp-form"]'));
+    expect(slots[0]?.required).toBe(true);
+    expect(
+      document.querySelector<HTMLFormElement>('[data-testid="otp-form"]')?.checkValidity(),
+    ).toBe(false);
+  });
+
+  test("keeps the separator semantic and exact", () => {
+    render(OTPFieldFixture);
+    const separator = document.querySelector(
+      '[aria-label="Verification code"] [data-slot="separator"]',
+    );
+    expect(separator?.getAttribute("role")).toBe("separator");
+    expect(separator?.getAttribute("aria-orientation")).toBe("horizontal");
+    expect(separator?.hasAttribute("aria-hidden")).toBe(false);
+    expect(separator?.className).toContain("h-0.5");
+    expect(separator?.className).toContain("w-3");
   });
 
   test("hydrates its SSR root without a mismatch", async () => {

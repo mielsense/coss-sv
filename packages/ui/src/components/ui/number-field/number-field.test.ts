@@ -45,9 +45,22 @@ describe("NumberField number contract", () => {
     expect(body).toContain('aria-label="Increase"');
     expect(body).toContain("M12 5v14");
     expect(body).toContain("Quantity");
+    expect(body).toContain(
+      '<span class="flex cursor-ew-resize" data-slot="number-field-scrub-area" role="presentation"',
+    );
+    expect(body).toContain("touch-action: none");
+    expect(body).toContain('data-slot="label"');
     expect(render(NumberField.CursorGrowIcon, { props: { class: "cursor" } }).body).toContain(
       "cursor",
     );
+  });
+
+  test("renders delegated Root and Group as one element during SSR", () => {
+    const body = render(NumberFieldSSRFixture).body;
+    expect(body.match(/aria-label="Delegated quantity"/g)).toHaveLength(1);
+    expect(body).toContain('aria-label="Delegated quantity"');
+    expect(body).toContain('data-slot="number-field"');
+    expect(body).toContain('role="group"');
   });
 
   test("forwards snippets and local barrel aliases", () => {

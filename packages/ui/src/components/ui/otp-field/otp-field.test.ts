@@ -37,7 +37,9 @@ describe("OTPField contract", () => {
     expect(slot).toContain('spellcheck="false"');
     expect(slot).toContain("size-9");
 
-    expect(slot).toContain('data-slot="otp-field-separator"');
+    expect(slot).toContain('data-slot="separator"');
+    expect(slot).toContain('role="separator"');
+    expect(slot).not.toContain('aria-hidden="true"');
     expect(slot).toContain("h-0.5");
     expect(slot).toContain("w-3");
   });

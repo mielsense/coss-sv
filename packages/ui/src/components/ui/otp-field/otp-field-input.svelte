@@ -21,6 +21,7 @@ export type OTPFieldInputProps = Omit<
 import { Input as InputPrimitive } from "@shardsui/svelte";
 import type { Component } from "svelte";
 import type { Attachment } from "svelte/attachments";
+import { onDestroy } from "svelte";
 import { cn } from "$lib/utils.js";
 import { getOTPFieldContext } from "./context.js";
 
@@ -49,22 +50,25 @@ let {
 }: OTPFieldInputProps = $props();
 
 const context = getOTPFieldContext();
-const index = context.claimIndex();
-let slotValue = $state(context.valueAt(index));
+const slot = context.createSlot();
+const index = $derived(context.indexOf(slot));
+let slotValue = $state(context.valueAt(slot));
+
+onDestroy(() => context.unregister(slot));
 
 $effect(() => {
-  slotValue = context.valueAt(index);
+  slotValue = context.valueAt(slot);
 });
 
 const inputBehavior: Attachment<HTMLInputElement> = (node) => {
-  context.register(index, node);
+  context.register(slot, node);
   node.addEventListener("blur", handleBlur);
   node.addEventListener("focus", handleFocus);
   node.addEventListener("input", handleInput);
   node.addEventListener("keydown", handleKeydown);
   node.addEventListener("paste", handlePaste);
   return () => {
-    context.register(index, null);
+    context.register(slot, null);
     node.removeEventListener("blur", handleBlur);
     node.removeEventListener("focus", handleFocus);
     node.removeEventListener("input", handleInput);
@@ -78,8 +82,8 @@ function handleInput(event: Event): void {
   const raw = target.value;
   oninput?.(event as Parameters<NonNullable<typeof oninput>>[0]);
   if (event.defaultPrevented) return;
-  if (raw) context.insert(raw, index);
-  const acceptedValue = context.valueAt(index);
+  if (raw) context.insert(raw, slot);
+  const acceptedValue = context.valueAt(slot);
   target.value = acceptedValue;
   slotValue = acceptedValue;
 }
@@ -90,7 +94,7 @@ function handlePaste(event: ClipboardEvent): void {
   const pasted = event.clipboardData?.getData("text") ?? "";
   if (pasted) {
     event.preventDefault();
-    context.insert(pasted, index);
+    context.insert(pasted, slot);
   }
 }
 
@@ -111,10 +115,10 @@ function handleKeydown(event: KeyboardEvent): void {
     context.focus(context.length - 1);
   } else if (event.key === "Backspace") {
     event.preventDefault();
-    context.delete(index, true);
+    context.delete(slot, true);
   } else if (event.key === "Delete") {
     event.preventDefault();
-    context.delete(index, false);
+    context.delete(slot, false);
   }
 }
 
@@ -149,6 +153,7 @@ function handleBlur(event: FocusEvent): void {
     enterkeyhint={context.length === 1 ? "done" : "next"}
     {id}
     inputmode={context.inputMode}
+    form={context.form}
     maxlength={context.length}
     pattern={context.validationType === "numeric" ? "\\d{1}" : context.validationType === "alpha" ? "[A-Za-z]{1}" : context.validationType === "alphanumeric" ? "[A-Za-z0-9]{1}" : undefined}
     readonly={context.readonly}
@@ -179,6 +184,7 @@ function handleBlur(event: FocusEvent): void {
     enterkeyhint={index === context.length - 1 ? "done" : "next"}
     {id}
     inputmode={context.inputMode}
+    form={context.form}
     pattern={context.validationType === "numeric" ? "\\d{1}" : context.validationType === "alpha" ? "[A-Za-z]{1}" : context.validationType === "alphanumeric" ? "[A-Za-z0-9]{1}" : undefined}
     readonly={context.readonly}
     required={context.required}
