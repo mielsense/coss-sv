@@ -688,6 +688,7 @@ kbd {
 .mobile-menu-panel {
   position: relative;
   height: 100%;
+  outline: none;
   overflow-y: auto;
   background: var(--site-panel);
   padding: 2rem 1.5rem;
