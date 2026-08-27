@@ -472,37 +472,53 @@ async function verifyInstalledFixture(fixtureRoot: string): Promise<void> {
   }
 }
 
-async function verifyInstalledSeparator(fixtureRoot: string): Promise<void> {
+type ProductionRegistryIndexItem = {
+  name: string;
+  relativeUrl: string;
+};
+
+async function productionRegistryItems(): Promise<ProductionRegistryIndexItem[]> {
+  return JSON.parse(
+    await readFile(resolve(appRoot, "static/r/index.json"), "utf8"),
+  ) as ProductionRegistryIndexItem[];
+}
+
+async function verifyInstalledProductionRegistry(
+  fixtureRoot: string,
+  items: ProductionRegistryIndexItem[],
+): Promise<void> {
   const installedFiles = await listFiles(resolve(fixtureRoot, "src/lib"));
-  const separatorPath = resolve(fixtureRoot, "src/lib/components/ui/separator/separator.svelte");
-  const barrelPath = resolve(fixtureRoot, "src/lib/components/ui/separator/index.ts");
-  for (const expected of [
-    "components/ui/separator/index.ts",
-    "components/ui/separator/separator.svelte",
-  ]) {
+  const expectedFiles = new Set<string>();
+  for (const item of items) {
+    const registryItem = JSON.parse(
+      await readFile(resolve(appRoot, "static/r", item.relativeUrl), "utf8"),
+    ) as { files?: Array<{ target?: string }> };
+    for (const file of registryItem.files ?? []) {
+      if (file.target) expectedFiles.add(`components/ui/${file.target}`);
+    }
+  }
+
+  for (const expected of expectedFiles) {
     if (!installedFiles.includes(expected)) {
       throw new Error(
-        `Separator install omitted ${expected}. Installed files: ${installedFiles.join(", ")}`,
+        `Production registry install omitted ${expected}. Installed files: ${installedFiles.join(", ")}`,
       );
     }
   }
-  const [separator, barrel, packageJson] = await Promise.all([
-    readFile(separatorPath, "utf8"),
-    readFile(barrelPath, "utf8"),
-    readFile(resolve(fixtureRoot, "package.json"), "utf8"),
-  ]);
 
-  if (!separator.includes('from "$lib/utils.js"')) {
-    throw new Error("Separator install did not resolve the registry utils alias.");
+  for (const installedFile of installedFiles.filter((file) => /\.(?:svelte|ts)$/.test(file))) {
+    const source = await readFile(resolve(fixtureRoot, "src/lib", installedFile), "utf8");
+    if (source.includes("$UTILS$") || /(?:^|["'(])(?:reference|shardsui)\//im.test(source)) {
+      throw new Error(`Production registry install retained a private path in ${installedFile}.`);
+    }
   }
-  if (separator.includes("$UTILS$") || /(?:^|["'(])(?:reference|shardsui)\//im.test(separator)) {
-    throw new Error("Separator install retained a private registry or source path.");
-  }
-  if (!barrel.includes('from "./separator.svelte"')) {
-    throw new Error("Separator install did not preserve its local barrel.");
-  }
+
+  const packageJson = await readFile(resolve(fixtureRoot, "package.json"), "utf8");
   if (!packageJson.includes('"@shardsui/svelte"')) {
-    throw new Error("Separator install did not record the Shards UI dependency.");
+    throw new Error("Production registry install did not record the Shards UI dependency.");
+  }
+  if (/"react(?:-dom)?"|@base-ui/.test(packageJson.toLowerCase())) {
+    throw new Error("Production registry install contains a forbidden dependency.");
   }
 }
 
@@ -510,6 +526,7 @@ const temporaryRoot = await mkdtemp(join(appRoot, ".registry-smoke-"));
 const registryRoot = resolve(temporaryRoot, "registry-author");
 const registryOutput = resolve(registryRoot, "static/r");
 const fixtureRoot = resolve(temporaryRoot, "consumer");
+const productionFixtureRoot = resolve(temporaryRoot, "production-consumer");
 const storeRoot = resolve(temporaryRoot, "pnpm-store");
 const environment = isolatedEnvironment(temporaryRoot);
 let server: Server | undefined;
@@ -593,14 +610,24 @@ try {
 
   await closeServer(server);
   server = undefined;
+  await mkdir(productionFixtureRoot, { recursive: true });
+  await writeConsumerFixture(productionFixtureRoot);
+  await run(
+    "pnpm",
+    ["install", "--ignore-workspace", "--frozen-lockfile=false", "--store-dir", storeRoot],
+    { cwd: productionFixtureRoot, env: environment, quiet: true },
+  );
+  const productionItems = await productionRegistryItems();
   const productionRegistryServer = await startRegistryServer(resolve(appRoot, "static/r"));
   server = productionRegistryServer.server;
   await runLocalShadcn(
     [
       "add",
-      `${productionRegistryServer.baseUrl}/separator.json`,
+      ...productionItems.map(
+        ({ relativeUrl }) => `${productionRegistryServer.baseUrl}/${relativeUrl}`,
+      ),
       "-c",
-      fixtureRoot,
+      productionFixtureRoot,
       "--yes",
       "--overwrite",
       "--no-deps-install",
@@ -610,16 +637,16 @@ try {
   await run(
     "pnpm",
     ["install", "--ignore-workspace", "--frozen-lockfile=false", "--store-dir", storeRoot],
-    { cwd: fixtureRoot, env: environment, quiet: true },
+    { cwd: productionFixtureRoot, env: environment, quiet: true },
   );
-  await verifyInstalledSeparator(fixtureRoot);
+  await verifyInstalledProductionRegistry(productionFixtureRoot, productionItems);
   await run("pnpm", ["exec", "svelte-check", "--tsconfig", "./tsconfig.json"], {
-    cwd: fixtureRoot,
+    cwd: productionFixtureRoot,
     env: environment,
     quiet: true,
   });
   await run("pnpm", ["exec", "vite", "build"], {
-    cwd: fixtureRoot,
+    cwd: productionFixtureRoot,
     env: environment,
     quiet: true,
   });
@@ -633,7 +660,7 @@ try {
     );
   }
   console.log(
-    "Bundle-first and production Separator registry installs, svelte-check, and builds passed.",
+    `Bundle-first and ${productionItems.length}-item production registry installs, svelte-check, and builds passed.`,
   );
 } finally {
   await closeServer(server);
