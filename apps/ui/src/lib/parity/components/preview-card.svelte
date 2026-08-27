@@ -1,5 +1,5 @@
 <script lang="ts">
-import { PreviewCard, buttonVariants } from "@coss-sv/ui";
+import { buttonVariants, PreviewCard } from "@coss-sv/ui";
 </script>
 
 <section class="flex min-h-80 items-center justify-center p-8" data-particle="p-preview-card-1">

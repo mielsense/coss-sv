@@ -3,13 +3,13 @@ import {
   Avatar,
   Badge,
   Button,
+  buttonVariants,
   CheckboxGroup,
   Form,
   Group,
   Label,
   Popover,
   Textarea,
-  buttonVariants,
 } from "@coss-sv/ui";
 
 const animated = Popover.PopoverCreateHandle<"notifications" | "profile">();
