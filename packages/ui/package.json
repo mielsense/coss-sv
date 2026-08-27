@@ -19,6 +19,11 @@
       "svelte": "./dist/index.js",
       "default": "./dist/index.js"
     },
+    "./components/ui/*": {
+      "types": "./dist/components/ui/*/index.d.ts",
+      "svelte": "./dist/components/ui/*/index.js",
+      "default": "./dist/components/ui/*/index.js"
+    },
     "./lib/utils": {
       "types": "./dist/lib/utils.d.ts",
       "default": "./dist/lib/utils.js"
