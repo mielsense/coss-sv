@@ -21,7 +21,18 @@ describe("Context Menu browser contract", () => {
     const component = hydrate(ContextMenuHydrationFixture, { target });
     const trigger = page.getByText("Hydrated context target");
     await expect.element(trigger).toHaveAttribute("aria-controls", "custom-popup");
-    await expect.element(page.getByRole("menu")).toHaveAttribute("id", "custom-popup");
+    expect(document.querySelector("#custom-popup")).toBeInstanceOf(HTMLElement);
+    const explicitTrigger = page.getByTestId("hydrated-explicit-sub-trigger");
+    await expect
+      .element(explicitTrigger)
+      .toHaveAttribute("aria-controls", "hydrated-explicit-sub-popup");
+    await expect
+      .element(page.getByTestId("hydrated-nested-sub-trigger"))
+      .toHaveAttribute("aria-controls", "hydrated-nested-sub-popup");
+    const generatedTrigger = page.getByTestId("hydrated-generated-sub-trigger");
+    const generatedControls = generatedTrigger.element().getAttribute("aria-controls");
+    expect(generatedControls).toMatch(/-popup$/);
+    expect(document.querySelector(`#${generatedControls}`)).toBeInstanceOf(HTMLElement);
     expect(warning).not.toHaveBeenCalled();
     expect(error).not.toHaveBeenCalled();
 

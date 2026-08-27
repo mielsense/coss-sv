@@ -28,6 +28,18 @@ describe("Context Menu SSR contract", () => {
     expect(body).toContain('id="custom-popup"');
     expect(body).toContain('aria-controls="controlled-popup"');
     expect(body).toContain('id="controlled-popup"');
+    expect(body).toMatch(
+      /id="explicit-sub-trigger"[^>]*aria-controls="sub-a"|aria-controls="sub-a"[^>]*id="explicit-sub-trigger"/,
+    );
+    expect(body).toMatch(
+      /id="nested-sub-trigger"[^>]*aria-controls="sub-a-nested"|aria-controls="sub-a-nested"[^>]*id="nested-sub-trigger"/,
+    );
+    expect(body).toMatch(
+      /id="generated-sub-trigger"[^>]*aria-controls="([^"]+-popup)"|aria-controls="([^"]+-popup)"[^>]*id="generated-sub-trigger"/,
+    );
+    expect(body).toMatch(
+      /id="override-sub-trigger"[^>]*aria-controls="consumer-sub-popup"|aria-controls="consumer-sub-popup"[^>]*id="override-sub-trigger"/,
+    );
 
     const secondRender = render(ContextMenuSsrFixture).body;
     expect(secondRender).toContain('aria-controls="custom-popup"');

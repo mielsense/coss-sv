@@ -25,7 +25,7 @@ Context7 returned `Monthly quota reached`. The implementation therefore follows 
 - The root popup defaults to bottom/center with a four-pixel side offset. The submenu popup defaults to inline-end/start with a zero side offset and `-5` alignment adjustment, preserving direction-aware placement.
 - Every COSS class string and `data-slot` value is preserved. Consumer classes are merged last.
 - Checkbox, radio, link, disabled, destructive, shortcut, and switch behavior uses the same translation as Menu. Default state is read once, while bindable state, callbacks, and Shards' function-binding veto behavior stay available.
-- The trigger forwards native element attributes and Shards' `as` and `ref` contracts. Shards remains the owner of pointer and touch anchors. A scoped reactive ID context connects each trigger to its root or nested popup while open, and explicit popup IDs remain authoritative.
+- The trigger forwards native element attributes and Shards' `as` and `ref` contracts. Shards remains the owner of pointer and touch anchors. A scoped reactive ID provider lives inside each root and submenu, so explicit and `$props.id()`-generated popup relationships are present during SSR and remain stable through hydration. Consumer-supplied `aria-controls` remains authoritative.
 - `Shift+F10` and the Context Menu key open at the focused surface's center. Pointer invocation continues to use the event coordinates, while Shards supplies long-press handling and movement cancellation.
 - The icon particle uses the exact current Lucide 0.555 Pencil, Copy, Share, and Trash SVG elements observed in the published COSS particle. The Edit and Delete shapes are not approximations from an older Lucide release.
 
@@ -33,4 +33,4 @@ Context7 returned `Monthly quota reached`. The implementation therefore follows 
 
 - contextmenu-event opening at the pointer, keyboard opening, long press, collision-safe placement, deep submenus, and focus restoration
 - checkbox, switch, radio, disabled, destructive, links, shortcuts, submenus, RTL arrows, Escape, and typeahead
-- exact SSR DOM, slots, classes, custom portal targets, keep-mounted content, stable explicit IDs, and hydration
+- exact SSR DOM, slots, classes, custom portal targets, keep-mounted content, stable explicit and generated root/submenu IDs, nested and sibling submenu relationships, and hydration
