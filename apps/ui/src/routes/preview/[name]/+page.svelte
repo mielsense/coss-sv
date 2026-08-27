@@ -13,16 +13,19 @@ function documentTheme(theme: "dark" | "light") {
     const previousTheme = root.dataset.previewTheme;
     const previousColorScheme = root.style.colorScheme;
     const previouslyDark = root.classList.contains("dark");
+    const previouslyLight = root.classList.contains("light");
 
     root.dataset.previewTheme = theme;
     root.style.colorScheme = theme;
     root.classList.toggle("dark", theme === "dark");
+    root.classList.toggle("light", theme === "light");
 
     return () => {
       if (previousTheme) root.dataset.previewTheme = previousTheme;
       else delete root.dataset.previewTheme;
       root.style.colorScheme = previousColorScheme;
       root.classList.toggle("dark", previouslyDark);
+      root.classList.toggle("light", previouslyLight);
     };
   };
 }

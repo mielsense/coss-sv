@@ -3,6 +3,8 @@ import Separator from "./separator.svelte";
 
 let clicks = $state(0);
 let separatorRef = $state<HTMLElement | null>(null);
+let shardsClicks = $state(0);
+let shardsRef = $state<HTMLElement | null>(null);
 </script>
 
 <Separator
@@ -19,6 +21,17 @@ let separatorRef = $state<HTMLElement | null>(null);
   <span data-testid="separator-snippet">between sections</span>
 </Separator>
 
-<Separator aria-label="Default divider" data-testid="shards-separator" />
+<Separator
+  aria-label="Default divider"
+  as="span"
+  bind:ref={shardsRef}
+  data-forwarded="shards"
+  data-testid="shards-separator"
+  onclick={() => (shardsClicks += 1)}
+  tabindex={0}
+/>
 
 <output data-testid="separator-state">{clicks}:{separatorRef?.tagName ?? "missing"}</output>
+<output data-testid="shards-separator-state"
+  >{shardsClicks}:{shardsRef?.tagName ?? "missing"}</output
+>

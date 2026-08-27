@@ -23,7 +23,7 @@
   --success-foreground: #047857;
   --warning: #f59e0b;
   --warning-foreground: #b45309;
-  --border: #e5e5e5;
+  --border: rgb(0 0 0 / 8%);
   --input: #d4d4d4;
   --ring: #a3a3a3;
   --sidebar: #fafafa;
@@ -60,7 +60,7 @@
   --success-foreground: #34d399;
   --warning: #f59e0b;
   --warning-foreground: #fbbf24;
-  --border: #2d2d2d;
+  --border: rgb(255 255 255 / 6%);
   --input: #404040;
   --ring: #737373;
   --sidebar: #111111;

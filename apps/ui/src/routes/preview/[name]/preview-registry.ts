@@ -8,6 +8,10 @@ const particleModules = import.meta.glob<PreviewModule>(
   "../../../../registry/default/particles/*.svelte",
   { eager: true },
 );
+const componentModules = import.meta.glob<PreviewModule>(
+  "../../../lib/parity/components/*.svelte",
+  { eager: true },
+);
 
 function nameFromModulePath(path: string) {
   const filename = path.split("/").at(-1);
@@ -21,6 +25,9 @@ function createPreviewRegistry(): PreviewRegistry {
   const entries: Array<[string, Component]> = [["_fixture", Fixture]];
 
   for (const [path, module] of Object.entries(particleModules)) {
+    entries.push([nameFromModulePath(path), module.default]);
+  }
+  for (const [path, module] of Object.entries(componentModules)) {
     entries.push([nameFromModulePath(path), module.default]);
   }
 

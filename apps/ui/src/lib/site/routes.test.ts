@@ -81,6 +81,8 @@ describe("theme boundaries", () => {
     expect(appCss).not.toMatch(/(^|\n)\s*--primary:\s*#ff3e00/);
     expect(previewCss).not.toContain("--site-");
     expect(previewCss).toMatch(/\.preview-canvas\s*\{[^}]*--primary:/s);
+    expect(previewCss).toContain("--border: rgb(0 0 0 / 8%);");
+    expect(previewCss).toContain("--border: rgb(255 255 255 / 6%);");
   });
 
   test("the mobile dialog keeps the measured COSS width and edge shadow", async () => {
@@ -153,5 +155,17 @@ describe("theme boundaries", () => {
 
     expect(componentStyles).toBeGreaterThan(-1);
     expect(canvasStyles).toBeGreaterThan(componentStyles);
+  });
+
+  test("the preview registry discovers component parity fixtures without aggregate edits", async () => {
+    const registry = await readFile(
+      new URL("../../routes/preview/[name]/preview-registry.ts", import.meta.url),
+      "utf8",
+    );
+
+    expect(registry).toContain(
+      'import.meta.glob<PreviewModule>(\n  "../../../lib/parity/components/*.svelte"',
+    );
+    expect(registry).toContain("Object.entries(componentModules)");
   });
 });

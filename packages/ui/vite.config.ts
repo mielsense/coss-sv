@@ -4,6 +4,9 @@ import { defineConfig } from "vitest/config";
 
 export default defineConfig({
   plugins: [svelte()],
+  optimizeDeps: {
+    include: ["@shardsui/svelte", "tailwind-merge"],
+  },
   test: {
     expect: {
       requireAssertions: true,
@@ -20,7 +23,7 @@ export default defineConfig({
             provider: playwright(),
             screenshotFailures: false,
           },
-          include: ["tests/**/*.browser.test.ts"],
+          include: ["tests/**/*.browser.test.ts", "src/**/*.browser.test.ts"],
           setupFiles: ["./tests/setup.browser.ts"],
         },
       },
@@ -29,8 +32,8 @@ export default defineConfig({
         test: {
           name: "ssr",
           environment: "node",
-          exclude: ["tests/**/*.browser.test.ts"],
-          include: ["tests/**/*.test.ts"],
+          exclude: ["tests/**/*.browser.test.ts", "src/**/*.browser.test.ts"],
+          include: ["tests/**/*.test.ts", "src/**/*.test.ts"],
         },
       },
     ],

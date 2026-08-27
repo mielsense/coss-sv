@@ -1,5 +1,5 @@
 import { createRawSnippet } from "svelte";
-import { expectTypeOf, test } from "vitest";
+import { expect, expectTypeOf, test } from "vitest";
 import type { SeparatorOrientation, SeparatorProps } from "./index.js";
 
 test("types the COSS and Shards separator contracts", () => {
@@ -18,6 +18,7 @@ test("types the COSS and Shards separator contracts", () => {
     tabindex: -1,
   } satisfies SeparatorProps;
 
+  expect(props.orientation).toBe("vertical");
   expectTypeOf(props.orientation).toEqualTypeOf<"vertical">();
 
   const invalid = {

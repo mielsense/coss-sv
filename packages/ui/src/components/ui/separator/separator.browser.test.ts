@@ -29,14 +29,21 @@ describe("Separator browser contract", () => {
     await expect.element(page.getByTestId("separator-state")).toHaveTextContent("1:SECTION");
   });
 
-  test("keeps Shards attributes on the default no-content path", async () => {
+  test("keeps Shards behavior and attributes on the default no-content path", async () => {
     render(SeparatorFixture);
 
     const separator = page.getByTestId("shards-separator");
+    await expect.element(separator).toHaveAttribute("data-forwarded", "shards");
     await expect.element(separator).toHaveAttribute("role", "separator");
     await expect.element(separator).toHaveAttribute("aria-orientation", "horizontal");
     await expect.element(separator).toHaveAttribute("data-orientation", "horizontal");
     await expect.element(separator).toHaveAttribute("data-slot", "separator");
+    await expect.element(page.getByTestId("shards-separator-state")).toHaveTextContent("0:SPAN");
+
+    const element = document.querySelector<HTMLElement>('[data-testid="shards-separator"]');
+    expect(element?.tagName).toBe("SPAN");
+    element?.click();
+    await expect.element(page.getByTestId("shards-separator-state")).toHaveTextContent("1:SPAN");
   });
 
   test("hydrates server-equivalent markup without a mismatch", async () => {

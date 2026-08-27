@@ -11,16 +11,18 @@ The port uses only the MIT-designated COSS application tree.
 
 The source search found two particles that import the standalone Separator. Both files were read in full. Other matches use separate compound-component parts such as `MenuSeparator`, `GroupSeparator`, and `ToolbarSeparator`.
 
-The Shards comparison covered every file in its Separator directory, the package re-export, the referenced shared types and data-attribute helper, and its documentation:
+The Shards comparison covered every file in its Separator directory, the package re-export, the referenced shared types and data-attribute helper, its focused test, documentation, and hero demo:
 
 - `shardsui/packages/shardsui/src/lib/components/separator/index.ts`
 - `shardsui/packages/shardsui/src/lib/components/separator/separator.svelte`
 - `shardsui/packages/shardsui/src/lib/index.ts`
 - `shardsui/packages/shardsui/src/lib/internal/data-attrs.ts`
 - `shardsui/packages/shardsui/src/lib/internal/types.ts`
+- `shardsui/packages/shardsui/tests/separator/separator.test.ts`
 - `shardsui/docs/src/content/separator.md`
+- `shardsui/docs/src/lib/components/content/demos/separator/hero/demo.svelte`
 
-Shards has no Separator-specific tests or additional examples under the component directory.
+The Shards test verifies the default `div`, both orientations, and rendering through `as="span"` and `as="hr"`. Its hero demo composes two vertical, self-stretching separators between three statistics.
 
 ## COSS contract
 
@@ -50,17 +52,17 @@ The wrapper uses Shards for the ordinary no-content case. When a consumer suppli
 
 Reference route: `http://127.0.0.1:4000/ui/docs/components/separator`
 
-Temporary Svelte review route: `http://127.0.0.1:5101/@fs/private/tmp/coss-separator-preview/index.html?theme=dark`
+Svelte review routes: `http://127.0.0.1:4174/preview/separator?theme=<light|dark>&width=<mobile|desktop>`
 
-The manual pass used the Codex in-app Browser. At 1280 by 900 and 390 by 844, the reference rendered:
+The manual pass used the Codex in-app Browser at 1280 by 900 and 390 by 844 in both themes. The local reference theme control did not switch reliably, so the light state was exercised by applying the same root `light` class used by its theme system. The reference rendered:
 
 - a horizontal `DIV` with `role="separator"`, `aria-orientation="horizontal"`, `data-orientation="horizontal"`, and `data-slot="separator"`;
 - a 288 by 1 pixel horizontal rule with 16 pixel vertical margins in the docs particle;
 - vertical rules that were 1 by 20 pixels and stretched to the height of the flex row;
 - `flex-shrink: 0` in both orientations;
-- the dark border token as `oklab(0.999994 0.0000455678 0.0000200868 / 0.06)`.
+- an 8% black border in light mode and a 6% white border in dark mode.
 
-At 1280 by 900, the Svelte fixture matched the four reference separators, attributes, class list, 288 by 1 pixel horizontal rule, 1 by 20 pixel vertical rules, margin, stretch, and dark border value. The reference theme button remained on the dark class in this local runtime, so the light reference could not be captured through the visible control. The in-app Browser's temporary viewport override hung while switching the Svelte fixture to 390 by 844 and was stopped. The reference narrow measurement above remains available, and the fixture uses width-independent component rules.
+The integrated Svelte fixture matched the four content separators in every state: attributes, class list, 288 by 1 pixel horizontal rule, 1 by 20 pixel vertical rules, 16 pixel margin, stretch behavior, and theme tokens. Browser-computed Svelte colors were `rgba(0, 0, 0, 0.08)` in light mode and `rgba(255, 255, 255, 0.06)` in dark mode, equivalent to the reference's `oklab` black and white alpha values. The extra reference separator belongs to the desktop documentation header and is hidden at the narrow breakpoint; it is not part of the component example.
 
 The component uses `bg-border`; package token tests cover its light and dark values. A separator has no focus target or keyboard interaction. Its semantic role and orientation remain exposed to assistive technology.
 
