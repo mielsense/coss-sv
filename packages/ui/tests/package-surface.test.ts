@@ -42,6 +42,10 @@ const themeTokens = [
   "--font-heading",
   "--font-mono",
   "--font-sans",
+  "--radius-lg",
+  "--radius-md",
+  "--radius-sm",
+  "--radius-xl",
 ].sort();
 
 const semanticTokens = [
@@ -138,7 +142,7 @@ describe("package surface", () => {
 
     expect(customPropertyNames(blockContents(stylesheet, "@theme inline"))).toEqual(themeTokens);
     expect(customPropertyNames(blockContents(stylesheet, ":root"))).toEqual(semanticTokens);
-    expect(customPropertyNames(blockContents(stylesheet, ".dark"))).toEqual(
+    expect(customPropertyNames(blockContents(stylesheet, "\n.dark"))).toEqual(
       semanticTokens.filter((token) => token !== "--radius"),
     );
     expect(stylesheet).toContain("--animate-skeleton: skeleton 2s -1s infinite linear;");
