@@ -101,16 +101,39 @@ export function createPinnedPnpmOverrides(lock: PinnedBunLock) {
   return overrides;
 }
 
-export function applyPinnedPnpmOverrides(
+export function convertReferencePackageToPinnedPnpmWorkspace(
   packageJson: Record<string, unknown>,
   lock: PinnedBunLock,
 ) {
-  const existingPnpm = isRecord(packageJson.pnpm) ? packageJson.pnpm : {};
+  const { pnpm: _legacyPnpmSettings, ...packageJsonWithoutLegacyPnpmSettings } = packageJson;
+  const reviewedBuildPackages = new Map<string, boolean>([
+    ["core-js-pure", false],
+    ["esbuild", true],
+    ["msw", false],
+    ["sharp", true],
+  ]);
+  const allowBuilds: Record<string, boolean> = {};
+
+  for (const value of Object.values(lock.packages)) {
+    if (value[0].includes("@workspace:")) continue;
+    const identity = packageIdentityFromRecord(lock, value[0]);
+    const decision = reviewedBuildPackages.get(identity.name);
+    if (decision !== undefined) {
+      allowBuilds[`${identity.name}@${identity.version}`] = decision;
+    }
+  }
+
+  const reviewedBuildSelectors = Object.keys(allowBuilds).sort();
+
   return {
-    ...packageJson,
-    pnpm: {
-      ...existingPnpm,
+    packageJson: packageJsonWithoutLegacyPnpmSettings,
+    workspace: {
+      packages: ["apps/*", "apps/examples/*", "packages/*"],
       overrides: createPinnedPnpmOverrides(lock),
+      allowBuilds,
+      ignoredBuiltDependencies: reviewedBuildSelectors.filter((selector) => !allowBuilds[selector]),
+      onlyBuiltDependencies: reviewedBuildSelectors.filter((selector) => allowBuilds[selector]),
+      strictDepBuilds: true,
     },
   };
 }

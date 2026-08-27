@@ -50,14 +50,23 @@ jobs:
       - name: Check types and Svelte diagnostics
         run: pnpm check
 
+      - name: Check parity inventory
+        run: pnpm parity:check
+
+      - name: Check registry output
+        run: pnpm registry:check
+
+      - name: Install Playwright Chromium
+        run: pnpm exec playwright install --with-deps chromium
+
       - name: Run tests
         run: pnpm test
 
       - name: Build packages and documentation
         run: pnpm build
 
-      - name: Install Playwright Chromium
-        run: pnpm --filter @coss-sv/docs exec playwright install --with-deps chromium
+      - name: Smoke-test registry installation
+        run: pnpm --filter @coss-sv/docs registry:smoke
 
       - name: Run documentation browser tests
-        run: pnpm test:e2e
+        run: pnpm test:docs:e2e

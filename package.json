@@ -12,17 +12,10 @@
     "type": "git",
     "url": "git+https://github.com/mielsense/coss-sv.git"
   },
-  "pnpm": {
-    "overrides": {
-      "@ungap/structured-clone@1.3.4": "1.3.3",
-      "magic-string@1.2.3": "1.2.2",
-      "rolldown@1.2.6": "1.2.5"
-    }
-  },
   "scripts": {
     "build": "turbo run build",
     "check": "turbo run check",
-    "ci": "pnpm verify && pnpm test && pnpm build && pnpm test:e2e",
+    "ci": "pnpm verify && pnpm test && pnpm build && pnpm test:docs:e2e",
     "dev": "turbo run dev --parallel",
     "format": "biome format --write --vcs-root=. .github apps docs packages scripts tests AGENTS.md CODE_OF_CONDUCT.md CONTRIBUTING.md NOTICE.md README.md SECURITY.md THIRD_PARTY_NOTICES.md biome.json package.json playwright.config.ts pnpm-workspace.yaml turbo.json vitest.workspace.ts",
     "format:check": "biome format --vcs-root=. .github apps docs packages scripts tests AGENTS.md CODE_OF_CONDUCT.md CONTRIBUTING.md NOTICE.md README.md SECURITY.md THIRD_PARTY_NOTICES.md biome.json package.json playwright.config.ts pnpm-workspace.yaml turbo.json vitest.workspace.ts",
@@ -32,6 +25,7 @@
     "registry:build": "pnpm --dir=apps/ui run registry:build",
     "registry:check": "pnpm --dir=apps/ui run registry:check",
     "test": "pnpm test:repo && pnpm test:harness && turbo run test",
+    "test:docs:e2e": "pnpm --filter @coss-sv/docs test:e2e",
     "test:e2e": "playwright test --config playwright.config.ts",
     "test:harness": "vitest run --config vitest.workspace.ts",
     "test:repo": "node --test scripts/*.test.ts scripts/parity/*.test.ts",

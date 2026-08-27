@@ -16,7 +16,10 @@ import {
   assertIsolatedChildEnvironment,
   createIsolatedChildEnvironment,
 } from "./reference-environment.mts";
-import { applyPinnedPnpmOverrides, parsePinnedBunLock } from "./reference-lock.mts";
+import {
+  convertReferencePackageToPinnedPnpmWorkspace,
+  parsePinnedBunLock,
+} from "./reference-lock.mts";
 
 const scriptDirectory = dirname(fileURLToPath(import.meta.url));
 const repositoryRoot = resolve(scriptDirectory, "../..");
@@ -190,23 +193,24 @@ try {
   });
 
   const temporaryPackagePath = join(temporaryReference, "package.json");
-  const temporaryPackage = applyPinnedPnpmOverrides(
+  const convertedReference = convertReferencePackageToPinnedPnpmWorkspace(
     JSON.parse(readFileSync(temporaryPackagePath, "utf8")) as Record<string, unknown>,
     pinnedBunLock,
   );
+  const temporaryPackage = convertedReference.packageJson;
   temporaryPackage.packageManager = "pnpm@10.22.0";
   temporaryPackage.engines = { node: ">=22.18 <25" };
   writeFileSync(temporaryPackagePath, `${JSON.stringify(temporaryPackage, null, 2)}\n`);
   writeFileSync(
     join(temporaryReference, "pnpm-workspace.yaml"),
-    "packages:\n  - apps/*\n  - apps/examples/*\n  - packages/*\n",
+    `${JSON.stringify(convertedReference.workspace, null, 2)}\n`,
   );
 
   const effectiveStorePath = await runPnpm(["store", "path"], true);
   assertEffectivePackageManagerPath(temporaryParent, effectiveStorePath, "pnpm store path");
   console.log(`Temporary pnpm store: ${effectiveStorePath}`);
   console.log(
-    `Converted ${Object.keys((temporaryPackage.pnpm as { overrides: Record<string, string> }).overrides).length} pinned Bun resolutions to exact pnpm overrides.`,
+    `Converted ${Object.keys(convertedReference.workspace.overrides).length} pinned Bun resolutions to exact pnpm overrides.`,
   );
   await runPnpm(["install", "--lockfile-only"]);
   const generatedPnpmLockPath = join(temporaryReference, "pnpm-lock.yaml");
