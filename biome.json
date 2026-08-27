@@ -30,6 +30,7 @@
       "!**/playwright-report",
       "!**/reference",
       "!**/shardsui",
+      "!apps/ui/registry.json",
       "!**/static/r",
       "!**/test-results",
       "!**/*.log"
