@@ -27,6 +27,6 @@ let {
 const classes = $derived(cn(baseClass, className));
 </script>
 
-<svelte:element this={as} bind:this={ref} {...props} data-slot="label" class={classes}>
+<svelte:element this={as} bind:this={ref} data-slot="label" class={classes} {...props}>
   {@render children?.()}
 </svelte:element>
