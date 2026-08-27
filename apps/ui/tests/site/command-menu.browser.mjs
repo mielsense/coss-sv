@@ -1,14 +1,37 @@
 import assert from "node:assert/strict";
 import { spawn } from "node:child_process";
+import { createServer } from "node:net";
 import { fileURLToPath } from "node:url";
 import { chromium } from "playwright";
 
-const baseUrl = process.env.COSS_TEST_BASE_URL ?? "http://127.0.0.1:4173";
+let baseUrl = process.env.COSS_TEST_BASE_URL;
 const appDirectory = fileURLToPath(new URL("../..", import.meta.url));
 const viteExecutable = fileURLToPath(
   new URL("../../node_modules/vite/bin/vite.js", import.meta.url),
 );
 let preview;
+
+async function findAvailablePreviewPort() {
+  const probe = createServer();
+
+  const port = await new Promise((resolve, reject) => {
+    probe.once("error", reject);
+    probe.listen(0, "127.0.0.1", () => {
+      const address = probe.address();
+      if (!address || typeof address === "string") {
+        reject(new Error("could not allocate a documentation preview port"));
+        return;
+      }
+      resolve(address.port);
+    });
+  });
+
+  await new Promise((resolve, reject) => {
+    probe.close((error) => (error ? reject(error) : resolve()));
+  });
+
+  return port;
+}
 
 async function waitForPreview() {
   for (let attempt = 0; attempt < 120; attempt += 1) {
@@ -23,17 +46,28 @@ async function waitForPreview() {
   throw new Error(`documentation preview did not become ready at ${baseUrl}`);
 }
 
-if (!process.env.COSS_TEST_BASE_URL) {
+if (!baseUrl) {
+  const port = await findAvailablePreviewPort();
+  baseUrl = `http://127.0.0.1:${port}`;
   preview = spawn(
     process.execPath,
-    [viteExecutable, "preview", "--host", "127.0.0.1", "--port", "4173"],
+    [viteExecutable, "preview", "--host", "127.0.0.1", "--port", String(port), "--strictPort"],
     {
       cwd: appDirectory,
       env: process.env,
       stdio: "inherit",
     },
   );
-  await waitForPreview();
+  const previewExited = new Promise((_, reject) => {
+    preview.once("exit", (code, signal) => {
+      reject(
+        new Error(
+          `documentation preview exited before readiness (code ${code ?? "none"}, signal ${signal ?? "none"})`,
+        ),
+      );
+    });
+  });
+  await Promise.race([waitForPreview(), previewExited]);
 }
 
 const browser = await chromium.launch({ headless: true });
