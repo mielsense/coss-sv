@@ -1,0 +1,46 @@
+<script module lang="ts">
+import type { Snippet } from "svelte";
+
+export type CossFixtureButtonProps = {
+  class?: string;
+  children?: Snippet;
+  disabled?: boolean;
+  size?: "default" | "sm" | "xs";
+  type?: "button" | "reset" | "submit";
+  variant?: "default" | "ghost" | "outline";
+};
+</script>
+
+<script lang="ts">
+import { Button } from "@shardsui/svelte/button";
+import { cn } from "../../../../../../packages/ui/dist/lib/utils.js";
+
+const baseClass =
+  "relative inline-flex shrink-0 cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-lg border font-medium text-base outline-none transition-shadow before:pointer-events-none before:absolute before:inset-0 before:rounded-[calc(var(--radius-lg)-1px)] pointer-coarse:after:absolute pointer-coarse:after:size-full pointer-coarse:after:min-h-11 pointer-coarse:after:min-w-11 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-64 data-loading:select-none data-loading:text-transparent sm:text-sm [&_svg:not([class*='opacity-'])]:opacity-80 [&_svg:not([class*='size-'])]:size-4.5 sm:[&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:-mx-0.5 [&_svg]:shrink-0";
+const sizeClasses = {
+  default: "h-9 px-[calc(--spacing(3)-1px)] sm:h-8",
+  sm: "h-8 gap-1.5 px-[calc(--spacing(2.5)-1px)] sm:h-7",
+  xs: "h-7 gap-1 rounded-md px-[calc(--spacing(2)-1px)] text-sm before:rounded-[calc(var(--radius-md)-1px)] sm:h-6 sm:text-xs [&_svg:not([class*='size-'])]:size-4 sm:[&_svg:not([class*='size-'])]:size-3.5",
+} as const;
+const variantClasses = {
+  default:
+    "not-disabled:inset-shadow-[0_1px_--theme(--color-white/16%)] border-primary bg-primary text-primary-foreground shadow-primary/24 shadow-xs hover:bg-primary/90 data-pressed:bg-primary/90 *:data-[slot=button-loading-indicator]:text-primary-foreground [:active,[data-pressed]]:inset-shadow-[0_1px_--theme(--color-black/8%)] [:disabled,:active,[data-pressed]]:shadow-none",
+  ghost:
+    "border-transparent text-foreground hover:bg-accent data-pressed:bg-accent *:data-[slot=button-loading-indicator]:text-foreground",
+  outline:
+    "border-input bg-popover not-dark:bg-clip-padding text-foreground shadow-xs/5 not-disabled:not-active:not-data-pressed:before:shadow-[0_1px_--theme(--color-black/4%)] hover:bg-accent/50 data-pressed:bg-accent/50 *:data-[slot=button-loading-indicator]:text-foreground dark:bg-input/32 dark:data-pressed:bg-input/64 dark:hover:bg-input/64 dark:not-disabled:before:shadow-[0_-1px_--theme(--color-white/2%)] dark:not-disabled:not-active:not-data-pressed:before:shadow-[0_-1px_--theme(--color-white/6%)] [:disabled,:active,[data-pressed]]:shadow-none",
+} as const;
+
+let {
+  children,
+  class: className,
+  disabled = false,
+  size = "default",
+  type = "button",
+  variant = "default",
+}: CossFixtureButtonProps = $props();
+
+const classes = $derived(cn(baseClass, sizeClasses[size], variantClasses[variant], className));
+</script>
+
+<Button class={classes} data-slot="button" {disabled} {type}> {@render children?.()} </Button>
