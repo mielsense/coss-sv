@@ -114,7 +114,10 @@ function customPropertyNames(source: string): string[] {
 
 describe("package surface", () => {
   test("exports Separator from the package root", async () => {
-    const { Separator, SeparatorPrimitive } = await import("@coss-sv/ui");
+    const packageSpecifier = "@coss-sv/ui";
+    const { Separator, SeparatorPrimitive } = (await import(
+      packageSpecifier
+    )) as typeof import("../src/index.js");
 
     expect(Separator).toBeTypeOf("function");
     expect(SeparatorPrimitive).toBeTypeOf("function");
