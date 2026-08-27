@@ -23,6 +23,7 @@ describe("Menu SSR contract", () => {
     expect(body).toContain('d="M5.252 12.7 10.2 18.63 18.748 5.37"');
     expect(body).toContain('data-slot="menu-radio-item"');
     expect(body).toContain('data-slot="menu-sub-trigger"');
+    expect(body).toContain('class="lucide lucide-chevron-right ms-auto -me-0.5 opacity-80"');
     expect(body).toContain('data-slot="menu-sub-content"');
     expect(body).toContain('id="ssr-menu-popup"');
     expect(body).toContain('id="ssr-menu-sub-popup"');

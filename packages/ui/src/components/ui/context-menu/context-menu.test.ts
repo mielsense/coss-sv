@@ -13,6 +13,7 @@ describe("Context Menu SSR contract", () => {
     expect(body).toContain('data-slot="context-menu-checkbox-item"');
     expect(body).toContain('data-slot="context-menu-radio-item"');
     expect(body).toContain('data-slot="context-menu-sub-trigger"');
+    expect(body).toContain('class="lucide lucide-chevron-right ms-auto -me-0.5 opacity-80"');
     expect(body).toContain('data-slot="context-menu-sub-content"');
     expect(body).toContain("max-h-(--available-height) w-full overflow-y-auto p-1");
     const controlledId = body.match(/aria-controls="([^"]+)"/)?.[1];

@@ -198,6 +198,71 @@ function assertNear(actual, expected, message, tolerance = 0.75) {
   );
 }
 
+async function toolbarFontMetrics() {
+  return page.evaluate(() => {
+    const trigger = document.querySelector(
+      '[data-particle="p-toolbar-1"] [data-slot="select-trigger"]',
+    );
+    const popup = document.querySelector('[data-slot="select-popup"]');
+    const selected = document.querySelector('[data-slot="select-item"][aria-selected="true"]');
+    const items = document.querySelectorAll('[data-slot="select-item"]');
+    if (
+      !(trigger instanceof HTMLElement) ||
+      !(popup instanceof HTMLElement) ||
+      !(selected instanceof HTMLElement)
+    ) {
+      return null;
+    }
+
+    const triggerLabel = trigger.querySelector('[data-slot="select-value"]');
+    const selectedLabel = selected.querySelector(".col-start-2");
+    if (!(triggerLabel instanceof HTMLElement) || !(selectedLabel instanceof HTMLElement)) {
+      return null;
+    }
+
+    const triggerRect = trigger.getBoundingClientRect();
+    const popupRect = popup.getBoundingClientRect();
+    const selectedRect = selected.getBoundingClientRect();
+    const triggerLabelRect = triggerLabel.getBoundingClientRect();
+    const selectedLabelRect = selectedLabel.getBoundingClientRect();
+    return {
+      itemCount: items.length,
+      popupTop: popupRect.top,
+      selectedBottomInset: triggerRect.bottom - selectedRect.bottom,
+      selectedTopInset: selectedRect.top - triggerRect.top,
+      selectedCenter: selectedRect.top + selectedRect.height / 2,
+      triggerCenter: triggerRect.top + triggerRect.height / 2,
+      selectedLabelX: selectedLabelRect.left,
+      triggerLabelX: triggerLabelRect.left,
+    };
+  });
+}
+
+async function waitForToolbarFontAlignment() {
+  await page.waitForFunction(() => {
+    const trigger = document.querySelector(
+      '[data-particle="p-toolbar-1"] [data-slot="select-trigger"]',
+    );
+    const selected = document.querySelector('[data-slot="select-item"][aria-selected="true"]');
+    if (!(trigger instanceof HTMLElement) || !(selected instanceof HTMLElement)) return false;
+
+    const triggerLabel = trigger.querySelector('[data-slot="select-value"]');
+    const selectedLabel = selected.querySelector(".col-start-2");
+    if (!(triggerLabel instanceof HTMLElement) || !(selectedLabel instanceof HTMLElement)) {
+      return false;
+    }
+
+    const triggerRect = trigger.getBoundingClientRect();
+    const selectedRect = selected.getBoundingClientRect();
+    const triggerLabelRect = triggerLabel.getBoundingClientRect();
+    const selectedLabelRect = selectedLabel.getBoundingClientRect();
+    const centerDelta =
+      triggerRect.top + triggerRect.height / 2 - (selectedRect.top + selectedRect.height / 2);
+    const labelDelta = triggerLabelRect.left - selectedLabelRect.left;
+    return Math.abs(centerDelta) <= 0.75 && Math.abs(labelDelta) <= 0.75;
+  });
+}
+
 try {
   await page.goto(baseUrl);
 
@@ -475,69 +540,32 @@ try {
   await page.setViewportSize({ width: 1280, height: 720 });
   await page.goto(`${baseUrl}/preview/toolbar?theme=light&width=desktop`);
   await page.locator('[data-preview-ready="true"]').waitFor();
+  await page.waitForTimeout(250);
   const fontTrigger = page.locator('[data-particle="p-toolbar-1"] [data-slot="select-trigger"]');
   await fontTrigger.click();
-  const selectedFont = page.locator(
-    '[data-particle="p-toolbar-1"] [data-slot="select-item"][aria-selected="true"]',
-  );
+  const selectedFont = page.locator('[data-slot="select-item"][aria-selected="true"]');
   await selectedFont.waitFor({ state: "visible" });
-  await page.waitForFunction(() => {
-    const trigger = document.querySelector(
-      '[data-particle="p-toolbar-1"] [data-slot="select-trigger"]',
-    );
-    const selected = document.querySelector(
-      '[data-particle="p-toolbar-1"] [data-slot="select-item"][aria-selected="true"]',
-    );
-    if (!(trigger instanceof HTMLElement) || !(selected instanceof HTMLElement)) return false;
-    const triggerRect = trigger.getBoundingClientRect();
-    const selectedRect = selected.getBoundingClientRect();
-    return (
-      Math.abs(
-        triggerRect.top + triggerRect.height / 2 - (selectedRect.top + selectedRect.height / 2),
-      ) <= 0.75
-    );
-  });
-  const fontMetrics = await page.evaluate(() => {
-    const trigger = document.querySelector(
-      '[data-particle="p-toolbar-1"] [data-slot="select-trigger"]',
-    );
-    const popup = document.querySelector(
-      '[data-particle="p-toolbar-1"] [data-slot="select-popup"]',
-    );
-    const selected = document.querySelector(
-      '[data-particle="p-toolbar-1"] [data-slot="select-item"][aria-selected="true"]',
-    );
-    const items = document.querySelectorAll(
-      '[data-particle="p-toolbar-1"] [data-slot="select-item"]',
-    );
-    if (
-      !(trigger instanceof HTMLElement) ||
-      !(popup instanceof HTMLElement) ||
-      !(selected instanceof HTMLElement)
-    ) {
-      return null;
-    }
-    const triggerRect = trigger.getBoundingClientRect();
-    const popupRect = popup.getBoundingClientRect();
-    const selectedRect = selected.getBoundingClientRect();
-    return {
-      itemCount: items.length,
-      popupTop: popupRect.top,
-      selectedBottomInset: triggerRect.bottom - selectedRect.bottom,
-      selectedTopInset: selectedRect.top - triggerRect.top,
-      selectedCenter: selectedRect.top + selectedRect.height / 2,
-      triggerCenter: triggerRect.top + triggerRect.height / 2,
-    };
-  });
+  await waitForToolbarFontAlignment();
+  const fontMetrics = await toolbarFontMetrics();
   assert.ok(fontMetrics, "Toolbar Select geometry is available");
   assert.equal(fontMetrics.itemCount, 3, "all Toolbar Select items preserve their slot");
   assertNear(fontMetrics.selectedCenter, fontMetrics.triggerCenter, "selected font center");
+  assertNear(fontMetrics.selectedLabelX, fontMetrics.triggerLabelX, "Helvetica label x");
   assertNear(fontMetrics.selectedTopInset, 2, "selected font top inset");
   assertNear(fontMetrics.selectedBottomInset, 2, "selected font bottom inset");
   assert.ok(
     fontMetrics.popupTop < fontMetrics.triggerCenter,
     "the font popup overlaps the trigger instead of opening below it",
   );
+
+  await page.getByRole("option", { name: "Arial", exact: true }).click();
+  await fontTrigger.click();
+  await selectedFont.waitFor({ state: "visible" });
+  await waitForToolbarFontAlignment();
+  const arialMetrics = await toolbarFontMetrics();
+  assert.ok(arialMetrics, "Arial Toolbar Select geometry is available");
+  assertNear(arialMetrics.selectedCenter, arialMetrics.triggerCenter, "Arial selected font center");
+  assertNear(arialMetrics.selectedLabelX, arialMetrics.triggerLabelX, "Arial label x");
 } finally {
   await browser.close();
   preview?.kill("SIGTERM");

@@ -32,7 +32,7 @@ let {
     {@render child?.(state)}
     <svg
       aria-hidden="true"
-      class="ms-auto -me-0.5 opacity-80"
+      class="lucide lucide-chevron-right ms-auto -me-0.5 opacity-80"
       fill="none"
       height="24"
       stroke="currentColor"

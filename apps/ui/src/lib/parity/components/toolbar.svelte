@@ -18,6 +18,7 @@ const fonts = [
 let font = $state("helvetica");
 let fontOpen = $state(false);
 let fontPositioner = $state<HTMLElement | null>(null);
+let fontAlignOffset = $state(0);
 let fontSideOffset = $state(4);
 let tooltipOpen = $state({
   center: false,
@@ -57,14 +58,20 @@ async function alignSelectedItem(
     const selectedItem = positioner.querySelector<HTMLElement>(
       '[role="option"][aria-selected="true"]',
     );
-    if (!selectedItem) return;
+    const triggerLabel = trigger.querySelector<HTMLElement>('[data-slot="select-value"]');
+    const selectedLabel = selectedItem?.querySelector<HTMLElement>(".col-start-2");
+    if (!selectedItem || !triggerLabel || !selectedLabel) return;
     const triggerRect = trigger.getBoundingClientRect();
     const selectedRect = selectedItem.getBoundingClientRect();
+    const triggerLabelRect = triggerLabel.getBoundingClientRect();
+    const selectedLabelRect = selectedLabel.getBoundingClientRect();
     const centerOffset =
       triggerRect.top + triggerRect.height / 2 - (selectedRect.top + selectedRect.height / 2);
+    const labelOffset = triggerLabelRect.left - selectedLabelRect.left;
 
-    if (Math.abs(centerOffset) <= 0.5) return;
-    fontSideOffset += centerOffset;
+    if (Math.abs(centerOffset) <= 0.5 && Math.abs(labelOffset) <= 0.5) return;
+    if (Math.abs(centerOffset) > 0.5) fontSideOffset += centerOffset;
+    if (Math.abs(labelOffset) > 0.5) fontAlignOffset += labelOffset;
   }
 }
 
@@ -75,7 +82,10 @@ $effect(() => {
   void font;
 
   if (!open || !trigger || !positioner || !alignItemWithTrigger) {
-    if (!open) fontSideOffset = 4;
+    if (!open) {
+      fontAlignOffset = 0;
+      fontSideOffset = 4;
+    }
     return;
   }
 
@@ -306,7 +316,7 @@ $effect(() => {
             <SelectPrimitive.Portal>
               <SelectPrimitive.Positioner
                 align="start"
-                alignOffset={0}
+                alignOffset={fontAlignOffset}
                 bind:ref={fontPositioner}
                 class="z-50 select-none"
                 data-slot="select-positioner"
