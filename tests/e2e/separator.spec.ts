@@ -1,5 +1,10 @@
 import { expect, test } from "@playwright/test";
-import { assertNoAxeViolations, monitorConsole, openReadyPreview } from "./helpers/preview.js";
+import {
+  assertNoAxeViolations,
+  cssColorsToRgba,
+  monitorConsole,
+  openReadyPreview,
+} from "./helpers/preview.js";
 
 function projectTheme(projectName: string): "dark" | "light" {
   return projectName === "dark" ? "dark" : "light";
@@ -34,9 +39,18 @@ test("renders Separator with the COSS contract at desktop and mobile widths", as
       }),
     );
 
-    expect(metrics[0]).toEqual({
+    const backgrounds = await cssColorsToRgba(
+      page,
+      metrics.map((metric) => metric.background),
+    );
+    const normalizedMetrics = metrics.map((metric, index) => ({
+      ...metric,
+      background: backgrounds[index],
+    }));
+
+    expect(normalizedMetrics[0]).toEqual({
       ariaOrientation: "horizontal",
-      background: theme === "dark" ? "rgba(255, 255, 255, 0.06)" : "rgba(0, 0, 0, 0.08)",
+      background: theme === "dark" ? [255, 255, 255, 15] : [0, 0, 0, 20],
       dataOrientation: "horizontal",
       flexShrink: "0",
       height: 1,
@@ -44,10 +58,10 @@ test("renders Separator with the COSS contract at desktop and mobile widths", as
       tabIndex: -1,
       width: 288,
     });
-    for (const metric of metrics.slice(1)) {
+    for (const metric of normalizedMetrics.slice(1)) {
       expect(metric).toEqual({
         ariaOrientation: "vertical",
-        background: theme === "dark" ? "rgba(255, 255, 255, 0.06)" : "rgba(0, 0, 0, 0.08)",
+        background: theme === "dark" ? [255, 255, 255, 15] : [0, 0, 0, 20],
         dataOrientation: "vertical",
         flexShrink: "0",
         height: 20,

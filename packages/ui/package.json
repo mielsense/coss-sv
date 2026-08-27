@@ -32,7 +32,8 @@
     "dev": "svelte-kit sync && svelte-package -i src --watch",
     "pack:check": "pnpm build && publint --strict && node ./scripts/check-pack.mjs",
     "prepack": "pnpm build",
-    "test": "pnpm build && vitest run"
+    "test": "pnpm build && pnpm test:unit",
+    "test:unit": "vitest run"
   },
   "peerDependencies": {
     "svelte": "^5.56.0"

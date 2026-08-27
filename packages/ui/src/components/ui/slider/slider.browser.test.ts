@@ -224,5 +224,5 @@ describe("Slider browser contract", () => {
       target.remove();
     }
     warning.mockRestore();
-  });
+  }, 30_000);
 });

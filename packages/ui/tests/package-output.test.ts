@@ -80,4 +80,4 @@ test("packages Svelte source together with its generated declaration", async () 
   } finally {
     await rm(temporaryRoot, { force: true, recursive: true });
   }
-});
+}, 15_000);

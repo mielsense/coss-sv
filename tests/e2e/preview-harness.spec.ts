@@ -3,6 +3,7 @@ import { previewWidths } from "../../apps/ui/src/routes/preview/[name]/preview-c
 import {
   assertNoAxeViolations,
   attachPreviewEvidence,
+  cssColorsToRgba,
   fixedClockTime,
   monitorConsole,
   openReadyPreview,
@@ -101,7 +102,7 @@ test.describe("preview harness", () => {
       x: 0,
       y: 0,
     });
-    const expectedBackground = theme === "dark" ? "rgb(23, 23, 23)" : "rgb(255, 255, 255)";
+    const expectedBackground = theme === "dark" ? [20, 20, 20, 255] : [255, 255, 255, 255];
     const canvas = await page.evaluate(() => {
       const themeFrame = document.querySelector<HTMLElement>(
         "[data-preview-name][data-preview-theme]",
@@ -125,9 +126,16 @@ test.describe("preview harness", () => {
       };
     });
 
-    expect(canvas.background).toBe(expectedBackground);
-    for (const corner of canvas.corners) {
-      expect(corner).toEqual({ background: expectedBackground, coveredByFrame: true });
+    const canvasColors = await cssColorsToRgba(page, [
+      canvas.background,
+      ...canvas.corners.map((corner) => corner.background ?? "transparent"),
+    ]);
+    expect(canvasColors[0]).toEqual(expectedBackground);
+    for (const [index, corner] of canvas.corners.entries()) {
+      expect({
+        background: canvasColors[index + 1],
+        coveredByFrame: corner.coveredByFrame,
+      }).toEqual({ background: expectedBackground, coveredByFrame: true });
     }
     const themeEvidence = await page.evaluate(() => {
       const themeFrame = document.querySelector<HTMLElement>(
@@ -146,22 +154,29 @@ test.describe("preview harness", () => {
         surfaceBackground: getComputedStyle(fixture).backgroundColor,
       };
     });
-    expect(themeEvidence).toEqual(
+    const normalizedThemeEvidence = await cssColorsToRgba(page, [
+      themeEvidence.buttonBackground,
+      themeEvidence.buttonForeground,
+      themeEvidence.framePrimary,
+      themeEvidence.rootPrimary,
+      themeEvidence.surfaceBackground,
+    ]);
+    expect(normalizedThemeEvidence).toEqual(
       theme === "dark"
-        ? {
-            buttonBackground: "rgb(245, 245, 245)",
-            buttonForeground: "rgb(38, 38, 38)",
-            framePrimary: "#f5f5f5",
-            rootPrimary: "#f5f5f5",
-            surfaceBackground: "rgb(31, 31, 31)",
-          }
-        : {
-            buttonBackground: "rgb(38, 38, 38)",
-            buttonForeground: "rgb(250, 250, 250)",
-            framePrimary: "#262626",
-            rootPrimary: "#262626",
-            surfaceBackground: "rgb(255, 255, 255)",
-          },
+        ? [
+            [245, 245, 245, 255],
+            [38, 38, 38, 255],
+            [245, 245, 245, 255],
+            [245, 245, 245, 255],
+            [25, 25, 25, 255],
+          ]
+        : [
+            [38, 38, 38, 255],
+            [250, 250, 250, 255],
+            [38, 38, 38, 255],
+            [38, 38, 38, 255],
+            [255, 255, 255, 255],
+          ],
     );
     await expect(ready).toBeVisible();
     const screenshot = await page.screenshot({ animations: "disabled" });

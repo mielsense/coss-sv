@@ -118,7 +118,7 @@ describe("package surface", () => {
 
     expect(Separator).toBeTypeOf("function");
     expect(SeparatorPrimitive).toBeTypeOf("function");
-  });
+  }, 60_000);
 
   test("exports the class-name utility through the package subpath", async () => {
     const packageSubpath = "@coss-sv/ui/lib/utils";

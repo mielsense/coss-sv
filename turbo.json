@@ -18,8 +18,7 @@
       "dependsOn": ["^build"],
       "outputs": ["registry.json", "static/r/**"]
     },
-    "test": {
-      "dependsOn": ["^build"],
+    "test:unit": {
       "outputs": ["coverage/**", "test-results/**"]
     }
   },

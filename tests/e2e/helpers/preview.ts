@@ -29,6 +29,23 @@ export const previewViewportHeights = {
   desktop: 800,
 } as const satisfies Record<PreviewWidth, number>;
 
+export async function cssColorsToRgba(page: Page, colors: readonly string[]): Promise<number[][]> {
+  return page.evaluate((values) => {
+    const canvas = document.createElement("canvas");
+    canvas.width = 1;
+    canvas.height = 1;
+    const context = canvas.getContext("2d", { willReadFrequently: true });
+    if (!context) throw new Error("Unable to create a color-normalization context.");
+
+    return values.map((color) => {
+      context.clearRect(0, 0, 1, 1);
+      context.fillStyle = color;
+      context.fillRect(0, 0, 1, 1);
+      return Array.from(context.getImageData(0, 0, 1, 1).data);
+    });
+  }, colors);
+}
+
 export type ComputedStyleSnapshot = {
   boundingBox: Awaited<ReturnType<Locator["boundingBox"]>>;
   properties: Record<string, string>;
