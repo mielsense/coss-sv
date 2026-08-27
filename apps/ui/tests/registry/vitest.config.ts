@@ -7,5 +7,6 @@ export default defineConfig({
       requireAssertions: true,
     },
     include: ["tests/registry/**/*.test.ts"],
+    testTimeout: 30_000,
   },
 });

@@ -1,5 +1,6 @@
 import {
   access,
+  link,
   mkdir,
   mkdtemp,
   readdir,
@@ -10,7 +11,7 @@ import {
   writeFile,
 } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { join } from "node:path";
+import { join, resolve } from "node:path";
 import { afterEach, describe, expect, test } from "vitest";
 import {
   assertGeneratedFileCurrent,
@@ -19,12 +20,12 @@ import {
   validateRegistry,
 } from "../../registry/registry.js";
 import { buildValidatedRegistry, withStagedRegistry } from "../../scripts/registry/build.mjs";
-import { runLocalShadcn } from "../../scripts/registry/lib.mjs";
+import { appRoot, runLocalShadcn } from "../../scripts/registry/lib.mjs";
 
 const temporaryDirectories: string[] = [];
 
 async function makeSource(relativePath = "leaf/leaf.svelte") {
-  const root = await mkdtemp(join(tmpdir(), "coss-sv-registry-test-"));
+  const root = await mkdtemp(join(appRoot, ".registry-test-"));
   temporaryDirectories.push(root);
   const sourcePath = join(root, relativePath);
   await mkdir(join(sourcePath, ".."), { recursive: true });
@@ -53,7 +54,7 @@ function item(sourcePath: string): RegistryItem {
 async function graphDefinition(
   graph: ReadonlyArray<readonly [name: string, dependencies: readonly string[]]>,
 ) {
-  const root = await mkdtemp(join(tmpdir(), "coss-sv-registry-graph-"));
+  const root = await mkdtemp(join(appRoot, ".registry-graph-"));
   temporaryDirectories.push(root);
   const items: RegistryItem[] = [];
   for (const [name, registryDependencies] of graph) {
@@ -279,6 +280,83 @@ describe("registry validation", () => {
       validateRegistry(definition(item(sourcePath)), { allowedSourceRoots: [root] }),
     ).rejects.toThrow("must not be a symbolic link");
   });
+
+  test("rejects an ordinary source file with multiple hard links", async () => {
+    const { root, sourcePath } = await makeSource();
+    await link(sourcePath, join(root, "second-link.svelte"));
+
+    await expect(
+      validateRegistry(definition(item(sourcePath)), { allowedSourceRoots: [root] }),
+    ).rejects.toThrow("must have exactly one hard link");
+  });
+
+  test("rejects caller-provided allowed-root symlinks to forbidden or external trees", async () => {
+    const fixtureRoot = await mkdtemp(join(appRoot, ".registry-root-link-"));
+    const outsideRoot = await mkdtemp(join(tmpdir(), "coss-sv-outside-root-"));
+    temporaryDirectories.push(fixtureRoot, outsideRoot);
+    const targets = [
+      ["reference", resolve(appRoot, "../../../..", "reference")],
+      ["shardsui", resolve(appRoot, "../../../..", "shardsui")],
+      ["other-worktree", resolve(appRoot, "../../..", "f5-harness")],
+      ["outside", outsideRoot],
+    ] as const;
+    const registry: RegistryDefinition = {
+      name: "coss-sv-test",
+      homepage: "https://example.test",
+      items: [],
+    };
+
+    for (const [name, target] of targets) {
+      const allowedRoot = join(fixtureRoot, name);
+      await symlink(target, allowedRoot);
+      await expect(
+        validateRegistry(registry, { allowedSourceRoots: [allowedRoot] }),
+      ).rejects.toThrow("real non-symlink directory");
+    }
+  });
+
+  test("rejects a real allowed root outside the current project trust root", async () => {
+    const outsideRoot = await mkdtemp(join(tmpdir(), "coss-sv-outside-root-"));
+    temporaryDirectories.push(outsideRoot);
+    const registry: RegistryDefinition = {
+      name: "coss-sv-test",
+      homepage: "https://example.test",
+      items: [],
+    };
+
+    await expect(validateRegistry(registry, { allowedSourceRoots: [outsideRoot] })).rejects.toThrow(
+      "outside the current project trust root",
+    );
+  });
+
+  test.each(["reference", "shardsui", ".worktrees"])(
+    "rejects a canonical allowed root entering %s",
+    async (forbiddenSegment) => {
+      const fixtureRoot = await mkdtemp(join(appRoot, ".registry-forbidden-root-"));
+      temporaryDirectories.push(fixtureRoot);
+      const allowedRoot = join(fixtureRoot, forbiddenSegment, "source");
+      await mkdir(allowedRoot, { recursive: true });
+      const registry: RegistryDefinition = {
+        name: "coss-sv-test",
+        homepage: "https://example.test",
+        items: [],
+      };
+
+      await expect(
+        validateRegistry(registry, { allowedSourceRoots: [allowedRoot] }),
+      ).rejects.toThrow("outside the current project trust boundary");
+    },
+  );
+
+  test("accepts the production source roots derived from the current worktree", async () => {
+    const registry: RegistryDefinition = {
+      name: "coss-sv-test",
+      homepage: "https://example.test",
+      items: [],
+    };
+
+    await expect(validateRegistry(registry)).resolves.toMatchObject({ manifest: registry });
+  });
 });
 
 test("captured source mutation cannot alter staged CLI output", async () => {
@@ -287,7 +365,6 @@ test("captured source mutation cannot alter staged CLI output", async () => {
   const registry = definition({ ...item(sourcePath), name: "captured-item" });
   const validated = await validateRegistry(registry, {
     allowedSourceRoots: [root],
-    projectRoot: root,
   });
   await writeFile(sourcePath, "<p>mutated after validation</p>\n", "utf8");
 
@@ -309,7 +386,6 @@ test("source symlink swap after validation cannot alter staged CLI output", asyn
   const registry = definition({ ...item(sourcePath), name: "captured-link" });
   const validated = await validateRegistry(registry, {
     allowedSourceRoots: [root],
-    projectRoot: root,
   });
   await writeFile(replacementPath, "<p>symlink replacement</p>\n", "utf8");
   await rm(sourcePath);
@@ -330,7 +406,6 @@ test("staged registry uses private read-only files and cleans up on success and 
   const { root, sourcePath } = await makeSource("registry/private-item.svelte");
   const validated = await validateRegistry(definition(item(sourcePath)), {
     allowedSourceRoots: [root],
-    projectRoot: root,
   });
   let successfulRoot = "";
   await withStagedRegistry(validated, root, async (staged) => {
@@ -374,7 +449,7 @@ test("validated CLI build reads its registry file and blocks escaping names", as
   await buildValidatedRegistry({
     registryPath,
     outputPath,
-    validation: { allowedSourceRoots: [root], projectRoot: root },
+    validation: { allowedSourceRoots: [root] },
     quiet: true,
   });
   await expect(access(join(outputPath, "safe-item.json"))).resolves.toBeUndefined();
@@ -389,7 +464,7 @@ test("validated CLI build reads its registry file and blocks escaping names", as
     buildValidatedRegistry({
       registryPath,
       outputPath,
-      validation: { allowedSourceRoots: [root], projectRoot: root },
+      validation: { allowedSourceRoots: [root] },
       quiet: true,
     }),
   ).rejects.toThrow("safe lowercase slug");

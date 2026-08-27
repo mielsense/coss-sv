@@ -1,7 +1,6 @@
 import { access, mkdir, mkdtemp, readdir, readFile, rm, writeFile } from "node:fs/promises";
 import { createServer, type Server } from "node:http";
 import type { AddressInfo } from "node:net";
-import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
 import {
   type RegistryDefinition,
@@ -211,7 +210,6 @@ async function writePrivateRegistry(registryRoot: string): Promise<RegistryDefin
 
   await validateRegistry(registry, {
     allowedSourceRoots: [resolve(registryRoot, "registry")],
-    projectRoot: registryRoot,
   });
   await writeFile(resolve(registryRoot, "registry.json"), serializeRegistry(registry), "utf8");
   return registry;
@@ -461,7 +459,7 @@ async function verifyInstalledFixture(fixtureRoot: string): Promise<void> {
   }
 }
 
-const temporaryRoot = await mkdtemp(join(tmpdir(), "coss-sv-registry-smoke-"));
+const temporaryRoot = await mkdtemp(join(appRoot, ".registry-smoke-"));
 const registryRoot = resolve(temporaryRoot, "registry-author");
 const registryOutput = resolve(registryRoot, "static/r");
 const fixtureRoot = resolve(temporaryRoot, "consumer");
@@ -480,7 +478,6 @@ try {
     projectPath: registryRoot,
     validation: {
       allowedSourceRoots: [resolve(registryRoot, "registry")],
-      projectRoot: registryRoot,
     },
     env: environment,
     quiet: true,

@@ -75,7 +75,6 @@ export type RegistryDefinition = {
 export type ValidationOptions = {
   allowedSourceRoots?: string[];
   allowedInstallRoots?: string[];
-  projectRoot?: string;
 };
 
 export type CapturedRegistrySource = {
@@ -90,6 +89,7 @@ export type ValidatedRegistry = {
 };
 
 const appRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
+const logicalTrustRoot = resolve(appRoot, "../..");
 const defaultSourceRoots = [
   resolve(appRoot, "../../packages/ui/src"),
   resolve(appRoot, "registry/default/particles"),
@@ -139,6 +139,64 @@ function isWithin(root: string, candidate: string): boolean {
     pathFromRoot === "" ||
     (!pathFromRoot.startsWith(`..${sep}`) && pathFromRoot !== ".." && !isAbsolute(pathFromRoot))
   );
+}
+
+function containsForbiddenTrustSegment(trustRoot: string, candidate: string): boolean {
+  const segments = relative(trustRoot, candidate).split(sep);
+  return segments.some(
+    (segment) =>
+      segment.toLowerCase() === "reference" ||
+      segment.toLowerCase() === "shardsui" ||
+      segment === ".worktrees",
+  );
+}
+
+async function canonicalTrustRoot(): Promise<string> {
+  const trustRootStats = await lstat(logicalTrustRoot, { bigint: true });
+  if (trustRootStats.isSymbolicLink() || !trustRootStats.isDirectory()) {
+    throw new Error(`Current project trust root must be a real directory: ${logicalTrustRoot}`);
+  }
+  return await realpath(logicalTrustRoot);
+}
+
+async function canonicalAllowedSourceRoot(
+  configuredRoot: string,
+  trustRoot: string,
+): Promise<string> {
+  const logicalRoot = resolve(appRoot, configuredRoot);
+  if (!isWithin(logicalTrustRoot, logicalRoot)) {
+    throw new Error(
+      `Allowed source root is outside the current project trust root: ${configuredRoot}`,
+    );
+  }
+
+  const pathFromTrustRoot = relative(logicalTrustRoot, logicalRoot);
+  let currentPath = logicalTrustRoot;
+  for (const segment of pathFromTrustRoot.split(sep).filter(Boolean)) {
+    currentPath = resolve(currentPath, segment);
+    let stats: BigIntStats;
+    try {
+      stats = await lstat(currentPath, { bigint: true });
+    } catch {
+      throw new Error(`Allowed source root path is missing: ${configuredRoot}`);
+    }
+    if (stats.isSymbolicLink() || !stats.isDirectory()) {
+      throw new Error(
+        `Allowed source root must be a real non-symlink directory: ${configuredRoot}`,
+      );
+    }
+  }
+
+  const canonicalRoot = await realpath(logicalRoot);
+  if (
+    !isWithin(trustRoot, canonicalRoot) ||
+    containsForbiddenTrustSegment(trustRoot, canonicalRoot)
+  ) {
+    throw new Error(
+      `Allowed source root is outside the current project trust boundary: ${configuredRoot}`,
+    );
+  }
+  return canonicalRoot;
 }
 
 function packageName(specifier: string): string {
@@ -226,6 +284,7 @@ async function captureSourceFile(
   sourcePath: string,
   absolutePath: string,
   sourceRoots: string[],
+  trustRoot: string,
 ): Promise<Uint8Array> {
   let pathBefore: BigIntStats;
   try {
@@ -238,6 +297,11 @@ async function captureSourceFile(
   }
   if (!pathBefore.isFile()) {
     throw new Error(`Registry item ${itemName} source must be a regular file: ${sourcePath}`);
+  }
+  if (pathBefore.nlink !== 1n) {
+    throw new Error(
+      `Registry item ${itemName} source must have exactly one hard link: ${sourcePath}`,
+    );
   }
 
   let handle: FileHandle;
@@ -267,7 +331,10 @@ async function captureSourceFile(
     }
 
     const canonicalPath = await realpath(absolutePath);
-    if (!sourceRoots.some((root) => isWithin(root, canonicalPath))) {
+    if (
+      !sourceRoots.some((root) => isWithin(root, canonicalPath)) ||
+      containsForbiddenTrustSegment(trustRoot, canonicalPath)
+    ) {
       throw new Error(
         `Registry item ${itemName} source is outside the allowed source roots: ${sourcePath}`,
       );
@@ -282,10 +349,14 @@ async function captureSourceFile(
       !pathAfter.isFile() ||
       !sameFileIdentity(openedBefore, openedAfter) ||
       !sameFileIdentity(openedAfter, pathAfter) ||
+      openedBefore.nlink !== 1n ||
+      openedAfter.nlink !== 1n ||
+      pathAfter.nlink !== 1n ||
       openedBefore.size !== openedAfter.size ||
       openedBefore.mtimeNs !== openedAfter.mtimeNs ||
       openedBefore.ctimeNs !== openedAfter.ctimeNs ||
-      !sourceRoots.some((root) => isWithin(root, canonicalPathAfter))
+      !sourceRoots.some((root) => isWithin(root, canonicalPathAfter)) ||
+      containsForbiddenTrustSegment(trustRoot, canonicalPathAfter)
     ) {
       throw new Error(
         `Registry item ${itemName} source changed while it was being validated: ${sourcePath}`,
@@ -331,16 +402,11 @@ export async function validateRegistry(
   options: ValidationOptions = {},
 ): Promise<ValidatedRegistry> {
   const manifest = structuredClone(registry);
-  const projectRoot = resolve(options.projectRoot ?? appRoot);
+  const trustRoot = await canonicalTrustRoot();
   const sourceRoots = await Promise.all(
-    (options.allowedSourceRoots ?? defaultSourceRoots).map(async (root) => {
-      const absoluteRoot = resolve(projectRoot, root);
-      try {
-        return await realpath(absoluteRoot);
-      } catch {
-        return absoluteRoot;
-      }
-    }),
+    (options.allowedSourceRoots ?? defaultSourceRoots).map((root) =>
+      canonicalAllowedSourceRoot(root, trustRoot),
+    ),
   );
   const installRoots = options.allowedInstallRoots ?? defaultInstallRoots;
   const itemNames = new Set<string>();
@@ -381,8 +447,14 @@ export async function validateRegistry(
       }
       if (file.target) validateTarget(item.name, file.target, installRoots);
 
-      const absolutePath = resolve(projectRoot, file.path);
-      const bytes = await captureSourceFile(item.name, file.path, absolutePath, sourceRoots);
+      const absolutePath = resolve(appRoot, file.path);
+      const bytes = await captureSourceFile(
+        item.name,
+        file.path,
+        absolutePath,
+        sourceRoots,
+        trustRoot,
+      );
       validateSourceImports(
         item.name,
         file.path,
