@@ -1,9 +1,11 @@
+import { resolve } from "node:path";
 import adapter from "@sveltejs/adapter-vercel";
 import { sveltekit } from "@sveltejs/kit/vite";
 import { vitePreprocess } from "@sveltejs/vite-plugin-svelte";
 import tailwindcss from "@tailwindcss/vite";
 import { mdsvex } from "mdsvex";
 import { defineConfig } from "vitest/config";
+import { documentationComponents } from "./src/lib/content/preprocess.js";
 import { highlightCode } from "./src/lib/site/highlight.js";
 
 export default defineConfig({
@@ -16,11 +18,14 @@ export default defineConfig({
       },
       extensions: [".svelte", ".svx"],
       preprocess: [
+        documentationComponents(),
         mdsvex({
           extensions: [".svx"],
           highlight: {
             highlighter: highlightCode,
           },
+          layout: resolve("src/lib/content/DocumentationLayout.svelte"),
+          layoutPropForwarding: "runes",
         }),
         vitePreprocess(),
       ],
@@ -31,6 +36,6 @@ export default defineConfig({
     expect: {
       requireAssertions: true,
     },
-    include: ["src/**/*.test.ts", "tests/docs/**/*.test.ts"],
+    include: ["src/**/*.test.ts", "tests/content/**/*.test.ts", "tests/docs/**/*.test.ts"],
   },
 });
