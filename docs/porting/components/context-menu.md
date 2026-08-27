@@ -1,0 +1,34 @@
+# Context Menu port evidence
+
+## COSS files inspected
+
+- `reference/apps/ui/registry/default/ui/context-menu.tsx`
+- `reference/apps/ui/content/docs/components/context-menu.mdx`
+- `reference/apps/ui/registry/default/particles/p-context-menu-1.tsx` through `p-context-menu-8.tsx`
+
+The registry wrapper, documentation page, and every importing particle were read in full from `reference/apps/ui/**`. No AGPL-default package source was used.
+
+The eight particles cover point-triggered opening, items and separators, links, nested submenus, checkbox items, grouped items and labels, icons and shortcuts, destructive styling, radio items, and the switch variant.
+
+## Shards files inspected
+
+The inspection covered every Context Menu implementation and type file under `shardsui/packages/shardsui/src/lib/components/context-menu/`, the complete Context Menu documentation and demos, all Context Menu tests, and all eight Context Menu fixtures. The shared Menu source, documentation, tests, demos, and fixtures were also inspected because Shards deliberately implements Context Menu as a point-triggered root and trigger over the same menu parts.
+
+Shards owns right-click and long-press handling, the virtual point anchor, nested-trigger isolation, collision handling, menu focus management, keyboard interaction, and all shared menu item behavior. The COSS wrapper adds the exact visual contract, slots, convenience popup composition, variants, and aliases.
+
+Context7 returned `Monthly quota reached`. The implementation therefore follows the pinned local Svelte Edge references and the complete local Shards implementation rather than relying on memory. Selecting the Codex in-app Browser backend returned `Browser is not available`; its prescribed troubleshooting check exposed only a Chrome extension backend. Chrome was not used.
+
+## Translation decisions
+
+- The public namespace mirrors Menu: `ContextMenu.Root`, `Trigger`, `Popup`, `Group`, `Label`, `Item`, `LinkItem`, `CheckboxItem`, `RadioGroup`, `RadioItem`, `Separator`, `Shortcut`, `Sub`, `SubTrigger`, and `SubPopup`.
+- `ContextMenu.Popup` composes Shards `Portal`, `Positioner`, and `Popup`, then inserts the exact COSS scroll container. Positioner, portal, anchor, and popup props are separated so each reaches the correct primitive.
+- The root popup defaults to bottom/center with a four-pixel side offset. The submenu popup defaults to inline-end/start with a zero side offset and `-5` alignment adjustment, preserving direction-aware placement.
+- Every COSS class string and `data-slot` value is preserved. Consumer classes are merged last.
+- Checkbox, radio, link, disabled, destructive, shortcut, and switch behavior uses the same translation as Menu. Default state is read once, while bindable state, callbacks, and Shards' function-binding veto behavior stay available.
+- The trigger forwards native element attributes and Shards' `as` and `ref` contracts. Shards remains the sole owner of the pointer anchor and open state. As with Menu, the wrapper supplies one hydration-stable `$props.id()` popup ID through typed context so open SSR output retains its `aria-controls` relationship; explicit IDs remain authoritative.
+
+## Verification targets
+
+- contextmenu-event opening at the pointer, collision-safe placement, nested-trigger isolation, and focus restoration
+- checkbox, switch, radio, disabled, destructive, links, shortcuts, submenus, RTL arrows, Escape, and typeahead
+- exact SSR DOM, slots, classes, portal shape, stable IDs, and hydration
