@@ -269,6 +269,39 @@
       ]
     },
     {
+      "name": "checkbox-group",
+      "type": "registry:ui",
+      "description": "Coordinates selection across a group of checkboxes.",
+      "dependencies": [
+        "@shardsui/svelte@0.1.0-beta.0"
+      ],
+      "registryDependencies": [
+        "local:checkbox"
+      ],
+      "files": [
+        {
+          "path": "../../packages/ui/src/components/ui/checkbox-group/checkbox-group-root.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/checkbox-group/checkbox-group-item.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/checkbox-group/change-event-details.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/checkbox-group/context.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/checkbox-group/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "collapsible",
       "type": "registry:ui",
       "description": "Shows and hides a panel from a trigger.",
@@ -712,6 +745,29 @@
       ]
     },
     {
+      "name": "radio-group",
+      "type": "registry:ui",
+      "description": "Lets a user choose one option from a set.",
+      "dependencies": [
+        "@shardsui/svelte@0.1.0-beta.0"
+      ],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "../../packages/ui/src/components/ui/radio-group/radio-group-root.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/radio-group/radio-group-item.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/radio-group/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "scroll-area",
       "type": "registry:ui",
       "description": "Adds custom scrollbars to overflowing content.",
@@ -766,6 +822,49 @@
         },
         {
           "path": "../../packages/ui/src/components/ui/skeleton/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "slider",
+      "type": "registry:ui",
+      "description": "Selects one or more values within a range.",
+      "dependencies": [
+        "@shardsui/svelte@0.1.0-beta.0"
+      ],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "../../packages/ui/src/components/ui/slider/slider-root.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/slider/slider-control.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/slider/slider-track.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/slider/slider-indicator.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/slider/slider-thumb.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/slider/slider-label.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/slider/slider-value.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/slider/index.ts",
           "type": "registry:ui"
         }
       ]

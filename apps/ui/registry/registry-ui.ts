@@ -116,6 +116,20 @@ export const registryUi = defineRegistryItems([
     files: uiFiles("checkbox", ["checkbox.svelte", "index.ts"]),
   },
   {
+    name: "checkbox-group",
+    type: "registry:ui",
+    description: "Coordinates selection across a group of checkboxes.",
+    dependencies: ["@shardsui/svelte@0.1.0-beta.0"],
+    registryDependencies: ["local:checkbox"],
+    files: uiFiles("checkbox-group", [
+      "checkbox-group-root.svelte",
+      "checkbox-group-item.svelte",
+      "change-event-details.ts",
+      "context.ts",
+      "index.ts",
+    ]),
+  },
+  {
     name: "collapsible",
     type: "registry:ui",
     description: "Shows and hides a panel from a trigger.",
@@ -302,6 +316,18 @@ export const registryUi = defineRegistryItems([
     ]),
   },
   {
+    name: "radio-group",
+    type: "registry:ui",
+    description: "Lets a user choose one option from a set.",
+    dependencies: ["@shardsui/svelte@0.1.0-beta.0"],
+    registryDependencies: [],
+    files: uiFiles("radio-group", [
+      "radio-group-root.svelte",
+      "radio-group-item.svelte",
+      "index.ts",
+    ]),
+  },
+  {
     name: "scroll-area",
     type: "registry:ui",
     description: "Adds custom scrollbars to overflowing content.",
@@ -324,6 +350,23 @@ export const registryUi = defineRegistryItems([
     dependencies: [],
     registryDependencies: [],
     files: uiFiles("skeleton", ["skeleton.svelte", "index.ts"]),
+  },
+  {
+    name: "slider",
+    type: "registry:ui",
+    description: "Selects one or more values within a range.",
+    dependencies: ["@shardsui/svelte@0.1.0-beta.0"],
+    registryDependencies: [],
+    files: uiFiles("slider", [
+      "slider-root.svelte",
+      "slider-control.svelte",
+      "slider-track.svelte",
+      "slider-indicator.svelte",
+      "slider-thumb.svelte",
+      "slider-label.svelte",
+      "slider-value.svelte",
+      "index.ts",
+    ]),
   },
   {
     name: "spinner",

@@ -74,6 +74,18 @@
 		"relativeUrl": "checkbox.json"
 	},
 	{
+		"name": "checkbox-group",
+		"type": "registry:ui",
+		"description": "Coordinates selection across a group of checkboxes.",
+		"dependencies": [
+			"@shardsui/svelte@0.1.0-beta.0"
+		],
+		"registryDependencies": [
+			"local:checkbox"
+		],
+		"relativeUrl": "checkbox-group.json"
+	},
+	{
 		"name": "collapsible",
 		"type": "registry:ui",
 		"description": "Shows and hides a panel from a trigger.",
@@ -211,6 +223,16 @@
 		"relativeUrl": "progress.json"
 	},
 	{
+		"name": "radio-group",
+		"type": "registry:ui",
+		"description": "Lets a user choose one option from a set.",
+		"dependencies": [
+			"@shardsui/svelte@0.1.0-beta.0"
+		],
+		"registryDependencies": [],
+		"relativeUrl": "radio-group.json"
+	},
+	{
 		"name": "scroll-area",
 		"type": "registry:ui",
 		"description": "Adds custom scrollbars to overflowing content.",
@@ -237,6 +259,16 @@
 		"dependencies": [],
 		"registryDependencies": [],
 		"relativeUrl": "skeleton.json"
+	},
+	{
+		"name": "slider",
+		"type": "registry:ui",
+		"description": "Selects one or more values within a range.",
+		"dependencies": [
+			"@shardsui/svelte@0.1.0-beta.0"
+		],
+		"registryDependencies": [],
+		"relativeUrl": "slider.json"
 	},
 	{
 		"name": "spinner",

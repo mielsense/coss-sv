@@ -86,6 +86,16 @@ export {
   CheckboxPrimitive,
   type CheckboxProps,
 } from "./components/ui/checkbox/index.js";
+export * as CheckboxGroup from "./components/ui/checkbox-group/index.js";
+export {
+  type CheckboxGroupChangeEventDetails,
+  type CheckboxGroupContext,
+  CheckboxGroupItem,
+  type CheckboxGroupItemProps,
+  CheckboxGroupPrimitive,
+  CheckboxGroupRoot,
+  type CheckboxGroupRootProps,
+} from "./components/ui/checkbox-group/index.js";
 export * as Collapsible from "./components/ui/collapsible/index.js";
 export {
   CollapsibleContent,
@@ -239,6 +249,14 @@ export {
   ProgressValue,
   type ProgressValueProps,
 } from "./components/ui/progress/index.js";
+export * as RadioGroup from "./components/ui/radio-group/index.js";
+export {
+  RadioGroupItem,
+  type RadioGroupItemProps,
+  RadioGroupPrimitive,
+  RadioGroupRoot,
+  type RadioGroupRootProps,
+} from "./components/ui/radio-group/index.js";
 export {
   ScrollArea,
   ScrollAreaPrimitive,
@@ -253,6 +271,25 @@ export {
   type SeparatorProps,
 } from "./components/ui/separator/index.js";
 export { Skeleton, type SkeletonProps } from "./components/ui/skeleton/index.js";
+export * as Slider from "./components/ui/slider/index.js";
+export {
+  Control as SliderControl,
+  type SliderControlProps,
+  Indicator as SliderIndicator,
+  type SliderIndicatorProps,
+  Label as SliderLabel,
+  type SliderLabelProps,
+  SliderPrimitive,
+  SliderRoot,
+  type SliderRootProps,
+  Thumb as SliderThumb,
+  type SliderThumbProps,
+  Track as SliderTrack,
+  type SliderTrackProps,
+  SliderValue,
+  type SliderValueProps,
+  type SliderValueType,
+} from "./components/ui/slider/index.js";
 export { Spinner, type SpinnerProps } from "./components/ui/spinner/index.js";
 export { Switch, SwitchPrimitive, type SwitchProps } from "./components/ui/switch/index.js";
 export * as Table from "./components/ui/table/index.js";

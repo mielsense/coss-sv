@@ -54,7 +54,7 @@
     {
       "id": "checkbox-group",
       "kind": "component",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "checkbox",
@@ -184,7 +184,7 @@
     {
       "id": "radio-group",
       "kind": "component",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "scroll-area",
@@ -219,7 +219,7 @@
     {
       "id": "slider",
       "kind": "component",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "spinner",

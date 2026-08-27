@@ -20,7 +20,7 @@ Generated from the pinned local reference. The status baseline names every plann
 | `button` | `reference/apps/ui/registry/default/ui/button.tsx` | `packages/ui/src/components/ui/button`<br>`apps/ui/registry/registry-ui.ts` | approved |
 | `calendar` | `reference/apps/ui/registry/default/ui/calendar.tsx` | `packages/ui/src/components/ui/calendar`<br>`apps/ui/registry/registry-ui.ts` | missing |
 | `card` | `reference/apps/ui/registry/default/ui/card.tsx` | `packages/ui/src/components/ui/card`<br>`apps/ui/registry/registry-ui.ts` | approved |
-| `checkbox-group` | `reference/apps/ui/registry/default/ui/checkbox-group.tsx` | `packages/ui/src/components/ui/checkbox-group`<br>`apps/ui/registry/registry-ui.ts` | missing |
+| `checkbox-group` | `reference/apps/ui/registry/default/ui/checkbox-group.tsx` | `packages/ui/src/components/ui/checkbox-group`<br>`apps/ui/registry/registry-ui.ts` | approved |
 | `checkbox` | `reference/apps/ui/registry/default/ui/checkbox.tsx` | `packages/ui/src/components/ui/checkbox`<br>`apps/ui/registry/registry-ui.ts` | approved |
 | `collapsible` | `reference/apps/ui/registry/default/ui/collapsible.tsx` | `packages/ui/src/components/ui/collapsible`<br>`apps/ui/registry/registry-ui.ts` | approved |
 | `combobox` | `reference/apps/ui/registry/default/ui/combobox.tsx` | `packages/ui/src/components/ui/combobox`<br>`apps/ui/registry/registry-ui.ts` | missing |
@@ -46,14 +46,14 @@ Generated from the pinned local reference. The status baseline names every plann
 | `popover` | `reference/apps/ui/registry/default/ui/popover.tsx` | `packages/ui/src/components/ui/popover`<br>`apps/ui/registry/registry-ui.ts` | missing |
 | `preview-card` | `reference/apps/ui/registry/default/ui/preview-card.tsx` | `packages/ui/src/components/ui/preview-card`<br>`apps/ui/registry/registry-ui.ts` | missing |
 | `progress` | `reference/apps/ui/registry/default/ui/progress.tsx` | `packages/ui/src/components/ui/progress`<br>`apps/ui/registry/registry-ui.ts` | approved |
-| `radio-group` | `reference/apps/ui/registry/default/ui/radio-group.tsx` | `packages/ui/src/components/ui/radio-group`<br>`apps/ui/registry/registry-ui.ts` | missing |
+| `radio-group` | `reference/apps/ui/registry/default/ui/radio-group.tsx` | `packages/ui/src/components/ui/radio-group`<br>`apps/ui/registry/registry-ui.ts` | approved |
 | `scroll-area` | `reference/apps/ui/registry/default/ui/scroll-area.tsx` | `packages/ui/src/components/ui/scroll-area`<br>`apps/ui/registry/registry-ui.ts` | approved |
 | `select` | `reference/apps/ui/registry/default/ui/select.tsx` | `packages/ui/src/components/ui/select`<br>`apps/ui/registry/registry-ui.ts` | missing |
 | `separator` | `reference/apps/ui/registry/default/ui/separator.tsx` | `packages/ui/src/components/ui/separator`<br>`apps/ui/registry/registry-ui.ts` | approved |
 | `sheet` | `reference/apps/ui/registry/default/ui/sheet.tsx` | `packages/ui/src/components/ui/sheet`<br>`apps/ui/registry/registry-ui.ts` | missing |
 | `sidebar` | `reference/apps/ui/registry/default/ui/sidebar.tsx` | `packages/ui/src/components/ui/sidebar`<br>`apps/ui/registry/registry-ui.ts` | missing |
 | `skeleton` | `reference/apps/ui/registry/default/ui/skeleton.tsx` | `packages/ui/src/components/ui/skeleton`<br>`apps/ui/registry/registry-ui.ts` | approved |
-| `slider` | `reference/apps/ui/registry/default/ui/slider.tsx` | `packages/ui/src/components/ui/slider`<br>`apps/ui/registry/registry-ui.ts` | missing |
+| `slider` | `reference/apps/ui/registry/default/ui/slider.tsx` | `packages/ui/src/components/ui/slider`<br>`apps/ui/registry/registry-ui.ts` | approved |
 | `spinner` | `reference/apps/ui/registry/default/ui/spinner.tsx` | `packages/ui/src/components/ui/spinner`<br>`apps/ui/registry/registry-ui.ts` | approved |
 | `switch` | `reference/apps/ui/registry/default/ui/switch.tsx` | `packages/ui/src/components/ui/switch`<br>`apps/ui/registry/registry-ui.ts` | approved |
 | `table` | `reference/apps/ui/registry/default/ui/table.tsx` | `packages/ui/src/components/ui/table`<br>`apps/ui/registry/registry-ui.ts` | approved |
