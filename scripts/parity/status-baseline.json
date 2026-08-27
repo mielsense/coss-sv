@@ -4,7 +4,7 @@
     {
       "id": "accordion",
       "kind": "component",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "alert-dialog",
@@ -64,7 +64,7 @@
     {
       "id": "collapsible",
       "kind": "component",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "combobox",
@@ -99,17 +99,17 @@
     {
       "id": "field",
       "kind": "component",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "fieldset",
       "kind": "component",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "form",
       "kind": "component",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "frame",
@@ -119,12 +119,12 @@
     {
       "id": "group",
       "kind": "component",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "input-group",
       "kind": "component",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "input",
@@ -164,7 +164,7 @@
     {
       "id": "pagination",
       "kind": "component",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "popover",
@@ -189,7 +189,7 @@
     {
       "id": "scroll-area",
       "kind": "component",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "select",
@@ -234,12 +234,12 @@
     {
       "id": "table",
       "kind": "component",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "tabs",
       "kind": "component",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "textarea",

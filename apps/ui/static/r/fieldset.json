@@ -1,0 +1,31 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "fieldset",
+	"type": "registry:ui",
+	"description": "Groups related form fields under a shared legend.",
+	"dependencies": [
+		"@shardsui/svelte@0.1.0-beta.0"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\nimport { Fieldset as FieldsetPrimitive } from \"@shardsui/svelte\";\nimport type { ComponentProps } from \"svelte\";\n\nexport type FieldsetRootProps = ComponentProps<typeof FieldsetPrimitive.Root>;\n</script>\n\n<script lang=\"ts\">\nimport { createFieldsetCompositionContext } from \"./context.svelte.js\";\n\nlet {\n  class: className,\n  disabled = false,\n  ref = $bindable(null),\n  ...props\n}: FieldsetRootProps = $props();\n\nconst context = createFieldsetCompositionContext(() => disabled);\n</script>\n\n<FieldsetPrimitive.Root\n  bind:ref\n  {disabled}\n  aria-labelledby={context.legendId}\n  data-slot=\"fieldset\"\n  class={className}\n  {...props}\n/>\n",
+			"type": "registry:ui",
+			"target": "fieldset/fieldset-root.svelte"
+		},
+		{
+			"content": "<script module lang=\"ts\">\nimport type { Fieldset as FieldsetPrimitive } from \"@shardsui/svelte\";\nimport type { ComponentProps } from \"svelte\";\n\nexport type FieldsetLegendProps = ComponentProps<typeof FieldsetPrimitive.Legend>;\n</script>\n\n<script lang=\"ts\">\nimport type { Attachment } from \"svelte/attachments\";\nimport { cn } from \"$UTILS$.js\";\nimport { getFieldsetCompositionContext } from \"./context.svelte.js\";\n\nconst uid = $props.id();\n\nlet {\n  as = \"div\",\n  children,\n  class: className,\n  id = uid,\n  ref = $bindable(null),\n  ...props\n}: FieldsetLegendProps = $props();\n\nconst context = getFieldsetCompositionContext();\nconst registerLegend: Attachment<HTMLElement> = () => context.registerLegend(id);\n</script>\n\n<svelte:element\n  this={as}\n  bind:this={ref}\n  {@attach registerLegend}\n  {id}\n  data-disabled={context.disabled ? \"\" : undefined}\n  data-slot=\"fieldset-legend\"\n  class={cn(\"font-semibold text-foreground\", className)}\n  {...props}\n>\n  {@render children?.(context.state)}\n</svelte:element>\n",
+			"type": "registry:ui",
+			"target": "fieldset/fieldset-legend.svelte"
+		},
+		{
+			"content": "import { getContext, setContext, untrack } from \"svelte\";\n\nexport type FieldsetCompositionState = {\n  disabled: boolean;\n};\n\nexport type FieldsetCompositionContext = {\n  readonly disabled: boolean;\n  readonly legendId: string | undefined;\n  readonly state: FieldsetCompositionState;\n  registerLegend: (id: string) => () => void;\n};\n\nconst fieldsetCompositionContextKey = Symbol(\"coss-fieldset-composition\");\n\nfunction getOptionalFieldsetCompositionContext(): FieldsetCompositionContext | undefined {\n  return getContext<FieldsetCompositionContext | undefined>(fieldsetCompositionContextKey);\n}\n\nfunction setFieldsetCompositionContext(context: FieldsetCompositionContext): void {\n  setContext(fieldsetCompositionContextKey, context);\n}\n\nexport function getFieldsetCompositionContext(): FieldsetCompositionContext {\n  const context = getOptionalFieldsetCompositionContext();\n  if (!context) {\n    throw new Error(\"COSS: Fieldset.Legend must be rendered inside Fieldset.Root or Field.Root.\");\n  }\n  return context;\n}\n\nexport function createFieldsetCompositionContext(\n  getDisabled: () => boolean,\n): FieldsetCompositionContext {\n  const parent = getOptionalFieldsetCompositionContext();\n  let legendIds = $state<string[]>([]);\n\n  const isDisabled = () => getDisabled() || (parent?.disabled ?? false);\n\n  const context: FieldsetCompositionContext = {\n    get disabled() {\n      return isDisabled();\n    },\n    get legendId() {\n      return legendIds[0];\n    },\n    get state() {\n      return { disabled: isDisabled() };\n    },\n    registerLegend(id) {\n      untrack(() => {\n        legendIds = [...legendIds.filter((value) => value !== id), id];\n      });\n      return () => {\n        untrack(() => {\n          legendIds = legendIds.filter((value) => value !== id);\n        });\n      };\n    },\n  };\n\n  setFieldsetCompositionContext(context);\n  return context;\n}\n",
+			"type": "registry:ui",
+			"target": "fieldset/context.svelte.ts"
+		},
+		{
+			"content": "export { Fieldset as FieldsetPrimitive } from \"@shardsui/svelte\";\nexport type { FieldsetLegendProps } from \"./fieldset-legend.svelte\";\nexport {\n  default as FieldsetLegend,\n  default as Legend,\n} from \"./fieldset-legend.svelte\";\nexport type { FieldsetRootProps } from \"./fieldset-root.svelte\";\nexport {\n  default as Fieldset,\n  default as FieldsetRoot,\n  default as Root,\n} from \"./fieldset-root.svelte\";\n",
+			"type": "registry:ui",
+			"target": "fieldset/index.ts"
+		}
+	]
+}

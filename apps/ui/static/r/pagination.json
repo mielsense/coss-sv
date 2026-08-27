@@ -1,0 +1,51 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "pagination",
+	"type": "registry:ui",
+	"description": "Provides links for moving through a paged collection.",
+	"registryDependencies": [
+		"./button.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\nimport type { Snippet } from \"svelte\";\nimport type { SvelteHTMLElements } from \"svelte/elements\";\n\nexport type PaginationProps = Omit<SvelteHTMLElements[\"nav\"], \"children\" | \"class\"> & {\n  children?: Snippet;\n  class?: string;\n  ref?: HTMLElement | null;\n};\n</script>\n\n<script lang=\"ts\">\nimport { cn } from \"$UTILS$.js\";\n\nlet {\n  \"aria-label\": ariaLabel = \"pagination\",\n  children,\n  class: className,\n  ref = $bindable(null),\n  ...props\n}: PaginationProps = $props();\n</script>\n\n<nav\n  aria-label={ariaLabel}\n  bind:this={ref}\n  class={cn(\"mx-auto flex w-full justify-center\", className)}\n  data-slot=\"pagination\"\n  {...props}\n>\n  {@render children?.()}\n</nav>\n",
+			"type": "registry:ui",
+			"target": "pagination/pagination.svelte"
+		},
+		{
+			"content": "<script module lang=\"ts\">\nimport type { Snippet } from \"svelte\";\nimport type { SvelteHTMLElements } from \"svelte/elements\";\n\nexport type PaginationContentProps = Omit<SvelteHTMLElements[\"ul\"], \"children\" | \"class\"> & {\n  children?: Snippet;\n  class?: string;\n  ref?: HTMLUListElement | null;\n};\n</script>\n\n<script lang=\"ts\">\nimport { cn } from \"$UTILS$.js\";\n\nlet {\n  children,\n  class: className,\n  ref = $bindable(null),\n  ...props\n}: PaginationContentProps = $props();\n</script>\n\n<ul\n  bind:this={ref}\n  class={cn(\"flex flex-row items-center gap-1\", className)}\n  data-slot=\"pagination-content\"\n  {...props}\n>\n  {@render children?.()}\n</ul>\n",
+			"type": "registry:ui",
+			"target": "pagination/pagination-content.svelte"
+		},
+		{
+			"content": "<script module lang=\"ts\">\nimport type { Snippet } from \"svelte\";\nimport type { SvelteHTMLElements } from \"svelte/elements\";\n\nexport type PaginationItemProps = Omit<SvelteHTMLElements[\"li\"], \"children\"> & {\n  children?: Snippet;\n  ref?: HTMLLIElement | null;\n};\n</script>\n\n<script lang=\"ts\">\nlet { children, ref = $bindable(null), ...props }: PaginationItemProps = $props();\n</script>\n\n<li bind:this={ref} data-slot=\"pagination-item\" {...props}>\n  {@render children?.()}\n</li>\n",
+			"type": "registry:ui",
+			"target": "pagination/pagination-item.svelte"
+		},
+		{
+			"content": "<script module lang=\"ts\">\nimport type { Snippet } from \"svelte\";\nimport type { SvelteHTMLElements } from \"svelte/elements\";\nimport type { ButtonProps, ButtonSize } from \"../button/button.svelte\";\n\nexport type PaginationLinkDelegateRef = {\n  current: HTMLElement | null;\n};\n\nexport type PaginationLinkDelegateProps = {\n  props: Omit<ButtonProps, \"ref\">;\n  ref: PaginationLinkDelegateRef;\n};\n\nexport type PaginationLinkProps = Omit<SvelteHTMLElements[\"a\"], \"children\" | \"class\" | \"ref\"> & {\n  as?: keyof HTMLElementTagNameMap;\n  children?: Snippet;\n  class?: string;\n  delegate?: Snippet<[PaginationLinkDelegateProps]>;\n  isActive?: boolean;\n  ref?: HTMLElement | null;\n  size?: ButtonSize;\n  type?: \"button\" | \"reset\" | \"submit\";\n};\n</script>\n\n<script lang=\"ts\">\nimport { cn } from \"$UTILS$.js\";\nimport { buttonVariants } from \"../button/button.svelte\";\n\nlet {\n  \"aria-current\": ariaCurrent,\n  as = \"a\",\n  children,\n  class: className,\n  delegate,\n  isActive = false,\n  ref = $bindable(null),\n  size = \"icon\",\n  ...props\n}: PaginationLinkProps = $props();\n\nconst current = $derived(ariaCurrent ?? (isActive ? \"page\" : undefined));\nconst classes = $derived(\n  cn(buttonVariants({ size, variant: isActive ? \"outline\" : \"ghost\" }), className),\n);\nconst delegateProps = $derived({\n  ...props,\n  \"aria-current\": current,\n  children,\n  class: className,\n  \"data-active\": isActive,\n  \"data-slot\": \"pagination-link\",\n} as unknown as Omit<ButtonProps, \"ref\">);\nconst delegateRef: PaginationLinkDelegateRef = {\n  get current() {\n    return ref;\n  },\n  set current(element) {\n    ref = element;\n  },\n};\n</script>\n\n{#if delegate}\n  {@render delegate({ props: delegateProps, ref: delegateRef })}\n{:else}\n  <svelte:element\n    this={as}\n    aria-current={current}\n    bind:this={ref}\n    class={classes}\n    data-active={isActive}\n    data-slot=\"pagination-link\"\n    {...props}\n  >\n    {@render children?.()}\n  </svelte:element>\n{/if}\n",
+			"type": "registry:ui",
+			"target": "pagination/pagination-link.svelte"
+		},
+		{
+			"content": "<script module lang=\"ts\">\nimport type { PaginationLinkProps } from \"./pagination-link.svelte\";\n\nexport type PaginationPreviousProps = PaginationLinkProps;\n</script>\n\n<script lang=\"ts\">\nimport { cn } from \"$UTILS$.js\";\nimport PaginationLink from \"./pagination-link.svelte\";\n\nlet {\n  \"aria-label\": ariaLabel = \"Go to previous page\",\n  children: _children,\n  class: className,\n  ref = $bindable(null),\n  size = \"default\",\n  ...props\n}: PaginationPreviousProps = $props();\n</script>\n\n<PaginationLink\n  aria-label={ariaLabel}\n  class={cn(\"max-sm:aspect-square max-sm:p-0\", className)}\n  bind:ref\n  {size}\n  {...props}\n>\n  <svg\n    xmlns=\"http://www.w3.org/2000/svg\"\n    width=\"24\"\n    height=\"24\"\n    viewBox=\"0 0 24 24\"\n    fill=\"none\"\n    stroke=\"currentColor\"\n    stroke-width=\"2\"\n    stroke-linecap=\"round\"\n    stroke-linejoin=\"round\"\n    class=\"lucide lucide-chevron-left sm:-ms-1\"\n    aria-hidden=\"true\"\n  >\n    <path d=\"m15 18-6-6 6-6\"></path>\n  </svg>\n  <span class=\"max-sm:hidden\">Previous</span>\n</PaginationLink>\n",
+			"type": "registry:ui",
+			"target": "pagination/pagination-previous.svelte"
+		},
+		{
+			"content": "<script module lang=\"ts\">\nimport type { PaginationLinkProps } from \"./pagination-link.svelte\";\n\nexport type PaginationNextProps = PaginationLinkProps;\n</script>\n\n<script lang=\"ts\">\nimport { cn } from \"$UTILS$.js\";\nimport PaginationLink from \"./pagination-link.svelte\";\n\nlet {\n  \"aria-label\": ariaLabel = \"Go to next page\",\n  children: _children,\n  class: className,\n  ref = $bindable(null),\n  size = \"default\",\n  ...props\n}: PaginationNextProps = $props();\n</script>\n\n<PaginationLink\n  aria-label={ariaLabel}\n  class={cn(\"max-sm:aspect-square max-sm:p-0\", className)}\n  bind:ref\n  {size}\n  {...props}\n>\n  <span class=\"max-sm:hidden\">Next</span>\n  <svg\n    xmlns=\"http://www.w3.org/2000/svg\"\n    width=\"24\"\n    height=\"24\"\n    viewBox=\"0 0 24 24\"\n    fill=\"none\"\n    stroke=\"currentColor\"\n    stroke-width=\"2\"\n    stroke-linecap=\"round\"\n    stroke-linejoin=\"round\"\n    class=\"lucide lucide-chevron-right sm:-me-1\"\n    aria-hidden=\"true\"\n  >\n    <path d=\"m9 18 6-6-6-6\"></path>\n  </svg>\n</PaginationLink>\n",
+			"type": "registry:ui",
+			"target": "pagination/pagination-next.svelte"
+		},
+		{
+			"content": "<script module lang=\"ts\">\nimport type { Snippet } from \"svelte\";\nimport type { SvelteHTMLElements } from \"svelte/elements\";\n\nexport type PaginationEllipsisProps = Omit<SvelteHTMLElements[\"span\"], \"children\" | \"class\"> & {\n  children?: Snippet;\n  class?: string;\n  ref?: HTMLSpanElement | null;\n};\n</script>\n\n<script lang=\"ts\">\nimport { cn } from \"$UTILS$.js\";\n\nlet {\n  children: _children,\n  class: className,\n  ref = $bindable(null),\n  ...props\n}: PaginationEllipsisProps = $props();\n</script>\n\n<span\n  aria-hidden=\"true\"\n  bind:this={ref}\n  class={cn(\"flex min-w-7 justify-center\", className)}\n  data-slot=\"pagination-ellipsis\"\n  {...props}\n>\n  <svg\n    xmlns=\"http://www.w3.org/2000/svg\"\n    width=\"24\"\n    height=\"24\"\n    viewBox=\"0 0 24 24\"\n    fill=\"none\"\n    stroke=\"currentColor\"\n    stroke-width=\"2\"\n    stroke-linecap=\"round\"\n    stroke-linejoin=\"round\"\n    class=\"lucide lucide-ellipsis size-5 sm:size-4\"\n    aria-hidden=\"true\"\n  >\n    <circle cx=\"12\" cy=\"12\" r=\"1\"></circle>\n    <circle cx=\"19\" cy=\"12\" r=\"1\"></circle>\n    <circle cx=\"5\" cy=\"12\" r=\"1\"></circle>\n  </svg>\n  <span class=\"sr-only\">More pages</span>\n</span>\n",
+			"type": "registry:ui",
+			"target": "pagination/pagination-ellipsis.svelte"
+		},
+		{
+			"content": "export type { PaginationProps } from \"./pagination.svelte\";\nexport { default as Pagination, default as Root } from \"./pagination.svelte\";\nexport type { PaginationContentProps } from \"./pagination-content.svelte\";\nexport {\n  default as Content,\n  default as PaginationContent,\n} from \"./pagination-content.svelte\";\nexport type { PaginationEllipsisProps } from \"./pagination-ellipsis.svelte\";\nexport {\n  default as Ellipsis,\n  default as PaginationEllipsis,\n} from \"./pagination-ellipsis.svelte\";\nexport type { PaginationItemProps } from \"./pagination-item.svelte\";\nexport { default as Item, default as PaginationItem } from \"./pagination-item.svelte\";\nexport type {\n  PaginationLinkDelegateProps,\n  PaginationLinkDelegateRef,\n  PaginationLinkProps,\n} from \"./pagination-link.svelte\";\nexport { default as Link, default as PaginationLink } from \"./pagination-link.svelte\";\nexport type { PaginationNextProps } from \"./pagination-next.svelte\";\nexport { default as Next, default as PaginationNext } from \"./pagination-next.svelte\";\nexport type { PaginationPreviousProps } from \"./pagination-previous.svelte\";\nexport {\n  default as PaginationPrevious,\n  default as Previous,\n} from \"./pagination-previous.svelte\";\n",
+			"type": "registry:ui",
+			"target": "pagination/index.ts"
+		}
+	]
+}

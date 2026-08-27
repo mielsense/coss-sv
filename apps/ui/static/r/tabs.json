@@ -1,0 +1,51 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "tabs",
+	"type": "registry:ui",
+	"description": "Switches between related panels in the same region.",
+	"dependencies": [
+		"@shardsui/svelte@0.1.0-beta.0"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\nimport type { Tabs as ShardsTabs, TabsValue } from \"@shardsui/svelte\";\nimport type { ComponentProps } from \"svelte\";\n\nexport type TabsRootProps = Omit<ComponentProps<typeof ShardsTabs.Root>, \"value\"> & {\n  defaultValue?: TabsValue;\n  value?: TabsValue | undefined;\n};\n</script>\n\n<script lang=\"ts\">\nimport { Tabs as TabsPrimitive } from \"@shardsui/svelte\";\nimport { untrack } from \"svelte\";\nimport { cn } from \"$UTILS$.js\";\n\nlet {\n  class: className,\n  defaultValue,\n  ref = $bindable(null),\n  value = $bindable(),\n  ...props\n}: TabsRootProps = $props();\n\nconst initialValue = untrack(() => defaultValue);\n\nfunction getValue(): TabsValue {\n  return (value === undefined ? initialValue : value) as TabsValue;\n}\n\nfunction setValue(next: TabsValue): void {\n  value = next;\n}\n</script>\n\n<TabsPrimitive.Root\n  bind:ref\n  bind:value={getValue, setValue}\n  class={cn(\"flex flex-col gap-2 data-[orientation=vertical]:flex-row\", className)}\n  data-slot=\"tabs\"\n  {...props}\n/>\n",
+			"type": "registry:ui",
+			"target": "tabs/tabs-root.svelte"
+		},
+		{
+			"content": "<script module lang=\"ts\">\nimport type { Tabs as ShardsTabs } from \"@shardsui/svelte\";\nimport type { ComponentProps } from \"svelte\";\nimport type { TabsSize, TabsVariant } from \"./tabs-styles.js\";\n\nexport type TabsListProps = ComponentProps<typeof ShardsTabs.List> & {\n  size?: TabsSize;\n  variant?: TabsVariant;\n};\n</script>\n\n<script lang=\"ts\">\nimport { Tabs as TabsPrimitive } from \"@shardsui/svelte\";\nimport { cn } from \"$UTILS$.js\";\nimport { setTabsListStyleContext } from \"./context.js\";\nimport TabsIndicator from \"./tabs-indicator.svelte\";\n\nlet {\n  children: child,\n  class: className,\n  ref = $bindable(null),\n  size = \"default\",\n  variant = \"default\",\n  ...props\n}: TabsListProps = $props();\n\nsetTabsListStyleContext({\n  get size() {\n    return size;\n  },\n  get variant() {\n    return variant;\n  },\n});\n</script>\n\n<TabsPrimitive.List\n  bind:ref\n  class={cn(\n    \"relative z-0 flex w-fit items-center justify-center gap-x-0.5 text-muted-foreground\",\n    \"data-[orientation=vertical]:flex-col\",\n    variant === \"default\"\n      ? \"rounded-lg bg-muted p-0.5 text-muted-foreground/72\"\n      : \"data-[orientation=vertical]:px-1 data-[orientation=horizontal]:py-1 *:data-[slot=tabs-tab]:hover:bg-accent\",\n    className,\n  )}\n  data-size={size}\n  data-slot=\"tabs-list\"\n  {...props}\n>\n  {#snippet children(state)}\n    {@render child?.(state)}\n    <TabsIndicator />\n  {/snippet}\n</TabsPrimitive.List>\n",
+			"type": "registry:ui",
+			"target": "tabs/tabs-list.svelte"
+		},
+		{
+			"content": "<script module lang=\"ts\">\nimport type { Tabs as ShardsTabs } from \"@shardsui/svelte\";\nimport type { ComponentProps } from \"svelte\";\nimport type { TabsSize } from \"./tabs-styles.js\";\n\nexport type TabsTabProps = ComponentProps<typeof ShardsTabs.Tab> & {\n  size?: TabsSize;\n};\n</script>\n\n<script lang=\"ts\">\nimport { Tabs as TabsPrimitive } from \"@shardsui/svelte\";\nimport { cn } from \"$UTILS$.js\";\nimport { getTabsListStyleContext } from \"./context.js\";\nimport { tabsItemLayoutClassName, tabsItemSizeClassNames } from \"./tabs-styles.js\";\n\nlet { class: className, ref = $bindable(null), size: sizeProp, ...props }: TabsTabProps = $props();\n\nconst context = getTabsListStyleContext();\nconst size = $derived(sizeProp ?? context.size);\n</script>\n\n<TabsPrimitive.Tab\n  bind:ref\n  class={cn(\n    \"relative flex shrink-0 grow cursor-pointer items-center justify-center whitespace-nowrap rounded-md border border-transparent font-medium text-base outline-none transition-[color,background-color,box-shadow] hover:text-muted-foreground focus-visible:ring-2 focus-visible:ring-ring data-disabled:pointer-events-none data-[orientation=vertical]:w-full data-[orientation=vertical]:justify-start data-active:text-foreground data-disabled:opacity-64 sm:text-sm\",\n    tabsItemLayoutClassName,\n    tabsItemSizeClassNames[size],\n    className,\n  )}\n  data-size={size}\n  data-slot=\"tabs-tab\"\n  {...props}\n/>\n",
+			"type": "registry:ui",
+			"target": "tabs/tabs-tab.svelte"
+		},
+		{
+			"content": "<script module lang=\"ts\">\nimport type { Tabs as ShardsTabs } from \"@shardsui/svelte\";\nimport type { ComponentProps } from \"svelte\";\n\nexport type TabsPanelProps = ComponentProps<typeof ShardsTabs.Panel>;\n</script>\n\n<script lang=\"ts\">\nimport { Tabs as TabsPrimitive } from \"@shardsui/svelte\";\nimport { cn } from \"$UTILS$.js\";\n\nlet { class: className, ref = $bindable(null), ...props }: TabsPanelProps = $props();\n</script>\n\n<TabsPrimitive.Panel\n  bind:ref\n  class={cn(\"flex-1 outline-none\", className)}\n  data-slot=\"tabs-content\"\n  {...props}\n/>\n",
+			"type": "registry:ui",
+			"target": "tabs/tabs-panel.svelte"
+		},
+		{
+			"content": "<script module lang=\"ts\">\nimport type { Tabs as ShardsTabs } from \"@shardsui/svelte\";\nimport type { ComponentProps } from \"svelte\";\n\nexport type TabsIndicatorProps = ComponentProps<typeof ShardsTabs.Indicator>;\n</script>\n\n<script lang=\"ts\">\nimport { Tabs as TabsPrimitive } from \"@shardsui/svelte\";\nimport { cn } from \"$UTILS$.js\";\nimport { getTabsListStyleContext } from \"./context.js\";\n\nlet { class: className, ref = $bindable(null), ...props }: TabsIndicatorProps = $props();\n\nconst context = getTabsListStyleContext();\n</script>\n\n<TabsPrimitive.Indicator\n  bind:ref\n  class={cn(\n    \"absolute bottom-0 left-0 h-(--active-tab-height) w-(--active-tab-width) translate-x-(--active-tab-left) -translate-y-(--active-tab-bottom) transition-[width,translate] duration-200 ease-in-out\",\n    context.variant === \"underline\"\n      ? \"z-10 bg-primary data-[orientation=horizontal]:h-0.5 data-[orientation=vertical]:w-0.5 data-[orientation=vertical]:-translate-x-px data-[orientation=horizontal]:translate-y-px\"\n      : \"-z-1 rounded-md bg-background shadow-sm/5 dark:bg-input\",\n    className,\n  )}\n  data-slot=\"tab-indicator\"\n  {...props}\n/>\n",
+			"type": "registry:ui",
+			"target": "tabs/tabs-indicator.svelte"
+		},
+		{
+			"content": "export type TabsSize = \"default\" | \"lg\" | \"sm\";\nexport type TabsVariant = \"default\" | \"underline\";\n\nexport const tabsItemSizeClassNames: Record<TabsSize, string> = {\n  default: \"h-8.5 px-[calc(--spacing(2.5)-1px)] sm:h-7.5\",\n  lg: \"h-9.5 px-[calc(--spacing(3)-1px)] sm:h-8.5\",\n  sm: \"h-7.5 px-[calc(--spacing(2)-1px)] sm:h-6.5\",\n};\n\nexport const tabsItemLayoutClassName =\n  \"gap-1.5 [&_svg:not([class*='opacity-'])]:opacity-80 [&_svg:not([class*='size-'])]:size-4.5 sm:[&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:-mx-0.5 [&_svg]:shrink-0\";\n",
+			"type": "registry:ui",
+			"target": "tabs/tabs-styles.ts"
+		},
+		{
+			"content": "import { createContext } from \"svelte\";\nimport type { TabsSize, TabsVariant } from \"./tabs-styles.js\";\n\nexport type TabsListStyleContext = {\n  readonly size: TabsSize;\n  readonly variant: TabsVariant;\n};\n\nexport const [getTabsListStyleContext, setTabsListStyleContext] =\n  createContext<TabsListStyleContext>();\n",
+			"type": "registry:ui",
+			"target": "tabs/context.ts"
+		},
+		{
+			"content": "export type { TabsActivationDirection, TabsOrientation, TabsValue } from \"@shardsui/svelte\";\nexport { Tabs as TabsPrimitive } from \"@shardsui/svelte\";\nexport type { TabsListStyleContext } from \"./context.js\";\nexport type { TabsIndicatorProps } from \"./tabs-indicator.svelte\";\nexport {\n  default as Indicator,\n  default as TabsIndicator,\n} from \"./tabs-indicator.svelte\";\nexport type { TabsListProps } from \"./tabs-list.svelte\";\nexport {\n  default as List,\n  default as TabsList,\n} from \"./tabs-list.svelte\";\nexport type { TabsPanelProps } from \"./tabs-panel.svelte\";\nexport {\n  default as Content,\n  default as Panel,\n  default as TabsContent,\n  default as TabsPanel,\n} from \"./tabs-panel.svelte\";\nexport type { TabsRootProps } from \"./tabs-root.svelte\";\nexport {\n  default as Root,\n  default as Tabs,\n  default as TabsRoot,\n} from \"./tabs-root.svelte\";\nexport type { TabsSize, TabsVariant } from \"./tabs-styles.js\";\nexport { tabsItemLayoutClassName, tabsItemSizeClassNames } from \"./tabs-styles.js\";\nexport type { TabsTabProps } from \"./tabs-tab.svelte\";\nexport {\n  default as Tab,\n  default as TabsTab,\n  default as TabsTrigger,\n  default as Trigger,\n} from \"./tabs-tab.svelte\";\n",
+			"type": "registry:ui",
+			"target": "tabs/index.ts"
+		}
+	]
+}

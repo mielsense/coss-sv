@@ -1,0 +1,26 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "scroll-area",
+	"type": "registry:ui",
+	"description": "Adds custom scrollbars to overflowing content.",
+	"dependencies": [
+		"@shardsui/svelte@0.1.0-beta.0"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\nimport type { ScrollArea as ShardsScrollArea } from \"@shardsui/svelte\";\nimport type { ComponentProps, Snippet } from \"svelte\";\n\ntype ShardsRootProps = ComponentProps<typeof ShardsScrollArea.Root>;\n\nexport type ScrollAreaProps = Omit<ShardsRootProps, \"children\"> & {\n  children?: Snippet;\n  clampContentMinWidth?: boolean;\n  fill?: boolean;\n  overscrollContain?: boolean;\n  scrollFade?: boolean;\n  scrollbarGutter?: boolean;\n};\n</script>\n\n<script lang=\"ts\">\nimport { ScrollArea as ScrollAreaPrimitive } from \"@shardsui/svelte\";\nimport { cn } from \"$UTILS$.js\";\nimport ScrollBar from \"./scroll-bar.svelte\";\n\nlet {\n  children,\n  clampContentMinWidth = true,\n  class: className,\n  fill = false,\n  overscrollContain = false,\n  ref = $bindable(null),\n  scrollFade = false,\n  scrollbarGutter = false,\n  ...props\n}: ScrollAreaProps = $props();\n\nconst rootClass = $derived(cn(\"size-full min-h-0\", className));\nconst viewportClass = $derived(\n  cn(\n    \"h-full rounded-[inherit] outline-none transition-shadows focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 focus-visible:ring-offset-background\",\n    overscrollContain &&\n      \"data-has-overflow-y:overscroll-y-contain data-has-overflow-x:overscroll-x-contain\",\n    scrollFade &&\n      \"mask-t-from-[calc(100%-min(var(--fade-size),var(--scroll-area-overflow-y-start)))] mask-b-from-[calc(100%-min(var(--fade-size),var(--scroll-area-overflow-y-end)))] mask-l-from-[calc(100%-min(var(--fade-size),var(--scroll-area-overflow-x-start)))] mask-r-from-[calc(100%-min(var(--fade-size),var(--scroll-area-overflow-x-end)))] [--fade-size:1.5rem]\",\n    scrollbarGutter && \"data-has-overflow-y:pe-2.5 data-has-overflow-x:pb-2.5\",\n  ),\n);\nconst contentClass = $derived(cn(fill && \"size-full\"));\nconst contentStyle = $derived(clampContentMinWidth ? \"min-width: 0\" : undefined);\n</script>\n\n<ScrollAreaPrimitive.Root bind:ref class={rootClass} {...props}>\n  <ScrollAreaPrimitive.Viewport class={viewportClass} data-slot=\"scroll-area-viewport\">\n    <ScrollAreaPrimitive.Content\n      class={contentClass || undefined}\n      data-slot=\"scroll-area-content\"\n      style={contentStyle}\n    >\n      {@render children?.()}\n    </ScrollAreaPrimitive.Content>\n  </ScrollAreaPrimitive.Viewport>\n  <ScrollBar orientation=\"vertical\" />\n  <ScrollBar orientation=\"horizontal\" />\n  <ScrollAreaPrimitive.Corner data-slot=\"scroll-area-corner\" />\n</ScrollAreaPrimitive.Root>\n",
+			"type": "registry:ui",
+			"target": "scroll-area/scroll-area.svelte"
+		},
+		{
+			"content": "<script module lang=\"ts\">\nimport type { ScrollArea as ShardsScrollArea } from \"@shardsui/svelte\";\nimport type { ComponentProps } from \"svelte\";\n\nexport type ScrollBarProps = Omit<ComponentProps<typeof ShardsScrollArea.Scrollbar>, \"children\">;\n</script>\n\n<script lang=\"ts\">\nimport { ScrollArea as ScrollAreaPrimitive } from \"@shardsui/svelte\";\nimport { cn } from \"$UTILS$.js\";\n\nlet {\n  class: className,\n  orientation = \"vertical\",\n  ref = $bindable(null),\n  ...props\n}: ScrollBarProps = $props();\n\nconst classes = $derived(\n  cn(\n    \"m-1 flex opacity-0 transition-opacity delay-300 data-[orientation=horizontal]:h-1.5 data-[orientation=vertical]:w-1.5 data-[orientation=horizontal]:flex-col data-hovering:opacity-100 data-scrolling:opacity-100 data-hovering:delay-0 data-scrolling:delay-0 data-hovering:duration-100 data-scrolling:duration-100\",\n    className,\n  ),\n);\n</script>\n\n<ScrollAreaPrimitive.Scrollbar\n  bind:ref\n  class={classes}\n  data-slot=\"scroll-area-scrollbar\"\n  {orientation}\n  {...props}\n>\n  <ScrollAreaPrimitive.Thumb\n    class=\"relative flex-1 rounded-full bg-foreground/20\"\n    data-slot=\"scroll-area-thumb\"\n  />\n</ScrollAreaPrimitive.Scrollbar>\n",
+			"type": "registry:ui",
+			"target": "scroll-area/scroll-bar.svelte"
+		},
+		{
+			"content": "import { ScrollArea as ScrollAreaPrimitive } from \"@shardsui/svelte\";\n\nexport { ScrollAreaPrimitive };\nexport const Root: typeof ScrollAreaPrimitive.Root = ScrollAreaPrimitive.Root;\nexport const Viewport: typeof ScrollAreaPrimitive.Viewport = ScrollAreaPrimitive.Viewport;\nexport const Content: typeof ScrollAreaPrimitive.Content = ScrollAreaPrimitive.Content;\nexport const Scrollbar: typeof ScrollAreaPrimitive.Scrollbar = ScrollAreaPrimitive.Scrollbar;\nexport const Thumb: typeof ScrollAreaPrimitive.Thumb = ScrollAreaPrimitive.Thumb;\nexport const Corner: typeof ScrollAreaPrimitive.Corner = ScrollAreaPrimitive.Corner;\nexport type { ScrollAreaProps } from \"./scroll-area.svelte\";\nexport { default as ScrollArea } from \"./scroll-area.svelte\";\nexport type { ScrollBarProps } from \"./scroll-bar.svelte\";\nexport { default as ScrollBar } from \"./scroll-bar.svelte\";\n",
+			"type": "registry:ui",
+			"target": "scroll-area/index.ts"
+		}
+	]
+}

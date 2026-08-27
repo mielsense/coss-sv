@@ -11,6 +11,41 @@
   },
   "items": [
     {
+      "name": "accordion",
+      "type": "registry:ui",
+      "description": "Organizes content into expandable sections.",
+      "dependencies": [
+        "@shardsui/svelte@0.1.0-beta.0"
+      ],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "../../packages/ui/src/components/ui/accordion/accordion-root.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/accordion/accordion-item.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/accordion/accordion-header.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/accordion/accordion-trigger.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/accordion/accordion-panel.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/accordion/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "alert",
       "type": "registry:ui",
       "description": "Displays a message with an optional action.",
@@ -234,6 +269,47 @@
       ]
     },
     {
+      "name": "collapsible",
+      "type": "registry:ui",
+      "description": "Shows and hides a panel from a trigger.",
+      "dependencies": [
+        "@shardsui/svelte@0.1.0-beta.0"
+      ],
+      "registryDependencies": [
+        "local:button"
+      ],
+      "files": [
+        {
+          "path": "../../packages/ui/src/components/ui/collapsible/collapsible-root.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/collapsible/collapsible-provider.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/collapsible/collapsible-trigger.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/collapsible/collapsible-panel.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/collapsible/context.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/collapsible/event-preventable.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/collapsible/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "empty",
       "type": "registry:ui",
       "description": "Explains an empty state and its next actions.",
@@ -270,6 +346,89 @@
         },
         {
           "path": "../../packages/ui/src/components/ui/empty/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "field",
+      "type": "registry:ui",
+      "description": "Connects a form control with its label, help text, and errors.",
+      "dependencies": [
+        "@shardsui/svelte@0.1.0-beta.0"
+      ],
+      "registryDependencies": [
+        "local:fieldset"
+      ],
+      "files": [
+        {
+          "path": "../../packages/ui/src/components/ui/field/field-root.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/field/field-label.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/field/field-item.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/field/field-description.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/field/field-error.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/field/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "fieldset",
+      "type": "registry:ui",
+      "description": "Groups related form fields under a shared legend.",
+      "dependencies": [
+        "@shardsui/svelte@0.1.0-beta.0"
+      ],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "../../packages/ui/src/components/ui/fieldset/fieldset-root.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/fieldset/fieldset-legend.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/fieldset/context.svelte.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/fieldset/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "form",
+      "type": "registry:ui",
+      "description": "Coordinates form submission and field errors.",
+      "dependencies": [
+        "@shardsui/svelte@0.1.0-beta.0"
+      ],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "../../packages/ui/src/components/ui/form/form.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/form/index.ts",
           "type": "registry:ui"
         }
       ]
@@ -312,6 +471,37 @@
       ]
     },
     {
+      "name": "group",
+      "type": "registry:ui",
+      "description": "Joins related controls into one visual group.",
+      "dependencies": [],
+      "registryDependencies": [
+        "local:separator"
+      ],
+      "files": [
+        {
+          "path": "../../packages/ui/src/components/ui/group/group-root.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/group/group-separator.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/group/group-text.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/group/group-styles.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/group/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "input",
       "type": "registry:ui",
       "description": "Collects a single line of user input.",
@@ -326,6 +516,46 @@
         },
         {
           "path": "../../packages/ui/src/components/ui/input/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "input-group",
+      "type": "registry:ui",
+      "description": "Combines an input or textarea with inline and block addons.",
+      "dependencies": [],
+      "registryDependencies": [
+        "local:input",
+        "local:textarea"
+      ],
+      "files": [
+        {
+          "path": "../../packages/ui/src/components/ui/input-group/input-group-root.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/input-group/input-group-input.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/input-group/input-group-textarea.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/input-group/input-group-addon.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/input-group/input-group-text.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/input-group/input-group-styles.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/input-group/index.ts",
           "type": "registry:ui"
         }
       ]
@@ -404,6 +634,49 @@
       ]
     },
     {
+      "name": "pagination",
+      "type": "registry:ui",
+      "description": "Provides links for moving through a paged collection.",
+      "dependencies": [],
+      "registryDependencies": [
+        "local:button"
+      ],
+      "files": [
+        {
+          "path": "../../packages/ui/src/components/ui/pagination/pagination.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/pagination/pagination-content.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/pagination/pagination-item.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/pagination/pagination-link.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/pagination/pagination-previous.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/pagination/pagination-next.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/pagination/pagination-ellipsis.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/pagination/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "progress",
       "type": "registry:ui",
       "description": "Shows progress toward completing a task.",
@@ -434,6 +707,29 @@
         },
         {
           "path": "../../packages/ui/src/components/ui/progress/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "scroll-area",
+      "type": "registry:ui",
+      "description": "Adds custom scrollbars to overflowing content.",
+      "dependencies": [
+        "@shardsui/svelte@0.1.0-beta.0"
+      ],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "../../packages/ui/src/components/ui/scroll-area/scroll-area.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/scroll-area/scroll-bar.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/scroll-area/index.ts",
           "type": "registry:ui"
         }
       ]
@@ -506,6 +802,94 @@
         },
         {
           "path": "../../packages/ui/src/components/ui/switch/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "table",
+      "type": "registry:ui",
+      "description": "Displays structured data in rows and columns.",
+      "dependencies": [],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "../../packages/ui/src/components/ui/table/table.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/table/table-header.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/table/table-body.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/table/table-footer.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/table/table-row.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/table/table-head.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/table/table-cell.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/table/table-caption.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/table/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "tabs",
+      "type": "registry:ui",
+      "description": "Switches between related panels in the same region.",
+      "dependencies": [
+        "@shardsui/svelte@0.1.0-beta.0"
+      ],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "../../packages/ui/src/components/ui/tabs/tabs-root.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/tabs/tabs-list.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/tabs/tabs-tab.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/tabs/tabs-panel.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/tabs/tabs-indicator.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/tabs/tabs-styles.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/tabs/context.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/tabs/index.ts",
           "type": "registry:ui"
         }
       ]

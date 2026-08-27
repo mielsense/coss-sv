@@ -1,5 +1,15 @@
 [
 	{
+		"name": "accordion",
+		"type": "registry:ui",
+		"description": "Organizes content into expandable sections.",
+		"dependencies": [
+			"@shardsui/svelte@0.1.0-beta.0"
+		],
+		"registryDependencies": [],
+		"relativeUrl": "accordion.json"
+	},
+	{
 		"name": "alert",
 		"type": "registry:ui",
 		"description": "Displays a message with an optional action.",
@@ -64,12 +74,56 @@
 		"relativeUrl": "checkbox.json"
 	},
 	{
+		"name": "collapsible",
+		"type": "registry:ui",
+		"description": "Shows and hides a panel from a trigger.",
+		"dependencies": [
+			"@shardsui/svelte@0.1.0-beta.0"
+		],
+		"registryDependencies": [
+			"local:button"
+		],
+		"relativeUrl": "collapsible.json"
+	},
+	{
 		"name": "empty",
 		"type": "registry:ui",
 		"description": "Explains an empty state and its next actions.",
 		"dependencies": [],
 		"registryDependencies": [],
 		"relativeUrl": "empty.json"
+	},
+	{
+		"name": "field",
+		"type": "registry:ui",
+		"description": "Connects a form control with its label, help text, and errors.",
+		"dependencies": [
+			"@shardsui/svelte@0.1.0-beta.0"
+		],
+		"registryDependencies": [
+			"local:fieldset"
+		],
+		"relativeUrl": "field.json"
+	},
+	{
+		"name": "fieldset",
+		"type": "registry:ui",
+		"description": "Groups related form fields under a shared legend.",
+		"dependencies": [
+			"@shardsui/svelte@0.1.0-beta.0"
+		],
+		"registryDependencies": [],
+		"relativeUrl": "fieldset.json"
+	},
+	{
+		"name": "form",
+		"type": "registry:ui",
+		"description": "Coordinates form submission and field errors.",
+		"dependencies": [
+			"@shardsui/svelte@0.1.0-beta.0"
+		],
+		"registryDependencies": [],
+		"relativeUrl": "form.json"
 	},
 	{
 		"name": "frame",
@@ -80,6 +134,16 @@
 		"relativeUrl": "frame.json"
 	},
 	{
+		"name": "group",
+		"type": "registry:ui",
+		"description": "Joins related controls into one visual group.",
+		"dependencies": [],
+		"registryDependencies": [
+			"local:separator"
+		],
+		"relativeUrl": "group.json"
+	},
+	{
 		"name": "input",
 		"type": "registry:ui",
 		"description": "Collects a single line of user input.",
@@ -88,6 +152,17 @@
 		],
 		"registryDependencies": [],
 		"relativeUrl": "input.json"
+	},
+	{
+		"name": "input-group",
+		"type": "registry:ui",
+		"description": "Combines an input or textarea with inline and block addons.",
+		"dependencies": [],
+		"registryDependencies": [
+			"local:input",
+			"local:textarea"
+		],
+		"relativeUrl": "input-group.json"
 	},
 	{
 		"name": "kbd",
@@ -116,6 +191,16 @@
 		"relativeUrl": "meter.json"
 	},
 	{
+		"name": "pagination",
+		"type": "registry:ui",
+		"description": "Provides links for moving through a paged collection.",
+		"dependencies": [],
+		"registryDependencies": [
+			"local:button"
+		],
+		"relativeUrl": "pagination.json"
+	},
+	{
 		"name": "progress",
 		"type": "registry:ui",
 		"description": "Shows progress toward completing a task.",
@@ -124,6 +209,16 @@
 		],
 		"registryDependencies": [],
 		"relativeUrl": "progress.json"
+	},
+	{
+		"name": "scroll-area",
+		"type": "registry:ui",
+		"description": "Adds custom scrollbars to overflowing content.",
+		"dependencies": [
+			"@shardsui/svelte@0.1.0-beta.0"
+		],
+		"registryDependencies": [],
+		"relativeUrl": "scroll-area.json"
 	},
 	{
 		"name": "separator",
@@ -160,6 +255,24 @@
 		],
 		"registryDependencies": [],
 		"relativeUrl": "switch.json"
+	},
+	{
+		"name": "table",
+		"type": "registry:ui",
+		"description": "Displays structured data in rows and columns.",
+		"dependencies": [],
+		"registryDependencies": [],
+		"relativeUrl": "table.json"
+	},
+	{
+		"name": "tabs",
+		"type": "registry:ui",
+		"description": "Switches between related panels in the same region.",
+		"dependencies": [
+			"@shardsui/svelte@0.1.0-beta.0"
+		],
+		"registryDependencies": [],
+		"relativeUrl": "tabs.json"
 	},
 	{
 		"name": "textarea",

@@ -1,0 +1,21 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "form",
+	"type": "registry:ui",
+	"description": "Coordinates form submission and field errors.",
+	"dependencies": [
+		"@shardsui/svelte@0.1.0-beta.0"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\nimport { Form as FormPrimitive } from \"@shardsui/svelte\";\nimport type { ComponentProps } from \"svelte\";\n\nexport type FormProps = ComponentProps<typeof FormPrimitive>;\n</script>\n\n<script lang=\"ts\">\nlet { class: className, ref = $bindable(null), ...props }: FormProps = $props();\n\nlet primitive: { validate: (fieldName?: string) => void } | undefined;\n\nexport function validate(fieldName?: string): void {\n  primitive?.validate(fieldName);\n}\n</script>\n\n<FormPrimitive bind:this={primitive} bind:ref data-slot=\"form\" class={className} {...props} />\n",
+			"type": "registry:ui",
+			"target": "form/form.svelte"
+		},
+		{
+			"content": "export { Form as FormPrimitive } from \"@shardsui/svelte\";\nexport type { FormProps } from \"./form.svelte\";\nexport { default as Form, default as Root } from \"./form.svelte\";\n",
+			"type": "registry:ui",
+			"target": "form/index.ts"
+		}
+	]
+}
