@@ -629,7 +629,7 @@ type SnippetDefinition = {
 
 type RenderContext = {
   bindings: LexicalBindings;
-  resolvingSnippets: Set<string>;
+  resolvingSnippets: Set<SnippetDefinition>;
   snippets: Map<string, SnippetDefinition>;
 };
 
@@ -999,22 +999,45 @@ function bindPattern(
   }
 }
 
-function addFunctionLocalBindings(statements: ScriptNode[], bindings: LexicalBindings) {
-  for (const statement of statements) {
+function evaluateSimpleFunctionBody(
+  statements: ScriptNode[],
+  bindings: LexicalBindings,
+  resolvingBindings: Set<string>,
+): Evaluation {
+  const returnIndex = statements.findIndex((statement) => statement.type === "ReturnStatement");
+  const hasOneFinalReturn =
+    returnIndex === statements.length - 1 &&
+    statements.filter((statement) => statement.type === "ReturnStatement").length === 1;
+  const declarations = hasOneFinalReturn ? statements.slice(0, -1) : statements;
+  const hasUnsupportedControlFlow =
+    (!hasOneFinalReturn && returnIndex !== -1) ||
+    declarations.some(
+      (statement) =>
+        statement.type !== "VariableDeclaration" &&
+        statement.type !== "FunctionDeclaration" &&
+        statement.type !== "EmptyStatement",
+    );
+
+  if (hasUnsupportedControlFlow) {
+    return containsRuntimeProvenance(statements, bindings) ? runtime() : closed();
+  }
+
+  for (const statement of declarations) {
     if (statement.type === "FunctionDeclaration" && statement.id?.name) {
       bindings.set(statement.id.name, { functionNode: statement, kind: "function" });
+      continue;
     }
-  }
-  for (const statement of statements) {
     if (statement.type !== "VariableDeclaration") continue;
     for (const declaration of statement.declarations ?? []) {
-      const evaluation =
-        statement.kind === "const"
-          ? evaluateExpression(declaration.init ?? undefined, bindings)
-          : runtime();
+      const evaluation = declaration.init
+        ? evaluateExpression(declaration.init, bindings, resolvingBindings)
+        : known(undefined);
       bindPattern(declaration.id, evaluation, bindings);
     }
   }
+
+  if (!hasOneFinalReturn) return known(undefined);
+  return evaluateExpression(statements.at(-1)?.argument, bindings, resolvingBindings);
 }
 
 function evaluateFunctionCall(
@@ -1037,20 +1060,10 @@ function evaluateFunctionCall(
     if (parameter.type === "RestElement") break;
   }
   if (Array.isArray(functionNode.body)) {
-    addFunctionLocalBindings(functionNode.body, functionBindings);
-    const returned = functionNode.body.find((statement) => statement.type === "ReturnStatement");
-    return returned
-      ? evaluateExpression(returned.argument, functionBindings, resolvingBindings)
-      : known(undefined);
+    return evaluateSimpleFunctionBody(functionNode.body, functionBindings, resolvingBindings);
   }
   if (functionNode.body?.type === "BlockStatement" && Array.isArray(functionNode.body.body)) {
-    addFunctionLocalBindings(functionNode.body.body, functionBindings);
-    const returned = functionNode.body.body.find(
-      (statement) => statement.type === "ReturnStatement",
-    );
-    return returned
-      ? evaluateExpression(returned.argument, functionBindings, resolvingBindings)
-      : known(undefined);
+    return evaluateSimpleFunctionBody(functionNode.body.body, functionBindings, resolvingBindings);
   }
   return evaluateExpression(
     functionNode.body as ExpressionNode | undefined,
@@ -1106,18 +1119,124 @@ function inspectHtmlExpression(
   if (typeof result.value !== "string" && typeof result.value !== "number") {
     return { dynamic: false, structural: false, text: [] };
   }
-  const html = String(result.value);
-  const visibleText = html
-    .replaceAll(/<!--[\s\S]*?-->/g, " ")
-    .replaceAll(/<(script|style|head|template|title|noscript)\b[^>]*>[\s\S]*?<\/\1\s*>/gi, " ")
-    .replaceAll(/<[^>]+>/g, " ")
-    .replaceAll(/\s+/g, " ")
-    .trim();
+  const visibleText = visibleRawHtmlText(String(result.value));
   return {
     dynamic: false,
     structural: false,
     text: visibleText.length > 0 && !isPlaceholderText(visibleText) ? [visibleText] : [],
   };
+}
+
+const nonRenderingElementNames = new Set([
+  "base",
+  "clippath",
+  "defs",
+  "desc",
+  "filter",
+  "head",
+  "lineargradient",
+  "link",
+  "marker",
+  "mask",
+  "meta",
+  "metadata",
+  "noscript",
+  "pattern",
+  "radialgradient",
+  "script",
+  "style",
+  "symbol",
+  "template",
+  "title",
+  "view",
+]);
+
+const voidElementNames = new Set([
+  "area",
+  "base",
+  "br",
+  "col",
+  "embed",
+  "hr",
+  "img",
+  "input",
+  "link",
+  "meta",
+  "param",
+  "source",
+  "track",
+  "wbr",
+]);
+
+function withoutCssComments(value: string) {
+  return value.replaceAll(/\/\*[\s\S]*?\*\//g, "");
+}
+
+function normalizedStaticStyle(value: unknown) {
+  return withoutCssComments(String(value ?? ""))
+    .replaceAll(/\s+/g, "")
+    .toLowerCase();
+}
+
+function isHiddenStaticStyle(value: unknown) {
+  return /(?:^|;)(?:display:none|visibility:(?:hidden|collapse)|content-visibility:hidden)(?:!important)?(?:;|$)/.test(
+    normalizedStaticStyle(value),
+  );
+}
+
+function rawAttributeValue(attributes: string, name: string) {
+  const match = new RegExp(`(?:^|\\s)${name}\\s*=\\s*(?:"([^"]*)"|'([^']*)'|([^\\s>]+))`, "i").exec(
+    attributes,
+  );
+  return match?.[1] ?? match?.[2] ?? match?.[3];
+}
+
+function hasRawBooleanAttribute(attributes: string, name: string) {
+  return new RegExp(`(?:^|\\s)${name}(?:\\s*=|\\s|$)`, "i").test(attributes);
+}
+
+function isInertRawElement(name: string, attributes: string) {
+  if (nonRenderingElementNames.has(name)) return true;
+  if (hasRawBooleanAttribute(attributes, "hidden") || hasRawBooleanAttribute(attributes, "inert")) {
+    return true;
+  }
+  if (rawAttributeValue(attributes, "aria-hidden")?.toLowerCase() === "true") return true;
+  if (name === "input" && rawAttributeValue(attributes, "type")?.toLowerCase() === "hidden") {
+    return true;
+  }
+  const style = rawAttributeValue(attributes, "style");
+  return style !== undefined && isHiddenStaticStyle(style);
+}
+
+function visibleRawHtmlText(html: string) {
+  const stack: Array<{ inert: boolean; name: string }> = [];
+  const text: string[] = [];
+  const tokenPattern = /<!--[\s\S]*?-->|<![^>]*>|<\/?[A-Za-z][^>]*>/g;
+  let cursor = 0;
+  for (const match of html.matchAll(tokenPattern)) {
+    if ((stack.at(-1)?.inert ?? false) === false) text.push(html.slice(cursor, match.index));
+    const token = match[0];
+    cursor = (match.index ?? 0) + token.length;
+    if (token.startsWith("<!--") || token.startsWith("<!")) continue;
+
+    const closing = /^<\s*\/\s*([A-Za-z][\w:-]*)\s*>$/.exec(token);
+    if (closing) {
+      const name = closing[1]?.toLowerCase();
+      if (!name || stack.at(-1)?.name !== name) return "";
+      stack.pop();
+      continue;
+    }
+
+    const opening = /^<\s*([A-Za-z][\w:-]*)([\s\S]*?)\/?\s*>$/.exec(token);
+    if (!opening?.[1]) return "";
+    const name = opening[1].toLowerCase();
+    const attributes = opening[2] ?? "";
+    const inert = (stack.at(-1)?.inert ?? false) || isInertRawElement(name, attributes);
+    if (!token.endsWith("/>") && !voidElementNames.has(name)) stack.push({ inert, name });
+  }
+  if ((stack.at(-1)?.inert ?? false) === false) text.push(html.slice(cursor));
+  if (stack.length > 0) return "";
+  return text.join(" ").replaceAll(/\s+/g, " ").trim();
 }
 
 function renderedSnippetName(expression: ExpressionNode | undefined) {
@@ -1176,12 +1295,23 @@ function isInertElement(node: TemplateNode, bindings: LexicalBindings) {
     return true;
   }
   const styleAttribute = attributes.get("style");
-  const style = String(styleAttribute?.kind === "known" ? styleAttribute.value : "")
-    .replaceAll(/\s+/g, "")
-    .toLowerCase();
-  return /(?:^|;)(?:display:none|visibility:hidden|content-visibility:hidden)(?:!important)?(?:;|$)/.test(
-    style,
-  );
+  if (styleAttribute?.kind === "known" && isHiddenStaticStyle(styleAttribute.value)) return true;
+
+  for (const attribute of node.attributes ?? []) {
+    if (attribute.type !== "StyleDirective" || !attribute.name) continue;
+    const value = staticAttributeValue(attribute, bindings);
+    if (value.kind !== "known") continue;
+    const name = attribute.name.toLowerCase();
+    const normalized = normalizedStaticStyle(value.value);
+    if (
+      (name === "display" && normalized === "none") ||
+      (name === "visibility" && (normalized === "hidden" || normalized === "collapse")) ||
+      (name === "content-visibility" && normalized === "hidden")
+    ) {
+      return true;
+    }
+  }
+  return false;
 }
 
 function withLocalSnippets(fragment: TemplateFragment | undefined, context: RenderContext) {
@@ -1222,7 +1352,7 @@ function inspectTemplateFragment(
     if (node.type === "RenderTag") {
       const snippetName = renderedSnippetName(node.expression);
       const snippet = snippetName ? snippets.get(snippetName) : undefined;
-      if (snippet && snippetName && !context.resolvingSnippets.has(snippetName)) {
+      if (snippet && snippetName && !context.resolvingSnippets.has(snippet)) {
         const call = unwrapRenderExpression(node.expression);
         const snippetBindings = new Map(snippet.bindings);
         for (const [index, parameter] of snippet.parameters.entries()) {
@@ -1240,7 +1370,7 @@ function inspectTemplateFragment(
           inspectTemplateFragment(snippet.body, {
             ...nestedContext,
             bindings: snippetBindings,
-            resolvingSnippets: new Set(context.resolvingSnippets).add(snippetName),
+            resolvingSnippets: new Set(context.resolvingSnippets).add(snippet),
           }),
         );
       } else {
@@ -1251,7 +1381,7 @@ function inspectTemplateFragment(
     if (
       node.type === "SvelteHead" ||
       node.type === "TitleElement" ||
-      new Set(["base", "head", "link", "meta", "title"]).has(node.name?.toLowerCase() ?? "")
+      nonRenderingElementNames.has(node.name?.toLowerCase() ?? "")
     ) {
       continue;
     }
@@ -1323,6 +1453,7 @@ function inspectTemplateFragment(
       if (
         childEvidence.text.length === 0 &&
         !childEvidence.dynamic &&
+        (node.fragment?.nodes?.length ?? 0) === 0 &&
         (node.attributes?.length ||
           !new Set([
             "article",
