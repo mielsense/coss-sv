@@ -104,11 +104,11 @@ function handleWindowKeydown(event: KeyboardEvent) {
     target instanceof HTMLTextAreaElement ||
     target instanceof HTMLSelectElement ||
     (target instanceof HTMLElement && target.isContentEditable);
+  const isCommandMenuShortcut =
+    event.key === "/" || (event.key.toLowerCase() === "k" && (event.metaKey || event.ctrlKey));
 
-  if (
-    (!isTyping && event.key === "/") ||
-    (event.key.toLowerCase() === "k" && (event.metaKey || event.ctrlKey))
-  ) {
+  if (isCommandMenuShortcut) {
+    if (isTyping) return;
     event.preventDefault();
     open = !open;
     return;

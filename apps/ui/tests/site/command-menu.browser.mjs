@@ -175,13 +175,56 @@ try {
   assertOpaqueThumbnailTokens(await thumbnailStyles(), "dark");
 
   const trigger = page.locator(".search-trigger");
-  await trigger.click();
-
   const dialog = page.getByRole("dialog", { name: "Search documentation" });
   const input = page.getByRole("combobox", { name: "Search documentation" });
+  const shortcut = process.platform === "darwin" ? "Meta+K" : "Control+K";
+  const editableTargets = await page.evaluate(() => {
+    const kinds = ["input", "textarea", "select", "contenteditable"];
+    for (const kind of kinds) {
+      const element =
+        kind === "contenteditable" ? document.createElement("div") : document.createElement(kind);
+      element.dataset.shortcutGuard = kind;
+      if (element instanceof HTMLSelectElement) {
+        element.append(new Option("Shortcut guard"));
+      }
+      if (kind === "contenteditable") {
+        element.contentEditable = "true";
+        element.tabIndex = 0;
+      }
+      document.body.append(element);
+    }
+    return kinds;
+  });
+
+  for (const kind of editableTargets) {
+    const editable = page.locator(`[data-shortcut-guard="${kind}"]`);
+    for (const key of ["/", shortcut]) {
+      await editable.focus();
+      await page.keyboard.press(key);
+      assert.equal(await dialog.count(), 0, `${key} is ignored from ${kind}`);
+      assert.equal(await trigger.getAttribute("aria-expanded"), "false");
+      assert.equal(
+        await editable.evaluate((element) => element === document.activeElement),
+        true,
+        `${key} preserves ${kind} focus`,
+      );
+    }
+  }
+  await page.locator("[data-shortcut-guard]").evaluateAll((elements) => {
+    for (const element of elements) element.remove();
+  });
+
+  await trigger.click();
   await dialog.waitFor({ state: "visible" });
   await page.waitForTimeout(250);
   assert.equal(await trigger.getAttribute("aria-expanded"), "true");
+  assert.equal(await input.evaluate((element) => element === document.activeElement), true);
+
+  const focusedInputValue = await input.inputValue();
+  await page.keyboard.press(shortcut);
+  assert.equal(await dialog.isVisible(), true, "the shortcut does not close an input-owned dialog");
+  assert.equal(await trigger.getAttribute("aria-expanded"), "true");
+  assert.equal(await input.inputValue(), focusedInputValue);
   assert.equal(await input.evaluate((element) => element === document.activeElement), true);
 
   const desktopMetrics = await commandDialogMetrics(dialog);
@@ -245,7 +288,7 @@ try {
   assert.equal(await trigger.getAttribute("aria-expanded"), "false");
   assert.equal(await trigger.evaluate((element) => element === document.activeElement), true);
 
-  await page.keyboard.press(process.platform === "darwin" ? "Meta+K" : "Control+K");
+  await page.keyboard.press(shortcut);
   await dialog.waitFor({ state: "visible" });
   assert.equal(await input.evaluate((element) => element === document.activeElement), true);
 
@@ -368,7 +411,7 @@ try {
   const mobileTrigger = page.locator(".search-trigger");
   await mobileTrigger.waitFor({ state: "attached" });
   await page.waitForTimeout(250);
-  await page.keyboard.press(process.platform === "darwin" ? "Meta+K" : "Control+K");
+  await page.keyboard.press(shortcut);
   const mobileDialog = page.getByRole("dialog", { name: "Search documentation" });
   await mobileDialog.waitFor({ state: "visible" });
   await page.waitForTimeout(250);

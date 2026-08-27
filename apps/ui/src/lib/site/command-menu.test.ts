@@ -23,6 +23,9 @@ describe("COSS command and mobile navigation parity", () => {
     expect(source).toContain("keepHighlight");
     expect(source).toContain("<Dialog.Root {open} onOpenChange={setCommandMenuOpen}>");
     expect(source).toContain("onkeydown={handleInputKeydown}");
+    expect(source).toContain("const isCommandMenuShortcut =");
+    expect(source).toContain("if (isCommandMenuShortcut) {");
+    expect(source).toContain("if (isTyping) return;");
     expect(source).toContain('event.key !== "Home" && event.key !== "End"');
     expect(source).toContain("onItemHighlighted");
     expect(source).toContain("navigator.clipboard.writeText");
