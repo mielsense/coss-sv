@@ -9,7 +9,7 @@ export type CollapsiblePanelProps = ComponentProps<typeof ShardsCollapsible.Pane
 import { Collapsible as CollapsiblePrimitive } from "@shardsui/svelte";
 import type { Attachment } from "svelte/attachments";
 import { createAttachmentKey } from "svelte/attachments";
-import { cn } from "../../../lib/utils.js";
+import { cn } from "$lib/utils.js";
 import { getCollapsibleDelegateContext } from "./context.js";
 
 const uid = $props.id();

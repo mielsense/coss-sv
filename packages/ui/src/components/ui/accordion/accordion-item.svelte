@@ -7,7 +7,7 @@ export type AccordionItemProps = ComponentProps<typeof ShardsAccordion.Item>;
 
 <script lang="ts">
 import { Accordion as AccordionPrimitive } from "@shardsui/svelte";
-import { cn } from "../../../lib/utils.js";
+import { cn } from "$lib/utils.js";
 
 let { class: className, ref = $bindable(null), ...props }: AccordionItemProps = $props();
 </script>

@@ -10,7 +10,7 @@ export type TabsTabProps = ComponentProps<typeof ShardsTabs.Tab> & {
 
 <script lang="ts">
 import { Tabs as TabsPrimitive } from "@shardsui/svelte";
-import { cn } from "../../../lib/utils.js";
+import { cn } from "$lib/utils.js";
 import { getTabsListStyleContext } from "./context.js";
 import { tabsItemLayoutClassName, tabsItemSizeClassNames } from "./tabs-styles.js";
 

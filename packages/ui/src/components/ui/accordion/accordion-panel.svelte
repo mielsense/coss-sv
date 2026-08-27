@@ -7,7 +7,7 @@ export type AccordionPanelProps = ComponentProps<typeof ShardsAccordion.Panel>;
 
 <script lang="ts">
 import { Accordion as AccordionPrimitive } from "@shardsui/svelte";
-import { cn } from "../../../lib/utils.js";
+import { cn } from "$lib/utils.js";
 
 let {
   children: child,

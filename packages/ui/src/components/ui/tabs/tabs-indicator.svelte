@@ -7,7 +7,7 @@ export type TabsIndicatorProps = ComponentProps<typeof ShardsTabs.Indicator>;
 
 <script lang="ts">
 import { Tabs as TabsPrimitive } from "@shardsui/svelte";
-import { cn } from "../../../lib/utils.js";
+import { cn } from "$lib/utils.js";
 import { getTabsListStyleContext } from "./context.js";
 
 let { class: className, ref = $bindable(null), ...props }: TabsIndicatorProps = $props();

@@ -11,7 +11,7 @@ export type TabsRootProps = Omit<ComponentProps<typeof ShardsTabs.Root>, "value"
 <script lang="ts">
 import { Tabs as TabsPrimitive } from "@shardsui/svelte";
 import { untrack } from "svelte";
-import { cn } from "../../../lib/utils.js";
+import { cn } from "$lib/utils.js";
 
 let {
   class: className,

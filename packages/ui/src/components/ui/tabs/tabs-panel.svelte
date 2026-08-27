@@ -7,7 +7,7 @@ export type TabsPanelProps = ComponentProps<typeof ShardsTabs.Panel>;
 
 <script lang="ts">
 import { Tabs as TabsPrimitive } from "@shardsui/svelte";
-import { cn } from "../../../lib/utils.js";
+import { cn } from "$lib/utils.js";
 
 let { class: className, ref = $bindable(null), ...props }: TabsPanelProps = $props();
 </script>
