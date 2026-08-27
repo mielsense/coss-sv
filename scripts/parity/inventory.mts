@@ -1696,6 +1696,39 @@ function hasAuthoredMarkdownContent(path: string) {
   return !isPlaceholderText(source) && /[A-Za-z0-9]/.test(source);
 }
 
+function barrelExportsPrimitiveRoot(path: string) {
+  const source = ts.createSourceFile(
+    path,
+    readFileSync(path, "utf8"),
+    ts.ScriptTarget.Latest,
+    true,
+    ts.ScriptKind.TS,
+  );
+
+  return source.statements.some((statement) => {
+    if (!ts.isVariableStatement(statement)) return false;
+    const exported = statement.modifiers?.some(
+      (modifier) => modifier.kind === ts.SyntaxKind.ExportKeyword,
+    );
+    if (!exported) return false;
+
+    return statement.declarationList.declarations.some((declaration) => {
+      if (!ts.isIdentifier(declaration.name) || declaration.name.text !== "Root") return false;
+      const initializer = declaration.initializer;
+      return (
+        initializer !== undefined &&
+        ts.isPropertyAccessExpression(initializer) &&
+        initializer.name.text === "Root"
+      );
+    });
+  });
+}
+
+function isComponentSupportSourceName(path: string) {
+  const stem = basename(path, extname(path)).toLowerCase();
+  return isGeneratedSourceName(path) || /(?:^|[._-])(?:fixture|spec|test)(?:$|[._-])/.test(stem);
+}
+
 function componentHasAuthoredSource(path: string, id: string): boolean {
   const stats = lstatSync(path);
   if (stats.isSymbolicLink()) return false;
@@ -1710,11 +1743,27 @@ function componentHasAuthoredSource(path: string, id: string): boolean {
   if (!stats.isDirectory()) return false;
 
   const canonicalRootNames = new Set(["root.svelte", `${id}.svelte`, `${id}-root.svelte`]);
-  return readdirSync(path, { withFileTypes: true }).some(
+  const directoryEntries = readdirSync(path, { withFileTypes: true });
+  const hasCanonicalRoot = directoryEntries.some(
     (directoryEntry) =>
       directoryEntry.isFile() &&
       canonicalRootNames.has(directoryEntry.name) &&
       !isGeneratedSourceName(directoryEntry.name) &&
+      hasAuthoredSvelteContent(join(path, directoryEntry.name)),
+  );
+  if (hasCanonicalRoot) return true;
+
+  const barrel = join(path, "index.ts");
+  if (!existsSync(barrel) || lstatSync(barrel).isSymbolicLink() || !lstatSync(barrel).isFile()) {
+    return false;
+  }
+  if (!barrelExportsPrimitiveRoot(barrel)) return false;
+
+  return directoryEntries.some(
+    (directoryEntry) =>
+      directoryEntry.isFile() &&
+      extname(directoryEntry.name) === ".svelte" &&
+      !isComponentSupportSourceName(directoryEntry.name) &&
       hasAuthoredSvelteContent(join(path, directoryEntry.name)),
   );
 }

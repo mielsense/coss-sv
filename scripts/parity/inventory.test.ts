@@ -403,6 +403,28 @@ test("accepts the compound-component root naming convention", () => {
   }
 });
 
+test("accepts an authored component that exposes a primitive Root from its barrel", () => {
+  const fixture = promotedTargetFixtures[0];
+  assert.ok(fixture);
+  const root = mkdtempSync(join(tmpdir(), "coss-sv-primitive-root-"));
+  try {
+    writeFixtureManifest(root, fixture);
+    const target = join(root, fixture.targetPath);
+    mkdirSync(target, { recursive: true });
+    writeFileSync(
+      join(target, "index.ts"),
+      'import { Accordion as Primitive } from "@shardsui/svelte";\nexport const Root = Primitive.Root;\n',
+    );
+    writeFileSync(join(target, "accordion-panel.svelte"), "<section>Accordion panel</section>\n");
+    const manifests = collectTargetManifests(root);
+    assert.doesNotThrow(() =>
+      validateTargetManifestParity([fixtureEntry(fixture)], manifests, root),
+    );
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
+});
+
 test("rejects inert Svelte expressions without rejecting authored dynamic output", () => {
   const fixtures = promotedTargetFixtures.filter(
     (
