@@ -558,11 +558,14 @@ type TemplateNode = {
   expression?: ExpressionNode;
   fallback?: TemplateFragment;
   fragment?: TemplateFragment;
+  index?: string;
   name?: string;
+  parameters?: ExpressionNode[];
   pending?: TemplateFragment;
   test?: ExpressionNode;
   then?: TemplateFragment;
   type: string;
+  context?: ExpressionNode;
 };
 
 type TemplateFragment = { nodes?: TemplateNode[] };
@@ -570,12 +573,15 @@ type TemplateFragment = { nodes?: TemplateNode[] };
 type TemplateAttribute = {
   name?: string;
   type?: string;
-  value?: boolean | TemplateNode[];
+  value?: boolean | TemplateNode | TemplateNode[];
 };
 
 type ExpressionNode = {
   alternate?: ExpressionNode;
   argument?: ExpressionNode;
+  arguments?: ExpressionNode[];
+  async?: boolean;
+  body?: ExpressionNode | ScriptNode[];
   callee?: ExpressionNode;
   computed?: boolean;
   consequent?: ExpressionNode;
@@ -585,15 +591,20 @@ type ExpressionNode = {
   expressions?: ExpressionNode[];
   id?: ExpressionNode;
   init?: ExpressionNode | null;
+  key?: ExpressionNode;
   kind?: string;
   left?: ExpressionNode;
+  local?: ExpressionNode;
   name?: string;
   object?: ExpressionNode;
   operator?: string;
   optional?: boolean;
+  params?: ExpressionNode[];
+  properties?: ExpressionNode[];
   property?: ExpressionNode;
   quasis?: Array<{ value?: { cooked?: string | null; raw?: string } }>;
   right?: ExpressionNode;
+  specifiers?: ExpressionNode[];
   test?: ExpressionNode;
   type?: string;
   value?: unknown;
@@ -601,12 +612,25 @@ type ExpressionNode = {
 
 type ScriptNode = ExpressionNode & { body?: ScriptNode[] };
 
-type ConstantResult = { known: false } | { known: true; value: unknown };
+type Evaluation = { kind: "closed" } | { kind: "known"; value: unknown } | { kind: "runtime" };
+
+type Binding =
+  | { expression: ExpressionNode; kind: "expression" }
+  | { functionNode: ExpressionNode; kind: "function" }
+  | Evaluation;
+
+type LexicalBindings = Map<string, Binding>;
+
+type SnippetDefinition = {
+  bindings: LexicalBindings;
+  body: TemplateFragment;
+  parameters: ExpressionNode[];
+};
 
 type RenderContext = {
-  bindings: Map<string, ExpressionNode>;
+  bindings: LexicalBindings;
   resolvingSnippets: Set<string>;
-  snippets: Map<string, TemplateFragment>;
+  snippets: Map<string, SnippetDefinition>;
 };
 
 type RenderEvidence = {
@@ -621,149 +645,431 @@ function mergeRenderEvidence(target: RenderEvidence, source: RenderEvidence) {
   target.text.push(...source.text);
 }
 
-function constant(value: unknown): ConstantResult {
-  return { known: true, value };
+function known(value: unknown): Evaluation {
+  return { kind: "known", value };
 }
 
-function evaluateConstant(
-  expression: ExpressionNode | undefined,
-  bindings: Map<string, ExpressionNode>,
-  resolvingBindings = new Set<string>(),
-): ConstantResult {
-  if (!expression) return { known: false };
+function runtime(): Evaluation {
+  return { kind: "runtime" };
+}
 
-  if (expression.type === "Literal" || expression.type === "StringLiteral") {
-    return constant(expression.value);
+function closed(): Evaluation {
+  return { kind: "closed" };
+}
+
+function unwrapRenderExpression(expression: ExpressionNode | undefined) {
+  let current = expression;
+  while (
+    current &&
+    new Set([
+      "ChainExpression",
+      "TSAsExpression",
+      "TSNonNullExpression",
+      "TSSatisfiesExpression",
+      "TSTypeAssertion",
+      "TypeCastExpression",
+    ]).has(current.type ?? "")
+  ) {
+    current = current.expression;
   }
-  if (expression.type === "Identifier") {
-    if (expression.name === "undefined") return constant(undefined);
-    if (!expression.name || resolvingBindings.has(expression.name)) return { known: false };
-    const binding = bindings.get(expression.name);
-    if (!binding) return { known: false };
-    return evaluateConstant(binding, bindings, new Set(resolvingBindings).add(expression.name));
+  return current;
+}
+
+function bindingEvaluation(
+  binding: Binding | undefined,
+  bindings: LexicalBindings,
+  resolvingBindings: Set<string>,
+): Evaluation {
+  if (!binding) return closed();
+  if (binding.kind === "known" || binding.kind === "runtime" || binding.kind === "closed") {
+    return binding;
   }
-  if (expression.type === "ChainExpression") {
-    return evaluateConstant(expression.expression, bindings, resolvingBindings);
+  if (binding.kind === "function") return closed();
+  return evaluateExpression(binding.expression, bindings, resolvingBindings);
+}
+
+function containsRuntimeProvenance(
+  value: unknown,
+  bindings: LexicalBindings,
+  seen = new Set<unknown>(),
+): boolean {
+  if (!value || typeof value !== "object" || seen.has(value)) return false;
+  seen.add(value);
+  const node = value as ExpressionNode;
+  if (node.type === "Identifier" && node.name) {
+    const binding = bindings.get(node.name);
+    if (binding?.kind === "runtime") return true;
+    if (binding?.kind === "expression") {
+      return containsRuntimeProvenance(binding.expression, bindings, seen);
+    }
+    if (binding?.kind === "function") {
+      return containsRuntimeProvenance(binding.functionNode.body, bindings, seen);
+    }
+    return false;
   }
-  if (expression.type === "TemplateLiteral") {
-    const values = (expression.expressions ?? []).map((item) =>
-      evaluateConstant(item, bindings, resolvingBindings),
+  return Object.entries(value).some(
+    ([key, child]) =>
+      !new Set(["type", "name", "raw", "value", "start", "end", "loc"]).has(key) &&
+      (Array.isArray(child)
+        ? child.some((item) => containsRuntimeProvenance(item, bindings, seen))
+        : containsRuntimeProvenance(child, bindings, seen)),
+  );
+}
+
+function evaluatePropertyKey(
+  property: ExpressionNode,
+  bindings: LexicalBindings,
+  resolvingBindings: Set<string>,
+): Evaluation {
+  if (!property.computed && property.key?.type === "Identifier") return known(property.key.name);
+  return evaluateExpression(property.key, bindings, resolvingBindings);
+}
+
+type KnownRecord = { __parityRecord: true; values: Map<unknown, unknown> };
+
+function isKnownRecord(value: unknown): value is KnownRecord {
+  return Boolean(
+    value &&
+      typeof value === "object" &&
+      "__parityRecord" in value &&
+      (value as KnownRecord).__parityRecord,
+  );
+}
+
+function evaluateExpression(
+  expression: ExpressionNode | undefined,
+  bindings: LexicalBindings,
+  resolvingBindings = new Set<string>(),
+): Evaluation {
+  const node = unwrapRenderExpression(expression);
+  if (!node) return closed();
+
+  if (node.type === "Literal" || node.type === "StringLiteral") {
+    return known(node.value);
+  }
+  if (node.type === "Identifier") {
+    if (node.name === "undefined") return known(undefined);
+    if (!node.name || resolvingBindings.has(node.name)) return closed();
+    return bindingEvaluation(
+      bindings.get(node.name),
+      bindings,
+      new Set(resolvingBindings).add(node.name),
     );
-    if (values.some((item) => !item.known)) return { known: false };
-    const quasis = expression.quasis ?? [];
+  }
+  if (node.type === "TemplateLiteral") {
+    const values = (node.expressions ?? []).map((item) =>
+      evaluateExpression(item, bindings, resolvingBindings),
+    );
+    if (values.some((item) => item.kind === "runtime")) return runtime();
+    if (values.some((item) => item.kind === "closed")) return closed();
+    const quasis = node.quasis ?? [];
     let value = "";
     for (const [index, quasi] of quasis.entries()) {
       value += quasi.value?.cooked ?? quasi.value?.raw ?? "";
-      if (index < values.length) value += String(values[index]?.value ?? "");
+      const item = values[index];
+      if (item?.kind === "known") value += String(item.value ?? "");
     }
-    return constant(value);
+    return known(value);
   }
-  if (expression.type === "ArrayExpression") {
-    const values = (expression.elements ?? []).map((item) =>
-      item ? evaluateConstant(item, bindings, resolvingBindings) : constant(undefined),
+  if (node.type === "ArrayExpression") {
+    const values = (node.elements ?? []).map((item) =>
+      item ? evaluateExpression(item, bindings, resolvingBindings) : known(undefined),
     );
-    if (values.some((item) => !item.known)) return { known: false };
-    return constant(values.map((item) => item.value));
+    if (values.some((item) => item.kind === "runtime")) return runtime();
+    if (values.some((item) => item.kind === "closed")) return closed();
+    return known(values.map((item) => (item.kind === "known" ? item.value : undefined)));
   }
-  if (expression.type === "UnaryExpression") {
-    if (expression.operator === "void") return constant(undefined);
-    const argument = evaluateConstant(expression.argument, bindings, resolvingBindings);
-    if (!argument.known) return { known: false };
-    if (expression.operator === "!") return constant(!argument.value);
-    if (expression.operator === "+") return constant(Number(argument.value));
-    if (expression.operator === "-") return constant(-Number(argument.value));
-    if (expression.operator === "~") return constant(~Number(argument.value));
-    return { known: false };
+  if (node.type === "ObjectExpression") {
+    const values = new Map<unknown, unknown>();
+    for (const property of node.properties ?? []) {
+      if (property.type === "SpreadElement") {
+        const spread = evaluateExpression(property.argument, bindings, resolvingBindings);
+        if (spread.kind === "runtime") return runtime();
+        if (spread.kind !== "known" || !isKnownRecord(spread.value)) return closed();
+        for (const [key, value] of spread.value.values) values.set(key, value);
+        continue;
+      }
+      const key = evaluatePropertyKey(property, bindings, resolvingBindings);
+      const value = evaluateExpression(property.value, bindings, resolvingBindings);
+      if (key.kind === "runtime" || value.kind === "runtime") return runtime();
+      if (key.kind !== "known" || value.kind !== "known") return closed();
+      values.set(key.value, value.value);
+    }
+    return known({ __parityRecord: true, values } satisfies KnownRecord);
   }
-  if (expression.type === "LogicalExpression") {
-    const left = evaluateConstant(expression.left, bindings, resolvingBindings);
-    if (!left.known) return { known: false };
-    if (expression.operator === "&&") {
-      return left.value ? evaluateConstant(expression.right, bindings, resolvingBindings) : left;
+  if (node.type === "SequenceExpression") {
+    const last = node.expressions?.at(-1);
+    return evaluateExpression(last, bindings, resolvingBindings);
+  }
+  if (node.type === "UnaryExpression") {
+    if (node.operator === "void") return known(undefined);
+    const argument = evaluateExpression(node.argument, bindings, resolvingBindings);
+    if (argument.kind !== "known") return argument;
+    if (node.operator === "!") return known(!argument.value);
+    if (node.operator === "+") return known(Number(argument.value));
+    if (node.operator === "-") return known(-Number(argument.value));
+    if (node.operator === "~") return known(~Number(argument.value));
+    return closed();
+  }
+  if (node.type === "LogicalExpression") {
+    const left = evaluateExpression(node.left, bindings, resolvingBindings);
+    if (left.kind !== "known") return left;
+    if (node.operator === "&&") {
+      return left.value ? evaluateExpression(node.right, bindings, resolvingBindings) : left;
     }
-    if (expression.operator === "||") {
-      return left.value ? left : evaluateConstant(expression.right, bindings, resolvingBindings);
+    if (node.operator === "||") {
+      return left.value ? left : evaluateExpression(node.right, bindings, resolvingBindings);
     }
-    if (expression.operator === "??") {
+    if (node.operator === "??") {
       return left.value === null || left.value === undefined
-        ? evaluateConstant(expression.right, bindings, resolvingBindings)
+        ? evaluateExpression(node.right, bindings, resolvingBindings)
         : left;
     }
-    return { known: false };
+    return closed();
   }
-  if (expression.type === "ConditionalExpression") {
-    const test = evaluateConstant(expression.test, bindings, resolvingBindings);
-    if (!test.known) return { known: false };
-    return evaluateConstant(
-      test.value ? expression.consequent : expression.alternate,
-      bindings,
-      resolvingBindings,
-    );
+  if (node.type === "ConditionalExpression") {
+    const test = evaluateExpression(node.test, bindings, resolvingBindings);
+    if (test.kind === "known") {
+      return evaluateExpression(
+        test.value ? node.consequent : node.alternate,
+        bindings,
+        resolvingBindings,
+      );
+    }
+    if (test.kind === "closed") return closed();
+    const consequent = evaluateExpression(node.consequent, bindings, resolvingBindings);
+    const alternate = evaluateExpression(node.alternate, bindings, resolvingBindings);
+    if (
+      consequent.kind === "known" &&
+      alternate.kind === "known" &&
+      Object.is(consequent.value, alternate.value)
+    ) {
+      return consequent;
+    }
+    return runtime();
   }
-  if (expression.type === "BinaryExpression") {
-    const left = evaluateConstant(expression.left, bindings, resolvingBindings);
-    const right = evaluateConstant(expression.right, bindings, resolvingBindings);
-    if (!left.known || !right.known) return { known: false };
-    switch (expression.operator) {
+  if (node.type === "BinaryExpression") {
+    const left = evaluateExpression(node.left, bindings, resolvingBindings);
+    const right = evaluateExpression(node.right, bindings, resolvingBindings);
+    if (left.kind === "runtime" || right.kind === "runtime") return runtime();
+    if (left.kind !== "known" || right.kind !== "known") return closed();
+    switch (node.operator) {
       case "===":
-        return constant(left.value === right.value);
+        return known(left.value === right.value);
       case "!==":
-        return constant(left.value !== right.value);
+        return known(left.value !== right.value);
       case "<":
-        return constant((left.value as number) < (right.value as number));
+        return known((left.value as number) < (right.value as number));
       case "<=":
-        return constant((left.value as number) <= (right.value as number));
+        return known((left.value as number) <= (right.value as number));
       case ">":
-        return constant((left.value as number) > (right.value as number));
+        return known((left.value as number) > (right.value as number));
       case ">=":
-        return constant((left.value as number) >= (right.value as number));
+        return known((left.value as number) >= (right.value as number));
       case "+":
-        return constant((left.value as number) + (right.value as number));
+        return known((left.value as number) + (right.value as number));
       case "-":
-        return constant(Number(left.value) - Number(right.value));
+        return known(Number(left.value) - Number(right.value));
       case "*":
-        return constant(Number(left.value) * Number(right.value));
+        return known(Number(left.value) * Number(right.value));
       case "/":
-        return constant(Number(left.value) / Number(right.value));
+        return known(Number(left.value) / Number(right.value));
       case "%":
-        return constant(Number(left.value) % Number(right.value));
+        return known(Number(left.value) % Number(right.value));
+      case "**":
+        return known(Number(left.value) ** Number(right.value));
       default:
-        return { known: false };
+        return closed();
     }
   }
-  if (expression.type === "MemberExpression") {
-    const object = evaluateConstant(expression.object, bindings, resolvingBindings);
-    if (object.known && (object.value === null || object.value === undefined)) {
-      return constant(undefined);
+  if (node.type === "MemberExpression") {
+    const object = evaluateExpression(node.object, bindings, resolvingBindings);
+    if (object.kind === "runtime") return runtime();
+    if (object.kind === "known" && (object.value === null || object.value === undefined)) {
+      return known(undefined);
     }
-    if (object.known) {
-      const property = expression.computed
-        ? evaluateConstant(expression.property, bindings, resolvingBindings)
-        : expression.property?.type === "Identifier"
-          ? constant(expression.property.name)
-          : { known: false as const };
-      if (property.known) {
+    if (object.kind === "known") {
+      const property = node.computed
+        ? evaluateExpression(node.property, bindings, resolvingBindings)
+        : node.property?.type === "Identifier"
+          ? known(node.property.name)
+          : closed();
+      if (property.kind === "runtime") return runtime();
+      if (property.kind === "known") {
+        if (isKnownRecord(object.value)) return known(object.value.values.get(property.value));
         if (
           property.value === "length" &&
           (typeof object.value === "string" || Array.isArray(object.value))
         ) {
-          return constant(object.value.length);
+          return known(object.value.length);
         }
         if (Array.isArray(object.value) && typeof property.value === "number") {
-          return constant(object.value[property.value]);
+          return known(object.value[property.value]);
         }
       }
     }
-    return { known: false };
+    return closed();
   }
-  if (expression.type === "CallExpression") {
-    const callee = evaluateConstant(expression.callee, bindings, resolvingBindings);
-    if (callee.known && (callee.value === null || callee.value === undefined)) {
-      return constant(undefined);
+  if (node.type === "CallExpression") {
+    const calleeNode = unwrapRenderExpression(node.callee);
+    const argumentsList = node.arguments ?? [];
+    if (calleeNode?.type === "Identifier") {
+      if (calleeNode.name?.startsWith("$") && !bindings.has(calleeNode.name)) return runtime();
+      if (calleeNode.name === "Boolean" && !bindings.has("Boolean")) {
+        const argument = evaluateExpression(argumentsList[0], bindings, resolvingBindings);
+        return argument.kind === "known" ? known(Boolean(argument.value)) : argument;
+      }
+      const binding = calleeNode.name ? bindings.get(calleeNode.name) : undefined;
+      if (binding?.kind === "function") {
+        return evaluateFunctionCall(
+          binding.functionNode,
+          argumentsList,
+          bindings,
+          resolvingBindings,
+        );
+      }
     }
-    return { known: false };
+    if (
+      calleeNode?.type === "ArrowFunctionExpression" ||
+      calleeNode?.type === "FunctionExpression"
+    ) {
+      return evaluateFunctionCall(calleeNode, argumentsList, bindings, resolvingBindings);
+    }
+    const callee = evaluateExpression(calleeNode, bindings, resolvingBindings);
+    if (callee.kind === "runtime") return runtime();
+    if (callee.kind === "known" && (callee.value === null || callee.value === undefined)) {
+      return known(undefined);
+    }
+    return closed();
   }
-  return { known: false };
+  return containsRuntimeProvenance(node, bindings) ? runtime() : closed();
+}
+
+function bindPattern(
+  pattern: ExpressionNode | undefined,
+  evaluation: Evaluation,
+  bindings: LexicalBindings,
+) {
+  if (!pattern) return;
+  if (pattern.type === "Identifier" && pattern.name) {
+    bindings.set(pattern.name, evaluation);
+    return;
+  }
+  if (pattern.type === "AssignmentPattern") {
+    const assigned =
+      evaluation.kind === "known" && evaluation.value === undefined
+        ? evaluateExpression(pattern.right, bindings)
+        : evaluation;
+    bindPattern(pattern.left, assigned, bindings);
+    return;
+  }
+  if (pattern.type === "RestElement") {
+    bindPattern(pattern.argument, evaluation, bindings);
+    return;
+  }
+  if (pattern.type === "ArrayPattern") {
+    const values =
+      evaluation.kind === "known" && Array.isArray(evaluation.value) ? evaluation.value : [];
+    for (const [index, element] of (pattern.elements ?? []).entries()) {
+      const item =
+        evaluation.kind === "runtime"
+          ? runtime()
+          : evaluation.kind === "known" && Array.isArray(evaluation.value)
+            ? known(values[index])
+            : closed();
+      bindPattern(element ?? undefined, item, bindings);
+    }
+    return;
+  }
+  if (pattern.type === "ObjectPattern") {
+    for (const property of pattern.properties ?? []) {
+      if (property.type === "RestElement") {
+        bindPattern(property.argument, evaluation, bindings);
+        continue;
+      }
+      const key = evaluatePropertyKey(property, bindings, new Set());
+      const item =
+        evaluation.kind === "runtime"
+          ? runtime()
+          : evaluation.kind === "known" && isKnownRecord(evaluation.value) && key.kind === "known"
+            ? known(evaluation.value.values.get(key.value))
+            : closed();
+      bindPattern(property.value, item, bindings);
+    }
+  }
+}
+
+function addFunctionLocalBindings(statements: ScriptNode[], bindings: LexicalBindings) {
+  for (const statement of statements) {
+    if (statement.type === "FunctionDeclaration" && statement.id?.name) {
+      bindings.set(statement.id.name, { functionNode: statement, kind: "function" });
+    }
+  }
+  for (const statement of statements) {
+    if (statement.type !== "VariableDeclaration") continue;
+    for (const declaration of statement.declarations ?? []) {
+      const evaluation =
+        statement.kind === "const"
+          ? evaluateExpression(declaration.init ?? undefined, bindings)
+          : runtime();
+      bindPattern(declaration.id, evaluation, bindings);
+    }
+  }
+}
+
+function evaluateFunctionCall(
+  functionNode: ExpressionNode,
+  argumentsList: ExpressionNode[],
+  bindings: LexicalBindings,
+  resolvingBindings: Set<string>,
+): Evaluation {
+  if (functionNode.async)
+    return containsRuntimeProvenance(functionNode, bindings) ? runtime() : closed();
+  const functionBindings = new Map(bindings);
+  for (const [index, parameter] of (functionNode.params ?? []).entries()) {
+    const argument =
+      parameter.type === "RestElement"
+        ? evaluateArgumentList(argumentsList.slice(index), bindings, resolvingBindings)
+        : index < argumentsList.length
+          ? evaluateExpression(argumentsList[index], bindings, resolvingBindings)
+          : known(undefined);
+    bindPattern(parameter, argument, functionBindings);
+    if (parameter.type === "RestElement") break;
+  }
+  if (Array.isArray(functionNode.body)) {
+    addFunctionLocalBindings(functionNode.body, functionBindings);
+    const returned = functionNode.body.find((statement) => statement.type === "ReturnStatement");
+    return returned
+      ? evaluateExpression(returned.argument, functionBindings, resolvingBindings)
+      : known(undefined);
+  }
+  if (functionNode.body?.type === "BlockStatement" && Array.isArray(functionNode.body.body)) {
+    addFunctionLocalBindings(functionNode.body.body, functionBindings);
+    const returned = functionNode.body.body.find(
+      (statement) => statement.type === "ReturnStatement",
+    );
+    return returned
+      ? evaluateExpression(returned.argument, functionBindings, resolvingBindings)
+      : known(undefined);
+  }
+  return evaluateExpression(
+    functionNode.body as ExpressionNode | undefined,
+    functionBindings,
+    resolvingBindings,
+  );
+}
+
+function evaluateArgumentList(
+  argumentsList: ExpressionNode[],
+  bindings: LexicalBindings,
+  resolvingBindings = new Set<string>(),
+): Evaluation {
+  const values = argumentsList.map((argument) =>
+    evaluateExpression(argument, bindings, resolvingBindings),
+  );
+  if (values.some((value) => value.kind === "runtime")) return runtime();
+  if (values.some((value) => value.kind === "closed")) return closed();
+  return known(values.map((value) => (value.kind === "known" ? value.value : undefined)));
 }
 
 function addVisibleText(evidence: RenderEvidence, value: string) {
@@ -772,14 +1078,15 @@ function addVisibleText(evidence: RenderEvidence, value: string) {
 
 function inspectExpression(
   expression: ExpressionNode | undefined,
-  bindings: Map<string, ExpressionNode>,
+  bindings: LexicalBindings,
 ): RenderEvidence {
   const evidence: RenderEvidence = { dynamic: false, structural: false, text: [] };
-  const result = evaluateConstant(expression, bindings);
-  if (!result.known) {
+  const result = evaluateExpression(expression, bindings);
+  if (result.kind === "runtime") {
     evidence.dynamic = true;
     return evidence;
   }
+  if (result.kind === "closed") return evidence;
   if (typeof result.value === "string") addVisibleText(evidence, result.value);
   else if (typeof result.value === "number" || typeof result.value === "bigint") {
     addVisibleText(evidence, String(result.value));
@@ -791,10 +1098,11 @@ function inspectExpression(
 
 function inspectHtmlExpression(
   expression: ExpressionNode | undefined,
-  bindings: Map<string, ExpressionNode>,
+  bindings: LexicalBindings,
 ): RenderEvidence {
-  const result = evaluateConstant(expression, bindings);
-  if (!result.known) return { dynamic: true, structural: false, text: [] };
+  const result = evaluateExpression(expression, bindings);
+  if (result.kind === "runtime") return { dynamic: true, structural: false, text: [] };
+  if (result.kind === "closed") return { dynamic: false, structural: false, text: [] };
   if (typeof result.value !== "string" && typeof result.value !== "number") {
     return { dynamic: false, structural: false, text: [] };
   }
@@ -818,25 +1126,30 @@ function renderedSnippetName(expression: ExpressionNode | undefined) {
   return unwrapped.callee?.type === "Identifier" ? unwrapped.callee.name : undefined;
 }
 
-function staticAttributeValue(
-  attribute: TemplateAttribute,
-  bindings: Map<string, ExpressionNode>,
-): unknown {
-  if (attribute.value === true) return true;
-  if (!Array.isArray(attribute.value)) return undefined;
+function staticAttributeValue(attribute: TemplateAttribute, bindings: LexicalBindings): Evaluation {
+  if (attribute.value === true) return known(true);
+  if (attribute.value && typeof attribute.value === "object" && !Array.isArray(attribute.value)) {
+    return attribute.value.type === "ExpressionTag"
+      ? evaluateExpression(attribute.value.expression, bindings)
+      : closed();
+  }
+  if (!Array.isArray(attribute.value)) return closed();
+  if (attribute.value.length === 1 && attribute.value[0]?.type === "ExpressionTag") {
+    return evaluateExpression(attribute.value[0].expression, bindings);
+  }
   let value = "";
   for (const node of attribute.value) {
     if (node.type === "Text") value += node.data ?? "";
     else if (node.type === "ExpressionTag") {
-      const expression = evaluateConstant(node.expression, bindings);
-      if (!expression.known) return undefined;
+      const expression = evaluateExpression(node.expression, bindings);
+      if (expression.kind !== "known") return expression;
       value += String(expression.value ?? "");
-    } else return undefined;
+    } else return closed();
   }
-  return value;
+  return known(value);
 }
 
-function isInertElement(node: TemplateNode, bindings: Map<string, ExpressionNode>) {
+function isInertElement(node: TemplateNode, bindings: LexicalBindings) {
   const attributes = new Map(
     (node.attributes ?? [])
       .filter((attribute) => attribute.type === "Attribute" && attribute.name)
@@ -847,24 +1160,39 @@ function isInertElement(node: TemplateNode, bindings: Map<string, ExpressionNode
   );
   const enabledBooleanAttribute = (name: string) => {
     const value = attributes.get(name);
-    return value === true || value === "" || String(value).toLowerCase() === "true";
+    if (value?.kind !== "known") return false;
+    return value.value !== false && value.value !== null && value.value !== undefined;
   };
   if (enabledBooleanAttribute("hidden") || enabledBooleanAttribute("inert")) return true;
-  if (String(attributes.get("aria-hidden")).toLowerCase() === "true") return true;
-  if (node.name === "input" && String(attributes.get("type")).toLowerCase() === "hidden") {
+  const ariaHidden = attributes.get("aria-hidden");
+  if (ariaHidden?.kind === "known" && String(ariaHidden.value).toLowerCase() === "true")
+    return true;
+  const inputType = attributes.get("type");
+  if (
+    node.name === "input" &&
+    inputType?.kind === "known" &&
+    String(inputType.value).toLowerCase() === "hidden"
+  ) {
     return true;
   }
-  const style = String(attributes.get("style") ?? "")
+  const styleAttribute = attributes.get("style");
+  const style = String(styleAttribute?.kind === "known" ? styleAttribute.value : "")
     .replaceAll(/\s+/g, "")
     .toLowerCase();
-  return /(?:^|;)(?:display:none|visibility:hidden|content-visibility:hidden)(?:;|$)/.test(style);
+  return /(?:^|;)(?:display:none|visibility:hidden|content-visibility:hidden)(?:!important)?(?:;|$)/.test(
+    style,
+  );
 }
 
 function withLocalSnippets(fragment: TemplateFragment | undefined, context: RenderContext) {
   const snippets = new Map(context.snippets);
   for (const node of fragment?.nodes ?? []) {
     if (node.type === "SnippetBlock" && node.expression?.name && node.body) {
-      snippets.set(node.expression.name, node.body);
+      snippets.set(node.expression.name, {
+        bindings: new Map(context.bindings),
+        body: node.body,
+        parameters: node.parameters ?? [],
+      });
     }
   }
   return snippets;
@@ -895,24 +1223,41 @@ function inspectTemplateFragment(
       const snippetName = renderedSnippetName(node.expression);
       const snippet = snippetName ? snippets.get(snippetName) : undefined;
       if (snippet && snippetName && !context.resolvingSnippets.has(snippetName)) {
+        const call = unwrapRenderExpression(node.expression);
+        const snippetBindings = new Map(snippet.bindings);
+        for (const [index, parameter] of snippet.parameters.entries()) {
+          const argument =
+            parameter.type === "RestElement"
+              ? evaluateArgumentList(call?.arguments?.slice(index) ?? [], context.bindings)
+              : index < (call?.arguments?.length ?? 0)
+                ? evaluateExpression(call?.arguments?.[index], context.bindings)
+                : known(undefined);
+          bindPattern(parameter, argument, snippetBindings);
+          if (parameter.type === "RestElement") break;
+        }
         mergeRenderEvidence(
           evidence,
-          inspectTemplateFragment(snippet, {
+          inspectTemplateFragment(snippet.body, {
             ...nestedContext,
+            bindings: snippetBindings,
             resolvingSnippets: new Set(context.resolvingSnippets).add(snippetName),
           }),
         );
-      } else if (snippet && snippetName) {
-        evidence.dynamic = true;
       } else {
         mergeRenderEvidence(evidence, inspectExpression(node.expression, context.bindings));
       }
       continue;
     }
-    if (node.type === "SvelteHead" || node.type === "TitleElement") continue;
+    if (
+      node.type === "SvelteHead" ||
+      node.type === "TitleElement" ||
+      new Set(["base", "head", "link", "meta", "title"]).has(node.name?.toLowerCase() ?? "")
+    ) {
+      continue;
+    }
     if (node.type === "IfBlock") {
-      const test = evaluateConstant(node.test, context.bindings);
-      if (test.known) {
+      const test = evaluateExpression(node.test, context.bindings);
+      if (test.kind === "known") {
         mergeRenderEvidence(
           evidence,
           inspectTemplateFragment(
@@ -920,7 +1265,7 @@ function inspectTemplateFragment(
             nestedContext,
           ),
         );
-      } else {
+      } else if (test.kind === "runtime") {
         mergeRenderEvidence(evidence, inspectTemplateFragment(node.consequent, nestedContext));
         mergeRenderEvidence(
           evidence,
@@ -930,14 +1275,34 @@ function inspectTemplateFragment(
       continue;
     }
     if (node.type === "EachBlock") {
-      const collection = evaluateConstant(node.expression, context.bindings);
-      if (collection.known && Array.isArray(collection.value) && collection.value.length === 0) {
+      const collection = evaluateExpression(node.expression, context.bindings);
+      const values =
+        collection.kind === "known" && Array.isArray(collection.value)
+          ? collection.value
+          : collection.kind === "known" && typeof collection.value === "string"
+            ? [...collection.value]
+            : [];
+      if (collection.kind === "known" && values.length === 0) {
         mergeRenderEvidence(evidence, inspectTemplateFragment(node.fallback, nestedContext));
-      } else {
-        mergeRenderEvidence(evidence, inspectTemplateFragment(node.body, nestedContext));
-        if (!collection.known) {
-          mergeRenderEvidence(evidence, inspectTemplateFragment(node.fallback, nestedContext));
+      } else if (collection.kind === "known") {
+        for (const [index, value] of values.entries()) {
+          const iterationBindings = new Map(context.bindings);
+          bindPattern(node.context, known(value), iterationBindings);
+          if (node.index) iterationBindings.set(node.index, known(index));
+          mergeRenderEvidence(
+            evidence,
+            inspectTemplateFragment(node.body, { ...nestedContext, bindings: iterationBindings }),
+          );
         }
+      } else if (collection.kind === "runtime") {
+        const iterationBindings = new Map(context.bindings);
+        bindPattern(node.context, runtime(), iterationBindings);
+        if (node.index) iterationBindings.set(node.index, runtime());
+        mergeRenderEvidence(
+          evidence,
+          inspectTemplateFragment(node.body, { ...nestedContext, bindings: iterationBindings }),
+        );
+        mergeRenderEvidence(evidence, inspectTemplateFragment(node.fallback, nestedContext));
       }
       continue;
     }
@@ -991,16 +1356,29 @@ function inspectTemplateFragment(
   return evidence;
 }
 
-function addConstBindings(
-  bindings: Map<string, ExpressionNode>,
+function addScriptBindings(
+  bindings: LexicalBindings,
   script: { content?: ScriptNode } | null | undefined,
 ) {
-  for (const statement of script?.content?.body ?? []) {
-    if (statement.type !== "VariableDeclaration" || statement.kind !== "const") continue;
-    for (const declaration of statement.declarations ?? []) {
-      if (declaration.id?.type === "Identifier" && declaration.id.name && declaration.init) {
-        bindings.set(declaration.id.name, declaration.init);
+  const statements = script?.content?.body ?? [];
+  for (const statement of statements) {
+    if (statement.type === "ImportDeclaration") {
+      for (const specifier of statement.specifiers ?? []) {
+        if (specifier.local?.name) bindings.set(specifier.local.name, runtime());
       }
+    }
+    if (statement.type === "FunctionDeclaration" && statement.id?.name) {
+      bindings.set(statement.id.name, { functionNode: statement, kind: "function" });
+    }
+  }
+  for (const statement of statements) {
+    if (statement.type !== "VariableDeclaration") continue;
+    for (const declaration of statement.declarations ?? []) {
+      const evaluation =
+        statement.kind === "const"
+          ? evaluateExpression(declaration.init ?? undefined, bindings)
+          : runtime();
+      bindPattern(declaration.id, evaluation, bindings);
     }
   }
 }
@@ -1009,9 +1387,9 @@ function collectConstBindings(
   instance: { content?: ScriptNode } | null | undefined,
   module: { content?: ScriptNode } | null | undefined,
 ) {
-  const bindings = new Map<string, ExpressionNode>();
-  addConstBindings(bindings, module);
-  addConstBindings(bindings, instance);
+  const bindings: LexicalBindings = new Map();
+  addScriptBindings(bindings, module);
+  addScriptBindings(bindings, instance);
   return bindings;
 }
 
