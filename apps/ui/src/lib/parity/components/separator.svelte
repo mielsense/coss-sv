@@ -1,5 +1,5 @@
 <script lang="ts">
-import { Separator } from "../../../../../../packages/ui/src/components/ui/separator/index.js";
+import { Separator } from "@coss-sv/ui";
 </script>
 
 <div class="separator-example">

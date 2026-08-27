@@ -49,7 +49,7 @@ Generated from the pinned local reference. The status baseline names every plann
 | `radio-group` | `reference/apps/ui/registry/default/ui/radio-group.tsx` | `packages/ui/src/components/ui/radio-group`<br>`apps/ui/registry/registry-ui.ts` | missing |
 | `scroll-area` | `reference/apps/ui/registry/default/ui/scroll-area.tsx` | `packages/ui/src/components/ui/scroll-area`<br>`apps/ui/registry/registry-ui.ts` | missing |
 | `select` | `reference/apps/ui/registry/default/ui/select.tsx` | `packages/ui/src/components/ui/select`<br>`apps/ui/registry/registry-ui.ts` | missing |
-| `separator` | `reference/apps/ui/registry/default/ui/separator.tsx` | `packages/ui/src/components/ui/separator`<br>`apps/ui/registry/registry-ui.ts` | missing |
+| `separator` | `reference/apps/ui/registry/default/ui/separator.tsx` | `packages/ui/src/components/ui/separator`<br>`apps/ui/registry/registry-ui.ts` | reviewed |
 | `sheet` | `reference/apps/ui/registry/default/ui/sheet.tsx` | `packages/ui/src/components/ui/sheet`<br>`apps/ui/registry/registry-ui.ts` | missing |
 | `sidebar` | `reference/apps/ui/registry/default/ui/sidebar.tsx` | `packages/ui/src/components/ui/sidebar`<br>`apps/ui/registry/registry-ui.ts` | missing |
 | `skeleton` | `reference/apps/ui/registry/default/ui/skeleton.tsx` | `packages/ui/src/components/ui/skeleton`<br>`apps/ui/registry/registry-ui.ts` | missing |

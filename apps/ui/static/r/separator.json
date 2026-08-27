@@ -1,0 +1,21 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "separator",
+	"type": "registry:ui",
+	"description": "Visually or semantically separates content.",
+	"dependencies": [
+		"@shardsui/svelte@0.1.0-beta.0"
+	],
+	"files": [
+		{
+			"content": "<!-- biome-ignore-all lint/a11y/useSemanticElements: COSS and Shards use a configurable element rather than a fixed hr. -->\n<!-- biome-ignore-all lint/a11y/useAriaPropsForRole: A non-focusable separator only requires aria-orientation. -->\n<script module lang=\"ts\">\nimport type { Separator as ShardsSeparator } from \"@shardsui/svelte\";\nimport type { ComponentProps, Snippet } from \"svelte\";\n\nexport type SeparatorOrientation = \"horizontal\" | \"vertical\";\n\nexport type SeparatorProps = ComponentProps<typeof ShardsSeparator> & {\n  children?: Snippet;\n};\n</script>\n\n<script lang=\"ts\">\nimport { Separator as SeparatorPrimitive } from \"@shardsui/svelte\";\nimport { cn } from \"$UTILS$.js\";\n\nconst baseClass =\n  \"shrink-0 bg-border data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full data-[orientation=vertical]:w-px data-[orientation=vertical]:not-[[class^='h-']]:not-[[class*='_h-']]:self-stretch\";\n\nlet {\n  as = \"div\",\n  children,\n  class: className,\n  orientation = \"horizontal\",\n  ref = $bindable(null),\n  ...props\n}: SeparatorProps = $props();\n\nconst classes = $derived(cn(baseClass, className));\n</script>\n\n{#if children}\n  <svelte:element\n    this={as}\n    bind:this={ref}\n    data-orientation={orientation}\n    role=\"separator\"\n    aria-orientation={orientation}\n    data-slot=\"separator\"\n    class={classes}\n    {...props}\n  >\n    {@render children()}\n  </svelte:element>\n{:else}\n  <SeparatorPrimitive\n    {as}\n    bind:ref\n    {orientation}\n    data-slot=\"separator\"\n    class={classes}\n    {...props}\n  />\n{/if}\n",
+			"type": "registry:ui",
+			"target": "separator/separator.svelte"
+		},
+		{
+			"content": "export { Separator as SeparatorPrimitive } from \"@shardsui/svelte\";\nexport type { SeparatorOrientation, SeparatorProps } from \"./separator.svelte\";\nexport { default as Separator } from \"./separator.svelte\";\n",
+			"type": "registry:ui",
+			"target": "separator/index.ts"
+		}
+	]
+}

@@ -13,7 +13,7 @@ export type SeparatorProps = ComponentProps<typeof ShardsSeparator> & {
 
 <script lang="ts">
 import { Separator as SeparatorPrimitive } from "@shardsui/svelte";
-import { cn } from "../../../lib/utils.js";
+import { cn } from "$lib/utils.js";
 
 const baseClass =
   "shrink-0 bg-border data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full data-[orientation=vertical]:w-px data-[orientation=vertical]:not-[[class^='h-']]:not-[[class*='_h-']]:self-stretch";

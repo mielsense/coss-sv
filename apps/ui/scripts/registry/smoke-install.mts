@@ -225,6 +225,10 @@ async function writeConsumerFixture(fixtureRoot: string): Promise<void> {
         type: "module",
         packageManager: "pnpm@10.22.0",
         engines: { node: ">=22.18 <25" },
+        dependencies: {
+          clsx: "2.1.1",
+          "tailwind-merge": "3.4.0",
+        },
         scripts: {
           check: "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
           build: "vite build",
@@ -255,6 +259,7 @@ export default defineConfig({ plugins: [sveltekit()] });
         compilerOptions: {
           baseUrl: ".",
           ignoreDeprecations: "6.0",
+          skipLibCheck: true,
           paths: {
             $lib: ["src/lib"],
             "$lib/*": ["src/lib/*"],
@@ -282,6 +287,13 @@ export {};
     <div style="display: contents">%sveltekit.body%</div>
   </body>
 </html>
+`,
+    "src/lib/utils.ts": `import { clsx, type ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
+
+export function cn(...inputs: ClassValue[]): string {
+  return twMerge(clsx(inputs));
+}
 `,
     "src/routes/+layout.svelte": `<script lang="ts">
   import "../app.css";
@@ -425,6 +437,7 @@ async function verifyInstalledFixture(fixtureRoot: string): Promise<void> {
     "components/ui/private-overlay.svelte",
     "components/ui/private-styled.svelte",
     "hooks/use-private-special.svelte.ts",
+    "utils.ts",
   ];
   if (JSON.stringify(files) !== JSON.stringify(expectedFiles)) {
     throw new Error(`Smoke install wrote unexpected alias destinations: ${files.join(", ")}`);
@@ -456,6 +469,40 @@ async function verifyInstalledFixture(fixtureRoot: string): Promise<void> {
     const absolutePath = resolve(fixtureRoot, file);
     if (!absolutePath.startsWith(rootPrefix))
       throw new Error(`Smoke install escaped the fixture root: ${file}`);
+  }
+}
+
+async function verifyInstalledSeparator(fixtureRoot: string): Promise<void> {
+  const installedFiles = await listFiles(resolve(fixtureRoot, "src/lib"));
+  const separatorPath = resolve(fixtureRoot, "src/lib/components/ui/separator/separator.svelte");
+  const barrelPath = resolve(fixtureRoot, "src/lib/components/ui/separator/index.ts");
+  for (const expected of [
+    "components/ui/separator/index.ts",
+    "components/ui/separator/separator.svelte",
+  ]) {
+    if (!installedFiles.includes(expected)) {
+      throw new Error(
+        `Separator install omitted ${expected}. Installed files: ${installedFiles.join(", ")}`,
+      );
+    }
+  }
+  const [separator, barrel, packageJson] = await Promise.all([
+    readFile(separatorPath, "utf8"),
+    readFile(barrelPath, "utf8"),
+    readFile(resolve(fixtureRoot, "package.json"), "utf8"),
+  ]);
+
+  if (!separator.includes('from "$lib/utils.js"')) {
+    throw new Error("Separator install did not resolve the registry utils alias.");
+  }
+  if (separator.includes("$UTILS$") || /(?:^|["'(])(?:reference|shardsui)\//im.test(separator)) {
+    throw new Error("Separator install retained a private registry or source path.");
+  }
+  if (!barrel.includes('from "./separator.svelte"')) {
+    throw new Error("Separator install did not preserve its local barrel.");
+  }
+  if (!packageJson.includes('"@shardsui/svelte"')) {
+    throw new Error("Separator install did not record the Shards UI dependency.");
   }
 }
 
@@ -522,7 +569,14 @@ try {
   await verifyInstalledFixture(fixtureRoot);
   await writeFile(
     resolve(fixtureRoot, "tsconfig.json"),
-    `${JSON.stringify({ extends: "./.svelte-kit/tsconfig.json" }, null, 2)}\n`,
+    `${JSON.stringify(
+      {
+        extends: "./.svelte-kit/tsconfig.json",
+        compilerOptions: { skipLibCheck: true },
+      },
+      null,
+      2,
+    )}\n`,
     "utf8",
   );
   await run("pnpm", ["exec", "svelte-kit", "sync"], {
@@ -537,6 +591,39 @@ try {
   });
   await run("pnpm", ["exec", "vite", "build"], { cwd: fixtureRoot, env: environment, quiet: true });
 
+  await closeServer(server);
+  server = undefined;
+  const productionRegistryServer = await startRegistryServer(resolve(appRoot, "static/r"));
+  server = productionRegistryServer.server;
+  await runLocalShadcn(
+    [
+      "add",
+      `${productionRegistryServer.baseUrl}/separator.json`,
+      "-c",
+      fixtureRoot,
+      "--yes",
+      "--overwrite",
+      "--no-deps-install",
+    ],
+    { env: environment, quiet: true },
+  );
+  await run(
+    "pnpm",
+    ["install", "--ignore-workspace", "--frozen-lockfile=false", "--store-dir", storeRoot],
+    { cwd: fixtureRoot, env: environment, quiet: true },
+  );
+  await verifyInstalledSeparator(fixtureRoot);
+  await run("pnpm", ["exec", "svelte-check", "--tsconfig", "./tsconfig.json"], {
+    cwd: fixtureRoot,
+    env: environment,
+    quiet: true,
+  });
+  await run("pnpm", ["exec", "vite", "build"], {
+    cwd: fixtureRoot,
+    env: environment,
+    quiet: true,
+  });
+
   const privateSmokeArtifacts = findPrivateSmokeArtifacts(
     await readdir(resolve(appRoot, "static/r")),
   );
@@ -545,7 +632,9 @@ try {
       `Private smoke items leaked into production output: ${privateSmokeArtifacts.join(", ")}`,
     );
   }
-  console.log("Bundle-first registry URL install, svelte-check, and production build passed.");
+  console.log(
+    "Bundle-first and production Separator registry installs, svelte-check, and builds passed.",
+  );
 } finally {
   await closeServer(server);
   await rm(temporaryRoot, { recursive: true, force: true });

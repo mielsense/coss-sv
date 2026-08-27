@@ -199,7 +199,7 @@
     {
       "id": "separator",
       "kind": "component",
-      "status": "missing"
+      "status": "reviewed"
     },
     {
       "id": "sheet",
