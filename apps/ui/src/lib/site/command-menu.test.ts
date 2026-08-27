@@ -21,10 +21,15 @@ describe("COSS command and mobile navigation parity", () => {
     expect(source).toContain('from "@shardsui/svelte/autocomplete"');
     expect(source).toContain('autoHighlight="always"');
     expect(source).toContain("keepHighlight");
+    expect(source).toContain("<Dialog.Root {open} onOpenChange={setCommandMenuOpen}>");
+    expect(source).toContain("onkeydown={handleInputKeydown}");
+    expect(source).toContain('event.key !== "Home" && event.key !== "End"');
     expect(source).toContain("onItemHighlighted");
     expect(source).toContain("navigator.clipboard.writeText");
     expect(source).toContain("shadcn-svelte@latest add");
     expect(source).toContain("Go to Page");
+    expect(source).toContain("M7.99988 4.98096H6");
+    expect(source).toContain("M12 7.48076C12 7.48076");
     expect(source).not.toContain("<dialog");
   });
 
