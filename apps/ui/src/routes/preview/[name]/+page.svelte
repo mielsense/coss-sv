@@ -1,50 +1,36 @@
 <script lang="ts">
 import { page } from "$app/state";
+import type { PageProps } from "./$types";
+import { setPreviewRuntimeContext } from "./preview-context.js";
 import { parsePreviewQuery } from "./preview-contract.js";
-import { getPreview } from "./preview-registry.js";
+import { installPreviewEnvironment } from "./preview-environment.js";
+import { getParticleLinks, getPreview } from "./preview-registry.js";
+import { createPreviewRuntime } from "./preview-runtime.js";
 
-const name = $derived(page.params.name ?? "");
+let { data }: PageProps = $props();
+
+const name = $derived(data.name);
 const query = $derived(parsePreviewQuery(page.url.searchParams));
-const Preview = $derived(query.ok ? getPreview(name) : undefined);
+const entry = $derived(getPreview(name));
+const Preview = $derived(entry?.component);
+const metadata = $derived(entry?.kind === "particle" ? entry.meta : undefined);
+const links = $derived(metadata ? getParticleLinks(metadata.id) : undefined);
+const runtime = $derived(query.ok ? createPreviewRuntime(query) : undefined);
 
-function documentTheme(theme: "dark" | "light") {
-  return (_node: HTMLElement) => {
-    const root = document.documentElement;
-    const previousTheme = root.dataset.previewTheme;
-    const previousColorScheme = root.style.colorScheme;
-    const previouslyDark = root.classList.contains("dark");
-    const previouslyLight = root.classList.contains("light");
-
-    root.dataset.previewTheme = theme;
-    root.style.colorScheme = theme;
-    root.classList.toggle("dark", theme === "dark");
-    root.classList.toggle("light", theme === "light");
-
-    return () => {
-      if (previousTheme) root.dataset.previewTheme = previousTheme;
-      else delete root.dataset.previewTheme;
-      root.style.colorScheme = previousColorScheme;
-      root.classList.toggle("dark", previouslyDark);
-      root.classList.toggle("light", previouslyLight);
-    };
-  };
-}
+setPreviewRuntimeContext({
+  get current() {
+    if (!runtime) throw new Error("Preview runtime is unavailable for an invalid configuration");
+    return runtime;
+  },
+});
 </script>
 
 <svelte:head>
   <title>{name} preview</title>
 </svelte:head>
 
-<div
-  class={["preview-frame", { dark: query.ok && query.theme === "dark" }]}
-  {@attach documentTheme(query.ok ? query.theme : "light")}
-  data-preview-align={query.ok ? query.align : undefined}
-  data-preview-frame="true"
-  data-preview-name={name}
-  data-preview-theme={query.ok ? query.theme : undefined}
-  style:color-scheme={query.ok ? query.theme : "light"}
->
-  {#if !query.ok}
+{#if !query.ok}
+  <div class="preview-frame" data-preview-frame="true" data-preview-name={name}>
     <section class="invalid-preview" data-preview-invalid="true">
       <h1>Invalid preview configuration</h1>
       <ul>
@@ -53,28 +39,48 @@ function documentTheme(theme: "dark" | "light") {
         {/each}
       </ul>
     </section>
-  {:else}
+  </div>
+{:else}
+  <div
+    class={["preview-frame", { dark: query.theme === "dark" }]}
+    {@attach installPreviewEnvironment(query)}
+    data-preview-align={query.align}
+    data-preview-direction={query.direction}
+    data-preview-frame="true"
+    data-preview-locale={query.locale}
+    data-preview-name={name}
+    data-preview-network={query.network}
+    data-preview-now={query.now}
+    data-preview-reduced-motion={query.reducedMotion}
+    data-preview-seed={query.seed}
+    data-preview-theme={query.theme}
+    data-preview-timers={query.timers}
+    style:color-scheme={query.theme}
+  >
     <div
-      class="preview-surface"
-      data-preview-ready="true"
-      data-preview-found={Preview ? "true" : undefined}
+      class={["preview-surface", metadata?.containerClass]}
+      dir={query.direction}
+      lang={query.locale}
       data-preview-align={query.align}
-      data-preview-missing={Preview ? undefined : "true"}
+      data-preview-found="true"
+      data-preview-install-command={links?.installCommand}
+      data-preview-kind={entry?.kind}
+      data-preview-ready="true"
+      data-preview-registry-href={links?.registryHref}
+      data-preview-source-href={links?.sourceHref}
       data-preview-width={query.width}
       data-preview-width-px={query.widthPixels}
+      style:--preview-height={metadata?.iframeHeight ? `${metadata.iframeHeight}px` : undefined}
       style:--preview-width={`${query.widthPixels}px`}
     >
-      {#if Preview}
-        <Preview />
-      {:else}
-        <section class="missing-preview">
-          <h1>Preview not found</h1>
-          <p>No particle is registered as <code>{name}</code>.</p>
-        </section>
-      {/if}
+      <div data-slot="preview">
+        {#if Preview}
+          <Preview />
+        {/if}
+      </div>
     </div>
-  {/if}
-</div>
+  </div>
+{/if}
 
 <style>
 .preview-frame {
@@ -106,6 +112,7 @@ function documentTheme(theme: "dark" | "light") {
 .preview-surface {
   flex: 0 0 auto;
   width: min(100%, var(--preview-width));
+  min-height: var(--preview-height, auto);
   background: var(--background);
 }
 
@@ -115,26 +122,22 @@ function documentTheme(theme: "dark" | "light") {
   }
 }
 
-.invalid-preview,
-.missing-preview {
+.invalid-preview {
   box-sizing: border-box;
   width: min(100%, 32rem);
-  margin-inline: auto;
   max-width: 32rem;
+  margin: auto;
   padding: 1.5rem;
   border: 1px solid var(--border);
   border-radius: 0.75rem;
 }
 
 .invalid-preview h1,
-.invalid-preview ul,
-.missing-preview h1,
-.missing-preview p {
+.invalid-preview ul {
   margin: 0;
 }
 
-.invalid-preview ul,
-.missing-preview p {
+.invalid-preview ul {
   margin-top: 0.5rem;
 }
 </style>

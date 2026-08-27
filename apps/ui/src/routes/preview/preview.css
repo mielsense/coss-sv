@@ -1,3 +1,4 @@
+/* biome-ignore-all lint/complexity/noImportantStyles: deterministic previews must override particle-local motion declarations. */
 .preview-canvas,
 [data-preview-theme="light"] {
   --radius: 0.625rem;
@@ -81,4 +82,16 @@
   padding: 2rem;
   background: var(--background);
   color: var(--foreground);
+}
+
+[data-preview-reduced-motion="reduce"],
+[data-preview-reduced-motion="reduce"] *,
+[data-preview-reduced-motion="reduce"] *::before,
+[data-preview-reduced-motion="reduce"] *::after {
+  scroll-behavior: auto !important;
+  transition-delay: 0s !important;
+  transition-duration: 0s !important;
+  animation-delay: 0s !important;
+  animation-duration: 0s !important;
+  animation-iteration-count: 1 !important;
 }
