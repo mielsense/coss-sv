@@ -101,9 +101,12 @@ describe("documentation layout and interaction contracts", () => {
   });
 
   test("matches COSS button, badge, and fixed marker behavior", () => {
+    expect(css).toMatch(/\.hero-actions\s*\{[^}]*display:\s*flex;[^}]*gap:\s*0\.5rem;/s);
+    expect(css).not.toMatch(/\.hero-actions\s*\{[^}]*flex-wrap:/s);
     expect(css).toMatch(
       /\.site-button\s*\{[^}]*border-radius:\s*0\.625rem;[^}]*font-weight:\s*500;/s,
     );
+    expect(css).toMatch(/\.site-button\s*\{[^}]*white-space:\s*nowrap;/s);
     expect(css).toMatch(/\.site-button\[data-primary="true"\]\s*\{[^}]*box-shadow:[^}]*inset/s);
     expect(css).toMatch(/\.site-button:active,[\s\S]*?\.site-button\[data-pressed="true"\]/);
     expect(css).toMatch(
