@@ -23,6 +23,21 @@ export default defineConfig({
         test: {
           name: "browser",
           browser: {
+            commands: {
+              renderSlider: async ({ project }, value: number | readonly number[]) => {
+                const [{ render }, { default: SliderRoot }] = await Promise.all([
+                  project.vite.ssrLoadModule("svelte/server"),
+                  project.vite.ssrLoadModule("/src/components/ui/slider/slider-root.svelte"),
+                ]);
+
+                return render(SliderRoot, {
+                  props: {
+                    "aria-label": Array.isArray(value) ? "Hydrated range" : "Hydrated scalar",
+                    value,
+                  },
+                }).body;
+              },
+            },
             enabled: true,
             headless: true,
             instances: [{ browser: "chromium" }],

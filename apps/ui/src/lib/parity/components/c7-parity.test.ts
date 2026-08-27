@@ -29,6 +29,7 @@ describe("C7 parity fixture inventory", () => {
       "p-field-10",
       "p-field-12",
       "p-field-15",
+      "p-field-16",
     ]);
   });
 

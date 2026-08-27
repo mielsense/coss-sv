@@ -17,7 +17,10 @@ let {
   ...props
 }: FieldRootProps = $props();
 
-const fieldsetContext = createFieldsetCompositionContext(() => disabled);
+const fieldsetContext = createFieldsetCompositionContext(
+  () => disabled,
+  () => as === "fieldset",
+);
 
 // Shards consumes its lowercase `disabled` prop for Field state. HTML attribute names are
 // ASCII-case-insensitive, while Svelte normalizes spread attributes during SSR and in the DOM,

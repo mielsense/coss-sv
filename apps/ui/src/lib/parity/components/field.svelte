@@ -1,5 +1,5 @@
 <script lang="ts">
-import { Button, Checkbox, Field, Input, InputGroup, Switch, Textarea } from "@coss-sv/ui";
+import { Button, Checkbox, Field, Input, InputGroup, Slider, Switch, Textarea } from "@coss-sv/ui";
 </script>
 
 <div class="parity-stack">
@@ -94,6 +94,14 @@ import { Button, Checkbox, Field, Input, InputGroup, Switch, Textarea } from "@c
         <Switch />
         Email notifications
       </Field.Label>
+    </Field.Root>
+  </section>
+
+  <section class="w-full max-w-64" data-particle="p-field-16" id="p-field-16">
+    <Field.Root class="items-stretch gap-3">
+      <Field.Label>Country</Field.Label>
+      <Slider.Root defaultValue={50} />
+      <Field.Description>This is an optional field</Field.Description>
     </Field.Root>
   </section>
 </div>

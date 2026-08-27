@@ -35,6 +35,18 @@ describe("Fieldset browser contract", () => {
     await expect.element(page.getByTestId("native-disabled-control")).not.toBeDisabled();
   });
 
+  test("keeps an outer Fieldset legend relationship through a nested Field root", async () => {
+    render(FieldsetFixture);
+
+    const fieldset = document.querySelector<HTMLFieldSetElement>(
+      '[data-testid="field-shadow-fieldset"]',
+    );
+    const legend = document.querySelector<HTMLElement>('[data-testid="field-shadow-legend"]');
+    expect(fieldset?.getAttribute("aria-labelledby")).toBe(legend?.id);
+    expect(legend?.id).toBeTruthy();
+    await expect.element(page.getByTestId("field-shadow-control")).not.toBeDisabled();
+  });
+
   test("hydrates a server-equivalent fieldset without warnings", async () => {
     const warning = vi.spyOn(console, "warn").mockImplementation(() => undefined);
     const target = document.createElement("div");

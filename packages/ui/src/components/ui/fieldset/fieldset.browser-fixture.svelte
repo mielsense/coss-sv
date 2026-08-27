@@ -29,3 +29,10 @@ let outerDisabled = $state(true);
     <input data-testid="native-disabled-control">
   </Fieldset.Root>
 </Fieldset.Root>
+
+<Fieldset.Root data-testid="field-shadow-fieldset">
+  <Field.Root>
+    <Fieldset.Legend data-testid="field-shadow-legend">Volume</Fieldset.Legend>
+    <Input data-testid="field-shadow-control" />
+  </Field.Root>
+</Fieldset.Root>
