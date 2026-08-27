@@ -1,403 +1,606 @@
 <script lang="ts">
-let { slug }: { slug: string } = $props();
+import Button from "./thumbnail/ThumbnailButton.svelte";
+import Card from "./thumbnail/ThumbnailCard.svelte";
+import Icon from "./thumbnail/ThumbnailIcon.svelte";
+import Panel from "./thumbnail/ThumbnailPanel.svelte";
+import Text from "./thumbnail/ThumbnailText.svelte";
 
-const fieldThumbnails = new Set(["field", "fieldset", "form", "label"]);
-const inputThumbnails = new Set([
-  "autocomplete",
-  "combobox",
-  "input",
-  "input-group",
-  "select",
-  "textarea",
-]);
-const selectionThumbnails = new Set([
-  "checkbox",
-  "checkbox-group",
-  "radio-group",
-  "segmented-control",
-  "switch",
-  "toggle",
-  "toggle-group",
-]);
-const menuThumbnails = new Set(["command", "context-menu", "menu"]);
-const overlayThumbnails = new Set(["popover", "preview-card", "tooltip"]);
-const statusThumbnails = new Set(["meter", "progress", "slider"]);
+let { slug }: { slug: string } = $props();
 </script>
 
-<svg
-  aria-hidden="true"
-  class="category-thumbnail"
-  data-thumbnail={slug}
-  focusable="false"
-  viewBox="0 0 240 156"
->
-  <defs>
-    <linearGradient id="thumb-panel" x1="0" x2="0" y1="0" y2="1">
-      <stop offset="0" stop-color="var(--thumb-panel-from)" />
-      <stop offset="1" stop-color="var(--thumb-panel-to)" />
-    </linearGradient>
-    <linearGradient id="thumb-primary" x1="0" x2="0" y1="0" y2="1">
-      <stop offset="0" stop-color="var(--thumb-primary-from)" />
-      <stop offset="1" stop-color="var(--thumb-primary-to)" />
-    </linearGradient>
-    <filter id="thumb-shadow" height="150%" width="150%" x="-25%" y="-25%">
-      <feDropShadow
-        dx="0"
-        dy="3"
-        flood-color="var(--thumb-shadow)"
-        flood-opacity="0.12"
-        stdDeviation="4"
-      />
-    </filter>
-  </defs>
+{#snippet checkboxItem(checked = false, className = "")}
+  <div class={`flex items-center gap-2 ${className}`}>
+    <div
+      class={`size-4 shrink-0 rounded ${checked ? "bg-linear-to-b from-(--btn-from) to-(--btn-to)" : "bg-muted-foreground/20"}`}
+    ></div>
+    <Text class="w-full" variant="secondary" />
+  </div>
+{/snippet}
 
-  {#if slug === "accordion"}
-    <g class="thumb-surface" filter="url(#thumb-shadow)">
-      <rect height="128" rx="14" width="164" x="38" y="14" />
-      <path d="M38 56h164M38 99h164" />
-      <path d="m54 34 4 4 4-4m-8 86 4 4 4-4m0-42-4-4-4 4" />
-      <path class="strong" d="M73 36h82M73 78h58M73 120h82" />
-      <path d="M73 88h112" />
-    </g>
-  {:else if slug === "alert"}
-    <g class="thumb-surface" filter="url(#thumb-shadow)">
-      <rect height="44" rx="20" width="204" x="18" y="56" />
-      <circle cx="36" cy="78" r="6" />
-      <path d="M36 74v5m0 3h.01M53 78h120" />
-    </g>
-  {:else if slug === "alert-dialog" || slug === "dialog" || slug === "card"}
-    <g class="thumb-surface" filter="url(#thumb-shadow)">
-      <rect height="98" rx="14" width="160" x="40" y="29" />
-      <path class="strong" d="M57 51h68" />
-      <path d="M57 65h102M57 76h84" />
-      {#if slug === "card"}
-        <rect class="quiet" height="13" rx="3" width="126" x="57" y="86" />
-        <rect class="primary" height="13" rx="3" width="126" x="57" y="104" />
-      {:else}
-        <rect class="quiet" height="13" rx="5" width="30" x="120" y="96" />
-        <rect class="primary" height="13" rx="5" width="30" x="155" y="96" />
-      {/if}
-    </g>
-  {:else if inputThumbnails.has(slug)}
-    <g class="thumb-surface" filter="url(#thumb-shadow)">
-      {#if slug === "textarea"}
-        <rect height="86" rx="14" width="176" x="32" y="34" />
-        <path class="strong" d="M52 56h78" />
-      {:else}
-        <rect height="42" rx="14" width="176" x="32" y={slug === "autocomplete" ? 20 : 57} />
-        {#if slug === "input-group"}
-          <circle cx="51" cy="78" r="6" />
-          <path d="m55 82 5 5" />
-        {/if}
-        <path class="strong" d={slug === "input-group" ? "M70 78h75" : "M52 78h72"} />
-        {#if slug === "select"}
-          <path d="m180 74 5 5 5-5" />
-        {/if}
-        {#if slug === "combobox"}
-          <rect class="quiet" height="20" rx="5" width="48" x="48" y="68" />
-          <rect class="quiet" height="20" rx="5" width="48" x="102" y="68" />
-        {/if}
-      {/if}
-      {#if slug === "autocomplete"}
-        <rect height="78" rx="12" width="176" x="32" y="70" />
-        <path d="M50 91h126M50 109h126M50 127h100" />
-      {/if}
-    </g>
-  {:else if slug === "avatar"}
-    <g class="thumb-surface" filter="url(#thumb-shadow)">
-      <circle cx="120" cy="78" r="27" />
-      <circle cx="120" cy="71" r="7" />
-      <path d="M106 91c3-12 25-12 28 0" />
-    </g>
-  {:else if slug === "badge"}
-    <g class="thumb-surface" filter="url(#thumb-shadow)">
-      <rect height="31" rx="16" width="98" x="71" y="63" />
-      <circle class="strong" cx="88" cy="78" r="4" />
-      <path d="M101 78h47" />
-    </g>
-  {:else if slug === "breadcrumb" || slug === "pagination"}
-    <g class="thumb-surface" filter="url(#thumb-shadow)">
-      <rect height="38" rx="18" width="198" x="21" y="59" />
-      {#if slug === "pagination"}
-        <path d="m42 73-6 6 6 6M198 73l6 6-6 6M68 79h24m14 0h24m14 0h24" />
-      {:else}
-        <path class="strong" d="M40 79h45" />
-        <path d="m94 73 6 6-6 6M111 79h45m9-6 6 6-6 6M182 79h20" />
-      {/if}
-    </g>
-  {:else if slug === "button"}
-    <g filter="url(#thumb-shadow)">
-      <rect class="primary" height="44" rx="15" width="96" x="72" y="56" />
-      <path class="on-primary" d="M98 78h44" />
-    </g>
-  {:else if slug === "calendar"}
-    <g class="thumb-surface" filter="url(#thumb-shadow)">
-      <rect height="128" rx="14" width="150" x="45" y="14" />
-      <path d="m61 36-5 5 5 5m118-10 5 5-5 5M82 41h76" />
-      {#each [65, 87, 109, 131] as row}
-        {#each [67, 89, 111, 133, 155, 177] as column}
-          <circle class:primary={row === 109 && column === 111} cx={column} cy={row} r="4" />
-        {/each}
-      {/each}
-    </g>
-  {:else if slug === "date-picker"}
-    <g class="thumb-surface" filter="url(#thumb-shadow)">
-      <rect height="44" rx="14" width="176" x="32" y="56" />
-      <rect height="14" rx="2" width="14" x="50" y="70" />
-      <path d="M50 74h14M54 66v5m6-5v5M76 78h92" />
-    </g>
-  {:else if selectionThumbnails.has(slug)}
-    {#if slug === "switch"}
-      <g filter="url(#thumb-shadow)">
-        <rect class="quiet" height="30" rx="15" width="52" x="94" y="63" />
-        <circle class="thumb-knob" cx="109" cy="78" r="12" />
-      </g>
-    {:else if slug === "segmented-control" || slug === "toggle-group"}
-      <g class="thumb-surface" filter="url(#thumb-shadow)">
-        <rect height="46" rx="13" width="156" x="42" y="55" />
-        <path d="M94 55v46m52-46v46" />
-        <rect class="selected" height="40" rx="10" width="48" x="96" y="58" />
-        <path class="strong" d="M58 78h20m74 0h30M109 78h22" />
-      </g>
-    {:else if slug === "toggle"}
-      <g class="thumb-surface" filter="url(#thumb-shadow)">
-        <rect height="48" rx="14" width="48" x="96" y="28" />
-        <rect class="selected" height="48" rx="14" width="48" x="96" y="84" />
-        <path d="M110 52h20" />
-        <path class="primary-stroke" d="M110 108h20" />
-      </g>
-    {:else}
-      <g>
-        {#each [55, 79, 103] as row, index}
-          <rect
-            class:primary={index === 1}
-            class:round={slug === "radio-group"}
-            height="16"
-            rx={slug === "radio-group" ? 8 : 4}
-            width="16"
-            x="66"
-            y={row - 8}
-          />
-          <path class={index === 1 ? "strong" : ""} d={`M94 ${row}h80`} />
-        {/each}
-      </g>
+{#snippet radioItem(checked = false)}
+  <div class="flex items-center gap-2">
+    <div
+      class={`size-4 shrink-0 rounded-full ${checked ? "bg-linear-to-b from-(--btn-from) to-(--btn-to)" : "bg-muted-foreground/20"}`}
+    ></div>
+    <Text class="w-full" variant="secondary" />
+  </div>
+{/snippet}
+
+{#snippet formField(showError = false)}
+  <div class="flex flex-col gap-2">
+    <Text class="w-16" />
+    <Card class="[--radius-2xl:10px]" withGradient={false}><Panel class="py-3.5" /></Card>
+    {#if showError}
+      <Text class="w-[80%]" variant="secondary" />
     {/if}
-  {:else if slug === "collapsible"}
-    <g class="thumb-surface" filter="url(#thumb-shadow)">
-      <rect height="102" rx="14" width="176" x="32" y="27" />
-      <path d="M32 68h176m-28-22 5 5 5-5" />
-      <path class="strong" d="M50 49h88" />
-      <path d="M50 88h126M50 106h98" />
-    </g>
-  {:else if menuThumbnails.has(slug)}
-    <g class="thumb-surface" filter="url(#thumb-shadow)">
-      {#if slug === "context-menu"}
-        <rect class="dashed" height="78" rx="12" width="116" x="30" y="25" />
-      {/if}
-      <rect
-        height="104"
-        rx="12"
-        width="156"
-        x={slug === "context-menu" ? 78 : 42}
-        y={slug === "context-menu" ? 42 : 26}
-      />
-      {#if slug === "command"}
-        <path d="M42 58h156" />
-        <circle cx="59" cy="46" r="6" />
-      {/if}
-      <path
-        d={`M${slug === "context-menu" ? 96 : 60} 75h96M${slug === "context-menu" ? 96 : 60} 94h72M${slug === "context-menu" ? 96 : 60} 113h88`}
-      />
-    </g>
-  {:else if slug === "drawer" || slug === "sheet"}
-    <g>
-      <rect
-        class="dashed"
-        height="112"
-        rx="14"
-        width={slug === "sheet" ? 128 : 196}
-        x="22"
-        y="22"
-      />
-      <rect
-        class="thumb-surface fill"
-        filter="url(#thumb-shadow)"
-        height={slug === "sheet" ? 112 : 60}
-        rx="14"
-        width={slug === "sheet" ? 78 : 196}
-        x={slug === "sheet" ? 140 : 22}
-        y={slug === "sheet" ? 22 : 74}
-      />
-      {#if slug === "drawer"}
-        <path class="strong" d="M98 88h44" />
-      {:else}
-        <path class="strong" d="M154 45h48M154 60h36" />
-        <rect class="primary" height="14" rx="4" width="46" x="158" y="104" />
-      {/if}
-    </g>
-  {:else if slug === "empty"}
-    <g>
-      <rect class="dashed" height="116" rx="14" width="190" x="25" y="20" />
-      <circle class="quiet" cx="120" cy="58" r="18" />
-      <path class="strong" d="M85 85h70" />
-      <path d="M70 102h100" />
-    </g>
-  {:else if fieldThumbnails.has(slug)}
-    <g class="thumb-surface">
-      <path class={slug === "label" ? "primary-stroke" : "strong"} d="M44 38h60" />
-      <rect height="42" rx="12" width="152" x="44" y="49" />
-      {#if slug === "fieldset" || slug === "form"}
-        <path class="strong" d="M44 112h60" />
-        <rect height="32" rx="10" width="152" x="44" y="120" />
-      {/if}
-      {#if slug === "field"}
-        <path d="M44 107h118" />
-      {/if}
-      {#if slug === "form"}
-        <rect class="primary" height="12" rx="4" width="152" x="44" y="139" />
-      {/if}
-    </g>
-  {:else if slug === "frame"}
-    <g>
-      <rect class="quiet" height="130" rx="16" width="190" x="25" y="13" />
-      <path class="strong" d="M45 39h94" />
-      <rect
-        class="thumb-surface fill"
-        filter="url(#thumb-shadow)"
-        height="80"
-        rx="14"
-        width="176"
-        x="32"
-        y="55"
-      />
-      <path class="strong" d="M51 80h88" />
-      <path d="M51 98h125" />
-    </g>
-  {:else if slug === "group" || slug === "toolbar"}
-    <g class="thumb-surface" filter="url(#thumb-shadow)">
-      <rect
-        height="48"
-        rx="14"
-        width={slug === "toolbar" ? 174 : 132}
-        x={slug === "toolbar" ? 33 : 54}
-        y="54"
-      />
-      {#each slug === "toolbar" ? [77, 120, 163] : [120] as column}
-        <path d={`M${column} 54v48`} />
-      {/each}
-      <path class="strong" d="M65 78h24m20 0h24m20 0h24" />
-    </g>
-  {:else if slug === "kbd"}
-    <g class="thumb-surface" filter="url(#thumb-shadow)">
-      <rect height="48" rx="11" width="48" x="65" y="54" />
-      <rect height="48" rx="11" width="48" x="127" y="54" />
-      <text x="89" y="85">⌘</text>
-      <text x="151" y="85">K</text>
-    </g>
-  {:else if statusThumbnails.has(slug)}
-    <g>
-      {#if slug === "meter"}
-        <path class="strong" d="M45 55h84M164 55h31" />
-      {/if}
-      <rect class="quiet" height="10" rx="5" width="170" x="35" y="74" />
-      <rect
-        class="primary"
-        height="10"
-        rx="5"
-        width={slug === "slider" ? 66 : slug === "progress" ? 80 : 112}
-        x="35"
-        y="74"
-      />
-      {#if slug === "slider"}
-        <circle class="primary" cx="101" cy="79" r="11" />
-      {/if}
-    </g>
-  {:else if slug === "number-field"}
-    <g class="thumb-surface" filter="url(#thumb-shadow)">
-      <rect height="44" rx="14" width="176" x="32" y="56" />
-      <path d="M49 78h15m-7-7v14M177 78h15M95 78h50" />
-    </g>
-  {:else if slug === "otp-field"}
-    <g class="thumb-surface" filter="url(#thumb-shadow)">
-      {#each [40, 83, 126, 169] as column, index}
-        <rect height="42" rx="11" width="36" x={column} y="57" />
-        {#if index < 3}
-          <circle class="strong" cx={column + 18} cy="78" r="3" />
-        {:else}
-          <path d={`M${column + 18} 68v20`} />
-        {/if}
-      {/each}
-    </g>
-  {:else if overlayThumbnails.has(slug)}
-    <g class="thumb-surface" filter="url(#thumb-shadow)">
-      {#if slug === "preview-card"}
-        <rect height="76" rx="14" width="176" x="32" y="40" />
-        <circle class="quiet" cx="61" cy="78" r="16" />
-        <path class="strong" d="M88 63h73" />
-        <path d="M88 79h93M88 95h72" />
-      {:else}
-        <rect height="38" rx="12" width="88" x="76" y="24" />
-        <rect height="65" rx="12" width="150" x="45" y="73" />
-        <path class="strong" d="M61 94h80" />
-        <path d="M61 111h111" />
-      {/if}
-    </g>
-  {:else if slug === "scroll-area"}
-    <g class="thumb-surface" filter="url(#thumb-shadow)">
-      <rect height="124" rx="14" width="140" x="50" y="16" />
-      <path d="M68 39h91M68 57h104M68 75h82M68 93h96M68 111h88" />
-      <rect class="strong-fill" height="40" rx="3" width="5" x="178" y="28" />
-    </g>
-  {:else if slug === "separator"}
-    <g>
-      <path class="strong" d="M50 45h72" />
-      <path d="M50 61h140M50 80h140M78 99v28m45-28v28m45-28v28" />
-    </g>
-  {:else if slug === "skeleton"}
-    <g class="skeleton-lines">
-      <circle class="quiet" cx="67" cy="78" r="19" />
-      <rect class="quiet" height="10" rx="5" width="104" x="96" y="63" />
-      <rect class="quiet" height="10" rx="5" width="88" x="96" y="84" />
-    </g>
-  {:else if slug === "spinner"}
-    <circle class="spinner-ring" cx="120" cy="78" r="25" />
-  {:else if slug === "toast"}
-    <g class="thumb-surface" filter="url(#thumb-shadow)">
-      <rect class="faded" height="48" rx="14" width="146" x="47" y="31" />
-      <rect class="faded" height="48" rx="14" width="162" x="39" y="45" />
-      <rect height="58" rx="14" width="176" x="32" y="61" />
-      <circle cx="54" cy="81" r="6" />
-      <path class="strong" d="M69 78h55" />
-      <path d="M69 96h96" />
-    </g>
-  {:else if slug === "table"}
-    <g class="thumb-surface" filter="url(#thumb-shadow)">
-      <rect height="108" rx="14" width="190" x="25" y="24" />
-      <path d="M25 60h190M25 96h190M63 24v108M115 24v108M165 24v108" />
-      <path class="strong" d="M35 42h18M73 42h31M125 42h30M175 42h27" />
-    </g>
-  {:else if slug === "tabs"}
-    <g>
-      <rect class="quiet" height="44" rx="12" width="174" x="33" y="27" />
-      <rect
-        class="thumb-surface fill"
-        filter="url(#thumb-shadow)"
-        height="38"
-        rx="10"
-        width="56"
-        x="36"
-        y="30"
-      />
-      <path class="primary-stroke" d="M51 49h26" />
-      <path d="M108 49h26M159 49h26" />
-      <path class="strong" d="M45 96h98" />
-      <path d="M45 115h145" />
-    </g>
-  {:else}
-    <g class="thumb-surface" filter="url(#thumb-shadow)">
-      <rect height="82" rx="14" width="168" x="36" y="37" />
-      <path class="strong" d="M55 62h88" />
-      <path d="M55 81h130M55 100h104" />
-    </g>
-  {/if}
-</svg>
+  </div>
+{/snippet}
+
+{#snippet tableRow()}
+  <div class="flex items-center gap-2 p-3">
+    <Text class="size-2.5 rounded-xs" />
+    <Text class="flex-1" />
+    <Text class="flex-1" variant="secondary" />
+    <Text class="flex-1" variant="secondary" />
+    <Text class="flex-1" variant="secondary" />
+    <Text class="flex-1" variant="secondary" />
+  </div>
+{/snippet}
+
+{#snippet commandItem()}
+  <div class="flex items-center justify-between gap-2">
+    <Text class="w-[65%]" variant="secondary" />
+    <Text class="w-4" variant="secondary" />
+  </div>
+{/snippet}
+
+{#if slug !== "segmented-control"}
+  <div class="category-thumbnail" data-thumbnail={slug}>
+    {#if slug === "accordion"}
+      <Card class="max-w-50"
+        ><Panel class="divide-y divide-border p-0">
+          <div class="p-3">
+            <div class="flex items-center gap-2">
+              <Icon name="chevron-down" />
+              <Text class="w-[60%]" />
+            </div>
+          </div>
+          <div class="p-3">
+            <div class="flex items-center gap-2">
+              <Icon class="rotate-180" name="chevron-down" />
+              <div class="flex flex-1 flex-col gap-2">
+                <Text class="w-[50%]" />
+                <Text class="w-[90%]" variant="secondary" />
+              </div>
+            </div>
+          </div>
+          <div class="p-3">
+            <div class="flex items-center gap-2">
+              <Icon name="chevron-down" />
+              <Text class="w-[60%]" />
+            </div>
+          </div>
+        </Panel></Card
+      >
+    {:else if slug === "alert"}
+      <Card
+        ><Panel class="flex items-center gap-2 p-3"
+          ><Icon name="alert" />
+          <Text class="w-[70%]" variant="secondary" /></Panel
+        ></Card
+      >
+    {:else if slug === "alert-dialog"}
+      <Card class="max-w-50"
+        ><Panel class="flex flex-col gap-5 p-4"
+          ><div class="flex flex-col gap-2">
+            <Text class="w-[50%]" />
+            <Text class="w-[90%]" variant="secondary" />
+          </div>
+          <div class="flex items-center justify-end gap-2">
+            <Button /><Button variant="primary" />
+          </div></Panel
+        ></Card
+      >
+    {:else if slug === "autocomplete"}
+      <div class="flex max-w-50 flex-1 flex-col gap-2">
+        <Card class="[--radius-2xl:12px]" withGradient={false}
+          ><Panel class="flex items-center gap-2 px-4 py-2"
+            ><Text class="w-[40%]" />
+            <Icon name="text-cursor" /></Panel
+          ></Card
+        ><Card class="[--radius-2xl:10px]"
+          ><Panel class="flex flex-col gap-4 p-4"
+            ><Text variant="secondary" />
+            <Text variant="secondary" />
+            <Text variant="secondary" /></Panel
+          ></Card
+        >
+      </div>
+    {:else if slug === "avatar"}
+      <Card class="size-12 [--radius-2xl:9999px]"
+        ><Panel class="flex items-center justify-center p-0"
+          ><div class="flex size-full items-center justify-center rounded-full">
+            <Icon name="user" />
+          </div></Panel
+        ></Card
+      >
+    {:else if slug === "badge"}
+      <Card class="max-w-24 [--radius-2xl:9999px]"
+        ><Panel class="flex items-center gap-2 px-2.5 py-2"
+          ><div class="size-2 rounded-full bg-muted-foreground/88"></div>
+          <Text class="flex-1" /></Panel
+        ></Card
+      >
+    {:else if slug === "breadcrumb"}
+      <Card
+        ><Panel class="flex items-center gap-1 p-3"
+          ><Text class="flex-1" />
+          <Icon name="chevron-right" />
+          <Text class="flex-1" variant="secondary" />
+          <Icon name="chevron-right" />
+          <Text class="flex-1" variant="secondary" /></Panel
+        ></Card
+      >
+    {:else if slug === "button"}
+      <Card
+        class="max-w-24 border-none bg-linear-to-b from-(--btn-from) to-(--btn-to) [--radius-2xl:14px]"
+        withGradient={false}
+        ><Panel class="px-6 py-4"><Text class="bg-primary-foreground/40" /></Panel></Card
+      >
+    {:else if slug === "calendar"}
+      <Card class="max-w-36 [--radius-2xl:14px]"
+        ><Panel class="flex flex-col gap-4 p-4"
+          ><div class="flex items-center gap-2">
+            <Icon name="chevron-left" />
+            <Text class="w-[60%]" variant="secondary" />
+            <Icon name="chevron-right" />
+          </div>
+          {#each [0, 1, 2, 3] as row}
+            <div class="flex items-center gap-2">
+              {#each [0, 1, 2, 3, 4] as column}
+                <Text
+                  class={`flex-1 ${row === 2 && column === 2 ? "bg-primary" : (row + column) % 4 === 2 ? "bg-transparent" : ""}`}
+                  variant={row === 0 ? "secondary" : "main"}
+                />
+              {/each}
+            </div>
+          {/each}</Panel
+        ></Card
+      >
+    {:else if slug === "card"}
+      <Card class="max-w-36 [--radius-2xl:14px]"
+        ><Panel class="flex flex-col gap-4 p-4"
+          ><div class="flex flex-col gap-2">
+            <Text class="w-[60%]" />
+            <Text class="w-[90%]" variant="secondary" />
+          </div>
+          <div class="flex flex-col gap-2">
+            <div class="h-4 rounded-sm bg-muted-foreground/8"></div>
+            <div class="h-4 rounded-sm bg-muted-foreground/8"></div>
+            <Button class="w-full rounded-sm" variant="primary" />
+          </div></Panel
+        ></Card
+      >
+    {:else if slug === "checkbox"}
+      <div class="flex max-w-28 flex-1 flex-col gap-3">
+        {@render checkboxItem()}{@render checkboxItem(true)}
+      </div>
+    {:else if slug === "checkbox-group"}
+      <div class="flex max-w-28 flex-1 flex-col gap-3">
+        {@render checkboxItem(true)}{@render checkboxItem(false, "ps-4")}
+        {@render checkboxItem(true, "ps-4")}{@render checkboxItem()}
+      </div>
+    {:else if slug === "collapsible"}
+      <Card
+        ><Panel class="divide-y divide-border p-0"
+          ><div class="flex items-center justify-between px-4 py-3">
+            <Text class="w-[60%]" />
+            <Icon name="chevron-down" />
+          </div>
+          <div class="flex flex-col gap-2 p-4">
+            <Text class="w-[80%]" variant="secondary" />
+            <Text class="w-[70%]" variant="secondary" />
+          </div></Panel
+        ></Card
+      >
+    {:else if slug === "combobox"}
+      <Card class="[--radius-2xl:14px]" withGradient={false}
+        ><Panel class="flex items-center gap-2 px-3 py-[calc(--spacing(2.5)-1px)]"
+          >{#each [0, 1] as _}
+            <div
+              class="flex h-5 items-center gap-1 rounded-sm bg-muted-foreground/8 py-0.5 ps-2 pe-1"
+            >
+              <Text class="w-6" />
+              <Icon name="x" />
+            </div>
+          {/each}</Panel
+        ></Card
+      >
+    {:else if slug === "command"}
+      <Card class="max-w-50"
+        ><Panel class="divide-y divide-border p-0"
+          ><div class="flex items-center gap-2 px-4 py-3">
+            <Icon name="search" />
+            <Text class="w-[40%]" />
+          </div>
+          <div class="flex flex-col gap-4 p-4">
+            {@render commandItem()}{@render commandItem()}{@render commandItem()}
+          </div></Panel
+        ></Card
+      >
+    {:else if slug === "context-menu"}
+      <div class="flex max-w-50 flex-1 flex-col">
+        <Card
+          class="border-input border-dashed bg-none shadow-none [--radius-2xl:10px] before:hidden"
+          ><Panel class="min-h-20" /></Card
+        ><Card class="ms-auto -mt-3 w-fit [--radius-2xl:10px]"
+          ><Panel class="flex flex-col gap-3 p-3"
+            ><Text class="w-16" variant="secondary" />
+            <Text class="w-16" variant="secondary" />
+            <Text class="w-16" variant="secondary" /></Panel
+          ></Card
+        >
+      </div>
+    {:else if slug === "date-picker"}
+      <Card class="[--radius-2xl:14px]" withGradient={false}
+        ><Panel class="flex items-center gap-2 p-3"
+          ><Icon name="calendar" />
+          <Text class="w-[60%]" /></Panel
+        ></Card
+      >
+    {:else if slug === "dialog"}
+      <Card class="max-w-36 [--radius-2xl:14px]"
+        ><Panel class="flex flex-col gap-4 p-4"
+          ><Text class="w-[60%]" />
+          <div class="flex flex-col gap-2">
+            <div class="h-4 rounded-sm bg-muted-foreground/8"></div>
+            <div class="h-4 rounded-sm bg-muted-foreground/8"></div>
+          </div>
+          <div class="flex items-center justify-end gap-2">
+            <Button /><Button variant="primary" />
+          </div></Panel
+        ></Card
+      >
+    {:else if slug === "drawer"}
+      <div class="flex h-full w-full flex-1 flex-col justify-end gap-2">
+        <div class="flex-1 rounded-xl border border-input border-dashed"></div>
+        <Card class="max-w-none shrink-0 [--radius-2xl:14px]"
+          ><Panel class="pt-1 pb-12"
+            ><div class="flex justify-center py-2">
+              <div class="h-1 w-12 rounded-full bg-muted-foreground/30"></div>
+            </div></Panel
+          ></Card
+        >
+      </div>
+    {:else if slug === "empty"}
+      <Card class="border-input border-dashed bg-none shadow-none before:hidden"
+        ><Panel class="flex flex-col items-center gap-2"
+          ><div class="size-8 rounded-full bg-muted-foreground/20"></div>
+          <Text class="w-[60%]" />
+          <Text class="w-[80%]" variant="secondary" /></Panel
+        ></Card
+      >
+    {:else if slug === "field"}
+      <div class="flex max-w-50 flex-1 flex-col gap-3">{@render formField(true)}</div>
+    {:else if slug === "fieldset"}
+      <div class="flex max-w-50 flex-1 flex-col gap-4">
+        {@render formField()}{@render formField()}
+      </div>
+    {:else if slug === "form"}
+      <div class="flex max-w-50 flex-1 flex-col gap-4">
+        {@render formField()}
+        <Card
+          class="border-none bg-linear-to-b from-(--btn-from) to-(--btn-to) [--radius-2xl:10px]"
+          withGradient={false}
+          ><Panel class="py-3.5" /></Card
+        >
+      </div>
+    {:else if slug === "frame"}
+      <div class="flex-1 rounded-[calc(var(--radius-2xl)+2px)] bg-muted/72 p-1">
+        <div class="flex flex-col gap-2 p-4"><Text class="w-[70%]" /></div>
+        <Card class="max-w-none"
+          ><Panel class="p-5"
+            ><div class="flex flex-col gap-2">
+              <Text class="w-[70%]" />
+              <Text class="w-[90%]" variant="secondary" />
+            </div></Panel
+          ></Card
+        >
+      </div>
+    {:else if slug === "group"}
+      <Card class="max-w-48 flex-row divide-x [--radius-2xl:14px]"
+        ><Panel class="px-6 py-4"><Text /></Panel><Panel class="px-6 py-4"><Text /></Panel></Card
+      >
+    {:else if slug === "input"}
+      <Card class="[--radius-2xl:14px]" withGradient={false}
+        ><Panel class="px-6 py-4"><Text class="w-[60%]" /></Panel></Card
+      >
+    {:else if slug === "input-group"}
+      <Card class="[--radius-2xl:14px]" withGradient={false}
+        ><Panel class="flex gap-2 p-0"
+          ><div class="flex flex-1 items-center gap-2 py-2.5 ps-4">
+            <Icon name="search" />
+            <Text class="w-[60%]" />
+          </div>
+          <div class="flex items-center py-2.5 pe-4">
+            <div class="size-4 shrink-0 rounded bg-muted-foreground/20"></div>
+          </div></Panel
+        ></Card
+      >
+    {:else if slug === "otp-field"}
+      <div class="flex max-w-50 flex-1 items-center gap-2">
+        {#each [0, 1, 2, 3] as index}
+          <Card class="size-10 [--radius-2xl:12px]" withGradient={false}
+            ><Panel class="flex items-center justify-center p-0"
+              >{#if index < 3}
+                <Text class="size-1.5" />
+              {:else}
+                <Icon name="text-cursor" />
+              {/if}</Panel
+            ></Card
+          >
+        {/each}
+      </div>
+    {:else if slug === "kbd"}
+      <div class="flex items-center justify-center gap-2">
+        {#each ["⌘", "K"] as key}
+          <Card class="size-10 [--radius-2xl:10px]"
+            ><Panel
+              class="flex items-center justify-center p-0 text-muted-foreground/88 leading-none"
+              >{key}</Panel
+            ></Card
+          >
+        {/each}
+      </div>
+    {:else if slug === "label"}
+      <div class="flex max-w-50 flex-1 flex-col gap-3">
+        <Text class="w-16 bg-primary" />
+        <Card class="[--radius-2xl:10px]" withGradient={false}><Panel class="py-3.5" /></Card>
+      </div>
+    {:else if slug === "menu"}
+      <div class="flex max-w-50 flex-1 flex-col items-end gap-2">
+        <Card class="w-fit [--radius-2xl:12px]"
+          ><Panel class="flex items-center gap-2 p-2"><Icon name="ellipsis" /></Panel></Card
+        ><Card class="[--radius-2xl:10px]"
+          ><Panel class="flex flex-col gap-4 p-4"
+            ><div class="me-6"><Text variant="secondary" /></div>
+            <div class="flex items-center gap-4">
+              <div class="flex-1"><Text variant="secondary" /></div>
+              <Icon class="-m-1" name="chevron-right" />
+            </div>
+            <div class="me-6"><Text variant="secondary" /></div></Panel
+          ></Card
+        >
+      </div>
+    {:else if slug === "meter"}
+      <div class="flex max-w-50 flex-1 flex-col gap-2">
+        <div class="flex items-center justify-between">
+          <Text class="w-[50%]" />
+          <Text class="w-8" />
+        </div>
+        <div class="h-2 w-full rounded-full bg-muted-foreground/20">
+          <div
+            class="h-2 w-[65%] rounded-s-full bg-linear-to-b from-(--btn-from) to-(--btn-to)"
+          ></div>
+        </div>
+      </div>
+    {:else if slug === "number-field"}
+      <Card class="[--radius-2xl:14px]"
+        ><Panel class="flex items-center gap-2 px-4 py-2.5"
+          ><Icon class="shrink-0" name="minus" />
+          <div class="flex flex-1 justify-center"><Text class="w-12" /></div>
+          <Icon class="shrink-0" name="plus" /></Panel
+        ></Card
+      >
+    {:else if slug === "pagination"}
+      <div class="flex flex-1 items-center gap-4">
+        <Card class="w-fit [--radius-2xl:12px]"
+          ><Panel class="p-2"><Icon name="chevron-left" /></Panel></Card
+        >
+        <div class="flex flex-1 gap-2">
+          <Text class="flex-1" variant="secondary" />
+          <Text class="flex-1" variant="secondary" />
+          <Text class="flex-1" variant="secondary" />
+        </div>
+        <Card class="w-fit [--radius-2xl:12px]"
+          ><Panel class="p-2"><Icon name="chevron-right" /></Panel></Card
+        >
+      </div>
+    {:else if slug === "popover"}
+      <div class="flex max-w-50 flex-1 flex-col items-center gap-2">
+        <Card class="w-fit [--radius-2xl:12px]"
+          ><Panel class="px-4 py-3"><Text class="w-12" /></Panel></Card
+        ><Card class="[--radius-2xl:10px]"
+          ><Panel class="flex flex-col gap-3 p-4"
+            ><Text class="w-[70%]" />
+            <div class="flex flex-col gap-1.5">
+              <Text class="w-[80%]" variant="secondary" />
+              <Text class="w-[60%]" variant="secondary" />
+            </div></Panel
+          ></Card
+        >
+      </div>
+    {:else if slug === "preview-card"}
+      <Card class="max-w-50"
+        ><Panel class="flex items-center gap-3 p-4"
+          ><div class="size-9 shrink-0 rounded-full bg-muted-foreground/20"></div>
+          <div class="flex flex-1 flex-col gap-2">
+            <Text class="w-[70%]" />
+            <Text variant="secondary" />
+            <Text class="w-[90%]" variant="secondary" />
+          </div></Panel
+        ></Card
+      >
+    {:else if slug === "progress"}
+      <div class="flex max-w-50 flex-1 flex-col gap-2">
+        <div class="h-2 w-full rounded-full bg-muted-foreground/20">
+          <div
+            class="h-2 w-[45%] rounded-s-full bg-linear-to-b from-(--btn-from) to-(--btn-to)"
+          ></div>
+        </div>
+      </div>
+    {:else if slug === "radio-group"}
+      <div class="flex max-w-28 flex-1 flex-col gap-3">
+        {@render radioItem()}{@render radioItem(true)}
+      </div>
+    {:else if slug === "scroll-area"}
+      <Card class="max-w-36 [--radius-2xl:14px]"
+        ><Panel class="relative p-0"
+          ><div class="flex flex-col gap-2 p-3">
+            <Text class="w-[80%]" variant="secondary" />
+            <Text class="w-[90%]" variant="secondary" />
+            <Text class="w-[70%]" variant="secondary" />
+            <Text class="w-[85%]" variant="secondary" />
+            <Text class="w-[90%]" variant="secondary" />
+            <Text class="w-[80%]" variant="secondary" />
+          </div>
+          <div
+            class="absolute top-2 right-1 h-8 w-1 rounded-full bg-muted-foreground/40"
+          ></div></Panel
+        ></Card
+      >
+    {:else if slug === "select"}
+      <Card class="[--radius-2xl:14px]" withGradient={false}
+        ><Panel class="flex gap-2 p-0"
+          ><div class="flex flex-1 items-center justify-between gap-2 py-2.5 ps-4 pe-2.5">
+            <Text class="w-[60%]" />
+            <Icon name="chevron-down" />
+          </div></Panel
+        ></Card
+      >
+    {:else if slug === "separator"}
+      <div class="max-w-50 flex-1 divide-y">
+        <div class="flex flex-col gap-2 py-3">
+          <Text class="w-[60%]" />
+          <Text variant="secondary" />
+        </div>
+        <div class="flex items-center gap-2 divide-x py-3">
+          {#each [0, 1, 2, 3] as index}
+            <div class={`${index % 2 === 0 ? "-mx-2" : ""} flex-1 px-2 py-1`}>
+              <Text variant="secondary" />
+            </div>
+          {/each}
+        </div>
+      </div>
+    {:else if slug === "sheet"}
+      <div class="flex h-full flex-1 gap-2">
+        <div class="flex-1 rounded-xl border border-input border-dashed"></div>
+        <Card class="h-full max-w-1/3 [--radius-2xl:14px]"
+          ><Panel class="flex flex-col gap-4 p-3"
+            ><div class="flex flex-1 flex-col gap-2">
+              <Text class="w-[60%]" />
+              <Text variant="secondary" />
+            </div>
+            <div class="flex justify-end"><Button variant="primary" /></div></Panel
+          ></Card
+        >
+      </div>
+    {:else if slug === "skeleton"}
+      <div
+        class="mask-[linear-gradient(100deg,black_0%,rgba(0,0,0,0.2)_20%,rgba(0,0,0,0.2)_80%,rgba(0,0,0,0.6)_100%)] flex max-w-50 flex-1 items-center gap-3"
+      >
+        <div class="size-8 rounded-full bg-muted-foreground/20"></div>
+        <div class="flex flex-1 flex-col gap-2">
+          <Text variant="secondary" />
+          <Text variant="secondary" />
+        </div>
+      </div>
+    {:else if slug === "slider"}
+      <div class="flex w-full max-w-50 items-center gap-1">
+        <Text class="w-[35%] bg-linear-to-b from-(--btn-from) to-(--btn-to)" variant="secondary" />
+        <div class="size-4 rounded-full bg-linear-to-b from-(--btn-from) to-(--btn-to)"></div>
+        <Text class="flex-1" variant="secondary" />
+      </div>
+    {:else if slug === "spinner"}
+      <div
+        class="size-8 rotate-45 rounded-full border-3 border-muted-foreground/20 border-t-primary"
+      ></div>
+    {:else if slug === "switch"}
+      <div class="h-6 w-10 rounded-full bg-muted-foreground/20 p-0.5">
+        <div
+          class="size-5 rounded-full bg-linear-to-b from-card to-card/90 shadow-xs/5 dark:from-background/90 dark:to-background"
+        ></div>
+      </div>
+    {:else if slug === "table"}
+      <Card
+        ><Panel class="p-0"
+          ><div class="divide-y divide-border">
+            {@render tableRow()}{@render tableRow()}{@render tableRow()}
+          </div></Panel
+        ></Card
+      >
+    {:else if slug === "tabs"}
+      <div class="flex max-w-50 flex-col gap-4">
+        <div class="flex rounded-lg bg-muted-foreground/12 p-0.5">
+          {#each [0, 1, 2] as index}
+            <div
+              class={`rounded-[calc(var(--radius-lg)-1px)] p-3 ${index === 0 ? "bg-linear-to-b from-card to-card/90 shadow-xs/5 dark:from-background/90 dark:to-background" : ""}`}
+            >
+              <Text
+                class={`w-6 ${index === 0 ? "bg-primary" : ""}`}
+                variant={index === 0 ? "main" : "secondary"}
+              />
+            </div>
+          {/each}
+        </div>
+        <div class="flex flex-col gap-2">
+          <Text class="w-[70%]" />
+          <Text variant="secondary" />
+        </div>
+      </div>
+    {:else if slug === "textarea"}
+      <Card class="[--radius-2xl:14px]" withGradient={false}
+        ><Panel class="flex flex-col gap-2 px-6 py-4"
+          ><Text class="w-[60%]" />
+          <Text class="opacity-0" />
+          <Text class="opacity-0" /></Panel
+        ></Card
+      >
+    {:else if slug === "toast"}
+      <div class="relative flex flex-1 justify-center">
+        <Card class="absolute -top-6 scale-80"><Panel class="p-3" /></Card
+        ><Card class="absolute -top-3 scale-90"><Panel class="p-3" /></Card
+        ><Card
+          ><Panel class="flex items-start gap-2 p-3"
+            ><Icon name="alert" />
+            <div class="flex flex-1 flex-col gap-2">
+              <Text class="w-[40%]" />
+              <Text class="w-[70%]" variant="secondary" />
+            </div></Panel
+          ></Card
+        >
+      </div>
+    {:else if slug === "toggle"}
+      <div class="flex flex-1 flex-col items-center justify-center gap-2">
+        <Card class="max-w-12 [--radius-2xl:14px]"
+          ><Panel class="rounded-[inherit] p-4"><Text /></Panel></Card
+        ><Card class="max-w-12 shadow-none [--radius-2xl:14px] before:hidden"
+          ><Panel class="rounded-[inherit] bg-muted-foreground/8 p-4"
+            ><Text class="bg-primary" /></Panel
+          ></Card
+        >
+      </div>
+    {:else if slug === "toggle-group"}
+      <Card class="w-auto flex-row divide-x [--radius-2xl:14px]"
+        ><Panel class="bg-clip-padding p-4"><Text class="w-4" /></Panel
+        ><Panel class="bg-muted-foreground/8 bg-clip-padding p-4"
+          ><Text class="w-4 bg-foreground" /></Panel
+        ><Panel class="bg-clip-padding p-4"><Text class="w-4" /></Panel></Card
+      >
+    {:else if slug === "toolbar"}
+      <div class="flex items-center gap-1 rounded-xl border p-1">
+        {#each [0, 1, 2] as _}
+          <Card class="w-fit [--radius-2xl:12px]"
+            ><Panel class="p-3.5"><Text class="w-4" /></Panel></Card
+          >
+        {/each}
+      </div>
+    {:else if slug === "tooltip"}
+      <div class="flex max-w-32 flex-1 flex-col items-center gap-2">
+        <Card class="[--radius-2xl:10px]"
+          ><Panel class="p-4"><Text /></Panel></Card
+        ><Icon name="info" />
+      </div>
+    {/if}
+  </div>
+{/if}

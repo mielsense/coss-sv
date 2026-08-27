@@ -1,6 +1,8 @@
 import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
+import { render } from "svelte/server";
 import { describe, expect, test } from "vitest";
+import CategoryThumbnail from "./CategoryThumbnail.svelte";
 import { componentCategories } from "./categories.js";
 
 const upstreamOrder = [
@@ -79,5 +81,23 @@ describe("COSS homepage category parity", () => {
 
     expect(digest).toBe("db937bf9ef7d1be6c590382cfc095e37344fe3a5a785f87788f410918893b782");
     expect(componentCategories.every(({ name, description }) => name && description)).toBe(true);
+  });
+
+  test("ports every upstream thumbnail explicitly and leaves Segmented Control blank", async () => {
+    const source = await readFile(new URL("./CategoryThumbnail.svelte", import.meta.url), "utf8");
+    const upstreamThumbnailSlugs = upstreamOrder.filter((slug) => slug !== "segmented-control");
+
+    for (const slug of upstreamThumbnailSlugs) {
+      expect(source).toContain(`slug === "${slug}"`);
+      expect(render(CategoryThumbnail, { props: { slug } }).body).toContain(
+        `data-thumbnail="${slug}"`,
+      );
+    }
+
+    expect(render(CategoryThumbnail, { props: { slug: "segmented-control" } }).body).not.toContain(
+      "category-thumbnail",
+    );
+    expect(source).not.toContain("new Set");
+    expect(source).not.toContain("Thumbnails.has");
   });
 });

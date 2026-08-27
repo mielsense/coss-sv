@@ -18,15 +18,17 @@ describe("documentation routes", () => {
     expect(body).not.toContain("github.com/mielsense/coss-sv");
   });
 
-  test("shared chrome retains COSS provenance and the restrained Miel credit", () => {
+  test("shared chrome retains COSS provenance and the exact upstream footer", () => {
     const header = render(SiteHeader).body;
     const footer = render(SiteFooter).body;
 
     expect(header).toContain("https://github.com/cosscom/coss");
     expect(header).toContain('aria-label="Search documentation"');
     expect(header).toContain('aria-label="Toggle Menu"');
-    expect(footer).toContain("Unofficial Svelte port made by");
-    expect(footer).toContain("https://github.com/mielsense");
+    expect(footer).toContain('href="/"');
+    expect(footer).toContain("© 2026");
+    expect(footer).toContain("open source, open heart, open mind.");
+    expect(footer).not.toContain("Miel");
   });
 
   test("the credits route links to the upstream project, Miel, and legal files", () => {
