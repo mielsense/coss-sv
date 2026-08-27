@@ -4,7 +4,7 @@ import * as ContextMenu from "./index.js";
 
 <ContextMenu.Root defaultOpen>
   <ContextMenu.Trigger class="surface">Right click here</ContextMenu.Trigger>
-  <ContextMenu.Popup>
+  <ContextMenu.Popup id="custom-popup">
     <ContextMenu.Item variant="destructive">Delete</ContextMenu.Item>
     <ContextMenu.CheckboxItem defaultChecked>Show hidden files</ContextMenu.CheckboxItem>
     <ContextMenu.RadioGroup defaultValue="system">
@@ -14,5 +14,12 @@ import * as ContextMenu from "./index.js";
       <ContextMenu.SubTrigger>Share</ContextMenu.SubTrigger>
       <ContextMenu.SubPopup><ContextMenu.Item>Email link</ContextMenu.Item></ContextMenu.SubPopup>
     </ContextMenu.Sub>
+  </ContextMenu.Popup>
+</ContextMenu.Root>
+
+<ContextMenu.Root open>
+  <ContextMenu.Trigger>Controlled context target</ContextMenu.Trigger>
+  <ContextMenu.Popup id="controlled-popup">
+    <ContextMenu.Item>Controlled action</ContextMenu.Item>
   </ContextMenu.Popup>
 </ContextMenu.Root>

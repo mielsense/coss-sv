@@ -2,19 +2,29 @@ import { createContext } from "svelte";
 
 export class ContextMenuIdState {
   #readOpen: () => boolean;
-  popupId = $state("");
+  #readPopupId: () => string;
+  #writePopupId: (id: string) => void;
 
-  constructor(readOpen: () => boolean, popupId: string) {
+  constructor(
+    readOpen: () => boolean,
+    readPopupId: () => string,
+    writePopupId: (id: string) => void,
+  ) {
     this.#readOpen = readOpen;
-    this.popupId = popupId;
+    this.#readPopupId = readPopupId;
+    this.#writePopupId = writePopupId;
   }
 
   get open(): boolean {
     return this.#readOpen();
   }
 
+  get popupId(): string {
+    return this.#readPopupId();
+  }
+
   setPopupId(id: string): void {
-    this.popupId = id;
+    this.#writePopupId(id);
   }
 }
 

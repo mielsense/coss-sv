@@ -1,13 +1,35 @@
-import { afterEach, describe, expect, test } from "vitest";
+import { hydrate, unmount } from "svelte";
+import { afterEach, describe, expect, test, vi } from "vitest";
 import { page, userEvent } from "vitest/browser";
 import { cleanup, render } from "vitest-browser-svelte";
 import ContextMenuFixture from "./context-menu.browser-fixture.svelte";
+import ContextMenuHydrationFixture from "./context-menu.hydration-fixture.svelte";
+import { contextMenuHydrationHtml } from "./context-menu.hydration-html.js";
 
 afterEach(() => {
   cleanup();
 });
 
 describe("Context Menu browser contract", () => {
+  test("hydrates an initially-open menu with an explicit popup id without divergence", async () => {
+    const warning = vi.spyOn(console, "warn").mockImplementation(() => undefined);
+    const error = vi.spyOn(console, "error").mockImplementation(() => undefined);
+    const target = document.createElement("div");
+    target.innerHTML = contextMenuHydrationHtml;
+    document.body.append(target);
+
+    const component = hydrate(ContextMenuHydrationFixture, { target });
+    const trigger = page.getByText("Hydrated context target");
+    await expect.element(trigger).toHaveAttribute("aria-controls", "custom-popup");
+    await expect.element(page.getByRole("menu")).toHaveAttribute("id", "custom-popup");
+    expect(warning).not.toHaveBeenCalled();
+    expect(error).not.toHaveBeenCalled();
+
+    await unmount(component);
+    warning.mockRestore();
+    error.mockRestore();
+  });
+
   test("opens at a context point, navigates submenus, closes with Escape, and restores focus", async () => {
     render(ContextMenuFixture);
     const surface = document.querySelector<HTMLElement>('[data-testid="surface"]');

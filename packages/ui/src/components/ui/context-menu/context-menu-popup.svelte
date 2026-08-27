@@ -24,6 +24,12 @@ const anchorProps = $derived(anchor === undefined ? {} : { anchor });
 const menuIds = getContextMenuIdContext();
 const popupId = $derived(id ?? menuIds.popupId);
 
+function registerInitialPopupId(): void {
+  if (id !== undefined) menuIds.setPopupId(id);
+}
+
+registerInitialPopupId();
+
 $effect.pre(() => {
   menuIds.setPopupId(popupId);
 });
