@@ -24,6 +24,7 @@ import type { Attachment } from "svelte/attachments";
 import { onDestroy } from "svelte";
 import { cn } from "$lib/utils.js";
 import { getOTPFieldContext } from "./context.js";
+import { getFieldRelationships, observeFieldRelationships } from "./field-relationships.js";
 
 const Slot = InputPrimitive as unknown as Component<
   Record<string, unknown>,
@@ -52,6 +53,10 @@ let {
 const context = getOTPFieldContext();
 const slot = context.createSlot();
 const index = $derived(context.indexOf(slot));
+const explicitRelationships = $derived({
+  ...(ariaDescribedBy === undefined ? {} : { "aria-describedby": ariaDescribedBy }),
+  ...(ariaLabelledBy === undefined ? {} : { "aria-labelledby": ariaLabelledBy }),
+});
 let slotValue = $state(context.valueAt(slot));
 
 onDestroy(() => context.unregister(slot));
@@ -62,12 +67,23 @@ $effect(() => {
 
 const inputBehavior: Attachment<HTMLInputElement> = (node) => {
   context.register(slot, node);
+  const syncFieldRelationships = () => {
+    if (
+      ariaDescribedBy === undefined &&
+      node.hasAttribute("aria-describedby") &&
+      getFieldRelationships(node)
+    )
+      node.removeAttribute("aria-describedby");
+  };
+  const stopFieldRelationships = observeFieldRelationships(node, syncFieldRelationships);
+  syncFieldRelationships();
   node.addEventListener("blur", handleBlur);
   node.addEventListener("focus", handleFocus);
   node.addEventListener("input", handleInput);
   node.addEventListener("keydown", handleKeydown);
   node.addEventListener("paste", handlePaste);
   return () => {
+    stopFieldRelationships();
     context.register(slot, null);
     node.removeEventListener("blur", handleBlur);
     node.removeEventListener("focus", handleFocus);
@@ -137,10 +153,8 @@ function handleBlur(event: FocusEvent): void {
     {@attach inputBehavior}
     bind:ref
     bind:value={slotValue}
-    aria-describedby={ariaDescribedBy ?? context.ariaDescribedBy}
     aria-invalid={ariaInvalid ?? context.ariaInvalid}
-    aria-label={ariaLabel ?? context.ariaLabel}
-    aria-labelledby={ariaLabelledBy ?? context.ariaLabelledBy}
+    aria-label={ariaLabel}
     autocomplete={context.autocomplete}
     autocorrect="off"
     class={cn(
@@ -161,6 +175,7 @@ function handleBlur(event: FocusEvent): void {
     spellcheck={false}
     tabindex={context.activeIndex === index ? 0 : -1}
     type={context.mask ? "password" : "text"}
+    {...explicitRelationships}
     {...props}
   />
 {:else}

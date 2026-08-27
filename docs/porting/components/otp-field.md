@@ -26,7 +26,8 @@ Automated headless Playwright inspection used `https://coss.com/ui/docs/componen
 
 - The root is `div[role="group"][data-slot="otp-field"]` and carries the accessible label. At desktop six default slots occupy 232 by 32 px; four large slots occupy 168 by 36 px. A separated six-slot field occupies 252 px.
 - Every slot is a real `input[type="text"]`. Default slots measure 32 by 32 px at desktop with 14 px type, 32 px line height, 10 px radius, centered text, and an 8 px root gap. Large slots measure 36 by 36 px.
-- The first slot carries `autocomplete="one-time-code"`, `maxlength` equal to root length, `tabindex="0"`, and the root label. Later slots use `autocomplete="off"` and `tabindex="-1"`. All use `autocorrect="off"`, `spellcheck="false"`, and a validation-specific `pattern`.
+- The first slot carries `autocomplete="one-time-code"`, `maxlength` equal to root length, and `tabindex="0"`. A root `aria-label` names the group only; it is not copied to the first slot. Later slots use `autocomplete="off"` and `tabindex="-1"`. All use `autocorrect="off"`, `spellcheck="false"`, and a validation-specific `pattern`.
+- Inside a Field, the Field label names both the OTP group and the first slot. The Field description or error describes the group, not the first slot. Explicit ARIA relationships on either the root or an individual slot take priority over inherited relationships.
 - Typing a valid character advances focus. Multiple inserted or pasted characters fill following slots. Arrow keys move focus. Backspace on a populated slot removes that character, shifts later values left, and focuses the previous slot. Backspace on an empty trailing slot removes the previous value and focuses it. Delete removes at the active position without moving backward. Selecting a slot and typing replaces it.
 - Validation modes are `numeric`, `alpha`, `alphanumeric`, and `none`. `normalizeValue` runs before validation. A same-length transform such as `a` to `A` is accepted without calling `onValueInvalid`. Characters removed by normalization or rejected by `validationType` call `onValueInvalid`; accepted changes call `onValueChange`. `onComplete` fires when the normalized value reaches `length`.
 - `mask` changes slots to password inputs while keeping the same composition. Disabled fields expose native disabled inputs and root opacity. Read-only slots remain focusable but do not mutate.
@@ -40,6 +41,8 @@ The complete source class strings are retained. The root uses an 8 px flex gap a
 ## Svelte and Shards mapping
 
 Shards has no OTP primitive. Its input and field code establishes the native attribute, field labeling, invalid state, form, and attachment conventions. The first slot uses Shards `Input` for Field registration. Later slots use native inputs so explicit per-slot labels are not overwritten by the shared Field label. A typed compound context derives slot position from live DOM order.
+
+Shards applies Field message IDs to its control, while COSS applies them to the OTP group. A local attachment reads the owning Field's rendered label, description, and error IDs. It assigns those relationships to the group and removes only the inherited description from the first slot. The attachment observes message replacement so controlled validation can swap a description for an error without leaving a stale ID. Shards still owns control registration, Field label focus, and validation state.
 
 ```svelte
 <OTPField.Root bind:value length={6} aria-label="Verification code">
@@ -57,7 +60,7 @@ Named compatibility exports remain available. `value` is bindable; `onValueChang
 
 ## Tests and review routes
 
-Tests cover SSR, hydration, numeric, alpha, alphanumeric and custom normalization, full and partial paste, selection replacement, forward and backward focus movement, Backspace and Delete shifting, disabled/read-only, input mode and autocomplete, completion callback, controlled binding, native submit/rejection/reset and external form association, dynamic slot removal/remount, masking, invalid attributes, exact classes, and semantic separator geometry.
+Tests cover SSR, hydration, numeric, alpha, alphanumeric and custom normalization, full and partial paste, selection replacement, forward and backward focus movement, Backspace and Delete shifting, disabled/read-only, input mode and autocomplete, completion callback, controlled binding, native submit/rejection/reset and external form association, dynamic slot removal/remount, masking, invalid attributes, Field label and message ownership, dynamic message replacement, exact classes, and semantic separator geometry.
 
 - Reference: `https://coss.com/ui/docs/components/otp-field`
 - Target: `/preview/otp-field?theme=light&width=desktop`

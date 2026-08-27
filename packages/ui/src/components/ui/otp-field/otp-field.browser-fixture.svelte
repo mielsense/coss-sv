@@ -10,6 +10,7 @@ let normalizedInvalidValue = $state("");
 let normalizedValue = $state("");
 let dynamicMiddle = $state(true);
 let resetValue = $state("12");
+let fieldInvalid = $state(false);
 </script>
 
 <form data-testid="otp-form" onsubmit={(event) => event.preventDefault()}>
@@ -100,7 +101,21 @@ let resetValue = $state("12");
     <OTPField.Input data-testid="field-otp-first" />
     <OTPField.Input aria-label="Security character 2" data-testid="field-otp-second" />
   </OTPField.Root>
+  {#if fieldInvalid}
+    <Field.Description id="field-security-error">Security code is invalid.</Field.Description>
+  {:else}
+    <Field.Description id="field-security-description"
+      >Enter both security characters.</Field.Description
+    >
+  {/if}
 </Field.Root>
+<button
+  data-testid="toggle-field-error"
+  type="button"
+  onclick={() => (fieldInvalid = !fieldInvalid)}
+>
+  Toggle field error
+</button>
 
 <OTPField.Root
   aria-label="Tier code"

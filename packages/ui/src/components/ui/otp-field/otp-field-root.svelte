@@ -33,6 +33,7 @@ import { cn } from "$lib/utils.js";
 import { untrack } from "svelte";
 import type { Attachment } from "svelte/attachments";
 import { setOTPFieldContext } from "./context.js";
+import { getFieldRelationships, observeFieldRelationships } from "./field-relationships.js";
 import type { OTPFieldSlot } from "./context.js";
 import { normalizeOTP, replaceOTPRange } from "./otp-field-machine.js";
 
@@ -117,6 +118,40 @@ const formReset: Attachment<HTMLDivElement> = (node) => {
   const reset = () => queueMicrotask(() => update(initialValue));
   owner?.addEventListener("reset", reset);
   return () => owner?.removeEventListener("reset", reset);
+};
+
+const fieldRelationships: Attachment<HTMLDivElement> = (node) => {
+  let managedLabel: string | undefined;
+  let managedDescription: string | undefined;
+
+  const sync = () => {
+    const relationships = getFieldRelationships(node);
+    if (!relationships) return;
+
+    const nextLabel = ariaLabel || ariaLabelledBy ? undefined : relationships.labelledBy;
+    if (nextLabel && node.getAttribute("aria-labelledby") !== nextLabel)
+      node.setAttribute("aria-labelledby", nextLabel);
+    else if (managedLabel && node.getAttribute("aria-labelledby") === managedLabel)
+      node.removeAttribute("aria-labelledby");
+    managedLabel = nextLabel;
+
+    const nextDescription = ariaDescribedBy ? undefined : relationships.describedBy;
+    if (nextDescription && node.getAttribute("aria-describedby") !== nextDescription)
+      node.setAttribute("aria-describedby", nextDescription);
+    else if (managedDescription && node.getAttribute("aria-describedby") === managedDescription)
+      node.removeAttribute("aria-describedby");
+    managedDescription = nextDescription;
+  };
+
+  const stop = observeFieldRelationships(node, sync);
+  sync();
+  return () => {
+    stop();
+    if (managedLabel && node.getAttribute("aria-labelledby") === managedLabel)
+      node.removeAttribute("aria-labelledby");
+    if (managedDescription && node.getAttribute("aria-describedby") === managedDescription)
+      node.removeAttribute("aria-describedby");
+  };
 };
 
 setOTPFieldContext({
@@ -219,6 +254,7 @@ setOTPFieldContext({
 
 <!-- biome-ignore lint/a11y/useSemanticElements: COSS and Base UI expose the segmented inputs through a div group. -->
 <div
+  {@attach fieldRelationships}
   {@attach formReset}
   bind:this={ref}
   aria-describedby={ariaDescribedBy}

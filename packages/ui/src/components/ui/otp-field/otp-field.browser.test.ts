@@ -25,6 +25,8 @@ describe("OTPField browser contract", () => {
     expect(slots[0]?.inputMode).toBe("numeric");
     expect(slots[0]?.tabIndex).toBe(0);
     expect(slots[1]?.tabIndex).toBe(-1);
+    expect(slots[0]?.hasAttribute("aria-label")).toBe(false);
+    expect(slots[0]?.hasAttribute("aria-labelledby")).toBe(false);
 
     slots[0]?.focus();
     await userEvent.keyboard("12");
@@ -112,6 +114,34 @@ describe("OTPField browser contract", () => {
     await expect
       .element(page.getByTestId("field-otp-second"))
       .toHaveAccessibleName("Security character 2");
+    const fieldSlot = await page.getByTestId("field-otp-first").element();
+    const fieldRoot = fieldSlot.closest<HTMLElement>('[data-slot="field"]');
+    const fieldOtp = fieldRoot?.querySelector<HTMLElement>('[data-slot="otp-field"]');
+    const fieldLabel = fieldRoot?.querySelector<HTMLElement>('[data-slot="field-label"]');
+    const fieldDescription = fieldRoot?.querySelector<HTMLElement>(
+      '[data-slot="field-description"]',
+    );
+    await expect
+      .element(fieldOtp as HTMLElement)
+      .toHaveAttribute("aria-labelledby", fieldLabel?.id);
+    await expect
+      .element(fieldOtp as HTMLElement)
+      .toHaveAttribute("aria-describedby", fieldDescription?.id);
+    expect(fieldSlot.getAttribute("aria-labelledby")).toBe(fieldLabel?.id);
+    expect(fieldSlot.hasAttribute("aria-describedby")).toBe(false);
+
+    await new Promise(requestAnimationFrame);
+    await new Promise(requestAnimationFrame);
+    await userEvent.click(page.getByTestId("toggle-field-error"));
+    await expect.element(page.getByText("Security code is invalid.")).toBeVisible();
+    const fieldError = fieldRoot?.querySelector<HTMLElement>("#field-security-error");
+    expect(fieldError).toBeInstanceOf(HTMLElement);
+    await expect
+      .element(fieldOtp as HTMLElement)
+      .toHaveAttribute("aria-describedby", fieldError?.id);
+    expect(fieldSlot.hasAttribute("aria-describedby")).toBe(false);
+
+    expect(recoverySlots[0]?.getAttribute("aria-label")).toBe("Recovery character 1");
 
     const custom = page.getByTestId("custom-otp");
     await userEvent.click(custom);

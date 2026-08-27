@@ -465,7 +465,7 @@ const priceCount = $derived(
         aria-label="Minimum value"
         class="w-10"
         delegate={numberGroup}
-        max={rangeValues[1]}
+        max={rangeValues[1] as number}
         min={0}
         onValueChange={(value: number | null) => (rangeValues = [Math.min(value ?? 0, rangeValues[1] ?? 50), rangeValues[1] ?? 50])}
         size="sm"
@@ -485,7 +485,7 @@ const priceCount = $derived(
         class="w-10"
         delegate={numberGroup}
         max={50}
-        min={rangeValues[0]}
+        min={rangeValues[0] as number}
         onValueChange={(value: number | null) => (rangeValues = [rangeValues[0] ?? 0, Math.max(value ?? 0, rangeValues[0] ?? 0)])}
         size="sm"
         value={rangeValues[1]}
@@ -593,7 +593,7 @@ const priceCount = $derived(
         <InputGroup.Root>
           <NumberField.Root
             aria-label="Minimum price"
-            max={priceValues[1]}
+            max={priceValues[1] as number}
             min={priceMin}
             onValueChange={(value: number | null) => (priceValues = [Math.min(value ?? priceMin, priceValues[1] ?? priceMax), priceValues[1] ?? priceMax])}
             value={priceValues[0]}
@@ -605,7 +605,7 @@ const priceCount = $derived(
           <NumberField.Root
             aria-label="Maximum price"
             max={priceMax}
-            min={priceValues[0]}
+            min={priceValues[0] as number}
             onValueChange={(value: number | null) => (priceValues = [priceValues[0] ?? priceMin, Math.max(value ?? priceMin, priceValues[0] ?? priceMin)])}
             value={priceValues[1]}
             ><NumberField.Input class="text-left" /></NumberField.Root
