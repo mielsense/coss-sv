@@ -163,4 +163,28 @@ describe("documentation compiler", () => {
   ])("fails invalid source records", async ({ error, options }) => {
     await expect(compileDocs(options)).rejects.toThrow(error);
   });
+
+  test.each([
+    ["pnpm", "bun add @coss-sv/ui", /pnpm command must use pnpm/],
+    ["pnpm", "npm install @coss-sv/ui", /pnpm command must use pnpm/],
+    ["pnpm", "pnpm add react", /pnpm command must not install React/],
+    ["shadcnSvelte", "npm exec shadcn-svelte@latest add accordion", /must use pnpm/],
+    ["shadcnSvelte", "pnpm dlx shadcn@latest add accordion", /must use shadcn-svelte/],
+    ["shadcnSvelte", "pnpm dlx shadcn-svelte@latest add react", /must not install React/],
+  ] as const)("rejects invalid %s install command semantics", async (attribute, command, error) => {
+    const invalid = accordionSource.replace(
+      attribute === "pnpm"
+        ? 'pnpm="pnpm add @shardsui/svelte"'
+        : 'shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://example.com/r/accordion.json"',
+      `${attribute}="${command}"`,
+    );
+
+    await expect(
+      compileDocs({
+        order: ["accordion"],
+        pages: [{ kind: "component", slug: "accordion", source: invalid }],
+        particleIds: new Set(["p-accordion-1"]),
+      }),
+    ).rejects.toThrow(error);
+  });
 });

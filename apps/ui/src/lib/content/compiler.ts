@@ -1,4 +1,5 @@
 import { type HighlightedSource, highlightSource } from "../code/highlight.js";
+import { documentationHeading } from "./headings.js";
 
 export type PageKind = "root" | "component" | "hook" | "migration" | "changelog";
 
@@ -121,26 +122,9 @@ function parseFrontmatter(source: string, slug: string): ParsedFrontmatter {
   };
 }
 
-function headingId(text: string): { id: string; text: string } {
-  const explicit = /\s+\{#([^}]+)\}\s*$/.exec(text);
-  const visibleText = text
-    .replace(/\s+\{#[^}]+\}\s*$/, "")
-    .replaceAll("`", "")
-    .trim();
-  const id =
-    explicit?.[1] ??
-    visibleText
-      .normalize("NFKD")
-      .replace(/[?'’]/g, "")
-      .replace(/[^\p{Letter}\p{Number}]+/gu, "-")
-      .replace(/^-|-$/g, "")
-      .toLowerCase();
-  return { id, text: visibleText };
-}
-
 function tableOfContents(markdown: string): TableOfContentsItem[] {
   return Array.from(markdown.matchAll(/^(#{1,6})\s+(.+)$/gm)).map((match) => {
-    const heading = headingId(match[2] ?? "");
+    const heading = documentationHeading(match[2] ?? "");
     return { depth: match[1]?.length ?? 1, ...heading };
   });
 }
@@ -169,8 +153,35 @@ function installCommands(markdown: string): InstallCommands[] {
     if (!pnpm || !shadcnSvelte) {
       throw new Error("InstallCommand requires pnpm and shadcnSvelte commands");
     }
+    validatePnpmCommand(pnpm);
+    validateShadcnSvelteCommand(shadcnSvelte);
     return { pnpm, shadcnSvelte };
   });
+}
+
+const reactCommand =
+  /(?:^|[\s/])(?:@base-ui\/react|@types\/react|react(?:-dom)?)(?:@[^\s]+)?(?=\s|$)/i;
+const otherPackageManager = /(?:^|\s)(?:bun|bunx|npm|npx|yarn)(?=\s|$)/i;
+
+function validatePnpmCommand(command: string): void {
+  const normalized = command.trim();
+  if (!/^pnpm(?:\s|$)/i.test(normalized) || otherPackageManager.test(normalized)) {
+    throw new Error("pnpm command must use pnpm");
+  }
+  if (reactCommand.test(command)) throw new Error("pnpm command must not install React");
+}
+
+function validateShadcnSvelteCommand(command: string): void {
+  const normalized = command.trim();
+  if (!/^pnpm(?:\s|$)/i.test(normalized) || otherPackageManager.test(normalized)) {
+    throw new Error("shadcn-svelte command must use pnpm");
+  }
+  if (!/(?:^|\s)shadcn-svelte(?:@[^\s]+)?(?=\s|$)/i.test(normalized)) {
+    throw new Error("shadcn-svelte command must use shadcn-svelte");
+  }
+  if (reactCommand.test(normalized)) {
+    throw new Error("shadcn-svelte command must not install React");
+  }
 }
 
 async function codeBlocks(markdown: string): Promise<HighlightedSource[]> {
