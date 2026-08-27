@@ -263,6 +263,58 @@ async function waitForToolbarFontAlignment() {
   });
 }
 
+async function paymentCurrencyMetrics() {
+  return page.evaluate(() => {
+    const trigger = document.querySelector(
+      '[data-particle="p-group-14"] [data-slot="select-trigger"]',
+    );
+    const value = trigger?.querySelector('[data-slot="select-value"]');
+    const positioner = document.querySelector('[data-slot="select-positioner"]');
+    const popup = document.querySelector('[data-slot="select-popup"]');
+    const list = document.querySelector('[data-slot="select-list"]');
+    const selected = document.querySelector('[data-slot="select-item"][aria-selected="true"]');
+    const selectedLabel = selected?.querySelector(".col-start-2");
+    if (
+      !(trigger instanceof HTMLElement) ||
+      !(value instanceof HTMLElement) ||
+      !(positioner instanceof HTMLElement) ||
+      !(popup instanceof HTMLElement) ||
+      !(list instanceof HTMLElement) ||
+      !(selected instanceof HTMLElement) ||
+      !(selectedLabel instanceof HTMLElement)
+    ) {
+      return null;
+    }
+
+    const triggerRect = trigger.getBoundingClientRect();
+    const valueRect = value.getBoundingClientRect();
+    const positionerRect = positioner.getBoundingClientRect();
+    const popupRect = popup.getBoundingClientRect();
+    const listRect = list.getBoundingClientRect();
+    const selectedRect = selected.getBoundingClientRect();
+    const selectedLabelRect = selectedLabel.getBoundingClientRect();
+    const positionerStyle = getComputedStyle(positioner);
+    return {
+      align: positioner.dataset.align,
+      anchorWidth: Number.parseFloat(positionerStyle.getPropertyValue("--anchor-width")),
+      itemMinWidth: Number.parseFloat(getComputedStyle(selected).minWidth),
+      labelX: selectedLabelRect.left,
+      listWidth: listRect.width,
+      popupWidth: popupRect.width,
+      positionerWidth: positionerRect.width,
+      positionerX: positionerRect.left,
+      selectedCenterY: selectedRect.top + selectedRect.height / 2,
+      selectedFocused: selected === document.activeElement,
+      selectedHighlighted: selected.hasAttribute("data-highlighted"),
+      selectedTabIndex: selected.tabIndex,
+      side: positioner.dataset.side,
+      triggerCenterY: triggerRect.top + triggerRect.height / 2,
+      triggerValueX: valueRect.left,
+      triggerX: triggerRect.left,
+    };
+  });
+}
+
 try {
   await page.goto(baseUrl);
 
@@ -566,6 +618,58 @@ try {
   assert.ok(arialMetrics, "Arial Toolbar Select geometry is available");
   assertNear(arialMetrics.selectedCenter, arialMetrics.triggerCenter, "Arial selected font center");
   assertNear(arialMetrics.selectedLabelX, arialMetrics.triggerLabelX, "Arial label x");
+
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.goto(`${baseUrl}/preview/number-field?theme=light&width=desktop`);
+  await page.locator('[data-preview-ready="true"]').waitFor();
+  await page.waitForTimeout(250);
+  const currencyTrigger = page.locator('[data-particle="p-group-14"] [data-slot="select-trigger"]');
+  await currencyTrigger.click();
+  const selectedCurrency = page.locator('[data-slot="select-item"][aria-selected="true"]');
+  await selectedCurrency.waitFor({ state: "visible" });
+  const dollarMetrics = await paymentCurrencyMetrics();
+  assert.ok(dollarMetrics, "payment currency geometry is available");
+  assert.equal(dollarMetrics.side, "none");
+  assert.equal(dollarMetrics.align, "start");
+  assertNear(dollarMetrics.positionerWidth, 194, "payment currency positioner width");
+  assertNear(dollarMetrics.popupWidth, 194, "payment currency popup width");
+  assertNear(dollarMetrics.listWidth, 192, "payment currency list width");
+  assertNear(
+    dollarMetrics.itemMinWidth,
+    dollarMetrics.anchorWidth + 20,
+    "item-aligned currency minimum width",
+  );
+  assertNear(dollarMetrics.positionerX, dollarMetrics.triggerX - 25, "payment currency popup x", 1);
+  assertNear(dollarMetrics.labelX, dollarMetrics.triggerValueX, "US Dollar label x");
+  assertNear(dollarMetrics.selectedCenterY, dollarMetrics.triggerCenterY, "US Dollar center y");
+  assert.equal(dollarMetrics.selectedFocused, true);
+  assert.equal(dollarMetrics.selectedHighlighted, true);
+  assert.equal(dollarMetrics.selectedTabIndex, 0);
+
+  await page.keyboard.press("ArrowDown");
+  await page.locator('[data-slot="select-item"][data-highlighted]', { hasText: "Euro" }).waitFor();
+  await page.keyboard.press("Enter");
+  await page.locator('[data-slot="select-positioner"]').waitFor({ state: "hidden" });
+  await page.waitForFunction(() =>
+    document
+      .querySelector('[data-particle="p-group-14"] [data-slot="select-trigger"]')
+      ?.textContent?.trim()
+      .startsWith("€"),
+  );
+  assert.equal(
+    await currencyTrigger.evaluate((element) => element === document.activeElement),
+    true,
+  );
+  assert.equal((await currencyTrigger.textContent())?.trim().startsWith("€"), true);
+
+  await currencyTrigger.press("ArrowDown");
+  await selectedCurrency.waitFor({ state: "visible" });
+  const euroMetrics = await paymentCurrencyMetrics();
+  assert.ok(euroMetrics, "selected Euro geometry is available");
+  assertNear(euroMetrics.labelX, euroMetrics.triggerValueX, "Euro label x");
+  assertNear(euroMetrics.selectedCenterY, euroMetrics.triggerCenterY, "Euro center y");
+  assert.equal(await selectedCurrency.textContent().then((text) => text?.includes("Euro")), true);
+  assert.equal(euroMetrics.selectedFocused, true);
 } finally {
   await browser.close();
   preview?.kill("SIGTERM");

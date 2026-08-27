@@ -11,6 +11,7 @@ import {
   Slider,
 } from "@coss-sv/ui";
 import { Select } from "@shardsui/svelte/select";
+import { tick } from "svelte";
 
 let controlled = $state<number | null>(25);
 let loading = $state(false);
@@ -25,9 +26,57 @@ const currencies = [
   { label: "British Pound", value: "£" },
 ];
 let currency = $state(currencies[0]);
+let currencyOpen = $state(false);
+let currencyTrigger = $state<HTMLElement | null>(null);
+let currencyPositioner = $state<HTMLElement | null>(null);
+let currencySideOffset = $state(4);
+let currencyAlignOffset = $state(0);
 function currencyValue(item: unknown): string {
   return item && typeof item === "object" && "value" in item ? String(item.value) : "";
 }
+
+function nextAnimationFrame(): Promise<void> {
+  return new Promise((resolve) => requestAnimationFrame(() => resolve()));
+}
+
+async function alignCurrencyItem(signal: AbortSignal): Promise<void> {
+  await tick();
+  for (let attempt = 0; attempt < 4 && !signal.aborted; attempt += 1) {
+    await nextAnimationFrame();
+    if (signal.aborted || !currencyTrigger || !currencyPositioner) return;
+
+    const triggerValue = currencyTrigger.querySelector<HTMLElement>('[data-slot="select-value"]');
+    const selectedItem = currencyPositioner.querySelector<HTMLElement>(
+      '[data-slot="select-item"][aria-selected="true"]',
+    );
+    const selectedLabel = selectedItem?.querySelector<HTMLElement>(".col-start-2");
+    if (!triggerValue || !selectedItem || !selectedLabel) continue;
+
+    const triggerRect = currencyTrigger.getBoundingClientRect();
+    const selectedRect = selectedItem.getBoundingClientRect();
+    const labelDelta =
+      triggerValue.getBoundingClientRect().left - selectedLabel.getBoundingClientRect().left;
+    const centerDelta =
+      triggerRect.top + triggerRect.height / 2 - (selectedRect.top + selectedRect.height / 2);
+
+    if (Math.abs(labelDelta) <= 0.5 && Math.abs(centerDelta) <= 0.5) return;
+    currencyAlignOffset += labelDelta;
+    currencySideOffset += centerDelta;
+  }
+}
+
+$effect(() => {
+  void currency;
+  if (!currencyOpen || !currencyTrigger || !currencyPositioner) {
+    currencyAlignOffset = 0;
+    currencySideOffset = 4;
+    return;
+  }
+
+  const controller = new AbortController();
+  void alignCurrencyItem(controller.signal);
+  return () => controller.abort();
+});
 const prices = [
   80, 95, 110, 125, 130, 140, 145, 150, 155, 165, 175, 185, 195, 205, 215, 225, 235, 245, 255, 260,
   265, 270, 275, 280, 285, 290, 290, 295, 295, 295, 298, 299, 300, 305, 310, 315, 320, 325, 330,
@@ -208,12 +257,14 @@ const priceCount = $derived(
       <Group.Root aria-label="Amount input">
         <!-- Private parity-only Shards Select; replace with the public C13 Select after integration. -->
         <Select.Root
+          bind:open={currencyOpen}
           bind:value={currency}
           items={currencies}
           itemToStringValue={currencyValue}
           isItemEqualToValue={(item, selected) => currencyValue(item) === currencyValue(selected)}
         >
           <Select.Trigger
+            bind:ref={currencyTrigger}
             class="relative inline-flex min-h-9 w-fit min-w-none select-none items-center justify-between gap-2 rounded-lg border border-input bg-background not-dark:bg-clip-padding px-[calc(--spacing(3)-1px)] text-left text-base text-foreground shadow-xs/5 outline-none ring-ring/24 transition-shadow before:pointer-events-none before:absolute before:inset-0 before:rounded-[calc(var(--radius-lg)-1px)] not-data-disabled:not-focus-visible:not-aria-invalid:not-data-pressed:before:shadow-[0_1px_--theme(--color-black/4%)] pointer-coarse:after:absolute pointer-coarse:after:size-full pointer-coarse:after:min-h-11 focus-visible:border-ring focus-visible:ring-[3px] aria-invalid:border-destructive/36 focus-visible:aria-invalid:border-destructive/64 focus-visible:aria-invalid:ring-destructive/16 data-disabled:pointer-events-none data-disabled:opacity-64 sm:min-h-8 sm:text-sm dark:bg-input/32 dark:aria-invalid:ring-destructive/24 dark:not-data-disabled:not-focus-visible:not-aria-invalid:not-data-pressed:before:shadow-[0_-1px_--theme(--color-white/6%)] [&_svg:not([class*='opacity-'])]:opacity-80 [&_svg:not([class*='size-'])]:size-4.5 sm:[&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:shrink-0 [[data-disabled],:focus-visible,[aria-invalid],[data-pressed]]:shadow-none"
             data-slot="select-trigger"
           >
@@ -244,12 +295,20 @@ const priceCount = $derived(
           </Select.Trigger>
           <Select.Portal>
             <Select.Positioner
+              bind:ref={currencyPositioner}
+              align="start"
+              alignOffset={currencyAlignOffset}
               class="z-50 select-none"
+              data-align="start"
+              data-side="none"
               data-slot="select-positioner"
-              sideOffset={4}
+              positionMethod="fixed"
+              sideOffset={currencySideOffset}
             >
               <Select.Popup
                 class="origin-(--transform-origin) text-foreground outline-none"
+                data-align="start"
+                data-side="none"
                 data-slot="select-popup"
               >
                 <Select.ScrollUpArrow
