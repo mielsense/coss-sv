@@ -1362,8 +1362,8 @@ const namedHtmlCharacters = new Map([
 
 function decodeHtmlCharacterReferences(value: string) {
   return value.replaceAll(
-    /&(?:#(\d+)|#x([\da-f]+)|([a-z][\da-z]+));/gi,
-    (reference, decimal, hex, name) => {
+    /&#(?:x([\da-f]+)|(\d+));?|&([a-z][\da-z]+);/gi,
+    (reference, hex, decimal, name) => {
       if (name) return namedHtmlCharacters.get(String(name).toLowerCase()) ?? reference;
       const codePoint = Number.parseInt(decimal ?? hex, decimal ? 10 : 16);
       if (

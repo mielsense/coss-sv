@@ -496,6 +496,9 @@ test("rejects inert Svelte expressions without rejecting authored dynamic output
     '{@html "&#84;&#79;&#68;&#79;"}\n',
     '{@html "&#x54;&#79;&#x44;&#79;"}\n',
     '{@html "TODO&excl;"}\n',
+    '{@html "&#84&#79&#68&#79"}\n',
+    '{@html "&#x54&#79&#x44&#79"}\n',
+    '{@html "TODO&#33"}\n',
   ] as const;
   const authoredSources = [
     "<button>Save changes</button>\n",
