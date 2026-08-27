@@ -63,7 +63,7 @@ test("emits pinned resolutions and reviewed build scripts as workspace configura
           "msw@2.11.2": false,
           "sharp@0.34.5": true,
         },
-        ignoredBuiltDependencies: ["core-js-pure@3.45.0", "msw@2.11.2"],
+        ignoredBuiltDependencies: ["core-js-pure", "msw"],
         onlyBuiltDependencies: ["esbuild@0.25.12", "esbuild@0.27.0", "sharp@0.34.5"],
         strictDepBuilds: true,
       },

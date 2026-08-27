@@ -124,6 +124,13 @@ export function convertReferencePackageToPinnedPnpmWorkspace(
   }
 
   const reviewedBuildSelectors = Object.keys(allowBuilds).sort();
+  const ignoredBuiltDependencies = Array.from(
+    new Set(
+      reviewedBuildSelectors
+        .filter((selector) => !allowBuilds[selector])
+        .map((selector) => packageIdentity(selector).name),
+    ),
+  ).sort();
 
   return {
     packageJson: packageJsonWithoutLegacyPnpmSettings,
@@ -131,7 +138,9 @@ export function convertReferencePackageToPinnedPnpmWorkspace(
       packages: ["apps/*", "apps/examples/*", "packages/*"],
       overrides: createPinnedPnpmOverrides(lock),
       allowBuilds,
-      ignoredBuiltDependencies: reviewedBuildSelectors.filter((selector) => !allowBuilds[selector]),
+      // pnpm 10.22 compares ignored builds by package name, while the
+      // allow-list supports the exact name@version selectors retained below.
+      ignoredBuiltDependencies,
       onlyBuiltDependencies: reviewedBuildSelectors.filter((selector) => allowBuilds[selector]),
       strictDepBuilds: true,
     },
