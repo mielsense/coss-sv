@@ -17,7 +17,9 @@ test("overrides every package-manager and user path with an isolated temporary p
     const environment = createIsolatedChildEnvironment(root, {
       HOME: "/Users/example",
       COREPACK_HOME: "/Users/example/.cache/corepack",
+      npm_config_strict_peer_dependencies: "true",
       npm_config_store_dir: "/Users/example/.pnpm-store",
+      PNPM_CONFIG_VERIFY_DEPS_BEFORE_RUN: "true",
     });
 
     assert.doesNotThrow(() => assertIsolatedChildEnvironment(root, environment));
@@ -25,6 +27,8 @@ test("overrides every package-manager and user path with an isolated temporary p
       assert.ok(environment[key]?.startsWith(root), `${key} must stay below the temp root`);
     }
     assert.notEqual(environment.HOME, "/Users/example");
+    assert.equal(environment.npm_config_strict_peer_dependencies, undefined);
+    assert.equal(environment.PNPM_CONFIG_VERIFY_DEPS_BEFORE_RUN, undefined);
     assert.equal(environment.PATH?.split(delimiter)[0], dirname(process.execPath));
   } finally {
     rmSync(root, { recursive: true, force: true });

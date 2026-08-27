@@ -15,7 +15,7 @@ const webServer = [
   {
     command: referenceCommand,
     env: webServerEnvironment,
-    gracefulShutdown: { signal: "SIGTERM", timeout: 10_000 },
+    gracefulShutdown: { signal: "SIGTERM", timeout: 60_000 },
     url: referenceBaseUrl,
     reuseExistingServer: !process.env.CI,
     timeout: 300_000,

@@ -16,6 +16,7 @@ import {
   assertIsolatedChildEnvironment,
   createIsolatedChildEnvironment,
 } from "./reference-environment.mts";
+import { applyPinnedPnpmOverrides, parsePinnedBunLock } from "./reference-lock.mts";
 
 const scriptDirectory = dirname(fileURLToPath(import.meta.url));
 const repositoryRoot = resolve(scriptDirectory, "../..");
@@ -60,6 +61,7 @@ const sourceLockPath = join(sourceRoot, "bun.lock");
 
 const sourcePackageBefore = readFileSync(sourcePackagePath);
 const sourceLockBefore = readFileSync(sourceLockPath);
+const pinnedBunLock = parsePinnedBunLock(sourceLockBefore.toString("utf8"));
 const temporaryParent = mkdtempSync(join(tmpdir(), "coss-sv-reference-"));
 const temporaryReference = join(temporaryParent, "reference");
 const childEnvironment = createIsolatedChildEnvironment(temporaryParent);
@@ -82,11 +84,20 @@ function runPnpm(arguments_: string[], captureOutput = false) {
       cwd: temporaryReference,
       detached: process.platform !== "win32",
       env: childEnvironment,
-      stdio: captureOutput ? ["ignore", "pipe", "inherit"] : "inherit",
+      stdio: ["ignore", "pipe", "pipe"],
     });
     let output = "";
+    let diagnosticOutput = "";
     child.stdout?.on("data", (chunk) => {
-      output += String(chunk);
+      const text = String(chunk);
+      output += text;
+      diagnosticOutput += text;
+      if (!captureOutput) process.stdout.write(text);
+    });
+    child.stderr?.on("data", (chunk) => {
+      const text = String(chunk);
+      diagnosticOutput += text;
+      process.stderr.write(text);
     });
     activeChild = child;
     child.once("error", (error) => {
@@ -96,7 +107,14 @@ function runPnpm(arguments_: string[], captureOutput = false) {
     child.once("exit", (code, signal) => {
       activeChild = undefined;
       if (code === 0) resolvePromise(output.trim());
-      else reject(new Error(`pnpm ${arguments_.join(" ")} exited with ${code ?? signal}.`));
+      else {
+        const tail = diagnosticOutput.trim().slice(-4_000);
+        reject(
+          new Error(
+            `pnpm ${arguments_.join(" ")} exited with ${code ?? signal}.${tail ? `\n${tail}` : ""}`,
+          ),
+        );
+      }
     });
   });
 }
@@ -140,7 +158,6 @@ function stopReference(signal: NodeJS.Signals) {
   } else {
     activeChild?.kill(signal);
   }
-  cleanupTemporaryParent();
 }
 
 process.once("SIGINT", () => stopReference("SIGINT"));
@@ -173,10 +190,10 @@ try {
   });
 
   const temporaryPackagePath = join(temporaryReference, "package.json");
-  const temporaryPackage = JSON.parse(readFileSync(temporaryPackagePath, "utf8")) as Record<
-    string,
-    unknown
-  >;
+  const temporaryPackage = applyPinnedPnpmOverrides(
+    JSON.parse(readFileSync(temporaryPackagePath, "utf8")) as Record<string, unknown>,
+    pinnedBunLock,
+  );
   temporaryPackage.packageManager = "pnpm@10.22.0";
   temporaryPackage.engines = { node: ">=22.18 <25" };
   writeFileSync(temporaryPackagePath, `${JSON.stringify(temporaryPackage, null, 2)}\n`);
@@ -188,7 +205,19 @@ try {
   const effectiveStorePath = await runPnpm(["store", "path"], true);
   assertEffectivePackageManagerPath(temporaryParent, effectiveStorePath, "pnpm store path");
   console.log(`Temporary pnpm store: ${effectiveStorePath}`);
-  await runPnpm(["--filter", "ui...", "install", "--lockfile=false"]);
+  console.log(
+    `Converted ${Object.keys((temporaryPackage.pnpm as { overrides: Record<string, string> }).overrides).length} pinned Bun resolutions to exact pnpm overrides.`,
+  );
+  await runPnpm(["install", "--lockfile-only"]);
+  const generatedPnpmLockPath = join(temporaryReference, "pnpm-lock.yaml");
+  if (!existsSync(generatedPnpmLockPath)) {
+    throw new Error("pnpm did not write the converted temporary lockfile.");
+  }
+  const generatedPnpmLock = readFileSync(generatedPnpmLockPath);
+  await runPnpm(["--filter", "ui...", "install", "--frozen-lockfile"]);
+  if (!generatedPnpmLock.equals(readFileSync(generatedPnpmLockPath))) {
+    throw new Error("Frozen reference install changed the converted pnpm lockfile.");
+  }
   assertSourceUnchanged();
   await runReferenceServer();
 } catch (error) {

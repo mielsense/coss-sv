@@ -16,6 +16,7 @@ let count = $state(0);
     <button type="button" onclick={() => (count += 1)}>Advance count</button>
     <output aria-live="polite">Count: {count}</output>
   </div>
+  <div class="motion-probe" data-motion-probe="true" aria-hidden="true"></div>
 </section>
 
 <style>
@@ -59,5 +60,26 @@ button {
 button:focus-visible {
   outline: 2px solid var(--ring);
   outline-offset: 2px;
+}
+
+.motion-probe {
+  width: 0.5rem;
+  height: 0.5rem;
+  margin-top: 1rem;
+  border-radius: 999px;
+  background: currentColor;
+  animation: preview-fixture-motion 2s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .motion-probe {
+    animation: none;
+  }
+}
+
+@keyframes preview-fixture-motion {
+  to {
+    transform: translateX(2rem);
+  }
 }
 </style>

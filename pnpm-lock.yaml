@@ -6,6 +6,12 @@ settings:
 
 catalogs:
   dev:
+    '@axe-core/playwright':
+      specifier: 4.13.0
+      version: 4.13.0
+    '@playwright/test':
+      specifier: 1.62.1
+      version: 1.62.1
     '@sveltejs/adapter-vercel':
       specifier: 6.3.4
       version: 6.3.4
@@ -21,6 +27,9 @@ catalogs:
     '@tailwindcss/vite':
       specifier: 4.3.3
       version: 4.3.3
+    '@testing-library/svelte':
+      specifier: 5.4.2
+      version: 5.4.2
     '@types/node':
       specifier: ^24.0.0
       version: 24.13.3
@@ -67,15 +76,42 @@ importers:
 
   .:
     devDependencies:
+      '@axe-core/playwright':
+        specifier: catalog:dev
+        version: 4.13.0(playwright-core@1.62.1)
       '@biomejs/biome':
         specifier: 2.5.10
         version: 2.5.10
+      '@playwright/test':
+        specifier: catalog:dev
+        version: 1.62.1
+      '@sveltejs/vite-plugin-svelte':
+        specifier: catalog:dev
+        version: 7.3.0(svelte@5.56.10)(vite@8.2.2(@types/node@24.13.3)(esbuild@0.28.2)(jiti@2.7.0))
+      '@testing-library/svelte':
+        specifier: catalog:dev
+        version: 5.4.2(svelte@5.56.10)(vite@8.2.2(@types/node@24.13.3)(esbuild@0.28.2)(jiti@2.7.0))(vitest@4.1.11)
+      '@vitest/browser':
+        specifier: catalog:dev
+        version: 4.1.11(vite@8.2.2(@types/node@24.13.3)(esbuild@0.28.2)(jiti@2.7.0))(vitest@4.1.11)
+      '@vitest/browser-playwright':
+        specifier: catalog:dev
+        version: 4.1.11(playwright@1.62.1)(vite@8.2.2(@types/node@24.13.3)(esbuild@0.28.2)(jiti@2.7.0))(vitest@4.1.11)
+      playwright:
+        specifier: catalog:dev
+        version: 1.62.1
+      svelte:
+        specifier: catalog:dev
+        version: 5.56.10
       turbo:
         specifier: 2.10.12
         version: 2.10.12
       typescript:
         specifier: 6.0.3
         version: 6.0.3
+      vitest:
+        specifier: catalog:dev
+        version: 4.1.11(@types/node@24.13.3)(@vitest/browser-playwright@4.1.11)(vite@8.2.2(@types/node@24.13.3)(esbuild@0.28.2)(jiti@2.7.0))
 
   apps/ui:
     dependencies:
@@ -218,6 +254,11 @@ importers:
         version: 2.1.1(svelte@5.56.10)(vitest@4.1.11)
 
 packages:
+
+  '@axe-core/playwright@4.13.0':
+    resolution: {integrity: sha512-6YLx+kxXu5GJceG4ozFg+33a2EMTdjYwWGloJ3sb9Kta5pp+ZNS53uxGVog5JetIY8s++P5UrtX+cri+u0VAVg==}
+    peerDependencies:
+      playwright-core: '>= 1.0.0'
 
   '@babel/code-frame@7.29.7':
     resolution: {integrity: sha512-Aup7aUOfpbAUg2ROOJN6Iw5f9DMBlzu0mIkm/malLQFN/YQgO48wCj0Kxa3sEHJvPVFg7siR+qRInwXd2qhQKw==}
@@ -479,6 +520,11 @@ packages:
 
   '@oxc-project/types@0.146.0':
     resolution: {integrity: sha512-XC0QsnnhVe7sLIWmYmdPw7x5P0h4W8vUU3Nv1ySgWXtvCz8NizoAEpGXA0sOYoJQV2Rl13LgURAHQ5cI5ILCSA==}
+
+  '@playwright/test@1.62.1':
+    resolution: {integrity: sha512-DTcUc8qii+cpHvtOwggMtBRMjKZHXYWdw8syRYu2vtzuq4Wxphqq4NfCs5Zt44L6mA8rfDfj+PHnxFc/FeK6mQ==}
+    engines: {node: '>=20'}
+    hasBin: true
 
   '@polka/url@1.0.0-next.29':
     resolution: {integrity: sha512-wwQAWhWSuHaag8c4q/KN/vCoeOJYshAIvMQwD4GpSb3OiZklFfvAgmj0VCBBImRpuF/aFgIRzllXlVX93Jevww==}
@@ -936,6 +982,10 @@ packages:
 
   async-sema@3.1.1:
     resolution: {integrity: sha512-tLRNUXati5MFePdAk8dw7Qt7DpxPB60ofAgn8WRhW6a2rcimZnYBP9oxHiv0OHy+Wz7kPMG+t4LGdt31+4EmGg==}
+
+  axe-core@4.13.0:
+    resolution: {integrity: sha512-UzGt8zg7Ny8djbYMhxl2zuEevVa7r2gJjYY5Lwr1xM7+XU2nd6CkIWFTVcCIbAP63vSz71NaVyyuSk9lHKcy0A==}
+    engines: {node: '>=4'}
 
   axobject-query@4.1.0:
     resolution: {integrity: sha512-qIj0G9wZbMGNLjLmg1PT6v2mE9AH2zlnADJD/2tC6E00hgmhUOfEB6greHPAfLRSufHqROIUTkw6E+M3lH0PTQ==}
@@ -1736,6 +1786,11 @@ packages:
 
 snapshots:
 
+  '@axe-core/playwright@4.13.0(playwright-core@1.62.1)':
+    dependencies:
+      axe-core: 4.13.0
+      playwright-core: 1.62.1
+
   '@babel/code-frame@7.29.7':
     dependencies:
       '@babel/helper-validator-identifier': 7.29.7
@@ -1909,6 +1964,10 @@ snapshots:
       - supports-color
 
   '@oxc-project/types@0.146.0': {}
+
+  '@playwright/test@1.62.1':
+    dependencies:
+      playwright: 1.62.1
 
   '@polka/url@1.0.0-next.29': {}
 
@@ -2330,6 +2389,8 @@ snapshots:
   assertion-error@2.0.1: {}
 
   async-sema@3.1.1: {}
+
+  axe-core@4.13.0: {}
 
   axobject-query@4.1.0: {}
 

@@ -4,12 +4,14 @@ packages:
 
 catalogs:
   dev:
+    '@axe-core/playwright': 4.13.0
     '@playwright/test': 1.62.1
     '@sveltejs/adapter-vercel': 6.3.4
     '@sveltejs/kit': 2.70.3
     '@sveltejs/package': 2.5.8
     '@sveltejs/vite-plugin-svelte': 7.3.0
     '@tailwindcss/vite': 4.3.3
+    '@testing-library/svelte': 5.4.2
     '@types/node': ^24.0.0
     '@vitest/browser': 4.1.11
     '@vitest/browser-playwright': 4.1.11

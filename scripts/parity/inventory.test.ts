@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import { mkdirSync, mkdtempSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import test from "node:test";
@@ -311,9 +311,17 @@ test("requires manifest members to have real authored targets for every promoted
         mkdirSync(join(target, "dist"), { recursive: true });
         writeFileSync(join(target, ".gitkeep"), "");
         writeFileSync(join(target, "dist/generated.svelte"), "<p>generated</p>\n");
+        writeFileSync(join(target, "index.ts"), "export {};\n");
+        writeFileSync(join(target, "root.generated.svelte"), "<button>Generated</button>\n");
+      } else if (fixture.kind === "particle") {
+        mkdirSync(dirname(target), { recursive: true });
+        writeFileSync(
+          target,
+          '<script lang="ts">const placeholderState = true;</script>\n<!-- TODO -->\n',
+        );
       } else {
         mkdirSync(dirname(target), { recursive: true });
-        writeFileSync(target, "   \n");
+        writeFileSync(target, "<!-- TODO -->\n");
       }
 
       const manifests = collectTargetManifests(root);
@@ -329,6 +337,71 @@ test("requires manifest members to have real authored targets for every promoted
     } finally {
       rmSync(root, { recursive: true, force: true });
     }
+  }
+});
+
+test("rejects canonical manifest symlinks and realpath escapes", () => {
+  for (const definition of targetManifestDefinitions) {
+    const root = mkdtempSync(join(tmpdir(), `coss-sv-${definition.kind}-manifest-link-`));
+    const external = mkdtempSync(join(tmpdir(), `coss-sv-${definition.kind}-manifest-source-`));
+
+    try {
+      const canonical = join(root, definition.path);
+      const outside = join(external, `${definition.kind}.ts`);
+      mkdirSync(dirname(canonical), { recursive: true });
+      writeFileSync(
+        outside,
+        `export const ${definition.exportName} = ${definition.wrapperName}([]);\n`,
+      );
+      symlinkSync(outside, canonical);
+      assert.throws(
+        () => collectTargetManifests(root),
+        /must be a real canonical manifest inside the repository/,
+      );
+    } finally {
+      rmSync(root, { recursive: true, force: true });
+      rmSync(external, { recursive: true, force: true });
+    }
+  }
+
+  const root = mkdtempSync(join(tmpdir(), "coss-sv-manifest-parent-link-"));
+  const external = mkdtempSync(join(tmpdir(), "coss-sv-manifest-parent-source-"));
+  try {
+    mkdirSync(join(root, "apps/ui"), { recursive: true });
+    writeFileSync(
+      join(external, "registry-ui.ts"),
+      "export const registryUi = defineRegistryItems([]);\n",
+    );
+    symlinkSync(external, join(root, "apps/ui/registry"));
+    assert.throws(
+      () => collectTargetManifests(root),
+      /must be a real canonical manifest inside the repository/,
+    );
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+    rmSync(external, { recursive: true, force: true });
+  }
+});
+
+test("rejects promoted targets that escape through a canonical-path symlink", () => {
+  const fixture = promotedTargetFixtures[0];
+  assert.ok(fixture);
+  const root = mkdtempSync(join(tmpdir(), "coss-sv-target-link-"));
+  const external = mkdtempSync(join(tmpdir(), "coss-sv-target-source-"));
+
+  try {
+    writeFixtureManifest(root, fixture);
+    writeFileSync(join(external, "root.svelte"), "<button>Outside</button>\n");
+    mkdirSync(dirname(join(root, fixture.targetPath)), { recursive: true });
+    symlinkSync(external, join(root, fixture.targetPath));
+    const manifests = collectTargetManifests(root);
+    assert.throws(
+      () => validateTargetManifestParity([fixtureEntry(fixture)], manifests, root),
+      /target path escapes the repository through a symlink/,
+    );
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+    rmSync(external, { recursive: true, force: true });
   }
 });
 

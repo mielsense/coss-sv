@@ -1,5 +1,9 @@
 import AxeBuilder from "@axe-core/playwright";
 import type { Locator, Page, TestInfo } from "@playwright/test";
+import {
+  type PreviewWidth,
+  previewWidths,
+} from "../../../apps/ui/src/routes/preview/[name]/preview-contract.js";
 
 type ConsoleGuard = {
   assertNoErrors: () => void;
@@ -22,6 +26,12 @@ export const localPreviewOrigins = new Set([
 ]);
 
 const deterministicPages = new WeakMap<Page, ExternalRequestGuard>();
+
+export const previewViewportHeights = {
+  mobile: 844,
+  tablet: 1024,
+  desktop: 800,
+} as const satisfies Record<PreviewWidth, number>;
 
 export type ComputedStyleSnapshot = {
   boundingBox: Awaited<ReturnType<Locator["boundingBox"]>>;
@@ -115,8 +125,12 @@ export async function openReadyPreview(
   page: Page,
   name: string,
   theme: "dark" | "light",
-  width: "desktop" | "mobile" | "tablet",
+  width: PreviewWidth,
 ) {
+  await page.setViewportSize({
+    height: previewViewportHeights[width],
+    width: previewWidths[width],
+  });
   const externalRequests = await prepareDeterministicPage(page);
   const response = await page.goto(
     `/preview/${encodeURIComponent(name)}?theme=${theme}&width=${width}`,

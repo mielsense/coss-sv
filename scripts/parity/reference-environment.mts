@@ -49,6 +49,13 @@ export function createIsolatedChildEnvironment(
   root: string,
   baseEnvironment: Readonly<NodeJS.ProcessEnv> = process.env,
 ): NodeJS.ProcessEnv {
+  const inheritedEnvironment = { ...baseEnvironment };
+  for (const key of Object.keys(inheritedEnvironment)) {
+    const normalizedKey = key.toLowerCase();
+    if (normalizedKey.startsWith("npm_config_") || normalizedKey.startsWith("pnpm_config_")) {
+      delete inheritedEnvironment[key];
+    }
+  }
   const paths = {
     HOME: resolve(root, "home"),
     USERPROFILE: resolve(root, "home"),
@@ -77,11 +84,11 @@ export function createIsolatedChildEnvironment(
   writeFileSync(paths.npm_config_globalconfig, "");
 
   const environment: NodeJS.ProcessEnv = {
-    ...baseEnvironment,
+    ...inheritedEnvironment,
     ...paths,
     HUSKY: "0",
     NEXT_TELEMETRY_DISABLED: "1",
-    PATH: [dirname(process.execPath), baseEnvironment.PATH].filter(Boolean).join(delimiter),
+    PATH: [dirname(process.execPath), inheritedEnvironment.PATH].filter(Boolean).join(delimiter),
   };
   assertIsolatedChildEnvironment(root, environment);
   return environment;

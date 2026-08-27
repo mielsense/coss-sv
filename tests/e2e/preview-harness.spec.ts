@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test";
+import { previewWidths } from "../../apps/ui/src/routes/preview/[name]/preview-contract.js";
 import {
   assertNoAxeViolations,
   attachPreviewEvidence,
@@ -126,6 +127,51 @@ test.describe("preview harness", () => {
     const screenshot = await page.screenshot({ animations: "disabled" });
     expect(screenshot.byteLength).toBeGreaterThan(1_000);
     await testInfo.attach(`viewport-${theme}.png`, { body: screenshot, contentType: "image/png" });
+  });
+
+  test("uses the query width as the responsive browser viewport", async ({ page }, testInfo) => {
+    test.skip(testInfo.project.name !== "light", "One Chromium project covers viewport geometry.");
+    const cases = [
+      { media: "(max-width: 639px)", width: "mobile" },
+      { media: "(min-width: 640px) and (max-width: 1023px)", width: "tablet" },
+      { media: "(min-width: 1024px)", width: "desktop" },
+    ] as const;
+
+    for (const fixture of cases) {
+      const { ready } = await openReadyPreview(page, "_fixture", "light", fixture.width);
+      expect(page.viewportSize()?.width).toBe(previewWidths[fixture.width]);
+      expect(await page.evaluate(() => innerWidth)).toBe(previewWidths[fixture.width]);
+      expect(await page.evaluate((query) => matchMedia(query).matches, fixture.media)).toBe(true);
+      await expect(ready).toHaveAttribute(
+        "data-preview-width-px",
+        `${previewWidths[fixture.width]}`,
+      );
+    }
+  });
+
+  test("proves the motion project runs without reduced-motion emulation", async ({
+    page,
+  }, testInfo) => {
+    test.skip(
+      testInfo.project.name !== "motion",
+      "Only the motion project promises no-preference.",
+    );
+    await openReadyPreview(page, "_fixture", "light", "desktop");
+
+    expect(await page.evaluate(() => matchMedia("(prefers-reduced-motion: reduce)").matches)).toBe(
+      false,
+    );
+    const motion = await page.locator('[data-motion-probe="true"]').evaluate((element) => {
+      const animation = element.getAnimations()[0];
+      return {
+        animationName: getComputedStyle(element).animationName,
+        currentTime: animation?.currentTime ?? null,
+        playState: animation?.playState ?? null,
+      };
+    });
+    expect(motion.animationName).toMatch(/preview-fixture-motion$/);
+    expect(motion.currentTime).not.toBeNull();
+    expect(motion.playState).toBe("running");
   });
 
   test("turns console errors and axe findings into test failures", async ({ page }, testInfo) => {

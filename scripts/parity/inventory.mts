@@ -4,6 +4,7 @@ import {
   mkdirSync,
   readdirSync,
   readFileSync,
+  realpathSync,
   statSync,
   writeFileSync,
 } from "node:fs";
@@ -335,9 +336,20 @@ function propertyName(property: ts.PropertyName) {
 }
 
 function readTargetManifest(root: string, definition: TargetManifestDefinition) {
-  const absolutePath = join(root, definition.path);
-  if (!existsSync(absolutePath)) {
-    return { ...definition, duplicates: [], exists: false, ids: [] };
+  const absolutePath = resolve(root, definition.path);
+  let manifestStats: ReturnType<typeof lstatSync>;
+  try {
+    manifestStats = lstatSync(absolutePath);
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code === "ENOENT") {
+      return { ...definition, duplicates: [], exists: false, ids: [] };
+    }
+    throw error;
+  }
+  const rootPath = realpathSync(root);
+  const pathFromRoot = relative(rootPath, realpathSync(absolutePath));
+  if (manifestStats.isSymbolicLink() || pathFromRoot.startsWith("..") || isAbsolute(pathFromRoot)) {
+    throw new Error(`${definition.path} must be a real canonical manifest inside the repository.`);
   }
 
   const sourceFile = ts.createSourceFile(
@@ -468,16 +480,86 @@ const ignoredComponentSourceDirectories = new Set([
   "node_modules",
 ]);
 
-function hasAuthoredContent(path: string) {
-  return readFileSync(path, "utf8").trim().length > 0;
+function isGeneratedSourceName(path: string) {
+  const name = basename(path).toLowerCase();
+  return (
+    name.startsWith("generated.") ||
+    name.includes(".generated.") ||
+    name.startsWith("generated-") ||
+    name.includes(".gen.")
+  );
+}
+
+function withoutHtmlComments(source: string) {
+  return source.replaceAll(/<!--[\s\S]*?-->/g, "").trim();
+}
+
+function isPlaceholderText(source: string) {
+  const normalized = source
+    .replaceAll(/^[\s#>*_`~!.-]+|[\s#>*_`~!.-]+$/g, "")
+    .trim()
+    .toLowerCase();
+  return (
+    normalized.length === 0 ||
+    /^(todo|fixme|tbd|placeholder|coming soon)([:\s.!_-].*)?$/.test(normalized)
+  );
+}
+
+function hasRuntimeTypeScript(source: string, path: string) {
+  const sourceFile = ts.createSourceFile(
+    path,
+    source,
+    ts.ScriptTarget.Latest,
+    true,
+    ts.ScriptKind.TS,
+  );
+  return sourceFile.statements.some(
+    (statement) =>
+      !ts.isImportDeclaration(statement) &&
+      !ts.isImportEqualsDeclaration(statement) &&
+      !ts.isExportDeclaration(statement) &&
+      !ts.isInterfaceDeclaration(statement) &&
+      !ts.isTypeAliasDeclaration(statement) &&
+      !ts.isEmptyStatement(statement),
+  );
+}
+
+function hasAuthoredSvelteContent(path: string, requireTemplate = false) {
+  if (isGeneratedSourceName(path)) return false;
+  const source = withoutHtmlComments(readFileSync(path, "utf8"));
+  if (isPlaceholderText(source)) return false;
+
+  const scripts = [...source.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/gi)];
+  const template = source
+    .replaceAll(/<script(?:\s[^>]*)?>[\s\S]*?<\/script>/gi, "")
+    .replaceAll(/<style(?:\s[^>]*)?>[\s\S]*?<\/style>/gi, "")
+    .trim();
+  if (!isPlaceholderText(template) && /<[A-Za-z]|{[#@]/.test(template)) return true;
+  if (requireTemplate) return false;
+  return scripts.some((match) => hasRuntimeTypeScript(match[1] ?? "", path));
+}
+
+function hasAuthoredMarkdownContent(path: string) {
+  const source = withoutHtmlComments(readFileSync(path, "utf8")).replace(
+    /^---\s*\n[\s\S]*?\n---\s*(?:\n|$)/,
+    "",
+  );
+  return !isPlaceholderText(source) && /[A-Za-z0-9]/.test(source);
 }
 
 function isComponentSourceFile(path: string) {
   const name = basename(path);
-  if (name.endsWith(".d.ts") || name.endsWith(".spec.ts") || name.endsWith(".test.ts")) {
+  if (
+    isGeneratedSourceName(path) ||
+    name.endsWith(".d.ts") ||
+    name.endsWith(".spec.ts") ||
+    name.endsWith(".test.ts")
+  ) {
     return false;
   }
-  return (extname(name) === ".svelte" || extname(name) === ".ts") && hasAuthoredContent(path);
+  if (extname(name) === ".svelte") return hasAuthoredSvelteContent(path);
+  if (extname(name) === ".ts") return hasRuntimeTypeScript(readFileSync(path, "utf8"), path);
+  return false;
 }
 
 function componentHasAuthoredSource(path: string): boolean {
@@ -499,11 +581,18 @@ function componentHasAuthoredSource(path: string): boolean {
 }
 
 function resolveTargetInsideRepository(root: string, path: string) {
-  const resolvedRoot = resolve(root);
+  const resolvedRoot = realpathSync(root);
   const resolvedTarget = resolve(resolvedRoot, path);
   const pathFromRoot = relative(resolvedRoot, resolvedTarget);
   if (pathFromRoot.startsWith("..") || isAbsolute(pathFromRoot)) {
     throw new Error(`target path escapes the repository: ${path}`);
+  }
+  if (existsSync(resolvedTarget)) {
+    const realTarget = realpathSync(resolvedTarget);
+    const realPathFromRoot = relative(resolvedRoot, realTarget);
+    if (realPathFromRoot.startsWith("..") || isAbsolute(realPathFromRoot)) {
+      throw new Error(`target path escapes the repository through a symlink: ${path}`);
+    }
   }
   return resolvedTarget;
 }
@@ -539,13 +628,13 @@ function promotedTargetError(root: string, item: ParityEntry) {
       stats.isFile() &&
       !stats.isSymbolicLink() &&
       extname(absolutePath) === ".svelte" &&
-      hasAuthoredContent(absolutePath);
+      hasAuthoredSvelteContent(absolutePath, true);
   } else {
     valid =
       stats.isFile() &&
       !stats.isSymbolicLink() &&
       extname(absolutePath) === ".md" &&
-      hasAuthoredContent(absolutePath);
+      hasAuthoredMarkdownContent(absolutePath);
   }
 
   return valid
