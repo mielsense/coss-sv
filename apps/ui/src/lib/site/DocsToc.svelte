@@ -9,30 +9,53 @@ let items = $state<TocItem[]>([]);
 let activeId = $state<string>();
 
 $effect(() => {
-  const headings = [
-    ...document.querySelectorAll<HTMLElement>(
-      ".docs-content h2[id], .docs-content h3[id], .docs-content h4[id]",
-    ),
-  ];
-  const nextItems = headings.map((heading) => ({
-    id: heading.id,
-    title: heading.textContent?.trim() ?? "",
-    depth: Number(heading.tagName.slice(1)),
-  }));
-  items = nextItems;
-  activeId = nextItems[0]?.id;
+  let intersectionObserver: IntersectionObserver | undefined;
 
-  const observer = new IntersectionObserver(
-    (entries) => {
-      for (const entry of entries) {
-        if (entry.isIntersecting) activeId = entry.target.id;
-      }
-    },
-    { rootMargin: "0% 0% -80% 0%" },
-  );
+  function rebuild(): void {
+    intersectionObserver?.disconnect();
+    const headings = [
+      ...document.querySelectorAll<HTMLElement>(
+        ".docs-content h2[id], .docs-content h3[id], .docs-content h4[id]",
+      ),
+    ];
+    const nextItems = headings.map((heading) => ({
+      id: heading.id,
+      title: heading.textContent?.trim() ?? "",
+      depth: Number(heading.tagName.slice(1)),
+    }));
+    items = nextItems;
+    activeId = nextItems[0]?.id;
 
-  for (const heading of headings) observer.observe(heading);
-  return () => observer.disconnect();
+    intersectionObserver = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) activeId = entry.target.id;
+        }
+      },
+      { rootMargin: "0% 0% -80% 0%" },
+    );
+    for (const heading of headings) intersectionObserver.observe(heading);
+  }
+
+  function touchesDocsContent(record: MutationRecord): boolean {
+    if (record.target instanceof Element && record.target.closest(".docs-content")) return true;
+    return [...record.addedNodes, ...record.removedNodes].some(
+      (node) =>
+        node instanceof Element &&
+        (node.matches(".docs-content") || node.querySelector(".docs-content")),
+    );
+  }
+
+  rebuild();
+  const mutationObserver = new MutationObserver((records) => {
+    if (records.length === 0 || records.some(touchesDocsContent)) rebuild();
+  });
+  mutationObserver.observe(document.body, { childList: true, subtree: true });
+
+  return () => {
+    intersectionObserver?.disconnect();
+    mutationObserver.disconnect();
+  };
 });
 </script>
 
