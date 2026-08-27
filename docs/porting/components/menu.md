@@ -30,6 +30,7 @@ Headless Chromium covers the automated interaction checks. The coordinator perfo
 - Link items default `closeOnClick` to `true`, matching COSS rather than Shards' lower-level default.
 - Checkbox `defaultChecked`, radio-group `defaultValue`, and root `defaultOpen` initialize state once with `untrack`. Bindable props and callback props remain usable together; Shards function bindings preserve veto behavior when a consumer declines a write.
 - The checkbox `switch` variant keeps its indicator mounted so its unchecked track and thumb remain visible. The default checkbox and radio variants use the exact COSS checkmark path.
+- The playback and destructive particle icons use the exact current Lucide 0.555 SVG elements rendered by the published COSS examples, including the two Pause rectangles and the three-path Trash geometry.
 - `Menu.Trigger`, `Menu.Item`, and the other interactive wrappers forward Shards callback and native event props directly. No dispatcher or legacy Svelte event syntax is introduced.
 - `Menu.Handle<Payload>`, detached triggers, trigger payloads, and the root child snippet retain one `Payload` type end to end. Detached triggers work before and outside the root that owns their handle.
 - Shards owns trigger registration and `aria-controls`. Only the active trigger advertises the open popup, including when several triggers share one root or handle. `Menu.Popup` uses `$props.id()` for a stable default ID and forwards explicit popup IDs unchanged; nested popups do the same.

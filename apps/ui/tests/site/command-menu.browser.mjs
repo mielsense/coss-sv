@@ -471,6 +471,73 @@ try {
   assertNear(mobileMetrics.popup.width, 343, "mobile popup width");
   assertNear(mobileMetrics.popup.height, 420, "mobile popup height");
   assert.equal(await mobileTrigger.getAttribute("aria-expanded"), "true");
+
+  await page.setViewportSize({ width: 1280, height: 720 });
+  await page.goto(`${baseUrl}/preview/toolbar?theme=light&width=desktop`);
+  await page.locator('[data-preview-ready="true"]').waitFor();
+  const fontTrigger = page.locator('[data-particle="p-toolbar-1"] [data-slot="select-trigger"]');
+  await fontTrigger.click();
+  const selectedFont = page.locator(
+    '[data-particle="p-toolbar-1"] [data-slot="select-item"][aria-selected="true"]',
+  );
+  await selectedFont.waitFor({ state: "visible" });
+  await page.waitForFunction(() => {
+    const trigger = document.querySelector(
+      '[data-particle="p-toolbar-1"] [data-slot="select-trigger"]',
+    );
+    const selected = document.querySelector(
+      '[data-particle="p-toolbar-1"] [data-slot="select-item"][aria-selected="true"]',
+    );
+    if (!(trigger instanceof HTMLElement) || !(selected instanceof HTMLElement)) return false;
+    const triggerRect = trigger.getBoundingClientRect();
+    const selectedRect = selected.getBoundingClientRect();
+    return (
+      Math.abs(
+        triggerRect.top + triggerRect.height / 2 - (selectedRect.top + selectedRect.height / 2),
+      ) <= 0.75
+    );
+  });
+  const fontMetrics = await page.evaluate(() => {
+    const trigger = document.querySelector(
+      '[data-particle="p-toolbar-1"] [data-slot="select-trigger"]',
+    );
+    const popup = document.querySelector(
+      '[data-particle="p-toolbar-1"] [data-slot="select-popup"]',
+    );
+    const selected = document.querySelector(
+      '[data-particle="p-toolbar-1"] [data-slot="select-item"][aria-selected="true"]',
+    );
+    const items = document.querySelectorAll(
+      '[data-particle="p-toolbar-1"] [data-slot="select-item"]',
+    );
+    if (
+      !(trigger instanceof HTMLElement) ||
+      !(popup instanceof HTMLElement) ||
+      !(selected instanceof HTMLElement)
+    ) {
+      return null;
+    }
+    const triggerRect = trigger.getBoundingClientRect();
+    const popupRect = popup.getBoundingClientRect();
+    const selectedRect = selected.getBoundingClientRect();
+    return {
+      itemCount: items.length,
+      popupTop: popupRect.top,
+      selectedBottomInset: triggerRect.bottom - selectedRect.bottom,
+      selectedTopInset: selectedRect.top - triggerRect.top,
+      selectedCenter: selectedRect.top + selectedRect.height / 2,
+      triggerCenter: triggerRect.top + triggerRect.height / 2,
+    };
+  });
+  assert.ok(fontMetrics, "Toolbar Select geometry is available");
+  assert.equal(fontMetrics.itemCount, 3, "all Toolbar Select items preserve their slot");
+  assertNear(fontMetrics.selectedCenter, fontMetrics.triggerCenter, "selected font center");
+  assertNear(fontMetrics.selectedTopInset, 2, "selected font top inset");
+  assertNear(fontMetrics.selectedBottomInset, 2, "selected font bottom inset");
+  assert.ok(
+    fontMetrics.popupTop < fontMetrics.triggerCenter,
+    "the font popup overlaps the trigger instead of opening below it",
+  );
 } finally {
   await browser.close();
   preview?.kill("SIGTERM");

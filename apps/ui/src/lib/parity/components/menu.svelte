@@ -4,20 +4,98 @@ import { buttonVariants, Menu } from "@coss-sv/ui";
 const triggerClass = buttonVariants({ variant: "outline" });
 </script>
 
-{#snippet icon(path: string)}
+{#snippet playIcon()}
   <svg
-    aria-hidden="true"
-    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
     height="24"
+    viewBox="0 0 24 24"
+    fill="none"
     stroke="currentColor"
+    stroke-width="2"
     stroke-linecap="round"
     stroke-linejoin="round"
-    stroke-width="2"
-    viewBox="0 0 24 24"
-    width="24"
-    xmlns="http://www.w3.org/2000/svg"
+    class="lucide lucide-play"
+    aria-hidden="true"
   >
-    <path d={path} />
+    <path d="M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z" />
+  </svg>
+{/snippet}
+{#snippet pauseIcon()}
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    class="lucide lucide-pause"
+    aria-hidden="true"
+  >
+    <rect x="14" y="3" width="5" height="18" rx="1" />
+    <rect x="5" y="3" width="5" height="18" rx="1" />
+  </svg>
+{/snippet}
+{#snippet skipBackIcon()}
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    class="lucide lucide-skip-back"
+    aria-hidden="true"
+  >
+    <path
+      d="M17.971 4.285A2 2 0 0 1 21 6v12a2 2 0 0 1-3.029 1.715l-9.997-5.998a2 2 0 0 1-.003-3.432z"
+    />
+    <path d="M3 20V4" />
+  </svg>
+{/snippet}
+{#snippet skipForwardIcon()}
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    class="lucide lucide-skip-forward"
+    aria-hidden="true"
+  >
+    <path d="M21 4v16" />
+    <path
+      d="M6.029 4.285A2 2 0 0 0 3 6v12a2 2 0 0 0 3.029 1.715l9.997-5.998a2 2 0 0 0 .003-3.432z"
+    />
+  </svg>
+{/snippet}
+{#snippet trashIcon()}
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    class="lucide lucide-trash"
+    aria-hidden="true"
+  >
+    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />
+    <path d="M3 6h18" />
+    <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
   </svg>
 {/snippet}
 
@@ -28,22 +106,12 @@ const triggerClass = buttonVariants({ variant: "outline" });
       <Menu.Popup>
         <Menu.Group>
           <Menu.Label>Playback</Menu.Label>
-          <Menu.Item
-            >{@render icon("M6 3l14 9-14 9V3z")}Play<Menu.Shortcut>⌘P</Menu.Shortcut></Menu.Item
-          >
+          <Menu.Item>{@render playIcon()}Play<Menu.Shortcut>⌘P</Menu.Shortcut></Menu.Item>
           <Menu.Item disabled
-            >{@render icon("M8 5v14M16 5v14")}Pause<Menu.Shortcut>⇧⌘P</Menu.Shortcut></Menu.Item
+            >{@render pauseIcon()}Pause<Menu.Shortcut>⇧⌘P</Menu.Shortcut></Menu.Item
           >
-          <Menu.Item
-            >{@render icon("m19 20-9-8 9-8v16zM5 19V5")}Previous<Menu.Shortcut
-              >⌘[</Menu.Shortcut
-            ></Menu.Item
-          >
-          <Menu.Item
-            >{@render icon("m5 4 9 8-9 8V4zM19 5v14")}Next<Menu.Shortcut
-              >⌘]</Menu.Shortcut
-            ></Menu.Item
-          >
+          <Menu.Item>{@render skipBackIcon()}Previous<Menu.Shortcut>⌘[</Menu.Shortcut></Menu.Item>
+          <Menu.Item>{@render skipForwardIcon()}Next<Menu.Shortcut>⌘]</Menu.Shortcut></Menu.Item>
         </Menu.Group>
         <Menu.Separator />
         <Menu.CheckboxItem>Shuffle</Menu.CheckboxItem>
@@ -81,9 +149,7 @@ const triggerClass = buttonVariants({ variant: "outline" });
         </Menu.Sub>
         <Menu.Separator />
         <Menu.Item variant="destructive"
-          >{@render icon("M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6M10 11v5M14 11v5")}Delete<Menu.Shortcut
-            >⌘⌫</Menu.Shortcut
-          ></Menu.Item
+          >{@render trashIcon()}Delete<Menu.Shortcut>⌘⌫</Menu.Shortcut></Menu.Item
         >
       </Menu.Popup>
     </Menu.Root>

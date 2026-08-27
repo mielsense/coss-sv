@@ -27,6 +27,7 @@ Context7 returned `Monthly quota reached`. The implementation therefore follows 
 - Checkbox, radio, link, disabled, destructive, shortcut, and switch behavior uses the same translation as Menu. Default state is read once, while bindable state, callbacks, and Shards' function-binding veto behavior stay available.
 - The trigger forwards native element attributes and Shards' `as` and `ref` contracts. Shards remains the owner of pointer and touch anchors. A scoped reactive ID context connects each trigger to its root or nested popup while open, and explicit popup IDs remain authoritative.
 - `Shift+F10` and the Context Menu key open at the focused surface's center. Pointer invocation continues to use the event coordinates, while Shards supplies long-press handling and movement cancellation.
+- The icon particle uses the exact current Lucide 0.555 Pencil, Copy, Share, and Trash SVG elements observed in the published COSS particle. The Edit and Delete shapes are not approximations from an older Lucide release.
 
 ## Verification targets
 

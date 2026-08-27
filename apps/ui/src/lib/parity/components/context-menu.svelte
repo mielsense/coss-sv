@@ -8,59 +8,80 @@ const surfaceClass =
 {#snippet surface()}
   <ContextMenu.Trigger class={surfaceClass}>Right click here</ContextMenu.Trigger>
 {/snippet}
-{#snippet icon(path: string)}
-  <svg
-    aria-hidden="true"
-    fill="none"
-    height="24"
-    stroke="currentColor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-    viewBox="0 0 24 24"
-    width="24"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path d={path} />
-  </svg>
-{/snippet}
 {#snippet pencilIcon()}
   <svg
-    aria-hidden="true"
-    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
     height="24"
+    viewBox="0 0 24 24"
+    fill="none"
     stroke="currentColor"
+    stroke-width="2"
     stroke-linecap="round"
     stroke-linejoin="round"
-    stroke-width="2"
-    viewBox="0 0 24 24"
-    width="24"
-    xmlns="http://www.w3.org/2000/svg"
+    class="lucide lucide-pencil"
+    aria-hidden="true"
   >
     <path
-      d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .622.622l4.353-1.32a2 2 0 0 0 .83-.497z"
+      d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"
     />
     <path d="m15 5 4 4" />
   </svg>
 {/snippet}
-{#snippet trashIcon()}
+{#snippet copyIcon()}
   <svg
-    aria-hidden="true"
-    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
     height="24"
+    viewBox="0 0 24 24"
+    fill="none"
     stroke="currentColor"
+    stroke-width="2"
     stroke-linecap="round"
     stroke-linejoin="round"
-    stroke-width="2"
-    viewBox="0 0 24 24"
-    width="24"
-    xmlns="http://www.w3.org/2000/svg"
+    class="lucide lucide-copy"
+    aria-hidden="true"
   >
-    <path d="M3 6h18" />
+    <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
+    <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
+  </svg>
+{/snippet}
+{#snippet shareIcon()}
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    class="lucide lucide-share"
+    aria-hidden="true"
+  >
+    <path d="M12 2v13" />
+    <path d="m16 6-4-4-4 4" />
+    <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" />
+  </svg>
+{/snippet}
+{#snippet trashIcon()}
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    class="lucide lucide-trash"
+    aria-hidden="true"
+  >
     <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />
+    <path d="M3 6h18" />
     <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
-    <path d="M10 11v6" />
-    <path d="M14 11v6" />
   </svg>
 {/snippet}
 
@@ -138,12 +159,8 @@ const surfaceClass =
             >⌘E</ContextMenu.Shortcut
           ></ContextMenu.Item
         ><ContextMenu.Item
-          >{@render icon("M8 8h11v11H8zM5 16H4V5h11v1")}Copy<ContextMenu.Shortcut
-            >⌘C</ContextMenu.Shortcut
-          ></ContextMenu.Item
-        ><ContextMenu.Item
-          >{@render icon("m12 3 4 4-4 4M16 7H8a5 5 0 0 0-5 5v5M5 21h14a2 2 0 0 0 2-2v-5")}Share</ContextMenu.Item
-        ><ContextMenu.Separator />
+          >{@render copyIcon()}Copy<ContextMenu.Shortcut>⌘C</ContextMenu.Shortcut></ContextMenu.Item
+        ><ContextMenu.Item>{@render shareIcon()}Share</ContextMenu.Item><ContextMenu.Separator />
         <ContextMenu.Item variant="destructive"
           >{@render trashIcon()}Delete<ContextMenu.Shortcut
             >⌘⌫</ContextMenu.Shortcut

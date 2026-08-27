@@ -1,7 +1,9 @@
 <script lang="ts">
 import { Select as SelectPrimitive } from "@shardsui/svelte";
 import { buttonVariants, ToggleGroup, Toolbar, Tooltip } from "@coss-sv/ui";
+import { tick } from "svelte";
 
+const alignItemWithTrigger = true;
 const iconButton = buttonVariants({ size: "icon", variant: "ghost" });
 const saveButton = buttonVariants();
 const selectTriggerClass =
@@ -14,6 +16,9 @@ const fonts = [
   { label: "Times New Roman", value: "times-new-roman" },
 ];
 let font = $state("helvetica");
+let fontOpen = $state(false);
+let fontPositioner = $state<HTMLElement | null>(null);
+let fontSideOffset = $state(4);
 let tooltipOpen = $state({
   center: false,
   currency: false,
@@ -34,6 +39,52 @@ function closeTooltip(event: FocusEvent, key: keyof typeof tooltipOpen): void {
     tooltipOpen[key] = false;
   }
 }
+
+function nextAnimationFrame(): Promise<void> {
+  return new Promise((resolve) => requestAnimationFrame(() => resolve()));
+}
+
+async function alignSelectedItem(
+  trigger: HTMLElement,
+  positioner: HTMLElement,
+  cancelled: () => boolean,
+): Promise<void> {
+  for (let attempt = 0; attempt < 3; attempt += 1) {
+    await tick();
+    await nextAnimationFrame();
+    if (cancelled()) return;
+
+    const selectedItem = positioner.querySelector<HTMLElement>(
+      '[role="option"][aria-selected="true"]',
+    );
+    if (!selectedItem) return;
+    const triggerRect = trigger.getBoundingClientRect();
+    const selectedRect = selectedItem.getBoundingClientRect();
+    const centerOffset =
+      triggerRect.top + triggerRect.height / 2 - (selectedRect.top + selectedRect.height / 2);
+
+    if (Math.abs(centerOffset) <= 0.5) return;
+    fontSideOffset += centerOffset;
+  }
+}
+
+$effect(() => {
+  const open = fontOpen;
+  const trigger = fontAnchor;
+  const positioner = fontPositioner;
+  void font;
+
+  if (!open || !trigger || !positioner || !alignItemWithTrigger) {
+    if (!open) fontSideOffset = 4;
+    return;
+  }
+
+  let cancelled = false;
+  void alignSelectedItem(trigger, positioner, () => cancelled);
+  return () => {
+    cancelled = true;
+  };
+});
 </script>
 
 {#snippet lineIcon(path: string)}
@@ -222,7 +273,7 @@ function closeTooltip(event: FocusEvent, key: keyof typeof tooltipOpen): void {
         </Toolbar.Group>
         <Toolbar.Separator />
         <Toolbar.Group>
-          <SelectPrimitive.Root bind:value={font} items={fonts}>
+          <SelectPrimitive.Root bind:open={fontOpen} bind:value={font} items={fonts}>
             <Tooltip.Root bind:open={tooltipOpen.font}>
               <Tooltip.Trigger
                 as="span"
@@ -256,10 +307,11 @@ function closeTooltip(event: FocusEvent, key: keyof typeof tooltipOpen): void {
               <SelectPrimitive.Positioner
                 align="start"
                 alignOffset={0}
+                bind:ref={fontPositioner}
                 class="z-50 select-none"
                 data-slot="select-positioner"
                 side="bottom"
-                sideOffset={4}
+                sideOffset={fontSideOffset}
               >
                 <SelectPrimitive.Popup
                   class="origin-(--transform-origin) text-foreground outline-none"
@@ -278,7 +330,11 @@ function closeTooltip(event: FocusEvent, key: keyof typeof tooltipOpen): void {
                       data-slot="select-list"
                     >
                       {#each fonts as item (item.value)}
-                        <SelectPrimitive.Item class={selectItemClass} value={item.value}>
+                        <SelectPrimitive.Item
+                          class={selectItemClass}
+                          data-slot="select-item"
+                          value={item.value}
+                        >
                           <SelectPrimitive.ItemIndicator class="col-start-1"
                             >{@render checkIcon()}</SelectPrimitive.ItemIndicator
                           >

@@ -23,6 +23,8 @@ Context7 returned `Monthly quota reached`, so the port uses the pinned local Sve
 - Shards keeps disabled toolbar items in its roving-focus model where appropriate, handles horizontal and vertical orientations, mirrors horizontal arrow keys in RTL, and yields arrow keys to text selection inside inputs until an edge is reached.
 - The separator's default orientation remains perpendicular to the toolbar orientation through Shards; COSS classes style both orientation states.
 - `p-toolbar-1` uses the integrated COSS Tooltip namespace and the real Shards Select namespace. The Select stays private to the parity fixture: its trigger, value, popup, list, items, indicators, scrolling arrows, classes, and initial Helvetica value reproduce the upstream composition without creating a partial public Select API.
+- COSS's Select defaults `alignItemWithTrigger` to true. The pinned Shards Positioner has no equivalent prop, so the private fixture measures the selected option after Shards positions the popup and adjusts its side offset until the option and trigger share a center. At the published desktop reference size, the 32-pixel trigger spans `y=549..581` and the 28-pixel selected Helvetica option spans `y=551..579`; the browser assertion preserves that two-pixel inset on both edges.
+- Every private Select item carries the upstream `data-slot="select-item"` attribute.
 - Tooltip triggers wrap the same toolbar controls with `display: contents`; their popups anchor to the registered control elements. The wrappers do not add a tab stop or alter toolbar geometry. Each control retains its upstream accessible name, description, and roving-focus position.
 
 ## Verification targets
