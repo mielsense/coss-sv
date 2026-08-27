@@ -1,0 +1,71 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "sheet",
+	"type": "registry:ui",
+	"description": "Displays overlay content from a chosen side of the viewport.",
+	"dependencies": [
+		"@shardsui/svelte@0.1.0-beta.0"
+	],
+	"registryDependencies": [
+		"./button.json",
+		"./dialog.json",
+		"./scroll-area.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\nimport type { DialogBackdropProps } from \"../dialog/dialog-backdrop.svelte\";\nexport type SheetBackdropProps = DialogBackdropProps;\n</script>\n<script lang=\"ts\">\nimport { Dialog as P } from \"@shardsui/svelte\";\nimport { cn } from \"$UTILS$.js\";\nlet { class: className, ref = $bindable(null), ...props }: SheetBackdropProps = $props();\n</script>\n<P.Backdrop\n  bind:ref\n  class={cn(\"fixed inset-0 z-50 bg-black/32 backdrop-blur-sm transition-all duration-200 data-ending-style:opacity-0 data-starting-style:opacity-0\", className)}\n  data-slot=\"sheet-backdrop\"\n  {...props}\n/>\n",
+			"type": "registry:ui",
+			"target": "sheet/sheet-backdrop.svelte"
+		},
+		{
+			"content": "<script module lang=\"ts\">\nimport type { DialogCloseProps } from \"../dialog/dialog-close.svelte\";\nexport type SheetCloseProps = DialogCloseProps;\n</script>\n<script lang=\"ts\">\nimport { Dialog as P } from \"@shardsui/svelte\";\nimport type { Component } from \"svelte\";\nconst ClosePrimitive = P.Close as unknown as Component<SheetCloseProps, object, \"ref\">;\nlet { ref = $bindable(null), ...props }: SheetCloseProps = $props();\n</script>\n<ClosePrimitive bind:ref data-slot=\"sheet-close\" {...props} />\n",
+			"type": "registry:ui",
+			"target": "sheet/sheet-close.svelte"
+		},
+		{
+			"content": "<script module lang=\"ts\">\nimport type { Dialog as ShardsP } from \"@shardsui/svelte\";\nimport type { ComponentProps } from \"svelte\";\nexport type SheetDescriptionProps = ComponentProps<typeof ShardsP.Description>;\n</script>\n<script lang=\"ts\">\nimport { Dialog as P } from \"@shardsui/svelte\";\nimport { cn } from \"$UTILS$.js\";\nlet { class: className, ref = $bindable(null), ...props }: SheetDescriptionProps = $props();\n</script>\n<P.Description\n  bind:ref\n  class={cn(\"text-muted-foreground text-sm\", className)}\n  data-slot=\"sheet-description\"\n  {...props}\n/>\n",
+			"type": "registry:ui",
+			"target": "sheet/sheet-description.svelte"
+		},
+		{
+			"content": "<script module lang=\"ts\">\nimport type { DialogPartProps } from \"../dialog/dialog-part.svelte\";\nexport type SheetFooterProps = DialogPartProps & { variant?: \"default\" | \"bare\" };\n</script>\n<script lang=\"ts\">\nimport { cn } from \"$UTILS$.js\";\nimport DialogPart from \"../dialog/dialog-part.svelte\";\nlet {\n  class: className,\n  ref = $bindable(null),\n  variant = \"default\",\n  ...props\n}: SheetFooterProps = $props();\nconst classes = $derived(\n  cn(\n    \"flex flex-col-reverse gap-2 px-6 sm:flex-row sm:justify-end\",\n    variant === \"default\" && \"border-t bg-muted/72 py-4\",\n    variant === \"bare\" &&\n      \"in-[[data-slot=sheet-popup]:has([data-slot=sheet-panel])]:pt-3 pt-4 pb-6\",\n    className,\n  ),\n);\n</script>\n<DialogPart bind:ref baseClass={classes} dataSlot=\"sheet-footer\" {...props} />\n",
+			"type": "registry:ui",
+			"target": "sheet/sheet-footer.svelte"
+		},
+		{
+			"content": "<script module lang=\"ts\">\nimport type { DialogPartProps } from \"../dialog/dialog-part.svelte\";\nexport type SheetHeaderProps = DialogPartProps;\n</script>\n<script lang=\"ts\">\nimport DialogPart from \"../dialog/dialog-part.svelte\";\nlet { ref = $bindable(null), ...props }: SheetHeaderProps = $props();\n</script>\n<DialogPart\n  bind:ref\n  baseClass=\"flex flex-col gap-2 p-6 in-[[data-slot=sheet-popup]:has([data-slot=sheet-panel])]:pb-3 max-sm:pb-4\"\n  dataSlot=\"sheet-header\"\n  {...props}\n/>\n",
+			"type": "registry:ui",
+			"target": "sheet/sheet-header.svelte"
+		},
+		{
+			"content": "<script module lang=\"ts\">\nimport type { DialogPartProps } from \"../dialog/dialog-part.svelte\";\nexport type SheetPanelProps = DialogPartProps & { scrollFade?: boolean };\n</script>\n<script lang=\"ts\">\nimport ScrollArea from \"../scroll-area/scroll-area.svelte\";\nimport DialogPart from \"../dialog/dialog-part.svelte\";\nlet { ref = $bindable(null), scrollFade = true, ...props }: SheetPanelProps = $props();\n</script>\n<ScrollArea overscrollContain {scrollFade}\n  ><DialogPart\n    bind:ref\n    baseClass=\"p-6 in-[[data-slot=sheet-popup]:has([data-slot=sheet-header])]:pt-1 in-[[data-slot=sheet-popup]:has([data-slot=sheet-footer]:not(.border-t))]:pb-1\"\n    dataSlot=\"sheet-panel\"\n    {...props}\n  /></ScrollArea\n>\n",
+			"type": "registry:ui",
+			"target": "sheet/sheet-panel.svelte"
+		},
+		{
+			"content": "<script module lang=\"ts\">\nimport type { Dialog as ShardsP } from \"@shardsui/svelte\";\nimport type { ComponentProps } from \"svelte\";\nimport type { SheetSide, SheetVariant } from \"./sheet-viewport.svelte\";\nexport type SheetPopupProps = ComponentProps<typeof ShardsP.Popup> & {\n  closeProps?: ComponentProps<typeof ShardsP.Close>;\n  portalProps?: ComponentProps<typeof ShardsP.Portal>;\n  showCloseButton?: boolean;\n  side?: SheetSide;\n  variant?: SheetVariant;\n};\n</script>\n<script lang=\"ts\">\nimport { Dialog as P } from \"@shardsui/svelte\";\nimport { cn } from \"$UTILS$.js\";\nimport { buttonVariants } from \"../button/button.svelte\";\nimport Backdrop from \"./sheet-backdrop.svelte\";\nimport Viewport from \"./sheet-viewport.svelte\";\nlet {\n  children: child,\n  class: className,\n  closeProps = {},\n  portalProps = {},\n  ref = $bindable(null),\n  showCloseButton = true,\n  side = \"right\",\n  variant = \"default\",\n  ...props\n}: SheetPopupProps = $props();\nconst classes = $derived(\n  cn(\n    \"relative flex max-h-full min-h-0 w-full min-w-0 flex-col bg-popover not-dark:bg-clip-padding text-popover-foreground shadow-lg/5 transition-[opacity,translate] duration-200 ease-in-out will-change-transform before:pointer-events-none before:absolute before:inset-0 before:shadow-[0_1px_--theme(--color-black/4%)] data-ending-style:opacity-0 data-starting-style:opacity-0 max-sm:before:hidden dark:before:shadow-[0_-1px_--theme(--color-white/6%)]\",\n    side === \"bottom\" &&\n      \"row-start-2 border-t data-ending-style:translate-y-8 data-starting-style:translate-y-8\",\n    side === \"top\" &&\n      \"border-b data-ending-style:-translate-y-8 data-starting-style:-translate-y-8\",\n    side === \"left\" &&\n      \"w-[calc(100%-(--spacing(12)))] max-w-md border-e data-ending-style:-translate-x-8 data-starting-style:-translate-x-8\",\n    side === \"right\" &&\n      \"col-start-2 w-[calc(100%-(--spacing(12)))] max-w-md border-s data-ending-style:translate-x-8 data-starting-style:translate-x-8\",\n    variant === \"inset\" &&\n      \"before:hidden sm:rounded-2xl sm:border sm:before:rounded-[calc(var(--radius-2xl)-1px)] sm:**:data-[slot=sheet-footer]:rounded-b-[calc(var(--radius-2xl)-1px)]\",\n    className,\n  ),\n);\n</script>\n<P.Portal {...portalProps}\n  ><Backdrop />\n  <Viewport {side} {variant}\n    ><P.Popup bind:ref class={classes} data-slot=\"sheet-popup\" {...props}\n      >{#snippet children(state)}\n        {@render child?.(state)}\n        {#if showCloseButton}\n          <P.Close\n            aria-label=\"Close\"\n            class={buttonVariants({ class: \"absolute end-2 top-2\", size: \"icon\", variant: \"ghost\" })}\n            data-slot=\"button\"\n            {...closeProps}\n            ><svg\n              xmlns=\"http://www.w3.org/2000/svg\"\n              width=\"24\"\n              height=\"24\"\n              viewBox=\"0 0 24 24\"\n              fill=\"none\"\n              stroke=\"currentColor\"\n              stroke-width=\"2\"\n              stroke-linecap=\"round\"\n              stroke-linejoin=\"round\"\n              class=\"lucide lucide-x\"\n              aria-hidden=\"true\"\n            >\n              <path d=\"M18 6 6 18\"></path>\n              <path d=\"m6 6 12 12\"></path>\n            </svg></P.Close\n          >\n        {/if}\n      {/snippet}</P.Popup\n    ></Viewport\n  ></P.Portal\n>\n",
+			"type": "registry:ui",
+			"target": "sheet/sheet-popup.svelte"
+		},
+		{
+			"content": "<script module lang=\"ts\">\nimport type { Dialog as ShardsP } from \"@shardsui/svelte\";\nimport type { ComponentProps } from \"svelte\";\nexport type SheetTitleProps = ComponentProps<typeof ShardsP.Title>;\n</script>\n<script lang=\"ts\">\nimport { Dialog as P } from \"@shardsui/svelte\";\nimport { cn } from \"$UTILS$.js\";\nlet { class: className, ref = $bindable(null), ...props }: SheetTitleProps = $props();\n</script>\n<P.Title\n  bind:ref\n  class={cn(\"font-heading font-semibold text-xl leading-none\", className)}\n  data-slot=\"sheet-title\"\n  {...props}\n/>\n",
+			"type": "registry:ui",
+			"target": "sheet/sheet-title.svelte"
+		},
+		{
+			"content": "<script module lang=\"ts\">\nimport type { Dialog as ShardsP } from \"@shardsui/svelte\";\nimport type { ComponentProps } from \"svelte\";\ntype PrimitiveTriggerProps = ComponentProps<typeof ShardsP.Trigger>;\nexport type SheetTriggerProps<Payload = unknown> = Omit<\n  PrimitiveTriggerProps,\n  \"handle\" | \"payload\"\n> & {\n  handle?: ShardsP.Handle<Payload>;\n  payload?: Payload;\n  children?: PrimitiveTriggerProps[\"children\"];\n};\n</script>\n<script lang=\"ts\" generics=\"Payload = unknown\">\nimport { Dialog as P } from \"@shardsui/svelte\";\nlet { ref = $bindable(null), ...props }: SheetTriggerProps<Payload> = $props();\n</script>\n<P.Trigger bind:ref data-slot=\"sheet-trigger\" {...props} />\n",
+			"type": "registry:ui",
+			"target": "sheet/sheet-trigger.svelte"
+		},
+		{
+			"content": "<script module lang=\"ts\">\nimport type { Dialog as ShardsP } from \"@shardsui/svelte\";\nimport type { ComponentProps } from \"svelte\";\nexport type SheetSide = \"right\" | \"left\" | \"top\" | \"bottom\";\nexport type SheetVariant = \"default\" | \"inset\";\nexport type SheetViewportProps = ComponentProps<typeof ShardsP.Viewport> & {\n  side?: SheetSide;\n  variant?: SheetVariant;\n};\n</script>\n<script lang=\"ts\">\nimport { Dialog as P } from \"@shardsui/svelte\";\nimport { cn } from \"$UTILS$.js\";\nlet {\n  class: className,\n  ref = $bindable(null),\n  side,\n  variant = \"default\",\n  ...props\n}: SheetViewportProps = $props();\nconst classes = $derived(\n  cn(\n    \"fixed inset-0 z-50 grid\",\n    side === \"bottom\" && \"grid grid-rows-[1fr_auto] pt-12\",\n    side === \"top\" && \"grid grid-rows-[auto_1fr] pb-12\",\n    side === \"left\" && \"flex justify-start\",\n    side === \"right\" && \"flex justify-end\",\n    variant === \"inset\" && \"sm:p-4\",\n    className,\n  ),\n);\n</script>\n<P.Viewport bind:ref class={classes} data-slot=\"sheet-viewport\" {...props} />\n",
+			"type": "registry:ui",
+			"target": "sheet/sheet-viewport.svelte"
+		},
+		{
+			"content": "import { Dialog as SheetPrimitive } from \"@shardsui/svelte\";\nexport { SheetPrimitive };\nexport const Root: typeof SheetPrimitive.Root = SheetPrimitive.Root;\nexport const Sheet: typeof Root = Root;\nexport const Portal: typeof SheetPrimitive.Portal = SheetPrimitive.Portal;\nexport const SheetPortal: typeof SheetPrimitive.Portal = Portal;\nexport const Handle: typeof SheetPrimitive.Handle = SheetPrimitive.Handle;\nexport const SheetHandle: typeof SheetPrimitive.Handle = Handle;\nexport function createHandle<Payload = unknown>() {\n  return new SheetPrimitive.Handle<Payload>();\n}\nexport const SheetCreateHandle = createHandle;\nexport { default as Trigger, default as SheetTrigger } from \"./sheet-trigger.svelte\";\nexport type { SheetTriggerProps } from \"./sheet-trigger.svelte\";\nexport { default as Close, default as SheetClose } from \"./sheet-close.svelte\";\nexport type { SheetCloseProps } from \"./sheet-close.svelte\";\nexport {\n  default as Backdrop,\n  default as Overlay,\n  default as SheetBackdrop,\n  default as SheetOverlay,\n} from \"./sheet-backdrop.svelte\";\nexport type { SheetBackdropProps } from \"./sheet-backdrop.svelte\";\nexport { default as Viewport, default as SheetViewport } from \"./sheet-viewport.svelte\";\nexport type { SheetViewportProps, SheetSide, SheetVariant } from \"./sheet-viewport.svelte\";\nexport {\n  default as Popup,\n  default as Content,\n  default as SheetPopup,\n  default as SheetContent,\n} from \"./sheet-popup.svelte\";\nexport type { SheetPopupProps } from \"./sheet-popup.svelte\";\nexport { default as Header, default as SheetHeader } from \"./sheet-header.svelte\";\nexport type { SheetHeaderProps } from \"./sheet-header.svelte\";\nexport { default as Footer, default as SheetFooter } from \"./sheet-footer.svelte\";\nexport type { SheetFooterProps } from \"./sheet-footer.svelte\";\nexport { default as Title, default as SheetTitle } from \"./sheet-title.svelte\";\nexport type { SheetTitleProps } from \"./sheet-title.svelte\";\nexport { default as Description, default as SheetDescription } from \"./sheet-description.svelte\";\nexport type { SheetDescriptionProps } from \"./sheet-description.svelte\";\nexport { default as Panel, default as SheetPanel } from \"./sheet-panel.svelte\";\nexport type { SheetPanelProps } from \"./sheet-panel.svelte\";\n",
+			"type": "registry:ui",
+			"target": "sheet/index.ts"
+		}
+	]
+}

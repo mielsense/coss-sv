@@ -1,0 +1,51 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "tooltip",
+	"type": "registry:ui",
+	"description": "Shows a short description when a trigger is hovered or focused.",
+	"dependencies": [
+		"@shardsui/svelte@0.1.0-beta.0"
+	],
+	"files": [
+		{
+			"content": "import { createContext } from \"svelte\";\nimport type { TooltipHandle } from \"./handle.svelte.js\";\n\nconst [getHandleContext, setHandleContext] = createContext<TooltipHandle>();\n\nexport function getTooltipHandleContext<Payload = unknown>(): TooltipHandle<Payload> {\n  return getHandleContext() as unknown as TooltipHandle<Payload>;\n}\n\nexport function setTooltipHandleContext<Payload>(handle: TooltipHandle<Payload>): void {\n  setHandleContext(handle as unknown as TooltipHandle);\n}\n",
+			"type": "registry:ui",
+			"target": "tooltip/context.ts"
+		},
+		{
+			"content": "import { Tooltip as TooltipPrimitive } from \"@shardsui/svelte\";\n\nexport class TooltipHandle<Payload = unknown> extends TooltipPrimitive.Handle<Payload> {\n  popupId = $state<string | undefined>(undefined);\n}\n\nexport function createTooltipHandle<Payload = unknown>(): TooltipHandle<Payload> {\n  return new TooltipHandle<Payload>();\n}\n",
+			"type": "registry:ui",
+			"target": "tooltip/handle.svelte.ts"
+		},
+		{
+			"content": "<script module lang=\"ts\">\nimport type { Tooltip as ShardsTooltip } from \"@shardsui/svelte\";\nimport type { ComponentProps, Snippet } from \"svelte\";\n\ntype PopupProps = ComponentProps<typeof ShardsTooltip.Popup>;\ntype PositionerProps = ComponentProps<typeof ShardsTooltip.Positioner>;\nexport type TooltipPortalProps = ComponentProps<typeof ShardsTooltip.Portal>;\nexport type TooltipPopupProps = Omit<PopupProps, \"children\"> & {\n  align?: PositionerProps[\"align\"];\n  anchor?: PositionerProps[\"anchor\"];\n  children?: Snippet;\n  portalProps?: TooltipPortalProps;\n  side?: PositionerProps[\"side\"];\n  sideOffset?: PositionerProps[\"sideOffset\"];\n};\n</script>\n<script lang=\"ts\">\nimport { Tooltip as TooltipPrimitive } from \"@shardsui/svelte\";\nimport { cn } from \"$UTILS$.js\";\nimport { getTooltipHandleContext } from \"./context.js\";\n\nconst uid = $props.id();\nlet {\n  align = \"center\",\n  anchor,\n  children: child,\n  class: className,\n  id = uid,\n  portalProps,\n  ref = $bindable(null),\n  side = \"top\",\n  sideOffset = 4,\n  ...props\n}: TooltipPopupProps = $props();\nconst handle = getTooltipHandleContext();\n$effect.pre(() => {\n  handle.popupId = id;\n  return () => {\n    if (handle.popupId === id) handle.popupId = undefined;\n  };\n});\nconst positionerProps = $derived({\n  align,\n  ...(anchor === undefined ? {} : { anchor }),\n  side,\n  sideOffset,\n});\n</script>\n<TooltipPrimitive.Portal {...portalProps}>\n  <TooltipPrimitive.Positioner\n    class=\"z-50 h-(--positioner-height) w-(--positioner-width) max-w-(--available-width) transition-[top,left,right,bottom,transform] data-instant:transition-none\"\n    data-slot=\"tooltip-positioner\"\n    {...positionerProps}\n  >\n    <TooltipPrimitive.Popup\n      bind:ref\n      class={cn(\"relative flex h-(--popup-height,auto) w-(--popup-width,auto) origin-(--transform-origin) text-balance rounded-md border bg-popover not-dark:bg-clip-padding text-popover-foreground text-xs shadow-md/5 transition-[width,height,scale,opacity] before:pointer-events-none before:absolute before:inset-0 before:rounded-[calc(var(--radius-md)-1px)] before:shadow-[0_1px_--theme(--color-black/4%)] data-ending-style:scale-98 data-starting-style:scale-98 data-ending-style:opacity-0 data-starting-style:opacity-0 data-instant:duration-0 dark:before:shadow-[0_-1px_--theme(--color-white/6%)]\", className)}\n      data-slot=\"tooltip-popup\"\n      {id}\n      role=\"tooltip\"\n      {...props}\n    >\n      <TooltipPrimitive.Viewport\n        class=\"relative size-full overflow-clip px-(--viewport-inline-padding) py-1 [--viewport-inline-padding:--spacing(2)] data-instant:transition-none **:data-current:data-ending-style:opacity-0 **:data-current:data-starting-style:opacity-0 **:data-previous:data-ending-style:opacity-0 **:data-previous:data-starting-style:opacity-0 **:data-current:w-[calc(var(--popup-width)-2*var(--viewport-inline-padding)-2px)] **:data-previous:w-[calc(var(--popup-width)-2*var(--viewport-inline-padding)-2px)] **:data-previous:truncate **:data-current:opacity-100 **:data-previous:opacity-100 **:data-current:transition-opacity **:data-previous:transition-opacity\"\n        data-slot=\"tooltip-viewport\"\n      >\n        {@render child?.()}\n      </TooltipPrimitive.Viewport>\n    </TooltipPrimitive.Popup>\n  </TooltipPrimitive.Positioner>\n</TooltipPrimitive.Portal>\n",
+			"type": "registry:ui",
+			"target": "tooltip/tooltip-popup.svelte"
+		},
+		{
+			"content": "<script module lang=\"ts\">\nimport type { Tooltip as ShardsTooltip } from \"@shardsui/svelte\";\nimport type { ComponentProps } from \"svelte\";\nexport type TooltipProviderProps = ComponentProps<typeof ShardsTooltip.Provider>;\n</script>\n<script lang=\"ts\">\nimport { Tooltip as TooltipPrimitive } from \"@shardsui/svelte\";\n\nlet { children: child, ...props }: TooltipProviderProps = $props();\n</script>\n<TooltipPrimitive.Provider {...props}>{@render child?.()}</TooltipPrimitive.Provider>\n",
+			"type": "registry:ui",
+			"target": "tooltip/tooltip-provider.svelte"
+		},
+		{
+			"content": "<script lang=\"ts\" generics=\"Payload = unknown\">\nimport { Tooltip as TooltipPrimitive } from \"@shardsui/svelte\";\nimport { untrack } from \"svelte\";\nimport { setTooltipHandleContext } from \"./context.js\";\nimport { TooltipHandle as TooltipHandleClass } from \"./handle.svelte.js\";\nimport type { TooltipRootProps } from \"./tooltip.types.js\";\n\nlet {\n  children: child,\n  defaultOpen,\n  handle,\n  onOpenChange,\n  open = $bindable(),\n  triggerId = $bindable(null),\n  ...props\n}: TooltipRootProps<Payload> = $props();\nconst resolvedHandle = untrack(() => handle ?? new TooltipHandleClass<Payload>());\nsetTooltipHandleContext(resolvedHandle);\nconst initialOpen = untrack(() => defaultOpen ?? false);\nconst getOpen = () => open ?? initialOpen;\nfunction setOpen(next: boolean) {\n  onOpenChange?.(next);\n  open = next;\n}\n</script>\n<TooltipPrimitive.Root\n  bind:open={getOpen, setOpen}\n  bind:triggerId\n  handle={resolvedHandle}\n  {...props}\n>\n  {#snippet children(state)}\n    {@render child?.(state)}\n  {/snippet}\n</TooltipPrimitive.Root>\n",
+			"type": "registry:ui",
+			"target": "tooltip/tooltip-root.svelte"
+		},
+		{
+			"content": "<script lang=\"ts\" generics=\"Payload = unknown\">\nimport { Tooltip as TooltipPrimitive } from \"@shardsui/svelte\";\nimport { untrack } from \"svelte\";\nimport { getTooltipHandleContext } from \"./context.js\";\nimport type { TooltipTriggerProps } from \"./tooltip.types.js\";\n\nlet {\n  \"aria-describedby\": ariaDescribedby,\n  children: child,\n  handle,\n  ref = $bindable(null),\n  ...props\n}: TooltipTriggerProps<Payload> = $props();\nconst resolvedHandle = untrack(() => handle ?? getTooltipHandleContext<Payload>());\nconst descriptionId = $derived(ariaDescribedby ?? resolvedHandle.popupId);\n</script>\n<TooltipPrimitive.Trigger\n  aria-describedby={descriptionId}\n  bind:ref\n  data-slot=\"tooltip-trigger\"\n  handle={resolvedHandle}\n  {...props}\n>\n  {#snippet children(state)}\n    {@render child?.(state)}\n  {/snippet}\n</TooltipPrimitive.Trigger>\n",
+			"type": "registry:ui",
+			"target": "tooltip/tooltip-trigger.svelte"
+		},
+		{
+			"content": "import type { Snippet } from \"svelte\";\nimport type { HTMLButtonAttributes } from \"svelte/elements\";\nimport type { TooltipHandle } from \"./handle.svelte.js\";\n\nexport type TooltipTriggerState = {\n  open: boolean;\n};\n\nexport type TooltipRootState<Payload> = {\n  payload: Payload | undefined;\n};\n\nexport type TooltipRootProps<Payload = unknown> = {\n  children?: Snippet<[TooltipRootState<Payload>]>;\n  defaultOpen?: boolean;\n  disableHoverablePopup?: boolean;\n  disabled?: boolean;\n  handle?: TooltipHandle<Payload>;\n  onOpenChange?: (open: boolean) => void;\n  onOpenChangeComplete?: (open: boolean) => void;\n  open?: boolean | undefined;\n  trackCursorAxis?: \"none\" | \"x\" | \"y\" | \"both\";\n  triggerId?: string | null;\n};\n\nexport type TooltipTriggerProps<Payload = unknown> = Omit<\n  HTMLButtonAttributes,\n  \"children\" | \"id\"\n> & {\n  as?: keyof HTMLElementTagNameMap;\n  children?: Snippet<[TooltipTriggerState]>;\n  closeDelay?: number;\n  closeOnClick?: boolean;\n  delay?: number;\n  disabled?: boolean;\n  handle?: TooltipHandle<Payload>;\n  id?: string;\n  payload?: Payload;\n  ref?: HTMLElement | null;\n};\n",
+			"type": "registry:ui",
+			"target": "tooltip/tooltip.types.ts"
+		},
+		{
+			"content": "import { Tooltip as TooltipPrimitive } from \"@shardsui/svelte\";\n\nexport {\n  createTooltipHandle as TooltipCreateHandle,\n  TooltipHandle as Handle,\n} from \"./handle.svelte.js\";\nexport type {\n  TooltipRootProps,\n  TooltipRootState,\n  TooltipTriggerProps,\n  TooltipTriggerState,\n} from \"./tooltip.types.js\";\nexport type { TooltipPopupProps, TooltipPortalProps } from \"./tooltip-popup.svelte\";\nexport {\n  default as Content,\n  default as Popup,\n  default as TooltipContent,\n  default as TooltipPopup,\n} from \"./tooltip-popup.svelte\";\nexport type { TooltipProviderProps } from \"./tooltip-provider.svelte\";\nexport { default as Provider, default as TooltipProvider } from \"./tooltip-provider.svelte\";\nexport { default as Root, default as Tooltip, default as TooltipRoot } from \"./tooltip-root.svelte\";\nexport { default as TooltipTrigger, default as Trigger } from \"./tooltip-trigger.svelte\";\nexport { TooltipPrimitive };\n",
+			"type": "registry:ui",
+			"target": "tooltip/index.ts"
+		}
+	]
+}

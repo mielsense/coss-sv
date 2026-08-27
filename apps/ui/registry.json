@@ -75,6 +75,59 @@
       ]
     },
     {
+      "name": "alert-dialog",
+      "type": "registry:ui",
+      "description": "Asks the user to confirm or cancel a consequential action.",
+      "dependencies": [
+        "@shardsui/svelte@0.1.0-beta.0"
+      ],
+      "registryDependencies": [
+        "local:dialog"
+      ],
+      "files": [
+        {
+          "path": "../../packages/ui/src/components/ui/alert-dialog/alert-dialog-backdrop.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/alert-dialog/alert-dialog-close.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/alert-dialog/alert-dialog-description.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/alert-dialog/alert-dialog-footer.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/alert-dialog/alert-dialog-header.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/alert-dialog/alert-dialog-popup.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/alert-dialog/alert-dialog-title.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/alert-dialog/alert-dialog-trigger.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/alert-dialog/alert-dialog-viewport.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/alert-dialog/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "avatar",
       "type": "registry:ui",
       "description": "Displays an image or fallback for a person or entity.",
@@ -343,6 +396,278 @@
       ]
     },
     {
+      "name": "context-menu",
+      "type": "registry:ui",
+      "description": "Opens a menu at the pointer position for contextual actions.",
+      "dependencies": [
+        "@shardsui/svelte@0.1.0-beta.0"
+      ],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "../../packages/ui/src/components/ui/context-menu/context-menu-checkbox-item.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/context-menu/context-menu-group-label.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/context-menu/context-menu-group.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/context-menu/context-menu-id-provider.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/context-menu/context-menu-item.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/context-menu/context-menu-link-item.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/context-menu/context-menu-popup.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/context-menu/context-menu-radio-group.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/context-menu/context-menu-radio-item.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/context-menu/context-menu-root.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/context-menu/context-menu-separator.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/context-menu/context-menu-shortcut.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/context-menu/context-menu-sub-popup.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/context-menu/context-menu-sub-trigger.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/context-menu/context-menu-sub.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/context-menu/context-menu-trigger.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/context-menu/context-menu.types.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/context-menu/id-context.svelte.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/context-menu/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "dialog",
+      "type": "registry:ui",
+      "description": "Displays focused content in a modal or non-modal overlay.",
+      "dependencies": [
+        "@shardsui/svelte@0.1.0-beta.0"
+      ],
+      "registryDependencies": [
+        "local:button",
+        "local:scroll-area"
+      ],
+      "files": [
+        {
+          "path": "../../packages/ui/src/components/ui/dialog/dialog-backdrop.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/dialog/dialog-close.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/dialog/dialog-description.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/dialog/dialog-footer.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/dialog/dialog-header.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/dialog/dialog-panel.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/dialog/dialog-part.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/dialog/dialog-popup.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/dialog/dialog-title.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/dialog/dialog-trigger.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/dialog/dialog-viewport.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/dialog/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "drawer",
+      "type": "registry:ui",
+      "description": "Presents draggable overlay content from an edge of the viewport.",
+      "dependencies": [
+        "@shardsui/svelte@0.1.0-beta.0"
+      ],
+      "registryDependencies": [
+        "local:button",
+        "local:dialog",
+        "local:scroll-area"
+      ],
+      "files": [
+        {
+          "path": "../../packages/ui/src/components/ui/drawer/context.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/drawer/drawer-backdrop.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/drawer/drawer-bar.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/drawer/drawer-close.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/drawer/drawer-content.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/drawer/drawer-description.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/drawer/drawer-footer.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/drawer/drawer-header.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/drawer/drawer-menu-checkbox-item.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/drawer/drawer-menu-group-label.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/drawer/drawer-menu-group.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/drawer/drawer-menu-item.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/drawer/drawer-menu-radio-group.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/drawer/drawer-menu-radio-item.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/drawer/drawer-menu-separator.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/drawer/drawer-menu-trigger.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/drawer/drawer-menu.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/drawer/drawer-panel-content.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/drawer/drawer-panel.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/drawer/drawer-part.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/drawer/drawer-popup.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/drawer/drawer-root.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/drawer/drawer-swipe-area.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/drawer/drawer-title.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/drawer/drawer-trigger.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/drawer/drawer-viewport.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/drawer/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "empty",
       "type": "registry:ui",
       "description": "Explains an empty state and its next actions.",
@@ -412,6 +737,14 @@
         },
         {
           "path": "../../packages/ui/src/components/ui/field/field-error.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/field/field-relationship-provider.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/field/relationship-context.svelte.ts",
           "type": "registry:ui"
         },
         {
@@ -632,6 +965,85 @@
       ]
     },
     {
+      "name": "menu",
+      "type": "registry:ui",
+      "description": "Presents actions, links, and nested choices from a trigger.",
+      "dependencies": [
+        "@shardsui/svelte@0.1.0-beta.0"
+      ],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "../../packages/ui/src/components/ui/menu/menu-checkbox-item.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/menu/menu-group-label.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/menu/menu-group.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/menu/menu-item.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/menu/menu-link-item.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/menu/menu-popup.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/menu/menu-radio-group.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/menu/menu-radio-item.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/menu/menu-root.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/menu/menu-separator.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/menu/menu-shortcut.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/menu/menu-sub-popup.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/menu/menu-sub-trigger.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/menu/menu-sub.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/menu/menu-trigger.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/menu/menu.types.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/menu/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "meter",
       "type": "registry:ui",
       "description": "Shows a scalar measurement within a known range.",
@@ -662,6 +1074,105 @@
         },
         {
           "path": "../../packages/ui/src/components/ui/meter/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "number-field",
+      "type": "registry:ui",
+      "description": "Collects and adjusts a locale-aware numeric value.",
+      "dependencies": [
+        "@shardsui/svelte@0.1.0-beta.0"
+      ],
+      "registryDependencies": [
+        "local:label"
+      ],
+      "files": [
+        {
+          "path": "../../packages/ui/src/components/ui/number-field/context.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/number-field/cursor-grow-icon.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/number-field/number-field-decrement.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/number-field/number-field-group.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/number-field/number-field-increment.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/number-field/number-field-input.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/number-field/number-field-machine.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/number-field/number-field-root.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/number-field/number-field-scrub-area.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/number-field/number-field-step-button.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/number-field/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "otp-field",
+      "type": "registry:ui",
+      "description": "Collects a one-time code across a group of input slots.",
+      "dependencies": [
+        "@shardsui/svelte@0.1.0-beta.0"
+      ],
+      "registryDependencies": [
+        "local:field",
+        "local:separator"
+      ],
+      "files": [
+        {
+          "path": "../../packages/ui/src/components/ui/otp-field/context.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/otp-field/field-relationships.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/otp-field/otp-field-input.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/otp-field/otp-field-machine.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/otp-field/otp-field-root.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/otp-field/otp-field-separator.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/otp-field/index.ts",
           "type": "registry:ui"
         }
       ]
@@ -705,6 +1216,80 @@
         },
         {
           "path": "../../packages/ui/src/components/ui/pagination/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "popover",
+      "type": "registry:ui",
+      "description": "Displays interactive content beside a trigger or anchor.",
+      "dependencies": [
+        "@shardsui/svelte@0.1.0-beta.0"
+      ],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "../../packages/ui/src/components/ui/popover/popover-close.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/popover/popover-description.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/popover/popover-popup.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/popover/popover-root.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/popover/popover-title.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/popover/popover-trigger.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/popover/popover.types.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/popover/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "preview-card",
+      "type": "registry:ui",
+      "description": "Previews linked content when its trigger is hovered or focused.",
+      "dependencies": [
+        "@shardsui/svelte@0.1.0-beta.0"
+      ],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "../../packages/ui/src/components/ui/preview-card/preview-card-popup.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/preview-card/preview-card-root.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/preview-card/preview-card-trigger.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/preview-card/preview-card.types.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/preview-card/index.ts",
           "type": "registry:ui"
         }
       ]
@@ -805,6 +1390,65 @@
         },
         {
           "path": "../../packages/ui/src/components/ui/separator/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "sheet",
+      "type": "registry:ui",
+      "description": "Displays overlay content from a chosen side of the viewport.",
+      "dependencies": [
+        "@shardsui/svelte@0.1.0-beta.0"
+      ],
+      "registryDependencies": [
+        "local:button",
+        "local:dialog",
+        "local:scroll-area"
+      ],
+      "files": [
+        {
+          "path": "../../packages/ui/src/components/ui/sheet/sheet-backdrop.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/sheet/sheet-close.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/sheet/sheet-description.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/sheet/sheet-footer.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/sheet/sheet-header.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/sheet/sheet-panel.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/sheet/sheet-popup.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/sheet/sheet-title.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/sheet/sheet-trigger.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/sheet/sheet-viewport.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/sheet/index.ts",
           "type": "registry:ui"
         }
       ]
@@ -1069,6 +1713,92 @@
         },
         {
           "path": "../../packages/ui/src/components/ui/toggle-group/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "toolbar",
+      "type": "registry:ui",
+      "description": "Groups controls with coordinated keyboard navigation.",
+      "dependencies": [
+        "@shardsui/svelte@0.1.0-beta.0"
+      ],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "../../packages/ui/src/components/ui/toolbar/toolbar-button.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/toolbar/toolbar-group.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/toolbar/toolbar-input.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/toolbar/toolbar-link.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/toolbar/toolbar-root.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/toolbar/toolbar-separator.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/toolbar/toolbar.types.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/toolbar/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "tooltip",
+      "type": "registry:ui",
+      "description": "Shows a short description when a trigger is hovered or focused.",
+      "dependencies": [
+        "@shardsui/svelte@0.1.0-beta.0"
+      ],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "../../packages/ui/src/components/ui/tooltip/context.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/tooltip/handle.svelte.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/tooltip/tooltip-popup.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/tooltip/tooltip-provider.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/tooltip/tooltip-root.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/tooltip/tooltip-trigger.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/tooltip/tooltip.types.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/tooltip/index.ts",
           "type": "registry:ui"
         }
       ]

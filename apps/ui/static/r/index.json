@@ -18,6 +18,18 @@
 		"relativeUrl": "alert.json"
 	},
 	{
+		"name": "alert-dialog",
+		"type": "registry:ui",
+		"description": "Asks the user to confirm or cancel a consequential action.",
+		"dependencies": [
+			"@shardsui/svelte@0.1.0-beta.0"
+		],
+		"registryDependencies": [
+			"local:dialog"
+		],
+		"relativeUrl": "alert-dialog.json"
+	},
+	{
 		"name": "avatar",
 		"type": "registry:ui",
 		"description": "Displays an image or fallback for a person or entity.",
@@ -96,6 +108,43 @@
 			"local:button"
 		],
 		"relativeUrl": "collapsible.json"
+	},
+	{
+		"name": "context-menu",
+		"type": "registry:ui",
+		"description": "Opens a menu at the pointer position for contextual actions.",
+		"dependencies": [
+			"@shardsui/svelte@0.1.0-beta.0"
+		],
+		"registryDependencies": [],
+		"relativeUrl": "context-menu.json"
+	},
+	{
+		"name": "dialog",
+		"type": "registry:ui",
+		"description": "Displays focused content in a modal or non-modal overlay.",
+		"dependencies": [
+			"@shardsui/svelte@0.1.0-beta.0"
+		],
+		"registryDependencies": [
+			"local:button",
+			"local:scroll-area"
+		],
+		"relativeUrl": "dialog.json"
+	},
+	{
+		"name": "drawer",
+		"type": "registry:ui",
+		"description": "Presents draggable overlay content from an edge of the viewport.",
+		"dependencies": [
+			"@shardsui/svelte@0.1.0-beta.0"
+		],
+		"registryDependencies": [
+			"local:button",
+			"local:dialog",
+			"local:scroll-area"
+		],
+		"relativeUrl": "drawer.json"
 	},
 	{
 		"name": "empty",
@@ -193,6 +242,16 @@
 		"relativeUrl": "label.json"
 	},
 	{
+		"name": "menu",
+		"type": "registry:ui",
+		"description": "Presents actions, links, and nested choices from a trigger.",
+		"dependencies": [
+			"@shardsui/svelte@0.1.0-beta.0"
+		],
+		"registryDependencies": [],
+		"relativeUrl": "menu.json"
+	},
+	{
 		"name": "meter",
 		"type": "registry:ui",
 		"description": "Shows a scalar measurement within a known range.",
@@ -203,6 +262,31 @@
 		"relativeUrl": "meter.json"
 	},
 	{
+		"name": "number-field",
+		"type": "registry:ui",
+		"description": "Collects and adjusts a locale-aware numeric value.",
+		"dependencies": [
+			"@shardsui/svelte@0.1.0-beta.0"
+		],
+		"registryDependencies": [
+			"local:label"
+		],
+		"relativeUrl": "number-field.json"
+	},
+	{
+		"name": "otp-field",
+		"type": "registry:ui",
+		"description": "Collects a one-time code across a group of input slots.",
+		"dependencies": [
+			"@shardsui/svelte@0.1.0-beta.0"
+		],
+		"registryDependencies": [
+			"local:field",
+			"local:separator"
+		],
+		"relativeUrl": "otp-field.json"
+	},
+	{
 		"name": "pagination",
 		"type": "registry:ui",
 		"description": "Provides links for moving through a paged collection.",
@@ -211,6 +295,26 @@
 			"local:button"
 		],
 		"relativeUrl": "pagination.json"
+	},
+	{
+		"name": "popover",
+		"type": "registry:ui",
+		"description": "Displays interactive content beside a trigger or anchor.",
+		"dependencies": [
+			"@shardsui/svelte@0.1.0-beta.0"
+		],
+		"registryDependencies": [],
+		"relativeUrl": "popover.json"
+	},
+	{
+		"name": "preview-card",
+		"type": "registry:ui",
+		"description": "Previews linked content when its trigger is hovered or focused.",
+		"dependencies": [
+			"@shardsui/svelte@0.1.0-beta.0"
+		],
+		"registryDependencies": [],
+		"relativeUrl": "preview-card.json"
 	},
 	{
 		"name": "progress",
@@ -251,6 +355,20 @@
 		],
 		"registryDependencies": [],
 		"relativeUrl": "separator.json"
+	},
+	{
+		"name": "sheet",
+		"type": "registry:ui",
+		"description": "Displays overlay content from a chosen side of the viewport.",
+		"dependencies": [
+			"@shardsui/svelte@0.1.0-beta.0"
+		],
+		"registryDependencies": [
+			"local:button",
+			"local:dialog",
+			"local:scroll-area"
+		],
+		"relativeUrl": "sheet.json"
 	},
 	{
 		"name": "skeleton",
@@ -338,5 +456,25 @@
 			"local:toggle"
 		],
 		"relativeUrl": "toggle-group.json"
+	},
+	{
+		"name": "toolbar",
+		"type": "registry:ui",
+		"description": "Groups controls with coordinated keyboard navigation.",
+		"dependencies": [
+			"@shardsui/svelte@0.1.0-beta.0"
+		],
+		"registryDependencies": [],
+		"relativeUrl": "toolbar.json"
+	},
+	{
+		"name": "tooltip",
+		"type": "registry:ui",
+		"description": "Shows a short description when a trigger is hovered or focused.",
+		"dependencies": [
+			"@shardsui/svelte@0.1.0-beta.0"
+		],
+		"registryDependencies": [],
+		"relativeUrl": "tooltip.json"
 	}
 ]
