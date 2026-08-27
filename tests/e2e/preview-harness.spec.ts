@@ -79,6 +79,55 @@ test.describe("preview harness", () => {
     guard.assertNoErrors();
   });
 
+  test("lets the query theme override browser preference across the full viewport", async ({
+    page,
+  }, testInfo) => {
+    test.skip(testInfo.project.name === "motion", "The two static projects cover opposite themes.");
+    const theme = testInfo.project.name === "dark" ? "light" : "dark";
+    const { ready } = await openReadyPreview(page, "_fixture", theme, "desktop");
+    const frame = page.locator("[data-preview-theme]");
+    const viewport = page.viewportSize();
+    const box = await frame.boundingBox();
+
+    expect(viewport).not.toBeNull();
+    expect(box).toMatchObject({
+      height: viewport?.height,
+      width: viewport?.width,
+      x: 0,
+      y: 0,
+    });
+    const expectedBackground = theme === "dark" ? "rgb(23, 23, 23)" : "rgb(255, 255, 255)";
+    const canvas = await page.evaluate(() => {
+      const themeFrame = document.querySelector<HTMLElement>("[data-preview-theme]");
+      if (!themeFrame) throw new Error("Preview theme frame is missing.");
+      const points = [
+        [1, 1],
+        [innerWidth - 2, 1],
+        [1, innerHeight - 2],
+        [innerWidth - 2, innerHeight - 2],
+      ];
+      return {
+        background: getComputedStyle(themeFrame).backgroundColor,
+        corners: points.map(([x, y]) => {
+          const element = document.elementFromPoint(x ?? 0, y ?? 0);
+          return {
+            background: element ? getComputedStyle(element).backgroundColor : null,
+            coveredByFrame: element ? themeFrame.contains(element) : false,
+          };
+        }),
+      };
+    });
+
+    expect(canvas.background).toBe(expectedBackground);
+    for (const corner of canvas.corners) {
+      expect(corner).toEqual({ background: expectedBackground, coveredByFrame: true });
+    }
+    await expect(ready).toBeVisible();
+    const screenshot = await page.screenshot({ animations: "disabled" });
+    expect(screenshot.byteLength).toBeGreaterThan(1_000);
+    await testInfo.attach(`viewport-${theme}.png`, { body: screenshot, contentType: "image/png" });
+  });
+
   test("turns console errors and axe findings into test failures", async ({ page }, testInfo) => {
     const guard = monitorConsole(page);
     const { externalRequests } = await openReadyPreview(

@@ -1,5 +1,13 @@
-import { existsSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
-import { basename, dirname, extname, join, relative, resolve } from "node:path";
+import {
+  existsSync,
+  lstatSync,
+  mkdirSync,
+  readdirSync,
+  readFileSync,
+  statSync,
+  writeFileSync,
+} from "node:fs";
+import { basename, dirname, extname, isAbsolute, join, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import ts from "typescript";
 
@@ -450,7 +458,106 @@ export function compareTargetManifests(
   ) as TargetManifestComparison;
 }
 
-export function validateTargetManifestParity(entries: ParityEntry[], manifests: TargetManifests) {
+const ignoredComponentSourceDirectories = new Set([
+  ".git",
+  ".svelte-kit",
+  ".turbo",
+  "build",
+  "dist",
+  "generated",
+  "node_modules",
+]);
+
+function hasAuthoredContent(path: string) {
+  return readFileSync(path, "utf8").trim().length > 0;
+}
+
+function isComponentSourceFile(path: string) {
+  const name = basename(path);
+  if (name.endsWith(".d.ts") || name.endsWith(".spec.ts") || name.endsWith(".test.ts")) {
+    return false;
+  }
+  return (extname(name) === ".svelte" || extname(name) === ".ts") && hasAuthoredContent(path);
+}
+
+function componentHasAuthoredSource(path: string): boolean {
+  const stats = lstatSync(path);
+  if (stats.isSymbolicLink()) return false;
+  if (stats.isFile()) return isComponentSourceFile(path);
+  if (!stats.isDirectory()) return false;
+
+  return readdirSync(path, { withFileTypes: true }).some((directoryEntry) => {
+    if (directoryEntry.isSymbolicLink()) return false;
+    if (
+      directoryEntry.isDirectory() &&
+      ignoredComponentSourceDirectories.has(directoryEntry.name)
+    ) {
+      return false;
+    }
+    return componentHasAuthoredSource(join(path, directoryEntry.name));
+  });
+}
+
+function resolveTargetInsideRepository(root: string, path: string) {
+  const resolvedRoot = resolve(root);
+  const resolvedTarget = resolve(resolvedRoot, path);
+  const pathFromRoot = relative(resolvedRoot, resolvedTarget);
+  if (pathFromRoot.startsWith("..") || isAbsolute(pathFromRoot)) {
+    throw new Error(`target path escapes the repository: ${path}`);
+  }
+  return resolvedTarget;
+}
+
+function promotedTargetError(root: string, item: ParityEntry) {
+  const path = item.targetPaths[0];
+  if (!path) return `${parityKey(item)} has no canonical authored target path.`;
+
+  const expectedComponentRoot = `packages/ui/src/components/ui/${item.id}`;
+  const expectedParticle = `apps/ui/registry/default/particles/${item.id}.svelte`;
+  const expectedDoc = `apps/ui/content/docs/${item.id}.md`;
+  const isCanonical =
+    (item.kind === "component" &&
+      (path === expectedComponentRoot || path.startsWith(`${expectedComponentRoot}/`))) ||
+    (item.kind === "particle" && path === expectedParticle) ||
+    (item.kind === "doc" && path === expectedDoc);
+
+  if (!isCanonical) {
+    return `${parityKey(item)} uses non-canonical or generated target ${path}.`;
+  }
+
+  const absolutePath = resolveTargetInsideRepository(root, path);
+  if (!existsSync(absolutePath)) {
+    return `${parityKey(item)} is ${item.status} but lacks a real authored target at ${path}.`;
+  }
+
+  const stats = lstatSync(absolutePath);
+  let valid = false;
+  if (item.kind === "component") {
+    valid = componentHasAuthoredSource(absolutePath);
+  } else if (item.kind === "particle") {
+    valid =
+      stats.isFile() &&
+      !stats.isSymbolicLink() &&
+      extname(absolutePath) === ".svelte" &&
+      hasAuthoredContent(absolutePath);
+  } else {
+    valid =
+      stats.isFile() &&
+      !stats.isSymbolicLink() &&
+      extname(absolutePath) === ".md" &&
+      hasAuthoredContent(absolutePath);
+  }
+
+  return valid
+    ? undefined
+    : `${parityKey(item)} is ${item.status} but ${path} is not a real authored target.`;
+}
+
+export function validateTargetManifestParity(
+  entries: ParityEntry[],
+  manifests: TargetManifests,
+  root = repositoryRoot,
+) {
   const comparison = compareTargetManifests(entries, manifests);
   const errors: string[] = [];
   const extras = (["component", "doc", "particle"] as const).flatMap((kind) =>
@@ -464,10 +571,14 @@ export function validateTargetManifestParity(entries: ParityEntry[], manifests: 
   if (duplicates.length > 0) errors.push(`Duplicates: ${duplicates.join(", ")}.`);
 
   for (const item of entries) {
-    if (item.status === "missing" || manifests[item.kind].ids.includes(item.id)) continue;
-    errors.push(
-      `${parityKey(item)} is ${item.status} but absent from ${manifests[item.kind].path}.`,
-    );
+    if (item.status === "missing") continue;
+    if (!manifests[item.kind].ids.includes(item.id)) {
+      errors.push(
+        `${parityKey(item)} is ${item.status} but absent from ${manifests[item.kind].path}.`,
+      );
+    }
+    const targetError = promotedTargetError(root, item);
+    if (targetError) errors.push(targetError);
   }
 
   if (errors.length > 0) throw new Error(`Target manifest mismatch. ${errors.join(" ")}`);

@@ -12,6 +12,9 @@ import {
   createAllMissingBaseline,
   formatOutstandingReport,
   loadStatusBaseline,
+  type ParityEntry,
+  type ParityKind,
+  type ParityStatus,
   renderInventory,
   targetManifestDefinitions,
   validateStatusBaseline,
@@ -21,6 +24,65 @@ import {
 const inventory = collectReferenceInventory();
 const baseline = loadStatusBaseline();
 const entries = applyStatusBaseline(inventory.entries, baseline);
+
+const promotedTargetFixtures: Array<{
+  id: string;
+  kind: ParityKind;
+  status: Exclude<ParityStatus, "missing">;
+  targetPath: string;
+}> = [
+  {
+    id: "accordion",
+    kind: "component",
+    status: "implemented",
+    targetPath: "packages/ui/src/components/ui/accordion",
+  },
+  {
+    id: "p-accordion-1",
+    kind: "particle",
+    status: "reviewed",
+    targetPath: "apps/ui/registry/default/particles/p-accordion-1.svelte",
+  },
+  {
+    id: "components/accordion",
+    kind: "doc",
+    status: "approved",
+    targetPath: "apps/ui/content/docs/components/accordion.md",
+  },
+];
+
+function fixtureEntry(fixture: (typeof promotedTargetFixtures)[number]): ParityEntry {
+  return {
+    id: fixture.id,
+    kind: fixture.kind,
+    sourcePaths: [],
+    status: fixture.status,
+    targetPaths: [fixture.targetPath],
+  };
+}
+
+function writeFixtureManifest(root: string, fixture: (typeof promotedTargetFixtures)[number]) {
+  const definition = targetManifestDefinitions.find(({ kind }) => kind === fixture.kind);
+  assert.ok(definition);
+  const path = join(root, definition.path);
+  mkdirSync(dirname(path), { recursive: true });
+  writeFileSync(
+    path,
+    `export const ${definition.exportName} = ${definition.wrapperName}([{ ${definition.idProperty}: ${JSON.stringify(fixture.id)} }]);\n`,
+  );
+}
+
+function writeAuthoredTarget(root: string, fixture: (typeof promotedTargetFixtures)[number]) {
+  const path = join(root, fixture.targetPath);
+  if (fixture.kind === "component") {
+    mkdirSync(path, { recursive: true });
+    writeFileSync(join(path, "index.ts"), 'export { default as Root } from "./root.svelte";\n');
+    writeFileSync(join(path, "root.svelte"), "<button>Accordion</button>\n");
+    return;
+  }
+  mkdirSync(dirname(path), { recursive: true });
+  writeFileSync(path, fixture.kind === "particle" ? "<div>Particle</div>\n" : "# Accordion\n");
+}
 
 test("locks the pinned reference inventory", () => {
   assert.equal(inventory.counts.components, 54);
@@ -235,6 +297,57 @@ test("allows absent foundation manifests but requires membership before promotio
     );
   } finally {
     rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test("requires manifest members to have real authored targets for every promoted kind", () => {
+  for (const fixture of promotedTargetFixtures) {
+    const root = mkdtempSync(join(tmpdir(), `coss-sv-${fixture.kind}-target-`));
+
+    try {
+      writeFixtureManifest(root, fixture);
+      const target = join(root, fixture.targetPath);
+      if (fixture.kind === "component") {
+        mkdirSync(join(target, "dist"), { recursive: true });
+        writeFileSync(join(target, ".gitkeep"), "");
+        writeFileSync(join(target, "dist/generated.svelte"), "<p>generated</p>\n");
+      } else {
+        mkdirSync(dirname(target), { recursive: true });
+        writeFileSync(target, "   \n");
+      }
+
+      const manifests = collectTargetManifests(root);
+      assert.throws(
+        () => validateTargetManifestParity([fixtureEntry(fixture)], manifests, root),
+        new RegExp(`${fixture.kind}:${fixture.id.replace("/", "\\/")}.*real authored target`, "s"),
+      );
+
+      writeAuthoredTarget(root, fixture);
+      assert.doesNotThrow(() =>
+        validateTargetManifestParity([fixtureEntry(fixture)], manifests, root),
+      );
+    } finally {
+      rmSync(root, { recursive: true, force: true });
+    }
+  }
+});
+
+test("rejects real targets that are absent from each canonical manifest", () => {
+  for (const fixture of promotedTargetFixtures) {
+    const root = mkdtempSync(join(tmpdir(), `coss-sv-${fixture.kind}-membership-`));
+
+    try {
+      writeAuthoredTarget(root, fixture);
+      const manifests = collectTargetManifests(root);
+      assert.throws(
+        () => validateTargetManifestParity([fixtureEntry(fixture)], manifests, root),
+        new RegExp(
+          `${fixture.kind}:${fixture.id.replace("/", "\\/")} is ${fixture.status} but absent from`,
+        ),
+      );
+    } finally {
+      rmSync(root, { recursive: true, force: true });
+    }
   }
 });
 
