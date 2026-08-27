@@ -1,8 +1,8 @@
 <script lang="ts">
 import { ContextMenu as P } from "@shardsui/svelte";
 import { untrack } from "svelte";
-import ContextMenuIdProvider from "./context-menu-id-provider.svelte";
 import type { ContextMenuSubProps } from "./context-menu.types.js";
+import ContextMenuIdProvider from "./context-menu-id-provider.svelte";
 
 let { children: child, defaultOpen, open = $bindable(), ...props }: ContextMenuSubProps = $props();
 const initialOpen = untrack(() => defaultOpen ?? false);

@@ -1,8 +1,8 @@
 import { render } from "svelte/server";
 import { describe, expect, test } from "vitest";
-import ContextMenuSsrFixture from "./context-menu.ssr-fixture.svelte";
 import ContextMenuHydrationFixture from "./context-menu.hydration-fixture.svelte";
 import { contextMenuHydrationHtml } from "./context-menu.hydration-html.js";
+import ContextMenuSsrFixture from "./context-menu.ssr-fixture.svelte";
 import * as ContextMenu from "./index.js";
 
 describe("Context Menu SSR contract", () => {
