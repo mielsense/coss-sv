@@ -9,7 +9,7 @@
     {
       "id": "alert-dialog",
       "kind": "component",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "alert",
@@ -79,17 +79,17 @@
     {
       "id": "context-menu",
       "kind": "component",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "dialog",
       "kind": "component",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "drawer",
       "kind": "component",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "empty",
@@ -144,7 +144,7 @@
     {
       "id": "menu",
       "kind": "component",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "meter",
@@ -154,12 +154,12 @@
     {
       "id": "number-field",
       "kind": "component",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "otp-field",
       "kind": "component",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "pagination",
@@ -169,12 +169,12 @@
     {
       "id": "popover",
       "kind": "component",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "preview-card",
       "kind": "component",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "progress",
@@ -204,7 +204,7 @@
     {
       "id": "sheet",
       "kind": "component",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "sidebar",
@@ -264,12 +264,12 @@
     {
       "id": "toolbar",
       "kind": "component",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "tooltip",
       "kind": "component",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "components/accordion",
