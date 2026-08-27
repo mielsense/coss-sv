@@ -179,10 +179,18 @@ let snapPoint = $state<string | number | null>("300px");
               ><Drawer.Panel class="grid gap-4"
                 ><Field.Root
                   ><Field.Label>Name</Field.Label>
-                  <Input bind:value={nestedMember.name} type="text" /></Field.Root
+                  <Input
+                    bind:value={nestedMember.name}
+                    defaultValue="Bora Baloglu"
+                    type="text"
+                  /></Field.Root
                 ><Field.Root
                   ><Field.Label>Email</Field.Label>
-                  <Input bind:value={nestedMember.email} type="email" /></Field.Root
+                  <Input
+                    bind:value={nestedMember.email}
+                    defaultValue="bora@example.com"
+                    type="email"
+                  /></Field.Root
                 ></Drawer.Panel
               ><Drawer.Footer
                 ><Drawer.Close class={buttonVariants({ variant: "ghost" })}>Cancel</Drawer.Close

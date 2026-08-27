@@ -153,6 +153,38 @@ describe("Drawer browser contract", () => {
     await trigger.click();
     await expect.element(page.getByLabelText("Drawer seed 1")).toHaveValue("Bora Baloglu");
   });
+  test("preserves exact nested member defaults across edit, cancel, and remount", async () => {
+    render(Fixture);
+    await page.getByRole("button", { name: "Open exact nested inset" }).click();
+    const nestedTrigger = page.getByRole("button", { name: "Edit exact details" });
+    await nestedTrigger.click();
+    const name = page.getByRole("textbox", { name: "Name" });
+    const email = page.getByRole("textbox", { name: "Email" });
+    await expect.element(name).toHaveAttribute("type", "text");
+    await expect.element(name).toHaveAttribute("value", "Bora Baloglu");
+    await expect.element(name).toHaveAttribute("data-filled", "");
+    await expect.element(name).toHaveAttribute("aria-labelledby");
+    await expect.element(name).toHaveValue("Bora Baloglu");
+    await expect.element(email).toHaveAttribute("type", "email");
+    await expect.element(email).toHaveAttribute("value", "bora@example.com");
+    await expect.element(email).toHaveAttribute("data-filled", "");
+    await expect.element(email).toHaveAttribute("aria-labelledby");
+    await expect.element(email).toHaveValue("bora@example.com");
+    await name.fill("Edited Name");
+    await email.fill("edited@example.com");
+    await expect.element(name).toHaveValue("Edited Name");
+    await expect.element(email).toHaveValue("edited@example.com");
+    await page.getByRole("button", { name: "Cancel exact edit" }).click();
+    await expect
+      .element(page.getByRole("dialog", { name: "Edit exact details" }))
+      .not.toBeInTheDocument();
+    await expect.element(nestedTrigger).toHaveFocus();
+    await nestedTrigger.click();
+    await expect.element(page.getByRole("textbox", { name: "Name" })).toHaveValue("Bora Baloglu");
+    await expect
+      .element(page.getByRole("textbox", { name: "Email" }))
+      .toHaveValue("bora@example.com");
+  });
   test("renders each direction, traps focus, dismisses, and restores focus", async () => {
     render(Fixture);
     for (const position of ["bottom", "top", "left", "right"] as const) {

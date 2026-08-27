@@ -12,11 +12,18 @@ describe("overlay parity form lifecycle", () => {
   test.each([
     ["dialog", 6],
     ["sheet", 2],
-    ["drawer", 8],
-  ] as const)("initializes every %s Input binding without broken defaultValue", (name, count) => {
+  ] as const)("initializes every %s Input binding inside remounted state", (name, count) => {
     const source = readParityFixture(name);
-    expect(source.match(/<Input bind:value=/g)).toHaveLength(count);
+    expect(source.match(/<Input\b[^>]*\bbind:value=/gs)).toHaveLength(count);
     expect(source).not.toMatch(/<Input[^>]*defaultValue=/);
+  });
+
+  test("keeps all Drawer bindings and the exact nested member defaults", () => {
+    const source = readParityFixture("drawer");
+    expect(source.match(/<Input\b[^>]*\bbind:value=/gs)).toHaveLength(8);
+    expect(source.match(/<Input\b[^>]*\bdefaultValue=/gs)).toHaveLength(2);
+    expect(source).toContain('defaultValue="Bora Baloglu"');
+    expect(source).toContain('defaultValue="bora@example.com"');
   });
 
   test("places every Dialog form binding inside its remounted Popup fragment", () => {
