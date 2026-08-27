@@ -1,12 +1,7 @@
-<script module lang="ts">
-import type { Toolbar as ShardsToolbar } from "@shardsui/svelte";
-import type { ComponentProps } from "svelte";
-export type ToolbarRootProps = ComponentProps<typeof ShardsToolbar.Root>;
-</script>
-
 <script lang="ts">
 import { Toolbar as ToolbarPrimitive } from "@shardsui/svelte";
 import { cn } from "$lib/utils.js";
+import type { ToolbarRootProps } from "./toolbar.types.js";
 
 let { class: className, ref = $bindable(null), ...props }: ToolbarRootProps = $props();
 </script>

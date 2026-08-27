@@ -16,7 +16,7 @@ The inspection covered every Context Menu implementation and type file under `sh
 
 Shards owns right-click and long-press handling, the virtual point anchor, nested-trigger isolation, collision handling, menu focus management, keyboard interaction, and all shared menu item behavior. The COSS wrapper adds the exact visual contract, slots, convenience popup composition, variants, and aliases.
 
-Context7 returned `Monthly quota reached`. The implementation therefore follows the pinned local Svelte Edge references and the complete local Shards implementation rather than relying on memory. Selecting the Codex in-app Browser backend returned `Browser is not available`; its prescribed troubleshooting check exposed only a Chrome extension backend. Chrome was not used.
+Context7 returned `Monthly quota reached`. The implementation therefore follows the pinned local Svelte Edge references and the complete local Shards implementation. Headless Chromium covers automated interaction checks; the coordinator performs the final comparison in the Codex in-app browser. Chrome was not used.
 
 ## Translation decisions
 
@@ -25,10 +25,11 @@ Context7 returned `Monthly quota reached`. The implementation therefore follows 
 - The root popup defaults to bottom/center with a four-pixel side offset. The submenu popup defaults to inline-end/start with a zero side offset and `-5` alignment adjustment, preserving direction-aware placement.
 - Every COSS class string and `data-slot` value is preserved. Consumer classes are merged last.
 - Checkbox, radio, link, disabled, destructive, shortcut, and switch behavior uses the same translation as Menu. Default state is read once, while bindable state, callbacks, and Shards' function-binding veto behavior stay available.
-- The trigger forwards native element attributes and Shards' `as` and `ref` contracts. Shards remains the sole owner of the pointer anchor and open state. As with Menu, the wrapper supplies one hydration-stable `$props.id()` popup ID through typed context so open SSR output retains its `aria-controls` relationship; explicit IDs remain authoritative.
+- The trigger forwards native element attributes and Shards' `as` and `ref` contracts. Shards remains the owner of pointer and touch anchors. A scoped reactive ID context connects each trigger to its root or nested popup while open, and explicit popup IDs remain authoritative.
+- `Shift+F10` and the Context Menu key open at the focused surface's center. Pointer invocation continues to use the event coordinates, while Shards supplies long-press handling and movement cancellation.
 
 ## Verification targets
 
-- contextmenu-event opening at the pointer, collision-safe placement, nested-trigger isolation, and focus restoration
+- contextmenu-event opening at the pointer, keyboard opening, long press, collision-safe placement, deep submenus, and focus restoration
 - checkbox, switch, radio, disabled, destructive, links, shortcuts, submenus, RTL arrows, Escape, and typeahead
-- exact SSR DOM, slots, classes, portal shape, stable IDs, and hydration
+- exact SSR DOM, slots, classes, custom portal targets, keep-mounted content, stable explicit IDs, and hydration

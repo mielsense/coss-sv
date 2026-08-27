@@ -1,12 +1,7 @@
-<script module lang="ts">
-import type { Menu as ShardsMenu } from "@shardsui/svelte";
-import type { ComponentProps } from "svelte";
-export type MenuSeparatorProps = ComponentProps<typeof ShardsMenu.Separator>;
-</script>
-
 <script lang="ts">
 import { Menu as MenuPrimitive } from "@shardsui/svelte";
 import { cn } from "$lib/utils.js";
+import type { MenuSeparatorProps } from "./menu.types.js";
 
 let { class: className, ref = $bindable(null), ...props }: MenuSeparatorProps = $props();
 </script>

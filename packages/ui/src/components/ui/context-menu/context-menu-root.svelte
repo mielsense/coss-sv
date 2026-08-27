@@ -1,16 +1,8 @@
-<script module lang="ts">
-import type { ContextMenu as ShardsContextMenu } from "@shardsui/svelte";
-import type { ComponentProps } from "svelte";
-export type ContextMenuRootProps = Omit<ComponentProps<typeof ShardsContextMenu.Root>, "open"> & {
-  defaultOpen?: boolean;
-  open?: boolean;
-};
-</script>
-
 <script lang="ts">
 import { ContextMenu as ContextMenuPrimitive } from "@shardsui/svelte";
 import { untrack } from "svelte";
-import { setMenuIdContext } from "../menu/id-context.js";
+import type { ContextMenuRootProps } from "./context-menu.types.js";
+import { ContextMenuIdState, setContextMenuIdContext } from "./id-context.svelte.js";
 
 let { defaultOpen, open = $bindable(), ...props }: ContextMenuRootProps = $props();
 const initialOpen = untrack(() => defaultOpen ?? false);
@@ -22,12 +14,7 @@ function setOpen(next: boolean): void {
   open = next;
 }
 
-setMenuIdContext({
-  get open() {
-    return getOpen();
-  },
-  popupId: `${generatedId}-popup`,
-});
+setContextMenuIdContext(new ContextMenuIdState(getOpen, `${generatedId}-popup`));
 </script>
 
 <ContextMenuPrimitive.Root bind:open={getOpen, setOpen} {...props} />

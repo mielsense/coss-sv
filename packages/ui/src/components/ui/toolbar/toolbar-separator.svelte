@@ -1,11 +1,7 @@
-<script module lang="ts">
-import type { Toolbar as ShardsToolbar } from "@shardsui/svelte";
-import type { ComponentProps } from "svelte";
-export type ToolbarSeparatorProps = ComponentProps<typeof ShardsToolbar.Separator>;
-</script>
 <script lang="ts">
 import { Toolbar as P } from "@shardsui/svelte";
 import { cn } from "$lib/utils.js";
+import type { ToolbarSeparatorProps } from "./toolbar.types.js";
 
 let { class: className, ref = $bindable(null), ...props }: ToolbarSeparatorProps = $props();
 </script>

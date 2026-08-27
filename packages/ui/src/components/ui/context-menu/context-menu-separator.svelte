@@ -1,11 +1,7 @@
-<script module lang="ts">
-import type { ContextMenu as ShardsContextMenu } from "@shardsui/svelte";
-import type { ComponentProps } from "svelte";
-export type ContextMenuSeparatorProps = ComponentProps<typeof ShardsContextMenu.Separator>;
-</script>
 <script lang="ts">
 import { ContextMenu as P } from "@shardsui/svelte";
 import { cn } from "$lib/utils.js";
+import type { ContextMenuSeparatorProps } from "./context-menu.types.js";
 
 let { class: className, ref = $bindable(null), ...props }: ContextMenuSeparatorProps = $props();
 </script>

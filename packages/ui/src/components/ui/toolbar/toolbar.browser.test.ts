@@ -1,10 +1,10 @@
 import { afterEach, describe, expect, test } from "vitest";
 import { page, userEvent } from "vitest/browser";
-import { render } from "vitest-browser-svelte";
+import { cleanup, render } from "vitest-browser-svelte";
 import ToolbarFixture from "./toolbar.browser-fixture.svelte";
 
 afterEach(() => {
-  document.body.innerHTML = "";
+  cleanup();
 });
 
 describe("Toolbar browser contract", () => {
@@ -34,5 +34,28 @@ describe("Toolbar browser contract", () => {
     input?.setSelectionRange(2, 2);
     await userEvent.keyboard("{ArrowLeft}");
     expect(document.activeElement).toBe(input);
+  });
+
+  test("integrates toggle, tooltip, and Select into one non-looping roving sequence", async () => {
+    render(ToolbarFixture);
+    const toggle = page.getByTestId("toggle");
+    toggle.element().focus();
+    await expect.element(page.getByRole("tooltip", { name: "Toggle bold" })).toBeVisible();
+    await toggle.click();
+    await expect.element(toggle).toHaveAttribute("aria-pressed", "true");
+    await expect.element(page.getByTestId("alignment")).toHaveTextContent("bold");
+
+    await userEvent.keyboard("{ArrowRight}");
+    expect(document.activeElement).toBe(page.getByTestId("select-trigger").element());
+    await userEvent.keyboard("{Enter}");
+    await expect.element(page.getByTestId("font-helvetica")).toBeVisible();
+    await new Promise((resolve) => setTimeout(resolve, 450));
+    await page.getByTestId("font-arial").click();
+    await expect.element(page.getByTestId("font")).toHaveTextContent("arial");
+
+    await userEvent.keyboard("{ArrowRight}");
+    expect(document.activeElement).toBe(page.getByTestId("composition-save").element());
+    await userEvent.keyboard("{ArrowRight}");
+    expect(document.activeElement).toBe(page.getByTestId("composition-save").element());
   });
 });

@@ -1,11 +1,7 @@
-<script module lang="ts">
-import type { Toolbar as ShardsToolbar } from "@shardsui/svelte";
-import type { ComponentProps } from "svelte";
-export type ToolbarGroupProps = ComponentProps<typeof ShardsToolbar.Group>;
-</script>
 <script lang="ts">
 import { Toolbar as P } from "@shardsui/svelte";
 import { cn } from "$lib/utils.js";
+import type { ToolbarGroupProps } from "./toolbar.types.js";
 
 let { class: className, ref = $bindable(null), ...props }: ToolbarGroupProps = $props();
 </script>

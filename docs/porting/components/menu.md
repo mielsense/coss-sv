@@ -19,7 +19,7 @@ Shards supplies the menu state machine, trigger semantics, portals, floating pos
 
 Context7 was requested for current Svelte documentation as required by the repository guide. It returned `Monthly quota reached`, so the implementation uses the pinned local Svelte Edge references for runes, snippets, testing, libraries, and current Svelte 5 practices, together with the complete local Shards sources and tests.
 
-The Codex in-app Browser backend was unavailable during the evidence pass. Selecting the required `iab` backend returned `Browser is not available`; the prescribed troubleshooting check exposed only a Chrome extension backend. Chrome was not used. Automated headless browser coverage therefore carries the behavioral checks until an in-app Browser session is available for the required manual comparison.
+Headless Chromium covers the automated interaction checks. The coordinator performs the final source-versus-port comparison in the Codex in-app browser. Chrome was not used.
 
 ## Translation decisions
 
@@ -31,11 +31,13 @@ The Codex in-app Browser backend was unavailable during the evidence pass. Selec
 - Checkbox `defaultChecked`, radio-group `defaultValue`, and root `defaultOpen` initialize state once with `untrack`. Bindable props and callback props remain usable together; Shards function bindings preserve veto behavior when a consumer declines a write.
 - The checkbox `switch` variant keeps its indicator mounted so its unchecked track and thumb remain visible. The default checkbox and radio variants use the exact COSS checkmark path.
 - `Menu.Trigger`, `Menu.Item`, and the other interactive wrappers forward Shards callback and native event props directly. No dispatcher or legacy Svelte event syntax is introduced.
-- Shards owns the trigger and menu state, but its popup ID is not available to the trigger during SSR. The root therefore creates one hydration-stable `$props.id()` popup ID and shares it through a typed context with Trigger and Popup. This preserves `aria-controls` in open SSR output without mutable module state; an explicit popup or trigger `aria-controls` value still wins.
+- `Menu.Handle<Payload>`, detached triggers, trigger payloads, and the root child snippet retain one `Payload` type end to end. Detached triggers work before and outside the root that owns their handle.
+- Shards owns trigger registration and `aria-controls`. Only the active trigger advertises the open popup, including when several triggers share one root or handle. `Menu.Popup` uses `$props.id()` for a stable default ID and forwards explicit popup IDs unchanged; nested popups do the same.
 
 ## Verification targets
 
 - SSR structure and classes for every styled part and alias
 - default-open, default-checked, default radio value, bindings, callbacks, and veto-capable function bindings
 - trigger activation, item close behavior, checkbox and radio selection, disabled items, typeahead, nested submenus, RTL arrows, Escape, portal placement, and focus restoration
+- strict built-output consumption for every wrapper and named prop type
 - no legacy Svelte syntax and no hydration warnings

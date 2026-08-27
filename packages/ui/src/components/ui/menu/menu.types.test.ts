@@ -1,5 +1,6 @@
 import { createRawSnippet } from "svelte";
-import { expect, test } from "vitest";
+import { expect, expectTypeOf, test } from "vitest";
+import { Handle } from "./index.js";
 import type {
   MenuCheckboxItemProps,
   MenuItemProps,
@@ -55,4 +56,27 @@ test("types Menu defaults, bindings, callbacks, variants, snippets, portals, and
   expect(radio.value).toBe("dark");
   expect(subPopup.align).toBe("center");
   expect(shortcut.ref).toBeNull();
+});
+
+test("preserves handle payload types across detached triggers and root children", () => {
+  type ProjectPayload = { id: number; label: string };
+  const handle = new Handle<ProjectPayload>();
+  const trigger = {
+    handle,
+    payload: { id: 7, label: "COSS" },
+  } satisfies MenuTriggerProps<ProjectPayload>;
+  const root = { handle } satisfies MenuRootProps<ProjectPayload>;
+  const wrongTrigger: MenuTriggerProps<ProjectPayload> = {
+    handle,
+    // @ts-expect-error the handle rejects payloads without the declared fields
+    payload: { slug: "coss" },
+  };
+
+  type RootState = Parameters<NonNullable<MenuRootProps<ProjectPayload>["children"]>>[0];
+  expectTypeOf<RootState>().toEqualTypeOf<{
+    payload: ProjectPayload | undefined;
+  }>();
+  expect(trigger.payload.id).toBe(7);
+  expect(root.handle).toBe(handle);
+  expect(wrongTrigger.payload).toEqual({ slug: "coss" });
 });

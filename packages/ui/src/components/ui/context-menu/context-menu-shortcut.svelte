@@ -1,13 +1,6 @@
-<script module lang="ts">
-import type { Snippet } from "svelte";
-import type { HTMLAttributes } from "svelte/elements";
-export type ContextMenuShortcutProps = HTMLAttributes<HTMLElement> & {
-  children?: Snippet;
-  ref?: HTMLElement | null;
-};
-</script>
 <script lang="ts">
 import { cn } from "$lib/utils.js";
+import type { ContextMenuShortcutProps } from "./context-menu.types.js";
 
 let {
   children,

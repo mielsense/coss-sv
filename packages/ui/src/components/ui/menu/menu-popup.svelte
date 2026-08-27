@@ -1,27 +1,11 @@
-<script module lang="ts">
-import type { Menu as ShardsMenu } from "@shardsui/svelte";
-import type { ComponentProps } from "svelte";
-
-type PrimitivePopupProps = ComponentProps<typeof ShardsMenu.Popup>;
-type PositionerProps = ComponentProps<typeof ShardsMenu.Positioner>;
-
-export type MenuPopupProps = PrimitivePopupProps & {
-  align?: PositionerProps["align"];
-  alignOffset?: PositionerProps["alignOffset"];
-  anchor?: PositionerProps["anchor"];
-  portalProps?: ComponentProps<typeof ShardsMenu.Portal>;
-  side?: PositionerProps["side"];
-  sideOffset?: PositionerProps["sideOffset"];
-};
-</script>
-
 <script lang="ts">
 import { Menu as MenuPrimitive } from "@shardsui/svelte";
 import { cn } from "$lib/utils.js";
-import { getMenuIdContext } from "./id-context.js";
+import type { MenuPopupProps } from "./menu.types.js";
 
 const popupClass =
   "relative flex not-[class*='w-']:min-w-32 origin-(--transform-origin) rounded-lg border bg-popover not-dark:bg-clip-padding shadow-lg/5 outline-none before:pointer-events-none before:absolute before:inset-0 before:rounded-[calc(var(--radius-lg)-1px)] before:shadow-[0_1px_--theme(--color-black/4%)] focus:outline-none dark:before:shadow-[0_-1px_--theme(--color-white/6%)]";
+const generatedId = $props.id();
 
 let {
   align = "center",
@@ -29,7 +13,7 @@ let {
   anchor,
   children: child,
   class: className,
-  id,
+  id = generatedId,
   portalProps,
   ref = $bindable(null),
   side = "bottom",
@@ -39,8 +23,6 @@ let {
 
 const alignOffsetProps = $derived(alignOffset === undefined ? {} : { alignOffset });
 const anchorProps = $derived(anchor === undefined ? {} : { anchor });
-const menuIds = getMenuIdContext();
-const popupId = $derived(id ?? menuIds.popupId);
 </script>
 
 <MenuPrimitive.Portal {...portalProps}>
@@ -57,7 +39,7 @@ const popupId = $derived(id ?? menuIds.popupId);
       bind:ref
       class={cn(popupClass, className)}
       data-slot="menu-popup"
-      id={popupId}
+      {id}
       {...props}
     >
       {#snippet children(state)}

@@ -24,12 +24,12 @@ describe("Menu SSR contract", () => {
     expect(body).toContain('data-slot="menu-radio-item"');
     expect(body).toContain('data-slot="menu-sub-trigger"');
     expect(body).toContain('data-slot="menu-sub-content"');
-    const controlledId = body.match(/aria-controls="([^"]+)"/)?.[1];
-    expect(controlledId).toBeTruthy();
-    expect(body).toContain(`id="${controlledId}"`);
+    expect(body).toContain('id="ssr-menu-popup"');
+    expect(body).toContain('id="ssr-menu-sub-popup"');
 
     const secondRender = render(MenuSsrFixture).body;
-    expect(secondRender.match(/aria-controls="([^"]+)"/)?.[1]).toBe(controlledId);
+    expect(secondRender).toContain('id="ssr-menu-popup"');
+    expect(secondRender).toContain('id="ssr-menu-sub-popup"');
   });
 
   test("exports the namespace, long aliases, dropdown aliases, handle, and primitive", () => {

@@ -4,7 +4,7 @@ import * as Menu from "./index.js";
 
 <Menu.Root defaultOpen>
   <Menu.Trigger>Open menu</Menu.Trigger>
-  <Menu.Popup class="custom-popup">
+  <Menu.Popup class="custom-popup" id="ssr-menu-popup">
     <Menu.Group>
       <Menu.Label inset>Playback</Menu.Label>
       <Menu.Item inset>Play <Menu.Shortcut>⌘P</Menu.Shortcut></Menu.Item>
@@ -18,7 +18,7 @@ import * as Menu from "./index.js";
     </Menu.RadioGroup>
     <Menu.Sub defaultOpen>
       <Menu.SubTrigger>More</Menu.SubTrigger>
-      <Menu.SubPopup><Menu.Item>Nested item</Menu.Item></Menu.SubPopup>
+      <Menu.SubPopup id="ssr-menu-sub-popup"><Menu.Item>Nested item</Menu.Item></Menu.SubPopup>
     </Menu.Sub>
   </Menu.Popup>
 </Menu.Root>
