@@ -90,6 +90,9 @@ describe("documentation layout and interaction contracts", () => {
   });
 
   test("keeps the COSS container gutters and neutral preview tokens", () => {
+    const htmlRule = css.match(/(?:^|\n)html\s*\{([^}]*)\}/)?.[1] ?? "";
+
+    expect(htmlRule).not.toContain("min-width");
     expect(css).toMatch(
       /\.site-container\s*\{[^}]*max-width:\s*88\.5rem;[^}]*padding-inline:\s*1rem;/s,
     );
