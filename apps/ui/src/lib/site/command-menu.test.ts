@@ -29,7 +29,10 @@ describe("COSS command and mobile navigation parity", () => {
     expect(source).toContain('event.key !== "Home" && event.key !== "End"');
     expect(source).toContain("onItemHighlighted");
     expect(source).toContain("navigator.clipboard.writeText");
-    expect(source).toContain("shadcn-svelte@latest add");
+    expect(source).toMatch(
+      /pnpm dlx shadcn-svelte@latest add https:\/\/coss-sv\.vercel\.app\/r\/\$\{item\.componentSlug\}\.json/,
+    );
+    expect(source).not.toContain("add @coss-sv/");
     expect(source).toContain("Go to Page");
     expect(source).toContain("M7.99988 4.98096H6");
     expect(source).toContain("M12 7.48076C12 7.48076");

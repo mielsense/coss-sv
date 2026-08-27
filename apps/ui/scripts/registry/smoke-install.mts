@@ -9,7 +9,7 @@ import {
   validateRegistry,
 } from "../../registry/registry.js";
 import { buildValidatedRegistry } from "./build.mjs";
-import { appRoot, listFiles, run, runLocalShadcn } from "./lib.mjs";
+import { appRoot, findPrivateSmokeArtifacts, listFiles, run, runLocalShadcn } from "./lib.mjs";
 
 const sourceFiles: Record<string, string> = {
   "registry/private-leaf/private-leaf.svelte": `<script lang="ts">
@@ -537,12 +537,12 @@ try {
   });
   await run("pnpm", ["exec", "vite", "build"], { cwd: fixtureRoot, env: environment, quiet: true });
 
-  const productionItems = (await readdir(resolve(appRoot, "static/r"))).filter(
-    (name) => name !== "index.json",
+  const privateSmokeArtifacts = findPrivateSmokeArtifacts(
+    await readdir(resolve(appRoot, "static/r")),
   );
-  if (productionItems.length > 0) {
+  if (privateSmokeArtifacts.length > 0) {
     throw new Error(
-      `Private smoke items leaked into production output: ${productionItems.join(", ")}`,
+      `Private smoke items leaked into production output: ${privateSmokeArtifacts.join(", ")}`,
     );
   }
   console.log("Bundle-first registry URL install, svelte-check, and production build passed.");

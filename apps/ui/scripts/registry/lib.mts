@@ -73,6 +73,10 @@ export async function listFiles(root: string): Promise<string[]> {
   return files;
 }
 
+export function findPrivateSmokeArtifacts(names: readonly string[]): string[] {
+  return names.filter((name) => name.startsWith("private-") && name.endsWith(".json"));
+}
+
 function sortJson(value: unknown): unknown {
   if (Array.isArray(value)) return value.map(sortJson);
   if (!value || typeof value !== "object") return value;

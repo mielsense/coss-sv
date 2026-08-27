@@ -37,7 +37,11 @@ if (!process.env.COSS_TEST_BASE_URL) {
 }
 
 const browser = await chromium.launch({ headless: true });
-const page = await browser.newPage({ viewport: { width: 1280, height: 720 } });
+const context = await browser.newContext({
+  permissions: ["clipboard-read", "clipboard-write"],
+  viewport: { width: 1280, height: 720 },
+});
+const page = await context.newPage();
 
 async function thumbnailStyles() {
   return page.evaluate(() => {
@@ -281,6 +285,15 @@ try {
     await input.getAttribute("aria-activedescendant"),
     firstId,
     "Home returns to the first option",
+  );
+
+  await input.fill("Separator");
+  await dialog.getByRole("option", { name: "Separator", exact: true }).waitFor();
+  await page.keyboard.press(process.platform === "darwin" ? "Meta+C" : "Control+C");
+  assert.equal(
+    await page.evaluate(() => navigator.clipboard.readText()),
+    "pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/separator.json",
+    "the copied component command uses the public URL contract",
   );
 
   await input.press("Escape");

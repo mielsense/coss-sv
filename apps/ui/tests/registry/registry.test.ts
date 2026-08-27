@@ -20,9 +20,20 @@ import {
   validateRegistry,
 } from "../../registry/registry.js";
 import { buildValidatedRegistry, withStagedRegistry } from "../../scripts/registry/build.mjs";
-import { appRoot, runLocalShadcn } from "../../scripts/registry/lib.mjs";
+import { appRoot, findPrivateSmokeArtifacts, runLocalShadcn } from "../../scripts/registry/lib.mjs";
 
 const temporaryDirectories: string[] = [];
+
+test("registry smoke permits real production items and still detects private fixtures", () => {
+  expect(
+    findPrivateSmokeArtifacts([
+      "index.json",
+      "separator.json",
+      "private-bundle.json",
+      "private-leaf.json",
+    ]),
+  ).toEqual(["private-bundle.json", "private-leaf.json"]);
+});
 
 async function makeSource(relativePath = "leaf/leaf.svelte") {
   const root = await mkdtemp(join(appRoot, ".registry-test-"));
