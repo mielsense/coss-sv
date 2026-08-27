@@ -570,10 +570,13 @@ try {
   await mobileFooter.scrollIntoViewIfNeeded();
   const footerBox = await mobileFooter.boundingBox();
   assert.ok(footerBox);
-  assertNear(footerBox.height, 96, "mobile footer height");
+  assert.ok(footerBox.height >= 96, "the credited mobile footer keeps the upstream minimum height");
   const footerContentBox = await page.locator(".footer-inner").boundingBox();
   assert.ok(footerContentBox);
-  assertNear(footerContentBox.height, 48, "mobile footer content height");
+  assert.ok(
+    footerContentBox.height >= 48,
+    "the credited mobile footer keeps the upstream minimum content height",
+  );
 
   const mobileTrigger = page.locator(".search-trigger");
   await mobileTrigger.waitFor({ state: "attached" });

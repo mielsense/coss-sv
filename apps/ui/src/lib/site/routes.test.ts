@@ -1,6 +1,7 @@
 import { readFile } from "node:fs/promises";
 import { render } from "svelte/server";
 import { describe, expect, test } from "vitest";
+import ErrorPage from "../../routes/+error.svelte";
 import HomePage from "../../routes/+page.svelte";
 import CreditsPage from "../../routes/credits/+page.svelte";
 import HealthPage from "../../routes/preview/_health/+page.svelte";
@@ -18,7 +19,7 @@ describe("documentation routes", () => {
     expect(body).not.toContain("github.com/mielsense/coss-sv");
   });
 
-  test("shared chrome retains COSS provenance and the exact upstream footer", async () => {
+  test("shared chrome retains COSS provenance and identifies the Svelte port", async () => {
     const header = await readFile(new URL("./SiteHeader.svelte", import.meta.url), "utf8");
     const commandMenu = await readFile(new URL("./CommandMenu.svelte", import.meta.url), "utf8");
     const mobileNav = await readFile(new URL("./MobileNav.svelte", import.meta.url), "utf8");
@@ -36,10 +37,10 @@ describe("documentation routes", () => {
     expect(header).toContain(">ui</span>");
     expect(header).toContain("aria-current=");
     expect(footer).toContain('href="/"');
-    expect(footer).toContain("© 2026");
-    expect(footer).toContain("coss.com</a> – open source, open heart, open mind.");
-    expect(footer).not.toContain("coss.com</a> ·");
-    expect(footer).not.toContain("github.com/mielsense");
+    expect(footer).toContain("coss.com <span>ui</span>");
+    expect(footer).toContain("Unofficial Svelte port made by");
+    expect(footer).toContain("https://github.com/mielsense");
+    expect(footer).toContain('href="/credits"');
   });
 
   test("applies the saved theme before Svelte hydrates", async () => {
@@ -66,6 +67,16 @@ describe("documentation routes", () => {
 
     expect(body).toContain('data-preview-ready="true"');
     expect(body).toContain("ready");
+  });
+
+  test("the error route keeps the upstream 404 copy and recovery action", () => {
+    const { body } = render(ErrorPage, {
+      context: new Map([["__request__", { page: { status: 404 } }]]),
+    });
+
+    expect(body).toContain("Page Not Found");
+    expect(body).toContain("doesn't exist or may have been moved");
+    expect(body).toContain("Back to Home");
   });
 });
 
@@ -114,7 +125,7 @@ describe("theme boundaries", () => {
     expect(viewportRule).toContain("touch-action: none;");
     expect(dialogRule).toContain("transform: translateX(var(--drawer-swipe-movement-x));");
     expect(footerRule).toContain("padding-block: 1.5rem;");
-    expect(footerInnerRule).toContain("justify-content: center;");
+    expect(footerInnerRule).toContain("justify-content: space-between;");
     expect(appCss).not.toMatch(
       /@media \(max-width: 39\.999rem\)[\s\S]*?\.footer-inner\s*\{[^}]*min-height:/,
     );
@@ -135,6 +146,31 @@ describe("theme boundaries", () => {
     expect(siteSource.match(/href: "\/docs"/g)).toHaveLength(2);
     expect(siteSource).not.toContain('/docs/introduction", label: "Introduction"');
     expect(docsRoute).toContain("$content/docs/introduction.svx");
+  });
+
+  test("the docs route uses the measured three-column COSS shell", async () => {
+    const docsLayout = await readFile(
+      new URL("../../routes/docs/+layout.svelte", import.meta.url),
+      "utf8",
+    );
+    const sidebar = await readFile(new URL("./DocsSidebar.svelte", import.meta.url), "utf8");
+    const toc = await readFile(new URL("./DocsToc.svelte", import.meta.url), "utf8");
+    const appCss = await readFile(new URL("../../app.css", import.meta.url), "utf8");
+
+    expect(docsLayout).toContain("<DocsSidebar />");
+    expect(docsLayout).toContain("<DocsToc />");
+    expect(docsLayout).toContain("docs-card-panel docs-content");
+    expect(sidebar).toContain("componentCategories");
+    expect(sidebar).toContain(
+      'aria-current={page.url.pathname === item.href ? "page" : undefined}',
+    );
+    expect(toc).toContain("IntersectionObserver");
+    expect(toc).toContain(".docs-content h2[id]");
+    expect(appCss).toMatch(
+      /@media \(min-width: 80rem\)[\s\S]*?\.docs-layout\s*\{[^}]*grid-template-columns:\s*15rem minmax\(0, 1fr\) 18rem;/,
+    );
+    expect(appCss).toMatch(/\.docs-column\s*\{[^}]*margin:\s*2rem 1rem 2rem 1rem;/s);
+    expect(appCss).toMatch(/\.docs-card-panel\s*\{[^}]*padding:\s*2rem;/s);
   });
 
   test("the root layout renders navigation during SSR and removes chrome from previews", async () => {

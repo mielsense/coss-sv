@@ -7,6 +7,7 @@ import { SiteFooter, SiteHeader } from "$lib/site/index.js";
 
 let { children }: { children: Snippet } = $props();
 let isPreview = $derived(page.url.pathname.startsWith("/preview"));
+let isDocs = $derived(page.url.pathname === "/docs" || page.url.pathname.startsWith("/docs/"));
 </script>
 
 {#if isPreview}
@@ -17,6 +18,8 @@ let isPreview = $derived(page.url.pathname.startsWith("/preview"));
     <main class="site-main">
       {@render children()}
     </main>
-    <SiteFooter />
+    {#if !isDocs}
+      <SiteFooter />
+    {/if}
   </div>
 {/if}

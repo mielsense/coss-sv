@@ -18,7 +18,7 @@
     "registry:test": "vitest run --config tests/registry/vitest.config.ts",
     "test": "vitest run && pnpm registry:test",
     "test:unit": "vitest run && pnpm registry:test",
-    "test:e2e": "node tests/site/command-menu.browser.mjs"
+    "test:e2e": "node tests/site/command-menu.browser.mjs && node tests/site/docs-shell.browser.mjs"
   },
   "dependencies": {
     "@coss-sv/ui": "workspace:*",
