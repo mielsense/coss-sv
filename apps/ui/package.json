@@ -6,9 +6,10 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "build": "vite build",
-    "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
-    "dev": "vite dev",
+    "build": "pnpm docs:compile && vite build",
+    "check": "pnpm docs:compile && svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+    "dev": "pnpm docs:compile && vite dev",
+    "docs:compile": "tsx scripts/docs/compile.mts --write",
     "prepare": "svelte-kit sync",
     "preview": "vite preview",
     "registry:build": "pnpm registry:generate && tsx scripts/registry/build.mts && pnpm registry:check",
@@ -18,8 +19,8 @@
     "registry:test": "vitest run --config tests/registry/vitest.config.ts",
     "test": "pnpm test:unit",
     "test:browser": "vitest run --config vitest.browser.config.ts",
-    "test:unit": "vitest run && pnpm test:browser && pnpm registry:test",
-    "test:e2e": "node tests/site/command-menu.browser.mjs && node tests/site/docs-shell.browser.mjs"
+    "test:unit": "pnpm docs:compile && vitest run && pnpm test:browser && pnpm registry:test",
+    "test:e2e": "node tests/site/command-menu.browser.mjs && node tests/site/docs-shell.browser.mjs && node tests/site/preview-card.browser.mjs"
   },
   "dependencies": {
     "@coss-sv/ui": "workspace:*",

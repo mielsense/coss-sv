@@ -5,7 +5,11 @@ import { vitePreprocess } from "@sveltejs/vite-plugin-svelte";
 import tailwindcss from "@tailwindcss/vite";
 import { mdsvex } from "mdsvex";
 import { defineConfig } from "vitest/config";
-import { documentationComponents, documentationHeadings } from "./src/lib/content/preprocess.js";
+import {
+  documentationComponents,
+  documentationHeadings,
+  modernizeDocumentationOutput,
+} from "./src/lib/content/preprocess.js";
 import { highlightCode } from "./src/lib/site/highlight.js";
 
 export default defineConfig({
@@ -28,6 +32,7 @@ export default defineConfig({
           layout: resolve("src/lib/content/DocumentationLayout.svelte"),
           layoutPropForwarding: "runes",
         }),
+        modernizeDocumentationOutput(),
         vitePreprocess(),
       ],
     }),

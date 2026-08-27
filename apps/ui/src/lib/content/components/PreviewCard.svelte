@@ -1,13 +1,14 @@
 <script lang="ts">
-import type { Snippet } from "svelte";
 import type { HTMLAttributes } from "svelte/elements";
+import type { HighlightedSource } from "../../code/highlight.js";
+import CodeSource from "./CodeSource.svelte";
 
 type Props = HTMLAttributes<HTMLElement> & {
   align?: "center" | "start" | "end";
   hideCode?: boolean;
   iframeHeight?: number;
   name: string;
-  source?: Snippet;
+  source: HighlightedSource;
   title?: string;
 };
 
@@ -26,6 +27,7 @@ const instanceId = $props.id();
 const panelId = `${instanceId}-panel`;
 const previewTabId = `${instanceId}-preview-tab`;
 const sourceTabId = `${instanceId}-source-tab`;
+const previewUrl = $derived(`/preview/${encodeURIComponent(name)}?theme=light&width=desktop`);
 
 function selectTab(next: "preview" | "source", focus = false): void {
   tab = next;
@@ -33,7 +35,7 @@ function selectTab(next: "preview" | "source", focus = false): void {
 }
 
 function navigateTabs(event: KeyboardEvent): void {
-  if (!source || (event.key !== "ArrowLeft" && event.key !== "ArrowRight")) return;
+  if (hideCode || (event.key !== "ArrowLeft" && event.key !== "ArrowRight")) return;
   event.preventDefault();
   selectTab(tab === "preview" ? "source" : "preview", true);
 }
@@ -58,7 +60,7 @@ function navigateTabs(event: KeyboardEvent): void {
     >
       Preview
     </button>
-    {#if source && !hideCode}
+    {#if !hideCode}
       <button
         type="button"
         id={sourceTabId}
@@ -81,17 +83,16 @@ function navigateTabs(event: KeyboardEvent): void {
     class="relative overflow-hidden rounded-xl border not-dark:bg-card"
     style:min-height={`${iframeHeight}px`}
   >
-    {#if tab === "preview"}
+    <div data-align={align} data-preview-panel="true" hidden={tab !== "preview"}>
       <iframe
         class="block w-full border-0"
         style:height={`${iframeHeight}px`}
-        src={`/preview/${name}?align=${align}`}
+        src={previewUrl}
         title={`${title} preview`}
       ></iframe>
-    {:else}
-      {#if source}
-        {@render source()}
-      {/if}
-    {/if}
+    </div>
+    <div data-source-panel="true" hidden={tab !== "source"}>
+      <CodeSource {source} />
+    </div>
   </div>
 </section>

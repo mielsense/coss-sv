@@ -1,7 +1,7 @@
-<svelte:head>
-  <title>Introduction | COSS for Svelte</title>
-  <meta name="description" content="Start using the COSS component library in a Svelte 5 app." />
-</svelte:head>
+---
+title: Introduction
+description: Start using the COSS component library in a Svelte 5 app.
+---
 
 <p class="eyebrow">Documentation</p>
 

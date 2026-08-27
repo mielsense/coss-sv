@@ -1,5 +1,5 @@
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
-import { dirname, join, resolve } from "node:path";
+import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
+import { basename, dirname, extname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import {
   type CompiledDocs,
@@ -7,10 +7,12 @@ import {
   type PageKind,
   type SourcePage,
 } from "../../src/lib/content/compiler.js";
+import { createParticleSourceLoader } from "../../src/lib/content/particle-source.js";
 
 type CompileDocumentationTreeOptions = {
   contentRoot: string;
   ownershipPath: string;
+  particleRoot?: string;
 };
 
 type OwnershipFile = {
@@ -78,8 +80,23 @@ export async function compileDocumentationTree(
   const pages: SourcePage[] = [];
   const order: string[] = [];
 
+  const looseSources = readdirSync(options.contentRoot, { withFileTypes: true })
+    .filter((entry) => entry.isFile() && [".md", ".svx"].includes(extname(entry.name)))
+    .map((entry) => entry.name)
+    .sort((left, right) => left.localeCompare(right));
+  for (const filename of looseSources) {
+    const slug = basename(filename, extname(filename));
+    pages.push({
+      kind: slug === "changelog" ? "changelog" : "root",
+      slug,
+      source: readFileSync(join(options.contentRoot, filename), "utf8"),
+    });
+    order.push(slug);
+  }
+
   for (const group of groups) {
     const directory = join(options.contentRoot, group.directory);
+    if (!existsSync(join(directory, "meta.json"))) continue;
     for (const sourceSlug of metadataOrder(join(directory, "meta.json"))) {
       const slug = group.route(sourceSlug);
       pages.push({
@@ -91,7 +108,13 @@ export async function compileDocumentationTree(
     }
   }
 
-  return compileDocs({ order, pages, particleIds: particleIds(options.ownershipPath) });
+  const particleRoot = options.particleRoot ?? join(appRoot, "registry/default/particles");
+  return compileDocs({
+    loadParticleSource: createParticleSourceLoader(particleRoot),
+    order,
+    pages,
+    particleIds: particleIds(options.ownershipPath),
+  });
 }
 
 export function serializeCompiledDocs(compiled: CompiledDocs): string {

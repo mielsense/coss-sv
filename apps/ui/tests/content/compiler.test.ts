@@ -1,5 +1,17 @@
 import { describe, expect, test } from "vitest";
-import { compileDocs, type SourcePage } from "../../src/lib/content/compiler.js";
+import { highlightSource } from "../../src/lib/code/highlight.js";
+import {
+  compileDocs as compileDocumentation,
+  type CompileDocsOptions,
+  type SourcePage,
+} from "../../src/lib/content/compiler.js";
+
+function compileDocs(options: Omit<CompileDocsOptions, "loadParticleSource">) {
+  return compileDocumentation({
+    ...options,
+    loadParticleSource: async () => highlightSource("<button>Example</button>", "svelte"),
+  });
+}
 
 const accordionSource = `---
 title: Accordion
@@ -72,8 +84,7 @@ describe("documentation compiler", () => {
 
     expect(block?.language).toBe("svelte");
     expect(block?.raw).toContain('import * as Accordion from "$lib/components/ui/accordion";');
-    expect(block?.highlighted).toContain("--shiki-light");
-    expect(block?.highlighted).toContain("--shiki-dark");
+    expect(block?.lines.flat().some((token) => token.light.color !== token.dark.color)).toBe(true);
   });
 
   test("resolves previews and exposes pnpm and shadcn-svelte install commands only", async () => {
@@ -84,7 +95,11 @@ describe("documentation compiler", () => {
     });
     const accordion = result.bySlug.get("accordion");
 
-    expect(accordion?.previews).toEqual([{ align: "start", id: "p-accordion-1" }]);
+    expect(accordion?.previews[0]).toMatchObject({
+      align: "start",
+      id: "p-accordion-1",
+      source: { language: "svelte", raw: "<button>Example</button>" },
+    });
     expect(accordion?.installCommands).toEqual([
       {
         pnpm: "pnpm add @shardsui/svelte",
@@ -118,6 +133,31 @@ describe("documentation compiler", () => {
       { depth: 2, id: "usage", text: "Usage" },
     ]);
     expect(accordion?.markdown).toContain("## Usage {#usage}");
+  });
+
+  test("excludes fenced code headings from the table of contents", async () => {
+    const source = `---
+title: Fences
+description: Heading fence coverage.
+---
+
+# Visible
+
+\`\`\`markdown
+## Example only
+\`\`\`
+
+## Also visible`;
+    const result = await compileDocs({
+      order: ["fences"],
+      pages: [{ kind: "root", slug: "fences", source }],
+      particleIds: new Set(),
+    });
+
+    expect(result.pages[0]?.tableOfContents).toEqual([
+      { depth: 1, id: "visible", text: "Visible" },
+      { depth: 2, id: "also-visible", text: "Also visible" },
+    ]);
   });
 
   test.each([

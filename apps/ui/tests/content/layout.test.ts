@@ -4,9 +4,11 @@ import { mdsvex } from "mdsvex";
 import { compile, preprocess } from "svelte/compiler";
 import { describe, expect, test } from "vitest";
 import { compileDocs } from "../../src/lib/content/compiler.js";
+import { highlightSource } from "../../src/lib/code/highlight.js";
 import {
   documentationComponents,
   documentationHeadings,
+  modernizeDocumentationOutput,
 } from "../../src/lib/content/preprocess.js";
 
 const appRoot = fileURLToPath(new URL("../..", import.meta.url));
@@ -14,6 +16,10 @@ const layout = resolve(appRoot, "src/lib/content/DocumentationLayout.svelte");
 
 describe("documentation MDsveX layout", () => {
   test("injects shared documentation components without page-local imports", async () => {
+    const particleSource = await highlightSource(
+      '<script lang="ts">\nlet open = $state(false);\n</script>',
+      "svelte",
+    );
     const preprocessor = mdsvex({
       extensions: [".svx"],
       layout,
@@ -21,12 +27,20 @@ describe("documentation MDsveX layout", () => {
     });
     const result = await preprocess(
       `---\ntitle: Accordion\ndescription: Accordion documentation.\n---\n\n<ComponentPreview name="p-accordion-1" />`,
-      [documentationComponents(), preprocessor],
+      [
+        documentationComponents({ loadParticleSource: async () => particleSource }),
+        preprocessor,
+        modernizeDocumentationOutput(),
+      ],
       { filename: resolve(appRoot, "content/docs/components/accordion.svx") },
     );
 
     expect(result.code).toContain("import { ApiTable, Callout, CodeSource, ComponentPreview");
+    expect(result.code).toContain("$state(false)");
+    expect(result.code).toMatch(/<ComponentPreview name="p-accordion-1" source=\{[^}]+\}/);
     expect(result.code).toContain("import Layout_MDSVEX_DEFAULT");
+    expect(result.code).toContain("<script module>");
+    expect(result.code).not.toContain('context="module"');
     const compiled = compile(result.code, { filename: "accordion.svelte", runes: true });
     expect(compiled.js.code).toContain("ComponentPreview");
   });

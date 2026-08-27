@@ -1,5 +1,7 @@
 import { type HighlightedSource, highlightSource } from "../code/highlight.js";
 import { documentationHeading } from "./headings.js";
+import { withoutFencedCode } from "./markdown.js";
+import type { ParticleSourceLoader } from "./particle-source.js";
 
 export type PageKind = "root" | "component" | "hook" | "migration" | "changelog";
 
@@ -29,6 +31,7 @@ export type SourcePage = {
 export type PreviewReference = {
   id: string;
   align: "center" | "start" | "end";
+  source: HighlightedSource;
 };
 
 export type InstallCommands = {
@@ -60,6 +63,7 @@ export type CompileDocsOptions = {
   order: string[];
   pages: SourcePage[];
   particleIds: ReadonlySet<string>;
+  loadParticleSource?: ParticleSourceLoader;
 };
 
 export type CompiledDocs = {
@@ -123,40 +127,47 @@ function parseFrontmatter(source: string, slug: string): ParsedFrontmatter {
 }
 
 function tableOfContents(markdown: string): TableOfContentsItem[] {
-  return Array.from(markdown.matchAll(/^(#{1,6})\s+(.+)$/gm)).map((match) => {
+  return Array.from(withoutFencedCode(markdown).matchAll(/^(#{1,6})\s+(.+)$/gm)).map((match) => {
     const heading = documentationHeading(match[2] ?? "");
     return { depth: match[1]?.length ?? 1, ...heading };
   });
 }
 
-function previewReferences(markdown: string, particleIds: ReadonlySet<string>): PreviewReference[] {
-  return Array.from(markdown.matchAll(/<ComponentPreview\b([^>]*)\/?\s*>/g)).map((match) => {
-    const attributes = match[1] ?? "";
-    const id = /\bname=["']([^"']+)["']/.exec(attributes)?.[1];
-    if (!id) throw new Error("ComponentPreview is missing its particle name");
-    if (!particleIds.has(id)) throw new Error(`unknown particle ${id}`);
-    const requestedAlign = /\balign=["']([^"']+)["']/.exec(attributes)?.[1] ?? "center";
-    if (
-      !(["center", "start", "end"] as const).includes(requestedAlign as PreviewReference["align"])
-    ) {
-      throw new Error(`invalid preview alignment ${requestedAlign} for ${id}`);
-    }
-    return { align: requestedAlign as PreviewReference["align"], id };
-  });
+function previewReferences(
+  markdown: string,
+  particleIds: ReadonlySet<string>,
+): Array<Omit<PreviewReference, "source">> {
+  return Array.from(withoutFencedCode(markdown).matchAll(/<ComponentPreview\b([^>]*)\/?\s*>/g)).map(
+    (match) => {
+      const attributes = match[1] ?? "";
+      const id = /\bname=["']([^"']+)["']/.exec(attributes)?.[1];
+      if (!id) throw new Error("ComponentPreview is missing its particle name");
+      if (!particleIds.has(id)) throw new Error(`unknown particle ${id}`);
+      const requestedAlign = /\balign=["']([^"']+)["']/.exec(attributes)?.[1] ?? "center";
+      if (
+        !(["center", "start", "end"] as const).includes(requestedAlign as PreviewReference["align"])
+      ) {
+        throw new Error(`invalid preview alignment ${requestedAlign} for ${id}`);
+      }
+      return { align: requestedAlign as PreviewReference["align"], id };
+    },
+  );
 }
 
 function installCommands(markdown: string): InstallCommands[] {
-  return Array.from(markdown.matchAll(/<InstallCommand\b([\s\S]*?)\/>/g)).map((match) => {
-    const attributes = match[1] ?? "";
-    const pnpm = /\bpnpm=["']([^"']+)["']/.exec(attributes)?.[1];
-    const shadcnSvelte = /\bshadcnSvelte=["']([^"']+)["']/.exec(attributes)?.[1];
-    if (!pnpm || !shadcnSvelte) {
-      throw new Error("InstallCommand requires pnpm and shadcnSvelte commands");
-    }
-    validatePnpmCommand(pnpm);
-    validateShadcnSvelteCommand(shadcnSvelte);
-    return { pnpm, shadcnSvelte };
-  });
+  return Array.from(withoutFencedCode(markdown).matchAll(/<InstallCommand\b([\s\S]*?)\/>/g)).map(
+    (match) => {
+      const attributes = match[1] ?? "";
+      const pnpm = /\bpnpm=["']([^"']+)["']/.exec(attributes)?.[1];
+      const shadcnSvelte = /\bshadcnSvelte=["']([^"']+)["']/.exec(attributes)?.[1];
+      if (!pnpm || !shadcnSvelte) {
+        throw new Error("InstallCommand requires pnpm and shadcnSvelte commands");
+      }
+      validatePnpmCommand(pnpm);
+      validateShadcnSvelteCommand(shadcnSvelte);
+      return { pnpm, shadcnSvelte };
+    },
+  );
 }
 
 const reactCommand =
@@ -226,6 +237,16 @@ export async function compileDocs(options: CompileDocsOptions): Promise<Compiled
       const page = sources.get(slug);
       if (!page) throw new Error(`documentation metadata references missing slug ${slug}`);
       const { body, metadata } = parseFrontmatter(page.source, slug);
+      const previewDescriptors = previewReferences(body, options.particleIds);
+      if (previewDescriptors.length > 0 && !options.loadParticleSource) {
+        throw new Error(`documentation compiler needs a particle source loader for ${slug}`);
+      }
+      const previews = await Promise.all(
+        previewDescriptors.map(async (preview) => ({
+          ...preview,
+          source: await (options.loadParticleSource as ParticleSourceLoader)(preview.id),
+        })),
+      );
       return {
         api: validateApi(slug, options.api?.[slug] ?? []),
         codeBlocks: await codeBlocks(body),
@@ -233,7 +254,7 @@ export async function compileDocs(options: CompileDocsOptions): Promise<Compiled
         kind: page.kind,
         markdown: body,
         metadata,
-        previews: previewReferences(body, options.particleIds),
+        previews,
         raw: page.source,
         slug,
         tableOfContents: tableOfContents(body),

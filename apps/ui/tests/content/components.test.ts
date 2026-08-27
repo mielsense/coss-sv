@@ -1,6 +1,8 @@
 import { render } from "svelte/server";
 import { describe, expect, test } from "vitest";
+import { highlightSource } from "../../src/lib/code/highlight.js";
 import ApiTable from "../../src/lib/content/components/ApiTable.svelte";
+import CodeSource from "../../src/lib/content/components/CodeSource.svelte";
 import InstallCommand from "../../src/lib/content/components/InstallCommand.svelte";
 import PreviewCard from "../../src/lib/content/components/PreviewCard.svelte";
 
@@ -21,15 +23,31 @@ describe("documentation components", () => {
     expect(body).toMatch(/aria-controls="[^"]+-panel"/);
   });
 
-  test("renders a deterministic particle preview URL and accessible tab panel", () => {
+  test("renders a deterministic particle preview URL and exact source tab", async () => {
+    const source = await highlightSource(
+      '<script lang="ts">\nlet count = $state(0);\n</script>',
+      "svelte",
+    );
     const body = render(PreviewCard, {
-      props: { align: "start", name: "p-accordion-1", title: "Accordion" },
+      props: { align: "start", name: "p-accordion-1", source, title: "Accordion" },
     }).body;
 
     expect(body).toContain('data-particle="p-accordion-1"');
-    expect(body).toContain("/preview/p-accordion-1?align=start");
+    expect(body).toContain("/preview/p-accordion-1?theme=light&amp;width=desktop");
+    expect(body).toContain(">Code<");
+    expect(body).toContain("Copy to clipboard");
+    expect(body.replace(/<[^>]*>/g, "")).toContain("$state(0)");
     expect(body).toContain('title="Accordion preview"');
     expect(body).toContain('role="tabpanel"');
+  });
+
+  test("renders highlighted token content as text rather than executable HTML", async () => {
+    const source = await highlightSource('<img src=x onerror="globalThis.pwned=true">', "svelte");
+    const body = render(CodeSource, { props: { source } }).body;
+
+    expect(body).toContain("&lt;");
+    expect(body).toContain(">img<");
+    expect(body).not.toContain("<img");
   });
 
   test("renders typed Svelte API metadata", () => {

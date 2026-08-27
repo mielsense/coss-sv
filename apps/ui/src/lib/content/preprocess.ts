@@ -1,6 +1,10 @@
+import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 import type { PreprocessorGroup } from "svelte/compiler";
 import type { Plugin } from "unified";
 import { documentationHeading } from "./headings.js";
+import { withoutFencedCode } from "./markdown.js";
+import { createParticleSourceLoader, type ParticleSourceLoader } from "./particle-source.js";
 
 export const documentationComponentNames = [
   "ApiTable",
@@ -24,6 +28,11 @@ type MarkdownNode = {
 };
 
 const componentImports = `import { ${documentationComponentNames.join(", ")} } from "$lib/content/components";`;
+const appRoot = resolve(dirname(fileURLToPath(import.meta.url)), "../../..");
+
+export type DocumentationComponentsOptions = {
+  loadParticleSource?: ParticleSourceLoader;
+};
 
 function frontmatterEnd(content: string): number {
   return /^---\r?\n[\s\S]*?\r?\n---\r?\n?/.exec(content)?.[0].length ?? 0;
@@ -76,6 +85,13 @@ function stripExplicitId(node: MarkdownNode): void {
   }
 }
 
+function serializeForScript(value: unknown): string {
+  return JSON.stringify(value)
+    .replaceAll("<", "\\u003c")
+    .replaceAll("\u2028", "\\u2028")
+    .replaceAll("\u2029", "\\u2029");
+}
+
 export const documentationHeadings: Plugin = () => (tree) => {
   const root = tree as MarkdownNode;
   for (const node of root.children ?? []) {
@@ -89,21 +105,90 @@ export const documentationHeadings: Plugin = () => (tree) => {
   }
 };
 
-export function documentationComponents(): PreprocessorGroup {
+async function injectPreviewSources(
+  content: string,
+  loadParticleSource: ParticleSourceLoader,
+): Promise<{ declarations: string[]; source: string }> {
+  const masked = withoutFencedCode(content);
+  const matches = [...masked.matchAll(/<ComponentPreview\b([^>]*)\/>/g)];
+  const sources = new Map<string, { declaration: string; variable: string }>();
+  const replacements: Array<{ end: number; start: number; value: string }> = [];
+
+  for (const match of matches) {
+    const attributes = match[1] ?? "";
+    const id = /\bname=["']([^"']+)["']/.exec(attributes)?.[1];
+    if (!id) throw new Error("ComponentPreview is missing its particle name");
+    if (/\bsource\s*=/.test(attributes)) {
+      throw new Error(`ComponentPreview source for ${id} is compiler-owned`);
+    }
+
+    let source = sources.get(id);
+    if (!source) {
+      const variable = `__cossParticleSource${sources.size}`;
+      source = {
+        declaration: `const ${variable} = ${serializeForScript(await loadParticleSource(id))};`,
+        variable,
+      };
+      sources.set(id, source);
+    }
+
+    const start = match.index ?? 0;
+    const original = content.slice(start, start + match[0].length);
+    replacements.push({
+      end: start + match[0].length,
+      start,
+      value: original.replace(/\s*\/>$/, ` source={${source.variable}} />`),
+    });
+  }
+
+  let transformed = content;
+  for (const replacement of replacements.reverse()) {
+    transformed = `${transformed.slice(0, replacement.start)}${replacement.value}${transformed.slice(replacement.end)}`;
+  }
+  return {
+    declarations: [...sources.values()].map(({ declaration }) => declaration),
+    source: transformed,
+  };
+}
+
+export function documentationComponents(
+  options: DocumentationComponentsOptions = {},
+): PreprocessorGroup {
+  const loadParticleSource =
+    options.loadParticleSource ??
+    createParticleSourceLoader(resolve(appRoot, "registry/default/particles"));
+
   return {
     name: "coss-sv-documentation-components",
-    markup({ content, filename }) {
+    async markup({ content, filename }) {
       if (!filename?.endsWith(".svx")) return;
-      const scriptEnd = instanceScriptOpeningEnd(content);
+      const injected = await injectPreviewSources(content, loadParticleSource);
+      const declarations = injected.declarations.length
+        ? `\n${injected.declarations.join("\n")}`
+        : "";
+      const scriptEnd = instanceScriptOpeningEnd(injected.source);
       if (scriptEnd !== undefined) {
         return {
-          code: `${content.slice(0, scriptEnd)}\n${componentImports}${content.slice(scriptEnd)}`,
+          code: `${injected.source.slice(0, scriptEnd)}\n${componentImports}${declarations}${injected.source.slice(scriptEnd)}`,
           filename,
         };
       }
-      const insertion = frontmatterEnd(content);
+      const insertion = frontmatterEnd(injected.source);
       return {
-        code: `${content.slice(0, insertion)}\n<script lang="ts">\n${componentImports}\n</script>\n${content.slice(insertion)}`,
+        code: `${injected.source.slice(0, insertion)}\n<script lang="ts">\n${componentImports}${declarations}\n</script>\n${injected.source.slice(insertion)}`,
+        filename,
+      };
+    },
+  };
+}
+
+export function modernizeDocumentationOutput(): PreprocessorGroup {
+  return {
+    name: "coss-sv-modern-documentation-output",
+    markup({ content, filename }) {
+      if (!filename?.endsWith(".svx")) return;
+      return {
+        code: content.replaceAll('<script context="module">', "<script module>"),
         filename,
       };
     },
