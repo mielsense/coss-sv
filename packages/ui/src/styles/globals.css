@@ -1,3 +1,5 @@
+@custom-variant dark (&:is(.dark *));
+
 @theme inline {
   --font-sans: var(--font-sans);
   --font-heading: var(--font-sans);
@@ -35,6 +37,10 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
   --animate-skeleton: skeleton 2s -1s infinite linear;
 
   @keyframes skeleton {
@@ -82,11 +88,11 @@
 }
 
 .dark {
-  --background: color-mix(in srgb, var(--color-neutral-950) 95%, var(--color-white));
+  --background: color-mix(in srgb, var(--color-neutral-950) 96%, var(--color-white));
   --foreground: var(--color-neutral-100);
   --card: color-mix(in srgb, var(--background) 98%, var(--color-white));
   --card-foreground: var(--color-neutral-100);
-  --popover: color-mix(in srgb, var(--background) 98%, var(--color-white));
+  --popover: color-mix(in srgb, var(--background) 96%, var(--color-white));
   --popover-foreground: var(--color-neutral-100);
   --primary: var(--color-neutral-100);
   --primary-foreground: var(--color-neutral-800);
@@ -115,4 +121,56 @@
   --sidebar-accent-foreground: var(--color-neutral-100);
   --sidebar-border: --alpha(var(--color-white) / 5%);
   --sidebar-ring: var(--color-neutral-400);
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+    outline-color: color-mix(in oklab, var(--ring) 50%, transparent);
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+  }
+
+  code,
+  kbd,
+  samp,
+  pre {
+    font-family: var(--font-mono);
+  }
+}
+
+/* Tailwind 4.3 no longer derives numeric line-height utilities from --spacing. */
+@layer utilities {
+  .leading-6\.5 {
+    line-height: calc(var(--spacing) * 6.5);
+  }
+
+  .leading-7\.5 {
+    line-height: calc(var(--spacing) * 7.5);
+  }
+
+  .leading-8\.5 {
+    line-height: calc(var(--spacing) * 8.5);
+  }
+
+  .leading-9\.5 {
+    line-height: calc(var(--spacing) * 9.5);
+  }
+
+  @media (width >= 40rem) {
+    .sm\:leading-6\.5 {
+      line-height: calc(var(--spacing) * 6.5);
+    }
+
+    .sm\:leading-7\.5 {
+      line-height: calc(var(--spacing) * 7.5);
+    }
+
+    .sm\:leading-8\.5 {
+      line-height: calc(var(--spacing) * 8.5);
+    }
+  }
 }
