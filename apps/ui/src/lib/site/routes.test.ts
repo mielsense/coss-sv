@@ -80,9 +80,15 @@ describe("theme boundaries", () => {
     expect(appCss).toMatch(/\.site-shell\s*\{[^}]*--site-primary:\s*#ff3e00;/s);
     expect(appCss).not.toMatch(/(^|\n)\s*--primary:\s*#ff3e00/);
     expect(previewCss).not.toContain("--site-");
-    expect(previewCss).toMatch(/\.preview-canvas\s*\{[^}]*--primary:/s);
-    expect(previewCss).toContain("--border: rgb(0 0 0 / 8%);");
-    expect(previewCss).toContain("--border: rgb(255 255 255 / 6%);");
+    expect(previewCss).toMatch(
+      /\.preview-canvas,\s*\[data-preview-theme="light"\]\s*\{[^}]*--primary:/s,
+    );
+    expect(previewCss).toContain(
+      "--border: color-mix(in oklab, var(--color-black) 8%, transparent);",
+    );
+    expect(previewCss).toContain(
+      "--border: color-mix(in oklab, var(--color-white) 6%, transparent);",
+    );
   });
 
   test("the mobile dialog keeps the measured COSS width and edge shadow", async () => {
