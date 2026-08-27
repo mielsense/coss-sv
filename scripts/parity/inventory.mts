@@ -999,45 +999,149 @@ function bindPattern(
   }
 }
 
+type FunctionFlow =
+  | { bindings: LexicalBindings; kind: "normal"; uncertain: boolean }
+  | { evaluation: Evaluation; kind: "return"; uncertain: boolean }
+  | { kind: "throw" | "unsupported"; uncertain: boolean };
+
+function executeFunctionStatements(
+  statements: ScriptNode[],
+  initial: Extract<FunctionFlow, { kind: "normal" }>,
+  resolvingBindings: Set<string>,
+): FunctionFlow[] {
+  let flows: FunctionFlow[] = [initial];
+  for (const statement of statements) {
+    flows = flows.flatMap((flow) =>
+      flow.kind === "normal"
+        ? executeFunctionStatement(statement, flow, resolvingBindings)
+        : [flow],
+    );
+  }
+  return flows;
+}
+
+function executeFunctionBranch(
+  statement: ScriptNode | undefined,
+  initial: Extract<FunctionFlow, { kind: "normal" }>,
+  resolvingBindings: Set<string>,
+) {
+  if (!statement) return [initial];
+  if (statement.type === "BlockStatement" && Array.isArray(statement.body)) {
+    return executeFunctionStatements(statement.body, initial, resolvingBindings);
+  }
+  return executeFunctionStatements([statement], initial, resolvingBindings);
+}
+
+function executeFunctionStatement(
+  statement: ScriptNode,
+  flow: Extract<FunctionFlow, { kind: "normal" }>,
+  resolvingBindings: Set<string>,
+): FunctionFlow[] {
+  if (statement.type === "EmptyStatement") return [flow];
+  if (statement.type === "FunctionDeclaration" && statement.id?.name) {
+    flow.bindings.set(statement.id.name, { functionNode: statement, kind: "function" });
+    return [flow];
+  }
+  if (statement.type === "VariableDeclaration") {
+    for (const declaration of statement.declarations ?? []) {
+      const evaluation = declaration.init
+        ? evaluateExpression(declaration.init, flow.bindings, resolvingBindings)
+        : known(undefined);
+      bindPattern(declaration.id, evaluation, flow.bindings);
+    }
+    return [flow];
+  }
+  if (statement.type === "ReturnStatement") {
+    return [
+      {
+        evaluation: evaluateExpression(statement.argument, flow.bindings, resolvingBindings),
+        kind: "return",
+        uncertain: flow.uncertain,
+      },
+    ];
+  }
+  if (statement.type === "ThrowStatement") {
+    return [{ kind: "throw", uncertain: flow.uncertain }];
+  }
+  if (statement.type === "BlockStatement" && Array.isArray(statement.body)) {
+    return executeFunctionStatements(statement.body, flow, resolvingBindings);
+  }
+  if (statement.type === "IfStatement") {
+    const test = evaluateExpression(statement.test, flow.bindings, resolvingBindings);
+    if (test.kind === "closed") return [{ kind: "unsupported", uncertain: flow.uncertain }];
+    if (test.kind === "known") {
+      return executeFunctionBranch(
+        (test.value ? statement.consequent : statement.alternate) as ScriptNode | undefined,
+        flow,
+        resolvingBindings,
+      );
+    }
+    const branchFlow = (bindings: LexicalBindings) => ({
+      bindings,
+      kind: "normal" as const,
+      uncertain: true,
+    });
+    return [
+      ...executeFunctionBranch(
+        statement.consequent as ScriptNode | undefined,
+        branchFlow(new Map(flow.bindings)),
+        resolvingBindings,
+      ),
+      ...executeFunctionBranch(
+        statement.alternate as ScriptNode | undefined,
+        branchFlow(new Map(flow.bindings)),
+        resolvingBindings,
+      ),
+    ];
+  }
+  return [{ kind: "unsupported", uncertain: flow.uncertain }];
+}
+
+function knownEvaluationIsVisible(evaluation: Extract<Evaluation, { kind: "known" }>) {
+  if (typeof evaluation.value === "string") return !isPlaceholderText(evaluation.value);
+  return typeof evaluation.value === "number" || typeof evaluation.value === "bigint";
+}
+
+function mergeFunctionFlows(flows: FunctionFlow[]): Evaluation {
+  if (flows.some((flow) => flow.kind === "unsupported")) return closed();
+  const evaluations = flows.flatMap((flow) => {
+    if (flow.kind === "return") return [{ evaluation: flow.evaluation, uncertain: flow.uncertain }];
+    if (flow.kind === "normal")
+      return [{ evaluation: known(undefined), uncertain: flow.uncertain }];
+    return [];
+  });
+  if (evaluations.some(({ evaluation }) => evaluation.kind === "runtime")) return runtime();
+  const knownEvaluations = evaluations.filter(
+    (item): item is { evaluation: Extract<Evaluation, { kind: "known" }>; uncertain: boolean } =>
+      item.evaluation.kind === "known",
+  );
+  if (knownEvaluations.length === 0) return closed();
+  const first = knownEvaluations[0]?.evaluation.value;
+  const allSame =
+    knownEvaluations.length === evaluations.length &&
+    knownEvaluations.every(({ evaluation }) => Object.is(evaluation.value, first));
+  if (allSame) return known(first);
+  if (
+    evaluations.some(({ uncertain }) => uncertain) &&
+    knownEvaluations.some(({ evaluation }) => knownEvaluationIsVisible(evaluation))
+  ) {
+    return runtime();
+  }
+  return closed();
+}
+
 function evaluateSimpleFunctionBody(
   statements: ScriptNode[],
   bindings: LexicalBindings,
   resolvingBindings: Set<string>,
 ): Evaluation {
-  const returnIndex = statements.findIndex((statement) => statement.type === "ReturnStatement");
-  const hasOneFinalReturn =
-    returnIndex === statements.length - 1 &&
-    statements.filter((statement) => statement.type === "ReturnStatement").length === 1;
-  const declarations = hasOneFinalReturn ? statements.slice(0, -1) : statements;
-  const hasUnsupportedControlFlow =
-    (!hasOneFinalReturn && returnIndex !== -1) ||
-    declarations.some(
-      (statement) =>
-        statement.type !== "VariableDeclaration" &&
-        statement.type !== "FunctionDeclaration" &&
-        statement.type !== "EmptyStatement",
-    );
-
-  if (hasUnsupportedControlFlow) {
-    return containsRuntimeProvenance(statements, bindings) ? runtime() : closed();
-  }
-
-  for (const statement of declarations) {
-    if (statement.type === "FunctionDeclaration" && statement.id?.name) {
-      bindings.set(statement.id.name, { functionNode: statement, kind: "function" });
-      continue;
-    }
-    if (statement.type !== "VariableDeclaration") continue;
-    for (const declaration of statement.declarations ?? []) {
-      const evaluation = declaration.init
-        ? evaluateExpression(declaration.init, bindings, resolvingBindings)
-        : known(undefined);
-      bindPattern(declaration.id, evaluation, bindings);
-    }
-  }
-
-  if (!hasOneFinalReturn) return known(undefined);
-  return evaluateExpression(statements.at(-1)?.argument, bindings, resolvingBindings);
+  return mergeFunctionFlows(
+    executeFunctionStatements(
+      statements,
+      { bindings, kind: "normal", uncertain: false },
+      resolvingBindings,
+    ),
+  );
 }
 
 function evaluateFunctionCall(
@@ -1119,7 +1223,7 @@ function inspectHtmlExpression(
   if (typeof result.value !== "string" && typeof result.value !== "number") {
     return { dynamic: false, structural: false, text: [] };
   }
-  const visibleText = visibleRawHtmlText(String(result.value));
+  const visibleText = decodeHtmlCharacterReferences(visibleRawHtmlText(String(result.value)));
   return {
     dynamic: false,
     structural: false,
@@ -1175,7 +1279,8 @@ function withoutCssComments(value: string) {
 function normalizedStaticStyle(value: unknown) {
   return withoutCssComments(String(value ?? ""))
     .replaceAll(/\s+/g, "")
-    .toLowerCase();
+    .toLowerCase()
+    .replace(/!important$/, "");
 }
 
 function isHiddenStaticStyle(value: unknown) {
@@ -1237,6 +1342,41 @@ function visibleRawHtmlText(html: string) {
   if ((stack.at(-1)?.inert ?? false) === false) text.push(html.slice(cursor));
   if (stack.length > 0) return "";
   return text.join(" ").replaceAll(/\s+/g, " ").trim();
+}
+
+const namedHtmlCharacters = new Map([
+  ["amp", "&"],
+  ["apos", "'"],
+  ["colon", ":"],
+  ["comma", ","],
+  ["excl", "!"],
+  ["gt", ">"],
+  ["lt", "<"],
+  ["nbsp", " "],
+  ["newline", "\n"],
+  ["period", "."],
+  ["quot", '"'],
+  ["semi", ";"],
+  ["tab", "\t"],
+]);
+
+function decodeHtmlCharacterReferences(value: string) {
+  return value.replaceAll(
+    /&(?:#(\d+)|#x([\da-f]+)|([a-z][\da-z]+));/gi,
+    (reference, decimal, hex, name) => {
+      if (name) return namedHtmlCharacters.get(String(name).toLowerCase()) ?? reference;
+      const codePoint = Number.parseInt(decimal ?? hex, decimal ? 10 : 16);
+      if (
+        !Number.isInteger(codePoint) ||
+        codePoint <= 0 ||
+        codePoint > 0x10ffff ||
+        (codePoint >= 0xd800 && codePoint <= 0xdfff)
+      ) {
+        return "�";
+      }
+      return String.fromCodePoint(codePoint);
+    },
+  );
 }
 
 function renderedSnippetName(expression: ExpressionNode | undefined) {
