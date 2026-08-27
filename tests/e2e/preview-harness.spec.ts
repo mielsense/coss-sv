@@ -33,7 +33,7 @@ test.describe("preview harness", () => {
     expect(serverHydrationId).toBeTruthy();
     await expect(fixture).toHaveAttribute("data-hydration-id", serverHydrationId ?? "");
     const expectedTheme = projectTheme(testInfo.project.name);
-    const frame = page.locator("[data-preview-theme]");
+    const frame = page.locator("[data-preview-name][data-preview-theme]");
     await expect(frame).toHaveAttribute("data-preview-theme", expectedTheme);
     expect(await frame.evaluate((element) => getComputedStyle(element).colorScheme)).toBe(
       expectedTheme,
@@ -86,9 +86,13 @@ test.describe("preview harness", () => {
     test.skip(testInfo.project.name === "motion", "The two static projects cover opposite themes.");
     const theme = testInfo.project.name === "dark" ? "light" : "dark";
     const { ready } = await openReadyPreview(page, "_fixture", theme, "desktop");
-    const frame = page.locator("[data-preview-theme]");
+    const frame = page.locator("[data-preview-name][data-preview-theme]");
+    const root = page.locator("html");
     const viewport = page.viewportSize();
     const box = await frame.boundingBox();
+
+    await expect(root).toHaveAttribute("data-preview-theme", theme);
+    await expect(root).toHaveClass(theme === "dark" ? /\bdark\b/ : /^(?!.*\bdark\b)/);
 
     expect(viewport).not.toBeNull();
     expect(box).toMatchObject({
@@ -99,7 +103,9 @@ test.describe("preview harness", () => {
     });
     const expectedBackground = theme === "dark" ? "rgb(23, 23, 23)" : "rgb(255, 255, 255)";
     const canvas = await page.evaluate(() => {
-      const themeFrame = document.querySelector<HTMLElement>("[data-preview-theme]");
+      const themeFrame = document.querySelector<HTMLElement>(
+        "[data-preview-name][data-preview-theme]",
+      );
       if (!themeFrame) throw new Error("Preview theme frame is missing.");
       const points = [
         [1, 1],
@@ -123,6 +129,40 @@ test.describe("preview harness", () => {
     for (const corner of canvas.corners) {
       expect(corner).toEqual({ background: expectedBackground, coveredByFrame: true });
     }
+    const themeEvidence = await page.evaluate(() => {
+      const themeFrame = document.querySelector<HTMLElement>(
+        "[data-preview-name][data-preview-theme]",
+      );
+      const fixture = document.querySelector<HTMLElement>('[data-preview-fixture="true"]');
+      const button = document.querySelector<HTMLElement>("button");
+      if (!themeFrame || !fixture || !button) throw new Error("Theme fixtures are missing.");
+      return {
+        buttonBackground: getComputedStyle(button).backgroundColor,
+        buttonForeground: getComputedStyle(button).color,
+        framePrimary: getComputedStyle(themeFrame).getPropertyValue("--primary").trim(),
+        rootPrimary: getComputedStyle(document.documentElement)
+          .getPropertyValue("--primary")
+          .trim(),
+        surfaceBackground: getComputedStyle(fixture).backgroundColor,
+      };
+    });
+    expect(themeEvidence).toEqual(
+      theme === "dark"
+        ? {
+            buttonBackground: "rgb(245, 245, 245)",
+            buttonForeground: "rgb(38, 38, 38)",
+            framePrimary: "#f5f5f5",
+            rootPrimary: "#f5f5f5",
+            surfaceBackground: "rgb(31, 31, 31)",
+          }
+        : {
+            buttonBackground: "rgb(38, 38, 38)",
+            buttonForeground: "rgb(250, 250, 250)",
+            framePrimary: "#262626",
+            rootPrimary: "#262626",
+            surfaceBackground: "rgb(255, 255, 255)",
+          },
+    );
     await expect(ready).toBeVisible();
     const screenshot = await page.screenshot({ animations: "disabled" });
     expect(screenshot.byteLength).toBeGreaterThan(1_000);
@@ -203,6 +243,23 @@ test.describe("preview harness", () => {
       page.evaluate(() => fetch("https://example.com/remote-font.woff2")),
     ).rejects.toThrow();
     expect(() => externalRequests.assertNoExternalRequests()).toThrow(/example\.com/);
+    externalRequests.clear();
+    externalRequests.assertNoExternalRequests();
+  });
+
+  test("blocks and reports external WebSocket handshakes", async ({ page }, testInfo) => {
+    test.skip(testInfo.project.name !== "light", "One project proves WebSocket isolation.");
+    const { externalRequests } = await openReadyPreview(page, "_fixture", "light", "desktop");
+
+    await page.evaluate(() => {
+      new WebSocket("wss://example.com/parity-probe");
+    });
+    await expect
+      .poll(() => externalRequests.failures.join("\n"))
+      .toContain("WEBSOCKET wss://example.com/parity-probe");
+    expect(() => externalRequests.assertNoExternalRequests()).toThrow(
+      /WEBSOCKET wss:\/\/example\.com\/parity-probe/,
+    );
     externalRequests.clear();
     externalRequests.assertNoExternalRequests();
   });

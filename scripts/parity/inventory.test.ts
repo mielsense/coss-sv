@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { mkdirSync, mkdtempSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
-import { dirname, join } from "node:path";
+import { basename, dirname, join } from "node:path";
 import test from "node:test";
 
 import {
@@ -315,13 +315,10 @@ test("requires manifest members to have real authored targets for every promoted
         writeFileSync(join(target, "root.generated.svelte"), "<button>Generated</button>\n");
       } else if (fixture.kind === "particle") {
         mkdirSync(dirname(target), { recursive: true });
-        writeFileSync(
-          target,
-          '<script lang="ts">const placeholderState = true;</script>\n<!-- TODO -->\n',
-        );
+        writeFileSync(target, "<div>TODO</div>\n");
       } else {
         mkdirSync(dirname(target), { recursive: true });
-        writeFileSync(target, "<!-- TODO -->\n");
+        writeFileSync(target, "<p>TODO</p>\n");
       }
 
       const manifests = collectTargetManifests(root);
@@ -333,6 +330,54 @@ test("requires manifest members to have real authored targets for every promoted
       writeAuthoredTarget(root, fixture);
       assert.doesNotThrow(() =>
         validateTargetManifestParity([fixtureEntry(fixture)], manifests, root),
+      );
+    } finally {
+      rmSync(root, { recursive: true, force: true });
+    }
+  }
+});
+
+test("rejects each inert component source laundering shape independently", () => {
+  const fixture = promotedTargetFixtures[0];
+  assert.ok(fixture);
+  const cases = [
+    {
+      files: {
+        "index.ts": "export const TODO = true;\n",
+        "state.ts": "const placeholderState = true;\n",
+      },
+      name: "standalone TypeScript helpers",
+    },
+    {
+      files: {
+        "root.svelte": '<script lang="ts">const placeholderState = true;</script>\n',
+      },
+      name: "script-only root",
+    },
+    {
+      files: { "root_generated.svelte": "<button>Generated</button>\n" },
+      name: "underscore generated root",
+    },
+    {
+      files: { "root.svelte": "<div>TODO</div>\n" },
+      name: "visible placeholder root",
+    },
+  ] as const;
+
+  for (const fixtureCase of cases) {
+    const root = mkdtempSync(join(tmpdir(), "coss-sv-inert-component-"));
+    try {
+      writeFixtureManifest(root, fixture);
+      const target = join(root, fixture.targetPath);
+      mkdirSync(target, { recursive: true });
+      for (const [name, source] of Object.entries(fixtureCase.files)) {
+        writeFileSync(join(target, name), source);
+      }
+      const manifests = collectTargetManifests(root);
+      assert.throws(
+        () => validateTargetManifestParity([fixtureEntry(fixture)], manifests, root),
+        /component:accordion.*not a real authored target/s,
+        fixtureCase.name,
       );
     } finally {
       rmSync(root, { recursive: true, force: true });
@@ -356,7 +401,7 @@ test("rejects canonical manifest symlinks and realpath escapes", () => {
       symlinkSync(outside, canonical);
       assert.throws(
         () => collectTargetManifests(root),
-        /must be a real canonical manifest inside the repository/,
+        /must not contain a symbolic-link path segment/,
       );
     } finally {
       rmSync(root, { recursive: true, force: true });
@@ -375,11 +420,33 @@ test("rejects canonical manifest symlinks and realpath escapes", () => {
     symlinkSync(external, join(root, "apps/ui/registry"));
     assert.throws(
       () => collectTargetManifests(root),
-      /must be a real canonical manifest inside the repository/,
+      /must not contain a symbolic-link path segment/,
     );
   } finally {
     rmSync(root, { recursive: true, force: true });
     rmSync(external, { recursive: true, force: true });
+  }
+
+  for (const definition of targetManifestDefinitions) {
+    const root = mkdtempSync(join(tmpdir(), `coss-sv-${definition.kind}-manifest-internal-link-`));
+    try {
+      const canonical = join(root, definition.path);
+      const linkedParent = dirname(canonical);
+      const internalParent = join(root, `internal-${definition.kind}-manifest`);
+      mkdirSync(dirname(linkedParent), { recursive: true });
+      mkdirSync(internalParent, { recursive: true });
+      writeFileSync(
+        join(internalParent, basename(canonical)),
+        `export const ${definition.exportName} = ${definition.wrapperName}([]);\n`,
+      );
+      symlinkSync(internalParent, linkedParent);
+      assert.throws(
+        () => collectTargetManifests(root),
+        /must not contain a symbolic-link path segment/,
+      );
+    } finally {
+      rmSync(root, { recursive: true, force: true });
+    }
   }
 });
 
@@ -397,11 +464,119 @@ test("rejects promoted targets that escape through a canonical-path symlink", ()
     const manifests = collectTargetManifests(root);
     assert.throws(
       () => validateTargetManifestParity([fixtureEntry(fixture)], manifests, root),
-      /target path escapes the repository through a symlink/,
+      /must not contain a symbolic-link path segment/,
     );
   } finally {
     rmSync(root, { recursive: true, force: true });
     rmSync(external, { recursive: true, force: true });
+  }
+});
+
+test("rejects promoted targets with internal symlink ancestors", () => {
+  for (const fixture of promotedTargetFixtures) {
+    const root = mkdtempSync(join(tmpdir(), `coss-sv-${fixture.kind}-target-internal-link-`));
+    try {
+      writeFixtureManifest(root, fixture);
+      const canonical = join(root, fixture.targetPath);
+      const linkedParent = dirname(canonical);
+      const internalParent = join(root, `internal-${fixture.kind}-target`);
+      mkdirSync(dirname(linkedParent), { recursive: true });
+      mkdirSync(internalParent, { recursive: true });
+      if (fixture.kind === "component") {
+        const component = join(internalParent, basename(canonical));
+        mkdirSync(component, { recursive: true });
+        writeFileSync(join(component, "root.svelte"), "<button>Accordion</button>\n");
+      } else {
+        writeFileSync(
+          join(internalParent, basename(canonical)),
+          fixture.kind === "particle" ? "<div>Particle</div>\n" : "# Accordion\n",
+        );
+      }
+      symlinkSync(internalParent, linkedParent);
+      const manifests = collectTargetManifests(root);
+      assert.throws(
+        () => validateTargetManifestParity([fixtureEntry(fixture)], manifests, root),
+        /must not contain a symbolic-link path segment/,
+      );
+    } finally {
+      rmSync(root, { recursive: true, force: true });
+    }
+  }
+});
+
+test("rejects traversal, encoded traversal, backslashes, and control characters in parity IDs", () => {
+  const traversalFixtures: ParityEntry[] = [
+    {
+      id: "../../escape",
+      kind: "component",
+      sourcePaths: [],
+      status: "implemented",
+      targetPaths: ["packages/ui/src/components/ui/../../escape"],
+    },
+    {
+      id: "../evil",
+      kind: "particle",
+      sourcePaths: [],
+      status: "reviewed",
+      targetPaths: ["apps/ui/registry/default/particles/../evil.svelte"],
+    },
+    {
+      id: "../evil",
+      kind: "doc",
+      sourcePaths: [],
+      status: "approved",
+      targetPaths: ["apps/ui/content/docs/../evil.md"],
+    },
+  ];
+
+  for (const fixture of traversalFixtures) {
+    const root = mkdtempSync(join(tmpdir(), `coss-sv-${fixture.kind}-traversal-`));
+    try {
+      const definition = targetManifestDefinitions.find(({ kind }) => kind === fixture.kind);
+      assert.ok(definition);
+      const manifestPath = join(root, definition.path);
+      mkdirSync(dirname(manifestPath), { recursive: true });
+      writeFileSync(
+        manifestPath,
+        `export const ${definition.exportName} = ${definition.wrapperName}([{ ${definition.idProperty}: ${JSON.stringify(fixture.id)} }]);\n`,
+      );
+      const target = join(root, fixture.targetPaths[0] ?? "missing");
+      if (fixture.kind === "component") {
+        mkdirSync(target, { recursive: true });
+        writeFileSync(join(target, "root.svelte"), "<button>Escape</button>\n");
+      } else {
+        mkdirSync(dirname(target), { recursive: true });
+        writeFileSync(target, fixture.kind === "particle" ? "<div>Evil</div>\n" : "# Evil\n");
+      }
+      assert.throws(
+        () => validateTargetManifestParity([fixture], collectTargetManifests(root), root),
+        new RegExp(`invalid canonical ${fixture.kind} id`),
+      );
+    } finally {
+      rmSync(root, { recursive: true, force: true });
+    }
+  }
+
+  const root = mkdtempSync(join(tmpdir(), "coss-sv-id-grammar-"));
+  try {
+    const manifests = collectTargetManifests(root);
+    for (const kind of ["component", "particle", "doc"] as const) {
+      for (const id of ["%2e%2e%2fevil", "..\\evil", "evil\0id"]) {
+        const entry: ParityEntry = {
+          id,
+          kind,
+          sourcePaths: [],
+          status: "implemented",
+          targetPaths: ["unused"],
+        };
+        assert.throws(
+          () => validateTargetManifestParity([entry], manifests, root),
+          new RegExp(`invalid canonical ${kind} id`),
+        );
+      }
+    }
+  } finally {
+    rmSync(root, { recursive: true, force: true });
   }
 });
 

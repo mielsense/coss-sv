@@ -10,6 +10,7 @@ import {
 } from "node:fs";
 import { basename, dirname, extname, isAbsolute, join, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { parse } from "svelte/compiler";
 import ts from "typescript";
 
 export type ParityKind = "component" | "doc" | "particle";
@@ -335,22 +336,76 @@ function propertyName(property: ts.PropertyName) {
   return undefined;
 }
 
-function readTargetManifest(root: string, definition: TargetManifestDefinition) {
-  const absolutePath = resolve(root, definition.path);
-  let manifestStats: ReturnType<typeof lstatSync>;
-  try {
-    manifestStats = lstatSync(absolutePath);
-  } catch (error) {
-    if ((error as NodeJS.ErrnoException).code === "ENOENT") {
-      return { ...definition, duplicates: [], exists: false, ids: [] };
+function isPathInside(parent: string, child: string) {
+  const pathFromParent = relative(parent, child);
+  return pathFromParent === "" || (!pathFromParent.startsWith("..") && !isAbsolute(pathFromParent));
+}
+
+function inspectCanonicalPath(root: string, path: string, label: string) {
+  const resolvedRoot = realpathSync(root);
+  const segments = normalizedPath(path).split("/");
+  if (
+    isAbsolute(path) ||
+    normalizedPath(path) !== path ||
+    segments.some((segment) => segment === "" || segment === "." || segment === "..")
+  ) {
+    throw new Error(`${label} is not a canonical repository-relative path.`);
+  }
+
+  const resolvedTarget = resolve(resolvedRoot, ...segments);
+  if (!isPathInside(resolvedRoot, resolvedTarget)) {
+    throw new Error(`${label} escapes the repository.`);
+  }
+
+  let current = resolvedRoot;
+  for (const segment of segments) {
+    current = join(current, segment);
+    let stats: ReturnType<typeof lstatSync>;
+    try {
+      stats = lstatSync(current);
+    } catch (error) {
+      if ((error as NodeJS.ErrnoException).code === "ENOENT") {
+        return { absolutePath: resolvedTarget, exists: false, root: resolvedRoot };
+      }
+      throw error;
     }
-    throw error;
+    if (stats.isSymbolicLink()) {
+      throw new Error(`${label} must not contain a symbolic-link path segment.`);
+    }
+    const realCurrent = realpathSync(current);
+    if (!isPathInside(resolvedRoot, realCurrent)) {
+      throw new Error(`${label} escapes the repository.`);
+    }
   }
-  const rootPath = realpathSync(root);
-  const pathFromRoot = relative(rootPath, realpathSync(absolutePath));
-  if (manifestStats.isSymbolicLink() || pathFromRoot.startsWith("..") || isAbsolute(pathFromRoot)) {
-    throw new Error(`${definition.path} must be a real canonical manifest inside the repository.`);
+
+  return { absolutePath: resolvedTarget, exists: true, root: resolvedRoot };
+}
+
+const canonicalSlugPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+
+function isCanonicalParityId(kind: ParityKind, id: string) {
+  if (kind !== "doc") return canonicalSlugPattern.test(id);
+  const segments = id.split("/");
+  return (
+    (segments.length === 1 && canonicalSlugPattern.test(segments[0] ?? "")) ||
+    (segments.length === 2 &&
+      (segments[0] === "components" || segments[0] === "hooks") &&
+      canonicalSlugPattern.test(segments[1] ?? ""))
+  );
+}
+
+function assertCanonicalParityId(kind: ParityKind, id: string) {
+  if (!isCanonicalParityId(kind, id)) {
+    throw new Error(`${kind}:${JSON.stringify(id)} has an invalid canonical ${kind} id.`);
   }
+}
+
+function readTargetManifest(root: string, definition: TargetManifestDefinition) {
+  const canonicalPath = inspectCanonicalPath(root, definition.path, definition.path);
+  if (!canonicalPath.exists) {
+    return { ...definition, duplicates: [], exists: false, ids: [] };
+  }
+  const absolutePath = canonicalPath.absolutePath;
 
   const sourceFile = ts.createSourceFile(
     definition.path,
@@ -411,6 +466,7 @@ function readTargetManifest(root: string, definition: TargetManifestDefinition) 
         `${definition.path} entries need a literal ${definition.idProperty} property.`,
       );
     }
+    assertCanonicalParityId(definition.kind, idExpression.text);
     ids.push(idExpression.text);
   }
 
@@ -470,24 +526,9 @@ export function compareTargetManifests(
   ) as TargetManifestComparison;
 }
 
-const ignoredComponentSourceDirectories = new Set([
-  ".git",
-  ".svelte-kit",
-  ".turbo",
-  "build",
-  "dist",
-  "generated",
-  "node_modules",
-]);
-
 function isGeneratedSourceName(path: string) {
-  const name = basename(path).toLowerCase();
-  return (
-    name.startsWith("generated.") ||
-    name.includes(".generated.") ||
-    name.startsWith("generated-") ||
-    name.includes(".gen.")
-  );
+  const stem = basename(path, extname(path)).toLowerCase();
+  return /(?:^|[._-])(?:gen|generated)(?:$|[._-])/.test(stem);
 }
 
 function withoutHtmlComments(source: string) {
@@ -496,7 +537,9 @@ function withoutHtmlComments(source: string) {
 
 function isPlaceholderText(source: string) {
   const normalized = source
-    .replaceAll(/^[\s#>*_`~!.-]+|[\s#>*_`~!.-]+$/g, "")
+    .replaceAll(/&(?:nbsp|#160|#x0*a0);/gi, " ")
+    .replaceAll(/^[\s#>*_`~!.,:;()[\]{}-]+|[\s#>*_`~!.,:;()[\]{}-]+$/g, "")
+    .replaceAll(/\s+/g, " ")
     .trim()
     .toLowerCase();
   return (
@@ -505,96 +548,152 @@ function isPlaceholderText(source: string) {
   );
 }
 
-function hasRuntimeTypeScript(source: string, path: string) {
-  const sourceFile = ts.createSourceFile(
-    path,
-    source,
-    ts.ScriptTarget.Latest,
-    true,
-    ts.ScriptKind.TS,
-  );
-  return sourceFile.statements.some(
-    (statement) =>
-      !ts.isImportDeclaration(statement) &&
-      !ts.isImportEqualsDeclaration(statement) &&
-      !ts.isExportDeclaration(statement) &&
-      !ts.isInterfaceDeclaration(statement) &&
-      !ts.isTypeAliasDeclaration(statement) &&
-      !ts.isEmptyStatement(statement),
-  );
+type TemplateNode = {
+  attributes?: unknown[];
+  body?: TemplateFragment;
+  catch?: TemplateFragment;
+  consequent?: TemplateFragment;
+  data?: string;
+  expression?: { type?: string; value?: unknown };
+  fallback?: TemplateFragment;
+  fragment?: TemplateFragment;
+  name?: string;
+  pending?: TemplateFragment;
+  then?: TemplateFragment;
+  type: string;
+};
+
+type TemplateFragment = { nodes?: TemplateNode[] };
+
+type RenderEvidence = {
+  dynamic: boolean;
+  structural: boolean;
+  text: string[];
+};
+
+function mergeRenderEvidence(target: RenderEvidence, source: RenderEvidence) {
+  target.dynamic ||= source.dynamic;
+  target.structural ||= source.structural;
+  target.text.push(...source.text);
 }
 
-function hasAuthoredSvelteContent(path: string, requireTemplate = false) {
-  if (isGeneratedSourceName(path)) return false;
-  const source = withoutHtmlComments(readFileSync(path, "utf8"));
-  if (isPlaceholderText(source)) return false;
+function inspectTemplateFragment(fragment: TemplateFragment | undefined): RenderEvidence {
+  const evidence: RenderEvidence = { dynamic: false, structural: false, text: [] };
+  for (const node of fragment?.nodes ?? []) {
+    if (node.type === "Text") {
+      if (node.data?.trim()) evidence.text.push(node.data);
+      continue;
+    }
+    if (node.type === "ExpressionTag") {
+      const expression = node.expression;
+      if (
+        (expression?.type === "Literal" || expression?.type === "StringLiteral") &&
+        typeof expression.value === "string"
+      ) {
+        evidence.text.push(expression.value);
+      } else {
+        evidence.dynamic = true;
+      }
+      continue;
+    }
+    if (
+      node.type === "Component" ||
+      node.type === "SvelteComponent" ||
+      node.type === "SvelteElement" ||
+      node.type === "SvelteSelf" ||
+      node.type === "RenderTag" ||
+      node.type === "HtmlTag" ||
+      node.type === "SlotElement"
+    ) {
+      evidence.dynamic = true;
+      continue;
+    }
+    if (node.type === "RegularElement") {
+      const childEvidence = inspectTemplateFragment(node.fragment);
+      mergeRenderEvidence(evidence, childEvidence);
+      if (
+        childEvidence.text.length === 0 &&
+        !childEvidence.dynamic &&
+        (node.attributes?.length ||
+          !new Set([
+            "article",
+            "aside",
+            "div",
+            "footer",
+            "header",
+            "main",
+            "p",
+            "section",
+            "span",
+          ]).has(node.name ?? ""))
+      ) {
+        evidence.structural = true;
+      }
+      continue;
+    }
+    if (node.type === "SnippetBlock") continue;
+    for (const child of [
+      node.body,
+      node.catch,
+      node.consequent,
+      node.fallback,
+      node.fragment,
+      node.pending,
+      node.then,
+    ]) {
+      mergeRenderEvidence(evidence, inspectTemplateFragment(child));
+    }
+  }
+  return evidence;
+}
 
-  const scripts = [...source.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/gi)];
-  const template = source
-    .replaceAll(/<script(?:\s[^>]*)?>[\s\S]*?<\/script>/gi, "")
-    .replaceAll(/<style(?:\s[^>]*)?>[\s\S]*?<\/style>/gi, "")
-    .trim();
-  if (!isPlaceholderText(template) && /<[A-Za-z]|{[#@]/.test(template)) return true;
-  if (requireTemplate) return false;
-  return scripts.some((match) => hasRuntimeTypeScript(match[1] ?? "", path));
+function hasAuthoredSvelteContent(path: string) {
+  if (isGeneratedSourceName(path)) return false;
+  const source = readFileSync(path, "utf8");
+  try {
+    const ast = parse(source, { modern: true }) as { fragment: TemplateFragment };
+    const evidence = inspectTemplateFragment(ast.fragment);
+    const visibleText = evidence.text.join(" ").trim();
+    if (visibleText.length > 0 && !isPlaceholderText(visibleText)) return true;
+    return evidence.dynamic || (visibleText.length === 0 && evidence.structural);
+  } catch {
+    return false;
+  }
 }
 
 function hasAuthoredMarkdownContent(path: string) {
-  const source = withoutHtmlComments(readFileSync(path, "utf8")).replace(
-    /^---\s*\n[\s\S]*?\n---\s*(?:\n|$)/,
-    "",
-  );
+  const source = withoutHtmlComments(readFileSync(path, "utf8"))
+    .replace(/^---\s*\r?\n[\s\S]*?\r?\n---\s*(?:\r?\n|$)/, "")
+    .replaceAll(/!\[([^\]]*)\]\([^)]*\)/g, "$1")
+    .replaceAll(/\[([^\]]+)\]\([^)]*\)/g, "$1")
+    .replaceAll(/<[^>]+>/g, " ")
+    .replaceAll(/[`*_~#>|]/g, " ")
+    .replaceAll(/\s+/g, " ")
+    .trim();
   return !isPlaceholderText(source) && /[A-Za-z0-9]/.test(source);
 }
 
-function isComponentSourceFile(path: string) {
-  const name = basename(path);
-  if (
-    isGeneratedSourceName(path) ||
-    name.endsWith(".d.ts") ||
-    name.endsWith(".spec.ts") ||
-    name.endsWith(".test.ts")
-  ) {
-    return false;
-  }
-  if (extname(name) === ".svelte") return hasAuthoredSvelteContent(path);
-  if (extname(name) === ".ts") return hasRuntimeTypeScript(readFileSync(path, "utf8"), path);
-  return false;
-}
-
-function componentHasAuthoredSource(path: string): boolean {
+function componentHasAuthoredSource(path: string, id: string): boolean {
   const stats = lstatSync(path);
   if (stats.isSymbolicLink()) return false;
-  if (stats.isFile()) return isComponentSourceFile(path);
+  if (stats.isFile()) {
+    const name = basename(path);
+    return (
+      extname(name) === ".svelte" &&
+      (name === "root.svelte" || name === `${id}.svelte`) &&
+      hasAuthoredSvelteContent(path)
+    );
+  }
   if (!stats.isDirectory()) return false;
 
-  return readdirSync(path, { withFileTypes: true }).some((directoryEntry) => {
-    if (directoryEntry.isSymbolicLink()) return false;
-    if (
-      directoryEntry.isDirectory() &&
-      ignoredComponentSourceDirectories.has(directoryEntry.name)
-    ) {
-      return false;
-    }
-    return componentHasAuthoredSource(join(path, directoryEntry.name));
-  });
-}
-
-function resolveTargetInsideRepository(root: string, path: string) {
-  const resolvedRoot = realpathSync(root);
-  const resolvedTarget = resolve(resolvedRoot, path);
-  const pathFromRoot = relative(resolvedRoot, resolvedTarget);
-  if (pathFromRoot.startsWith("..") || isAbsolute(pathFromRoot)) {
-    throw new Error(`target path escapes the repository: ${path}`);
-  }
-  if (existsSync(resolvedTarget)) {
-    const realTarget = realpathSync(resolvedTarget);
-    const realPathFromRoot = relative(resolvedRoot, realTarget);
-    if (realPathFromRoot.startsWith("..") || isAbsolute(realPathFromRoot)) {
-      throw new Error(`target path escapes the repository through a symlink: ${path}`);
-    }
-  }
-  return resolvedTarget;
+  const canonicalRootNames = new Set(["root.svelte", `${id}.svelte`]);
+  return readdirSync(path, { withFileTypes: true }).some(
+    (directoryEntry) =>
+      directoryEntry.isFile() &&
+      canonicalRootNames.has(directoryEntry.name) &&
+      !isGeneratedSourceName(directoryEntry.name) &&
+      hasAuthoredSvelteContent(join(path, directoryEntry.name)),
+  );
 }
 
 function promotedTargetError(root: string, item: ParityEntry) {
@@ -605,8 +704,7 @@ function promotedTargetError(root: string, item: ParityEntry) {
   const expectedParticle = `apps/ui/registry/default/particles/${item.id}.svelte`;
   const expectedDoc = `apps/ui/content/docs/${item.id}.md`;
   const isCanonical =
-    (item.kind === "component" &&
-      (path === expectedComponentRoot || path.startsWith(`${expectedComponentRoot}/`))) ||
+    (item.kind === "component" && path === expectedComponentRoot) ||
     (item.kind === "particle" && path === expectedParticle) ||
     (item.kind === "doc" && path === expectedDoc);
 
@@ -614,21 +712,31 @@ function promotedTargetError(root: string, item: ParityEntry) {
     return `${parityKey(item)} uses non-canonical or generated target ${path}.`;
   }
 
-  const absolutePath = resolveTargetInsideRepository(root, path);
-  if (!existsSync(absolutePath)) {
+  const kindRoot = {
+    component: "packages/ui/src/components/ui",
+    doc: "apps/ui/content/docs",
+    particle: "apps/ui/registry/default/particles",
+  }[item.kind];
+  const canonicalTarget = inspectCanonicalPath(root, path, path);
+  const canonicalKindRoot = resolve(canonicalTarget.root, kindRoot);
+  if (!isPathInside(canonicalKindRoot, canonicalTarget.absolutePath)) {
+    return `${parityKey(item)} resolves outside its canonical ${kindRoot} subtree.`;
+  }
+  const absolutePath = canonicalTarget.absolutePath;
+  if (!canonicalTarget.exists) {
     return `${parityKey(item)} is ${item.status} but lacks a real authored target at ${path}.`;
   }
 
   const stats = lstatSync(absolutePath);
   let valid = false;
   if (item.kind === "component") {
-    valid = componentHasAuthoredSource(absolutePath);
+    valid = componentHasAuthoredSource(absolutePath, item.id);
   } else if (item.kind === "particle") {
     valid =
       stats.isFile() &&
       !stats.isSymbolicLink() &&
       extname(absolutePath) === ".svelte" &&
-      hasAuthoredSvelteContent(absolutePath, true);
+      hasAuthoredSvelteContent(absolutePath);
   } else {
     valid =
       stats.isFile() &&
@@ -647,6 +755,10 @@ export function validateTargetManifestParity(
   manifests: TargetManifests,
   root = repositoryRoot,
 ) {
+  for (const item of entries) assertCanonicalParityId(item.kind, item.id);
+  for (const kind of ["component", "doc", "particle"] as const) {
+    for (const id of manifests[kind].ids) assertCanonicalParityId(kind, id);
+  }
   const comparison = compareTargetManifests(entries, manifests);
   const errors: string[] = [];
   const extras = (["component", "doc", "particle"] as const).flatMap((kind) =>

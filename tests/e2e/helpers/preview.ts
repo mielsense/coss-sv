@@ -23,6 +23,10 @@ export const localPreviewOrigins = new Set([
   "http://127.0.0.1:4173",
   "http://localhost:4000",
   "http://localhost:4173",
+  "ws://127.0.0.1:4000",
+  "ws://127.0.0.1:4173",
+  "ws://localhost:4000",
+  "ws://localhost:4173",
 ]);
 
 const deterministicPages = new WeakMap<Page, ExternalRequestGuard>();
@@ -116,6 +120,16 @@ export async function prepareDeterministicPage(page: Page): Promise<ExternalRequ
 
     failures.push(`${request.method()} ${request.url()}`);
     await route.abort("blockedbyclient");
+  });
+  await page.routeWebSocket(/^wss?:\/\//, async (socket) => {
+    const url = new URL(socket.url());
+    if (localPreviewOrigins.has(url.origin)) {
+      socket.connectToServer();
+      return;
+    }
+
+    failures.push(`WEBSOCKET ${socket.url()}`);
+    await socket.close({ code: 1008, reason: "External WebSocket blocked by parity harness" });
   });
   deterministicPages.set(page, guard);
   return guard;

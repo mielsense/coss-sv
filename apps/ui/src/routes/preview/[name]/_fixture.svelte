@@ -25,7 +25,7 @@ let count = $state(0);
   padding: 1.5rem;
   border: 1px solid var(--border);
   border-radius: 0.75rem;
-  background-color: Canvas;
+  background-color: var(--card);
   color: var(--foreground);
   font-family: ui-sans-serif, system-ui, sans-serif;
 }

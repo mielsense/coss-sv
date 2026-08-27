@@ -6,6 +6,26 @@ import { getPreview } from "./preview-registry.js";
 const name = $derived(page.params.name ?? "");
 const query = $derived(parsePreviewQuery(page.url.searchParams));
 const Preview = $derived(query.ok ? getPreview(name) : undefined);
+
+function documentTheme(theme: "dark" | "light") {
+  return (_node: HTMLElement) => {
+    const root = document.documentElement;
+    const previousTheme = root.dataset.previewTheme;
+    const previousColorScheme = root.style.colorScheme;
+    const previouslyDark = root.classList.contains("dark");
+
+    root.dataset.previewTheme = theme;
+    root.style.colorScheme = theme;
+    root.classList.toggle("dark", theme === "dark");
+
+    return () => {
+      if (previousTheme) root.dataset.previewTheme = previousTheme;
+      else delete root.dataset.previewTheme;
+      root.style.colorScheme = previousColorScheme;
+      root.classList.toggle("dark", previouslyDark);
+    };
+  };
+}
 </script>
 
 <svelte:head>
@@ -14,6 +34,7 @@ const Preview = $derived(query.ok ? getPreview(name) : undefined);
 
 <div
   class={["preview-frame", { dark: query.ok && query.theme === "dark" }]}
+  {@attach documentTheme(query.ok ? query.theme : "light")}
   data-preview-name={name}
   data-preview-theme={query.ok ? query.theme : undefined}
   style:color-scheme={query.ok ? query.theme : "light"}
@@ -51,9 +72,6 @@ const Preview = $derived(query.ok ? getPreview(name) : undefined);
 
 <style>
 .preview-frame {
-  --background: #ffffff;
-  --foreground: #171717;
-  --border: #e5e5e5;
   position: fixed;
   inset: 0;
   display: grid;
@@ -64,12 +82,6 @@ const Preview = $derived(query.ok ? getPreview(name) : undefined);
   place-items: center;
   background: var(--background);
   color: var(--foreground);
-}
-
-.preview-frame.dark {
-  --background: #171717;
-  --foreground: #fafafa;
-  --border: #404040;
 }
 
 .preview-surface {
