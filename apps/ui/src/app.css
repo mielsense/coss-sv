@@ -211,6 +211,11 @@ a {
   fill: currentColor;
   stroke: none;
 }
+
+.theme-toggle .theme-glyph-fill {
+  fill: currentColor;
+  stroke: none;
+}
 .search-shortcut {
   display: flex;
   gap: 0.2rem;

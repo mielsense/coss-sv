@@ -23,11 +23,15 @@ describe("documentation routes", () => {
     const footer = render(SiteFooter).body;
 
     expect(header).toContain("https://github.com/cosscom/coss");
+    expect(header).toContain("<span>10.4k</span>");
+    expect(header).toContain('data-theme-glyph="contrast"');
+    expect(header).not.toContain("M12 2v2m0 16v2");
     expect(header).toContain('aria-label="Search documentation"');
     expect(header).toContain('aria-label="Toggle Menu"');
     expect(footer).toContain('href="/"');
     expect(footer).toContain("© 2026");
-    expect(footer).toContain("open source, open heart, open mind.");
+    expect(footer).toContain("coss.com</a> – open source, open heart, open mind.");
+    expect(footer).not.toContain("coss.com</a> ·");
     expect(footer).not.toContain("Miel");
   });
 
