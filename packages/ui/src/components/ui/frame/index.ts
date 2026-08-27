@@ -1,0 +1,12 @@
+export type { FrameProps } from "./frame.svelte";
+export { default as Frame, default as Root } from "./frame.svelte";
+export type { FrameDescriptionProps } from "./frame-description.svelte";
+export { default as FrameDescription, default as Description } from "./frame-description.svelte";
+export type { FrameFooterProps } from "./frame-footer.svelte";
+export { default as FrameFooter, default as Footer } from "./frame-footer.svelte";
+export type { FrameHeaderProps } from "./frame-header.svelte";
+export { default as FrameHeader, default as Header } from "./frame-header.svelte";
+export type { FramePanelProps } from "./frame-panel.svelte";
+export { default as FramePanel, default as Panel } from "./frame-panel.svelte";
+export type { FrameTitleProps } from "./frame-title.svelte";
+export { default as FrameTitle, default as Title } from "./frame-title.svelte";
