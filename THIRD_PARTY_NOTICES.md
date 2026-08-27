@@ -44,5 +44,18 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
-The dependency and asset inventory will grow as components land. Each component lane must add the notice required by any new icon set, font, calendar package, or copied SVG data in the same reviewed change.
+## Cal Sans 2
 
+Source: <https://github.com/calcom/sans>
+
+Bundled source revision: `b5d86f057dce21735d0cfe2fbca35de615095121`
+
+The documentation site self-hosts the unmodified `calsans-cossui` variable webfont build under the SIL Open Font License 1.1.
+
+```text
+Copyright 2021 The Cal Sans Project Authors (https://github.com/calcom/font)
+```
+
+The font's license, authors, and contributors files are distributed beside the font in [`apps/ui/static/fonts/cal-sans/`](apps/ui/static/fonts/cal-sans/).
+
+The dependency and asset inventory will grow as components land. Each component lane must add the notice required by any new icon set, font, calendar package, or copied SVG data in the same reviewed change.

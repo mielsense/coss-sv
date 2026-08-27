@@ -1,39 +1,37 @@
 <script lang="ts">
+import { page } from "$app/state";
 import CommandMenu from "./CommandMenu.svelte";
 import MobileNav from "./MobileNav.svelte";
 import { primaryNavigation, upstreamUrl } from "./site.js";
 
-let isDark = $state(false);
-
 function setTheme(nextDark: boolean) {
-  isDark = nextDark;
   document.documentElement.classList.toggle("dark", nextDark);
   document.documentElement.classList.toggle("light", !nextDark);
   localStorage.setItem("coss-sv-theme", nextDark ? "dark" : "light");
 }
 
 function toggleTheme() {
-  setTheme(!isDark);
+  setTheme(!document.documentElement.classList.contains("dark"));
 }
-
-$effect(() => {
-  const stored = localStorage.getItem("coss-sv-theme");
-  const nextDark = stored ? stored === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
-  setTheme(nextDark);
-});
 </script>
 
 <header class="site-header">
+  <div class="header-markers" aria-hidden="true"></div>
   <div class="site-container header-inner">
     <MobileNav />
     <div class="site-wordmark">
-      <a class="site-brand" href="/" aria-label="COSS for Svelte home">coss.com</a>
-      <span aria-hidden="true">sv</span>
+      <a class="site-brand" href="/" aria-label="Home">coss.com</a>
+      <span aria-hidden="true">ui</span>
     </div>
     <div class="header-actions">
       <nav class="site-nav" aria-label="Primary navigation">
         {#each primaryNavigation as item (item.href)}
-          <a href={item.href}>{item.label}</a>
+          <a
+            href={item.href}
+            aria-current={page.url.pathname.startsWith(item.href) ? "page" : undefined}
+            data-pressed={page.url.pathname.startsWith(item.href) ? "true" : undefined}
+            >{item.label}</a
+          >
         {/each}
       </nav>
       <CommandMenu />

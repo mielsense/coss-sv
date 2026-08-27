@@ -415,11 +415,14 @@ try {
   await menuDialog.waitFor({ state: "hidden" });
   assert.equal(await menuTrigger.evaluate((element) => element === document.activeElement), true);
 
-  const mobileFooter = page.locator(".footer-inner");
+  const mobileFooter = page.locator(".site-footer");
   await mobileFooter.scrollIntoViewIfNeeded();
   const footerBox = await mobileFooter.boundingBox();
   assert.ok(footerBox);
   assertNear(footerBox.height, 96, "mobile footer height");
+  const footerContentBox = await page.locator(".footer-inner").boundingBox();
+  assert.ok(footerContentBox);
+  assertNear(footerContentBox.height, 48, "mobile footer content height");
 
   const mobileTrigger = page.locator(".search-trigger");
   await mobileTrigger.waitFor({ state: "attached" });

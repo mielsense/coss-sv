@@ -5,7 +5,6 @@ import HomePage from "../../routes/+page.svelte";
 import CreditsPage from "../../routes/credits/+page.svelte";
 import HealthPage from "../../routes/preview/_health/+page.svelte";
 import SiteFooter from "./SiteFooter.svelte";
-import SiteHeader from "./SiteHeader.svelte";
 
 describe("documentation routes", () => {
   test("the home route preserves the COSS page hierarchy with Svelte product facts", () => {
@@ -19,21 +18,37 @@ describe("documentation routes", () => {
     expect(body).not.toContain("github.com/mielsense/coss-sv");
   });
 
-  test("shared chrome retains COSS provenance and the exact upstream footer", () => {
-    const header = render(SiteHeader).body;
+  test("shared chrome retains COSS provenance and the exact upstream footer", async () => {
+    const header = await readFile(new URL("./SiteHeader.svelte", import.meta.url), "utf8");
+    const commandMenu = await readFile(new URL("./CommandMenu.svelte", import.meta.url), "utf8");
+    const mobileNav = await readFile(new URL("./MobileNav.svelte", import.meta.url), "utf8");
+    const site = await readFile(new URL("./site.ts", import.meta.url), "utf8");
     const footer = render(SiteFooter).body;
 
-    expect(header).toContain("https://github.com/cosscom/coss");
-    expect(header).toContain("<span>10.4k</span>");
+    expect(header).toContain("upstreamUrl");
+    expect(site).toContain("https://github.com/cosscom/coss");
+    expect(header).toContain("10.4k");
     expect(header).toContain('data-theme-glyph="contrast"');
     expect(header).not.toContain("M12 2v2m0 16v2");
-    expect(header).toContain('aria-label="Search documentation"');
-    expect(header).toContain('aria-label="Toggle Menu"');
+    expect(commandMenu).toContain('aria-label="Search documentation"');
+    expect(mobileNav).toContain('aria-label="Toggle Menu"');
+    expect(header).toContain("coss.com");
+    expect(header).toContain(">ui</span>");
+    expect(header).toContain("aria-current=");
     expect(footer).toContain('href="/"');
     expect(footer).toContain("© 2026");
     expect(footer).toContain("coss.com</a> – open source, open heart, open mind.");
     expect(footer).not.toContain("coss.com</a> ·");
-    expect(footer).not.toContain("Miel");
+    expect(footer).not.toContain("github.com/mielsense");
+  });
+
+  test("applies the saved theme before Svelte hydrates", async () => {
+    const appHtml = await readFile(new URL("../../app.html", import.meta.url), "utf8");
+
+    expect(appHtml).toContain('localStorage.getItem("coss-sv-theme")');
+    expect(appHtml).toContain('matchMedia("(prefers-color-scheme: dark)").matches');
+    expect(appHtml).toContain("document.documentElement.classList.add(theme)");
+    expect(appHtml.indexOf("coss-sv-theme")).toBeLessThan(appHtml.indexOf("%sveltekit.head%"));
   });
 
   test("the credits route links to the upstream project, Miel, and legal files", () => {
@@ -76,9 +91,11 @@ describe("theme boundaries", () => {
         .find((rule) => rule.includes("width:")) ?? "";
     const panelRule = appCss.match(/\.mobile-menu-panel\s*\{([^}]*)\}/)?.[1] ?? "";
     const viewportRule = appCss.match(/\.mobile-menu-viewport\s*\{([^}]*)\}/)?.[1] ?? "";
-    const footerMobileRule =
-      appCss.match(/@media \(max-width: 39\.999rem\)[\s\S]*?\.footer-inner\s*\{([^}]*)\}/)?.[1] ??
-      "";
+    const footerRule =
+      [...appCss.matchAll(/(?:^|\n)\.site-footer\s*\{([^}]*)\}/g)]
+        .map((match) => match[1] ?? "")
+        .find((rule) => rule.includes("padding-block:")) ?? "";
+    const footerInnerRule = appCss.match(/(?:^|\n)\.footer-inner\s*\{([^}]*)\}/)?.[1] ?? "";
 
     expect(dialogRule).toContain("width: min(22rem, calc(100% - 3rem));");
     expect(dialogRule).toContain("0 10px 15px -3px rgb(0 0 0 / 5%)");
@@ -88,7 +105,11 @@ describe("theme boundaries", () => {
     expect(panelRule).not.toContain("box-shadow");
     expect(viewportRule).toContain("touch-action: none;");
     expect(dialogRule).toContain("transform: translateX(var(--drawer-swipe-movement-x));");
-    expect(footerMobileRule).toContain("min-height: 6rem;");
+    expect(footerRule).toContain("padding-block: 1.5rem;");
+    expect(footerInnerRule).toContain("justify-content: center;");
+    expect(appCss).not.toMatch(
+      /@media \(max-width: 39\.999rem\)[\s\S]*?\.footer-inner\s*\{[^}]*min-height:/,
+    );
   });
 
   test("routes the upstream header, CTA, and Introduction entry through /docs", async () => {
