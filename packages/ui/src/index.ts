@@ -234,6 +234,43 @@ export {
   type PaginationProps,
   Root as PaginationRoot,
 } from "./components/ui/pagination/index.js";
+export * as Popover from "./components/ui/popover/index.js";
+export {
+  PopoverClose,
+  type PopoverCloseProps,
+  PopoverContent,
+  PopoverCreateHandle,
+  PopoverDescription,
+  type PopoverDescriptionProps,
+  PopoverPopup,
+  type PopoverPopupProps,
+  type PopoverPortalProps,
+  PopoverPrimitive,
+  PopoverRoot,
+  type PopoverRootProps,
+  type PopoverRootState,
+  PopoverTitle,
+  type PopoverTitleProps,
+  PopoverTrigger,
+  type PopoverTriggerProps,
+  type PopoverTriggerState,
+} from "./components/ui/popover/index.js";
+export * as PreviewCard from "./components/ui/preview-card/index.js";
+export {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+  PreviewCardCreateHandle,
+  PreviewCardPopup,
+  type PreviewCardPopupProps,
+  type PreviewCardPortalProps,
+  PreviewCardPrimitive,
+  type PreviewCardRootProps,
+  type PreviewCardRootState,
+  PreviewCardTrigger,
+  type PreviewCardTriggerProps,
+  type PreviewCardTriggerState,
+} from "./components/ui/preview-card/index.js";
 export * as Progress from "./components/ui/progress/index.js";
 export {
   ProgressIndicator,
@@ -274,21 +311,21 @@ export { Skeleton, type SkeletonProps } from "./components/ui/skeleton/index.js"
 export * as Slider from "./components/ui/slider/index.js";
 export {
   Control as SliderControl,
-  type SliderControlProps,
   Indicator as SliderIndicator,
-  type SliderIndicatorProps,
   Label as SliderLabel,
+  type SliderControlProps,
+  type SliderIndicatorProps,
   type SliderLabelProps,
   SliderPrimitive,
   SliderRoot,
   type SliderRootProps,
-  Thumb as SliderThumb,
   type SliderThumbProps,
-  Track as SliderTrack,
   type SliderTrackProps,
   SliderValue,
   type SliderValueProps,
   type SliderValueType,
+  Thumb as SliderThumb,
+  Track as SliderTrack,
 } from "./components/ui/slider/index.js";
 export { Spinner, type SpinnerProps } from "./components/ui/spinner/index.js";
 export { Switch, SwitchPrimitive, type SwitchProps } from "./components/ui/switch/index.js";
@@ -365,4 +402,21 @@ export {
   type ToggleGroupStyleOptions,
   toggleGroupClasses,
 } from "./components/ui/toggle-group/index.js";
+export * as Tooltip from "./components/ui/tooltip/index.js";
+export {
+  TooltipContent,
+  TooltipCreateHandle,
+  TooltipPopup,
+  type TooltipPopupProps,
+  type TooltipPortalProps,
+  TooltipPrimitive,
+  TooltipProvider,
+  type TooltipProviderProps,
+  TooltipRoot,
+  type TooltipRootProps,
+  type TooltipRootState,
+  TooltipTrigger,
+  type TooltipTriggerProps,
+  type TooltipTriggerState,
+} from "./components/ui/tooltip/index.js";
 export { cn } from "./lib/utils.js";
