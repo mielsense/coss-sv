@@ -4,6 +4,7 @@ import {
   type PreviewWidth,
   previewWidths,
 } from "../../../apps/ui/src/routes/preview/[name]/preview-contract.js";
+import { createLocalPreviewOrigins, targetPreviewPort } from "./ports.js";
 
 type ConsoleGuard = {
   assertNoErrors: () => void;
@@ -18,16 +19,7 @@ type ExternalRequestGuard = {
 };
 
 export const fixedClockTime = "2026-01-15T12:00:00.000Z";
-export const localPreviewOrigins = new Set([
-  "http://127.0.0.1:4000",
-  "http://127.0.0.1:4173",
-  "http://localhost:4000",
-  "http://localhost:4173",
-  "ws://127.0.0.1:4000",
-  "ws://127.0.0.1:4173",
-  "ws://localhost:4000",
-  "ws://localhost:4173",
-]);
+export const localPreviewOrigins = createLocalPreviewOrigins(targetPreviewPort);
 
 const deterministicPages = new WeakMap<Page, ExternalRequestGuard>();
 

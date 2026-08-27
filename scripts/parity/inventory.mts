@@ -549,7 +549,8 @@ function isPlaceholderText(source: string) {
 }
 
 type TemplateNode = {
-  attributes?: unknown[];
+  alternate?: TemplateFragment | null;
+  attributes?: TemplateAttribute[];
   body?: TemplateFragment;
   catch?: TemplateFragment;
   consequent?: TemplateFragment;
@@ -559,21 +560,53 @@ type TemplateNode = {
   fragment?: TemplateFragment;
   name?: string;
   pending?: TemplateFragment;
+  test?: ExpressionNode;
   then?: TemplateFragment;
   type: string;
 };
 
 type TemplateFragment = { nodes?: TemplateNode[] };
 
+type TemplateAttribute = {
+  name?: string;
+  type?: string;
+  value?: boolean | TemplateNode[];
+};
+
 type ExpressionNode = {
+  alternate?: ExpressionNode;
+  argument?: ExpressionNode;
   callee?: ExpressionNode;
+  computed?: boolean;
+  consequent?: ExpressionNode;
+  declarations?: ExpressionNode[];
+  elements?: Array<ExpressionNode | null>;
   expression?: ExpressionNode;
   expressions?: ExpressionNode[];
+  id?: ExpressionNode;
+  init?: ExpressionNode | null;
+  kind?: string;
+  left?: ExpressionNode;
   name?: string;
+  object?: ExpressionNode;
   operator?: string;
+  optional?: boolean;
+  property?: ExpressionNode;
   quasis?: Array<{ value?: { cooked?: string | null; raw?: string } }>;
+  right?: ExpressionNode;
+  test?: ExpressionNode;
   type?: string;
   value?: unknown;
+};
+
+type ScriptNode = ExpressionNode & { body?: ScriptNode[] };
+
+type ConstantResult = { known: false } | { known: true; value: unknown };
+
+type RenderContext = {
+  bindings: Map<string, ExpressionNode>;
+  resolvingSnippets: Set<string>;
+  snippets: Map<string, TemplateFragment>;
 };
 
 type RenderEvidence = {
@@ -588,59 +621,194 @@ function mergeRenderEvidence(target: RenderEvidence, source: RenderEvidence) {
   target.text.push(...source.text);
 }
 
-function inspectExpression(expression: ExpressionNode | undefined): RenderEvidence {
-  const evidence: RenderEvidence = { dynamic: false, structural: false, text: [] };
-  if (!expression) return evidence;
+function constant(value: unknown): ConstantResult {
+  return { known: true, value };
+}
+
+function evaluateConstant(
+  expression: ExpressionNode | undefined,
+  bindings: Map<string, ExpressionNode>,
+  resolvingBindings = new Set<string>(),
+): ConstantResult {
+  if (!expression) return { known: false };
 
   if (expression.type === "Literal" || expression.type === "StringLiteral") {
-    if (typeof expression.value === "string") {
-      if (expression.value.length > 0) evidence.text.push(expression.value);
-    } else if (typeof expression.value === "number" || typeof expression.value === "bigint") {
-      evidence.text.push(String(expression.value));
-    }
-    return evidence;
+    return constant(expression.value);
   }
-
   if (expression.type === "Identifier") {
-    if (expression.name !== "undefined") evidence.dynamic = true;
-    return evidence;
+    if (expression.name === "undefined") return constant(undefined);
+    if (!expression.name || resolvingBindings.has(expression.name)) return { known: false };
+    const binding = bindings.get(expression.name);
+    if (!binding) return { known: false };
+    return evaluateConstant(binding, bindings, new Set(resolvingBindings).add(expression.name));
   }
-
+  if (expression.type === "ChainExpression") {
+    return evaluateConstant(expression.expression, bindings, resolvingBindings);
+  }
   if (expression.type === "TemplateLiteral") {
-    const expressions = expression.expressions ?? [];
-    const staticText = (expression.quasis ?? [])
-      .map((quasi) => quasi.value?.cooked ?? quasi.value?.raw ?? "")
-      .join("");
-    if (staticText.length > 0) evidence.text.push(staticText);
-    if (expressions.length > 0) evidence.dynamic = true;
-    return evidence;
+    const values = (expression.expressions ?? []).map((item) =>
+      evaluateConstant(item, bindings, resolvingBindings),
+    );
+    if (values.some((item) => !item.known)) return { known: false };
+    const quasis = expression.quasis ?? [];
+    let value = "";
+    for (const [index, quasi] of quasis.entries()) {
+      value += quasi.value?.cooked ?? quasi.value?.raw ?? "";
+      if (index < values.length) value += String(values[index]?.value ?? "");
+    }
+    return constant(value);
   }
-
+  if (expression.type === "ArrayExpression") {
+    const values = (expression.elements ?? []).map((item) =>
+      item ? evaluateConstant(item, bindings, resolvingBindings) : constant(undefined),
+    );
+    if (values.some((item) => !item.known)) return { known: false };
+    return constant(values.map((item) => item.value));
+  }
   if (expression.type === "UnaryExpression") {
-    if (expression.operator !== "void" && expression.operator !== "!") evidence.dynamic = true;
+    if (expression.operator === "void") return constant(undefined);
+    const argument = evaluateConstant(expression.argument, bindings, resolvingBindings);
+    if (!argument.known) return { known: false };
+    if (expression.operator === "!") return constant(!argument.value);
+    if (expression.operator === "+") return constant(Number(argument.value));
+    if (expression.operator === "-") return constant(-Number(argument.value));
+    if (expression.operator === "~") return constant(~Number(argument.value));
+    return { known: false };
+  }
+  if (expression.type === "LogicalExpression") {
+    const left = evaluateConstant(expression.left, bindings, resolvingBindings);
+    if (!left.known) return { known: false };
+    if (expression.operator === "&&") {
+      return left.value ? evaluateConstant(expression.right, bindings, resolvingBindings) : left;
+    }
+    if (expression.operator === "||") {
+      return left.value ? left : evaluateConstant(expression.right, bindings, resolvingBindings);
+    }
+    if (expression.operator === "??") {
+      return left.value === null || left.value === undefined
+        ? evaluateConstant(expression.right, bindings, resolvingBindings)
+        : left;
+    }
+    return { known: false };
+  }
+  if (expression.type === "ConditionalExpression") {
+    const test = evaluateConstant(expression.test, bindings, resolvingBindings);
+    if (!test.known) return { known: false };
+    return evaluateConstant(
+      test.value ? expression.consequent : expression.alternate,
+      bindings,
+      resolvingBindings,
+    );
+  }
+  if (expression.type === "BinaryExpression") {
+    const left = evaluateConstant(expression.left, bindings, resolvingBindings);
+    const right = evaluateConstant(expression.right, bindings, resolvingBindings);
+    if (!left.known || !right.known) return { known: false };
+    switch (expression.operator) {
+      case "===":
+        return constant(left.value === right.value);
+      case "!==":
+        return constant(left.value !== right.value);
+      case "<":
+        return constant((left.value as number) < (right.value as number));
+      case "<=":
+        return constant((left.value as number) <= (right.value as number));
+      case ">":
+        return constant((left.value as number) > (right.value as number));
+      case ">=":
+        return constant((left.value as number) >= (right.value as number));
+      case "+":
+        return constant((left.value as number) + (right.value as number));
+      case "-":
+        return constant(Number(left.value) - Number(right.value));
+      case "*":
+        return constant(Number(left.value) * Number(right.value));
+      case "/":
+        return constant(Number(left.value) / Number(right.value));
+      case "%":
+        return constant(Number(left.value) % Number(right.value));
+      default:
+        return { known: false };
+    }
+  }
+  if (expression.type === "MemberExpression") {
+    const object = evaluateConstant(expression.object, bindings, resolvingBindings);
+    if (object.known && (object.value === null || object.value === undefined)) {
+      return constant(undefined);
+    }
+    if (object.known) {
+      const property = expression.computed
+        ? evaluateConstant(expression.property, bindings, resolvingBindings)
+        : expression.property?.type === "Identifier"
+          ? constant(expression.property.name)
+          : { known: false as const };
+      if (property.known) {
+        if (
+          property.value === "length" &&
+          (typeof object.value === "string" || Array.isArray(object.value))
+        ) {
+          return constant(object.value.length);
+        }
+        if (Array.isArray(object.value) && typeof property.value === "number") {
+          return constant(object.value[property.value]);
+        }
+      }
+    }
+    return { known: false };
+  }
+  if (expression.type === "CallExpression") {
+    const callee = evaluateConstant(expression.callee, bindings, resolvingBindings);
+    if (callee.known && (callee.value === null || callee.value === undefined)) {
+      return constant(undefined);
+    }
+    return { known: false };
+  }
+  return { known: false };
+}
+
+function addVisibleText(evidence: RenderEvidence, value: string) {
+  if (value.trim() && !isPlaceholderText(value)) evidence.text.push(value);
+}
+
+function inspectExpression(
+  expression: ExpressionNode | undefined,
+  bindings: Map<string, ExpressionNode>,
+): RenderEvidence {
+  const evidence: RenderEvidence = { dynamic: false, structural: false, text: [] };
+  const result = evaluateConstant(expression, bindings);
+  if (!result.known) {
+    evidence.dynamic = true;
     return evidence;
   }
-
-  if (expression.type === "ChainExpression") return inspectExpression(expression.expression);
-
-  evidence.dynamic = true;
+  if (typeof result.value === "string") addVisibleText(evidence, result.value);
+  else if (typeof result.value === "number" || typeof result.value === "bigint") {
+    addVisibleText(evidence, String(result.value));
+  } else if (Array.isArray(result.value)) {
+    addVisibleText(evidence, result.value.join(","));
+  }
   return evidence;
 }
 
-function inspectHtmlExpression(expression: ExpressionNode | undefined): RenderEvidence {
-  const expressionEvidence = inspectExpression(expression);
-  if (expressionEvidence.dynamic || expressionEvidence.text.length === 0) return expressionEvidence;
-
-  const html = expressionEvidence.text.join("");
+function inspectHtmlExpression(
+  expression: ExpressionNode | undefined,
+  bindings: Map<string, ExpressionNode>,
+): RenderEvidence {
+  const result = evaluateConstant(expression, bindings);
+  if (!result.known) return { dynamic: true, structural: false, text: [] };
+  if (typeof result.value !== "string" && typeof result.value !== "number") {
+    return { dynamic: false, structural: false, text: [] };
+  }
+  const html = String(result.value);
   const visibleText = html
     .replaceAll(/<!--[\s\S]*?-->/g, " ")
+    .replaceAll(/<(script|style|head|template|title|noscript)\b[^>]*>[\s\S]*?<\/\1\s*>/gi, " ")
     .replaceAll(/<[^>]+>/g, " ")
     .replaceAll(/\s+/g, " ")
     .trim();
   return {
     dynamic: false,
-    structural: visibleText.length === 0 && /<[^>]+>/.test(html),
-    text: visibleText.length > 0 ? [visibleText] : [],
+    structural: false,
+    text: visibleText.length > 0 && !isPlaceholderText(visibleText) ? [visibleText] : [],
   };
 }
 
@@ -650,33 +818,127 @@ function renderedSnippetName(expression: ExpressionNode | undefined) {
   return unwrapped.callee?.type === "Identifier" ? unwrapped.callee.name : undefined;
 }
 
-function inspectTemplateFragment(fragment: TemplateFragment | undefined): RenderEvidence {
-  const evidence: RenderEvidence = { dynamic: false, structural: false, text: [] };
-  const localSnippets = new Map<string, RenderEvidence>();
+function staticAttributeValue(
+  attribute: TemplateAttribute,
+  bindings: Map<string, ExpressionNode>,
+): unknown {
+  if (attribute.value === true) return true;
+  if (!Array.isArray(attribute.value)) return undefined;
+  let value = "";
+  for (const node of attribute.value) {
+    if (node.type === "Text") value += node.data ?? "";
+    else if (node.type === "ExpressionTag") {
+      const expression = evaluateConstant(node.expression, bindings);
+      if (!expression.known) return undefined;
+      value += String(expression.value ?? "");
+    } else return undefined;
+  }
+  return value;
+}
+
+function isInertElement(node: TemplateNode, bindings: Map<string, ExpressionNode>) {
+  const attributes = new Map(
+    (node.attributes ?? [])
+      .filter((attribute) => attribute.type === "Attribute" && attribute.name)
+      .map((attribute) => [
+        attribute.name?.toLowerCase() ?? "",
+        staticAttributeValue(attribute, bindings),
+      ]),
+  );
+  const enabledBooleanAttribute = (name: string) => {
+    const value = attributes.get(name);
+    return value === true || value === "" || String(value).toLowerCase() === "true";
+  };
+  if (enabledBooleanAttribute("hidden") || enabledBooleanAttribute("inert")) return true;
+  if (String(attributes.get("aria-hidden")).toLowerCase() === "true") return true;
+  if (node.name === "input" && String(attributes.get("type")).toLowerCase() === "hidden") {
+    return true;
+  }
+  const style = String(attributes.get("style") ?? "")
+    .replaceAll(/\s+/g, "")
+    .toLowerCase();
+  return /(?:^|;)(?:display:none|visibility:hidden|content-visibility:hidden)(?:;|$)/.test(style);
+}
+
+function withLocalSnippets(fragment: TemplateFragment | undefined, context: RenderContext) {
+  const snippets = new Map(context.snippets);
   for (const node of fragment?.nodes ?? []) {
-    if (node.type === "SnippetBlock" && node.expression?.name) {
-      localSnippets.set(node.expression.name, inspectTemplateFragment(node.body));
+    if (node.type === "SnippetBlock" && node.expression?.name && node.body) {
+      snippets.set(node.expression.name, node.body);
     }
   }
+  return snippets;
+}
+
+function inspectTemplateFragment(
+  fragment: TemplateFragment | undefined,
+  context: RenderContext,
+): RenderEvidence {
+  const evidence: RenderEvidence = { dynamic: false, structural: false, text: [] };
+  const snippets = withLocalSnippets(fragment, context);
+  const nestedContext = { ...context, snippets };
 
   for (const node of fragment?.nodes ?? []) {
     if (node.type === "Text") {
-      if (node.data?.trim()) evidence.text.push(node.data);
+      if (node.data) addVisibleText(evidence, node.data);
       continue;
     }
     if (node.type === "ExpressionTag") {
-      mergeRenderEvidence(evidence, inspectExpression(node.expression));
+      mergeRenderEvidence(evidence, inspectExpression(node.expression, context.bindings));
       continue;
     }
     if (node.type === "HtmlTag") {
-      mergeRenderEvidence(evidence, inspectHtmlExpression(node.expression));
+      mergeRenderEvidence(evidence, inspectHtmlExpression(node.expression, context.bindings));
       continue;
     }
     if (node.type === "RenderTag") {
       const snippetName = renderedSnippetName(node.expression);
-      const localSnippet = snippetName ? localSnippets.get(snippetName) : undefined;
-      if (localSnippet) mergeRenderEvidence(evidence, localSnippet);
-      else mergeRenderEvidence(evidence, inspectExpression(node.expression));
+      const snippet = snippetName ? snippets.get(snippetName) : undefined;
+      if (snippet && snippetName && !context.resolvingSnippets.has(snippetName)) {
+        mergeRenderEvidence(
+          evidence,
+          inspectTemplateFragment(snippet, {
+            ...nestedContext,
+            resolvingSnippets: new Set(context.resolvingSnippets).add(snippetName),
+          }),
+        );
+      } else if (snippet && snippetName) {
+        evidence.dynamic = true;
+      } else {
+        mergeRenderEvidence(evidence, inspectExpression(node.expression, context.bindings));
+      }
+      continue;
+    }
+    if (node.type === "SvelteHead" || node.type === "TitleElement") continue;
+    if (node.type === "IfBlock") {
+      const test = evaluateConstant(node.test, context.bindings);
+      if (test.known) {
+        mergeRenderEvidence(
+          evidence,
+          inspectTemplateFragment(
+            test.value ? node.consequent : (node.alternate ?? undefined),
+            nestedContext,
+          ),
+        );
+      } else {
+        mergeRenderEvidence(evidence, inspectTemplateFragment(node.consequent, nestedContext));
+        mergeRenderEvidence(
+          evidence,
+          inspectTemplateFragment(node.alternate ?? undefined, nestedContext),
+        );
+      }
+      continue;
+    }
+    if (node.type === "EachBlock") {
+      const collection = evaluateConstant(node.expression, context.bindings);
+      if (collection.known && Array.isArray(collection.value) && collection.value.length === 0) {
+        mergeRenderEvidence(evidence, inspectTemplateFragment(node.fallback, nestedContext));
+      } else {
+        mergeRenderEvidence(evidence, inspectTemplateFragment(node.body, nestedContext));
+        if (!collection.known) {
+          mergeRenderEvidence(evidence, inspectTemplateFragment(node.fallback, nestedContext));
+        }
+      }
       continue;
     }
     if (
@@ -690,7 +952,8 @@ function inspectTemplateFragment(fragment: TemplateFragment | undefined): Render
       continue;
     }
     if (node.type === "RegularElement") {
-      const childEvidence = inspectTemplateFragment(node.fragment);
+      if (isInertElement(node, context.bindings)) continue;
+      const childEvidence = inspectTemplateFragment(node.fragment, nestedContext);
       mergeRenderEvidence(evidence, childEvidence);
       if (
         childEvidence.text.length === 0 &&
@@ -722,21 +985,51 @@ function inspectTemplateFragment(fragment: TemplateFragment | undefined): Render
       node.pending,
       node.then,
     ]) {
-      mergeRenderEvidence(evidence, inspectTemplateFragment(child));
+      mergeRenderEvidence(evidence, inspectTemplateFragment(child, nestedContext));
     }
   }
   return evidence;
+}
+
+function addConstBindings(
+  bindings: Map<string, ExpressionNode>,
+  script: { content?: ScriptNode } | null | undefined,
+) {
+  for (const statement of script?.content?.body ?? []) {
+    if (statement.type !== "VariableDeclaration" || statement.kind !== "const") continue;
+    for (const declaration of statement.declarations ?? []) {
+      if (declaration.id?.type === "Identifier" && declaration.id.name && declaration.init) {
+        bindings.set(declaration.id.name, declaration.init);
+      }
+    }
+  }
+}
+
+function collectConstBindings(
+  instance: { content?: ScriptNode } | null | undefined,
+  module: { content?: ScriptNode } | null | undefined,
+) {
+  const bindings = new Map<string, ExpressionNode>();
+  addConstBindings(bindings, module);
+  addConstBindings(bindings, instance);
+  return bindings;
 }
 
 function hasAuthoredSvelteContent(path: string) {
   if (isGeneratedSourceName(path)) return false;
   const source = readFileSync(path, "utf8");
   try {
-    const ast = parse(source, { modern: true }) as { fragment: TemplateFragment };
-    const evidence = inspectTemplateFragment(ast.fragment);
-    const visibleText = evidence.text.join(" ").trim();
-    if (visibleText.length > 0) return !isPlaceholderText(visibleText);
-    return evidence.dynamic || evidence.structural;
+    const ast = parse(source, { modern: true }) as {
+      fragment: TemplateFragment;
+      instance?: { content?: ScriptNode } | null;
+      module?: { content?: ScriptNode } | null;
+    };
+    const evidence = inspectTemplateFragment(ast.fragment, {
+      bindings: collectConstBindings(ast.instance, ast.module),
+      resolvingSnippets: new Set(),
+      snippets: new Map(),
+    });
+    return evidence.text.length > 0 || evidence.dynamic || evidence.structural;
   } catch {
     return false;
   }

@@ -1,8 +1,9 @@
 import { delimiter, dirname } from "node:path";
 import { defineConfig, devices } from "@playwright/test";
+import { targetPreviewBaseUrl, targetPreviewPort } from "./tests/e2e/helpers/ports.js";
 
 export const referenceBaseUrl = "http://127.0.0.1:4000/ui";
-export const targetBaseUrl = "http://127.0.0.1:4173";
+export const targetBaseUrl = targetPreviewBaseUrl(targetPreviewPort);
 
 const referenceCommand =
   // biome-ignore lint/suspicious/noUndeclaredEnvVars: CI may override the pnpm-only temporary reference launcher.
@@ -21,8 +22,7 @@ const webServer = [
     timeout: 300_000,
   },
   {
-    command:
-      "pnpm --filter @coss-sv/ui build && pnpm --filter @coss-sv/docs build && pnpm --filter @coss-sv/docs preview --host 127.0.0.1 --port 4173",
+    command: `pnpm --filter @coss-sv/ui build && pnpm --filter @coss-sv/docs build && pnpm --filter @coss-sv/docs preview --host 127.0.0.1 --port ${targetPreviewPort}`,
     env: webServerEnvironment,
     url: `${targetBaseUrl}/preview/_health`,
     reuseExistingServer: !process.env.CI,

@@ -12,4 +12,6 @@ pnpm test:e2e --grep "preview harness"
 
 Playwright uses the launcher by default. CI may set `COSS_REFERENCE_COMMAND` to another pnpm-only command when its checkout layout requires one.
 
-The reference app is available at `http://127.0.0.1:4000/ui`; its Next.js `basePath` makes the bare port return a not-found page. The Svelte preview runs on port 4173. Do not run `pnpm install` inside `reference/`, and do not edit or regenerate the reference lockfile.
+The reference app is available at `http://127.0.0.1:4000/ui`; its Next.js `basePath` makes the bare port return a not-found page. The Svelte preview defaults to port 4173. Set `COSS_TARGET_PREVIEW_PORT=4174` when that port is already in use. Playwright uses the selected port for the server command, browser base URL, and local network allowlist.
+
+Do not run `pnpm install` inside `reference/`, and do not edit or regenerate the reference lockfile.
