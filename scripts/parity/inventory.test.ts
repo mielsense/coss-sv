@@ -385,6 +385,100 @@ test("rejects each inert component source laundering shape independently", () =>
   }
 });
 
+test("rejects inert Svelte expressions without rejecting authored dynamic output", () => {
+  const fixtures = promotedTargetFixtures.filter(
+    (
+      fixture,
+    ): fixture is (typeof promotedTargetFixtures)[number] & {
+      kind: "component" | "particle";
+    } => fixture.kind === "component" || fixture.kind === "particle",
+  );
+  const inertSources = [
+    "<div>TODO {undefined}</div>\n",
+    "<div>TODO {false}</div>\n",
+    "<div>TODO {null}</div>\n",
+    "TODO {false}\n",
+    "TODO {null}\n",
+    "<div>{undefined}</div>\n",
+    "<div>{false}</div>\n",
+    "<div>{null}</div>\n",
+    '<div>{""}</div>\n',
+    "{@html ''}\n",
+    "{@html undefined}\n",
+    "{@html false}\n",
+    "{@html null}\n",
+    '{@html "<p>TODO</p>"}\n',
+    '<div>{@html ""}</div>\n',
+    "{#snippet empty()}{/snippet}\n",
+    "{#snippet empty()}{/snippet}\n{@render empty()}\n",
+    "{#snippet inert()}<div>{false}</div>{/snippet}\n{@render inert()}\n",
+  ] as const;
+  const authoredSources = [
+    "<button>Save changes</button>\n",
+    '<script lang="ts">const value = "Ready";</script>\n<div>{value}</div>\n',
+    '<script lang="ts">const content = "<strong>Ready</strong>";</script>\n{@html content}\n',
+    "{#snippet control()}<button>Save changes</button>{/snippet}\n{@render control()}\n",
+    "{@render children?.()}\n",
+    '<div class="spinner" aria-label="Loading"></div>\n',
+    "<DynamicControl />\n",
+  ] as const;
+
+  for (const fixture of fixtures) {
+    for (const [index, source] of inertSources.entries()) {
+      const root = mkdtempSync(join(tmpdir(), `coss-sv-${fixture.kind}-inert-expression-`));
+      try {
+        writeFixtureManifest(root, fixture);
+        const target = join(root, fixture.targetPath);
+        if (fixture.kind === "component") {
+          mkdirSync(target, { recursive: true });
+          writeFileSync(join(target, "root.svelte"), source);
+        } else {
+          mkdirSync(dirname(target), { recursive: true });
+          writeFileSync(target, source);
+        }
+        assert.throws(
+          () =>
+            validateTargetManifestParity(
+              [fixtureEntry(fixture)],
+              collectTargetManifests(root),
+              root,
+            ),
+          new RegExp(`${fixture.kind}:${fixture.id}.*not a real authored target`, "s"),
+          `${fixture.kind} inert expression ${index}: ${source.trim()}`,
+        );
+      } finally {
+        rmSync(root, { recursive: true, force: true });
+      }
+    }
+
+    for (const [index, source] of authoredSources.entries()) {
+      const root = mkdtempSync(join(tmpdir(), `coss-sv-${fixture.kind}-authored-expression-`));
+      try {
+        writeFixtureManifest(root, fixture);
+        const target = join(root, fixture.targetPath);
+        if (fixture.kind === "component") {
+          mkdirSync(target, { recursive: true });
+          writeFileSync(join(target, "root.svelte"), source);
+        } else {
+          mkdirSync(dirname(target), { recursive: true });
+          writeFileSync(target, source);
+        }
+        assert.doesNotThrow(
+          () =>
+            validateTargetManifestParity(
+              [fixtureEntry(fixture)],
+              collectTargetManifests(root),
+              root,
+            ),
+          `${fixture.kind} authored expression ${index}: ${source.trim()}`,
+        );
+      } finally {
+        rmSync(root, { recursive: true, force: true });
+      }
+    }
+  }
+});
+
 test("rejects canonical manifest symlinks and realpath escapes", () => {
   for (const definition of targetManifestDefinitions) {
     const root = mkdtempSync(join(tmpdir(), `coss-sv-${definition.kind}-manifest-link-`));

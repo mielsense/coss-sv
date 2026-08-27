@@ -554,7 +554,7 @@ type TemplateNode = {
   catch?: TemplateFragment;
   consequent?: TemplateFragment;
   data?: string;
-  expression?: { type?: string; value?: unknown };
+  expression?: ExpressionNode;
   fallback?: TemplateFragment;
   fragment?: TemplateFragment;
   name?: string;
@@ -564,6 +564,17 @@ type TemplateNode = {
 };
 
 type TemplateFragment = { nodes?: TemplateNode[] };
+
+type ExpressionNode = {
+  callee?: ExpressionNode;
+  expression?: ExpressionNode;
+  expressions?: ExpressionNode[];
+  name?: string;
+  operator?: string;
+  quasis?: Array<{ value?: { cooked?: string | null; raw?: string } }>;
+  type?: string;
+  value?: unknown;
+};
 
 type RenderEvidence = {
   dynamic: boolean;
@@ -577,23 +588,95 @@ function mergeRenderEvidence(target: RenderEvidence, source: RenderEvidence) {
   target.text.push(...source.text);
 }
 
+function inspectExpression(expression: ExpressionNode | undefined): RenderEvidence {
+  const evidence: RenderEvidence = { dynamic: false, structural: false, text: [] };
+  if (!expression) return evidence;
+
+  if (expression.type === "Literal" || expression.type === "StringLiteral") {
+    if (typeof expression.value === "string") {
+      if (expression.value.length > 0) evidence.text.push(expression.value);
+    } else if (typeof expression.value === "number" || typeof expression.value === "bigint") {
+      evidence.text.push(String(expression.value));
+    }
+    return evidence;
+  }
+
+  if (expression.type === "Identifier") {
+    if (expression.name !== "undefined") evidence.dynamic = true;
+    return evidence;
+  }
+
+  if (expression.type === "TemplateLiteral") {
+    const expressions = expression.expressions ?? [];
+    const staticText = (expression.quasis ?? [])
+      .map((quasi) => quasi.value?.cooked ?? quasi.value?.raw ?? "")
+      .join("");
+    if (staticText.length > 0) evidence.text.push(staticText);
+    if (expressions.length > 0) evidence.dynamic = true;
+    return evidence;
+  }
+
+  if (expression.type === "UnaryExpression") {
+    if (expression.operator !== "void" && expression.operator !== "!") evidence.dynamic = true;
+    return evidence;
+  }
+
+  if (expression.type === "ChainExpression") return inspectExpression(expression.expression);
+
+  evidence.dynamic = true;
+  return evidence;
+}
+
+function inspectHtmlExpression(expression: ExpressionNode | undefined): RenderEvidence {
+  const expressionEvidence = inspectExpression(expression);
+  if (expressionEvidence.dynamic || expressionEvidence.text.length === 0) return expressionEvidence;
+
+  const html = expressionEvidence.text.join("");
+  const visibleText = html
+    .replaceAll(/<!--[\s\S]*?-->/g, " ")
+    .replaceAll(/<[^>]+>/g, " ")
+    .replaceAll(/\s+/g, " ")
+    .trim();
+  return {
+    dynamic: false,
+    structural: visibleText.length === 0 && /<[^>]+>/.test(html),
+    text: visibleText.length > 0 ? [visibleText] : [],
+  };
+}
+
+function renderedSnippetName(expression: ExpressionNode | undefined) {
+  const unwrapped = expression?.type === "ChainExpression" ? expression.expression : expression;
+  if (unwrapped?.type !== "CallExpression") return undefined;
+  return unwrapped.callee?.type === "Identifier" ? unwrapped.callee.name : undefined;
+}
+
 function inspectTemplateFragment(fragment: TemplateFragment | undefined): RenderEvidence {
   const evidence: RenderEvidence = { dynamic: false, structural: false, text: [] };
+  const localSnippets = new Map<string, RenderEvidence>();
+  for (const node of fragment?.nodes ?? []) {
+    if (node.type === "SnippetBlock" && node.expression?.name) {
+      localSnippets.set(node.expression.name, inspectTemplateFragment(node.body));
+    }
+  }
+
   for (const node of fragment?.nodes ?? []) {
     if (node.type === "Text") {
       if (node.data?.trim()) evidence.text.push(node.data);
       continue;
     }
     if (node.type === "ExpressionTag") {
-      const expression = node.expression;
-      if (
-        (expression?.type === "Literal" || expression?.type === "StringLiteral") &&
-        typeof expression.value === "string"
-      ) {
-        evidence.text.push(expression.value);
-      } else {
-        evidence.dynamic = true;
-      }
+      mergeRenderEvidence(evidence, inspectExpression(node.expression));
+      continue;
+    }
+    if (node.type === "HtmlTag") {
+      mergeRenderEvidence(evidence, inspectHtmlExpression(node.expression));
+      continue;
+    }
+    if (node.type === "RenderTag") {
+      const snippetName = renderedSnippetName(node.expression);
+      const localSnippet = snippetName ? localSnippets.get(snippetName) : undefined;
+      if (localSnippet) mergeRenderEvidence(evidence, localSnippet);
+      else mergeRenderEvidence(evidence, inspectExpression(node.expression));
       continue;
     }
     if (
@@ -601,8 +684,6 @@ function inspectTemplateFragment(fragment: TemplateFragment | undefined): Render
       node.type === "SvelteComponent" ||
       node.type === "SvelteElement" ||
       node.type === "SvelteSelf" ||
-      node.type === "RenderTag" ||
-      node.type === "HtmlTag" ||
       node.type === "SlotElement"
     ) {
       evidence.dynamic = true;
@@ -654,8 +735,8 @@ function hasAuthoredSvelteContent(path: string) {
     const ast = parse(source, { modern: true }) as { fragment: TemplateFragment };
     const evidence = inspectTemplateFragment(ast.fragment);
     const visibleText = evidence.text.join(" ").trim();
-    if (visibleText.length > 0 && !isPlaceholderText(visibleText)) return true;
-    return evidence.dynamic || (visibleText.length === 0 && evidence.structural);
+    if (visibleText.length > 0) return !isPlaceholderText(visibleText);
+    return evidence.dynamic || evidence.structural;
   } catch {
     return false;
   }
