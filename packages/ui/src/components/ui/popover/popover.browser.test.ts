@@ -1,6 +1,5 @@
-import { afterEach, describe, expect, test } from "vitest";
 import { hydrate, unmount } from "svelte";
-import { vi } from "vitest";
+import { afterEach, describe, expect, test, vi } from "vitest";
 import { page, userEvent } from "vitest/browser";
 import { render } from "vitest-browser-svelte";
 import Fixture from "./popover.browser-fixture.svelte";

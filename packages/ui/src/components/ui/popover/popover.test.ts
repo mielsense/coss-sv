@@ -1,7 +1,7 @@
 import { render } from "svelte/server";
 import { describe, expect, test } from "vitest";
-import PopoverSsrFixture from "./popover.ssr-fixture.svelte";
 import * as Popover from "./index.js";
+import PopoverSsrFixture from "./popover.ssr-fixture.svelte";
 
 describe("Popover SSR contract", () => {
   test("exports the compound surface and renders a stable trigger", () => {

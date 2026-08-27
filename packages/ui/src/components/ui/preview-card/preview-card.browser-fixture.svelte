@@ -1,5 +1,6 @@
 <script lang="ts">
 import * as PreviewCard from "./index.js";
+
 let portalTarget = $state<HTMLElement | null>(null);
 </script>
 <div bind:this={portalTarget} data-testid="preview-portal"></div>

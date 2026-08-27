@@ -4,6 +4,7 @@ import { page, userEvent } from "vitest/browser";
 import { render } from "vitest-browser-svelte";
 import Fixture from "./preview-card.browser-fixture.svelte";
 import SsrFixture from "./preview-card.ssr-fixture.svelte";
+
 afterEach(() => {
   document.body.innerHTML = "";
 });

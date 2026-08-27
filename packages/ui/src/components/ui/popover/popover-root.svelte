@@ -1,16 +1,7 @@
-<script module lang="ts">
-import type { Popover as ShardsPopover } from "@shardsui/svelte";
-import type { ComponentProps } from "svelte";
-
-export type PopoverRootProps = Omit<ComponentProps<typeof ShardsPopover.Root>, "open"> & {
-  defaultOpen?: boolean;
-  open?: boolean | undefined;
-};
-</script>
-
-<script lang="ts">
+<script lang="ts" generics="Payload = unknown">
 import { Popover as PopoverPrimitive } from "@shardsui/svelte";
 import { untrack } from "svelte";
+import type { PopoverRootProps } from "./popover.types.js";
 
 let {
   children: child,
@@ -19,7 +10,7 @@ let {
   open = $bindable(),
   triggerId = $bindable(null),
   ...props
-}: PopoverRootProps = $props();
+}: PopoverRootProps<Payload> = $props();
 
 const initialOpen = untrack(() => defaultOpen ?? false);
 const getOpen = () => open ?? initialOpen;

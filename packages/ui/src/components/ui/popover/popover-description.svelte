@@ -6,6 +6,7 @@ export type PopoverDescriptionProps = ComponentProps<typeof ShardsPopover.Descri
 <script lang="ts">
 import { Popover as PopoverPrimitive } from "@shardsui/svelte";
 import { cn } from "$lib/utils.js";
+
 let {
   class: className,
   children: child,

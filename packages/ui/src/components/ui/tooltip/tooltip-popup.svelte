@@ -1,6 +1,7 @@
 <script module lang="ts">
 import type { Tooltip as ShardsTooltip } from "@shardsui/svelte";
 import type { ComponentProps, Snippet } from "svelte";
+
 type PopupProps = ComponentProps<typeof ShardsTooltip.Popup>;
 type PositionerProps = ComponentProps<typeof ShardsTooltip.Positioner>;
 export type TooltipPortalProps = ComponentProps<typeof ShardsTooltip.Portal>;
@@ -17,6 +18,7 @@ export type TooltipPopupProps = Omit<PopupProps, "children"> & {
 import { Tooltip as TooltipPrimitive } from "@shardsui/svelte";
 import { cn } from "$lib/utils.js";
 import { getTooltipHandleContext } from "./context.js";
+
 const uid = $props.id();
 let {
   align = "center",

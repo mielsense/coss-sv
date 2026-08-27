@@ -1,6 +1,9 @@
 <script lang="ts">
+import * as ToggleGroup from "../toggle-group/index.js";
 import * as Tooltip from "./index.js";
+
 let portalTarget = $state<HTMLElement | null>(null);
+let grouped = $state<readonly string[]>(["bold"]);
 </script>
 <div bind:this={portalTarget} data-testid="tooltip-portal"></div>
 <Tooltip.Provider delay={0} timeout={400}>
@@ -23,3 +26,19 @@ let portalTarget = $state<HTMLElement | null>(null);
   <Tooltip.Trigger data-testid="disabled-tip" delay={0}>Disabled action</Tooltip.Trigger>
   <Tooltip.Popup>Disabled hint</Tooltip.Popup>
 </Tooltip.Root>
+
+<ToggleGroup.Root bind:value={grouped} multiple>
+  <Tooltip.Root>
+    <Tooltip.Trigger
+      aria-pressed={grouped.includes("bold")}
+      data-testid="grouped-tooltip-trigger"
+      onclick={() =>
+        (grouped = grouped.includes("bold")
+          ? grouped.filter((value) => value !== "bold")
+          : [...grouped, "bold"])}
+      >Bold</Tooltip.Trigger
+    >
+    <Tooltip.Popup>Toggle bold</Tooltip.Popup>
+  </Tooltip.Root>
+</ToggleGroup.Root>
+<output data-testid="grouped-tooltip-value">{grouped.join(",")}</output>

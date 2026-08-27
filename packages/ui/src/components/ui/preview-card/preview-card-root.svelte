@@ -1,14 +1,8 @@
-<script module lang="ts">
-import type { PreviewCard as ShardsPreviewCard } from "@shardsui/svelte";
-import type { ComponentProps } from "svelte";
-export type PreviewCardRootProps = Omit<ComponentProps<typeof ShardsPreviewCard.Root>, "open"> & {
-  defaultOpen?: boolean;
-  open?: boolean | undefined;
-};
-</script>
-<script lang="ts">
+<script lang="ts" generics="Payload = unknown">
 import { PreviewCard as PreviewCardPrimitive } from "@shardsui/svelte";
 import { untrack } from "svelte";
+import type { PreviewCardRootProps } from "./preview-card.types.js";
+
 let {
   children: child,
   defaultOpen,
@@ -16,7 +10,7 @@ let {
   open = $bindable(),
   triggerId = $bindable(null),
   ...props
-}: PreviewCardRootProps = $props();
+}: PreviewCardRootProps<Payload> = $props();
 const initialOpen = untrack(() => defaultOpen ?? false);
 const getOpen = () => open ?? initialOpen;
 function setOpen(next: boolean) {

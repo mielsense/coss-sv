@@ -4,6 +4,7 @@ import { page, userEvent } from "vitest/browser";
 import { render } from "vitest-browser-svelte";
 import Fixture from "./tooltip.browser-fixture.svelte";
 import SsrFixture from "./tooltip.ssr-fixture.svelte";
+
 afterEach(() => {
   document.body.innerHTML = "";
 });
@@ -55,6 +56,17 @@ describe("Tooltip browser contract", () => {
 
     await expect.element(page.getByText("Disabled hint")).not.toBeInTheDocument();
     await expect.element(page.getByTestId("disabled-tip")).toHaveAttribute("data-trigger-disabled");
+  });
+
+  test("composes inside a controlled toggle group without ownership diagnostics", async () => {
+    const warning = vi.spyOn(console, "warn").mockImplementation(() => undefined);
+    render(Fixture);
+
+    await page.getByTestId("grouped-tooltip-trigger").click();
+    await expect.element(page.getByTestId("grouped-tooltip-value")).toHaveTextContent("");
+    expect(warning.mock.calls.flat().join("\n")).not.toContain("ownership_invalid_binding");
+
+    warning.mockRestore();
   });
 
   test("hydrates the exact server-rendered tree without diagnostics", async () => {

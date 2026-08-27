@@ -1,5 +1,6 @@
 <script lang="ts">
-import { Group, ToggleGroup, Tooltip, buttonVariants, toggleVariants } from "@coss-sv/ui";
+import { buttonVariants, Group, ToggleGroup, Tooltip, toggleVariants } from "@coss-sv/ui";
+
 const animated = Tooltip.TooltipCreateHandle<string>();
 const vertical = Tooltip.TooltipCreateHandle<string>();
 let grouped = $state(["bold"]);
@@ -40,7 +41,7 @@ function moveToggleFocus(event: KeyboardEvent): void {
   </section>
   <section data-particle="p-tooltip-2">
     <Tooltip.Provider
-      ><ToggleGroup.Root multiple value={grouped}
+      ><ToggleGroup.Root bind:value={grouped} multiple
         ><Tooltip.Root
           ><Tooltip.Trigger
             aria-label="Toggle bold"
@@ -51,7 +52,7 @@ function moveToggleFocus(event: KeyboardEvent): void {
             data-tooltip-toggle=""
             onclick={() => (grouped = toggle(grouped, "bold"))}
             onkeydown={moveToggleFocus}
-            tabindex="0"
+            tabindex={0}
             >{@render boldIcon()}</Tooltip.Trigger
           ><Tooltip.Popup>Bold</Tooltip.Popup></Tooltip.Root
         ><Tooltip.Root
@@ -64,7 +65,7 @@ function moveToggleFocus(event: KeyboardEvent): void {
             data-tooltip-toggle=""
             onclick={() => (grouped = toggle(grouped, "italic"))}
             onkeydown={moveToggleFocus}
-            tabindex="-1"
+            tabindex={-1}
             >{@render italicIcon()}</Tooltip.Trigger
           ><Tooltip.Popup>Italic</Tooltip.Popup></Tooltip.Root
         ><Tooltip.Root
@@ -77,7 +78,7 @@ function moveToggleFocus(event: KeyboardEvent): void {
             data-tooltip-toggle=""
             onclick={() => (grouped = toggle(grouped, "underline"))}
             onkeydown={moveToggleFocus}
-            tabindex="-1"
+            tabindex={-1}
             >{@render underlineIcon()}</Tooltip.Trigger
           ><Tooltip.Popup>Underline</Tooltip.Popup></Tooltip.Root
         ></ToggleGroup.Root
@@ -86,7 +87,7 @@ function moveToggleFocus(event: KeyboardEvent): void {
   </section>
   <section data-particle="p-tooltip-3">
     <Tooltip.Provider
-      ><ToggleGroup.Root multiple value={detached}
+      ><ToggleGroup.Root bind:value={detached} multiple
         ><Tooltip.Trigger
           aria-label="Toggle bold"
           aria-pressed={detached.includes("bold")}
@@ -98,7 +99,7 @@ function moveToggleFocus(event: KeyboardEvent): void {
           onclick={() => (detached = toggle(detached, "bold"))}
           onkeydown={moveToggleFocus}
           payload="Make text bold"
-          tabindex="0"
+          tabindex={0}
           >{@render boldIcon()}</Tooltip.Trigger
         ><Tooltip.Trigger
           aria-label="Toggle italic"
@@ -111,7 +112,7 @@ function moveToggleFocus(event: KeyboardEvent): void {
           onclick={() => (detached = toggle(detached, "italic"))}
           onkeydown={moveToggleFocus}
           payload="Apply italic formatting to text"
-          tabindex="-1"
+          tabindex={-1}
           >{@render italicIcon()}</Tooltip.Trigger
         ><Tooltip.Trigger
           aria-label="Toggle underline"
@@ -124,7 +125,7 @@ function moveToggleFocus(event: KeyboardEvent): void {
           onclick={() => (detached = toggle(detached, "underline"))}
           onkeydown={moveToggleFocus}
           payload="Underline text"
-          tabindex="-1"
+          tabindex={-1}
           >{@render underlineIcon()}</Tooltip.Trigger
         ></ToggleGroup.Root
       ><Tooltip.Root handle={animated}

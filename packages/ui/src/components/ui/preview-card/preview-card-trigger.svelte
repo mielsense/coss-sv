@@ -1,11 +1,12 @@
-<script module lang="ts">
-import type { PreviewCard as ShardsPreviewCard } from "@shardsui/svelte";
-import type { ComponentProps } from "svelte";
-export type PreviewCardTriggerProps = ComponentProps<typeof ShardsPreviewCard.Trigger>;
-</script>
-<script lang="ts">
+<script lang="ts" generics="Payload = unknown">
 import { PreviewCard as PreviewCardPrimitive } from "@shardsui/svelte";
-let { children: child, ref = $bindable(null), ...props }: PreviewCardTriggerProps = $props();
+import type { PreviewCardTriggerProps } from "./preview-card.types.js";
+
+let {
+  children: child,
+  ref = $bindable(null),
+  ...props
+}: PreviewCardTriggerProps<Payload> = $props();
 </script>
 <PreviewCardPrimitive.Trigger bind:ref data-slot="preview-card-trigger" {...props}>
   {#snippet children(state)}

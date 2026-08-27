@@ -1,9 +1,10 @@
-import { expect, test } from "vitest";
-import type {
-  TooltipPopupProps,
-  TooltipProviderProps,
-  TooltipRootProps,
-  TooltipTriggerProps,
+import { expect, expectTypeOf, test } from "vitest";
+import {
+  TooltipCreateHandle,
+  type TooltipPopupProps,
+  type TooltipProviderProps,
+  type TooltipRootProps,
+  type TooltipTriggerProps,
 } from "./index.js";
 
 test("types provider delays, root state, trigger behavior, portals, and placement", () => {
@@ -31,4 +32,26 @@ test("types provider delays, root state, trigger behavior, portals, and placemen
   expect(root.trackCursorAxis).toBe("x");
   expect(trigger.closeOnClick).toBe(false);
   expect(popup.side).toBe("right");
+});
+
+test("preserves detached payload types across triggers and root children", () => {
+  const handle = TooltipCreateHandle<string>();
+  const trigger = { handle, payload: "Helpful hint" } satisfies TooltipTriggerProps<string>;
+  const root = {
+    defaultOpen: true,
+    handle,
+    open: false,
+    triggerId: "format-tooltip",
+  } satisfies TooltipRootProps<string>;
+  const wrongTrigger: TooltipTriggerProps<string> = {
+    handle,
+    // @ts-expect-error a string handle rejects number payloads
+    payload: 42,
+  };
+
+  type RootState = Parameters<NonNullable<TooltipRootProps<string>["children"]>>[0];
+  expectTypeOf<RootState>().toEqualTypeOf<{ payload: string | undefined }>();
+  expect(trigger.payload).toBe("Helpful hint");
+  expect(root.triggerId).toBe("format-tooltip");
+  expect(wrongTrigger.payload).toBe(42);
 });

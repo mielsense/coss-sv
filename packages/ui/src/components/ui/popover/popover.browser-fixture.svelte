@@ -1,5 +1,6 @@
 <script lang="ts">
 import * as Popover from "./index.js";
+
 let open = $state(false);
 let changes = $state(0);
 let portalTarget = $state<HTMLElement | null>(null);
