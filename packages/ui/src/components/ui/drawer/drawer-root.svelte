@@ -1,10 +1,15 @@
 <script module lang="ts">
 import type { Drawer as ShardsP } from "@shardsui/svelte";
-import type { ComponentProps } from "svelte";
+import type { ComponentProps, Snippet } from "svelte";
 import type { DrawerPosition } from "./context.js";
-export type DrawerRootProps = ComponentProps<typeof ShardsP.Root> & { position?: DrawerPosition };
+type PrimitiveRootProps = ComponentProps<typeof ShardsP.Root>;
+export type DrawerRootProps<Payload = unknown> = Omit<PrimitiveRootProps, "children" | "handle"> & {
+  position?: DrawerPosition;
+  handle?: ShardsP.Handle<Payload>;
+  children?: Snippet<[{ payload: Payload | undefined }]>;
+};
 </script>
-<script lang="ts">
+<script lang="ts" generics="Payload = unknown">
 import { Drawer as P } from "@shardsui/svelte";
 import { setDrawerPositionContext } from "./context.js";
 let {
@@ -15,7 +20,7 @@ let {
   swipeDirection,
   triggerId = $bindable(null),
   ...props
-}: DrawerRootProps = $props();
+}: DrawerRootProps<Payload> = $props();
 const direction = $derived(
   swipeDirection ??
     ({ bottom: "down", left: "left", right: "right", top: "up" } as const)[position],

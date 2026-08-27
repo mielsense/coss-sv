@@ -3,6 +3,7 @@ import { afterEach, describe, expect, test, vi } from "vitest";
 import { page, userEvent } from "vitest/browser";
 import { render } from "vitest-browser-svelte";
 import Fixture from "./dialog.browser-fixture.svelte";
+import AdvancedFixture from "./dialog-advanced.browser-fixture.svelte";
 import HydrationFixture from "./dialog.hydration-fixture.svelte";
 import { dialogSsrHtml } from "./dialog.hydration-html.js";
 
@@ -11,6 +12,46 @@ afterEach(() => {
 });
 
 describe("Dialog browser contract", () => {
+  test("supports detached payloads and controlled close veto", async () => {
+    render(AdvancedFixture);
+    await page.getByRole("button", { name: "Open detached" }).click();
+    await expect.element(page.getByRole("dialog", { name: "Detached dialog" })).toBeVisible();
+    await expect.element(page.getByText("Detached payload")).toBeVisible();
+    document.querySelector<HTMLButtonElement>('[data-slot="dialog-close"]')?.click();
+
+    await page.getByRole("button", { name: "Open veto dialog" }).click();
+    const vetoDialog = page.getByRole("dialog", { name: "Veto dialog" });
+    document.querySelector<HTMLButtonElement>('[data-slot="dialog-close"]')?.click();
+    await expect.element(vetoDialog).toBeVisible();
+    document.querySelector<HTMLButtonElement>('[data-testid="allow-close"]')?.click();
+    document.querySelector<HTMLButtonElement>('[data-slot="dialog-close"]')?.click();
+    await expect.element(vetoDialog).not.toBeInTheDocument();
+  });
+
+  test("honors initial/final focus and modal versus non-modal scroll locking", async () => {
+    document.body.style.overflow = "";
+    render(AdvancedFixture);
+    await page.getByRole("button", { name: "Open focus dialog" }).click();
+    await expect.element(page.getByLabelText("Custom initial focus")).toHaveFocus();
+    document.querySelector<HTMLButtonElement>('[data-slot="dialog-close"]')?.click();
+    await expect.element(page.getByRole("button", { name: "Custom final focus" })).toHaveFocus();
+
+    const originalOverflow = "";
+    await page.getByRole("button", { name: "Open modal lock" }).click();
+    await expect.poll(() => document.body.style.overflow).not.toBe(originalOverflow);
+    document.querySelector<HTMLButtonElement>('[data-slot="dialog-close"]')?.click();
+    await expect.poll(() => document.body.style.overflow).toBe(originalOverflow);
+
+    await page.getByRole("button", { name: "Open non-modal" }).click();
+    await expect.element(page.getByRole("dialog", { name: "Non-modal dialog" })).toBeVisible();
+    expect(document.body.style.overflow).toBe(originalOverflow);
+    await page.getByTestId("outside-control").click();
+    await expect
+      .element(page.getByRole("dialog", { name: "Non-modal dialog" }))
+      .not.toBeInTheDocument();
+    expect(document.body.style.overflow).toBe(originalOverflow);
+  });
+
   test("traps focus, nests overlays, dismisses with Escape, and restores focus", async () => {
     render(Fixture);
     const trigger = page.getByRole("button", { name: "Open dialog" });
@@ -19,6 +60,17 @@ describe("Dialog browser contract", () => {
     const popup = document.querySelector<HTMLElement>('[data-slot="dialog-popup"]');
     expect(popup).not.toBeNull();
     await expect.element(page.getByRole("dialog", { name: "Profile" })).toBeVisible();
+    const expectedSeeds = [
+      "Margaret Welsh",
+      "@maggie.welsh",
+      "Bora Baloglu",
+      "bora@example.com",
+      "Margaret Welsh",
+      "@maggie.welsh",
+    ];
+    for (const [index, expected] of expectedSeeds.entries()) {
+      await expect.element(page.getByLabelText(`Dialog seed ${index + 1}`)).toHaveValue(expected);
+    }
     expect(popup?.contains(document.activeElement)).toBe(true);
     await userEvent.keyboard("{Tab}{Tab}{Tab}{Tab}{Tab}");
     expect(popup?.contains(document.activeElement)).toBe(true);

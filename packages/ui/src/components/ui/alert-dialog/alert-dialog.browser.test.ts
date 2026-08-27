@@ -9,6 +9,13 @@ afterEach(() => {
   document.body.innerHTML = "";
 });
 describe("Alert Dialog browser contract", () => {
+  test("supports detached handles and typed payload content", async () => {
+    render(Fixture);
+    await page.getByRole("button", { name: "Open detached alert" }).click();
+    await expect.element(page.getByRole("alertdialog", { name: "Detached alert" })).toBeVisible();
+    await expect.element(page.getByText("Detached alert payload")).toBeVisible();
+    document.querySelector<HTMLButtonElement>('[data-slot="alert-dialog-close"]')?.click();
+  });
   test("uses alertdialog semantics, rejects implicit dismissal, and restores focus", async () => {
     render(Fixture);
     const trigger = page.getByRole("button", { name: "Delete project" });

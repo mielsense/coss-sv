@@ -6,6 +6,10 @@ export const Portal: typeof SheetPrimitive.Portal = SheetPrimitive.Portal;
 export const SheetPortal: typeof SheetPrimitive.Portal = Portal;
 export const Handle: typeof SheetPrimitive.Handle = SheetPrimitive.Handle;
 export const SheetHandle: typeof SheetPrimitive.Handle = Handle;
+export function createHandle<Payload = unknown>() {
+  return new SheetPrimitive.Handle<Payload>();
+}
+export const SheetCreateHandle = createHandle;
 export { default as Trigger, default as SheetTrigger } from "./sheet-trigger.svelte";
 export type { SheetTriggerProps } from "./sheet-trigger.svelte";
 export { default as Close, default as SheetClose } from "./sheet-close.svelte";

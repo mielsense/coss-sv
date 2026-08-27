@@ -27,21 +27,21 @@ The complete `shardsui/packages/shardsui/src/lib/components/drawer/` directory, 
 
 ## Port contract
 
-The Svelte root maps COSS positions to Shards swipe directions: bottom to down, top to up, left to left, and right to right. It supports default and controlled open state, snap points, controlled snap point, sequential snapping, modal and non-modal modes, detached handles, and change callbacks.
+The Svelte root maps COSS positions to Shards swipe directions: bottom to down, top to up, left to left, and right to right. It supports default and controlled open state, snap points, controlled snap point, sequential snapping, modal and non-modal modes, detached handles, and change callbacks. Root, Trigger, Handle, and `createHandle` retain the payload generic through generated declarations.
 
 The styled parts keep the COSS classes and slots for Trigger, Close, SwipeArea, Backdrop, Viewport, Popup, Header, Footer, Title, Description, Panel, Bar, and Content. Popup supports default, straight, and inset variants. It can show an optional bar and close button. Panel preserves COSS selection and scrolling options while delegating swipe coordination to Shards Content. `Overlay` remains a Backdrop alias.
 
-The namespace also includes the COSS drawer menu helpers used by the responsive menu example: Menu, MenuItem, Separator, Group, GroupLabel, MenuTrigger, CheckboxItem, RadioGroup, and RadioItem. Those helpers compose existing Svelte components instead of reimplementing their interaction logic.
+The namespace also includes the COSS drawer menu helpers used by the responsive menu example: Menu, MenuItem, Separator, Group, GroupLabel, MenuTrigger, CheckboxItem, RadioGroup, and RadioItem. `defaultValue` and `defaultChecked` are read once and translated to Shards' controlled bindings; the Artist option therefore starts selected in the responsive menu. The p-drawer-14 navigation links render through the shared Button as anchors, retaining COSS' `data-slot="button"` contract.
 
 ## Parity checks
 
-The fixture covers bars, every direction, default and inset shells, scrollable content, nested drawers, snap points, footer variants, responsive navigation, responsive Dialog fallback, menu helpers, and a non-modal edge SwipeArea. Automated coverage checks SSR output, types, hydration, focus trap and restoration, escape and backdrop dismissal, directional pointer dragging, snap points, nested overlays, non-modal behavior, selection handling, callback propagation, and accessible naming.
+The fixture covers bars, every direction, default and inset shells, scrollable content, nested drawers, snap points, footer variants, responsive navigation, responsive Dialog fallback, menu helpers, and a non-modal edge SwipeArea. Its eight React `defaultValue` controls use initialized Svelte bindings. Automated coverage checks those eight values, payload types, SSR output, genuine SSR hydration, detached payloads, focus trap and restoration, escape and backdrop dismissal, real pointer drags in all four directions, real touch opening and dismissal, sequential snap transitions, nested stack transforms and restoration, non-modal behavior, menu keyboard changes, selection handling, callback propagation, and accessible naming.
 
-The Codex in-app browser was requested for live inspection at `http://localhost:4000`. The browser runtime returned `Browser is not available: iab`, so no external browser was substituted. The coordinator must repeat the live source-versus-target check when the in-app browser is available. The target route is `http://localhost:5410/preview/drawer` after shared preview registration.
+The coordinator inspected the live COSS route at `http://localhost:4000` and the Svelte target at `http://localhost:5410/preview/drawer` in the Codex in-app browser. Geometry, styling, directions, and focus behavior matched.
 
 ## Motion and reduced motion
 
-No custom motion library is needed. Shards supplies gesture transforms and state attributes, while the copied COSS class strings supply CSS transitions. The package-wide reduced-motion rule remains authoritative. Tests verify that the wrapper does not add JavaScript animation on top of Shards.
+No custom motion library is needed. Shards supplies gesture transforms and state attributes, while the copied COSS class strings supply CSS transitions. A fresh search of the allowed COSS component and particle sources found no component-level `prefers-reduced-motion` override. The port deliberately keeps that exact CSS contract instead of inventing different motion. The documentation preview's motion probe has its own reduced-motion rule, but it does not alter Drawer. This upstream parity decision should be revisited only as a coordinated accessibility change to both reference expectations and target behavior.
 
 ## Documentation lookup
 

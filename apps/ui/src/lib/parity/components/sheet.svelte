@@ -1,13 +1,17 @@
 <script lang="ts">
 import { Button, Field, Form, Input, Sheet, buttonVariants } from "@coss-sv/ui";
 const sides = ["right", "left", "top", "bottom"] as const;
+const profiles = $state([
+  { name: "Margaret Welsh", username: "@maggie.welsh", variant: "default" as const },
+  { name: "Margaret Welsh", username: "@maggie.welsh", variant: "inset" as const },
+]);
 </script>
 <div class="fixture">
-  {#each ["default", "inset"] as variant, index}
+  {#each profiles as profile, index}
     <section data-particle={`p-sheet-${index + 1}`}>
       <Sheet.Root
         ><Sheet.Trigger class={buttonVariants({ variant: "outline" })}>Open Sheet</Sheet.Trigger
-        ><Sheet.Popup variant={variant as "default" | "inset"}
+        ><Sheet.Popup variant={profile.variant}
           ><Sheet.Header
             ><Sheet.Title>Edit profile</Sheet.Title
             ><Sheet.Description
@@ -18,10 +22,10 @@ const sides = ["right", "left", "top", "bottom"] as const;
             ><Sheet.Panel class="grid gap-4"
               ><Field.Root
                 ><Field.Label>Name</Field.Label>
-                <Input defaultValue="Margaret Welsh" type="text" /></Field.Root
+                <Input bind:value={profile.name} type="text" /></Field.Root
               ><Field.Root
                 ><Field.Label>Username</Field.Label>
-                <Input defaultValue="@maggie.welsh" type="text" /></Field.Root
+                <Input bind:value={profile.username} type="text" /></Field.Root
               ></Sheet.Panel
             ><Sheet.Footer
               ><Sheet.Close class={buttonVariants({ variant: "ghost" })}>Cancel</Sheet.Close

@@ -1,10 +1,18 @@
 <script module lang="ts">
 import type { AlertDialog as ShardsP } from "@shardsui/svelte";
 import type { ComponentProps } from "svelte";
-export type AlertDialogTriggerProps = ComponentProps<typeof ShardsP.Trigger>;
+type PrimitiveTriggerProps = ComponentProps<typeof ShardsP.Trigger>;
+export type AlertDialogTriggerProps<Payload = unknown> = Omit<
+  PrimitiveTriggerProps,
+  "handle" | "payload"
+> & {
+  handle?: ShardsP.Handle<Payload>;
+  payload?: Payload;
+  children?: PrimitiveTriggerProps["children"];
+};
 </script>
-<script lang="ts">
+<script lang="ts" generics="Payload = unknown">
 import { AlertDialog as P } from "@shardsui/svelte";
-let { ref = $bindable(null), ...props }: AlertDialogTriggerProps = $props();
+let { ref = $bindable(null), ...props }: AlertDialogTriggerProps<Payload> = $props();
 </script>
 <P.Trigger bind:ref data-slot="alert-dialog-trigger" {...props} />

@@ -1,7 +1,16 @@
 <script lang="ts">
 import * as Dialog from "./index.js";
+import Input from "../input/input.svelte";
 let dialogOpen = $state(false);
 let nestedOpen = $state(false);
+let values = $state([
+  "Margaret Welsh",
+  "@maggie.welsh",
+  "Bora Baloglu",
+  "bora@example.com",
+  "Margaret Welsh",
+  "@maggie.welsh",
+]);
 </script>
 <Dialog.Root bind:open={dialogOpen} onOpenChange={(next) => (dialogOpen = next)}>
   <Dialog.Trigger>Open dialog</Dialog.Trigger>
@@ -11,7 +20,10 @@ let nestedOpen = $state(false);
       ><Dialog.Description>Edit your profile.</Dialog.Description></Dialog.Header
     >
     <Dialog.Panel
-      ><input aria-label="Name"><button type="button">Save</button
+      >{#each values as value, index}
+        <Input aria-label={`Dialog seed ${index + 1}`} bind:value={values[index]} />
+      {/each}
+      <button type="button">Save</button
       ><Dialog.Root bind:open={nestedOpen}
         ><Dialog.Trigger>Open nested</Dialog.Trigger
         ><Dialog.Popup

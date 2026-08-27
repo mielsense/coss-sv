@@ -14,6 +14,12 @@ let settingsOpen = $state(false);
 let composeOpen = $state(false);
 let confirmOpen = $state(false);
 let message = $state("");
+let firstProfileName = $state("Margaret Welsh");
+let firstProfileUsername = $state("@maggie.welsh");
+let memberName = $state("Bora Baloglu");
+let memberEmail = $state("bora@example.com");
+let bareProfileName = $state("Margaret Welsh");
+let bareProfileUsername = $state("@maggie.welsh");
 function requestCompose(next: boolean) {
   if (!next && message) confirmOpen = true;
   else composeOpen = next;
@@ -38,10 +44,10 @@ function submitCompose(event: SubmitEvent) {
           ><Dialog.Panel class="grid gap-4"
             ><Field.Root
               ><Field.Label>Name</Field.Label>
-              <Input defaultValue="Margaret Welsh" type="text" /></Field.Root
+              <Input bind:value={firstProfileName} type="text" /></Field.Root
             ><Field.Root
               ><Field.Label>Username</Field.Label>
-              <Input defaultValue="@maggie.welsh" type="text" /></Field.Root
+              <Input bind:value={firstProfileUsername} type="text" /></Field.Root
             ></Dialog.Panel
           ><Dialog.Footer
             ><Dialog.Close class={buttonVariants({ variant: "ghost" })}>Cancel</Dialog.Close
@@ -101,10 +107,10 @@ function submitCompose(event: SubmitEvent) {
               ><Dialog.Panel class="grid gap-4"
                 ><Field.Root
                   ><Field.Label>Name</Field.Label>
-                  <Input defaultValue="Bora Baloglu" type="text" /></Field.Root
+                  <Input bind:value={memberName} type="text" /></Field.Root
                 ><Field.Root
                   ><Field.Label>Email</Field.Label>
-                  <Input defaultValue="bora@example.com" type="text" /></Field.Root
+                  <Input bind:value={memberEmail} type="text" /></Field.Root
                 ></Dialog.Panel
               ><Dialog.Footer
                 ><Dialog.Close class={buttonVariants({ variant: "ghost" })}>Cancel</Dialog.Close
@@ -248,10 +254,10 @@ function submitCompose(event: SubmitEvent) {
           ><Dialog.Panel class="grid gap-4"
             ><Field.Root
               ><Field.Label>Name</Field.Label>
-              <Input defaultValue="Margaret Welsh" type="text" /></Field.Root
+              <Input bind:value={bareProfileName} type="text" /></Field.Root
             ><Field.Root
               ><Field.Label>Username</Field.Label>
-              <Input defaultValue="@maggie.welsh" type="text" /></Field.Root
+              <Input bind:value={bareProfileUsername} type="text" /></Field.Root
             ></Dialog.Panel
           ><Dialog.Footer variant="bare"
             ><Dialog.Close class={buttonVariants({ variant: "ghost" })}>Cancel</Dialog.Close

@@ -6,6 +6,14 @@ const positions = ["right", "left", "top", "bottom"] as const;
 const boxes = Array.from({ length: 48 }, (_, index) => index);
 const isMobile = new MediaQuery("(max-width: 768px)", false);
 let snapPoint = $state<string | number | null>("300px");
+let nestedMemberName = $state("Bora Baloglu");
+let nestedMemberEmail = $state("bora@example.com");
+let profileName = $state("Margaret Welsh");
+let profileUsername = $state("@maggie.welsh");
+let responsiveDrawerName = $state("Margaret Welsh");
+let responsiveDrawerUsername = $state("@maggie.welsh");
+let responsiveDialogName = $state("Margaret Welsh");
+let responsiveDialogUsername = $state("@maggie.welsh");
 </script>
 
 <div class="fixture">
@@ -178,10 +186,10 @@ let snapPoint = $state<string | number | null>("300px");
               ><Drawer.Panel class="grid gap-4"
                 ><Field.Root
                   ><Field.Label>Name</Field.Label>
-                  <Input defaultValue="Bora Baloglu" type="text" /></Field.Root
+                  <Input bind:value={nestedMemberName} type="text" /></Field.Root
                 ><Field.Root
                   ><Field.Label>Email</Field.Label>
-                  <Input defaultValue="bora@example.com" type="email" /></Field.Root
+                  <Input bind:value={nestedMemberEmail} type="email" /></Field.Root
                 ></Drawer.Panel
               ><Drawer.Footer
                 ><Drawer.Close class={buttonVariants({ variant: "ghost" })}>Cancel</Drawer.Close
@@ -233,10 +241,10 @@ let snapPoint = $state<string | number | null>("300px");
               ><Drawer.Panel class="grid gap-4"
                 ><Field.Root
                   ><Field.Label>Name</Field.Label>
-                  <Input defaultValue="Margaret Welsh" type="text" /></Field.Root
+                  <Input bind:value={profileName} type="text" /></Field.Root
                 ><Field.Root
                   ><Field.Label>Username</Field.Label>
-                  <Input defaultValue="@maggie.welsh" type="text" /></Field.Root
+                  <Input bind:value={profileUsername} type="text" /></Field.Root
                 ></Drawer.Panel
               ><Drawer.Footer variant={footerVariant as "default" | "bare"}
                 ><Drawer.Close class={buttonVariants({ variant: "ghost" })}>Cancel</Drawer.Close
@@ -285,10 +293,10 @@ let snapPoint = $state<string | number | null>("300px");
             ><Drawer.Panel class="grid gap-4" scrollable={false}
               ><Field.Root
                 ><Field.Label>Name</Field.Label>
-                <Input defaultValue="Margaret Welsh" type="text" /></Field.Root
+                <Input bind:value={responsiveDrawerName} type="text" /></Field.Root
               ><Field.Root
                 ><Field.Label>Username</Field.Label>
-                <Input defaultValue="@maggie.welsh" type="text" /></Field.Root
+                <Input bind:value={responsiveDrawerUsername} type="text" /></Field.Root
               ></Drawer.Panel
             ><Drawer.Footer
               ><Drawer.Close class={buttonVariants({ variant: "ghost" })}>Cancel</Drawer.Close
@@ -311,10 +319,10 @@ let snapPoint = $state<string | number | null>("300px");
             ><Dialog.Panel class="grid gap-4"
               ><Field.Root
                 ><Field.Label>Name</Field.Label>
-                <Input defaultValue="Margaret Welsh" type="text" /></Field.Root
+                <Input bind:value={responsiveDialogName} type="text" /></Field.Root
               ><Field.Root
                 ><Field.Label>Username</Field.Label>
-                <Input defaultValue="@maggie.welsh" type="text" /></Field.Root
+                <Input bind:value={responsiveDialogUsername} type="text" /></Field.Root
               ></Dialog.Panel
             ><Dialog.Footer
               ><Dialog.Close class={buttonVariants({ variant: "ghost" })}>Cancel</Dialog.Close
@@ -720,9 +728,7 @@ let snapPoint = $state<string | number | null>("300px");
             ><nav class="-mx-[calc(--spacing(3)-1px)] flex flex-col gap-0.5">
               {#each ["Home", "Profile", "Settings", "Sign out"] as item}
                 <!-- svelte-ignore a11y_invalid_attribute -->
-                <a class={buttonVariants({ class: "justify-start", variant: "ghost" })} href="#"
-                  >{item}</a
-                >
+                <Button class="justify-start" href="#" variant="ghost">{item}</Button>
               {/each}
             </nav></Drawer.Panel
           ></Drawer.Popup

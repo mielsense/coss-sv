@@ -22,13 +22,13 @@ The complete `shardsui/packages/shardsui/src/lib/components/dialog/` directory, 
 
 The Svelte port keeps the COSS composition and class strings for Trigger, Close, Backdrop, Viewport, Popup, Header, Footer, Title, Description, and Panel. `Popup` owns the portal, backdrop, viewport, and optional close button, as COSS does. It defaults to the mobile bottom-sticking layout and exposes `bottomStickOnMobile`, `showCloseButton`, `closeProps`, and `portalProps`. `Content` and `Overlay` remain aliases.
 
-The public Svelte namespace uses `Dialog.Root`, `Dialog.Trigger`, `Dialog.Popup`, and the remaining named parts. Named `Dialog*` exports remain available for direct imports. The implementation delegates behavior to Shards rather than recreating focus or dismissal logic.
+The public Svelte namespace uses `Dialog.Root`, `Dialog.Trigger`, `Dialog.Popup`, and the remaining named parts. Named `Dialog*` exports remain available for direct imports. Root, Trigger, Handle, and `createHandle` retain Shards' payload generic instead of widening payloads to `unknown`. The implementation delegates behavior to Shards rather than recreating focus or dismissal logic.
 
 ## Parity checks
 
-The fixture covers the default profile form, controlled menu dialog, nested dialogs, close confirmation with Alert Dialog, scrollable terms, and the bare footer. Automated coverage checks SSR output, types, hydration, focus trapping and restoration, escape and backdrop dismissal, nested overlays, callback propagation, and accessible names.
+The fixture covers the default profile form, controlled menu dialog, nested dialogs, close confirmation with Alert Dialog, scrollable terms, and the bare footer. The six React `defaultValue` inputs are initialized Svelte bindings, so the initial text remains editable. Automated coverage checks those six values, SSR output, payload generics, genuine SSR hydration, detached payloads, controlled close veto, custom initial and final focus, modal scroll locking and cleanup, non-modal dismissal, focus trapping and restoration, escape and backdrop dismissal, nested overlays, callback propagation, and accessible names.
 
-The Codex in-app browser was requested for live inspection at `http://localhost:4000`. The browser runtime returned `Browser is not available: iab`, so no external browser was substituted. The coordinator must repeat the live source-versus-target check when the in-app browser is available. The target route is `http://localhost:5410/preview/dialog` after shared preview registration.
+The coordinator inspected the live COSS route at `http://localhost:4000` and the Svelte target at `http://localhost:5410/preview/dialog` in the Codex in-app browser. Geometry, styling, and focus behavior matched; automated repair coverage now guards the payload and initial-value contracts found during review.
 
 ## Documentation lookup
 

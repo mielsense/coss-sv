@@ -1,10 +1,18 @@
 <script module lang="ts">
 import type { Dialog as ShardsP } from "@shardsui/svelte";
 import type { ComponentProps } from "svelte";
-export type SheetTriggerProps = ComponentProps<typeof ShardsP.Trigger>;
+type PrimitiveTriggerProps = ComponentProps<typeof ShardsP.Trigger>;
+export type SheetTriggerProps<Payload = unknown> = Omit<
+  PrimitiveTriggerProps,
+  "handle" | "payload"
+> & {
+  handle?: ShardsP.Handle<Payload>;
+  payload?: Payload;
+  children?: PrimitiveTriggerProps["children"];
+};
 </script>
-<script lang="ts">
+<script lang="ts" generics="Payload = unknown">
 import { Dialog as P } from "@shardsui/svelte";
-let { ref = $bindable(null), ...props }: SheetTriggerProps = $props();
+let { ref = $bindable(null), ...props }: SheetTriggerProps<Payload> = $props();
 </script>
 <P.Trigger bind:ref data-slot="sheet-trigger" {...props} />

@@ -1,12 +1,29 @@
 <script lang="ts">
 import type { DrawerPosition } from "./index.js";
 import * as Drawer from "./index.js";
+import Input from "../input/input.svelte";
 let { position }: { position: DrawerPosition } = $props();
 let open = $state(false);
-let snapPoint = $state<number | string | null>(0.35);
+let snapPoint = $state<number | string | null>("100px");
+let values = $state([
+  "Bora Baloglu",
+  "bora@example.com",
+  "Margaret Welsh",
+  "@maggie.welsh",
+  "Margaret Welsh",
+  "@maggie.welsh",
+  "Margaret Welsh",
+  "@maggie.welsh",
+]);
 </script>
 {#if position === "bottom"}
-  <Drawer.Root bind:open {position} bind:snapPoint snapPoints={[0.35, 1]}>
+  <Drawer.Root
+    bind:open
+    {position}
+    bind:snapPoint
+    snapPoints={["100px", "200px", 1]}
+    snapToSequentialPoints
+  >
     <Drawer.Trigger>Open {position} drawer</Drawer.Trigger>
     <Drawer.Popup data-position={position} data-testid={`${position}-drawer`} showBar>
       <Drawer.Header
@@ -14,7 +31,10 @@ let snapPoint = $state<number | string | null>(0.35);
         ><Drawer.Description>{position} content.</Drawer.Description></Drawer.Header
       >
       <Drawer.Panel
-        ><button type="button">Focusable {position}</button>
+        >{#each values as value, index}
+          <Input aria-label={`Drawer seed ${index + 1}`} bind:value={values[index]} />
+        {/each}
+        <button type="button">Focusable {position}</button>
         {#if position === "bottom"}
           <Drawer.Root
             ><Drawer.Trigger>Open nested drawer</Drawer.Trigger

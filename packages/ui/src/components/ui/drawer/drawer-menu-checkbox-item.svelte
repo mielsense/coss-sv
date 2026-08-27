@@ -2,20 +2,30 @@
 import type { Checkbox as ShardsP } from "@shardsui/svelte";
 import type { ComponentProps } from "svelte";
 export type DrawerMenuCheckboxItemProps = ComponentProps<typeof ShardsP.Root> & {
+  defaultChecked?: boolean;
   variant?: "default" | "switch";
 };
 </script>
 <script lang="ts">
 import { Checkbox as P } from "@shardsui/svelte";
+import { untrack } from "svelte";
 import { cn } from "$lib/utils.js";
 let {
-  checked = $bindable(false),
+  checked = $bindable(),
+  defaultChecked,
   children: child,
   class: className,
   ref = $bindable(null),
   variant = "default",
   ...props
 }: DrawerMenuCheckboxItemProps = $props();
+const initialChecked = untrack(() => defaultChecked ?? false);
+function getChecked(): boolean {
+  return checked ?? initialChecked;
+}
+function setChecked(next: boolean): void {
+  checked = next;
+}
 const classes = $derived(
   cn(
     "grid min-h-9 w-full cursor-default select-none items-center gap-2 rounded-sm px-2 py-1 text-base text-foreground outline-none hover:bg-accent hover:text-accent-foreground data-disabled:pointer-events-none data-disabled:opacity-64 sm:min-h-8 sm:text-sm [&_svg:not([class*='opacity-'])]:opacity-80 [&_svg:not([class*='size-'])]:size-4.5 sm:[&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:-mx-0.5 [&_svg]:shrink-0",
@@ -24,7 +34,12 @@ const classes = $derived(
   ),
 );
 </script>
-<P.Root bind:checked bind:ref class={classes} data-slot="drawer-menu-checkbox-item" {...props}
+<P.Root
+  bind:checked={getChecked, setChecked}
+  bind:ref
+  class={classes}
+  data-slot="drawer-menu-checkbox-item"
+  {...props}
   >{#snippet children(state)}
     {#if variant === "switch"}
       <span class="col-start-1">{@render child?.(state)}</span

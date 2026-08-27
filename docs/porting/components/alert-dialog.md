@@ -18,13 +18,13 @@ The complete `shardsui/packages/shardsui/src/lib/components/alert-dialog/` direc
 
 The Svelte port keeps the COSS Trigger, Backdrop, Viewport, Popup, Header, Footer, Title, Description, and Close classes and slots. `Popup` owns the portal, backdrop, and viewport. It defaults to the mobile bottom-sticking layout. `Content` and `Overlay` remain aliases.
 
-The public namespace uses `AlertDialog.Root` and named parts. Named `AlertDialog*` exports support direct imports. Alert dialogs do not dismiss on backdrop press. Escape and explicit Close controls dismiss them, matching the pinned Shards contract.
+The public namespace uses `AlertDialog.Root` and named parts. Named `AlertDialog*` exports support direct imports. Root, Trigger, Handle, and `createHandle` preserve the payload generic. Alert dialogs do not dismiss on backdrop press. Escape and explicit Close controls dismiss them, matching the pinned Shards contract.
 
 ## Parity checks
 
-The fixture contains the exact default and bare-footer examples. Automated coverage checks SSR output, types, hydration, `alertdialog` semantics, initial focus, focus trapping and restoration, escape dismissal, backdrop non-dismissal, explicit cancellation, and callback propagation.
+The fixture contains the exact default and bare-footer examples. Automated coverage checks SSR output, payload types, genuine SSR hydration, detached payloads, `alertdialog` semantics, initial focus, focus trapping and restoration, escape dismissal, backdrop non-dismissal, explicit cancellation, and callback propagation.
 
-The Codex in-app browser was requested for live inspection at `http://localhost:4000`. The browser runtime returned `Browser is not available: iab`, so no external browser was substituted. The coordinator must repeat the live source-versus-target check when the in-app browser is available. The target route is `http://localhost:5410/preview/alert-dialog` after shared preview registration.
+The coordinator inspected the live COSS route at `http://localhost:4000` and the Svelte target at `http://localhost:5410/preview/alert-dialog` in the Codex in-app browser. Geometry, styling, and focus behavior matched.
 
 ## Documentation lookup
 

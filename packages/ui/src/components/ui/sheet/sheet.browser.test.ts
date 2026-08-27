@@ -9,6 +9,13 @@ afterEach(() => {
   document.body.innerHTML = "";
 });
 describe("Sheet browser contract", () => {
+  test("supports detached handles and typed payload content", async () => {
+    render(Fixture);
+    await page.getByRole("button", { name: "Open detached sheet" }).click();
+    await expect.element(page.getByRole("dialog", { name: "Detached sheet" })).toBeVisible();
+    await expect.element(page.getByText("Detached sheet payload")).toBeVisible();
+    document.querySelector<HTMLButtonElement>('[data-slot="sheet-close"]')?.click();
+  });
   test("renders every side, traps focus, dismisses, and restores the matching trigger", async () => {
     render(Fixture);
     for (const side of ["right", "left", "top", "bottom"] as const) {
@@ -17,6 +24,19 @@ describe("Sheet browser contract", () => {
       await expect.element(page.getByTestId("sheet-state")).toHaveTextContent(`true:${side}`);
       const popup = page.getByTestId("sheet-popup");
       await expect.element(popup).toBeVisible();
+      if (side === "right") {
+        const expectedSeeds = [
+          "Margaret Welsh",
+          "@maggie.welsh",
+          "Margaret Welsh",
+          "@maggie.welsh",
+        ];
+        for (const [index, expected] of expectedSeeds.entries()) {
+          await expect
+            .element(page.getByLabelText(`Sheet seed ${index + 1}`))
+            .toHaveValue(expected);
+        }
+      }
       expect(document.querySelector('[data-testid="sheet-popup"]')?.className).toContain(
         side === "right" || side === "left" ? "max-w-md" : side === "top" ? "border-b" : "border-t",
       );
