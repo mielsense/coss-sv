@@ -67,6 +67,20 @@ describe("theme boundaries", () => {
     expect(previewCss).toMatch(/\.preview-canvas\s*\{[^}]*--primary:/s);
   });
 
+  test("the mobile dialog keeps the measured COSS width and edge shadow", async () => {
+    const appCss = await readFile(new URL("../../app.css", import.meta.url), "utf8");
+    const dialogRule =
+      [...appCss.matchAll(/\.mobile-menu-dialog\s*\{([^}]*)\}/g)]
+        .map((match) => match[1] ?? "")
+        .find((rule) => rule.includes("width:")) ?? "";
+    const panelRule = appCss.match(/\.mobile-menu-panel\s*\{([^}]*)\}/)?.[1] ?? "";
+
+    expect(dialogRule).toContain("width: min(22rem, calc(100% - 3rem));");
+    expect(dialogRule).toContain("0 10px 15px -3px rgb(0 0 0 / 5%)");
+    expect(dialogRule).toContain("0 4px 6px -4px rgb(0 0 0 / 5%)");
+    expect(panelRule).not.toContain("box-shadow");
+  });
+
   test("the root layout renders navigation during SSR and removes chrome from previews", async () => {
     const layout = await readFile(new URL("../../routes/+layout.svelte", import.meta.url), "utf8");
 
