@@ -1,0 +1,33 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "alert",
+	"type": "registry:ui",
+	"description": "Displays a message with an optional action.",
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\nimport type { Snippet } from \"svelte\";\nimport type { HTMLAttributes } from \"svelte/elements\";\n\nexport type AlertVariant = \"default\" | \"error\" | \"info\" | \"success\" | \"warning\";\nexport type AlertProps = Omit<HTMLAttributes<HTMLDivElement>, \"children\"> & {\n  children?: Snippet;\n  ref?: HTMLDivElement | null;\n  variant?: AlertVariant;\n};\n</script>\n\n<script lang=\"ts\">\nimport { cn } from \"$UTILS$.js\";\n\nconst baseClass =\n  \"relative grid w-full items-start gap-x-2 gap-y-0.5 rounded-xl border px-3.5 py-3 text-card-foreground text-sm has-[>svg]:has-data-[slot=alert-action]:grid-cols-[calc(var(--spacing)*4)_1fr_auto] has-[>svg]:grid-cols-[calc(var(--spacing)*4)_1fr] has-data-[slot=alert-action]:grid-cols-[1fr_auto] has-[>svg]:gap-x-2 [&>svg]:h-lh [&>svg]:w-4\";\nconst variantClasses: Record<AlertVariant, string> = {\n  default: \"bg-transparent dark:bg-input/32 [&>svg]:text-muted-foreground\",\n  error: \"border-destructive/32 bg-destructive/4 [&>svg]:text-destructive\",\n  info: \"border-info/32 bg-info/4 [&>svg]:text-info\",\n  success: \"border-success/32 bg-success/4 [&>svg]:text-success\",\n  warning: \"border-warning/32 bg-warning/4 [&>svg]:text-warning\",\n};\n\nlet {\n  children,\n  class: className,\n  ref = $bindable(null),\n  variant = \"default\",\n  ...props\n}: AlertProps = $props();\nconst classes = $derived(cn(baseClass, variantClasses[variant], className));\n</script>\n\n<div bind:this={ref} class={classes} data-slot=\"alert\" role=\"alert\" {...props}>\n  {@render children?.()}\n</div>\n",
+			"type": "registry:ui",
+			"target": "alert/alert.svelte"
+		},
+		{
+			"content": "<script lang=\"ts\">\nimport type { Snippet } from \"svelte\";\nimport type { HTMLAttributes } from \"svelte/elements\";\nimport { cn } from \"$UTILS$.js\";\n\ntype Props = Omit<HTMLAttributes<HTMLDivElement>, \"children\"> & {\n  children?: Snippet;\n  ref?: HTMLDivElement | null;\n};\n\nlet { children, class: className, ref = $bindable(null), ...props }: Props = $props();\n</script>\n\n<div\n  bind:this={ref}\n  class={cn(\n    \"flex gap-1 max-sm:col-start-2 max-sm:mt-2 sm:row-start-1 sm:row-end-3 sm:self-center sm:[[data-slot=alert-description]~&]:col-start-2 sm:[[data-slot=alert-title]~&]:col-start-2 sm:[svg~&]:col-start-2 sm:[svg~[data-slot=alert-description]~&]:col-start-3 sm:[svg~[data-slot=alert-title]~&]:col-start-3\",\n    className,\n  )}\n  data-slot=\"alert-action\"\n  {...props}\n>\n  {@render children?.()}\n</div>\n",
+			"type": "registry:ui",
+			"target": "alert/alert-action.svelte"
+		},
+		{
+			"content": "<script lang=\"ts\">\nimport type { Snippet } from \"svelte\";\nimport type { HTMLAttributes } from \"svelte/elements\";\nimport { cn } from \"$UTILS$.js\";\n\ntype Props = Omit<HTMLAttributes<HTMLDivElement>, \"children\"> & {\n  children?: Snippet;\n  ref?: HTMLDivElement | null;\n};\n\nlet { children, class: className, ref = $bindable(null), ...props }: Props = $props();\n</script>\n\n<div\n  bind:this={ref}\n  class={cn(\"flex flex-col gap-2.5 text-muted-foreground [svg~&]:col-start-2\", className)}\n  data-slot=\"alert-description\"\n  {...props}\n>\n  {@render children?.()}\n</div>\n",
+			"type": "registry:ui",
+			"target": "alert/alert-description.svelte"
+		},
+		{
+			"content": "<script lang=\"ts\">\nimport type { Snippet } from \"svelte\";\nimport type { HTMLAttributes } from \"svelte/elements\";\nimport { cn } from \"$UTILS$.js\";\n\ntype Props = Omit<HTMLAttributes<HTMLDivElement>, \"children\"> & {\n  children?: Snippet;\n  ref?: HTMLDivElement | null;\n};\n\nlet { children, class: className, ref = $bindable(null), ...props }: Props = $props();\n</script>\n\n<div\n  bind:this={ref}\n  class={cn(\"font-medium [svg~&]:col-start-2\", className)}\n  data-slot=\"alert-title\"\n  {...props}\n>\n  {@render children?.()}\n</div>\n",
+			"type": "registry:ui",
+			"target": "alert/alert-title.svelte"
+		},
+		{
+			"content": "export type { AlertProps, AlertVariant } from \"./alert.svelte\";\nexport { default as Alert } from \"./alert.svelte\";\nexport { default as AlertAction } from \"./alert-action.svelte\";\nexport { default as AlertDescription } from \"./alert-description.svelte\";\nexport { default as AlertTitle } from \"./alert-title.svelte\";\n",
+			"type": "registry:ui",
+			"target": "alert/index.ts"
+		}
+	]
+}

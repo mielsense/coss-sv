@@ -1703,13 +1703,13 @@ function componentHasAuthoredSource(path: string, id: string): boolean {
     const name = basename(path);
     return (
       extname(name) === ".svelte" &&
-      (name === "root.svelte" || name === `${id}.svelte`) &&
+      (name === "root.svelte" || name === `${id}.svelte` || name === `${id}-root.svelte`) &&
       hasAuthoredSvelteContent(path)
     );
   }
   if (!stats.isDirectory()) return false;
 
-  const canonicalRootNames = new Set(["root.svelte", `${id}.svelte`]);
+  const canonicalRootNames = new Set(["root.svelte", `${id}.svelte`, `${id}-root.svelte`]);
   return readdirSync(path, { withFileTypes: true }).some(
     (directoryEntry) =>
       directoryEntry.isFile() &&

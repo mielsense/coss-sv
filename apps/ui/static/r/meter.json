@@ -1,0 +1,41 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "meter",
+	"type": "registry:ui",
+	"description": "Shows a scalar measurement within a known range.",
+	"dependencies": [
+		"@shardsui/svelte@0.1.0-beta.0"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\nimport type { Meter as ShardsMeter } from \"@shardsui/svelte\";\nimport type { ComponentProps } from \"svelte\";\n\nexport type MeterRootProps = ComponentProps<typeof ShardsMeter.Root>;\n</script>\n\n<script lang=\"ts\">\nimport { Meter as MeterPrimitive } from \"@shardsui/svelte\";\nimport { cn } from \"$UTILS$.js\";\nimport MeterIndicator from \"./meter-indicator.svelte\";\nimport MeterTrack from \"./meter-track.svelte\";\n\nlet { children, class: className, ref = $bindable(null), ...props }: MeterRootProps = $props();\nconst classes = $derived(cn(\"flex w-full flex-col gap-2\", className));\n</script>\n\n<MeterPrimitive.Root bind:ref class={classes} {...props}>\n  {#if children}\n    {@render children()}\n  {:else}\n    <MeterTrack><MeterIndicator /></MeterTrack>\n  {/if}\n</MeterPrimitive.Root>\n",
+			"type": "registry:ui",
+			"target": "meter/meter-root.svelte"
+		},
+		{
+			"content": "<script module lang=\"ts\">\nimport type { Meter as ShardsMeter } from \"@shardsui/svelte\";\nimport type { ComponentProps } from \"svelte\";\nexport type MeterLabelProps = ComponentProps<typeof ShardsMeter.Label>;\n</script>\n<script lang=\"ts\">\nimport { Meter as MeterPrimitive } from \"@shardsui/svelte\";\nimport { cn } from \"$UTILS$.js\";\n\nlet { class: className, ref = $bindable(null), ...props }: MeterLabelProps = $props();\nconst classes = $derived(cn(\"font-medium text-foreground text-sm\", className));\n</script>\n<MeterPrimitive.Label bind:ref data-slot=\"meter-label\" class={classes} {...props} />\n",
+			"type": "registry:ui",
+			"target": "meter/meter-label.svelte"
+		},
+		{
+			"content": "<script module lang=\"ts\">\nimport type { Meter as ShardsMeter } from \"@shardsui/svelte\";\nimport type { ComponentProps } from \"svelte\";\nexport type MeterTrackProps = ComponentProps<typeof ShardsMeter.Track>;\n</script>\n<script lang=\"ts\">\nimport { Meter as MeterPrimitive } from \"@shardsui/svelte\";\nimport { cn } from \"$UTILS$.js\";\n\nlet { class: className, ref = $bindable(null), ...props }: MeterTrackProps = $props();\nconst classes = $derived(cn(\"block h-2 w-full overflow-hidden bg-input\", className));\n</script>\n<MeterPrimitive.Track bind:ref data-slot=\"meter-track\" class={classes} {...props} />\n",
+			"type": "registry:ui",
+			"target": "meter/meter-track.svelte"
+		},
+		{
+			"content": "<script module lang=\"ts\">\nimport type { Meter as ShardsMeter } from \"@shardsui/svelte\";\nimport type { ComponentProps } from \"svelte\";\nexport type MeterIndicatorProps = ComponentProps<typeof ShardsMeter.Indicator>;\n</script>\n<script lang=\"ts\">\nimport { Meter as MeterPrimitive } from \"@shardsui/svelte\";\nimport { cn } from \"$UTILS$.js\";\n\nlet { class: className, ref = $bindable(null), ...props }: MeterIndicatorProps = $props();\nconst classes = $derived(cn(\"bg-primary transition-all duration-500\", className));\n</script>\n<MeterPrimitive.Indicator bind:ref data-slot=\"meter-indicator\" class={classes} {...props} />\n",
+			"type": "registry:ui",
+			"target": "meter/meter-indicator.svelte"
+		},
+		{
+			"content": "<script module lang=\"ts\">\nimport type { Meter as ShardsMeter } from \"@shardsui/svelte\";\nimport type { ComponentProps } from \"svelte\";\nexport type MeterValueProps = ComponentProps<typeof ShardsMeter.Value>;\n</script>\n<script lang=\"ts\">\nimport { Meter as MeterPrimitive } from \"@shardsui/svelte\";\nimport { cn } from \"$UTILS$.js\";\n\nlet { class: className, ref = $bindable(null), ...props }: MeterValueProps = $props();\nconst classes = $derived(cn(\"text-foreground text-sm tabular-nums\", className));\n</script>\n<MeterPrimitive.Value bind:ref data-slot=\"meter-value\" class={classes} {...props} />\n",
+			"type": "registry:ui",
+			"target": "meter/meter-value.svelte"
+		},
+		{
+			"content": "export { Meter as MeterPrimitive } from \"@shardsui/svelte\";\nexport type { MeterIndicatorProps } from \"./meter-indicator.svelte\";\nexport { default as Indicator, default as MeterIndicator } from \"./meter-indicator.svelte\";\nexport type { MeterLabelProps } from \"./meter-label.svelte\";\nexport { default as Label, default as MeterLabel } from \"./meter-label.svelte\";\nexport type { MeterRootProps } from \"./meter-root.svelte\";\nexport { default as MeterRoot, default as Root } from \"./meter-root.svelte\";\nexport type { MeterTrackProps } from \"./meter-track.svelte\";\nexport { default as MeterTrack, default as Track } from \"./meter-track.svelte\";\nexport type { MeterValueProps } from \"./meter-value.svelte\";\nexport { default as MeterValue, default as Value } from \"./meter-value.svelte\";\n",
+			"type": "registry:ui",
+			"target": "meter/index.ts"
+		}
+	]
+}

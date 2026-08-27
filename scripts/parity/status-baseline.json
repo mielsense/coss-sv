@@ -14,7 +14,7 @@
     {
       "id": "alert",
       "kind": "component",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "autocomplete",
@@ -24,22 +24,22 @@
     {
       "id": "avatar",
       "kind": "component",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "badge",
       "kind": "component",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "breadcrumb",
       "kind": "component",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "button",
       "kind": "component",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "calendar",
@@ -49,7 +49,7 @@
     {
       "id": "card",
       "kind": "component",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "checkbox-group",
@@ -59,7 +59,7 @@
     {
       "id": "checkbox",
       "kind": "component",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "collapsible",
@@ -94,7 +94,7 @@
     {
       "id": "empty",
       "kind": "component",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "field",
@@ -114,7 +114,7 @@
     {
       "id": "frame",
       "kind": "component",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "group",
@@ -129,17 +129,17 @@
     {
       "id": "input",
       "kind": "component",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "kbd",
       "kind": "component",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "label",
       "kind": "component",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "menu",
@@ -149,7 +149,7 @@
     {
       "id": "meter",
       "kind": "component",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "number-field",
@@ -179,7 +179,7 @@
     {
       "id": "progress",
       "kind": "component",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "radio-group",
@@ -214,7 +214,7 @@
     {
       "id": "skeleton",
       "kind": "component",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "slider",
@@ -224,12 +224,12 @@
     {
       "id": "spinner",
       "kind": "component",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "switch",
       "kind": "component",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "table",
@@ -244,7 +244,7 @@
     {
       "id": "textarea",
       "kind": "component",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "toast",
@@ -254,12 +254,12 @@
     {
       "id": "toggle-group",
       "kind": "component",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "toggle",
       "kind": "component",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "toolbar",

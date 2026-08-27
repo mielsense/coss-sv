@@ -1,5 +1,131 @@
 [
 	{
+		"name": "alert",
+		"type": "registry:ui",
+		"description": "Displays a message with an optional action.",
+		"dependencies": [],
+		"registryDependencies": [],
+		"relativeUrl": "alert.json"
+	},
+	{
+		"name": "avatar",
+		"type": "registry:ui",
+		"description": "Displays an image or fallback for a person or entity.",
+		"dependencies": [
+			"@shardsui/svelte@0.1.0-beta.0"
+		],
+		"registryDependencies": [],
+		"relativeUrl": "avatar.json"
+	},
+	{
+		"name": "badge",
+		"type": "registry:ui",
+		"description": "Labels a status, category, or count.",
+		"dependencies": [],
+		"registryDependencies": [],
+		"relativeUrl": "badge.json"
+	},
+	{
+		"name": "breadcrumb",
+		"type": "registry:ui",
+		"description": "Shows the current page within a hierarchy.",
+		"dependencies": [],
+		"registryDependencies": [],
+		"relativeUrl": "breadcrumb.json"
+	},
+	{
+		"name": "button",
+		"type": "registry:ui",
+		"description": "Triggers an action or navigates to another page.",
+		"dependencies": [
+			"@shardsui/svelte@0.1.0-beta.0"
+		],
+		"registryDependencies": [
+			"local:spinner"
+		],
+		"relativeUrl": "button.json"
+	},
+	{
+		"name": "card",
+		"type": "registry:ui",
+		"description": "Groups related content and actions.",
+		"dependencies": [],
+		"registryDependencies": [],
+		"relativeUrl": "card.json"
+	},
+	{
+		"name": "checkbox",
+		"type": "registry:ui",
+		"description": "Lets a user select or clear an option.",
+		"dependencies": [
+			"@shardsui/svelte@0.1.0-beta.0"
+		],
+		"registryDependencies": [],
+		"relativeUrl": "checkbox.json"
+	},
+	{
+		"name": "empty",
+		"type": "registry:ui",
+		"description": "Explains an empty state and its next actions.",
+		"dependencies": [],
+		"registryDependencies": [],
+		"relativeUrl": "empty.json"
+	},
+	{
+		"name": "frame",
+		"type": "registry:ui",
+		"description": "Frames related content with a header and footer.",
+		"dependencies": [],
+		"registryDependencies": [],
+		"relativeUrl": "frame.json"
+	},
+	{
+		"name": "input",
+		"type": "registry:ui",
+		"description": "Collects a single line of user input.",
+		"dependencies": [
+			"@shardsui/svelte@0.1.0-beta.0"
+		],
+		"registryDependencies": [],
+		"relativeUrl": "input.json"
+	},
+	{
+		"name": "kbd",
+		"type": "registry:ui",
+		"description": "Represents keyboard input and shortcuts.",
+		"dependencies": [],
+		"registryDependencies": [],
+		"relativeUrl": "kbd.json"
+	},
+	{
+		"name": "label",
+		"type": "registry:ui",
+		"description": "Labels an associated form control.",
+		"dependencies": [],
+		"registryDependencies": [],
+		"relativeUrl": "label.json"
+	},
+	{
+		"name": "meter",
+		"type": "registry:ui",
+		"description": "Shows a scalar measurement within a known range.",
+		"dependencies": [
+			"@shardsui/svelte@0.1.0-beta.0"
+		],
+		"registryDependencies": [],
+		"relativeUrl": "meter.json"
+	},
+	{
+		"name": "progress",
+		"type": "registry:ui",
+		"description": "Shows progress toward completing a task.",
+		"dependencies": [
+			"@shardsui/svelte@0.1.0-beta.0"
+		],
+		"registryDependencies": [],
+		"relativeUrl": "progress.json"
+	},
+	{
 		"name": "separator",
 		"type": "registry:ui",
 		"description": "Visually or semantically separates content.",
@@ -8,5 +134,64 @@
 		],
 		"registryDependencies": [],
 		"relativeUrl": "separator.json"
+	},
+	{
+		"name": "skeleton",
+		"type": "registry:ui",
+		"description": "Reserves space while content is loading.",
+		"dependencies": [],
+		"registryDependencies": [],
+		"relativeUrl": "skeleton.json"
+	},
+	{
+		"name": "spinner",
+		"type": "registry:ui",
+		"description": "Indicates that an operation is in progress.",
+		"dependencies": [],
+		"registryDependencies": [],
+		"relativeUrl": "spinner.json"
+	},
+	{
+		"name": "switch",
+		"type": "registry:ui",
+		"description": "Turns a setting on or off.",
+		"dependencies": [
+			"@shardsui/svelte@0.1.0-beta.0"
+		],
+		"registryDependencies": [],
+		"relativeUrl": "switch.json"
+	},
+	{
+		"name": "textarea",
+		"type": "registry:ui",
+		"description": "Collects multiline user input.",
+		"dependencies": [
+			"@shardsui/svelte@0.1.0-beta.0"
+		],
+		"registryDependencies": [],
+		"relativeUrl": "textarea.json"
+	},
+	{
+		"name": "toggle",
+		"type": "registry:ui",
+		"description": "Switches a single control between pressed and unpressed states.",
+		"dependencies": [
+			"@shardsui/svelte@0.1.0-beta.0"
+		],
+		"registryDependencies": [],
+		"relativeUrl": "toggle.json"
+	},
+	{
+		"name": "toggle-group",
+		"type": "registry:ui",
+		"description": "Groups related toggle controls with shared selection behavior.",
+		"dependencies": [
+			"@shardsui/svelte@0.1.0-beta.0"
+		],
+		"registryDependencies": [
+			"local:separator",
+			"local:toggle"
+		],
+		"relativeUrl": "toggle-group.json"
 	}
 ]

@@ -1,0 +1,31 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "avatar",
+	"type": "registry:ui",
+	"description": "Displays an image or fallback for a person or entity.",
+	"dependencies": [
+		"@shardsui/svelte@0.1.0-beta.0"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\nimport type { Avatar as ShardsAvatar } from \"@shardsui/svelte\";\nimport type { ComponentProps } from \"svelte\";\n\nexport type AvatarRootProps = ComponentProps<typeof ShardsAvatar.Root>;\n</script>\n\n<script lang=\"ts\">\nimport { Avatar as AvatarPrimitive } from \"@shardsui/svelte\";\nimport { cn } from \"$UTILS$.js\";\n\nconst baseClass =\n  \"inline-flex size-8 shrink-0 select-none items-center justify-center overflow-hidden rounded-full bg-background align-middle font-medium text-xs\";\n\nlet { class: className, ref = $bindable(null), ...props }: AvatarRootProps = $props();\nconst classes = $derived(cn(baseClass, className));\n</script>\n\n<AvatarPrimitive.Root bind:ref data-slot=\"avatar\" class={classes} {...props} />\n",
+			"type": "registry:ui",
+			"target": "avatar/avatar-root.svelte"
+		},
+		{
+			"content": "<script module lang=\"ts\">\nimport type { Avatar as ShardsAvatar } from \"@shardsui/svelte\";\nimport type { ComponentProps } from \"svelte\";\n\nexport type AvatarImageProps = ComponentProps<typeof ShardsAvatar.Image>;\n</script>\n\n<script lang=\"ts\">\nimport { Avatar as AvatarPrimitive } from \"@shardsui/svelte\";\nimport { cn } from \"$UTILS$.js\";\n\nlet { class: className, ref = $bindable(null), ...props }: AvatarImageProps = $props();\nconst classes = $derived(cn(\"size-full object-cover\", className));\n</script>\n\n<AvatarPrimitive.Image bind:ref data-slot=\"avatar-image\" class={classes} {...props} />\n",
+			"type": "registry:ui",
+			"target": "avatar/avatar-image.svelte"
+		},
+		{
+			"content": "<script module lang=\"ts\">\nimport type { Avatar as ShardsAvatar } from \"@shardsui/svelte\";\nimport type { ComponentProps } from \"svelte\";\n\nexport type AvatarFallbackProps = ComponentProps<typeof ShardsAvatar.Fallback>;\n</script>\n\n<script lang=\"ts\">\nimport { Avatar as AvatarPrimitive } from \"@shardsui/svelte\";\nimport { cn } from \"$UTILS$.js\";\n\nconst baseClass = \"flex size-full items-center justify-center rounded-full bg-muted\";\n\nlet { class: className, ref = $bindable(null), ...props }: AvatarFallbackProps = $props();\nconst classes = $derived(cn(baseClass, className));\n</script>\n\n<AvatarPrimitive.Fallback bind:ref data-slot=\"avatar-fallback\" class={classes} {...props} />\n",
+			"type": "registry:ui",
+			"target": "avatar/avatar-fallback.svelte"
+		},
+		{
+			"content": "export type { ImageLoadingStatus } from \"@shardsui/svelte\";\nexport { Avatar as AvatarPrimitive } from \"@shardsui/svelte\";\nexport type { AvatarFallbackProps } from \"./avatar-fallback.svelte\";\nexport {\n  default as AvatarFallback,\n  default as Fallback,\n} from \"./avatar-fallback.svelte\";\nexport type { AvatarImageProps } from \"./avatar-image.svelte\";\nexport { default as AvatarImage, default as Image } from \"./avatar-image.svelte\";\nexport type { AvatarRootProps } from \"./avatar-root.svelte\";\nexport { default as AvatarRoot, default as Root } from \"./avatar-root.svelte\";\n",
+			"type": "registry:ui",
+			"target": "avatar/index.ts"
+		}
+	]
+}

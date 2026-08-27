@@ -1,0 +1,83 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "card",
+	"type": "registry:ui",
+	"description": "Groups related content and actions.",
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\nexport type { CardProps } from \"./card-part.svelte\";\n</script>\n\n<script lang=\"ts\">\nimport CardPart, { type CardProps } from \"./card-part.svelte\";\n\nconst baseClass =\n  \"relative flex flex-col rounded-2xl border bg-card not-dark:bg-clip-padding text-card-foreground shadow-xs/5 before:pointer-events-none before:absolute before:inset-0 before:rounded-[calc(var(--radius-2xl)-1px)] before:shadow-[0_1px_--theme(--color-black/4%)] dark:before:shadow-[0_-1px_--theme(--color-white/6%)]\";\nlet { ref = $bindable(null), ...props }: CardProps = $props();\n</script>\n\n<CardPart bind:ref {baseClass} dataSlot=\"card\" {...props} />\n",
+			"type": "registry:ui",
+			"target": "card/card.svelte"
+		},
+		{
+			"content": "<script lang=\"ts\">\nimport CardPart, { type CardProps } from \"./card-part.svelte\";\n\nconst baseClass = \"col-start-2 row-span-2 row-start-1 inline-flex self-start justify-self-end\";\nlet { ref = $bindable(null), ...props }: CardProps = $props();\n</script>\n<CardPart bind:ref {baseClass} dataSlot=\"card-action\" {...props} />\n",
+			"type": "registry:ui",
+			"target": "card/card-action.svelte"
+		},
+		{
+			"content": "<script lang=\"ts\">\nimport CardPart, { type CardProps } from \"./card-part.svelte\";\n\nconst baseClass = \"text-muted-foreground text-sm\";\nlet { ref = $bindable(null), ...props }: CardProps = $props();\n</script>\n<CardPart bind:ref {baseClass} dataSlot=\"card-description\" {...props} />\n",
+			"type": "registry:ui",
+			"target": "card/card-description.svelte"
+		},
+		{
+			"content": "<script lang=\"ts\">\nimport CardPart, { type CardProps } from \"./card-part.svelte\";\n\nconst baseClass = \"flex items-center p-6 in-[[data-slot=card]:has(>[data-slot=card-panel])]:pt-4\";\nlet { ref = $bindable(null), ...props }: CardProps = $props();\n</script>\n<CardPart bind:ref {baseClass} dataSlot=\"card-footer\" {...props} />\n",
+			"type": "registry:ui",
+			"target": "card/card-footer.svelte"
+		},
+		{
+			"content": "<script lang=\"ts\">\nimport CardPart, { type CardProps } from \"./card-part.svelte\";\n\nconst baseClass =\n  \"relative flex flex-col rounded-2xl border bg-card not-dark:bg-clip-padding text-card-foreground shadow-xs/5 [--clip-bottom:-1rem] [--clip-top:-1rem] before:pointer-events-none before:absolute before:inset-0 before:rounded-[calc(var(--radius-2xl)-1px)] before:bg-muted/72 before:shadow-[0_1px_--theme(--color-black/4%)] has-data-[slot=table-container]:overflow-hidden *:data-[slot=card]:-m-px *:data-[slot=table-container]:-m-px *:data-[slot=table-container]:w-[calc(100%+2px)] *:not-first:data-[slot=card]:rounded-t-xl *:not-last:data-[slot=card]:rounded-b-xl *:data-[slot=card]:bg-clip-padding *:data-[slot=card]:shadow-none *:data-[slot=card]:before:hidden *:not-first:data-[slot=card]:before:rounded-t-[calc(var(--radius-xl)-1px)] *:not-last:data-[slot=card]:before:rounded-b-[calc(var(--radius-xl)-1px)] dark:before:shadow-[0_-1px_--theme(--color-white/6%)] *:data-[slot=card]:[clip-path:inset(var(--clip-top)_1px_var(--clip-bottom)_1px_round_calc(var(--radius-2xl)-1px))] *:data-[slot=card]:last:[--clip-bottom:1px] *:data-[slot=card]:first:[--clip-top:1px]\";\nlet { ref = $bindable(null), ...props }: CardProps = $props();\n</script>\n\n<CardPart bind:ref {baseClass} dataSlot=\"card-frame\" {...props} />\n",
+			"type": "registry:ui",
+			"target": "card/card-frame.svelte"
+		},
+		{
+			"content": "<script lang=\"ts\">\nimport CardPart, { type CardProps } from \"./card-part.svelte\";\n\nconst baseClass =\n  \"col-start-2 nth-3:row-span-2 nth-3:row-start-1 inline-flex self-center justify-self-end\";\nlet { ref = $bindable(null), ...props }: CardProps = $props();\n</script>\n<CardPart bind:ref {baseClass} dataSlot=\"card-frame-action\" {...props} />\n",
+			"type": "registry:ui",
+			"target": "card/card-frame-action.svelte"
+		},
+		{
+			"content": "<script lang=\"ts\">\nimport CardPart, { type CardProps } from \"./card-part.svelte\";\n\nconst baseClass = \"self-center text-muted-foreground text-sm\";\nlet { ref = $bindable(null), ...props }: CardProps = $props();\n</script>\n<CardPart bind:ref {baseClass} dataSlot=\"card-frame-description\" {...props} />\n",
+			"type": "registry:ui",
+			"target": "card/card-frame-description.svelte"
+		},
+		{
+			"content": "<script lang=\"ts\">\nimport CardPart, { type CardProps } from \"./card-part.svelte\";\n\nconst baseClass = \"px-6 py-4\";\nlet { ref = $bindable(null), ...props }: CardProps = $props();\n</script>\n<CardPart bind:ref {baseClass} dataSlot=\"card-frame-footer\" {...props} />\n",
+			"type": "registry:ui",
+			"target": "card/card-frame-footer.svelte"
+		},
+		{
+			"content": "<script lang=\"ts\">\nimport CardPart, { type CardProps } from \"./card-part.svelte\";\n\nconst baseClass =\n  \"relative flex grid auto-rows-min grid-rows-[auto_auto] flex-col items-start gap-x-4 px-6 py-4 has-data-[slot=card-frame-action]:grid-cols-[1fr_auto]\";\nlet { ref = $bindable(null), ...props }: CardProps = $props();\n</script>\n<CardPart bind:ref {baseClass} dataSlot=\"card-frame-header\" {...props} />\n",
+			"type": "registry:ui",
+			"target": "card/card-frame-header.svelte"
+		},
+		{
+			"content": "<script lang=\"ts\">\nimport CardPart, { type CardProps } from \"./card-part.svelte\";\n\nconst baseClass = \"self-center font-semibold text-sm\";\nlet { ref = $bindable(null), ...props }: CardProps = $props();\n</script>\n<CardPart bind:ref {baseClass} dataSlot=\"card-frame-title\" {...props} />\n",
+			"type": "registry:ui",
+			"target": "card/card-frame-title.svelte"
+		},
+		{
+			"content": "<script lang=\"ts\">\nimport CardPart, { type CardProps } from \"./card-part.svelte\";\n\nconst baseClass =\n  \"grid auto-rows-min grid-rows-[auto_auto] items-start gap-1.5 p-6 in-[[data-slot=card]:has(>[data-slot=card-panel])]:pb-4 has-data-[slot=card-action]:grid-cols-[1fr_auto]\";\nlet { ref = $bindable(null), ...props }: CardProps = $props();\n</script>\n<CardPart bind:ref {baseClass} dataSlot=\"card-header\" {...props} />\n",
+			"type": "registry:ui",
+			"target": "card/card-header.svelte"
+		},
+		{
+			"content": "<script lang=\"ts\">\nimport CardPart, { type CardProps } from \"./card-part.svelte\";\n\nconst baseClass =\n  \"flex-1 p-6 in-[[data-slot=card]:has(>[data-slot=card-header]:not(.border-b))]:pt-0 in-[[data-slot=card]:has(>[data-slot=card-footer]:not(.border-t))]:pb-0\";\nlet { ref = $bindable(null), ...props }: CardProps = $props();\n</script>\n<CardPart bind:ref {baseClass} dataSlot=\"card-panel\" {...props} />\n",
+			"type": "registry:ui",
+			"target": "card/card-panel.svelte"
+		},
+		{
+			"content": "<script module lang=\"ts\">\nimport type { Snippet } from \"svelte\";\nimport type { SvelteHTMLElements } from \"svelte/elements\";\n\nexport type CardProps = Omit<SvelteHTMLElements[\"div\"], \"children\"> & {\n  as?: keyof HTMLElementTagNameMap;\n  children?: Snippet;\n  ref?: HTMLElement | null;\n};\n</script>\n\n<script lang=\"ts\">\nimport { cn } from \"$UTILS$.js\";\n\ntype Props = CardProps & { baseClass: string; dataSlot: string };\nlet {\n  as = \"div\",\n  baseClass,\n  children,\n  class: className,\n  dataSlot,\n  ref = $bindable(null),\n  ...props\n}: Props = $props();\n</script>\n\n<svelte:element\n  this={as}\n  bind:this={ref}\n  class={cn(baseClass, className)}\n  data-slot={dataSlot}\n  {...props}\n>\n  {@render children?.()}\n</svelte:element>\n",
+			"type": "registry:ui",
+			"target": "card/card-part.svelte"
+		},
+		{
+			"content": "<script lang=\"ts\">\nimport CardPart, { type CardProps } from \"./card-part.svelte\";\n\nconst baseClass = \"font-heading font-semibold text-lg leading-none\";\nlet { ref = $bindable(null), ...props }: CardProps = $props();\n</script>\n<CardPart bind:ref {baseClass} dataSlot=\"card-title\" {...props} />\n",
+			"type": "registry:ui",
+			"target": "card/card-title.svelte"
+		},
+		{
+			"content": "export type { CardProps } from \"./card.svelte\";\nexport { default as Card } from \"./card.svelte\";\nexport { default as CardAction } from \"./card-action.svelte\";\nexport { default as CardDescription } from \"./card-description.svelte\";\nexport { default as CardFooter } from \"./card-footer.svelte\";\nexport { default as CardFrame } from \"./card-frame.svelte\";\nexport { default as CardFrameAction } from \"./card-frame-action.svelte\";\nexport { default as CardFrameDescription } from \"./card-frame-description.svelte\";\nexport { default as CardFrameFooter } from \"./card-frame-footer.svelte\";\nexport { default as CardFrameHeader } from \"./card-frame-header.svelte\";\nexport { default as CardFrameTitle } from \"./card-frame-title.svelte\";\nexport { default as CardHeader } from \"./card-header.svelte\";\nexport { default as CardPanel, default as CardContent } from \"./card-panel.svelte\";\nexport { default as CardTitle } from \"./card-title.svelte\";\n",
+			"type": "registry:ui",
+			"target": "card/index.ts"
+		}
+	]
+}

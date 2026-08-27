@@ -385,6 +385,24 @@ test("rejects each inert component source laundering shape independently", () =>
   }
 });
 
+test("accepts the compound-component root naming convention", () => {
+  const fixture = promotedTargetFixtures[0];
+  assert.ok(fixture);
+  const root = mkdtempSync(join(tmpdir(), "coss-sv-compound-root-"));
+  try {
+    writeFixtureManifest(root, fixture);
+    const target = join(root, fixture.targetPath);
+    mkdirSync(target, { recursive: true });
+    writeFileSync(join(target, `${fixture.id}-root.svelte`), "<button>Accordion</button>\n");
+    const manifests = collectTargetManifests(root);
+    assert.doesNotThrow(() =>
+      validateTargetManifestParity([fixtureEntry(fixture)], manifests, root),
+    );
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
+});
+
 test("rejects inert Svelte expressions without rejecting authored dynamic output", () => {
   const fixtures = promotedTargetFixtures.filter(
     (

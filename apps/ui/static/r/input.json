@@ -1,0 +1,21 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "input",
+	"type": "registry:ui",
+	"description": "Collects a single line of user input.",
+	"dependencies": [
+		"@shardsui/svelte@0.1.0-beta.0"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\nimport type { HTMLInputAttributes } from \"svelte/elements\";\n\nexport type InputSize = \"sm\" | \"default\" | \"lg\" | number;\n\nexport type InputProps = Omit<HTMLInputAttributes, \"class\" | \"size\"> & {\n  class?: string;\n  nativeInput?: boolean;\n  onValueChange?: (value: string) => void;\n  ref?: HTMLInputElement | null;\n  size?: InputSize;\n  unstyled?: boolean;\n};\n</script>\n\n<script lang=\"ts\">\nimport { Input as InputPrimitive } from \"@shardsui/svelte\";\nimport type { Component } from \"svelte\";\nimport { cn } from \"$UTILS$.js\";\n\nconst controlClass =\n  \"relative inline-flex w-full rounded-lg border border-input bg-background not-dark:bg-clip-padding text-base shadow-xs/5 ring-ring/24 transition-shadow before:pointer-events-none before:absolute before:inset-0 before:rounded-[calc(var(--radius-lg)-1px)] not-has-disabled:not-has-focus-visible:not-has-aria-invalid:before:shadow-[0_1px_--theme(--color-black/4%)] has-focus-visible:has-aria-invalid:border-destructive/64 has-focus-visible:has-aria-invalid:ring-destructive/16 has-aria-invalid:border-destructive/36 has-focus-visible:border-ring has-autofill:bg-foreground/4 has-disabled:opacity-64 has-[:disabled,:focus-visible,[aria-invalid]]:shadow-none has-focus-visible:ring-[3px] sm:text-sm dark:bg-input/32 dark:has-autofill:bg-foreground/8 dark:has-aria-invalid:ring-destructive/24 dark:not-has-disabled:not-has-focus-visible:not-has-aria-invalid:before:shadow-[0_-1px_--theme(--color-white/6%)]\";\n\nconst inputClass =\n  \"h-8.5 w-full min-w-0 rounded-[inherit] px-[calc(--spacing(3)-1px)] text-foreground leading-8.5 outline-none [transition:background-color_5000000s_ease-in-out_0s] placeholder:text-muted-foreground/72 sm:h-7.5 sm:leading-7.5 autofill:[-webkit-text-fill-color:var(--foreground)]\";\n\nconst InputControl = InputPrimitive as unknown as Component<InputProps, object, \"ref\" | \"value\">;\n\nlet {\n  class: className,\n  nativeInput = false,\n  ref = $bindable(null),\n  size = \"default\",\n  type,\n  unstyled = false,\n  value = $bindable(),\n  ...props\n}: InputProps = $props();\n\nconst classes = $derived(cn(!unstyled && controlClass, className) || undefined);\nconst nativeSize = $derived(typeof size === \"number\" ? size : undefined);\nconst nativeSizeProps = $derived(nativeSize === undefined ? {} : { size: nativeSize });\nconst innerClasses = $derived(\n  cn(\n    inputClass,\n    size === \"sm\" && \"h-7.5 px-[calc(--spacing(2.5)-1px)] leading-7.5 sm:h-6.5 sm:leading-6.5\",\n    size === \"lg\" && \"h-9.5 leading-9.5 sm:h-8.5 sm:leading-8.5\",\n    type === \"search\" &&\n      \"[&::-webkit-search-cancel-button]:appearance-none [&::-webkit-search-decoration]:appearance-none [&::-webkit-search-results-button]:appearance-none [&::-webkit-search-results-decoration]:appearance-none\",\n    type === \"file\" &&\n      \"text-muted-foreground file:me-3 file:bg-transparent file:font-medium file:text-foreground file:text-sm\",\n  ),\n);\n</script>\n\n<span data-size={size} data-slot=\"input-control\" class={classes}>\n  {#if nativeInput}\n    {#if type === \"file\"}\n      <input\n        bind:this={ref}\n        {type}\n        size={nativeSize}\n        data-slot=\"input\"\n        class={innerClasses}\n        {...props}\n      >\n    {:else}\n      <input\n        bind:this={ref}\n        bind:value\n        {type}\n        size={nativeSize}\n        data-slot=\"input\"\n        class={innerClasses}\n        {...props}\n      >\n    {/if}\n  {:else}\n    <InputControl\n      bind:ref\n      bind:value\n      {type}\n      {...nativeSizeProps}\n      data-slot=\"input\"\n      class={innerClasses}\n      {...props}\n    />\n  {/if}\n</span>\n",
+			"type": "registry:ui",
+			"target": "input/input.svelte"
+		},
+		{
+			"content": "export { Input as InputPrimitive } from \"@shardsui/svelte\";\nexport type { InputProps, InputSize } from \"./input.svelte\";\nexport { default as Input } from \"./input.svelte\";\n",
+			"type": "registry:ui",
+			"target": "input/index.ts"
+		}
+	]
+}

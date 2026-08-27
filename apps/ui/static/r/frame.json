@@ -1,0 +1,43 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "frame",
+	"type": "registry:ui",
+	"description": "Frames related content with a header and footer.",
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\nimport type { Snippet } from \"svelte\";\nimport type { HTMLAttributes } from \"svelte/elements\";\n\nexport type FrameProps = HTMLAttributes<HTMLDivElement> & {\n  children?: Snippet;\n  ref?: HTMLDivElement | null;\n};\n</script>\n\n<script lang=\"ts\">\nimport { cn } from \"$UTILS$.js\";\n\nconst baseClass =\n  \"relative flex flex-col rounded-2xl bg-muted/72 p-1 *:[[data-slot=frame-panel]+[data-slot=frame-panel]]:mt-1\";\n\nlet { children, class: className, ref = $bindable(null), ...props }: FrameProps = $props();\n</script>\n\n<div class={cn(baseClass, className)} data-slot=\"frame\" bind:this={ref} {...props}>\n  {@render children?.()}\n</div>\n",
+			"type": "registry:ui",
+			"target": "frame/frame.svelte"
+		},
+		{
+			"content": "<script module lang=\"ts\">\nimport type { Snippet } from \"svelte\";\nimport type { HTMLAttributes } from \"svelte/elements\";\n\nexport type FrameDescriptionProps = HTMLAttributes<HTMLDivElement> & {\n  children?: Snippet;\n  ref?: HTMLDivElement | null;\n};\n</script>\n\n<script lang=\"ts\">\nimport { cn } from \"$UTILS$.js\";\n\nlet {\n  children,\n  class: className,\n  ref = $bindable(null),\n  ...props\n}: FrameDescriptionProps = $props();\n</script>\n\n<div\n  class={cn(\"text-muted-foreground text-sm\", className)}\n  data-slot=\"frame-panel-description\"\n  bind:this={ref}\n  {...props}\n>\n  {@render children?.()}\n</div>\n",
+			"type": "registry:ui",
+			"target": "frame/frame-description.svelte"
+		},
+		{
+			"content": "<script module lang=\"ts\">\nimport type { Snippet } from \"svelte\";\nimport type { HTMLAttributes } from \"svelte/elements\";\n\nexport type FrameFooterProps = HTMLAttributes<HTMLElement> & {\n  children?: Snippet;\n  ref?: HTMLElement | null;\n};\n</script>\n\n<script lang=\"ts\">\nimport { cn } from \"$UTILS$.js\";\n\nlet { children, class: className, ref = $bindable(null), ...props }: FrameFooterProps = $props();\n</script>\n\n<footer\n  class={cn(\"px-5 py-4\", className)}\n  data-slot=\"frame-panel-footer\"\n  bind:this={ref}\n  {...props}\n>\n  {@render children?.()}\n</footer>\n",
+			"type": "registry:ui",
+			"target": "frame/frame-footer.svelte"
+		},
+		{
+			"content": "<script module lang=\"ts\">\nimport type { Snippet } from \"svelte\";\nimport type { HTMLAttributes } from \"svelte/elements\";\n\nexport type FrameHeaderProps = HTMLAttributes<HTMLElement> & {\n  children?: Snippet;\n  ref?: HTMLElement | null;\n};\n</script>\n\n<script lang=\"ts\">\nimport { cn } from \"$UTILS$.js\";\n\nlet { children, class: className, ref = $bindable(null), ...props }: FrameHeaderProps = $props();\n</script>\n\n<header\n  class={cn(\"flex flex-col px-5 py-4\", className)}\n  data-slot=\"frame-panel-header\"\n  bind:this={ref}\n  {...props}\n>\n  {@render children?.()}\n</header>\n",
+			"type": "registry:ui",
+			"target": "frame/frame-header.svelte"
+		},
+		{
+			"content": "<script module lang=\"ts\">\nimport type { Snippet } from \"svelte\";\nimport type { HTMLAttributes } from \"svelte/elements\";\n\nexport type FramePanelProps = HTMLAttributes<HTMLDivElement> & {\n  children?: Snippet;\n  ref?: HTMLDivElement | null;\n};\n</script>\n\n<script lang=\"ts\">\nimport { cn } from \"$UTILS$.js\";\n\nconst baseClass =\n  \"relative rounded-xl border bg-background bg-clip-padding p-5 shadow-xs/5 before:pointer-events-none before:absolute before:inset-0 before:rounded-[calc(var(--radius-xl)-1px)] before:shadow-[0_1px_--theme(--color-black/4%)] dark:before:shadow-[0_-1px_--theme(--color-white/6%)]\";\n\nlet { children, class: className, ref = $bindable(null), ...props }: FramePanelProps = $props();\n</script>\n\n<div class={cn(baseClass, className)} data-slot=\"frame-panel\" bind:this={ref} {...props}>\n  {@render children?.()}\n</div>\n",
+			"type": "registry:ui",
+			"target": "frame/frame-panel.svelte"
+		},
+		{
+			"content": "<script module lang=\"ts\">\nimport type { Snippet } from \"svelte\";\nimport type { HTMLAttributes } from \"svelte/elements\";\n\nexport type FrameTitleProps = HTMLAttributes<HTMLDivElement> & {\n  children?: Snippet;\n  ref?: HTMLDivElement | null;\n};\n</script>\n\n<script lang=\"ts\">\nimport { cn } from \"$UTILS$.js\";\n\nlet { children, class: className, ref = $bindable(null), ...props }: FrameTitleProps = $props();\n</script>\n\n<div\n  class={cn(\"font-semibold text-sm\", className)}\n  data-slot=\"frame-panel-title\"\n  bind:this={ref}\n  {...props}\n>\n  {@render children?.()}\n</div>\n",
+			"type": "registry:ui",
+			"target": "frame/frame-title.svelte"
+		},
+		{
+			"content": "export type { FrameProps } from \"./frame.svelte\";\nexport { default as Frame, default as Root } from \"./frame.svelte\";\nexport type { FrameDescriptionProps } from \"./frame-description.svelte\";\nexport { default as FrameDescription, default as Description } from \"./frame-description.svelte\";\nexport type { FrameFooterProps } from \"./frame-footer.svelte\";\nexport { default as FrameFooter, default as Footer } from \"./frame-footer.svelte\";\nexport type { FrameHeaderProps } from \"./frame-header.svelte\";\nexport { default as FrameHeader, default as Header } from \"./frame-header.svelte\";\nexport type { FramePanelProps } from \"./frame-panel.svelte\";\nexport { default as FramePanel, default as Panel } from \"./frame-panel.svelte\";\nexport type { FrameTitleProps } from \"./frame-title.svelte\";\nexport { default as FrameTitle, default as Title } from \"./frame-title.svelte\";\n",
+			"type": "registry:ui",
+			"target": "frame/index.ts"
+		}
+	]
+}

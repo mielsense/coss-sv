@@ -1,0 +1,48 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "breadcrumb",
+	"type": "registry:ui",
+	"description": "Shows the current page within a hierarchy.",
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\nimport type { Snippet } from \"svelte\";\nimport type { HTMLAttributes } from \"svelte/elements\";\n\nexport type BreadcrumbNavProps = HTMLAttributes<HTMLElement> & {\n  children?: Snippet;\n  ref?: HTMLElement | null;\n};\n</script>\n\n<script lang=\"ts\">\nlet { children, ref = $bindable(null), ...props }: BreadcrumbNavProps = $props();\n</script>\n\n<nav aria-label=\"breadcrumb\" data-slot=\"breadcrumb\" bind:this={ref} {...props}>\n  {@render children?.()}\n</nav>\n",
+			"type": "registry:ui",
+			"target": "breadcrumb/breadcrumb.svelte"
+		},
+		{
+			"content": "<script module lang=\"ts\">\nimport type { Snippet } from \"svelte\";\nimport type { HTMLAttributes } from \"svelte/elements\";\n\nexport type BreadcrumbEllipsisProps = HTMLAttributes<HTMLSpanElement> & {\n  children?: Snippet;\n  ref?: HTMLSpanElement | null;\n};\n</script>\n\n<script lang=\"ts\">\nlet { children: _children, ref = $bindable(null), ...props }: BreadcrumbEllipsisProps = $props();\n</script>\n\n<span\n  aria-hidden=\"true\"\n  data-slot=\"breadcrumb-ellipsis\"\n  role=\"presentation\"\n  bind:this={ref}\n  {...props}\n>\n  <svg\n    xmlns=\"http://www.w3.org/2000/svg\"\n    width=\"24\"\n    height=\"24\"\n    viewBox=\"0 0 24 24\"\n    fill=\"none\"\n    stroke=\"currentColor\"\n    stroke-width=\"2\"\n    stroke-linecap=\"round\"\n    stroke-linejoin=\"round\"\n    class=\"lucide lucide-ellipsis size-4\"\n    aria-hidden=\"true\"\n  >\n    <circle cx=\"12\" cy=\"12\" r=\"1\"></circle>\n    <circle cx=\"19\" cy=\"12\" r=\"1\"></circle>\n    <circle cx=\"5\" cy=\"12\" r=\"1\"></circle>\n  </svg>\n  <span class=\"sr-only\">More</span>\n</span>\n",
+			"type": "registry:ui",
+			"target": "breadcrumb/breadcrumb-ellipsis.svelte"
+		},
+		{
+			"content": "<script module lang=\"ts\">\nimport type { Snippet } from \"svelte\";\nimport type { HTMLLiAttributes } from \"svelte/elements\";\n\nexport type BreadcrumbItemProps = HTMLLiAttributes & {\n  children?: Snippet;\n  ref?: HTMLLIElement | null;\n};\n</script>\n\n<script lang=\"ts\">\nimport { cn } from \"$UTILS$.js\";\n\nlet { children, class: className, ref = $bindable(null), ...props }: BreadcrumbItemProps = $props();\n</script>\n\n<li\n  class={cn(\"inline-flex items-center gap-1.5\", className)}\n  data-slot=\"breadcrumb-item\"\n  bind:this={ref}\n  {...props}\n>\n  {@render children?.()}\n</li>\n",
+			"type": "registry:ui",
+			"target": "breadcrumb/breadcrumb-item.svelte"
+		},
+		{
+			"content": "<script module lang=\"ts\">\nimport type { Snippet } from \"svelte\";\nimport type { HTMLAnchorAttributes } from \"svelte/elements\";\n\nexport type BreadcrumbLinkProps = HTMLAnchorAttributes & {\n  as?: keyof HTMLElementTagNameMap;\n  children?: Snippet;\n  ref?: HTMLElement | null;\n};\n</script>\n\n<script lang=\"ts\">\nimport { cn } from \"$UTILS$.js\";\n\nlet {\n  as = \"a\",\n  children,\n  class: className,\n  ref = $bindable(null),\n  ...props\n}: BreadcrumbLinkProps = $props();\n</script>\n\n<svelte:element\n  this={as}\n  class={cn(\"transition-colors hover:text-foreground\", className)}\n  data-slot=\"breadcrumb-link\"\n  bind:this={ref}\n  {...props}\n>\n  {@render children?.()}\n</svelte:element>\n",
+			"type": "registry:ui",
+			"target": "breadcrumb/breadcrumb-link.svelte"
+		},
+		{
+			"content": "<script module lang=\"ts\">\nimport type { Snippet } from \"svelte\";\nimport type { HTMLOlAttributes } from \"svelte/elements\";\n\nexport type BreadcrumbListProps = HTMLOlAttributes & {\n  children?: Snippet;\n  ref?: HTMLOListElement | null;\n};\n</script>\n\n<script lang=\"ts\">\nimport { cn } from \"$UTILS$.js\";\n\nconst baseClass =\n  \"wrap-break-word flex flex-wrap items-center gap-1.5 text-muted-foreground text-sm sm:gap-2.5\";\n\nlet { children, class: className, ref = $bindable(null), ...props }: BreadcrumbListProps = $props();\n</script>\n\n<ol class={cn(baseClass, className)} data-slot=\"breadcrumb-list\" bind:this={ref} {...props}>\n  {@render children?.()}\n</ol>\n",
+			"type": "registry:ui",
+			"target": "breadcrumb/breadcrumb-list.svelte"
+		},
+		{
+			"content": "<script module lang=\"ts\">\nimport type { Snippet } from \"svelte\";\nimport type { HTMLAttributes } from \"svelte/elements\";\n\nexport type BreadcrumbPageProps = HTMLAttributes<HTMLSpanElement> & {\n  children?: Snippet;\n  ref?: HTMLSpanElement | null;\n};\n</script>\n\n<script lang=\"ts\">\nimport { cn } from \"$UTILS$.js\";\n\nlet { children, class: className, ref = $bindable(null), ...props }: BreadcrumbPageProps = $props();\n</script>\n\n<span\n  aria-current=\"page\"\n  class={cn(\"font-normal text-foreground\", className)}\n  data-slot=\"breadcrumb-page\"\n  bind:this={ref}\n  {...props}\n>\n  {@render children?.()}\n</span>\n",
+			"type": "registry:ui",
+			"target": "breadcrumb/breadcrumb-page.svelte"
+		},
+		{
+			"content": "<script module lang=\"ts\">\nimport type { Snippet } from \"svelte\";\nimport type { HTMLLiAttributes } from \"svelte/elements\";\n\nexport type BreadcrumbSeparatorProps = HTMLLiAttributes & {\n  children?: Snippet;\n  ref?: HTMLLIElement | null;\n};\n</script>\n\n<script lang=\"ts\">\nimport { cn } from \"$UTILS$.js\";\n\nlet {\n  children,\n  class: className,\n  ref = $bindable(null),\n  ...props\n}: BreadcrumbSeparatorProps = $props();\n</script>\n\n<li\n  aria-hidden=\"true\"\n  class={cn(\"opacity-80 [&>svg]:size-4\", className)}\n  data-slot=\"breadcrumb-separator\"\n  role=\"presentation\"\n  bind:this={ref}\n  {...props}\n>\n  {#if children}\n    {@render children()}\n  {:else}\n    <svg\n      xmlns=\"http://www.w3.org/2000/svg\"\n      width=\"24\"\n      height=\"24\"\n      viewBox=\"0 0 24 24\"\n      fill=\"none\"\n      stroke=\"currentColor\"\n      stroke-width=\"2\"\n      stroke-linecap=\"round\"\n      stroke-linejoin=\"round\"\n      class=\"lucide lucide-chevron-right\"\n      aria-hidden=\"true\"\n    >\n      <path d=\"m9 18 6-6-6-6\"></path>\n    </svg>\n  {/if}\n</li>\n",
+			"type": "registry:ui",
+			"target": "breadcrumb/breadcrumb-separator.svelte"
+		},
+		{
+			"content": "export type { BreadcrumbNavProps } from \"./breadcrumb.svelte\";\nexport { default as Breadcrumb, default as Root } from \"./breadcrumb.svelte\";\nexport type { BreadcrumbEllipsisProps } from \"./breadcrumb-ellipsis.svelte\";\nexport { default as BreadcrumbEllipsis, default as Ellipsis } from \"./breadcrumb-ellipsis.svelte\";\nexport type { BreadcrumbItemProps } from \"./breadcrumb-item.svelte\";\nexport { default as BreadcrumbItem, default as Item } from \"./breadcrumb-item.svelte\";\nexport type { BreadcrumbLinkProps } from \"./breadcrumb-link.svelte\";\nexport { default as BreadcrumbLink, default as Link } from \"./breadcrumb-link.svelte\";\nexport type { BreadcrumbListProps } from \"./breadcrumb-list.svelte\";\nexport { default as BreadcrumbList, default as List } from \"./breadcrumb-list.svelte\";\nexport type { BreadcrumbPageProps } from \"./breadcrumb-page.svelte\";\nexport { default as BreadcrumbPage, default as Page } from \"./breadcrumb-page.svelte\";\nexport type { BreadcrumbSeparatorProps } from \"./breadcrumb-separator.svelte\";\nexport {\n  default as BreadcrumbSeparator,\n  default as Separator,\n} from \"./breadcrumb-separator.svelte\";\n",
+			"type": "registry:ui",
+			"target": "breadcrumb/index.ts"
+		}
+	]
+}

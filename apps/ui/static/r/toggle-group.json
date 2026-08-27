@@ -1,0 +1,45 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "toggle-group",
+	"type": "registry:ui",
+	"description": "Groups related toggle controls with shared selection behavior.",
+	"dependencies": [
+		"@shardsui/svelte@0.1.0-beta.0"
+	],
+	"registryDependencies": [
+		"./separator.json",
+		"./toggle.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\nimport type { Snippet } from \"svelte\";\nimport type { HTMLAttributes } from \"svelte/elements\";\nimport type { ToggleSize, ToggleVariant } from \"../toggle/toggle-variants.js\";\n\nexport type ToggleGroupRootState = {\n  disabled: boolean;\n  multiple: boolean;\n  orientation: \"horizontal\" | \"vertical\";\n};\n\nexport type ToggleGroupRootProps<Value extends string = string> = Omit<\n  HTMLAttributes<HTMLDivElement>,\n  \"children\" | \"id\"\n> & {\n  as?: keyof HTMLElementTagNameMap;\n  children?: Snippet<[ToggleGroupRootState]>;\n  defaultValue?: readonly Value[];\n  disabled?: boolean;\n  id?: string;\n  loopFocus?: boolean;\n  multiple?: boolean;\n  onValueChange?: (value: Value[]) => void;\n  orientation?: \"horizontal\" | \"vertical\";\n  ref?: HTMLElement | null;\n  size?: ToggleSize;\n  value?: readonly Value[];\n  variant?: ToggleVariant;\n};\n</script>\n\n<script lang=\"ts\" generics=\"Value extends string = string\">\nimport { ToggleGroup as ToggleGroupPrimitive } from \"@shardsui/svelte\";\nimport { setToggleGroupStyleContext } from \"./context.js\";\nimport { toggleGroupClasses } from \"./toggle-group-styles.js\";\n\nlet {\n  class: className,\n  defaultValue,\n  disabled = false,\n  loopFocus = true,\n  multiple = false,\n  orientation = \"horizontal\",\n  ref = $bindable(null),\n  size = \"default\",\n  value = $bindable(defaultValue),\n  variant = \"default\",\n  ...props\n}: ToggleGroupRootProps<Value> = $props();\n\nconst classes = $derived(toggleGroupClasses({ class: className, orientation, size, variant }));\n\nsetToggleGroupStyleContext({\n  get size() {\n    return size;\n  },\n  get variant() {\n    return variant;\n  },\n});\n</script>\n\n<ToggleGroupPrimitive\n  bind:ref\n  bind:value\n  {disabled}\n  {loopFocus}\n  {multiple}\n  {orientation}\n  data-size={size}\n  data-slot=\"toggle-group\"\n  data-variant={variant}\n  class={classes}\n  {...props}\n/>\n",
+			"type": "registry:ui",
+			"target": "toggle-group/toggle-group-root.svelte"
+		},
+		{
+			"content": "<script module lang=\"ts\">\nimport type { ToggleProps } from \"../toggle/toggle.svelte\";\n\nexport type ToggleGroupItemProps = ToggleProps;\n</script>\n\n<script lang=\"ts\">\nimport Toggle from \"../toggle/toggle.svelte\";\nimport { getToggleGroupStyleContext } from \"./context.js\";\n\nlet {\n  pressed = $bindable(false),\n  ref = $bindable(null),\n  size: sizeProp,\n  variant: variantProp,\n  ...props\n}: ToggleGroupItemProps = $props();\n\nconst context = getToggleGroupStyleContext();\nconst size = $derived(context.size || sizeProp || \"default\");\nconst variant = $derived(context.variant || variantProp || \"default\");\n</script>\n\n<Toggle bind:pressed bind:ref data-size={size} data-variant={variant} {size} {variant} {...props} />\n",
+			"type": "registry:ui",
+			"target": "toggle-group/toggle-group-item.svelte"
+		},
+		{
+			"content": "<script module lang=\"ts\">\nimport type { SeparatorProps } from \"../separator/separator.svelte\";\n\nexport type ToggleGroupSeparatorProps = SeparatorProps;\n</script>\n\n<script lang=\"ts\">\nimport { cn } from \"$UTILS$.js\";\nimport Separator from \"../separator/separator.svelte\";\n\nlet {\n  class: className,\n  orientation = \"vertical\",\n  ref = $bindable(null),\n  ...props\n}: ToggleGroupSeparatorProps = $props();\n\nconst classes = $derived(\n  cn(\n    \"pointer-events-none relative bg-input before:absolute before:inset-0 dark:before:bg-input/32\",\n    className,\n  ),\n);\n</script>\n\n<Separator bind:ref {orientation} class={classes} {...props} />\n",
+			"type": "registry:ui",
+			"target": "toggle-group/toggle-group-separator.svelte"
+		},
+		{
+			"content": "import type { ClassValue } from \"clsx\";\nimport { cn } from \"$UTILS$.js\";\nimport type { ToggleSize, ToggleVariant } from \"../toggle/toggle-variants.js\";\n\nexport type ToggleGroupStyleOptions = {\n  class?: ClassValue;\n  orientation?: \"horizontal\" | \"vertical\";\n  size?: ToggleSize;\n  variant?: ToggleVariant;\n};\n\nconst baseClass =\n  \"flex w-fit *:focus-visible:z-10 dark:*:[[data-slot=separator]:has(+[data-slot=toggle]:hover)]:before:bg-input/64 dark:*:[[data-slot=separator]:has(+[data-slot=toggle][data-pressed])]:before:bg-input dark:*:[[data-slot=toggle]:hover+[data-slot=separator]]:before:bg-input/64 dark:*:[[data-slot=toggle][data-pressed]+[data-slot=separator]]:before:bg-input\";\n\nconst horizontalOutlineClass =\n  \"*:not-first:rounded-s-none *:not-last:rounded-e-none *:not-first:border-s-0 *:not-last:border-e-0 *:not-first:not-data-[slot=separator]:before:-start-[0.5px] *:not-last:not-data-[slot=separator]:before:-end-[0.5px] *:not-first:before:rounded-s-none *:not-last:before:rounded-e-none\";\n\nconst verticalOutlineClass =\n  \"flex-col *:not-first:rounded-t-none *:not-last:rounded-b-none *:not-first:border-t-0 *:not-last:border-b-0 *:not-first:not-data-[slot=separator]:before:-top-[0.5px] *:not-last:not-data-[slot=separator]:before:-bottom-[0.5px] *:not-first:before:rounded-t-none *:not-last:before:rounded-b-none *:data-[slot=toggle]:not-last:before:hidden dark:*:last:before:hidden dark:*:first:before:block\";\n\nexport function toggleGroupClasses(options: ToggleGroupStyleOptions = {}): string {\n  const { class: className, orientation = \"horizontal\", variant = \"default\" } = options;\n\n  return cn(\n    baseClass,\n    orientation === \"horizontal\"\n      ? \"*:pointer-coarse:after:min-w-auto\"\n      : \"*:pointer-coarse:after:min-h-auto\",\n    variant === \"default\"\n      ? \"gap-0.5\"\n      : orientation === \"horizontal\"\n        ? horizontalOutlineClass\n        : verticalOutlineClass,\n    className,\n  );\n}\n",
+			"type": "registry:ui",
+			"target": "toggle-group/toggle-group-styles.ts"
+		},
+		{
+			"content": "import { createContext } from \"svelte\";\nimport type { ToggleSize, ToggleVariant } from \"../toggle/toggle-variants.js\";\n\nexport type ToggleGroupStyleContext = {\n  readonly size: ToggleSize;\n  readonly variant: ToggleVariant;\n};\n\nexport const [getToggleGroupStyleContext, setToggleGroupStyleContext] =\n  createContext<ToggleGroupStyleContext>();\n",
+			"type": "registry:ui",
+			"target": "toggle-group/context.ts"
+		},
+		{
+			"content": "export { ToggleGroup as ToggleGroupPrimitive } from \"@shardsui/svelte\";\nexport type { ToggleGroupStyleContext } from \"./context.js\";\nexport type { ToggleGroupItemProps } from \"./toggle-group-item.svelte\";\nexport {\n  default as Item,\n  default as ToggleGroupItem,\n} from \"./toggle-group-item.svelte\";\nexport type {\n  ToggleGroupRootProps,\n  ToggleGroupRootState,\n} from \"./toggle-group-root.svelte\";\nexport {\n  default as Root,\n  default as ToggleGroup,\n  default as ToggleGroupRoot,\n} from \"./toggle-group-root.svelte\";\nexport type { ToggleGroupSeparatorProps } from \"./toggle-group-separator.svelte\";\nexport {\n  default as Separator,\n  default as ToggleGroupSeparator,\n} from \"./toggle-group-separator.svelte\";\nexport type { ToggleGroupStyleOptions } from \"./toggle-group-styles.js\";\nexport { toggleGroupClasses } from \"./toggle-group-styles.js\";\n",
+			"type": "registry:ui",
+			"target": "toggle-group/index.ts"
+		}
+	]
+}
