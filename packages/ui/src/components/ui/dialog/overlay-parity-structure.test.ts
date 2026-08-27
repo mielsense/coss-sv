@@ -53,6 +53,7 @@ describe("overlay parity form lifecycle", () => {
     ]) {
       expect(drawer).toContain(marker);
     }
-    expect(drawer).toContain('{#each ["default", "bare"] as footerVariant}');
+    expect(drawer).toContain('const footerVariants = ["default", "bare"] as const;');
+    expect(drawer).toContain("{#each footerVariants as footerVariant}");
   });
 });
