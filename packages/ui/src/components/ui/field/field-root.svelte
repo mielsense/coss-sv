@@ -8,14 +8,19 @@ export type FieldRootProps = ComponentProps<typeof FieldPrimitive.Root>;
 <script lang="ts">
 import { cn } from "$lib/utils.js";
 import { createFieldsetCompositionContext } from "../fieldset/context.svelte.js";
+import FieldRelationshipProvider from "./field-relationship-provider.svelte";
 
 let {
   as = "div",
+  children: child,
   class: className,
   disabled = false,
   ref = $bindable(null),
   ...props
 }: FieldRootProps = $props();
+
+let relationshipLabelId = $state<string | undefined>();
+let relationshipDescribedBy = $state<string | undefined>();
 
 const fieldsetContext = createFieldsetCompositionContext(
   () => disabled,
@@ -37,4 +42,13 @@ const nativeFieldsetAttributes = $derived(as === "fieldset" && disabled ? { DISA
   class={cn("flex flex-col items-start gap-2", className)}
   {...nativeFieldsetAttributes}
   {...props}
-/>
+>
+  {#snippet children(state)}
+    <FieldRelationshipProvider
+      bind:describedBy={relationshipDescribedBy}
+      bind:labelId={relationshipLabelId}
+    >
+      {@render child?.(state)}
+    </FieldRelationshipProvider>
+  {/snippet}
+</FieldPrimitive.Root>

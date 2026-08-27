@@ -29,12 +29,13 @@ export type OTPFieldRootProps = Omit<HTMLAttributes<HTMLDivElement>, "children">
 </script>
 
 <script lang="ts">
-import { cn } from "$lib/utils.js";
 import { untrack } from "svelte";
 import type { Attachment } from "svelte/attachments";
+import { cn } from "$lib/utils.js";
+import { getFieldRelationshipContext } from "../field/relationship-context.svelte.js";
+import type { OTPFieldSlot } from "./context.js";
 import { setOTPFieldContext } from "./context.js";
 import { getFieldRelationships, observeFieldRelationships } from "./field-relationships.js";
-import type { OTPFieldSlot } from "./context.js";
 import { normalizeOTP, replaceOTPRange } from "./otp-field-machine.js";
 
 let {
@@ -71,6 +72,15 @@ let slotVersion = $state(0);
 const slots: OTPFieldSlot[] = [];
 const isReadonly = $derived(readonly || readOnly);
 const initialValue = untrack(() => clean(defaultValue).slice(0, length));
+const parentFieldRelationships = getFieldRelationshipContext();
+const resolvedLabelledBy = $derived(
+  ariaLabel !== undefined || ariaLabelledBy !== undefined
+    ? ariaLabelledBy
+    : parentFieldRelationships?.labelledBy,
+);
+const resolvedDescribedBy = $derived(
+  ariaDescribedBy !== undefined ? ariaDescribedBy : parentFieldRelationships?.describedBy,
+);
 
 function clean(raw: string): string {
   const normalized = normalizeValue?.(raw) ?? raw;
@@ -128,14 +138,17 @@ const fieldRelationships: Attachment<HTMLDivElement> = (node) => {
     const relationships = getFieldRelationships(node);
     if (!relationships) return;
 
-    const nextLabel = ariaLabel || ariaLabelledBy ? undefined : relationships.labelledBy;
+    const nextLabel =
+      ariaLabel !== undefined || ariaLabelledBy !== undefined
+        ? undefined
+        : relationships.labelledBy;
     if (nextLabel && node.getAttribute("aria-labelledby") !== nextLabel)
       node.setAttribute("aria-labelledby", nextLabel);
     else if (managedLabel && node.getAttribute("aria-labelledby") === managedLabel)
       node.removeAttribute("aria-labelledby");
     managedLabel = nextLabel;
 
-    const nextDescription = ariaDescribedBy ? undefined : relationships.describedBy;
+    const nextDescription = ariaDescribedBy !== undefined ? undefined : relationships.describedBy;
     if (nextDescription && node.getAttribute("aria-describedby") !== nextDescription)
       node.setAttribute("aria-describedby", nextDescription);
     else if (managedDescription && node.getAttribute("aria-describedby") === managedDescription)
@@ -257,9 +270,9 @@ setOTPFieldContext({
   {@attach fieldRelationships}
   {@attach formReset}
   bind:this={ref}
-  aria-describedby={ariaDescribedBy}
+  aria-describedby={resolvedDescribedBy}
   aria-label={ariaLabel}
-  aria-labelledby={ariaLabelledBy}
+  aria-labelledby={resolvedLabelledBy}
   class={cn(
     "flex items-center gap-2 has-disabled:opacity-64 has-disabled:**:data-[slot=otp-field-input]:shadow-none has-disabled:**:data-[slot=otp-field-input]:before:shadow-none!",
     className,

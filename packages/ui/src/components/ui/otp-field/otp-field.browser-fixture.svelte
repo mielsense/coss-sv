@@ -96,7 +96,9 @@ let fieldInvalid = $state(false);
 </OTPField.Root>
 
 <Field.Root>
-  <Field.Label>Security code</Field.Label>
+  <Field.Label id={fieldInvalid ? "field-security-label-invalid" : "field-security-label-valid"}
+    >Security code</Field.Label
+  >
   <OTPField.Root length={2}>
     <OTPField.Input data-testid="field-otp-first" />
     <OTPField.Input aria-label="Security character 2" data-testid="field-otp-second" />
@@ -116,6 +118,20 @@ let fieldInvalid = $state(false);
 >
   Toggle field error
 </button>
+
+<Field.Root>
+  <Field.Label id="explicit-field-label">Explicit security code</Field.Label>
+  <OTPField.Root length={2}>
+    <OTPField.Input
+      aria-describedby="explicit-slot-description"
+      aria-label="Explicit character"
+      data-testid="explicit-field-otp-first"
+    />
+    <OTPField.Input aria-label="Explicit character 2" />
+  </OTPField.Root>
+  <Field.Description id="explicit-field-description">Field description.</Field.Description>
+  <p id="explicit-slot-description">Slot description.</p>
+</Field.Root>
 
 <OTPField.Root
   aria-label="Tier code"

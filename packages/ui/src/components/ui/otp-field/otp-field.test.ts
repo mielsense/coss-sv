@@ -42,6 +42,12 @@ describe("OTPField contract", () => {
     expect(slot).not.toContain('aria-hidden="true"');
     expect(slot).toContain("h-0.5");
     expect(slot).toContain("w-3");
+    expect(slot).toMatch(
+      /<div[^>]*aria-describedby="ssr-security-description"[^>]*aria-labelledby="ssr-security-label"[^>]*data-slot="otp-field"|<div[^>]*aria-labelledby="ssr-security-label"[^>]*aria-describedby="ssr-security-description"[^>]*data-slot="otp-field"/,
+    );
+    expect(slot).toMatch(
+      /<input[^>]*aria-labelledby="ssr-security-label"[^>]*data-slot="otp-field-input"/,
+    );
   });
 
   test("exports namespace and compatibility aliases", () => {

@@ -3,6 +3,8 @@ import { afterEach, describe, expect, test, vi } from "vitest";
 import { page, userEvent } from "vitest/browser";
 import { render } from "vitest-browser-svelte";
 import OTPFieldFixture from "./otp-field.browser-fixture.svelte";
+import OTPFieldHydrationFixture from "./otp-field.hydration-fixture.svelte";
+import { otpFieldHydrationHtml } from "./otp-field.hydration-html.js";
 import OTPFieldRoot from "./otp-field-root.svelte";
 
 afterEach(() => {
@@ -130,15 +132,29 @@ describe("OTPField browser contract", () => {
     expect(fieldSlot.getAttribute("aria-labelledby")).toBe(fieldLabel?.id);
     expect(fieldSlot.hasAttribute("aria-describedby")).toBe(false);
 
+    const explicitFieldSlot = page.getByTestId("explicit-field-otp-first");
+    await expect.element(explicitFieldSlot).toHaveAccessibleName("Explicit character");
+    await expect
+      .element(explicitFieldSlot)
+      .toHaveAttribute("aria-describedby", "explicit-slot-description");
+    expect(explicitFieldSlot.element().hasAttribute("aria-labelledby")).toBe(false);
+
     await new Promise(requestAnimationFrame);
     await new Promise(requestAnimationFrame);
     await userEvent.click(page.getByTestId("toggle-field-error"));
     await expect.element(page.getByText("Security code is invalid.")).toBeVisible();
     const fieldError = fieldRoot?.querySelector<HTMLElement>("#field-security-error");
+    const invalidFieldLabel = fieldRoot?.querySelector<HTMLElement>(
+      "#field-security-label-invalid",
+    );
     expect(fieldError).toBeInstanceOf(HTMLElement);
     await expect
       .element(fieldOtp as HTMLElement)
+      .toHaveAttribute("aria-labelledby", invalidFieldLabel?.id);
+    await expect
+      .element(fieldOtp as HTMLElement)
       .toHaveAttribute("aria-describedby", fieldError?.id);
+    await expect.element(fieldSlot).toHaveAttribute("aria-labelledby", invalidFieldLabel?.id);
     expect(fieldSlot.hasAttribute("aria-describedby")).toBe(false);
 
     expect(recoverySlots[0]?.getAttribute("aria-label")).toBe("Recovery character 1");
@@ -229,5 +245,31 @@ describe("OTPField browser contract", () => {
     expect(warning).not.toHaveBeenCalled();
     await unmount(component);
     warning.mockRestore();
+  });
+
+  test("hydrates Field relationships without changing their ARIA targets", async () => {
+    const warning = vi.spyOn(console, "warn").mockImplementation(() => undefined);
+    const error = vi.spyOn(console, "error").mockImplementation(() => undefined);
+    const target = document.createElement("div");
+    target.innerHTML = otpFieldHydrationHtml;
+    document.body.append(target);
+
+    const component = hydrate(OTPFieldHydrationFixture, { target });
+    const group = target.querySelector<HTMLElement>('[data-slot="otp-field"]');
+    const firstSlot = page.getByTestId("hydrated-security-first");
+    await expect
+      .element(group as HTMLElement)
+      .toHaveAttribute("aria-labelledby", "hydrated-security-label");
+    await expect
+      .element(group as HTMLElement)
+      .toHaveAttribute("aria-describedby", "hydrated-security-description");
+    await expect.element(firstSlot).toHaveAttribute("aria-labelledby", "hydrated-security-label");
+    expect(firstSlot.element().hasAttribute("aria-describedby")).toBe(false);
+    expect(warning).not.toHaveBeenCalled();
+    expect(error).not.toHaveBeenCalled();
+
+    await unmount(component);
+    warning.mockRestore();
+    error.mockRestore();
   });
 });

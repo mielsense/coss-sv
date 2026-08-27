@@ -20,9 +20,10 @@ export type OTPFieldInputProps = Omit<
 <script lang="ts">
 import { Input as InputPrimitive } from "@shardsui/svelte";
 import type { Component } from "svelte";
-import type { Attachment } from "svelte/attachments";
 import { onDestroy } from "svelte";
+import type { Attachment } from "svelte/attachments";
 import { cn } from "$lib/utils.js";
+import { getFieldRelationshipContext } from "../field/relationship-context.svelte.js";
 import { getOTPFieldContext } from "./context.js";
 import { getFieldRelationships, observeFieldRelationships } from "./field-relationships.js";
 
@@ -51,11 +52,16 @@ let {
 }: OTPFieldInputProps = $props();
 
 const context = getOTPFieldContext();
+const parentFieldRelationships = getFieldRelationshipContext();
 const slot = context.createSlot();
 const index = $derived(context.indexOf(slot));
 const explicitRelationships = $derived({
   ...(ariaDescribedBy === undefined ? {} : { "aria-describedby": ariaDescribedBy }),
-  ...(ariaLabelledBy === undefined ? {} : { "aria-labelledby": ariaLabelledBy }),
+  ...(ariaLabelledBy !== undefined
+    ? { "aria-labelledby": ariaLabelledBy }
+    : ariaLabel === undefined && parentFieldRelationships?.labelledBy
+      ? { "aria-labelledby": parentFieldRelationships.labelledBy }
+      : {}),
 });
 let slotValue = $state(context.valueAt(slot));
 
@@ -68,12 +74,32 @@ $effect(() => {
 const inputBehavior: Attachment<HTMLInputElement> = (node) => {
   context.register(slot, node);
   const syncFieldRelationships = () => {
-    if (
-      ariaDescribedBy === undefined &&
-      node.hasAttribute("aria-describedby") &&
-      getFieldRelationships(node)
-    )
-      node.removeAttribute("aria-describedby");
+    const relationships = getFieldRelationships(node);
+    if (!relationships) return;
+
+    const inheritedLabels = new Set(relationships.labelledBy?.split(/\s+/).filter(Boolean));
+    const inheritedDescriptions = new Set(relationships.describedBy?.split(/\s+/).filter(Boolean));
+    const removeInherited = (
+      attribute: "aria-describedby" | "aria-labelledby",
+      ids: Set<string>,
+    ) => {
+      const current = node.getAttribute(attribute)?.split(/\s+/).filter(Boolean) ?? [];
+      const next = current.filter((id) => !ids.has(id)).join(" ");
+      if (next) node.setAttribute(attribute, next);
+      else node.removeAttribute(attribute);
+    };
+
+    if (ariaDescribedBy === null) node.removeAttribute("aria-describedby");
+    else if (ariaDescribedBy !== undefined) {
+      if (node.getAttribute("aria-describedby") !== ariaDescribedBy)
+        node.setAttribute("aria-describedby", ariaDescribedBy);
+    } else removeInherited("aria-describedby", inheritedDescriptions);
+
+    if (ariaLabelledBy === null) node.removeAttribute("aria-labelledby");
+    else if (ariaLabelledBy !== undefined) {
+      if (node.getAttribute("aria-labelledby") !== ariaLabelledBy)
+        node.setAttribute("aria-labelledby", ariaLabelledBy);
+    } else if (ariaLabel !== undefined) removeInherited("aria-labelledby", inheritedLabels);
   };
   const stopFieldRelationships = observeFieldRelationships(node, syncFieldRelationships);
   syncFieldRelationships();
