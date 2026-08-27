@@ -100,4 +100,34 @@ describe("COSS homepage category parity", () => {
     expect(source).not.toContain("new Set");
     expect(source).not.toContain("Thumbnails.has");
   });
+
+  test("merges primitive defaults into the measured upstream thumbnail geometry", () => {
+    const accordion = render(CategoryThumbnail, { props: { slug: "accordion" } }).body;
+    const alert = render(CategoryThumbnail, { props: { slug: "alert" } }).body;
+    const autocomplete = render(CategoryThumbnail, { props: { slug: "autocomplete" } }).body;
+    const drawer = render(CategoryThumbnail, { props: { slug: "drawer" } }).body;
+
+    // 50 spacing units = 200px, matching the inspected Accordion inner card.
+    expect(accordion).toContain("max-w-50");
+    expect(accordion).not.toContain("max-w-72");
+    expect(accordion).toContain("divide-y divide-border p-0");
+    expect(accordion).not.toContain("divide-y divide-border p-6");
+
+    // Alert is a single 16px icon row with 12px block padding, not the primitive's 24px default.
+    expect(alert).toContain("items-center gap-2 p-3");
+    expect(alert).not.toContain("items-center gap-2 p-6");
+
+    // The Autocomplete stack is capped at 200px and keeps its inspected 8px/16px padding.
+    expect(autocomplete.match(/max-w-50/g)).toHaveLength(1);
+    expect(autocomplete).toContain("px-4 py-2");
+    expect(autocomplete).toContain("gap-4 p-4");
+
+    // Explicit max-width removal must survive the Card primitive defaults.
+    expect(drawer).toContain("max-w-none");
+    expect(drawer).not.toContain("max-w-72");
+
+    for (const body of [accordion, alert, autocomplete, drawer]) {
+      expect(body).toContain("border-border");
+    }
+  });
 });

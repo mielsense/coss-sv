@@ -442,6 +442,10 @@ kbd {
   transition: transform 180ms ease;
 }
 
+:where(.category-thumbnail *) {
+  border-color: var(--border);
+}
+
 .category-card:hover .category-thumbnail {
   transform: translateY(0);
 }

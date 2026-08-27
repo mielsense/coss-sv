@@ -1,4 +1,6 @@
 <script lang="ts">
+import { cn } from "@coss-sv/ui";
+
 let {
   name,
   class: className = "",
@@ -23,7 +25,7 @@ let {
 
 <svg
   aria-hidden="true"
-  class={`size-4 text-muted-foreground/88 ${className}`}
+  class={cn("size-4 text-muted-foreground/88", className)}
   viewBox="0 0 24 24"
   fill="none"
   stroke="currentColor"
