@@ -34,6 +34,7 @@
   import type { Attachment } from "svelte/attachments";
   import { createAttachmentKey } from "svelte/attachments";
   import { cn } from "$lib/utils.js";
+  import { getFieldRelationshipContext } from "../field/relationship-context.svelte.js";
   import { setNumberFieldContext } from "./context.js";
   import {
     clampValue,
@@ -43,6 +44,7 @@
   } from "./number-field-machine.js";
 
   const uid = $props.id();
+  const relationships = getFieldRelationshipContext();
 
   let {
     allowWheel = false,
@@ -76,7 +78,7 @@
   let input = $state<HTMLInputElement | null>(null);
   let scrubLabelId = $state<string | undefined>();
   let editing = $state(false);
-  const id = $derived(idProp ?? uid);
+  const id = $derived(idProp ?? relationships?.resolveDefaultControlId(uid) ?? uid);
   let raw = $state(untrack(() => formatNumber(value, locale, format)));
   const numberLocale = $derived(createNumberLocale(locale));
   const ariaValue = $derived.by(() => {

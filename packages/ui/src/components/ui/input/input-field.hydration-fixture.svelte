@@ -4,8 +4,8 @@
 </script>
 
 <Field.Root>
-  <Field.Label id="hydrated-input-label">Hydrated name</Field.Label>
-  <Input id="hydrated-field-input" />
+  <Field.Label>Hydrated name</Field.Label>
+  <Input data-testid="hydrated-field-input" />
   <Field.Description id="hydrated-input-description">Hydrated description</Field.Description>
 </Field.Root>
 

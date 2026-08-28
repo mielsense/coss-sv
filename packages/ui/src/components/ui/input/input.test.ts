@@ -48,10 +48,15 @@ describe("Input SSR contract", () => {
 
   test("server-renders inherited Field relationships and explicit null removal", () => {
     const body = render(InputFieldHydrationFixture).body;
-    const inherited = body.match(/<input[^>]*id="hydrated-field-input"[^>]*>/)?.[0];
+    const label = body.match(/<label[^>]*>[^<]*<!---->Hydrated name/)?.[0];
+    const inherited = body.match(/<input[^>]*data-testid="hydrated-field-input"[^>]*>/)?.[0];
     const removed = body.match(/<input[^>]*id="hydrated-null-input"[^>]*>/)?.[0];
+    const labelFor = label?.match(/for="([^"]+)"/)?.[1];
+    const inputId = inherited?.match(/id="([^"]+)"/)?.[1];
 
-    expect(inherited).toContain('aria-labelledby="hydrated-input-label"');
+    expect(labelFor).toBeTruthy();
+    expect(inputId).toBe(labelFor);
+    expect(inherited).toMatch(/aria-labelledby="s\d+"/);
     expect(inherited).toContain('aria-describedby="hydrated-input-description"');
     expect(removed).not.toContain("aria-labelledby");
     expect(removed).not.toContain("aria-describedby");

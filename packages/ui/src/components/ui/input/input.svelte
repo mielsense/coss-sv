@@ -36,7 +36,7 @@
     "aria-label": ariaLabel,
     "aria-labelledby": ariaLabelledBy,
     class: className,
-    id = uid,
+    id = relationships?.resolveDefaultControlId(uid) ?? uid,
     nativeInput = false,
     ref = $bindable(null),
     size = "default",

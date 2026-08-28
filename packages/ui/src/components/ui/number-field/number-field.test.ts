@@ -98,7 +98,15 @@ describe("NumberField number contract", () => {
   });
 
   test("keeps the committed Field hydration markup synchronized with server output", () => {
-    expect(numberFieldHydrationHtml).toBe(render(NumberFieldFieldHydrationFixture).body);
+    const body = render(NumberFieldFieldHydrationFixture).body;
+    const label = body.match(/<label[^>]*>[^<]*<!---->Hydrated quantity/)?.[0];
+    const input = body.match(/<input[^>]*data-testid="hydrated-field-number-input"[^>]*>/)?.[0];
+    const labelFor = label?.match(/for="([^"]+)"/)?.[1];
+    const inputId = input?.match(/id="([^"]+)"/)?.[1];
+
+    expect(labelFor).toBeTruthy();
+    expect(inputId).toBe(labelFor);
+    expect(numberFieldHydrationHtml).toBe(body);
   });
 
   test("renders delegated Root and Group as one element during SSR", () => {

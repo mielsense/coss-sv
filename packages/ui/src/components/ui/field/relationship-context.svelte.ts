@@ -1,6 +1,7 @@
 import { createContext } from "svelte";
 
 export class FieldRelationshipState {
+  #defaultControlId: string;
   #readControlId: () => string | undefined;
   #readLabelId: () => string | undefined;
   #readDescribedBy: () => string | undefined;
@@ -8,9 +9,11 @@ export class FieldRelationshipState {
   #writeDescribedBy: (ids: string | undefined) => void;
   #writeControlId: (id: string | undefined) => void;
   #initialControlId: string | undefined;
+  #controlRegistrations: { id: string; token: symbol }[] = [];
   #initialLabelId: string | undefined;
   #initialMessageIds = new Set<string>();
   constructor(
+    defaultControlId: string,
     readControlId: () => string | undefined,
     writeControlId: (id: string | undefined) => void,
     readLabelId: () => string | undefined,
@@ -18,6 +21,7 @@ export class FieldRelationshipState {
     readDescribedBy: () => string | undefined,
     writeDescribedBy: (ids: string | undefined) => void,
   ) {
+    this.#defaultControlId = defaultControlId;
     this.#readControlId = readControlId;
     this.#writeControlId = writeControlId;
     this.#readLabelId = readLabelId;
@@ -28,6 +32,17 @@ export class FieldRelationshipState {
 
   get controlId(): string | undefined {
     return this.#readControlId();
+  }
+
+  get defaultControlId(): string {
+    return this.#defaultControlId;
+  }
+
+  resolveDefaultControlId(fallbackId: string): string {
+    const defaultIsRegistered =
+      this.#initialControlId === this.#defaultControlId ||
+      this.#controlRegistrations.some(({ id }) => id === this.#defaultControlId);
+    return defaultIsRegistered ? fallbackId : this.#defaultControlId;
   }
 
   get describedBy(): string | undefined {
@@ -45,9 +60,20 @@ export class FieldRelationshipState {
 
   registerControlId(id: string): () => void {
     if (this.#initialControlId === id) this.#initialControlId = undefined;
+    const token = Symbol();
+    this.#controlRegistrations.push({ id, token });
     this.#writeControlId(id);
     return () => {
-      if (this.#readControlId() === id) this.#writeControlId(undefined);
+      const index = this.#controlRegistrations.findIndex(
+        (registration) => registration.token === token,
+      );
+      if (index === -1) return;
+      this.#controlRegistrations.splice(index, 1);
+      if (this.#readControlId() === id) {
+        this.#writeControlId(
+          this.#controlRegistrations.at(-1)?.id ?? this.#initialControlId ?? this.#defaultControlId,
+        );
+      }
     };
   }
 

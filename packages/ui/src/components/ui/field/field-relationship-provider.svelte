@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { Snippet } from "svelte";
+  import { type Snippet, untrack } from "svelte";
   import {
     FieldRelationshipState,
     setFieldRelationshipContext,
@@ -7,17 +7,21 @@
 
   let {
     children,
+    defaultControlId,
     describedBy = $bindable(),
     labelId = $bindable(),
   }: {
     children?: Snippet;
+    defaultControlId: string;
     describedBy?: string | undefined;
     labelId?: string | undefined;
   } = $props();
-  let controlId = $state<string | undefined>();
+  const initialControlId = untrack(() => defaultControlId);
+  let controlId = $state<string | undefined>(initialControlId);
 
   setFieldRelationshipContext(
     new FieldRelationshipState(
+      initialControlId,
       () => controlId,
       (next) => (controlId = next),
       () => labelId,

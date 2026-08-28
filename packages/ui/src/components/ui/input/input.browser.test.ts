@@ -165,17 +165,21 @@ describe("Input browser contract", () => {
     document.body.append(target);
 
     const component = hydrate(InputFieldHydrationFixture, { target });
-    const inherited = target.querySelector<HTMLInputElement>("#hydrated-field-input");
+    const inherited = target.querySelector<HTMLInputElement>(
+      '[data-testid="hydrated-field-input"]',
+    );
+    const inheritedLabel = target.querySelector<HTMLLabelElement>("label");
     const removed = page.getByTestId("hydrated-null-input");
 
     await expect
       .element(inherited as HTMLInputElement)
-      .toHaveAttribute("aria-labelledby", "hydrated-input-label");
+      .toHaveAttribute("aria-labelledby", inheritedLabel?.id ?? "missing-label");
     await expect
       .element(inherited as HTMLInputElement)
       .toHaveAttribute("aria-describedby", "hydrated-input-description");
     await expect.element(removed).not.toHaveAttribute("aria-labelledby");
     await expect.element(removed).not.toHaveAttribute("aria-describedby");
+    expect(inheritedLabel?.htmlFor).toBe(inherited?.id);
     expect(warning).not.toHaveBeenCalled();
     expect(error).not.toHaveBeenCalled();
 

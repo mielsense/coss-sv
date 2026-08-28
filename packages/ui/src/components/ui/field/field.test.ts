@@ -3,6 +3,7 @@ import { describe, expect, test } from "vitest";
 import FieldSsrFixture from "./field.ssr-fixture.svelte";
 import FieldFieldsetSsrFixture from "./field-fieldset.ssr-fixture.svelte";
 import * as Field from "./index.js";
+import { FieldRelationshipState } from "./relationship-context.svelte.js";
 
 describe("Field SSR contract", () => {
   test("renders the exact styled parts and explicit relationships", () => {
@@ -42,5 +43,33 @@ describe("Field SSR contract", () => {
     expect(body).toContain('id="frameworks-legend"');
     expect(body).toMatch(/<fieldset[^>]* disabled(?:="")?/);
     expect(body).toContain("data-disabled");
+  });
+
+  test("allocates the seeded id once and restores the previous control on cleanup", () => {
+    let controlId: string | undefined = "field-control";
+    let labelId: string | undefined;
+    let describedBy: string | undefined;
+    const relationships = new FieldRelationshipState(
+      "field-control",
+      () => controlId,
+      (next) => (controlId = next),
+      () => labelId,
+      (next) => (labelId = next),
+      () => describedBy,
+      (next) => (describedBy = next),
+    );
+
+    expect(relationships.resolveDefaultControlId("first-fallback")).toBe("field-control");
+    relationships.registerInitialControlId("field-control");
+    expect(relationships.resolveDefaultControlId("second-fallback")).toBe("second-fallback");
+
+    const removeFirst = relationships.registerControlId("field-control");
+    const removeSecond = relationships.registerControlId("second-fallback");
+    expect(controlId).toBe("second-fallback");
+    removeSecond();
+    expect(controlId).toBe("field-control");
+    removeFirst();
+    expect(controlId).toBe("field-control");
+    expect(relationships.resolveDefaultControlId("remount-fallback")).toBe("field-control");
   });
 });

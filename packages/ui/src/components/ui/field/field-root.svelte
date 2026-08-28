@@ -1,36 +1,41 @@
 <script module lang="ts">
-import { Field as FieldPrimitive } from "@shardsui/svelte";
-import type { ComponentProps } from "svelte";
+  import { Field as FieldPrimitive } from "@shardsui/svelte";
+  import type { ComponentProps } from "svelte";
 
-export type FieldRootProps = ComponentProps<typeof FieldPrimitive.Root>;
+  export type FieldRootProps = ComponentProps<typeof FieldPrimitive.Root>;
 </script>
 
 <script lang="ts">
-import { cn } from "$lib/utils.js";
-import { createFieldsetCompositionContext } from "../fieldset/context.svelte.js";
-import FieldRelationshipProvider from "./field-relationship-provider.svelte";
+  import { cn } from "$lib/utils.js";
+  import { createFieldsetCompositionContext } from "../fieldset/context.svelte.js";
+  import FieldRelationshipProvider from "./field-relationship-provider.svelte";
 
-let {
-  as = "div",
-  children: child,
-  class: className,
-  disabled = false,
-  ref = $bindable(null),
-  ...props
-}: FieldRootProps = $props();
+  const uid = $props.id();
+  const defaultControlId = `${uid}-control`;
 
-let relationshipLabelId = $state<string | undefined>();
-let relationshipDescribedBy = $state<string | undefined>();
+  let {
+    as = "div",
+    children: child,
+    class: className,
+    disabled = false,
+    ref = $bindable(null),
+    ...props
+  }: FieldRootProps = $props();
 
-const fieldsetContext = createFieldsetCompositionContext(
-  () => disabled,
-  () => as === "fieldset",
-);
+  let relationshipLabelId = $state<string | undefined>();
+  let relationshipDescribedBy = $state<string | undefined>();
 
-// Shards consumes its lowercase `disabled` prop for Field state. HTML attribute names are
-// ASCII-case-insensitive, while Svelte normalizes spread attributes during SSR and in the DOM,
-// so this distinct component prop reaches the same root as a native `disabled` attribute.
-const nativeFieldsetAttributes = $derived(as === "fieldset" && disabled ? { DISABLED: true } : {});
+  const fieldsetContext = createFieldsetCompositionContext(
+    () => disabled,
+    () => as === "fieldset",
+  );
+
+  // Shards consumes its lowercase `disabled` prop for Field state. HTML attribute names are
+  // ASCII-case-insensitive, while Svelte normalizes spread attributes during SSR and in the DOM,
+  // so this distinct component prop reaches the same root as a native `disabled` attribute.
+  const nativeFieldsetAttributes = $derived(
+    as === "fieldset" && disabled ? { DISABLED: true } : {},
+  );
 </script>
 
 <FieldPrimitive.Root
@@ -47,6 +52,7 @@ const nativeFieldsetAttributes = $derived(as === "fieldset" && disabled ? { DISA
     <FieldRelationshipProvider
       bind:describedBy={relationshipDescribedBy}
       bind:labelId={relationshipLabelId}
+      {defaultControlId}
     >
       {@render child?.(state)}
     </FieldRelationshipProvider>
