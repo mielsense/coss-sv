@@ -30,6 +30,7 @@ import {
   buttonVariants,
   CheckboxGroup,
   Combobox,
+  cn,
   Label,
   Popover,
   Select,
@@ -171,7 +172,10 @@ function applyCopy(day: Day) {
   >
     <Combobox.Trigger
       aria-label={ariaLabel}
-      class={[Select.selectTriggerClass, "w-27 tabular-nums"]}
+      class={cn(
+        Select.selectTriggerClass,
+        "min-h-8 min-w-0 gap-1.5 px-[calc(--spacing(2.5)-1px)] tabular-nums sm:min-h-7 w-27",
+      )}
     >
       <Combobox.Value />
       <HugeiconsIcon

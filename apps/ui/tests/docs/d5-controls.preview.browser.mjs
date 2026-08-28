@@ -82,6 +82,32 @@ async function assertPreviewWidth(id, expectedWidth) {
   );
 }
 
+async function assertAvailabilityGeometry({ contentHeight, surfaceHeight, triggerHeight }) {
+  const trigger = page.getByRole("combobox", { name: "Monday start time" });
+  const [triggerBox, surfaceBox, contentBox] = await Promise.all([
+    trigger.boundingBox(),
+    page.locator(".preview-surface").boundingBox(),
+    page.locator('[data-slot="preview"]').boundingBox(),
+  ]);
+  assert.ok(triggerBox && surfaceBox && contentBox, "p-switch-7 geometry should be measurable");
+  assert.ok(
+    Math.abs(triggerBox.width - 108) <= 0.5,
+    `p-switch-7 trigger width should be 108px, received ${triggerBox.width}px`,
+  );
+  assert.ok(
+    Math.abs(triggerBox.height - triggerHeight) <= 0.5,
+    `p-switch-7 trigger height should be ${triggerHeight}px, received ${triggerBox.height}px`,
+  );
+  assert.ok(
+    Math.abs(surfaceBox.height - surfaceHeight) <= 0.5,
+    `p-switch-7 preview surface height should be ${surfaceHeight}px, received ${surfaceBox.height}px`,
+  );
+  assert.ok(
+    Math.abs(contentBox.height - contentHeight) <= 0.5,
+    `p-switch-7 content height should be ${contentHeight}px, received ${contentBox.height}px`,
+  );
+}
+
 try {
   await openParticle("p-toggle-8");
   const bookmark = page.getByRole("button", { name: "Bookmark this" });
@@ -166,8 +192,12 @@ try {
     await assertPreviewWidth(id, 896);
   }
 
+  await openParticle("p-switch-7");
+  await assertAvailabilityGeometry({ contentHeight: 382, surfaceHeight: 540, triggerHeight: 28 });
+
   await page.setViewportSize({ height: 900, width: 500 });
   await assertPreviewWidth("p-switch-7", 452);
+  await assertAvailabilityGeometry({ contentHeight: 750, surfaceHeight: 750, triggerHeight: 32 });
   await page.setViewportSize({ height: 900, width: 1440 });
 
   await openParticle("p-radio-group-6");

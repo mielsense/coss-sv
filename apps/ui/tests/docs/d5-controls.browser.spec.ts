@@ -69,6 +69,27 @@ describe("D5 control examples", () => {
     }
   });
 
+  test("matches the small SelectButton trigger and availability content geometry", async () => {
+    await page.viewport(1024, 768);
+    const view = mount(Availability7, { target: document.body });
+    const desktopTrigger = page.getByRole("combobox", { name: "Monday start time" });
+    const desktopTriggerRect = desktopTrigger.element().getBoundingClientRect();
+    expect(desktopTriggerRect.width).toBeCloseTo(108, 1);
+    expect(desktopTriggerRect.height).toBeCloseTo(28, 1);
+    expect(document.body.firstElementChild?.getBoundingClientRect().height).toBeCloseTo(382, 1);
+    await unmount(view);
+
+    await page.viewport(500, 900);
+    const narrowView = mount(Availability7, { target: document.body });
+    const narrowTrigger = page.getByRole("combobox", { name: "Monday start time" });
+    const narrowTriggerRect = narrowTrigger.element().getBoundingClientRect();
+    expect(narrowTriggerRect.width).toBeCloseTo(108, 1);
+    expect(narrowTriggerRect.height).toBeCloseTo(32, 1);
+    expect(document.body.firstElementChild?.getBoundingClientRect().height).toBeCloseTo(750, 1);
+    await unmount(narrowView);
+    await page.viewport(1024, 768);
+  });
+
   test("adjusts ranges, clamps end choices, and copies Monday ranges to selected days", async () => {
     const view = mount(Availability7, { target: document.body });
     const start = page.getByRole("combobox", { name: "Monday start time" });

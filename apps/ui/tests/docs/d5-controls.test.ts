@@ -8,6 +8,7 @@ import RadioGroupFormExample from "../../registry/default/particles/p-radio-grou
 import SliderFieldExample from "../../registry/default/particles/p-slider-2.svelte";
 import SliderFormExample from "../../registry/default/particles/p-slider-23.svelte";
 import SwitchFormExample from "../../registry/default/particles/p-switch-5.svelte";
+import Availability7 from "../../registry/default/particles/p-switch-7.svelte";
 import Availability8 from "../../registry/default/particles/p-switch-8.svelte";
 import Availability9 from "../../registry/default/particles/p-switch-9.svelte";
 
@@ -250,15 +251,24 @@ describe("D5 control documentation inventory", () => {
       expect(particle).toContain("<CheckboxGroup.Item");
       expect(particle).not.toMatch(/<select\b|<Checkbox(?:\s|>)/);
     }
+
+    const selectButton = source("apps/ui/registry/default/particles/p-switch-7.svelte");
+    expect(selectButton).toContain(
+      '"min-h-8 min-w-0 gap-1.5 px-[calc(--spacing(2.5)-1px)] tabular-nums sm:min-h-7 w-27"',
+    );
   });
 
   test("renders the scheduling editors without build-shell diagnostics", () => {
-    for (const Example of [Availability8, Availability9]) {
+    for (const Example of [Availability7, Availability8, Availability9]) {
       const { body } = renderServer(Example);
 
       expect(body).toContain("Monday");
       expect(body).not.toContain("parse error near");
       expect(body).not.toContain("(eval):5");
+      if (Example === Availability7) {
+        expect(body).toContain("min-h-8 min-w-0 gap-1.5");
+        expect(body).toContain("sm:min-h-7 w-27");
+      }
     }
   });
 
