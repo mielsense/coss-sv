@@ -1358,6 +1358,7 @@ body {
     position: sticky;
     top: 4rem;
     display: block;
+    width: 16rem;
     height: calc(100svh - 4rem);
     align-self: start;
     overflow: hidden auto;

@@ -64,7 +64,7 @@ if (!baseUrl) {
 }
 
 const browser = await chromium.launch({ headless: true });
-const context = await browser.newContext({ viewport: { width: 1280, height: 720 } });
+const context = await browser.newContext({ viewport: { width: 1280, height: 900 } });
 const page = await context.newPage();
 const browserDiagnostics = [];
 
@@ -174,6 +174,7 @@ try {
       frame: metrics(".docs-frame"),
       heading: metrics(".docs-content h1"),
       sidebar: metrics(".docs-sidebar"),
+      sidebarContent: metrics(".docs-sidebar nav"),
       sidebarGroup: metrics(".docs-sidebar section"),
       sidebarLink: metrics(".docs-sidebar section a"),
       headingFontSize: getComputedStyle(document.querySelector(".docs-content h1")).fontSize,
@@ -187,6 +188,7 @@ try {
     geometry.frame &&
       geometry.heading &&
       geometry.sidebar &&
+      geometry.sidebarContent &&
       geometry.sidebarGroup &&
       geometry.sidebarLink,
   );
@@ -197,10 +199,15 @@ try {
   assertNear(geometry.heading.y, 129, "desktop docs heading y");
   assert.equal(geometry.headingFontSize, "36px");
   assert.equal(geometry.headingLineHeight, "40px");
-  assertNear(geometry.sidebar.width, 240, "desktop sidebar width");
+  assertNear(geometry.sidebar.x, 0, "desktop sidebar x");
+  assertNear(geometry.sidebar.width, 256, "desktop sidebar width");
+  assertNear(geometry.sidebarContent.x, 0, "desktop sidebar content x");
+  assertNear(geometry.sidebarContent.width, 256, "desktop sidebar content width");
   assertNear(geometry.sidebarGroup.x, 16, "desktop sidebar group x");
+  assertNear(geometry.sidebarGroup.width, 224, "desktop sidebar group width");
   assert.equal(geometry.sidebarGroupPaddingLeft, "8px");
   assertNear(geometry.sidebarLink.x, 24, "desktop sidebar link x");
+  assertNear(geometry.sidebarLink.width, 208, "desktop sidebar link width");
 
   const introduction = page.getByRole("link", { name: "Introduction", exact: true });
   assert.equal(await introduction.getAttribute("aria-current"), "page");
