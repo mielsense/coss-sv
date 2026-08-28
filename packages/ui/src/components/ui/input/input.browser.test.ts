@@ -169,6 +169,7 @@ describe("Input browser contract", () => {
       '[data-testid="hydrated-field-input"]',
     );
     const inheritedLabel = target.querySelector<HTMLLabelElement>("label");
+    const removedLabel = target.querySelector<HTMLLabelElement>("#removed-input-label");
     const removed = page.getByTestId("hydrated-null-input");
 
     await expect
@@ -180,6 +181,7 @@ describe("Input browser contract", () => {
     await expect.element(removed).not.toHaveAttribute("aria-labelledby");
     await expect.element(removed).not.toHaveAttribute("aria-describedby");
     expect(inheritedLabel?.htmlFor).toBe(inherited?.id);
+    expect(removedLabel?.htmlFor).toBe("hydrated-null-input");
     expect(warning).not.toHaveBeenCalled();
     expect(error).not.toHaveBeenCalled();
 

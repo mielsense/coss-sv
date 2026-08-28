@@ -4,6 +4,7 @@
   import * as Field from "./index.js";
 
   let composedDisabled = $state(true);
+  let firstControlMounted = $state(true);
 </script>
 
 <Field.Root invalid name="generated">
@@ -12,6 +13,21 @@
   <Field.Description data-testid="generated-description">Helpful text.</Field.Description>
   <Field.Error data-testid="generated-error" match={true}>Invalid value.</Field.Error>
 </Field.Root>
+
+<Field.Root>
+  <Field.Label data-testid="multiple-label">Multiple controls</Field.Label>
+  {#if firstControlMounted}
+    <Input data-testid="multiple-first-control" />
+  {/if}
+  <Input data-testid="multiple-second-control" />
+</Field.Root>
+<button
+  data-testid="toggle-first-control"
+  onclick={() => (firstControlMounted = !firstControlMounted)}
+  type="button"
+>
+  Toggle first control
+</button>
 
 <button
   data-testid="toggle-composed-disabled"

@@ -295,12 +295,14 @@ describe("NumberField browser contract", () => {
     const input = page.getByTestId("hydrated-field-number-input");
     const inputElement = await input.element();
     const label = target.querySelector<HTMLLabelElement>("label");
+    const removedLabel = target.querySelector<HTMLLabelElement>("#hydrated-removed-number-label");
     await expect.element(input).toHaveAccessibleName("Hydrated quantity");
     await expect.element(input).toHaveAccessibleDescription("Hydrated quantity description");
     const removed = page.getByTestId("hydrated-null-field-number-input");
     await expect.element(removed).not.toHaveAttribute("aria-labelledby");
     await expect.element(removed).not.toHaveAttribute("aria-describedby");
     expect(label?.htmlFor).toBe(inputElement.id);
+    expect(removedLabel?.htmlFor).toBe("hydrated-removed-number");
     expect(warning).not.toHaveBeenCalled();
     expect(error).not.toHaveBeenCalled();
     await unmount(component);

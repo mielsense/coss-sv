@@ -101,11 +101,13 @@ describe("NumberField number contract", () => {
     const body = render(NumberFieldFieldHydrationFixture).body;
     const label = body.match(/<label[^>]*>[^<]*<!---->Hydrated quantity/)?.[0];
     const input = body.match(/<input[^>]*data-testid="hydrated-field-number-input"[^>]*>/)?.[0];
+    const removedLabel = body.match(/<label[^>]*id="hydrated-removed-number-label"[^>]*>/)?.[0];
     const labelFor = label?.match(/for="([^"]+)"/)?.[1];
     const inputId = input?.match(/id="([^"]+)"/)?.[1];
 
     expect(labelFor).toBeTruthy();
     expect(inputId).toBe(labelFor);
+    expect(removedLabel).toContain('for="hydrated-removed-number"');
     expect(numberFieldHydrationHtml).toBe(body);
   });
 

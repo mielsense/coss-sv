@@ -14,6 +14,7 @@ test("types the full Field state, validation, relationships, and polymorphic par
   const root = {
     as: "fieldset",
     children,
+    controlId: "email-control",
     dirty: true,
     disabled: false,
     invalid: true,
@@ -32,15 +33,17 @@ test("types the full Field state, validation, relationships, and polymorphic par
     onValueChange: (value: string) => value,
     value: "miel",
   } satisfies FieldControlProps;
-  const item = { children, disabled: true } satisfies FieldItemProps;
+  const item = { children, controlId: "choice-control", disabled: true } satisfies FieldItemProps;
   const description = { children, id: "help" } satisfies FieldDescriptionProps;
   const error = { children, match: "valueMissing" } satisfies FieldErrorProps;
 
   expect(root.name).toBe("email");
   expect(root.as).toBe("fieldset");
+  expect(root.controlId).toBe("email-control");
   expect(label.as).toBe("span");
   expect(control.as).toBe("textarea");
   expect(item.disabled).toBe(true);
+  expect(item.controlId).toBe("choice-control");
   expect(description.id).toBe("help");
   expect(error.match).toBe("valueMissing");
 

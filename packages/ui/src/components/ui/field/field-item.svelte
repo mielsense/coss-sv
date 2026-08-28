@@ -2,7 +2,10 @@
   import { Field as FieldPrimitive } from "@shardsui/svelte";
   import type { ComponentProps } from "svelte";
 
-  export type FieldItemProps = ComponentProps<typeof FieldPrimitive.Item>;
+  export type FieldItemProps = ComponentProps<typeof FieldPrimitive.Item> & {
+    /** See `FieldRootProps.controlId` for the explicit-child SSR contract. */
+    controlId?: string;
+  };
 </script>
 
 <script lang="ts">
@@ -10,11 +13,10 @@
   import FieldRelationshipProvider from "./field-relationship-provider.svelte";
 
   const uid = $props.id();
-  const defaultControlId = `${uid}-control`;
-
   let {
     children: child,
     class: className,
+    controlId = `${uid}-control`,
     ref = $bindable(null),
     ...props
   }: FieldItemProps = $props();
@@ -27,7 +29,7 @@
     <FieldRelationshipProvider
       bind:describedBy={relationshipDescribedBy}
       bind:labelId={relationshipLabelId}
-      {defaultControlId}
+      defaultControlId={controlId}
     >
       {@render child?.(state)}
     </FieldRelationshipProvider>

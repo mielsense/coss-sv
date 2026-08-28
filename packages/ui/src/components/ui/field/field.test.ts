@@ -1,6 +1,7 @@
 import { render } from "svelte/server";
 import { describe, expect, test } from "vitest";
 import FieldSsrFixture from "./field.ssr-fixture.svelte";
+import FieldExplicitControlsSsrFixture from "./field-explicit-controls.ssr-fixture.svelte";
 import FieldFieldsetSsrFixture from "./field-fieldset.ssr-fixture.svelte";
 import * as Field from "./index.js";
 import { FieldRelationshipState } from "./relationship-context.svelte.js";
@@ -65,11 +66,28 @@ describe("Field SSR contract", () => {
 
     const removeFirst = relationships.registerControlId("field-control");
     const removeSecond = relationships.registerControlId("second-fallback");
+    expect(controlId).toBe("field-control");
+    removeFirst();
+    expect(controlId).toBe("second-fallback");
+    const removeRemountedFirst = relationships.registerControlId("field-control");
     expect(controlId).toBe("second-fallback");
     removeSecond();
     expect(controlId).toBe("field-control");
-    removeFirst();
+    removeRemountedFirst();
     expect(controlId).toBe("field-control");
     expect(relationships.resolveDefaultControlId("remount-fallback")).toBe("field-control");
+  });
+
+  test("server-renders explicit Input and NumberField label targets from the root contract", () => {
+    const body = render(FieldExplicitControlsSsrFixture).body;
+    const inputLabel = body.match(/<label[^>]*data-testid="explicit-input-label"[^>]*>/)?.[0];
+    const input = body.match(/<input[^>]*data-testid="explicit-input"[^>]*>/)?.[0];
+    const numberLabel = body.match(/<label[^>]*data-testid="explicit-number-label"[^>]*>/)?.[0];
+    const number = body.match(/<input[^>]*data-testid="explicit-number"[^>]*>/)?.[0];
+
+    expect(inputLabel).toContain('for="explicit-input"');
+    expect(input).toContain('id="explicit-input"');
+    expect(numberLabel).toContain('for="explicit-number"');
+    expect(number).toContain('id="explicit-number"');
   });
 });

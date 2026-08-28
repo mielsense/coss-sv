@@ -13,7 +13,7 @@
   </Field.Description>
 </Field.Root>
 
-<Field.Root>
+<Field.Root controlId="hydrated-removed-number">
   <Field.Label id="hydrated-removed-number-label">Hydrated removed quantity</Field.Label>
   <NumberField.Root defaultValue={4} id="hydrated-removed-number" max={10} min={1}>
     <NumberField.Input

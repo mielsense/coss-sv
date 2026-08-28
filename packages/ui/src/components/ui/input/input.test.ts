@@ -51,6 +51,7 @@ describe("Input SSR contract", () => {
     const label = body.match(/<label[^>]*>[^<]*<!---->Hydrated name/)?.[0];
     const inherited = body.match(/<input[^>]*data-testid="hydrated-field-input"[^>]*>/)?.[0];
     const removed = body.match(/<input[^>]*id="hydrated-null-input"[^>]*>/)?.[0];
+    const removedLabel = body.match(/<label[^>]*id="removed-input-label"[^>]*>/)?.[0];
     const labelFor = label?.match(/for="([^"]+)"/)?.[1];
     const inputId = inherited?.match(/id="([^"]+)"/)?.[1];
 
@@ -60,6 +61,7 @@ describe("Input SSR contract", () => {
     expect(inherited).toContain('aria-describedby="hydrated-input-description"');
     expect(removed).not.toContain("aria-labelledby");
     expect(removed).not.toContain("aria-describedby");
+    expect(removedLabel).toContain('for="hydrated-null-input"');
     expect(inputFieldHydrationHtml).toBe(body);
   });
 });

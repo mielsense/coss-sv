@@ -8,7 +8,7 @@ export class FieldRelationshipState {
   #writeLabelId: (id: string | undefined) => void;
   #writeDescribedBy: (ids: string | undefined) => void;
   #writeControlId: (id: string | undefined) => void;
-  #initialControlId: string | undefined;
+  #initialControlIds: string[] = [];
   #controlRegistrations: { id: string; token: symbol }[] = [];
   #initialLabelId: string | undefined;
   #initialMessageIds = new Set<string>();
@@ -40,7 +40,7 @@ export class FieldRelationshipState {
 
   resolveDefaultControlId(fallbackId: string): string {
     const defaultIsRegistered =
-      this.#initialControlId === this.#defaultControlId ||
+      this.#initialControlIds.includes(this.#defaultControlId) ||
       this.#controlRegistrations.some(({ id }) => id === this.#defaultControlId);
     return defaultIsRegistered ? fallbackId : this.#defaultControlId;
   }
@@ -54,27 +54,30 @@ export class FieldRelationshipState {
   }
 
   registerInitialControlId(id: string): void {
-    this.#initialControlId = id;
-    this.#writeControlId(id);
+    if (!this.#initialControlIds.includes(id)) this.#initialControlIds.push(id);
+    this.#syncControlId();
   }
 
   registerControlId(id: string): () => void {
-    if (this.#initialControlId === id) this.#initialControlId = undefined;
+    const initialIndex = this.#initialControlIds.indexOf(id);
+    if (initialIndex !== -1) this.#initialControlIds.splice(initialIndex, 1);
     const token = Symbol();
     this.#controlRegistrations.push({ id, token });
-    this.#writeControlId(id);
+    this.#syncControlId();
     return () => {
       const index = this.#controlRegistrations.findIndex(
         (registration) => registration.token === token,
       );
       if (index === -1) return;
       this.#controlRegistrations.splice(index, 1);
-      if (this.#readControlId() === id) {
-        this.#writeControlId(
-          this.#controlRegistrations.at(-1)?.id ?? this.#initialControlId ?? this.#defaultControlId,
-        );
-      }
+      this.#syncControlId();
     };
+  }
+
+  #syncControlId(): void {
+    this.#writeControlId(
+      this.#controlRegistrations[0]?.id ?? this.#initialControlIds[0] ?? this.#defaultControlId,
+    );
   }
 
   registerInitialLabelId(id: string): void {

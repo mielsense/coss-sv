@@ -96,6 +96,31 @@ describe("Field browser contract", () => {
     expect((await ariaLabel.element()).hasAttribute("aria-labelledby")).toBe(false);
   });
 
+  test("keeps the first registered control as the label target across unmounts", async () => {
+    render(FieldFixture);
+
+    const label = document.querySelector<HTMLLabelElement>('[data-testid="multiple-label"]');
+    const first = document.querySelector<HTMLInputElement>(
+      '[data-testid="multiple-first-control"]',
+    );
+    const second = document.querySelector<HTMLInputElement>(
+      '[data-testid="multiple-second-control"]',
+    );
+    expect(first?.id).toBeTruthy();
+    expect(second?.id).toBeTruthy();
+    expect(first?.id).not.toBe(second?.id);
+    expect(label?.htmlFor).toBe(first?.id);
+
+    await page.getByTestId("toggle-first-control").click();
+    expect(label?.htmlFor).toBe(second?.id);
+    await page.getByTestId("toggle-first-control").click();
+    const remounted = document.querySelector<HTMLInputElement>(
+      '[data-testid="multiple-first-control"]',
+    );
+    expect(remounted?.id).not.toBe(second?.id);
+    expect(label?.htmlFor).toBe(second?.id);
+  });
+
   test("hydrates the COSS root without changing server markup", async () => {
     const warning = vi.spyOn(console, "warn").mockImplementation(() => undefined);
     const target = document.createElement("div");

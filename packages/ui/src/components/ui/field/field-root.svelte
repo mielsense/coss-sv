@@ -2,7 +2,13 @@
   import { Field as FieldPrimitive } from "@shardsui/svelte";
   import type { ComponentProps } from "svelte";
 
-  export type FieldRootProps = ComponentProps<typeof FieldPrimitive.Root>;
+  export type FieldRootProps = ComponentProps<typeof FieldPrimitive.Root> & {
+    /**
+     * The control ID rendered by a later explicitly identified child. Set this alongside the
+     * child's `id` so a preceding label has the correct native `for` value during SSR.
+     */
+    controlId?: string;
+  };
 </script>
 
 <script lang="ts">
@@ -11,12 +17,11 @@
   import FieldRelationshipProvider from "./field-relationship-provider.svelte";
 
   const uid = $props.id();
-  const defaultControlId = `${uid}-control`;
-
   let {
     as = "div",
     children: child,
     class: className,
+    controlId = `${uid}-control`,
     disabled = false,
     ref = $bindable(null),
     ...props
@@ -52,7 +57,7 @@
     <FieldRelationshipProvider
       bind:describedBy={relationshipDescribedBy}
       bind:labelId={relationshipLabelId}
-      {defaultControlId}
+      defaultControlId={controlId}
     >
       {@render child?.(state)}
     </FieldRelationshipProvider>

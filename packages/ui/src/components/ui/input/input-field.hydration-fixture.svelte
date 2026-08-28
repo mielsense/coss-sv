@@ -9,7 +9,7 @@
   <Field.Description id="hydrated-input-description">Hydrated description</Field.Description>
 </Field.Root>
 
-<Field.Root>
+<Field.Root controlId="hydrated-null-input">
   <Field.Label id="removed-input-label">Removed name</Field.Label>
   <Input
     aria-describedby={null}
