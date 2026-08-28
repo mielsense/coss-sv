@@ -140,6 +140,7 @@ try {
     assert.equal(environment.motion, configuration.reducedMotion === "reduce");
     assert.equal(environment.width, widthPixels);
     assert.deepEqual(environment.config, {
+      align: "center",
       ...parameters,
       ok: true,
       seed: Number(configuration.seed),
