@@ -255,7 +255,7 @@ Specific compositions include:
 
 ### Components without a direct Shards equivalent
 
-- `calendar`: port the COSS DayPicker-facing API to an actively maintained Svelte calendar primitive selected during its task. Bits UI through the current shadcn-svelte calendar implementation is the preferred candidate, but the agent must prove visual, keyboard, locale, range, and disabled-date parity before adoption.
+- `calendar`: port the COSS DayPicker-facing API from the allowed COSS source. Start from the required behavior and the nearest local Shards primitives, then choose a Svelte-native composition that preserves visual, keyboard, locale, range, and disabled-date parity. A shadcn-svelte implementation is not a design or dependency authority. Any additional runtime dependency requires COSS-specific evidence and coordinator approval.
 - `number-field`: implement a local Svelte behavior layer around Shards field/input parts, including locale-aware parsing, steppers, keyboard behavior, constraints, and controlled state.
 - `otp-field`: implement a local Svelte behavior layer around Shards field/input parts, including paste, focus movement, deletion, selection, completion, and mobile input behavior.
 

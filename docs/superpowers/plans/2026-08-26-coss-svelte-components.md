@@ -98,7 +98,7 @@ Every path in the “COSS source” column is under the MIT-designated `referenc
 | badge | `reference/apps/ui/registry/default/ui/badge.tsx` | native; read Shards `button/**` for polymorphic and attribute patterns | `packages/ui/src/components/ui/badge/` |
 | breadcrumb | `reference/apps/ui/registry/default/ui/breadcrumb.tsx` | native; read Shards `menu/**` for overflow-menu composition | `packages/ui/src/components/ui/breadcrumb/` |
 | button | `reference/apps/ui/registry/default/ui/button.tsx` | `shardsui/packages/shardsui/src/lib/components/button/**`, `shardsui/docs/src/content/button.md` | `packages/ui/src/components/ui/button/` |
-| calendar | `reference/apps/ui/registry/default/ui/calendar.tsx` | no direct primitive; read Shards `field/**`, `input/**`, `popover/**`, plus the current shadcn-svelte calendar source selected in the task | `packages/ui/src/components/ui/calendar/` |
+| calendar | `reference/apps/ui/registry/default/ui/calendar.tsx` | no direct primitive; read Shards `field/**`, `input/**`, `popover/**`, then derive the Svelte-native composition from the complete COSS contract | `packages/ui/src/components/ui/calendar/` |
 | card | `reference/apps/ui/registry/default/ui/card.tsx` | native; read Shards `field/**` for heading and description composition patterns | `packages/ui/src/components/ui/card/` |
 | checkbox-group | `reference/apps/ui/registry/default/ui/checkbox-group.tsx` | `shardsui/packages/shardsui/src/lib/components/checkbox-group/**`, `shardsui/docs/src/content/checkbox-group.md` | `packages/ui/src/components/ui/checkbox-group/` |
 | checkbox | `reference/apps/ui/registry/default/ui/checkbox.tsx` | `shardsui/packages/shardsui/src/lib/components/checkbox/**`, `shardsui/docs/src/content/checkbox.md` | `packages/ui/src/components/ui/checkbox/` |
@@ -338,11 +338,11 @@ Run all overlay tests serially once to detect leaked portals, focus locks, body 
 **Dependencies:** button, field, popover, select
 **Commit:** `feat(packages/ui): add calendar`
 
-Before writing tests, use Context7 for the current Svelte calendar candidate and shadcn-svelte calendar implementation. Read its source, license, and accessibility contract. Compare it against the complete COSS calendar file, calendar docs, date-picker docs, and every calendar/date-picker particle.
+Before writing tests, read the complete COSS calendar file, calendar docs, date-picker docs, and every calendar/date-picker particle. Read the nearest local Shards primitives completely. Derive the public API, behavior, and styling from COSS; shadcn-svelte source and dependency choices are not implementation authority. If COSS-specific requirements justify another calendar primitive, use Context7 for that candidate and request coordinator approval with its source, license, accessibility contract, and a behavior comparison before adding it.
 
 Required tests cover single, multiple, range, month/year selection, outside days, fixed weeks, disabled and unavailable dates, min/max rules, keyboard grid navigation, locale, week start, captions, dropdowns, custom day content, focus restoration in date-picker composition, and all COSS DayPicker class/formatter mappings.
 
-If the selected primitive cannot meet a behavior, implement a documented wrapper. Do not silently drop a prop. Add its notice to `THIRD_PARTY_NOTICES.md` through a coordinator request.
+If the selected composition cannot meet a behavior, implement a documented wrapper. Do not silently drop a prop. Add any approved dependency notice to `THIRD_PARTY_NOTICES.md` through a coordinator request. Render every UI icon with `@hugeicons/svelte` and `@hugeicons/core-free-icons`; reject Lucide packages, Lucide class names or path copies, and substitute hand-drawn icon SVGs.
 
 ### Task C15: Port number-field and otp-field
 

@@ -26,7 +26,7 @@ For each assigned documentation page, the agent must:
 4. Run every assigned upstream example. Inspect exact text, data, order, icons, dimensions, responsive behavior, theme behavior, state transitions, focus, keyboard behavior, motion, and console output.
 5. Freshly read the target Svelte component source and the matching local Shards source and docs. API references must describe the actual Svelte wrapper and Shards parts, not remembered React or Shards APIs.
 6. Write failing page-inventory, example-inventory, source-display, and browser tests.
-7. Port the page and every particle one for one. Preserve example identifiers, order, visible copy, data, icons, variants, and layout. Translate only syntax, framework-specific explanations, and explicitly approved branding.
+7. Port the page and every particle one for one. Preserve example identifiers, order, visible copy, data, icon meaning, variants, and layout. Use the closest free Hugeicon for every UI icon through `@hugeicons/svelte`; do not use Lucide packages, Lucide class names or path copies, or substitute hand-drawn icon SVGs. Translate only syntax, framework-specific explanations, and explicitly approved branding.
 8. Render every particle at its deterministic `/preview/<particle-id>` route and compare it with the React reference before committing.
 9. Pass page, registry, source-copy, screenshot, interaction, keyboard, axe, and responsive checks for the assigned files.
 10. Commit with the lane's lowercase subject and hand off exact source paths, page routes, particle routes, tests, known risks, and commit SHA.
@@ -56,7 +56,7 @@ This reviewer runs concurrently and freshly reads the target source, component t
 - samples use Svelte 5 snippets, runes, callbacks, bindings, and namespace APIs correctly;
 - install commands use pnpm and shadcn-svelte;
 - API tables match actual exported Svelte props and parts;
-- no React imports, hooks, JSX, Base UI React names, Bun commands, or legacy Svelte syntax remain;
+- no React imports, hooks, JSX, Base UI React names, Bun commands, Lucide artifacts, substitute inline UI icons, or legacy Svelte syntax remain;
 - translated prose is accurate and concise;
 - source and copy buttons return the exact displayed Svelte code;
 - all authored prose passes the Unslop checklist.
@@ -479,7 +479,7 @@ One reviewer checks every source page and wording transformation. A second verif
 
 ### Step 1: Complete particle registry metadata
 
-Add every one of the 508 particles to `registry-particles.ts` with the same stable ID as upstream. Dependencies must point to Svelte component items and Svelte icon packages or local licensed SVG components. Reject any React, Base UI React, Bun, npm, or upstream filesystem path.
+Add every one of the 508 particles to `registry-particles.ts` with the same stable ID as upstream. Dependencies must point to Svelte component items and the free Hugeicons Svelte packages. Reject any React, Base UI React, Lucide, substitute inline UI icon, Bun, npm, or upstream filesystem path. Logos and non-icon illustrations remain subject to their own provenance review.
 
 ### Step 2: Build and compare the registry set
 

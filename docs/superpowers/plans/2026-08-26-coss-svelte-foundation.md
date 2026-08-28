@@ -596,7 +596,7 @@ Compare every planned adapted path with the `reference/apps/ui/**` boundary. Rec
 
 - `LICENSE`: standard MIT license for the port, with Miel's port copyright and no reassignment of upstream rights.
 - `NOTICE.md`: COSS URL, pinned commit, MIT source subtree, nature of the Svelte modifications, no-endorsement statement, and Miel link.
-- `THIRD_PARTY_NOTICES.md`: Shards UI notice including its Base UI and Floating UI attributions, plus sections ready for Hugeicons, Lucide, Remix Icon SVG data, fonts, and any calendar dependency actually selected.
+- `THIRD_PARTY_NOTICES.md`: Shards UI notice including its Base UI and Floating UI attributions, plus sections for Hugeicons, fonts, and any calendar dependency actually selected. UI icons use the free Hugeicons packages exclusively.
 
 Run a path-to-license script that fails if an adapted source evidence file points outside `reference/apps/ui/**`.
 
