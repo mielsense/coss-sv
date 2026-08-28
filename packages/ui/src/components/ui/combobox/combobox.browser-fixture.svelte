@@ -1,5 +1,6 @@
 <script lang="ts">
 import * as Combobox from "./index.js";
+
 const items = ["Apple", "Banana", "Orange", "Grape"];
 const people = [
   { id: "ada", name: "Ada Lovelace" },
@@ -85,3 +86,13 @@ let personIdentity = $state("different");
   </Combobox.Popup>
 </Combobox.Root>
 <output data-testid="combobox-identity">{personIdentity}</output>
+
+<Combobox.Root items={people} value={people[1]}>
+  <Combobox.Trigger aria-label="Custom combobox person value">
+    <Combobox.Value>
+      {#snippet children(value: (typeof people)[number] | null)}
+        <span data-testid="custom-combobox-value">{value?.name}</span>
+      {/snippet}
+    </Combobox.Value>
+  </Combobox.Trigger>
+</Combobox.Root>

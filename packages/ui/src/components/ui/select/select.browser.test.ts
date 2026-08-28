@@ -45,10 +45,15 @@ describe("Select browser contract", () => {
 
   test("preserves exact object identity", async () => {
     render(Fixture);
-    const trigger = page.getByRole("combobox", { name: "Person" });
+    const trigger = page.getByRole("combobox", { exact: true, name: "Person" });
     await trigger.click();
     await page.getByRole("option", { name: "Grace Hopper" }).click();
     await expect.element(page.getByTestId("select-identity")).toHaveTextContent("same");
+  });
+
+  test("renders a typed custom object value snippet", async () => {
+    render(Fixture);
+    await expect.element(page.getByTestId("custom-select-value")).toHaveTextContent("Grace Hopper");
   });
 
   test("aligns the selected item label with the trigger value in RTL", async () => {

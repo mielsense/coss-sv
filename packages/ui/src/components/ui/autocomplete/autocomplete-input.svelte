@@ -44,15 +44,23 @@ let {
 }: AutocompleteInputProps = $props();
 
 const nativeSize = $derived(typeof size === "number" ? size : undefined);
-const sizeName = $derived(typeof size === "string" ? size : undefined);
 const innerClass = $derived(
   cn(
     inputClass,
     size === "sm" && "h-7.5 px-[calc(--spacing(2.5)-1px)] leading-7.5 sm:h-6.5 sm:leading-6.5",
     size === "lg" && "h-9.5 leading-9.5 sm:h-8.5 sm:leading-8.5",
+  ),
+);
+const composedControlClass = $derived(
+  cn(
+    controlClass,
     startAddon &&
-      "data-[size=sm]:ps-[calc(--spacing(7.5)-1px)] ps-[calc(--spacing(8.5)-1px)] sm:data-[size=sm]:ps-[calc(--spacing(7)-1px)] sm:ps-[calc(--spacing(8)-1px)]",
-    (showTrigger || showClear) && (size === "sm" ? "pe-6.5" : "pe-7"),
+      "data-[size=sm]:*:data-[slot=autocomplete-input]:ps-[calc(--spacing(7.5)-1px)] *:data-[slot=autocomplete-input]:ps-[calc(--spacing(8.5)-1px)] sm:data-[size=sm]:*:data-[slot=autocomplete-input]:ps-[calc(--spacing(7)-1px)] sm:*:data-[slot=autocomplete-input]:ps-[calc(--spacing(8)-1px)]",
+    (showTrigger || showClear) &&
+      (size === "sm"
+        ? "has-[+[data-slot=autocomplete-trigger],+[data-slot=autocomplete-clear]]:*:data-[slot=autocomplete-input]:pe-6.5"
+        : "has-[+[data-slot=autocomplete-trigger],+[data-slot=autocomplete-clear]]:*:data-[slot=autocomplete-input]:pe-7"),
+    className,
   ),
 );
 const adornmentPosition = $derived(size === "sm" ? "end-0" : "end-0.5");
@@ -71,18 +79,36 @@ const adornmentPosition = $derived(size === "sm" ? "end-0" : "end-0.5");
       {@render startAddon()}
     </div>
   {/if}
-  <span class={cn(controlClass, className)} data-size={sizeName} data-slot="input-control">
+  <span class={composedControlClass} data-size={size} data-slot="input-control">
     <AutocompletePrimitive.Input
       bind:ref
       class={innerClass}
-      data-size={sizeName}
       data-slot="autocomplete-input"
       size={nativeSize}
       {...props}
     />
   </span>
   {#if showTrigger}
-    <AutocompleteTrigger class={cn(adornmentClass, adornmentPosition)} {...triggerProps} />
+    <AutocompleteTrigger class={cn(adornmentClass, adornmentPosition)} {...triggerProps}>
+      {#snippet children()}
+        <AutocompletePrimitive.Icon data-slot="autocomplete-icon">
+          <svg
+            aria-hidden="true"
+            fill="none"
+            height="24"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            width="24"
+          >
+            <path d="m7 15 5 5 5-5" />
+            <path d="m7 9 5-5 5 5" />
+          </svg>
+        </AutocompletePrimitive.Icon>
+      {/snippet}
+    </AutocompleteTrigger>
   {/if}
   {#if showClear}
     <AutocompleteClear class={cn(adornmentClass, adornmentPosition)} {...clearProps} />

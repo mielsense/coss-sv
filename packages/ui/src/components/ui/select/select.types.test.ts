@@ -8,6 +8,7 @@ import type {
   SelectTriggerProps,
   SelectValueProps,
 } from "./index.js";
+
 test("types single and multiple values, trigger sizes, value snippets, alignment, and portal props", () => {
   const children = createRawSnippet(() => ({ render: () => "Next.js" }));
   const single = {
@@ -25,6 +26,16 @@ test("types single and multiple values, trigger sizes, value snippets, alignment
   const trigger = { children, size: "lg" } satisfies SelectTriggerProps;
   const button = { children, size: "sm" } satisfies SelectButtonProps;
   const value = { placeholder: "Choose" } satisfies SelectValueProps;
+  const typedValueChildren = createRawSnippet<[value: { id: string } | null]>((_value) => ({
+    render: () => "Ada",
+  }));
+  const typedValue = { children: typedValueChildren } satisfies SelectValueProps<{ id: string }>;
+  const multipleValueChildren = createRawSnippet<[value: string[]]>((_value) => ({
+    render: () => "JavaScript",
+  }));
+  const multipleValue = {
+    children: multipleValueChildren,
+  } satisfies SelectValueProps<string, true>;
   const popup = {
     alignItemWithTrigger: false,
     children,
@@ -38,6 +49,8 @@ test("types single and multiple values, trigger sizes, value snippets, alignment
   expect(trigger.size).toBe("lg");
   expect(button.size).toBe("sm");
   expect(value.placeholder).toBe("Choose");
+  expect(typedValue.children).toBe(typedValueChildren);
+  expect(multipleValue.children).toBe(multipleValueChildren);
   expect(popup.alignItemWithTrigger).toBe(false);
   expect(item.disabled).toBe(true);
   expectTypeOf(single.value).toEqualTypeOf<string>();

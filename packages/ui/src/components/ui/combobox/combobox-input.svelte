@@ -21,6 +21,7 @@ import { Combobox as C } from "@shardsui/svelte";
 import { cn } from "$lib/utils.js";
 import ComboboxClear from "./combobox-clear.svelte";
 import ComboboxTrigger from "./combobox-trigger.svelte";
+
 const controlClass =
   "relative inline-flex w-full rounded-lg border border-input bg-background not-dark:bg-clip-padding text-base shadow-xs/5 ring-ring/24 transition-shadow before:pointer-events-none before:absolute before:inset-0 before:rounded-[calc(var(--radius-lg)-1px)] not-has-disabled:not-has-focus-visible:not-has-aria-invalid:before:shadow-[0_1px_--theme(--color-black/4%)] has-focus-visible:has-aria-invalid:border-destructive/64 has-focus-visible:has-aria-invalid:ring-destructive/16 has-aria-invalid:border-destructive/36 has-focus-visible:border-ring has-autofill:bg-foreground/4 has-disabled:opacity-64 has-[:disabled,:focus-visible,[aria-invalid]]:shadow-none has-focus-visible:ring-[3px] sm:text-sm dark:bg-input/32 dark:has-autofill:bg-foreground/8 dark:has-aria-invalid:ring-destructive/24 dark:not-has-disabled:not-has-focus-visible:not-has-aria-invalid:before:shadow-[0_-1px_--theme(--color-white/6%)]";
 const inputClass =
@@ -39,15 +40,23 @@ let {
   ...props
 }: ComboboxInputProps = $props();
 const nativeSize = $derived(typeof size === "number" ? size : undefined);
-const sizeName = $derived(typeof size === "string" ? size : undefined);
 const innerClass = $derived(
   cn(
     inputClass,
     size === "sm" && "h-7.5 px-[calc(--spacing(2.5)-1px)] leading-7.5 sm:h-6.5 sm:leading-6.5",
     size === "lg" && "h-9.5 leading-9.5 sm:h-8.5 sm:leading-8.5",
+  ),
+);
+const composedControlClass = $derived(
+  cn(
+    controlClass,
     startAddon &&
-      "data-[size=sm]:ps-[calc(--spacing(7.5)-1px)] ps-[calc(--spacing(8.5)-1px)] sm:data-[size=sm]:ps-[calc(--spacing(7)-1px)] sm:ps-[calc(--spacing(8)-1px)]",
-    (showTrigger || showClear) && (size === "sm" ? "pe-6.5" : "pe-7"),
+      "data-[size=sm]:*:data-[slot=combobox-input]:ps-[calc(--spacing(7.5)-1px)] *:data-[slot=combobox-input]:ps-[calc(--spacing(8.5)-1px)] sm:data-[size=sm]:*:data-[slot=combobox-input]:ps-[calc(--spacing(7)-1px)] sm:*:data-[slot=combobox-input]:ps-[calc(--spacing(8)-1px)]",
+    (showTrigger || showClear) &&
+      (size === "sm"
+        ? "has-[+[data-slot=combobox-trigger],+[data-slot=combobox-clear]]:*:data-[slot=combobox-input]:pe-6.5"
+        : "has-[+[data-slot=combobox-trigger],+[data-slot=combobox-clear]]:*:data-[slot=combobox-input]:pe-7"),
+    className,
   ),
 );
 const adornmentPosition = $derived(size === "sm" ? "end-0" : "end-0.5");
@@ -65,18 +74,36 @@ const adornmentPosition = $derived(size === "sm" ? "end-0" : "end-0.5");
       {@render startAddon()}
     </div>
   {/if}
-  <span class={cn(controlClass, className)} data-size={sizeName} data-slot="input-control"
+  <span class={composedControlClass} data-size={size} data-slot="input-control"
     ><C.Input
       bind:ref
       class={innerClass}
-      data-size={sizeName}
       data-slot="combobox-input"
       size={nativeSize}
       {...props}
     /></span
   >
   {#if showTrigger}
-    <ComboboxTrigger class={cn(adornmentClass, adornmentPosition)} {...triggerProps} />
+    <ComboboxTrigger class={cn(adornmentClass, adornmentPosition)} {...triggerProps}>
+      {#snippet children()}
+        <C.Icon data-slot="combobox-icon">
+          <svg
+            aria-hidden="true"
+            fill="none"
+            height="24"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            width="24"
+          >
+            <path d="m7 15 5 5 5-5" />
+            <path d="m7 9 5-5 5 5" />
+          </svg>
+        </C.Icon>
+      {/snippet}
+    </ComboboxTrigger>
   {/if}
   {#if showClear}
     <ComboboxClear aria-label="Clear" class={cn(adornmentClass, adornmentPosition)} {...clearProps}>

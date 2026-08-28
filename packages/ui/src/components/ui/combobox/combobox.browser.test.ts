@@ -52,6 +52,13 @@ describe("Combobox browser contract", () => {
     await expect.element(page.getByTestId("combobox-identity")).toHaveTextContent("grace:same");
   });
 
+  test("renders a typed custom object value snippet", async () => {
+    render(Fixture);
+    await expect
+      .element(page.getByTestId("custom-combobox-value"))
+      .toHaveTextContent("Grace Hopper");
+  });
+
   test("clears the composed input without inventing a public clear-button child", async () => {
     render(Fixture);
     const input = page.getByRole("combobox", { name: "Choose fruit", exact: true });

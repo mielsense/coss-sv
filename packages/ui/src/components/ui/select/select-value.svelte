@@ -1,6 +1,7 @@
 <script module lang="ts">
 import type { Select as ShardsSelect } from "@shardsui/svelte";
 import type { ComponentProps, Snippet } from "svelte";
+
 type BaseProps = Omit<ComponentProps<typeof ShardsSelect.Value>, "children" | "placeholder">;
 export type SelectValueProps<
   Value = unknown,
@@ -13,15 +14,16 @@ export type SelectValueProps<
 <script lang="ts" generics="Value = unknown, Multiple extends boolean | undefined = false">
 import { Select as S } from "@shardsui/svelte";
 import { cn } from "$lib/utils.js";
+
 let {
-  children,
+  children: child,
   class: className,
   placeholder,
   ref = $bindable(null),
   ...props
 }: SelectValueProps<Value, Multiple> = $props();
 </script>
-{#if children}
+{#if child}
   <S.Value
     bind:ref
     class={cn("flex-1 truncate data-placeholder:text-muted-foreground",className)}
@@ -30,7 +32,7 @@ let {
     {...props}
   >
     {#snippet children(value: unknown)}
-      {@render children?.(value as Multiple extends true ? Value[] : Value | null)}
+      {@render child(value as Multiple extends true ? Value[] : Value | null)}
     {/snippet}
   </S.Value>
 {:else}

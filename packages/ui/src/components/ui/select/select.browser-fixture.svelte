@@ -1,6 +1,7 @@
 <script lang="ts">
 import { DirectionProvider } from "@shardsui/svelte";
 import * as Select from "./index.js";
+
 const frameworks = [
   { label: "Next.js", value: "next" },
   { label: "Vite", value: "vite" },
@@ -58,6 +59,21 @@ let rtlContainer = $state<HTMLElement | null>(null);
   </Select.Popup>
 </Select.Root>
 <output data-testid="select-identity">{personIdentity}</output>
+
+<Select.Root
+  items={people.map((item) => ({ label: item.name, value: item }))}
+  itemToStringLabel={(item: (typeof people)[number]) => item.name}
+  itemToStringValue={(item: (typeof people)[number]) => item.id}
+  value={people[1]}
+>
+  <Select.Trigger aria-label="Custom person value">
+    <Select.Value>
+      {#snippet children(value: (typeof people)[number] | null)}
+        <span data-testid="custom-select-value">{value?.name}</span>
+      {/snippet}
+    </Select.Value>
+  </Select.Trigger>
+</Select.Root>
 
 <div bind:this={rtlContainer} dir="rtl">
   <DirectionProvider direction="rtl">

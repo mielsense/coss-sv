@@ -2,6 +2,7 @@ import { render } from "svelte/server";
 import { describe, expect, test } from "vitest";
 import * as Select from "./index.js";
 import Fixture from "./select.ssr-fixture.svelte";
+
 describe("Select SSR and export contract", () => {
   test("renders the exact COSS trigger, value, and label slots", () => {
     const { body } = render(Fixture);
@@ -16,6 +17,11 @@ describe("Select SSR and export contract", () => {
     expect(body).not.toContain(
       'data-slot="select-label" class="px-2 py-1.5 font-medium text-muted-foreground text-xs"',
     );
+  });
+  test("renders literal and typed object value snippets without recursion", () => {
+    const { body } = render(Fixture);
+    expect(body).toContain('data-testid="select-literal-value">Literal renderer</span>');
+    expect(body).toContain('data-testid="select-object-value">Grace Hopper</span>');
   });
   test("exports the compound, aliases, and Shards primitive", () => {
     expect(Select.Select).toBe(Select.Root);

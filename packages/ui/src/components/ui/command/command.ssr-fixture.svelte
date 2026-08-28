@@ -1,5 +1,6 @@
 <script lang="ts">
 import * as Command from "./index.js";
+
 const items = ["Linear", "Figma"];
 </script>
 <Command.Root {items}
@@ -15,3 +16,11 @@ const items = ["Linear", "Figma"];
     ></Command.Panel
   ><Command.Footer><Command.Shortcut>⌘K</Command.Shortcut></Command.Footer></Command.Root
 >
+
+<Command.Root {items}>
+  <Command.Group class="consumer-group" data-testid="command-group" {items}>
+    <Command.GroupLabel class="consumer-label" data-testid="command-group-label">
+      Suggestions
+    </Command.GroupLabel>
+  </Command.Group>
+</Command.Root>
