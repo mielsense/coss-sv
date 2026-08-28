@@ -1,8 +1,8 @@
 import { describe, expect, test } from "vitest";
 import { highlightSource } from "../../src/lib/code/highlight.js";
 import {
-  compileDocs as compileDocumentation,
   type CompileDocsOptions,
+  compileDocs as compileDocumentation,
   type SourcePage,
 } from "../../src/lib/content/compiler.js";
 
@@ -157,6 +157,33 @@ description: Heading fence coverage.
     expect(result.pages[0]?.tableOfContents).toEqual([
       { depth: 1, id: "visible", text: "Visible" },
       { depth: 2, id: "also-visible", text: "Also visible" },
+    ]);
+  });
+
+  test("de-duplicates repeated Button headings with one document-local slug sequence", async () => {
+    const source = `---
+title: Button
+description: Button heading coverage.
+---
+
+# Button
+
+## Link
+
+## Examples
+
+### Link`;
+    const result = await compileDocs({
+      order: ["button"],
+      pages: [{ kind: "component", slug: "button", source }],
+      particleIds: new Set(),
+    });
+
+    expect(result.pages[0]?.tableOfContents).toEqual([
+      { depth: 1, id: "button", text: "Button" },
+      { depth: 2, id: "link", text: "Link" },
+      { depth: 2, id: "examples", text: "Examples" },
+      { depth: 3, id: "link-1", text: "Link" },
     ]);
   });
 

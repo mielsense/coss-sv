@@ -25,4 +25,12 @@ describe("documentation compiler build contract", () => {
     expect(route).toContain("data.documentation.metadata.description");
     expect(source).not.toContain("<svelte:head>");
   });
+
+  test("runs the production PreviewCard browser contract from the docs E2E gate", async () => {
+    const packageJson = JSON.parse(
+      await readFile(new URL("../../package.json", import.meta.url), "utf8"),
+    ) as { scripts?: Record<string, string> };
+
+    expect(packageJson.scripts?.["test:e2e"]).toContain("preview-card.browser.mjs");
+  });
 });

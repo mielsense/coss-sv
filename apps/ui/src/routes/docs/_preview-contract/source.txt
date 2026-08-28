@@ -1,0 +1,40 @@
+<script lang="ts">
+const examples = [
+  "Preview source line 01",
+  "Preview source line 02",
+  "Preview source line 03",
+  "Preview source line 04",
+  "Preview source line 05",
+  "Preview source line 06",
+  "Preview source line 07",
+  "Preview source line 08",
+  "Preview source line 09",
+  "Preview source line 10",
+  "Preview source line 11",
+  "Preview source line 12",
+  "Preview source line 13",
+  "Preview source line 14",
+  "Preview source line 15",
+  "Preview source line 16",
+  "Preview source line 17",
+  "Preview source line 18",
+  "Preview source line 19",
+  "Preview source line 20",
+  "Preview source line 21",
+  "Preview source line 22",
+  "Preview source line 23",
+  "Preview source line 24",
+  "Preview source line 25",
+  "Preview source line 26",
+  "Preview source line 27",
+  "Preview source line 28",
+  "Preview source line 29",
+  "Preview source line 30",
+  "Preview source line 31",
+  "Preview source line 32",
+];
+</script>
+
+{#each examples as example (example)}
+  <button>{example}</button>
+{/each}

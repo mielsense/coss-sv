@@ -2,7 +2,7 @@ import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import type { PreprocessorGroup } from "svelte/compiler";
 import type { Plugin } from "unified";
-import { documentationHeading } from "./headings.js";
+import { createDocumentationHeadingSlugger } from "./headings.js";
 import { withoutFencedCode } from "./markdown.js";
 import { createParticleSourceLoader, type ParticleSourceLoader } from "./particle-source.js";
 
@@ -94,9 +94,10 @@ function serializeForScript(value: unknown): string {
 
 export const documentationHeadings: Plugin = () => (tree) => {
   const root = tree as MarkdownNode;
+  const slugger = createDocumentationHeadingSlugger();
   for (const node of root.children ?? []) {
     if (node.type !== "heading") continue;
-    const heading = documentationHeading(nodeText(node));
+    const heading = slugger.heading(nodeText(node));
     stripExplicitId(node);
     node.data = {
       ...node.data,

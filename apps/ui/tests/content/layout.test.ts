@@ -3,8 +3,8 @@ import { fileURLToPath } from "node:url";
 import { mdsvex } from "mdsvex";
 import { compile, preprocess } from "svelte/compiler";
 import { describe, expect, test } from "vitest";
-import { compileDocs } from "../../src/lib/content/compiler.js";
 import { highlightSource } from "../../src/lib/code/highlight.js";
+import { compileDocs } from "../../src/lib/content/compiler.js";
 import {
   documentationComponents,
   documentationHeadings,
@@ -116,5 +116,39 @@ let count = $state(0);
       String(match[1]),
     );
     expect(renderedIds).toEqual(compiledDocs.pages[0]?.tableOfContents.map(({ id }) => id));
+  });
+
+  test("matches compiler duplicate heading ids without leaking slugs between documents", async () => {
+    const preprocessor = mdsvex({
+      extensions: [".svx"],
+      remarkPlugins: [documentationHeadings],
+    });
+    const source = `---
+title: Button
+description: Button heading coverage.
+---
+
+# Button
+
+## Link
+
+### Link`;
+    const process = (filename: string) =>
+      preprocess(source, [documentationComponents(), preprocessor], { filename });
+    const [first, second, compiledDocs] = await Promise.all([
+      process(resolve(appRoot, "content/docs/components/button.svx")),
+      process(resolve(appRoot, "content/docs/components/link-button.svx")),
+      compileDocs({
+        order: ["button"],
+        pages: [{ kind: "component", slug: "button", source }],
+        particleIds: new Set(),
+      }),
+    ]);
+
+    const ids = (code: string) =>
+      Array.from(code.matchAll(/<h[1-6] id="([^"]+)"/g), (match) => String(match[1]));
+    expect(ids(first.code)).toEqual(["button", "link", "link-1"]);
+    expect(ids(second.code)).toEqual(["button", "link", "link-1"]);
+    expect(ids(first.code)).toEqual(compiledDocs.pages[0]?.tableOfContents.map(({ id }) => id));
   });
 });

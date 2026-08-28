@@ -3,14 +3,23 @@ import type { HighlightedSource } from "../../code/highlight.js";
 import CopyButton from "./CopyButton.svelte";
 
 type Props = {
+  embedded?: boolean;
+  height?: number;
   source: HighlightedSource;
   title?: string;
 };
 
-let { source, title }: Props = $props();
+let { embedded = false, height = 450, source, title }: Props = $props();
 </script>
 
-<figure class="relative my-6 overflow-hidden rounded-xl border bg-code text-code-foreground">
+<figure
+  class={[
+    "relative overflow-hidden bg-code text-code-foreground",
+    embedded ? "m-0 rounded-none border-0" : "my-6 rounded-xl border",
+  ]}
+  data-preview-source={embedded ? "embedded" : undefined}
+  style:--source-height={`${height}px`}
+>
   {#if title}
     <figcaption class="flex min-h-10 items-center border-b px-4 font-mono text-xs opacity-80">
       {title}
@@ -20,7 +29,10 @@ let { source, title }: Props = $props();
     <CopyButton value={source.raw} />
   </div>
   <pre
-    class="shiki max-w-full overflow-x-auto px-4 py-3.5 text-xs"
+    class={[
+      "shiki max-w-full text-xs",
+      embedded ? "m-0 overflow-auto rounded-none border-0 p-0" : "overflow-x-auto px-4 py-3.5",
+    ]}
     data-language={source.language}
   ><code>{#each source.lines as line, lineIndex (lineIndex)}{#each line as token, tokenIndex (`${lineIndex}-${tokenIndex}`)}<span
             style:--shiki-light={token.light.color}
@@ -33,3 +45,22 @@ let { source, title }: Props = $props();
             style:--shiki-dark-text-decoration={token.dark.textDecoration}
           >{token.content}</span>{/each}{#if lineIndex < source.lines.length - 1}{"\n"}{/if}{/each}</code></pre>
 </figure>
+
+<style>
+figure[data-preview-source="embedded"] {
+  height: var(--source-height);
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+}
+
+figure[data-preview-source="embedded"] pre {
+  box-sizing: border-box;
+  height: var(--source-height);
+  margin: 0;
+  overflow: auto;
+  border: 0;
+  border-radius: 0;
+  padding: 0;
+}
+</style>

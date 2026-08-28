@@ -1,5 +1,5 @@
 import { type HighlightedSource, highlightSource } from "../code/highlight.js";
-import { documentationHeading } from "./headings.js";
+import { createDocumentationHeadingSlugger } from "./headings.js";
 import { withoutFencedCode } from "./markdown.js";
 import type { ParticleSourceLoader } from "./particle-source.js";
 
@@ -127,8 +127,9 @@ function parseFrontmatter(source: string, slug: string): ParsedFrontmatter {
 }
 
 function tableOfContents(markdown: string): TableOfContentsItem[] {
+  const slugger = createDocumentationHeadingSlugger();
   return Array.from(withoutFencedCode(markdown).matchAll(/^(#{1,6})\s+(.+)$/gm)).map((match) => {
-    const heading = documentationHeading(match[2] ?? "");
+    const heading = slugger.heading(match[2] ?? "");
     return { depth: match[1]?.length ?? 1, ...heading };
   });
 }

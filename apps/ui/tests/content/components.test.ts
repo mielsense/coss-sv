@@ -23,22 +23,43 @@ describe("documentation components", () => {
     expect(body).toMatch(/aria-controls="[^"]+-panel"/);
   });
 
-  test("renders a deterministic particle preview URL and exact source tab", async () => {
+  test("renders explicit preview presentation semantics and the exact source tab", async () => {
     const source = await highlightSource(
       '<script lang="ts">\nlet count = $state(0);\n</script>',
       "svelte",
     );
     const body = render(PreviewCard, {
-      props: { align: "start", name: "p-accordion-1", source, title: "Accordion" },
+      props: {
+        align: "start",
+        name: "p-accordion-1",
+        source,
+        theme: "dark",
+        title: "Accordion",
+        width: "mobile",
+      },
     }).body;
 
     expect(body).toContain('data-particle="p-accordion-1"');
-    expect(body).toContain("/preview/p-accordion-1?theme=light&amp;width=desktop");
+    expect(body).toContain('data-preview-presentation="true"');
+    expect(body).toContain('data-align="start"');
+    expect(body).toContain("/preview/p-accordion-1?theme=dark&amp;width=mobile");
     expect(body).toContain(">Code<");
     expect(body).toContain("Copy to clipboard");
     expect(body.replace(/<[^>]*>/g, "")).toContain("$state(0)");
     expect(body).toContain('title="Accordion preview"');
     expect(body).toContain('role="tabpanel"');
+  });
+
+  test("suppresses the complete tab control when code is hidden", async () => {
+    const source = await highlightSource("<button>Hidden source</button>", "svelte");
+    const body = render(PreviewCard, {
+      props: { hideCode: true, name: "p-button-1", source },
+    }).body;
+
+    expect(body).not.toContain('role="tablist"');
+    expect(body).not.toContain('role="tab"');
+    expect(body).not.toContain('role="tabpanel"');
+    expect(body).toContain('title="p-button-1 preview"');
   });
 
   test("renders highlighted token content as text rather than executable HTML", async () => {
