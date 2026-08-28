@@ -34,7 +34,10 @@ let { embedded = false, height = 450, source, title }: Props = $props();
       embedded ? "m-0 overflow-auto rounded-none border-0 p-0" : "overflow-x-auto px-4 py-3.5",
     ]}
     data-language={source.language}
-  ><code>{#each source.lines as line, lineIndex (lineIndex)}{#each line as token, tokenIndex (`${lineIndex}-${tokenIndex}`)}<span
+  ><code data-line-numbers={embedded ? "" : undefined}>{#each source.lines as line, lineIndex (lineIndex)}<span
+        class="line"
+        data-line={embedded ? "" : undefined}
+      >{#each line as token, tokenIndex (`${lineIndex}-${tokenIndex}`)}<span
             style:--shiki-light={token.light.color}
             style:--shiki-light-font-style={token.light.fontStyle}
             style:--shiki-light-font-weight={token.light.fontWeight}
@@ -43,7 +46,7 @@ let { embedded = false, height = 450, source, title }: Props = $props();
             style:--shiki-dark-font-style={token.dark.fontStyle}
             style:--shiki-dark-font-weight={token.dark.fontWeight}
             style:--shiki-dark-text-decoration={token.dark.textDecoration}
-          >{token.content}</span>{/each}{#if lineIndex < source.lines.length - 1}{"\n"}{/if}{/each}</code></pre>
+          >{token.content}</span>{/each}</span>{#if lineIndex < source.lines.length - 1}{"\n"}{/if}{/each}</code></pre>
 </figure>
 
 <style>
@@ -61,6 +64,30 @@ figure[data-preview-source="embedded"] pre {
   overflow: auto;
   border: 0;
   border-radius: 0;
-  padding: 0;
+  padding: 14px 16px 14px 0;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+
+figure[data-preview-source="embedded"] code {
+  counter-reset: line;
+}
+
+figure[data-preview-source="embedded"] [data-line] {
+  display: block;
+  width: 100%;
+  min-width: max-content;
+  padding-block: 2px;
+}
+
+figure[data-preview-source="embedded"] [data-line]::before {
+  display: inline-block;
+  box-sizing: border-box;
+  width: 64px;
+  padding-right: 24px;
+  color: var(--muted-foreground);
+  text-align: right;
+  content: counter(line);
+  counter-increment: line;
 }
 </style>

@@ -42,7 +42,7 @@ describe("documentation components", () => {
     expect(body).toContain('data-particle="p-accordion-1"');
     expect(body).toContain('data-preview-presentation="true"');
     expect(body).toContain('data-align="start"');
-    expect(body).toContain("/preview/p-accordion-1?theme=dark&amp;width=mobile");
+    expect(body).toContain("/preview/p-accordion-1?theme=dark&amp;width=mobile&amp;align=start");
     expect(body).toContain(">Code<");
     expect(body).toContain("Copy to clipboard");
     expect(body.replace(/<[^>]*>/g, "")).toContain("$state(0)");

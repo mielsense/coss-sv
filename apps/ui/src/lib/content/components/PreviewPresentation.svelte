@@ -1,12 +1,11 @@
 <script lang="ts">
 import type { HTMLAttributes } from "svelte/elements";
 import {
+  type PreviewAlignment,
   type PreviewTheme,
   type PreviewWidth,
   previewWidths,
 } from "../../../routes/preview/[name]/preview-contract.js";
-
-export type PreviewAlignment = "center" | "end" | "start";
 
 type Props = HTMLAttributes<HTMLElement> & {
   align?: PreviewAlignment;
@@ -30,7 +29,7 @@ let {
 let siteTheme = $state<PreviewTheme>("light");
 const resolvedTheme = $derived(theme ?? siteTheme);
 const previewUrl = $derived(
-  `/preview/${encodeURIComponent(name)}?theme=${resolvedTheme}&width=${width}`,
+  `/preview/${encodeURIComponent(name)}?theme=${resolvedTheme}&width=${width}&align=${align}`,
 );
 
 function trackSiteTheme(_node: HTMLElement) {
@@ -52,7 +51,7 @@ function trackSiteTheme(_node: HTMLElement) {
   {...rest}
   {@attach trackSiteTheme}
 >
-  <div class="preview-presentation-frame" data-align={align}>
+  <div class="preview-presentation-frame">
     <iframe
       src={previewUrl}
       title={`${title} preview`}
@@ -72,19 +71,8 @@ function trackSiteTheme(_node: HTMLElement) {
 
 .preview-presentation-frame {
   display: flex;
-  overflow: hidden;
-}
-
-.preview-presentation-frame[data-align="start"] {
-  justify-content: flex-start;
-}
-
-.preview-presentation-frame[data-align="center"] {
   justify-content: center;
-}
-
-.preview-presentation-frame[data-align="end"] {
-  justify-content: flex-end;
+  overflow: hidden;
 }
 
 .preview-presentation iframe {

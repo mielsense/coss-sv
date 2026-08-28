@@ -38,6 +38,8 @@ function documentTheme(theme: "dark" | "light") {
 <div
   class={["preview-frame", { dark: query.ok && query.theme === "dark" }]}
   {@attach documentTheme(query.ok ? query.theme : "light")}
+  data-preview-align={query.ok ? query.align : undefined}
+  data-preview-frame="true"
   data-preview-name={name}
   data-preview-theme={query.ok ? query.theme : undefined}
   style:color-scheme={query.ok ? query.theme : "light"}
@@ -56,6 +58,7 @@ function documentTheme(theme: "dark" | "light") {
       class="preview-surface"
       data-preview-ready="true"
       data-preview-found={Preview ? "true" : undefined}
+      data-preview-align={query.align}
       data-preview-missing={Preview ? undefined : "true"}
       data-preview-width={query.width}
       data-preview-width-px={query.widthPixels}
@@ -81,19 +84,35 @@ function documentTheme(theme: "dark" | "light") {
   display: flex;
   min-width: 0;
   min-height: 0;
-  align-items: flex-start;
   justify-content: center;
-  overflow: auto;
+  overflow-y: auto;
+  padding: 2.5rem;
   background: var(--background);
   color: var(--foreground);
+}
+
+.preview-frame[data-preview-align="start"] {
+  align-items: flex-start;
+}
+
+.preview-frame[data-preview-align="center"] {
+  align-items: center;
+}
+
+.preview-frame[data-preview-align="end"] {
+  align-items: flex-end;
 }
 
 .preview-surface {
   flex: 0 0 auto;
   width: min(100%, var(--preview-width));
-  min-height: 24rem;
-  margin-block: auto;
   background: var(--background);
+}
+
+@media (max-width: 40rem) {
+  .preview-frame {
+    padding-inline: 1.5rem;
+  }
 }
 
 .invalid-preview,

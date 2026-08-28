@@ -86,7 +86,10 @@ try {
   const codeTab = card.getByRole("tab", { name: "Code" });
 
   await frame.waitFor();
-  assert.equal(await frame.getAttribute("src"), "/preview/_fixture?theme=light&width=mobile");
+  assert.equal(
+    await frame.getAttribute("src"),
+    "/preview/_fixture?theme=light&width=mobile&align=start",
+  );
   assert.equal(await frame.getAttribute("data-preview-width"), "mobile");
   const alignment = await presentation.evaluate((element) => {
     const iframe = element.querySelector("iframe");
@@ -96,15 +99,93 @@ try {
     const frameRect = frameSurface.getBoundingClientRect();
     return {
       frameLeft: frameRect.left,
+      frameWidth: frameRect.width,
       iframeLeft: iframeRect.left,
+      iframeWidth: iframeRect.width,
       justifyContent: getComputedStyle(frameSurface).justifyContent,
-      width: iframeRect.width,
     };
   });
   assert.ok(alignment);
-  assert.equal(alignment.justifyContent, "flex-start");
-  assert.ok(Math.abs(alignment.frameLeft - alignment.iframeLeft) <= 1);
-  assert.equal(alignment.width, 390);
+  assert.equal(alignment.justifyContent, "center");
+  assert.ok(
+    Math.abs(
+      alignment.frameLeft +
+        alignment.frameWidth / 2 -
+        (alignment.iframeLeft + alignment.iframeWidth / 2),
+    ) <= 1,
+  );
+  assert.equal(alignment.iframeWidth, 390);
+
+  const previewRuntime = frame.contentFrame().locator('[data-preview-frame="true"]');
+  const previewSurface = frame.contentFrame().locator("[data-preview-ready]");
+  await previewRuntime.waitFor();
+  const runtimeAlignment = await previewRuntime.evaluate((element) => {
+    const surface = element.querySelector("[data-preview-ready]");
+    if (!(surface instanceof HTMLElement)) return null;
+    const frameRect = element.getBoundingClientRect();
+    const surfaceRect = surface.getBoundingClientRect();
+    const style = getComputedStyle(element);
+    return {
+      alignItems: style.alignItems,
+      frameHeight: frameRect.height,
+      justifyContent: style.justifyContent,
+      overflowY: style.overflowY,
+      padding: style.padding,
+      surfaceCenter: surfaceRect.left + surfaceRect.width / 2,
+      surfaceTop: surfaceRect.top,
+      usableCenter: frameRect.left + frameRect.width / 2,
+    };
+  });
+  assert.deepEqual(runtimeAlignment, {
+    alignItems: "flex-start",
+    frameHeight: 450,
+    justifyContent: "center",
+    overflowY: "auto",
+    padding: "40px 24px",
+    surfaceCenter: runtimeAlignment?.surfaceCenter,
+    surfaceTop: 40,
+    usableCenter: runtimeAlignment?.usableCenter,
+  });
+  assert.ok(
+    Math.abs((runtimeAlignment?.surfaceCenter ?? 0) - (runtimeAlignment?.usableCenter ?? 0)) <= 1,
+  );
+  assert.equal(await previewSurface.getAttribute("data-preview-align"), "start");
+
+  const alignmentPage = await context.newPage();
+  await alignmentPage.setViewportSize({ height: 450, width: 1200 });
+  for (const align of ["start", "center", "end"]) {
+    await alignmentPage.goto(
+      `${baseUrl}/preview/_fixture?theme=light&width=desktop&align=${align}`,
+    );
+    const metrics = await alignmentPage
+      .locator('[data-preview-frame="true"]')
+      .evaluate((element) => {
+        const surface = element.querySelector("[data-preview-ready]");
+        if (!(surface instanceof HTMLElement)) return null;
+        const frameRect = element.getBoundingClientRect();
+        const surfaceRect = surface.getBoundingClientRect();
+        return {
+          alignItems: getComputedStyle(element).alignItems,
+          frameCenterX: frameRect.left + frameRect.width / 2,
+          frameHeight: frameRect.height,
+          surfaceBottom: surfaceRect.bottom,
+          surfaceCenterX: surfaceRect.left + surfaceRect.width / 2,
+          surfaceCenterY: surfaceRect.top + surfaceRect.height / 2,
+          surfaceTop: surfaceRect.top,
+        };
+      });
+    assert.ok(metrics);
+    assert.equal(
+      metrics.alignItems,
+      align === "center" ? "center" : align === "start" ? "flex-start" : "flex-end",
+    );
+    assert.equal(metrics.frameHeight, 450);
+    assert.ok(Math.abs(metrics.frameCenterX - metrics.surfaceCenterX) <= 1);
+    if (align === "start") assert.equal(metrics.surfaceTop, 40);
+    if (align === "center") assert.ok(Math.abs(metrics.surfaceCenterY - 225) <= 1);
+    if (align === "end") assert.equal(metrics.surfaceBottom, 410);
+  }
+  await alignmentPage.close();
 
   await page.getByRole("button", { name: "Toggle theme" }).click();
   await page.locator("html.dark").waitFor();
@@ -112,7 +193,7 @@ try {
     () =>
       document
         .querySelector('[data-preview-contract="interactive"] iframe')
-        ?.getAttribute("src") === "/preview/_fixture?theme=dark&width=mobile",
+        ?.getAttribute("src") === "/preview/_fixture?theme=dark&width=mobile&align=start",
   );
 
   await previewTab.focus();
@@ -124,9 +205,18 @@ try {
   const sourceMetrics = await sourcePanel.evaluate((element) => {
     const figure = element.querySelector("figure");
     const pre = element.querySelector("pre");
+    const firstLine = element.querySelector("[data-line]");
     const outer = element.parentElement;
-    if (!(figure instanceof HTMLElement) || !(pre instanceof HTMLElement) || !outer) return null;
+    if (
+      !(figure instanceof HTMLElement) ||
+      !(pre instanceof HTMLElement) ||
+      !(firstLine instanceof HTMLElement) ||
+      !outer
+    )
+      return null;
     const figureStyle = getComputedStyle(figure);
+    const lineStyle = getComputedStyle(firstLine);
+    const lineNumberStyle = getComputedStyle(firstLine, "::before");
     const preStyle = getComputedStyle(pre);
     const outerStyle = getComputedStyle(outer);
     return {
@@ -136,10 +226,17 @@ try {
       outerBorder: outerStyle.borderWidth,
       panelHeight: element.getBoundingClientRect().height,
       preBorder: preStyle.borderWidth,
+      preFontSize: preStyle.fontSize,
       preHeight: pre.getBoundingClientRect().height,
+      preLineHeight: preStyle.lineHeight,
       preOverflow: preStyle.overflow,
       prePadding: preStyle.padding,
       preRadius: preStyle.borderRadius,
+      rowDisplay: lineStyle.display,
+      rowPadding: lineStyle.padding,
+      lineNumberPaddingRight: lineNumberStyle.paddingRight,
+      lineNumberTextAlign: lineNumberStyle.textAlign,
+      lineNumberWidth: lineNumberStyle.width,
       scrollHeight: pre.scrollHeight,
     };
   });
@@ -150,10 +247,17 @@ try {
     outerBorder: "1px",
     panelHeight: 450,
     preBorder: "0px",
+    preFontSize: "13px",
     preHeight: 450,
+    preLineHeight: "19.5px",
     preOverflow: "auto",
-    prePadding: "0px",
+    prePadding: "14px 16px 14px 0px",
     preRadius: "0px",
+    rowDisplay: "block",
+    rowPadding: "2px 0px",
+    lineNumberPaddingRight: "24px",
+    lineNumberTextAlign: "right",
+    lineNumberWidth: "64px",
     scrollHeight: sourceMetrics?.scrollHeight,
   });
   assert.ok((sourceMetrics?.scrollHeight ?? 0) > 450);
@@ -171,7 +275,7 @@ try {
   assert.equal(await hiddenCode.getByRole("tab").count(), 0);
   assert.equal(
     await hiddenCode.getByTitle("Hidden code contract preview").getAttribute("src"),
-    "/preview/_fixture?theme=light&width=tablet",
+    "/preview/_fixture?theme=light&width=tablet&align=center",
   );
 } finally {
   await browser.close();

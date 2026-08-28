@@ -1,12 +1,13 @@
 <script lang="ts">
 import type { HTMLAttributes } from "svelte/elements";
 import type {
+  PreviewAlignment,
   PreviewTheme,
   PreviewWidth,
 } from "../../../routes/preview/[name]/preview-contract.js";
 import type { HighlightedSource } from "../../code/highlight.js";
 import CodeSource from "./CodeSource.svelte";
-import PreviewPresentation, { type PreviewAlignment } from "./PreviewPresentation.svelte";
+import PreviewPresentation from "./PreviewPresentation.svelte";
 
 type Props = HTMLAttributes<HTMLElement> & {
   align?: PreviewAlignment;
