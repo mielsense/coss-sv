@@ -80,14 +80,7 @@ test("matches p1 through p6 status, action, promise, and stack behavior", async 
 }, testInfo) => {
   test.skip(testInfo.project.name === "dark", "Dark rendering is covered by the geometry test.");
   const guard = monitorConsole(page);
-  let { ready } = await openReadyPreview(
-    page,
-    "toast",
-    "light",
-    "desktop",
-    "real",
-    "start",
-  );
+  let { ready } = await openReadyPreview(page, "toast", "light", "desktop", "real", "start");
 
   const statusCases = [
     ["Success Toast", "Success!", "success"],
@@ -191,14 +184,7 @@ test("matches p7 through p9 tooltip, spinner, anchored error, and cancellation b
   test.skip(testInfo.project.name === "dark", "Dark rendering is covered by the geometry test.");
   const guard = monitorConsole(page);
   await context.grantPermissions(["clipboard-read", "clipboard-write"]);
-  let { ready } = await openReadyPreview(
-    page,
-    "toast",
-    "light",
-    "desktop",
-    "real",
-    "start",
-  );
+  let { ready } = await openReadyPreview(page, "toast", "light", "desktop", "real", "start");
 
   const copy = ready.getByRole("button", { name: "Copy link", exact: true });
   await copy.hover();
@@ -285,14 +271,7 @@ test("matches p10 through p13 replay and tooltip-style anchored feedback", async
 }, testInfo) => {
   test.skip(testInfo.project.name === "dark", "Dark rendering is covered by the geometry test.");
   const guard = monitorConsole(page);
-  const { ready } = await openReadyPreview(
-    page,
-    "toast",
-    "light",
-    "desktop",
-    "real",
-    "start",
-  );
+  const { ready } = await openReadyPreview(page, "toast", "light", "desktop", "real", "start");
 
   const success = ready.getByRole("button", { name: "One Success Toast", exact: true });
   await success.click();
