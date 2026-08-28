@@ -196,12 +196,29 @@ try {
         ?.getAttribute("src") === "/preview/_fixture?theme=dark&width=mobile&align=start",
   );
 
+  const sourcePanel = card.locator("[data-source-panel]");
+  const copyButton = card.getByRole("button", { name: "Copy to clipboard" });
+  assert.equal(await previewTab.getAttribute("aria-selected"), "true");
+  assert.equal(await codeTab.getAttribute("aria-selected"), "false");
+  assert.equal(await previewTab.getAttribute("tabindex"), "0");
+  assert.equal(await codeTab.getAttribute("tabindex"), "-1");
+
   await previewTab.focus();
   await page.keyboard.press("ArrowRight");
-  assert.equal(await codeTab.getAttribute("aria-selected"), "true");
   assert.equal(await codeTab.evaluate((element) => element === document.activeElement), true);
+  assert.equal(await previewTab.getAttribute("aria-selected"), "true");
+  assert.equal(await codeTab.getAttribute("aria-selected"), "false");
+  assert.equal(await previewTab.getAttribute("tabindex"), "-1");
+  assert.equal(await codeTab.getAttribute("tabindex"), "0");
+  assert.equal(await card.locator("[data-tab]").getAttribute("data-tab"), "preview");
+  assert.equal(await sourcePanel.getAttribute("hidden"), "");
 
-  const sourcePanel = card.locator("[data-source-panel]");
+  await page.keyboard.press("Space");
+  assert.equal(await previewTab.getAttribute("aria-selected"), "false");
+  assert.equal(await codeTab.getAttribute("aria-selected"), "true");
+  assert.equal(await card.locator("[data-tab]").getAttribute("data-tab"), "code");
+  assert.equal(await sourcePanel.getAttribute("hidden"), null);
+
   const sourceMetrics = await sourcePanel.evaluate((element) => {
     const figure = element.querySelector("figure");
     const pre = element.querySelector("pre");
@@ -262,12 +279,38 @@ try {
   });
   assert.ok((sourceMetrics?.scrollHeight ?? 0) > 450);
 
-  await card.getByRole("button", { name: "Copy to clipboard" }).click();
+  await copyButton.click();
   assert.equal(await page.evaluate(() => navigator.clipboard.readText()), expectedSource);
 
-  await codeTab.focus();
-  await page.keyboard.press("ArrowLeft");
+  await previewTab.click();
   assert.equal(await previewTab.getAttribute("aria-selected"), "true");
+  assert.equal(await card.locator("[data-tab]").getAttribute("data-tab"), "preview");
+  await codeTab.click();
+  assert.equal(await codeTab.getAttribute("aria-selected"), "true");
+  assert.equal(await card.locator("[data-tab]").getAttribute("data-tab"), "code");
+
+  await codeTab.focus();
+  await page.keyboard.press("Tab");
+  assert.equal(await copyButton.evaluate((element) => element === document.activeElement), true);
+  await page.keyboard.press("Shift+Tab");
+  assert.equal(await codeTab.evaluate((element) => element === document.activeElement), true);
+
+  await page.keyboard.press("ArrowLeft");
+  assert.equal(await previewTab.evaluate((element) => element === document.activeElement), true);
+  assert.equal(await previewTab.getAttribute("aria-selected"), "false");
+  assert.equal(await codeTab.getAttribute("aria-selected"), "true");
+  assert.equal(await previewTab.getAttribute("tabindex"), "0");
+  assert.equal(await codeTab.getAttribute("tabindex"), "-1");
+  assert.equal(await card.locator("[data-tab]").getAttribute("data-tab"), "code");
+
+  await page.keyboard.press("Enter");
+  assert.equal(await previewTab.getAttribute("aria-selected"), "true");
+  assert.equal(await codeTab.getAttribute("aria-selected"), "false");
+  assert.equal(await card.locator("[data-tab]").getAttribute("data-tab"), "preview");
+
+  await page.keyboard.press("Tab");
+  assert.equal(await frame.evaluate((element) => element === document.activeElement), true);
+  await page.keyboard.press("Shift+Tab");
   assert.equal(await previewTab.evaluate((element) => element === document.activeElement), true);
 
   const hiddenCode = page.locator('[data-preview-contract="hidden-code"]');

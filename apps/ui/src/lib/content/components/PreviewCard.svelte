@@ -1,4 +1,5 @@
 <script lang="ts">
+import * as Tabs from "@coss-sv/ui/components/ui/tabs";
 import type { HTMLAttributes } from "svelte/elements";
 import type {
   PreviewAlignment,
@@ -32,22 +33,11 @@ let {
   width = "desktop",
   ...rest
 }: Props = $props();
-let tab = $state<"preview" | "source">("preview");
+let tab = $state<Tabs.TabsValue>("preview");
 const instanceId = $props.id();
 const panelId = `${instanceId}-panel`;
 const previewTabId = `${instanceId}-preview-tab`;
 const sourceTabId = `${instanceId}-source-tab`;
-
-function selectTab(next: "preview" | "source", focus = false): void {
-  tab = next;
-  if (focus) document.getElementById(next === "preview" ? previewTabId : sourceTabId)?.focus();
-}
-
-function navigateTabs(event: KeyboardEvent): void {
-  if (hideCode || (event.key !== "ArrowLeft" && event.key !== "ArrowRight")) return;
-  event.preventDefault();
-  selectTab(tab === "preview" ? "source" : "preview", true);
-}
 </script>
 
 {#snippet panelContent()}
@@ -61,7 +51,7 @@ function navigateTabs(event: KeyboardEvent): void {
     data-preview-panel="true"
     hidden={tab !== "preview"}
   />
-  <div class="absolute inset-0 overflow-hidden" data-source-panel="true" hidden={tab !== "source"}>
+  <div class="absolute inset-0 overflow-hidden" data-source-panel="true" hidden={tab !== "code"}>
     <CodeSource embedded height={iframeHeight} {source} />
   </div>
 {/snippet}
@@ -71,36 +61,23 @@ function navigateTabs(event: KeyboardEvent): void {
   data-particle={name}
   {...rest}
 >
-  {#if !hideCode}
-    <div class="flex items-center gap-1" role="tablist" aria-label={`${title} example`}>
-      <button
-        type="button"
-        id={previewTabId}
-        role="tab"
-        aria-controls={panelId}
-        aria-selected={tab === "preview"}
-        tabindex={tab === "preview" ? 0 : -1}
-        class="rounded-lg px-3 py-2 text-sm font-medium aria-selected:bg-accent"
-        onclick={() => selectTab("preview")}
-        onkeydown={navigateTabs}
-      >
-        Preview
-      </button>
-      <button
-        type="button"
-        id={sourceTabId}
-        role="tab"
-        aria-controls={panelId}
-        aria-selected={tab === "source"}
-        tabindex={tab === "source" ? 0 : -1}
-        class="rounded-lg px-3 py-2 text-sm font-medium aria-selected:bg-accent"
-        onclick={() => selectTab("source")}
-        onkeydown={navigateTabs}
-      >
-        Code
-      </button>
+  <Tabs.Root bind:value={tab}>
+    <div class="flex items-center justify-between">
+      {#if !hideCode}
+        <Tabs.List
+          aria-label={`${title} example`}
+          class="bg-transparent p-0 *:data-[slot=tab-indicator]:rounded-lg *:data-[slot=tab-indicator]:bg-accent *:data-[slot=tab-indicator]:shadow-none"
+        >
+          <Tabs.Tab aria-controls={panelId} class="rounded-lg" id={previewTabId} value="preview">
+            Preview
+          </Tabs.Tab>
+          <Tabs.Tab aria-controls={panelId} class="rounded-lg" id={sourceTabId} value="code">
+            Code
+          </Tabs.Tab>
+        </Tabs.List>
+      {/if}
     </div>
-  {/if}
+  </Tabs.Root>
   {#if hideCode}
     <div
       id={panelId}
