@@ -24,14 +24,7 @@ export const meta = defineParticleMeta({
 
 <script lang="ts">
 import {
-  Add01Icon,
-  Cancel01Icon,
-  Copy01Icon,
-  Search01Icon,
-  UnfoldMoreIcon,
-} from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/svelte";
-import {
+  buttonVariants,
   CheckboxGroup,
   Combobox,
   Label,
@@ -39,8 +32,15 @@ import {
   Select,
   Switch,
   Tooltip,
-  buttonVariants,
 } from "@coss-sv/ui";
+import {
+  Add01Icon,
+  Cancel01Icon,
+  Copy01Icon,
+  Search01Icon,
+  UnfoldMoreIcon,
+} from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/svelte";
 
 const days = [
   "Monday",
@@ -93,7 +93,7 @@ let selectedCopyDays = $state<Record<Day, string[]>>({
 });
 
 function setDayRanges(day: Day, ranges: TimeRange[]) {
-  availability = { ...availability, [day]: ranges };
+  availability[day].splice(0, availability[day].length, ...ranges);
 }
 function toggleDay(day: Day, enabled: boolean) {
   setDayRanges(day, enabled ? [createRange("9:00 AM", "5:00 PM")] : []);
@@ -119,29 +119,24 @@ function removeRange(day: Day, id: number) {
   );
 }
 function updateStart(day: Day, id: number, start: string) {
-  setDayRanges(
-    day,
-    availability[day].map((range) => {
-      if (range.id !== id) return range;
-      const end =
-        timeIndex(start) >= timeIndex(range.end)
-          ? (timeOptions[Math.min(timeIndex(start) + 4, timeOptions.length - 1)] ?? range.end)
-          : range.end;
-      return { ...range, end, start };
-    }),
-  );
+  const range = availability[day].find((candidate) => candidate.id === id);
+  if (!range) return;
+  if (timeIndex(start) >= timeIndex(range.end)) {
+    range.end = timeOptions[Math.min(timeIndex(start) + 4, timeOptions.length - 1)] ?? range.end;
+  }
+  range.start = start;
 }
 function updateEnd(day: Day, id: number, end: string) {
-  setDayRanges(
-    day,
-    availability[day].map((range) => (range.id === id ? { ...range, end } : range)),
-  );
+  const range = availability[day].find((candidate) => candidate.id === id);
+  if (range) range.end = end;
 }
 function copyTo(source: Day, targets: Day[]) {
-  const next = { ...availability };
-  for (const target of targets)
-    next[target] = availability[source].map((range) => createRange(range.start, range.end));
-  availability = next;
+  for (const target of targets) {
+    setDayRanges(
+      target,
+      availability[source].map((range) => createRange(range.start, range.end)),
+    );
+  }
 }
 function setCopyOpen(day: Day, open: boolean) {
   if (open) selectedCopyDays = { ...selectedCopyDays, [day]: [] };
@@ -208,104 +203,97 @@ function applyCopy(day: Day) {
 <Tooltip.Provider delay={0}>
   <div class="divide-y">
     {#each days as day (day)}
-      {#key JSON.stringify(availability[day])}
-        {const ranges = availability[day]}
-        {const lastRange = ranges[ranges.length - 1]}
-        {const addDisabled = lastRange ? timeIndex(lastRange.end) >= timeOptions.length - 2 : false}
-        <div
-          class="flex flex-col gap-4 py-3 first:pt-0 last:pb-0 md:flex-row md:flex-wrap md:items-start"
-        >
-          <Label class="flex h-8 w-30 shrink-0 items-center gap-2.5 sm:h-7">
-            <Switch
-              checked={ranges.length > 0}
-              onCheckedChange={(checked) => toggleDay(day, checked)}
-            />
-            {day}
-          </Label>
-          <div class="flex w-full min-w-0 items-start gap-4 md:flex-1">
-            <div class="flex min-w-0 flex-col gap-2">
-              {#if ranges.length === 0}
-                <p class="flex h-8 items-center text-muted-foreground sm:h-7 sm:text-sm">
-                  Unavailable
-                </p>
-              {:else}
-                {#each ranges as range (range.id)}
-                  <div class="flex items-center gap-2">
-                    {@render timeCombobox(`${day} start time`, timeOptions, range.start, (start) => updateStart(day, range.id, start))}
-                    <span aria-hidden="true" class="text-muted-foreground">–</span>
-                    {#key range.end}
-                      {@render timeCombobox(`${day} end time`, timeOptions.slice(timeIndex(range.start) + 1), range.end, (end) => updateEnd(day, range.id, end))}
-                    {/key}
-                    <Tooltip.Root disableHoverablePopup>
-                      <Tooltip.Trigger
-                        aria-label={`Delete ${range.start} to ${range.end} on ${day}`}
-                        class={buttonVariants({ size: "icon-sm", variant: "ghost" })}
-                        onclick={() => removeRange(day, range.id)}
-                      >
-                        <HugeiconsIcon aria-hidden="true" icon={Cancel01Icon} strokeWidth={2} />
-                      </Tooltip.Trigger>
-                      <Tooltip.Popup>Delete range</Tooltip.Popup>
-                    </Tooltip.Root>
-                  </div>
-                {/each}
-              {/if}
-            </div>
-            <div class="ml-auto flex shrink-0 gap-1">
-              <Tooltip.Root disableHoverablePopup>
-                <Tooltip.Trigger
-                  aria-label={`Add time range to ${day}`}
-                  class={buttonVariants({ size: "icon-sm", variant: "ghost" })}
-                  disabled={addDisabled}
-                  onclick={() => addRange(day)}
-                >
-                  <HugeiconsIcon aria-hidden="true" icon={Add01Icon} strokeWidth={2} />
-                </Tooltip.Trigger>
-                <Tooltip.Popup>Add range</Tooltip.Popup>
-              </Tooltip.Root>
-              <Popover.Root
-                bind:open={copyOpen[day]}
-                onOpenChange={(open) => setCopyOpen(day, open)}
-              >
-                <Tooltip.Root disableHoverablePopup>
-                  <Popover.Trigger as="span" class="inline-flex" role="presentation" tabindex={-1}>
+      {const ranges = availability[day]}
+      {const lastRange = ranges[ranges.length - 1]}
+      {const addDisabled = lastRange ? timeIndex(lastRange.end) >= timeOptions.length - 2 : false}
+      <div
+        class="flex flex-col gap-4 py-3 first:pt-0 last:pb-0 md:flex-row md:flex-wrap md:items-start"
+      >
+        <Label class="flex h-8 w-30 shrink-0 items-center gap-2.5 sm:h-7">
+          <Switch
+            checked={ranges.length > 0}
+            onCheckedChange={(checked) => toggleDay(day, checked)}
+          />
+          {day}
+        </Label>
+        <div class="flex w-full min-w-0 items-start gap-4 md:flex-1">
+          <div class="flex min-w-0 flex-col gap-2">
+            {#if ranges.length === 0}
+              <p class="flex h-8 items-center text-muted-foreground sm:h-7 sm:text-sm">
+                Unavailable
+              </p>
+            {:else}
+              {#each ranges as range (range.id)}
+                <div class="flex items-center gap-2">
+                  {@render timeCombobox(`${day} start time`, timeOptions, range.start, (start) => updateStart(day, range.id, start))}
+                  <span aria-hidden="true" class="text-muted-foreground">–</span>
+                  {@render timeCombobox(`${day} end time`, timeOptions.slice(timeIndex(range.start) + 1), range.end, (end) => updateEnd(day, range.id, end))}
+                  <Tooltip.Root disableHoverablePopup>
                     <Tooltip.Trigger
-                      aria-label={`Copy ${day} times to other days`}
+                      aria-label={`Delete ${range.start} to ${range.end} on ${day}`}
                       class={buttonVariants({ size: "icon-sm", variant: "ghost" })}
-                      disabled={ranges.length === 0}
-                      onclick={(event) => toggleCopy(day, event)}
+                      onclick={() => removeRange(day, range.id)}
                     >
-                      <HugeiconsIcon aria-hidden="true" icon={Copy01Icon} strokeWidth={2} />
+                      <HugeiconsIcon aria-hidden="true" icon={Cancel01Icon} strokeWidth={2} />
                     </Tooltip.Trigger>
-                  </Popover.Trigger>
-                  <Tooltip.Popup>Copy to other days</Tooltip.Popup>
-                </Tooltip.Root>
-                <Popover.Popup align="end" class="w-44">
-                  <div class="flex flex-col gap-3">
-                    <div class="font-medium text-foreground text-sm">Copy times to</div>
-                    <CheckboxGroup.Root
-                      aria-label={`Copy ${day} times to`}
-                      onValueChange={(value) => setSelectedCopyDays(day, value)}
-                      value={selectedCopyDays[day]}
-                    >
-                      {#each days.filter((target) => target !== day) as target (target)}
-                        <Label><CheckboxGroup.Item value={target} />{target}</Label>
-                      {/each}
-                    </CheckboxGroup.Root>
-                    <button
-                      class={buttonVariants({ size: "sm" })}
-                      disabled={selectedCopyDays[day].length === 0}
-                      onclick={() => applyCopy(day)}
-                      type="button"
-                    >
-                      Apply
-                    </button>
-                  </div>
-                </Popover.Popup>
-              </Popover.Root>
-            </div>
+                    <Tooltip.Popup>Delete range</Tooltip.Popup>
+                  </Tooltip.Root>
+                </div>
+              {/each}
+            {/if}
+          </div>
+          <div class="ml-auto flex shrink-0 gap-1">
+            <Tooltip.Root disableHoverablePopup>
+              <Tooltip.Trigger
+                aria-label={`Add time range to ${day}`}
+                class={buttonVariants({ size: "icon-sm", variant: "ghost" })}
+                disabled={addDisabled}
+                onclick={() => addRange(day)}
+              >
+                <HugeiconsIcon aria-hidden="true" icon={Add01Icon} strokeWidth={2} />
+              </Tooltip.Trigger>
+              <Tooltip.Popup>Add range</Tooltip.Popup>
+            </Tooltip.Root>
+            <Popover.Root bind:open={copyOpen[day]} onOpenChange={(open) => setCopyOpen(day, open)}>
+              <Tooltip.Root disableHoverablePopup>
+                <Popover.Trigger as="span" class="inline-flex" role="presentation" tabindex={-1}>
+                  <Tooltip.Trigger
+                    aria-label={`Copy ${day} times to other days`}
+                    class={buttonVariants({ size: "icon-sm", variant: "ghost" })}
+                    disabled={ranges.length === 0}
+                    onclick={(event) => toggleCopy(day, event)}
+                  >
+                    <HugeiconsIcon aria-hidden="true" icon={Copy01Icon} strokeWidth={2} />
+                  </Tooltip.Trigger>
+                </Popover.Trigger>
+                <Tooltip.Popup>Copy to other days</Tooltip.Popup>
+              </Tooltip.Root>
+              <Popover.Popup align="end" class="w-44">
+                <div class="flex flex-col gap-3">
+                  <div class="font-medium text-foreground text-sm">Copy times to</div>
+                  <CheckboxGroup.Root
+                    aria-label={`Copy ${day} times to`}
+                    onValueChange={(value) => setSelectedCopyDays(day, value)}
+                    value={selectedCopyDays[day]}
+                  >
+                    {#each days.filter((target) => target !== day) as target (target)}
+                      <Label><CheckboxGroup.Item value={target} />{target}</Label>
+                    {/each}
+                  </CheckboxGroup.Root>
+                  <button
+                    class={buttonVariants({ size: "sm" })}
+                    disabled={selectedCopyDays[day].length === 0}
+                    onclick={() => applyCopy(day)}
+                    type="button"
+                  >
+                    Apply
+                  </button>
+                </div>
+              </Popover.Popup>
+            </Popover.Root>
           </div>
         </div>
-      {/key}
+      </div>
     {/each}
   </div>
 </Tooltip.Provider>

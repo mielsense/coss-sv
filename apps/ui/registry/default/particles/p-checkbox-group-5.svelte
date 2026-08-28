@@ -12,6 +12,7 @@ export const meta = defineParticleMeta({
 
 <script lang="ts">
 import { Button, CheckboxGroup, Field, Fieldset, Form } from "@coss-sv/ui";
+
 const frameworks = [
   { value: "next", label: "Next.js" },
   { value: "vite", label: "Vite" },
@@ -20,11 +21,11 @@ const frameworks = [
 let loading = $state(false);
 async function submit(event: SubmitEvent) {
   event.preventDefault();
+  const formData = new FormData(event.currentTarget as HTMLFormElement);
   loading = true;
   await new Promise((resolve) => window.setTimeout(resolve, 800));
   loading = false;
-  const form = event.currentTarget as HTMLFormElement;
-  window.alert(`Selected: ${new FormData(form).getAll("frameworks").join(", ") || "none"}`);
+  window.alert(`Selected: ${formData.getAll("frameworks").join(", ") || "none"}`);
 }
 </script>
 

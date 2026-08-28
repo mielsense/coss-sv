@@ -12,14 +12,15 @@ export const meta = defineParticleMeta({
 
 <script lang="ts">
 import { Button, Checkbox, Field, Form } from "@coss-sv/ui";
+
 let loading = $state(false);
 async function submit(event: SubmitEvent) {
   event.preventDefault();
+  const formData = new FormData(event.currentTarget as HTMLFormElement);
   loading = true;
   await new Promise((resolve) => window.setTimeout(resolve, 800));
   loading = false;
-  const form = event.currentTarget as HTMLFormElement;
-  window.alert(`Terms: ${new FormData(form).get("terms")}`);
+  window.alert(`Terms: ${formData.get("terms")}`);
 }
 </script>
 

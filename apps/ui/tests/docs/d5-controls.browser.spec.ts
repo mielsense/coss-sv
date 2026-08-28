@@ -1,14 +1,20 @@
 import "../../src/tailwind.css";
 import "../../src/app.css";
 import { mount, unmount } from "svelte";
-import { afterEach, describe, expect, test } from "vitest";
+import { afterEach, describe, expect, test, vi } from "vitest";
 import { page, userEvent } from "vitest/browser";
 import MenuButtonExample from "../../registry/default/particles/p-button-39.svelte";
 import ButtonDownloadExample from "../../registry/default/particles/p-button-40.svelte";
 import CheckboxExample from "../../registry/default/particles/p-checkbox-1.svelte";
+import CheckboxFormExample from "../../registry/default/particles/p-checkbox-5.svelte";
 import CheckboxGroupExample from "../../registry/default/particles/p-checkbox-group-4.svelte";
+import CheckboxGroupFormExample from "../../registry/default/particles/p-checkbox-group-5.svelte";
+import RadioGroupFormExample from "../../registry/default/particles/p-radio-group-5.svelte";
+import ThemeRadioGroupExample from "../../registry/default/particles/p-radio-group-6.svelte";
 import SliderExample from "../../registry/default/particles/p-slider-14.svelte";
+import SliderFormExample from "../../registry/default/particles/p-slider-23.svelte";
 import SwitchExample from "../../registry/default/particles/p-switch-1.svelte";
+import SwitchFormExample from "../../registry/default/particles/p-switch-5.svelte";
 import Availability7 from "../../registry/default/particles/p-switch-7.svelte";
 import Availability8 from "../../registry/default/particles/p-switch-8.svelte";
 import Availability9 from "../../registry/default/particles/p-switch-9.svelte";
@@ -160,15 +166,38 @@ describe("D5 control examples", () => {
   });
 
   test("keeps tooltip-backed toggle controls keyboard operable", async () => {
-    const bookmarkView = mount(BookmarkToggleExample, { target: document.body });
+    const bookmarkTarget = document.createElement("div");
+    bookmarkTarget.className = "flex justify-center";
+    document.body.append(bookmarkTarget);
+    const bookmarkView = mount(BookmarkToggleExample, { target: bookmarkTarget });
     const bookmark = page.getByRole("button", { name: "Bookmark this" });
     bookmark.element().focus();
     await expect.element(page.getByRole("tooltip", { name: "Bookmark this" })).toBeInTheDocument();
-    bookmark.element().blur();
+    const bookmarkTrigger = bookmark.element().parentElement;
+    expect(bookmarkTrigger).not.toBeNull();
+    expect(bookmarkTrigger?.getAttribute("data-slot")).toBe("tooltip-trigger");
+    expect(bookmarkTrigger).toHaveAttribute("data-popup-open");
+    const bookmarkRect = bookmark.element().getBoundingClientRect();
+    const bookmarkPositioner = document.querySelector<HTMLElement>(
+      '[data-slot="tooltip-positioner"]',
+    );
+    expect(bookmarkPositioner).not.toBeNull();
+    const bookmarkPositionerRect = bookmarkPositioner?.getBoundingClientRect();
+    expect(
+      Math.abs(
+        (bookmarkPositionerRect?.left ?? 0) +
+          (bookmarkPositionerRect?.width ?? 0) / 2 -
+          (bookmarkRect.left + bookmarkRect.width / 2),
+      ),
+    ).toBeLessThanOrEqual(1);
+    await userEvent.keyboard("{Escape}");
     await expect
       .element(page.getByRole("tooltip", { name: "Bookmark this" }))
       .not.toBeInTheDocument();
+    bookmark.element().blur();
     await bookmark.hover();
+    expect(document.querySelector('[role="tooltip"]')).toBeNull();
+    await new Promise((resolve) => window.setTimeout(resolve, 650));
     await expect.element(page.getByRole("tooltip", { name: "Bookmark this" })).toBeInTheDocument();
     await userEvent.unhover(bookmark);
     bookmark.element().focus();
@@ -182,17 +211,93 @@ describe("D5 control examples", () => {
     const groupView = mount(ToggleGroupExample, { target: document.body });
     const bold = page.getByRole("button", { name: "Toggle bold" });
     await expect.element(bold).toHaveAttribute("aria-pressed", "true");
-    bold.element().focus();
-    await expect.element(page.getByRole("tooltip", { name: "Bold" })).toBeInTheDocument();
-    bold.element().blur();
-    await expect.element(page.getByRole("tooltip", { name: "Bold" })).not.toBeInTheDocument();
     await bold.hover();
+    expect(document.querySelector('[role="tooltip"]')).toBeNull();
+    await new Promise((resolve) => window.setTimeout(resolve, 650));
     await expect.element(page.getByRole("tooltip", { name: "Bold" })).toBeInTheDocument();
     await userEvent.unhover(bold);
+    await expect.element(page.getByRole("tooltip", { name: "Bold" })).not.toBeInTheDocument();
+    bold.element().focus();
+    await expect.element(page.getByRole("tooltip", { name: "Bold" })).toBeInTheDocument();
+    const boldTrigger = bold.element().parentElement;
+    expect(boldTrigger?.getAttribute("data-slot")).toBe("tooltip-trigger");
+    expect(boldTrigger).toHaveAttribute("data-popup-open");
+    bold.element().blur();
+    await expect.element(page.getByRole("tooltip", { name: "Bold" })).not.toBeInTheDocument();
     bold.element().focus();
     await userEvent.keyboard(" ");
     await expect.element(bold).toHaveAttribute("aria-pressed", "false");
     await unmount(groupView);
+  });
+
+  test("keeps every availability day switch mounted and focused after Space", async () => {
+    for (const Example of [Availability7, Availability8, Availability9]) {
+      const view = mount(Example, { target: document.body });
+      const monday = page.getByRole("switch").first();
+      const originalElement = monday.element();
+
+      originalElement.focus();
+      await userEvent.keyboard(" ");
+
+      await expect.element(monday).not.toBeChecked();
+      expect(page.getByRole("switch").first().element()).toBe(originalElement);
+      expect(document.activeElement).toBe(originalElement);
+      await unmount(view);
+      document.body.innerHTML = "";
+    }
+  });
+
+  test("gives theme radios exact names and activates them from cards, labels, and keys", async () => {
+    const view = mount(ThemeRadioGroupExample, { target: document.body });
+    const system = page.getByRole("radio", { name: "System", exact: true });
+    const light = page.getByRole("radio", { name: "Light", exact: true });
+    const dark = page.getByRole("radio", { name: "Dark", exact: true });
+
+    await expect.element(system).toBeChecked();
+    const lightCard = light.element().nextElementSibling?.nextElementSibling;
+    expect(lightCard).toBeInstanceOf(HTMLElement);
+    await userEvent.click(lightCard as HTMLElement);
+    await expect.element(light).toBeChecked();
+    await page.getByText("Dark", { exact: true }).click();
+    await expect.element(dark).toBeChecked();
+
+    system.element().focus();
+    await userEvent.keyboard("{ArrowRight}");
+    await expect.element(light).toBeChecked();
+    await expect.element(light).toHaveFocus();
+    await unmount(view);
+  });
+
+  test("submits all five package forms without navigation and keeps the captured values", async () => {
+    const examples = [
+      { Component: CheckboxFormExample, expected: "Terms: yes" },
+      { Component: CheckboxGroupFormExample, expected: "Selected: next" },
+      { Component: RadioGroupFormExample, expected: "Selected: next" },
+      { Component: SliderFormExample, expected: "Volume: 25, 75" },
+      { Component: SwitchFormExample, expected: "Marketing emails: on" },
+    ];
+    const alert = vi.spyOn(window, "alert").mockImplementation(() => undefined);
+
+    try {
+      for (const { Component, expected } of examples) {
+        history.replaceState({}, "", `${location.pathname}?d5-form=stable`);
+        const view = mount(Component, { target: document.body });
+
+        await page.getByRole("button", { name: "Submit" }).click();
+        await expect
+          .element(page.getByRole("button", { name: "Submit" }))
+          .toHaveAttribute("data-loading");
+        await new Promise((resolve) => window.setTimeout(resolve, 850));
+
+        expect(location.search).toBe("?d5-form=stable");
+        expect(alert).toHaveBeenLastCalledWith(expected);
+        await unmount(view);
+        document.body.innerHTML = "";
+      }
+    } finally {
+      alert.mockRestore();
+      history.replaceState({}, "", location.pathname);
+    }
   });
 
   test("starts and cancels the download progress flow", async () => {

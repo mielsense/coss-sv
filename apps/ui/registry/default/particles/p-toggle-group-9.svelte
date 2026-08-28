@@ -14,6 +14,7 @@ export const meta = defineParticleMeta({
 import { ToggleGroup, Tooltip } from "@coss-sv/ui";
 import { TextBoldIcon, TextItalicIcon, TextUnderlineIcon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/svelte";
+import { tick } from "svelte";
 
 const tools = [
   { icon: TextBoldIcon, label: "Toggle bold", value: "bold" },
@@ -28,65 +29,41 @@ let anchors = $state<Record<ToolValue, HTMLElement | null>>({
   italic: null,
   underline: null,
 });
-let tooltipOpen = $state<Record<ToolValue, boolean>>({
-  bold: false,
-  italic: false,
-  underline: false,
-});
-const hoverTimers: Record<ToolValue, number | undefined> = {
-  bold: undefined,
-  italic: undefined,
-  underline: undefined,
+const tooltipHandles: Record<ToolValue, Tooltip.Handle> = {
+  bold: new Tooltip.Handle(),
+  italic: new Tooltip.Handle(),
+  underline: new Tooltip.Handle(),
 };
 
-function clearHoverTimer(value: ToolValue) {
-  const timer = hoverTimers[value];
-  if (timer !== undefined) window.clearTimeout(timer);
-  hoverTimers[value] = undefined;
+async function openTooltipOnFocus(value: ToolValue, target: HTMLElement) {
+  await tick();
+  if (document.activeElement === target) {
+    tooltipHandles[value].open(`${uid}-${value}-trigger`);
+  }
 }
-
-function openTooltip(value: ToolValue) {
-  clearHoverTimer(value);
-  tooltipOpen[value] = true;
-}
-
-function openTooltipAfterDelay(value: ToolValue) {
-  clearHoverTimer(value);
-  hoverTimers[value] = window.setTimeout(() => {
-    tooltipOpen[value] = true;
-    hoverTimers[value] = undefined;
-  }, 600);
-}
-
-function closeTooltip(value: ToolValue) {
-  clearHoverTimer(value);
-  tooltipOpen[value] = false;
-}
-
-$effect(() => () => {
-  for (const tool of tools) clearHoverTimer(tool.value);
-});
 </script>
 
 <Tooltip.Provider>
   <ToggleGroup.Root defaultValue={["bold"]} multiple>
     {#each tools as tool (tool.value)}
-      <Tooltip.Root bind:open={tooltipOpen[tool.value]} triggerId={`${uid}-${tool.value}-trigger`}>
-        <ToggleGroup.Item
-          aria-describedby={`${uid}-${tool.value}-tooltip`}
-          aria-label={tool.label}
-          bind:ref={anchors[tool.value]}
-          data-slot="tooltip-trigger"
+      <Tooltip.Root handle={tooltipHandles[tool.value]}>
+        <Tooltip.Trigger
+          as="span"
+          class="contents"
+          handle={tooltipHandles[tool.value]}
           id={`${uid}-${tool.value}-trigger`}
-          onblur={() => closeTooltip(tool.value)}
-          onclick={() => closeTooltip(tool.value)}
-          onfocus={() => openTooltip(tool.value)}
-          onmouseenter={() => openTooltipAfterDelay(tool.value)}
-          onmouseleave={() => closeTooltip(tool.value)}
-          value={tool.value}
         >
-          <HugeiconsIcon aria-hidden="true" icon={tool.icon} strokeWidth={2} />
-        </ToggleGroup.Item>
+          <ToggleGroup.Item
+            aria-describedby={`${uid}-${tool.value}-tooltip`}
+            aria-label={tool.label}
+            bind:ref={anchors[tool.value]}
+            onblur={() => tooltipHandles[tool.value].close()}
+            onfocus={(event) => void openTooltipOnFocus(tool.value, event.currentTarget)}
+            value={tool.value}
+          >
+            <HugeiconsIcon aria-hidden="true" icon={tool.icon} strokeWidth={2} />
+          </ToggleGroup.Item>
+        </Tooltip.Trigger>
         <Tooltip.Popup anchor={anchors[tool.value]} id={`${uid}-${tool.value}-tooltip`}>
           {tool.value[0]?.toUpperCase()}{tool.value.slice(1)}
         </Tooltip.Popup>

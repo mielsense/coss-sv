@@ -13,6 +13,7 @@ export const meta = defineParticleMeta({
 <script lang="ts">
 import { Field, Fieldset, RadioGroup } from "@coss-sv/ui";
 
+const uid = $props.id();
 const themes = [
   {
     value: "system",
@@ -76,8 +77,12 @@ const themes = [
   <RadioGroup.Root class="flex-row gap-4" defaultValue="system">
     {#each themes as theme (theme.value)}
       <Field.Item>
-        <Field.Label class="cursor-pointer flex-col">
-          <RadioGroup.Item class="peer sr-only absolute" value={theme.value} />
+        <Field.Label class="cursor-pointer flex-col" for={`${uid}-${theme.value}`}>
+          <RadioGroup.Item
+            class="peer sr-only absolute"
+            id={`${uid}-${theme.value}`}
+            value={theme.value}
+          />
           <span
             class={["relative block h-[70px] w-[88px] overflow-hidden rounded-lg shadow-xs transition-shadow not-peer-data-checked:opacity-80 peer-data-checked:ring-2 peer-data-checked:ring-primary/48 peer-data-checked:ring-offset-1 peer-data-checked:ring-offset-background peer-data-disabled:cursor-not-allowed peer-data-disabled:opacity-64", theme.class]}
           >

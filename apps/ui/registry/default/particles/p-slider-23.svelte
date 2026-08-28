@@ -12,15 +12,16 @@ export const meta = defineParticleMeta({
 
 <script lang="ts">
 import { Button, Field, Fieldset, Form, Slider } from "@coss-sv/ui";
+
 let loading = $state(false);
 let value = $state<number | readonly number[]>([25, 75]);
 async function submit(event: SubmitEvent) {
   event.preventDefault();
+  const formData = new FormData(event.currentTarget as HTMLFormElement);
   loading = true;
   await new Promise((resolve) => setTimeout(resolve, 800));
   loading = false;
-  const volumes = new FormData(event.currentTarget as HTMLFormElement).getAll("volume");
-  window.alert(`Volume: ${volumes.join(", ")}`);
+  window.alert(`Volume: ${formData.getAll("volume").join(", ")}`);
 }
 </script>
 
