@@ -69,6 +69,19 @@ describe("Sidebar SSR contract", () => {
     expect(body).toContain('aria-label="Toggle Sidebar"');
     expect(body).toContain("Navigation");
     expect(body).toContain("Reports");
+    expect(body).toContain("<label");
+    expect(body).toContain('for="sidebar-filter"');
+    for (const [href, download] of [
+      ["/new", "new.txt"],
+      ["/dashboard", "dashboard.txt"],
+      ["/more", "more.txt"],
+      ["/reports", "reports.txt"],
+    ]) {
+      expect(body).toContain(`href="${href}"`);
+      expect(body).toContain(`download="${download}"`);
+    }
+    expect(body.match(/rel="noreferrer"/g)).toHaveLength(4);
+    expect(body.match(/target="_blank"/g)).toHaveLength(4);
   });
 
   test("keeps the skeleton width deterministic and inside the upstream range", () => {

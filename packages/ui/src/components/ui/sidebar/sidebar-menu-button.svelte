@@ -1,22 +1,28 @@
 <script module lang="ts">
 import type { Component, Snippet } from "svelte";
-import type { HTMLButtonAttributes } from "svelte/elements";
+import type { SvelteHTMLElements } from "svelte/elements";
 import type { TooltipPopupProps } from "../tooltip/tooltip-popup.svelte";
 
 export type SidebarMenuButtonSize = "default" | "lg" | "sm";
 export type SidebarMenuButtonVariant = "default" | "outline";
 export type SidebarMenuButtonTooltip = string | TooltipPopupProps;
-export type SidebarMenuButtonProps = Omit<HTMLButtonAttributes, "children" | "class"> & {
-  as?: keyof HTMLElementTagNameMap;
+export type SidebarMenuButtonTag = "a" | "button";
+export type SidebarMenuButtonProps<Tag extends SidebarMenuButtonTag = "button"> = Omit<
+  SvelteHTMLElements[Tag],
+  "children" | "class" | "ref" | "size"
+> & {
+  as?: Tag;
   children?: Snippet;
   class?: string;
-  href?: string;
   isActive?: boolean;
   ref?: HTMLElement | null;
   size?: SidebarMenuButtonSize;
   tooltip?: SidebarMenuButtonTooltip;
   variant?: SidebarMenuButtonVariant;
 };
+type SidebarMenuButtonComponentProps =
+  | SidebarMenuButtonProps<"a">
+  | SidebarMenuButtonProps<"button">;
 </script>
 
 <script lang="ts">
@@ -38,21 +44,26 @@ const baseClass =
   "peer/menu-button flex w-full items-center gap-2 overflow-hidden rounded-lg p-2 text-left text-sm outline-hidden ring-sidebar-ring transition-[width,height,padding] hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pe-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:bg-sidebar-accent data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg:not([class*='size-'])]:size-4 [&>svg]:shrink-0";
 
 let {
-  as,
+  as = "button",
   children,
   class: className,
-  href,
   isActive = false,
   ref = $bindable(null),
   size = "default",
   tooltip,
-  type = "button",
   variant = "default",
   ...props
-}: SidebarMenuButtonProps = $props();
+}: SidebarMenuButtonComponentProps = $props();
 
 const sidebar = useSidebar();
-const tag = $derived(as ?? (href ? "a" : "button"));
+const tag = $derived(as);
+const disabled = $derived(
+  tag === "button" && Boolean((props as SvelteHTMLElements["button"]).disabled),
+);
+const forwardedProps = $derived({
+  ...(tag === "button" ? { type: "button" } : {}),
+  ...props,
+} as Record<string, unknown>);
 const classes = $derived(
   cn(
     baseClass,
@@ -72,8 +83,8 @@ const tooltipProps = $derived(typeof tooltip === "string" ? {} : (tooltip ?? {})
   {@render children?.()}
 {/snippet}
 
-{#if tooltip}
-  <Tooltip.Root>
+{#if tooltip && !disabled}
+  <Tooltip.Root {disabled}>
     <SidebarTooltipTrigger
       as={tag}
       bind:ref
@@ -82,9 +93,7 @@ const tooltipProps = $derived(typeof tooltip === "string" ? {} : (tooltip ?? {})
       data-sidebar="menu-button"
       data-size={size}
       data-slot="sidebar-menu-button"
-      {href}
-      type={tag === "button" ? type : undefined}
-      {...props}
+      {...forwardedProps}
     >
       {@render buttonContent()}
     </SidebarTooltipTrigger>
@@ -110,9 +119,7 @@ const tooltipProps = $derived(typeof tooltip === "string" ? {} : (tooltip ?? {})
     data-sidebar="menu-button"
     data-size={size}
     data-slot="sidebar-menu-button"
-    {href}
-    type={tag === "button" ? type : undefined}
-    {...props}
+    {...forwardedProps}
   >
     {@render buttonContent()}
   </svelte:element>

@@ -1,8 +1,7 @@
 <script module lang="ts">
-import type { ComponentProps } from "svelte";
+import type { SeparatorProps } from "../separator/separator.svelte";
 
-type SeparatorComponent = typeof import("../separator/separator.svelte").default;
-export type SidebarSeparatorProps = ComponentProps<SeparatorComponent>;
+export type SidebarSeparatorProps = SeparatorProps;
 </script>
 <script lang="ts">
 import { cn } from "$lib/utils.js";

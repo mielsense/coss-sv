@@ -1,14 +1,22 @@
 <script module lang="ts">
 import type { Snippet } from "svelte";
-import type { HTMLAnchorAttributes } from "svelte/elements";
-export type SidebarMenuSubButtonProps = Omit<HTMLAnchorAttributes, "children" | "class"> & {
-  as?: keyof HTMLElementTagNameMap;
+import type { SvelteHTMLElements } from "svelte/elements";
+
+export type SidebarMenuSubButtonTag = "a" | "button";
+export type SidebarMenuSubButtonProps<Tag extends SidebarMenuSubButtonTag = "a"> = Omit<
+  SvelteHTMLElements[Tag],
+  "children" | "class" | "ref" | "size"
+> & {
+  as?: Tag;
   children?: Snippet;
   class?: string;
   isActive?: boolean;
   ref?: HTMLElement | null;
   size?: "md" | "sm";
 };
+type SidebarMenuSubButtonComponentProps =
+  | SidebarMenuSubButtonProps<"a">
+  | SidebarMenuSubButtonProps<"button">;
 </script>
 <script lang="ts">
 import { cn } from "$lib/utils.js";
@@ -21,7 +29,12 @@ let {
   ref = $bindable(null),
   size = "md",
   ...props
-}: SidebarMenuSubButtonProps = $props();
+}: SidebarMenuSubButtonComponentProps = $props();
+
+const forwardedProps = $derived({
+  ...(as === "button" ? { type: "button" } : {}),
+  ...props,
+} as Record<string, unknown>);
 </script>
 <svelte:element
   this={as}
@@ -38,6 +51,6 @@ let {
   data-sidebar="menu-sub-button"
   data-size={size}
   data-slot="sidebar-menu-sub-button"
-  {...props}
+  {...forwardedProps}
   >{@render children?.()}</svelte:element
 >

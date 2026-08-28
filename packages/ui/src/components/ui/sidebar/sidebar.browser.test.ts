@@ -57,6 +57,9 @@ describe.sequential("Sidebar browser contract", () => {
     expect(
       document.querySelector('[data-slot="sidebar-trigger"] svg[aria-hidden="true"] path'),
     ).not.toBeNull();
+    const iconPaths = document.querySelectorAll('[data-slot="sidebar-trigger"] svg > *');
+    expect(iconPaths.length).toBeGreaterThan(0);
+    for (const path of iconPaths) expect(path.getAttribute("stroke-width")).toBe("2");
 
     expect(sidebar?.getAttribute("data-state")).toBe("expanded");
     await page.getByTestId("trigger").click();
@@ -110,6 +113,20 @@ describe.sequential("Sidebar browser contract", () => {
     });
   });
 
+  test("keeps a tooltip menu button natively disabled without tooltip interaction", async () => {
+    render(SidebarBrowserFixture);
+    const disabled = page.getByTestId("disabled-tooltip");
+
+    await expect.element(disabled).toBeDisabled();
+    await expect.element(disabled).toHaveAttribute("style", "color: rgb(1, 2, 3);");
+    disabled.element().focus();
+    expect(document.activeElement).not.toBe(disabled.element());
+    await disabled.click({ force: true });
+    await expect.element(page.getByTestId("disabled-clicks")).toHaveTextContent("0");
+    await disabled.hover();
+    expect(document.body.textContent).not.toContain("UnavailableUnavailable");
+  });
+
   test("hydrates provider context and the deterministic skeleton without diagnostics", async () => {
     const warning = vi.spyOn(console, "warn").mockImplementation(() => undefined);
     const error = vi.spyOn(console, "error").mockImplementation(() => undefined);
@@ -131,18 +148,23 @@ describe.sequential("Sidebar browser contract", () => {
     );
 
     render(SidebarBrowserFixture);
-    await page.getByTestId("trigger").click();
+    await page.getByTestId("mobile-trigger").click();
 
-    const drawer = document.querySelector<HTMLElement>('[data-mobile="true"]');
+    const drawer = document.querySelector<HTMLElement>(
+      '[data-mobile="true"][data-consumer="mobile-sidebar"]',
+    );
     expect(drawer).not.toBeNull();
-    expect(drawer?.textContent).toContain("Dashboard");
-    await expect
-      .element(page.getByTestId("context-state"))
-      .toHaveTextContent("expanded:true:true:true");
+    expect(drawer?.id).toBe("mobile-sidebar");
+    expect(drawer?.getAttribute("aria-label")).toBe("Mobile navigation");
+    expect(drawer?.style.getPropertyValue("--sidebar-width")).toBe("18rem");
+    expect(drawer?.style.getPropertyValue("--consumer-token")).toBe("7");
+    expect(drawer?.style.color).toBe("rgb(4, 5, 6)");
+    (page.getByTestId("mobile-child").element() as HTMLElement).click();
+    await expect.element(page.getByTestId("mobile-clicks")).toHaveTextContent("1");
     await userEvent.keyboard("{Escape}");
     await vi.waitFor(() => {
       expect(document.querySelector('[data-mobile="true"]')).toBeNull();
     });
-    await expect.element(page.getByTestId("trigger")).toHaveFocus();
+    await expect.element(page.getByTestId("mobile-trigger")).toHaveFocus();
   });
 });

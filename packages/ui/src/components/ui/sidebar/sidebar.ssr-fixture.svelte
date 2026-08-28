@@ -7,23 +7,54 @@ import SidebarContextProbe from "./sidebar-context-probe.svelte";
   <SidebarContextProbe />
   <Sidebar.Root class="consumer-sidebar" collapsible="icon" side="right" variant="floating">
     <Sidebar.Header>Workspace</Sidebar.Header>
-    <Sidebar.Input aria-label="Filter navigation" placeholder="Filter" />
+    <Sidebar.Input aria-label="Filter navigation" id="sidebar-filter" placeholder="Filter" />
     <Sidebar.Separator />
     <Sidebar.Content>
       <Sidebar.Group>
-        <Sidebar.GroupLabel>Navigation</Sidebar.GroupLabel>
-        <Sidebar.GroupAction aria-label="Add item">+</Sidebar.GroupAction>
+        <Sidebar.GroupLabel as="label" for="sidebar-filter">Navigation</Sidebar.GroupLabel>
+        <Sidebar.GroupAction
+          aria-label="Add item"
+          as="a"
+          download="new.txt"
+          href="/new"
+          rel="noreferrer"
+          target="_blank"
+          >+</Sidebar.GroupAction
+        >
         <Sidebar.GroupContent>
           <Sidebar.Menu>
             <Sidebar.MenuItem>
-              <Sidebar.MenuButton isActive tooltip="Dashboard">
+              <Sidebar.MenuButton
+                as="a"
+                download="dashboard.txt"
+                href="/dashboard"
+                isActive
+                rel="noreferrer"
+                target="_blank"
+                tooltip="Dashboard"
+              >
                 <span>Dashboard</span>
               </Sidebar.MenuButton>
-              <Sidebar.MenuAction aria-label="More actions" showOnHover>...</Sidebar.MenuAction>
+              <Sidebar.MenuAction
+                aria-label="More actions"
+                as="a"
+                download="more.txt"
+                href="/more"
+                rel="noreferrer"
+                showOnHover
+                target="_blank"
+                >...</Sidebar.MenuAction
+              >
               <Sidebar.MenuBadge>12</Sidebar.MenuBadge>
               <Sidebar.MenuSub>
                 <Sidebar.MenuSubItem>
-                  <Sidebar.MenuSubButton href="/reports">Reports</Sidebar.MenuSubButton>
+                  <Sidebar.MenuSubButton
+                    download="reports.txt"
+                    href="/reports"
+                    rel="noreferrer"
+                    target="_blank"
+                    >Reports</Sidebar.MenuSubButton
+                  >
                 </Sidebar.MenuSubItem>
               </Sidebar.MenuSub>
             </Sidebar.MenuItem>

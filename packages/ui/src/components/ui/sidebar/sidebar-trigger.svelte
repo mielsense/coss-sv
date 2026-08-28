@@ -40,7 +40,7 @@ function handleClick(event: MouseEvent): void {
   {#if children}
     {@render children()}
   {:else}
-    <HugeiconsIcon aria-hidden="true" icon={SidebarLeftIcon} />
+    <HugeiconsIcon aria-hidden="true" icon={SidebarLeftIcon} strokeWidth={2} />
     <span class="sr-only">Toggle Sidebar</span>
   {/if}
 </Button>

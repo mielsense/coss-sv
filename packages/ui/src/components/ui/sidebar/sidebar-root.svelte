@@ -28,6 +28,7 @@ let {
   collapsible = "offcanvas",
   ref = $bindable(null),
   side = "left",
+  style,
   variant = "sidebar",
   ...props
 }: SidebarRootProps = $props();
@@ -35,6 +36,10 @@ let {
 const sidebar = useSidebar();
 const getOpenMobile = (): boolean => sidebar.openMobile;
 const setDrawerOpen = (next: boolean): void => sidebar.setOpenMobile(next);
+const mobileStyle = $derived(
+  `--sidebar-width: ${SIDEBAR_WIDTH_MOBILE};${typeof style === "string" && style ? ` ${style}` : ""}`,
+);
+const mobileProps = $derived(props as Record<string, unknown>);
 const gapClass = $derived(
   cn(
     "relative w-(--sidebar-width) bg-transparent transition-[width] duration-200 ease-linear",
@@ -67,6 +72,7 @@ const containerClass = $derived(
       className,
     )}
     data-slot="sidebar"
+    {style}
     {...props}
   >
     {@render children?.()}
@@ -84,8 +90,9 @@ const containerClass = $derived(
       data-slot="sidebar"
       position={side}
       showCloseButton={false}
-      style={`--sidebar-width: ${SIDEBAR_WIDTH_MOBILE};`}
+      style={mobileStyle}
       variant="straight"
+      {...mobileProps}
     >
       <div class="sr-only">
         <Drawer.Title>Sidebar</Drawer.Title>
@@ -104,7 +111,7 @@ const containerClass = $derived(
     data-variant={variant}
   >
     <div class={gapClass} data-slot="sidebar-gap"></div>
-    <div bind:this={ref} class={containerClass} data-slot="sidebar-container" {...props}>
+    <div bind:this={ref} class={containerClass} data-slot="sidebar-container" {style} {...props}>
       <div
         class="flex h-full w-full flex-col bg-sidebar group-data-[variant=floating]:rounded-lg group-data-[variant=floating]:border group-data-[variant=floating]:border-sidebar-border group-data-[variant=floating]:shadow-sm/5"
         data-sidebar="sidebar"

@@ -65,7 +65,7 @@ The complete local Shards component source, API documentation, tests, examples, 
 - Provider, desktop layout, structural groups, menu rows, badges, actions, rail, and inset remain semantic Svelte elements.
 - Mobile mode composes the existing Shards-backed Drawer wrapper. The drawer owns focus trapping, Escape and outside dismissal, focus restoration, modal semantics, and edge swipe behavior.
 - `SidebarInput`, `SidebarSeparator`, `SidebarMenuSkeleton`, and `SidebarTrigger` compose the existing Input, Separator, Skeleton, and Button wrappers.
-- `SidebarMenuButton` uses the existing Shards-backed Tooltip wrappers only when a tooltip is supplied. The popup is hidden unless the desktop Sidebar is collapsed.
+- `SidebarMenuButton` uses the existing Shards-backed Tooltip wrappers only when a tooltip is supplied and the native button is enabled. A disabled menu button remains a native disabled button, so it keeps browser focus, click, attribute, and style semantics without activating the tooltip. The popup is otherwise hidden unless the desktop Sidebar is collapsed.
 - `SidebarContent` preserves the upstream ScrollArea composition with `fill`, `overscrollContain`, and `scrollFade`.
 - Nested disclosures are consumer compositions using the existing Collapsible wrapper. Menu popups remain available through the existing Menu package; Sidebar's own `SidebarMenu*` parts are the native list structure defined by COSS.
 
@@ -74,10 +74,12 @@ The complete local Shards component source, API documentation, tests, examples, 
 - The local barrel exposes the namespace API as `Sidebar.Provider`, `Sidebar.Root`, `Sidebar.Trigger`, and the remaining part names. COSS-style named aliases are exported from the same local barrel.
 - `open` is deliberately bindable on `Provider`; `onOpenChange` remains available for one-way consumers. `defaultOpen` is read once.
 - `openMobile` stays internal, matching COSS. The context exposes setters for compound parts and advanced consumers.
-- Native wrappers accept `as` where COSS used Base UI's `render` composition. Link menu buttons accept `href` and render an anchor without adding button semantics.
+- The polymorphic action and menu surfaces deliberately support the non-void semantic tags they need. `GroupAction`, `MenuAction`, `MenuButton`, and `MenuSubButton` accept anchors or buttons; `GroupLabel` accepts a div, label, or span. Their generic prop types select the matching `SvelteHTMLElements[Tag]` attributes. Links use `as="a"` and preserve `href`, `target`, `rel`, and `download` without adding button semantics.
 - Per-provider mutable state lives in component context. No request-specific state is stored in module scope.
 - The skeleton width is derived from `$props.id()` into the same 50 to 89 percent range. This preserves the visible contract while avoiding `Math.random()` server and hydration drift.
-- The trigger maps COSS's Panel Left glyph to Hugeicons `SidebarLeftIcon`, rendered through `@hugeicons/svelte`. The icon is loaded from the package's per-icon export so browser dependency optimization does not parse the full icon barrel.
+- The trigger maps COSS's Panel Left glyph to Hugeicons `SidebarLeftIcon`, rendered through `@hugeicons/svelte` with the reference's two-pixel stroke geometry. The icon is loaded from the package's per-icon export so browser dependency optimization does not parse the full icon barrel.
+- In mobile mode, native Sidebar root attributes, events, ARIA, IDs, data attributes, and consumer styles are forwarded to the Drawer popup. The consumer style is merged with the mobile `--sidebar-width: 18rem` declaration.
+- The package build emits a dedicated `sidebar-separator.svelte.d.ts` with the exported `SidebarSeparatorProps` alias. A strict external Svelte consumer test covers that declaration and every polymorphic link surface.
 
 ## Test contract
 
@@ -92,6 +94,10 @@ Focused tests cover:
 - trigger and rail interaction;
 - every structural menu part, active and disabled states, action buttons, badges, nested groups, and deterministic skeleton output;
 - collapsed-only tooltip behavior and focus opening;
+- native disabled behavior when a menu button also has tooltip content;
+- mobile native prop, event, ARIA, ID, data-attribute, and style forwarding;
+- built declaration output and strict external-consumer polymorphic typing;
+- Hugeicons two-pixel path geometry;
 - native attribute, class, snippet, callback, and ref forwarding;
 - server rendering and hydration without warnings.
 

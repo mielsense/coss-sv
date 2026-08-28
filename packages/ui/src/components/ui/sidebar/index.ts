@@ -6,7 +6,10 @@ export type { SidebarFooterProps } from "./sidebar-footer.svelte";
 export { default as Footer, default as SidebarFooter } from "./sidebar-footer.svelte";
 export type { SidebarGroupProps } from "./sidebar-group.svelte";
 export { default as Group, default as SidebarGroup } from "./sidebar-group.svelte";
-export type { SidebarGroupActionProps } from "./sidebar-group-action.svelte";
+export type {
+  SidebarGroupActionProps,
+  SidebarGroupActionTag,
+} from "./sidebar-group-action.svelte";
 export {
   default as GroupAction,
   default as SidebarGroupAction,
@@ -16,7 +19,10 @@ export {
   default as GroupContent,
   default as SidebarGroupContent,
 } from "./sidebar-group-content.svelte";
-export type { SidebarGroupLabelProps } from "./sidebar-group-label.svelte";
+export type {
+  SidebarGroupLabelProps,
+  SidebarGroupLabelTag,
+} from "./sidebar-group-label.svelte";
 export { default as GroupLabel, default as SidebarGroupLabel } from "./sidebar-group-label.svelte";
 export type { SidebarHeaderProps } from "./sidebar-header.svelte";
 export { default as Header, default as SidebarHeader } from "./sidebar-header.svelte";
@@ -26,13 +32,17 @@ export type { SidebarInsetProps } from "./sidebar-inset.svelte";
 export { default as Inset, default as SidebarInset } from "./sidebar-inset.svelte";
 export type { SidebarMenuProps } from "./sidebar-menu.svelte";
 export { default as Menu, default as SidebarMenu } from "./sidebar-menu.svelte";
-export type { SidebarMenuActionProps } from "./sidebar-menu-action.svelte";
+export type {
+  SidebarMenuActionProps,
+  SidebarMenuActionTag,
+} from "./sidebar-menu-action.svelte";
 export { default as MenuAction, default as SidebarMenuAction } from "./sidebar-menu-action.svelte";
 export type { SidebarMenuBadgeProps } from "./sidebar-menu-badge.svelte";
 export { default as MenuBadge, default as SidebarMenuBadge } from "./sidebar-menu-badge.svelte";
 export type {
   SidebarMenuButtonProps,
   SidebarMenuButtonSize,
+  SidebarMenuButtonTag,
   SidebarMenuButtonTooltip,
   SidebarMenuButtonVariant,
 } from "./sidebar-menu-button.svelte";
@@ -46,7 +56,10 @@ export {
 } from "./sidebar-menu-skeleton.svelte";
 export type { SidebarMenuSubProps } from "./sidebar-menu-sub.svelte";
 export { default as MenuSub, default as SidebarMenuSub } from "./sidebar-menu-sub.svelte";
-export type { SidebarMenuSubButtonProps } from "./sidebar-menu-sub-button.svelte";
+export type {
+  SidebarMenuSubButtonProps,
+  SidebarMenuSubButtonTag,
+} from "./sidebar-menu-sub-button.svelte";
 export {
   default as MenuSubButton,
   default as SidebarMenuSubButton,

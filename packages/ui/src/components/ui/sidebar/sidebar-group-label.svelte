@@ -1,12 +1,21 @@
 <script module lang="ts">
 import type { Snippet } from "svelte";
-import type { HTMLAttributes } from "svelte/elements";
-export type SidebarGroupLabelProps = Omit<HTMLAttributes<HTMLElement>, "children" | "class"> & {
-  as?: keyof HTMLElementTagNameMap;
+import type { SvelteHTMLElements } from "svelte/elements";
+
+export type SidebarGroupLabelTag = "div" | "label" | "span";
+export type SidebarGroupLabelProps<Tag extends SidebarGroupLabelTag = "div"> = Omit<
+  SvelteHTMLElements[Tag],
+  "children" | "class" | "ref"
+> & {
+  as?: Tag;
   children?: Snippet;
   class?: string;
   ref?: HTMLElement | null;
 };
+type SidebarGroupLabelComponentProps =
+  | SidebarGroupLabelProps<"div">
+  | SidebarGroupLabelProps<"label">
+  | SidebarGroupLabelProps<"span">;
 </script>
 <script lang="ts">
 import { cn } from "$lib/utils.js";
@@ -17,7 +26,9 @@ let {
   class: className,
   ref = $bindable(null),
   ...props
-}: SidebarGroupLabelProps = $props();
+}: SidebarGroupLabelComponentProps = $props();
+
+const forwardedProps = $derived(props as Record<string, unknown>);
 </script>
 <svelte:element
   this={as}
@@ -29,6 +40,6 @@ let {
   )}
   data-sidebar="group-label"
   data-slot="sidebar-group-label"
-  {...props}
+  {...forwardedProps}
   >{@render children?.()}</svelte:element
 >
