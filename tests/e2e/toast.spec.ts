@@ -142,13 +142,44 @@ test("matches p1 through p6 status, action, promise, and stack behavior", async 
   await expect(swipedToast).toHaveCount(1);
   const bounds = await swipedToast.boundingBox();
   if (!bounds) throw new Error("The frontmost toast has no pointer geometry.");
-  await page.mouse.move(bounds.x + 20, bounds.y + 20);
-  await page.mouse.down();
-  await page.mouse.move(bounds.x + 21, bounds.y + 20);
-  await page.mouse.move(bounds.x + 81, bounds.y + 20, { steps: 3 });
+  const startX = bounds.x + 20;
+  const startY = bounds.y + 20;
+  await swipedToast.dispatchEvent("pointerdown", {
+    button: 0,
+    buttons: 1,
+    clientX: startX,
+    clientY: startY,
+    pointerId: 1,
+    pointerType: "mouse",
+  });
+  await swipedToast.dispatchEvent("pointermove", {
+    buttons: 1,
+    clientX: startX + 1,
+    clientY: startY,
+    movementX: 1,
+    movementY: 0,
+    pointerId: 1,
+    pointerType: "mouse",
+  });
+  await swipedToast.dispatchEvent("pointermove", {
+    buttons: 1,
+    clientX: startX + 61,
+    clientY: startY,
+    movementX: 60,
+    movementY: 0,
+    pointerId: 1,
+    pointerType: "mouse",
+  });
   await expect(swipedToast).toHaveAttribute("data-swipe-direction", "right");
   await expect(swipedToast).toHaveAttribute("data-swiping");
-  await page.mouse.up();
+  await swipedToast.dispatchEvent("pointerup", {
+    button: 0,
+    buttons: 0,
+    clientX: startX + 61,
+    clientY: startY,
+    pointerId: 1,
+    pointerType: "mouse",
+  });
   await expect(swipedToast).toHaveAttribute("data-ending-style");
   guard.assertNoErrors();
 });
