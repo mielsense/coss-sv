@@ -5,6 +5,7 @@ import Calendar from "./calendar.svelte";
 import type { CalendarDayContext, CalendarSingleProps } from "./calendar.types.js";
 import {
   addCalendarDays,
+  addCalendarMonths,
   buildCalendarMonth,
   differenceInCalendarMonths,
   getCalendarWeekNumber,
@@ -26,6 +27,12 @@ describe("Calendar date model", () => {
     expect(month.weeks[5]?.[6]?.date).toEqual(new Date(2026, 1, 8));
   });
 
+  test("preserves the day when moving by month and clamps only at the month end", () => {
+    expect(addCalendarMonths(new Date(2026, 0, 17, 12), 1)).toEqual(new Date(2026, 1, 17));
+    expect(addCalendarMonths(new Date(2026, 0, 31, 12), 1)).toEqual(new Date(2026, 1, 28));
+    expect(addCalendarMonths(new Date(2024, 1, 29, 12), 12)).toEqual(new Date(2025, 1, 28));
+  });
+
   test("matches every COSS disabled-date matcher shape", () => {
     const target = new Date(2026, 0, 10, 12);
     expect(isDateMatched(target, new Date(2026, 0, 10))).toBe(true);
@@ -42,6 +49,16 @@ describe("Calendar date model", () => {
     expect(isDateMatched(target, true)).toBe(true);
     expect(isDateMatched(target, false)).toBe(false);
     expect(isDateMatched(target, (date) => date.getDate() === 10)).toBe(true);
+  });
+
+  test("matches reversed date intervals outside their open boundaries", () => {
+    const matcher = { after: new Date(2026, 0, 20), before: new Date(2026, 0, 10) };
+
+    expect(isDateMatched(new Date(2026, 0, 5), matcher)).toBe(true);
+    expect(isDateMatched(new Date(2026, 0, 15), matcher)).toBe(false);
+    expect(isDateMatched(new Date(2026, 0, 25), matcher)).toBe(true);
+    expect(isDateMatched(new Date(2026, 0, 10), matcher)).toBe(false);
+    expect(isDateMatched(new Date(2026, 0, 20), matcher)).toBe(false);
   });
 
   test("enforces single, multiple, and range min/max selection contracts", () => {
@@ -89,9 +106,34 @@ describe("Calendar date model", () => {
     expect(getCalendarWeekNumber(new Date(2023, 0, 1), { weekStartsOn: 0 })).toBe(1);
     expect(getIsoWeekNumber(new Date(2023, 0, 1))).toBe(52);
   });
+
+  test("returns noon-safe time-zone dates from every selection mode", () => {
+    const instant = new Date("2026-01-01T01:30:00.000Z");
+    const options = { noonSafe: true, timeZone: "America/Los_Angeles" };
+    const single = resolveSelection("single", instant, undefined, options);
+    const multiple = resolveSelection("multiple", instant, undefined, options);
+    const range = resolveSelection("range", instant, undefined, { ...options, min: 1 });
+
+    expect(single).toEqual(new Date(2025, 11, 31, 12));
+    expect(multiple).toEqual([new Date(2025, 11, 31, 12)]);
+    expect(range).toEqual({ from: new Date(2025, 11, 31, 12) });
+  });
 });
 
 describe("Calendar SSR contract", () => {
+  test("keeps defaultSelected when a callback does not supply a controlled value", () => {
+    const body = render(SingleCalendar, {
+      props: {
+        defaultMonth: new Date(2026, 0, 1),
+        defaultSelected: new Date(2026, 0, 15),
+        mode: "single",
+        onSelect: () => undefined,
+      },
+    }).body;
+
+    expect(body).toMatch(/data-day="2026-01-15"[^>]*data-selected="true"/);
+  });
+
   test("computes default today per instance and honors a controllable today prop", () => {
     vi.useFakeTimers();
     try {
@@ -160,6 +202,7 @@ describe("Calendar SSR contract", () => {
     expect(body).toContain("day-15");
     expect(body).toContain("custom-day");
     expect(body).toContain('data-selected="true"');
+    expect(body).not.toContain('data-focused="true"');
     expect(body).toContain("rdp-selected");
     expect(body).toContain("rdp-month_grid");
     expect(body).toContain("rdp-weekdays");

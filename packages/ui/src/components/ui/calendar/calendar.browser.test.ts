@@ -1,4 +1,4 @@
-import { hydrate, type Component, unmount } from "svelte";
+import { hydrate, tick, type Component, unmount } from "svelte";
 import { afterEach, describe, expect, test, vi } from "vitest";
 import { page, userEvent } from "vitest/browser";
 import { render } from "vitest-browser-svelte";
@@ -69,7 +69,9 @@ describe("Calendar browser contract", () => {
       .getByTestId("interactive-calendar")
       .getByRole("button", { name: /Thursday, January 15th, 2026/ });
     day15.element().focus();
-    expect(day15.element().closest("td")).toHaveAttribute("data-focused", "true");
+    await expect
+      .poll(() => day15.element().closest("td")?.getAttribute("data-focused"))
+      .toBe("true");
     expect(day15.element().closest("td")).toHaveClass("rdp-focused");
 
     await userEvent.keyboard("{ArrowRight}");
@@ -90,6 +92,9 @@ describe("Calendar browser contract", () => {
     );
     await userEvent.keyboard("{PageDown}");
     await expect.element(page.getByTestId("month")).toHaveTextContent("2026-2");
+    expect(document.activeElement?.getAttribute("aria-label")).toContain(
+      "Tuesday, February 17th, 2026",
+    );
     await userEvent.keyboard("{Shift>}{PageUp}{/Shift}");
     await expect.element(page.getByTestId("month")).toHaveTextContent("2025-2");
   });
@@ -175,6 +180,62 @@ describe("Calendar browser contract", () => {
     expect(targets[0]?.disabled).toBe(false);
   });
 
+  test("keeps ignored controlled values rendered while bound values update", async () => {
+    render(CalendarFixture);
+
+    const controlledSelection = page.getByTestId("controlled-selection-calendar");
+    await controlledSelection.getByRole("button", { name: /Friday, January 16th, 2026/ }).click();
+    await expect
+      .element(page.getByTestId("controlled-selection-callback"))
+      .toHaveTextContent("2026-01-16");
+    await expect
+      .element(
+        controlledSelection.getByRole("button", {
+          name: "Thursday, January 15th, 2026, selected",
+          exact: true,
+        }),
+      )
+      .toBeInTheDocument();
+
+    const controlledMonth = page.getByTestId("controlled-month-calendar");
+    await controlledMonth.getByRole("button", { name: "Go to the Next Month" }).click();
+    await expect
+      .element(page.getByTestId("controlled-month-callback"))
+      .toHaveTextContent("2026-02-01");
+    await expect
+      .element(controlledMonth.getByRole("grid", { name: "January 2026" }))
+      .toBeInTheDocument();
+
+    const boundSelectionRoot = page.getByTestId("bound-selection-calendar");
+    await boundSelectionRoot.getByRole("button", { name: /Friday, January 16th, 2026/ }).click();
+    await expect.element(page.getByTestId("bound-selection")).toHaveTextContent("2026-01-16");
+
+    const boundMonthRoot = page.getByTestId("bound-month-calendar");
+    await boundMonthRoot.getByRole("button", { name: "Go to the Next Month" }).click();
+    await expect.element(page.getByTestId("bound-month")).toHaveTextContent("2026-2");
+  });
+
+  test("returns noon-safe bound and callback values in every selection mode", async () => {
+    render(CalendarFixture);
+
+    await page
+      .getByTestId("noon-single-calendar")
+      .getByRole("button", { name: /Monday, December 29th, 2025/ })
+      .click();
+    await page
+      .getByTestId("noon-multiple-calendar")
+      .getByRole("button", { name: /Tuesday, December 30th, 2025/ })
+      .click();
+    await page
+      .getByTestId("noon-range-calendar")
+      .getByRole("button", { name: /Wednesday, December 31st, 2025/ })
+      .click();
+
+    await expect
+      .element(page.getByTestId("noon-evidence"))
+      .toHaveTextContent("single:12|multiple:12|range:12:12");
+  });
+
   test("lets DayButton and WeekNumber replace their host elements with complete props", async () => {
     render(CalendarFixture);
     const root = page.getByTestId("override-calendar").element();
@@ -227,6 +288,7 @@ describe("Calendar browser contract", () => {
     vi.setSystemTime(new Date("2026-01-01T01:30:00.000Z"));
     const warning = vi.spyOn(console, "warn").mockImplementation(() => undefined);
     const props = {
+      defaultSelected: new Date("2025-12-30T20:00:00.000Z"),
       defaultMonth: new Date("2026-01-01T01:30:00.000Z"),
       mode: "single",
       noonSafe: true,
@@ -252,10 +314,14 @@ describe("Calendar browser contract", () => {
 
     const component = hydrate(SingleCalendar, { props, target });
     try {
+      await tick();
+      await tick();
       expect(warning).not.toHaveBeenCalled();
       const todayCell = target.querySelector<HTMLElement>('[data-today="true"]');
       expect(todayCell).not.toBeNull();
       expect(todayCell?.getAttribute("data-day")).toBe("2025-12-31");
+      const defaultSelectedCell = target.querySelector<HTMLElement>('[data-day="2025-12-30"]');
+      expect(defaultSelectedCell).toHaveAttribute("data-selected", "true");
       const todayButton = todayCell?.querySelector<HTMLButtonElement>("button");
       if (!todayButton)
         throw new Error("Hydrated time-zone calendar did not render today's button");

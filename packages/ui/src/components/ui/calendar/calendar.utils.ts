@@ -57,7 +57,24 @@ export function addCalendarMonths(
   amount: number,
   options: CalendarDateOptions = {},
 ): Date {
-  return createCalendarDate(date.getFullYear(), date.getMonth() + amount, 1, options);
+  const firstOfTarget = createCalendarDate(
+    date.getFullYear(),
+    date.getMonth() + amount,
+    1,
+    options,
+  );
+  const lastOfTarget = createCalendarDate(
+    firstOfTarget.getFullYear(),
+    firstOfTarget.getMonth() + 1,
+    0,
+    options,
+  );
+  return createCalendarDate(
+    firstOfTarget.getFullYear(),
+    firstOfTarget.getMonth(),
+    Math.min(date.getDate(), lastOfTarget.getDate()),
+    options,
+  );
 }
 
 export function differenceInCalendarMonths(left: Date, right: Date): number {
@@ -122,10 +139,13 @@ export function isDateMatched(
     );
   }
   if ("before" in matcher && "after" in matcher && matcher.before && matcher.after) {
-    return (
-      compareCalendarDays(date, normalizeCalendarDate(matcher.after, options)) > 0 &&
-      compareCalendarDays(date, normalizeCalendarDate(matcher.before, options)) < 0
-    );
+    const after = normalizeCalendarDate(matcher.after, options);
+    const before = normalizeCalendarDate(matcher.before, options);
+    const isAfterBoundary = compareCalendarDays(date, after) > 0;
+    const isBeforeBoundary = compareCalendarDays(date, before) < 0;
+    return compareCalendarDays(before, after) > 0
+      ? isAfterBoundary && isBeforeBoundary
+      : isBeforeBoundary || isAfterBoundary;
   }
   if ("before" in matcher && matcher.before) {
     return compareCalendarDays(date, normalizeCalendarDate(matcher.before, options)) < 0;
@@ -213,11 +233,13 @@ export function resolveSelection(
   options: {
     max?: number;
     min?: number;
+    noonSafe?: boolean;
     required?: boolean;
     resetOnSelect?: boolean;
+    timeZone?: string | undefined;
   } = {},
 ): CalendarSelection {
-  const nextDate = normalizeCalendarDate(date);
+  const nextDate = normalizeCalendarDate(date, options);
   if (mode === "single") {
     const selected = current instanceof Date ? current : undefined;
     if (isSameCalendarDay(selected, nextDate)) return options.required ? selected : undefined;
@@ -226,7 +248,7 @@ export function resolveSelection(
 
   if (mode === "multiple") {
     const selected = Array.isArray(current)
-      ? current.map((entry) => normalizeCalendarDate(entry))
+      ? current.map((entry) => normalizeCalendarDate(entry, options))
       : [];
     const index = selected.findIndex((entry) => isSameCalendarDay(entry, nextDate));
     if (index >= 0) {
@@ -238,8 +260,14 @@ export function resolveSelection(
     return [...selected, nextDate];
   }
 
-  const range =
+  const currentRange =
     current && !(current instanceof Date) && !Array.isArray(current) ? current : undefined;
+  const range = currentRange
+    ? {
+        from: currentRange.from ? normalizeCalendarDate(currentRange.from, options) : undefined,
+        ...(currentRange.to ? { to: normalizeCalendarDate(currentRange.to, options) } : {}),
+      }
+    : undefined;
   const isFullRange = Boolean(range?.from && range.to);
   const isClickingSingleDayRange = Boolean(
     range?.from &&

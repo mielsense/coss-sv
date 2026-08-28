@@ -17,6 +17,14 @@ let changes = $state(0);
 let datePickerOpen = $state(false);
 let callbackEvidence = $state("");
 let overrideEvidence = $state("");
+let controlledSelectionCallback = $state("");
+let controlledMonthCallback = $state("");
+let boundSelection = $state<Date | undefined>(new Date(2026, 0, 15, 12));
+let boundMonth = $state(new Date(2026, 0, 1, 12));
+let noonSingle = $state<Date | undefined>();
+let noonMultiple = $state<Date[] | undefined>();
+let noonRange = $state<DateRange | undefined>();
+let noonEvidence = $state("");
 const selection = $derived(
   mode === "single" ? singleSelected : mode === "multiple" ? multipleSelected : rangeSelected,
 );
@@ -95,11 +103,15 @@ function selectionText(value: Date | Date[] | DateRange | undefined): string {
     endMonth={new Date(2027, 11, 1, 12)}
     fixedWeeks
     mode="single"
-    onMonthChange={() => (changes += 1)}
+    onMonthChange={(nextMonth) => {
+      month = nextMonth;
+      changes += 1;
+    }}
     onDayClick={(date, modifiers, event) => {
       callbackEvidence += `day:${date.getDate()}:${modifiers.selected}:${event.type}`;
     }}
-    onSelect={(_value, date, modifiers, event) => {
+    onSelect={(value, date, modifiers, event) => {
+      singleSelected = value;
       changes += 1;
       callbackEvidence = `select:${date.getDate()}:${modifiers.selected}:${event.type}|`;
     }}
@@ -117,8 +129,14 @@ function selectionText(value: Date | Date[] | DateRange | undefined): string {
     endMonth={new Date(2027, 11, 1, 12)}
     fixedWeeks
     mode="multiple"
-    onMonthChange={() => (changes += 1)}
-    onSelect={() => (changes += 1)}
+    onMonthChange={(nextMonth) => {
+      month = nextMonth;
+      changes += 1;
+    }}
+    onSelect={(value) => {
+      multipleSelected = value;
+      changes += 1;
+    }}
     startMonth={new Date(2025, 0, 1, 12)}
     {unavailable}
   />
@@ -133,8 +151,14 @@ function selectionText(value: Date | Date[] | DateRange | undefined): string {
     endMonth={new Date(2027, 11, 1, 12)}
     fixedWeeks
     mode="range"
-    onMonthChange={() => (changes += 1)}
-    onSelect={() => (changes += 1)}
+    onMonthChange={(nextMonth) => {
+      month = nextMonth;
+      changes += 1;
+    }}
+    onSelect={(value) => {
+      rangeSelected = value;
+      changes += 1;
+    }}
     startMonth={new Date(2025, 0, 1, 12)}
     {unavailable}
   />
@@ -144,6 +168,79 @@ function selectionText(value: Date | Date[] | DateRange | undefined): string {
 <output data-testid="selection">{selectionText(selection)}</output>
 <output data-testid="changes">{changes}</output>
 <output data-testid="callback-evidence">{callbackEvidence}</output>
+
+<div data-testid="controlled-selection-calendar">
+  <Calendar
+    defaultMonth={new Date(2026, 0, 1, 12)}
+    mode="single"
+    onSelect={(value) => {
+      controlledSelectionCallback = value ? localDateKey(value) : "cleared";
+    }}
+    selected={new Date(2026, 0, 15, 12)}
+  />
+</div>
+<output data-testid="controlled-selection-callback">{controlledSelectionCallback}</output>
+
+<div data-testid="controlled-month-calendar">
+  <Calendar
+    month={new Date(2026, 0, 1, 12)}
+    onMonthChange={(value) => {
+      controlledMonthCallback = localDateKey(value);
+    }}
+  />
+</div>
+<output data-testid="controlled-month-callback">{controlledMonthCallback}</output>
+
+<div data-testid="bound-selection-calendar">
+  <Calendar bind:selected={boundSelection} defaultMonth={new Date(2026, 0, 1, 12)} mode="single" />
+</div>
+<output data-testid="bound-selection">{selectionText(boundSelection)}</output>
+
+<div data-testid="bound-month-calendar">
+  <Calendar bind:month={boundMonth} />
+</div>
+<output data-testid="bound-month">{boundMonth.getFullYear()}-{boundMonth.getMonth() + 1}</output>
+
+<div data-testid="noon-single-calendar">
+  <Calendar
+    bind:selected={noonSingle}
+    defaultMonth={new Date("2026-01-01T01:30:00.000Z")}
+    mode="single"
+    noonSafe
+    onSelect={(value) => {
+      noonSingle = value;
+      noonEvidence = `single:${value?.getHours()}`;
+    }}
+    timeZone="America/Los_Angeles"
+  />
+</div>
+<div data-testid="noon-multiple-calendar">
+  <Calendar
+    bind:selected={noonMultiple}
+    defaultMonth={new Date("2026-01-01T01:30:00.000Z")}
+    mode="multiple"
+    noonSafe
+    onSelect={(value) => {
+      noonMultiple = value;
+      noonEvidence += `|multiple:${value?.[0]?.getHours()}`;
+    }}
+    timeZone="America/Los_Angeles"
+  />
+</div>
+<div data-testid="noon-range-calendar">
+  <Calendar
+    bind:selected={noonRange}
+    defaultMonth={new Date("2026-01-01T01:30:00.000Z")}
+    mode="range"
+    noonSafe
+    onSelect={(value) => {
+      noonRange = value;
+      noonEvidence += `|range:${value?.from?.getHours()}:${value?.to?.getHours()}`;
+    }}
+    timeZone="America/Los_Angeles"
+  />
+</div>
+<output data-testid="noon-evidence">{noonEvidence}</output>
 
 <Popover.Root bind:open={datePickerOpen}>
   <Popover.Trigger data-testid="date-picker-trigger">Pick a date</Popover.Trigger>

@@ -27,9 +27,11 @@ Invalid mode and selection combinations fail the type test. Range-only props suc
 `excludeDisabled` and `resetOnSelect` cannot be passed to another mode.
 
 The component accepts every matcher form used by COSS, plus DayPicker's boolean matcher
-and scalar `dayOfWeek`. Selection covers required and optional single, multiple, and range
-modes. The multiple maximum resets to the clicked date as DayPicker does. Range selection
-implements `min`, `max`, `excludeDisabled`, and the distinct `resetOnSelect` path.
+and scalar `dayOfWeek`. Forward intervals match their open interior; reversed intervals
+match dates outside both open boundaries. Selection covers required and optional single,
+multiple, and range modes. The multiple maximum resets to the clicked date as DayPicker
+does. Range selection implements `min`, `max`, `excludeDisabled`, and the distinct
+`resetOnSelect` path.
 
 Day buttons and week numbers are full host replacements. `components.DayButton` receives
 the day model, all modifiers, children, native button attributes, and event handlers.
@@ -84,12 +86,20 @@ The month and year dropdown handlers use the chronological offset between each c
 month and the first displayed month. This keeps cross-year, multi-month, and
 `reverseMonths` changes anchored to the caption the user changed.
 
+A defined `selected` value paired with `onSelect`, or a `month` value paired with
+`onMonthChange`, is controlled: the callback reports the proposed value and the calendar
+continues rendering the supplied value until its owner changes it. Binding without the
+corresponding callback is the Svelte two-way form. `defaultSelected` and `defaultMonth`
+remain internal state, including across hydration.
+
 Roving focus only targets visible, enabled days. A disabled selected date falls back to the
 first enabled day. Month changes and externally controlled months recompute the target;
 controlled months outside the navigation bounds render at the nearest allowed month. If
 keyboard navigation cannot find another enabled date within the bounds, focus stays on the
 existing enabled button. Arrow, Shift+Arrow, Home, End, Page Up, Page Down, and Shift+Page
-follow the DayPicker 10 movement units when they skip disabled dates.
+follow the DayPicker 10 movement units when they skip disabled dates. Month and year
+movement preserves the day number when the target month contains it and clamps only at the
+target month's end.
 
 Calendar uses `ArrowLeft01Icon`, `ArrowRight01Icon`, and `ArrowUpDownIcon` from the approved
 Hugeicons packages. It adds no calendar runtime dependency.
@@ -106,14 +116,17 @@ the architecture or dependency choice.
 - `calendar.types.test.ts` checks the mode and required union, callback arguments, rejected
   combinations, and full DayButton and WeekNumber replacement props.
 - `calendar.test.ts` checks matcher forms, selection rules, `resetOnSelect`, time-zone day
-  conversion, noon-safe dates, per-instance current dates, a controlled `today`, COSS and
-  `rdp-*` classes, locale objects, and SSR output.
+  conversion, noon-safe values returned by every selection mode, date-preserving month
+  movement, per-instance current dates, a controlled `today`, COSS and `rdp-*` classes,
+  locale objects, and SSR output.
 - `calendar.browser.test.ts` checks all selection modes, callback data, disabled and
   unavailable dates, the full keyboard model, enabled roving focus, navigation exhaustion,
-  externally controlled month bounds, native dropdowns, cross-year reversed months,
-  replacement hosts, and Shards Popover focus restoration.
+  controlled and bound state, noon-safe callback and bound values, externally controlled
+  month bounds, native dropdowns, cross-year reversed months, replacement hosts, and Shards
+  Popover focus restoration.
 - The browser suite hydrates actual Calendar SSR HTML under a frozen clock at a UTC to Los
-  Angeles date boundary. The compressed fixture records the server render used by that
-  regression and avoids adding a shared Vitest command outside this lane.
+  Angeles date boundary. It verifies that `defaultSelected` survives hydration. The
+  compressed fixture records the server render used by that regression and avoids adding a
+  shared Vitest command outside this lane.
 
 Documentation pages, registry entries, and aggregate exports remain coordinator work.

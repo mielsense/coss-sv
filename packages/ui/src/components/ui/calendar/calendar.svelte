@@ -153,6 +153,8 @@ const { instanceNow, initialDateOptions, initialToday } = untrack(() => {
 const initialSelected = untrack(() =>
   normalizeSelection(selected ?? defaultSelected, initialDateOptions),
 );
+const selectionControlled = untrack(() => selected !== undefined && onSelect !== undefined);
+const monthControlled = untrack(() => month !== undefined && onMonthChange !== undefined);
 const initialMonth = untrack(() => {
   const anchor = defaultMonth
     ? normalizeCalendarDate(defaultMonth, initialDateOptions)
@@ -160,11 +162,12 @@ const initialMonth = untrack(() => {
   return startOfCalendarMonth(anchor, initialDateOptions);
 });
 let uncontrolledMonth = $state(initialMonth);
-let focusedDate = $state<Date | undefined>(selectedAnchor(initialSelected));
+let uncontrolledSelection = $state.raw<CalendarSelection>(initialSelected);
+let hadExternalSelection = $state(untrack(() => selected !== undefined));
+let focusedDate = $state<Date | undefined>(
+  untrack(() => (autoFocus ? selectedAnchor(initialSelected) : undefined)),
+);
 let didAutoFocus = $state(false);
-let renderedSelection = $state.raw<CalendarSelection>(initialSelected);
-let emittedMonth = $state<Date | undefined>();
-let emittedSelection = $state.raw<CalendarSelection>();
 
 const dateOptions = $derived<CalendarDateOptions>({ noonSafe, timeZone });
 const localeCode = $derived(locale.code ?? "en-US");
@@ -188,11 +191,7 @@ const latestDisplayMonth = $derived(
 );
 const displayMonth = $derived.by(() => {
   let value = startOfCalendarMonth(
-    month
-      ? emittedMonth && month.getTime() === emittedMonth.getTime()
-        ? month
-        : normalizeCalendarDate(month, dateOptions)
-      : uncontrolledMonth,
+    monthControlled && month ? normalizeCalendarDate(month, dateOptions) : uncontrolledMonth,
     dateOptions,
   );
   if (normalizedStartMonth && compareCalendarDays(value, normalizedStartMonth) < 0) {
@@ -203,6 +202,9 @@ const displayMonth = $derived.by(() => {
   }
   return value;
 });
+const renderedSelection = $derived(
+  selectionControlled ? normalizeSelection(selected, dateOptions) : uncontrolledSelection,
+);
 const displayedMonths = $derived.by(() => {
   const values = Array.from({ length: monthCount }, (_, index) =>
     buildCalendarMonth(addCalendarMonths(displayMonth, index, dateOptions), {
@@ -279,29 +281,6 @@ function selectedAnchor(value: CalendarSelection): Date | undefined {
   return value?.from;
 }
 
-function isSameSelectionValue(left: CalendarSelection, right: CalendarSelection): boolean {
-  if (left instanceof Date && right instanceof Date) return left.getTime() === right.getTime();
-  if (Array.isArray(left) && Array.isArray(right)) {
-    return (
-      left.length === right.length &&
-      left.every((dateValue, index) => dateValue.getTime() === right[index]?.getTime())
-    );
-  }
-  if (
-    left &&
-    right &&
-    !(left instanceof Date) &&
-    !(right instanceof Date) &&
-    !Array.isArray(left) &&
-    !Array.isArray(right)
-  ) {
-    return (
-      left.from?.getTime() === right.from?.getTime() && left.to?.getTime() === right.to?.getTime()
-    );
-  }
-  return left === undefined && right === undefined;
-}
-
 function setMonth(next: Date): void {
   if (disableNavigation) return;
   let value = startOfCalendarMonth(next, dateOptions);
@@ -311,9 +290,10 @@ function setMonth(next: Date): void {
   if (latestDisplayMonth && compareCalendarDays(value, latestDisplayMonth) > 0) {
     value = latestDisplayMonth;
   }
-  uncontrolledMonth = value;
-  emittedMonth = value;
-  month = value;
+  if (!monthControlled) {
+    uncontrolledMonth = value;
+    month = value;
+  }
   onMonthChange?.(value);
 }
 
@@ -411,6 +391,7 @@ function selectDate(dateValue: Date, state: CalendarDayContext, event: MouseEven
   const selectionOptions = {
     ...(min === undefined ? {} : { min }),
     ...(max === undefined ? {} : { max }),
+    ...dateOptions,
     required,
     resetOnSelect,
   };
@@ -426,9 +407,10 @@ function selectDate(dateValue: Date, state: CalendarDayContext, event: MouseEven
   ) {
     next = { from: triggerDate };
   }
-  renderedSelection = next;
-  emittedSelection = next;
-  selected = next;
+  if (!selectionControlled) {
+    uncontrolledSelection = next;
+    selected = next;
+  }
   focusedDate = triggerDate;
   (
     onSelect as
@@ -694,9 +676,18 @@ function isFocusTarget(dateValue: Date, outside = false): boolean {
 }
 
 $effect(() => {
-  renderedSelection = isSameSelectionValue(selected, emittedSelection)
-    ? emittedSelection
-    : normalizeSelection(selected, dateOptions);
+  if (monthControlled || !month) return;
+  uncontrolledMonth = startOfCalendarMonth(normalizeCalendarDate(month, dateOptions), dateOptions);
+});
+
+$effect(() => {
+  if (selectionControlled) return;
+  if (selected !== undefined) {
+    hadExternalSelection = true;
+    uncontrolledSelection = normalizeSelection(selected, dateOptions);
+  } else if (hadExternalSelection) {
+    uncontrolledSelection = undefined;
+  }
 });
 
 $effect(() => {
