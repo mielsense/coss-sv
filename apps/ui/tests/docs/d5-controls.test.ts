@@ -104,6 +104,45 @@ const expectedPagePreviews = {
   "toggle-group": Array.from({ length: 9 }, (_, index) => `p-toggle-group-${index + 1}`),
 } as const;
 
+const expectedPreviewMetadata = {
+  "p-radio-group-6": {
+    containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-[320px]",
+  },
+  "p-slider-13": {
+    containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64",
+  },
+  "p-slider-14": {
+    containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64",
+  },
+  "p-slider-15": {
+    containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64",
+  },
+  "p-slider-16": {
+    containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64",
+  },
+  "p-slider-21": {
+    containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64",
+  },
+  "p-slider-22": {
+    containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64",
+  },
+  "p-slider-23": {
+    containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64",
+  },
+  "p-switch-7": {
+    colSpan: 2,
+    containerClass: "**:data-[slot=preview]:w-full sm:**:data-[slot=preview]:max-w-4xl",
+  },
+  "p-switch-8": {
+    colSpan: 2,
+    containerClass: "**:data-[slot=preview]:w-full sm:**:data-[slot=preview]:max-w-4xl",
+  },
+  "p-switch-9": {
+    colSpan: 2,
+    containerClass: "**:data-[slot=preview]:w-full sm:**:data-[slot=preview]:max-w-4xl",
+  },
+} as const;
+
 function source(path: string): string {
   return readFileSync(resolve(repositoryRoot, path), "utf8");
 }
@@ -131,7 +170,7 @@ describe("D5 control documentation inventory", () => {
 
     const particle = source(record?.targetPath ?? "missing");
     expect(particle).toContain(`id: "${id}"`);
-    expect(particle).toMatch(/defineParticleMeta\(\{/);
+    expect(particle).toMatch(/defineParticleMeta\(/);
     const components = /components:\s*(\[[^\]]*\])/s.exec(particle)?.[1];
     expect(JSON.parse((components ?? "[]").replace(/,\s*]$/, "]"))).toEqual(
       record?.componentImports,
@@ -142,6 +181,26 @@ describe("D5 control documentation inventory", () => {
     expect(particle).not.toMatch(/\b(?:export let|createEventDispatcher)\b|\bon:/);
     expect(particle).not.toMatch(/lucide|<svg\b/i);
   });
+
+  test.each(Object.entries(expectedPreviewMetadata))(
+    "preserves the upstream preview geometry metadata for %s",
+    (id, expected) => {
+      const modulePath = `../../registry/default/particles/${id}.svelte`;
+      const particleModule = compiledParticles[modulePath] as
+        | {
+            meta: {
+              colSpan?: number;
+              containerClass?: string;
+            };
+          }
+        | undefined;
+
+      expect(particleModule?.meta.containerClass).toBe(expected.containerClass);
+      if ("colSpan" in expected) {
+        expect(particleModule?.meta.colSpan).toBe(expected.colSpan);
+      }
+    },
+  );
 
   test.each(Object.keys(expectedPagePreviews))(
     "ports the exact upstream %s page and preview order",

@@ -3,6 +3,7 @@ import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
 
 export const meta = defineParticleMeta({
   components: ["field", "fieldset", "radio-group"],
+  containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-[320px]",
   id: "p-radio-group-6",
   interactive: true,
   responsive: true,
@@ -29,7 +30,7 @@ const themes = [
   {#if value === "system"}
     <span class="absolute inset-y-0 left-0 w-1/2 bg-neutral-200"></span>
     <span class="absolute inset-y-0 right-0 w-1/2 bg-neutral-900"></span>
-    <span class="absolute inset-y-2 left-2.5 w-[34px] rounded-ss bg-white shadow-sm">
+    <span class="absolute top-2 bottom-0 left-2.5 w-[34px] rounded-ss bg-white shadow-sm">
       <span class="absolute left-2.5 top-2.5 size-4 rounded-full bg-neutral-300"></span>
       <span class="absolute bottom-6 left-2.5 right-0 h-1 rounded-s-full bg-neutral-200"></span>
       <span
@@ -37,7 +38,7 @@ const themes = [
       ></span>
       <span class="absolute bottom-2.5 left-2.5 right-0 h-1 rounded-s-full bg-neutral-200"></span>
     </span>
-    <span class="absolute inset-y-2 left-[54px] right-0 rounded-ss bg-neutral-800 shadow-sm">
+    <span class="absolute top-2 right-0 bottom-0 left-[54px] rounded-ss bg-neutral-800 shadow-sm">
       <span class="absolute left-2.5 top-2.5 size-4 rounded-full bg-neutral-600"></span>
       <span class="absolute bottom-6 left-2.5 right-0 h-1 rounded-s-full bg-neutral-700"></span>
       <span
@@ -48,7 +49,7 @@ const themes = [
   {:else}
     <span
       class={[
-        "absolute inset-y-2 left-2.5 right-0 rounded-ss shadow-sm",
+        "absolute top-2 right-0 bottom-0 left-2.5 rounded-ss shadow-sm",
         value === "dark" ? "bg-neutral-800" : "bg-white",
       ]}
     >
@@ -84,6 +85,7 @@ const themes = [
             value={theme.value}
           />
           <span
+            aria-hidden="true"
             class={["relative block h-[70px] w-[88px] overflow-hidden rounded-lg shadow-xs transition-shadow not-peer-data-checked:opacity-80 peer-data-checked:ring-2 peer-data-checked:ring-primary/48 peer-data-checked:ring-offset-1 peer-data-checked:ring-offset-background peer-data-disabled:cursor-not-allowed peer-data-disabled:opacity-64", theme.class]}
           >
             {@render preview(theme.value)}

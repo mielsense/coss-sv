@@ -72,6 +72,16 @@ async function openParticle(id) {
   await page.locator("[data-preview-ready='true']").waitFor();
 }
 
+async function assertPreviewWidth(id, expectedWidth) {
+  await openParticle(id);
+  const box = await page.locator('[data-slot="preview"]').boundingBox();
+  assert.ok(box, `${id} preview should have measurable geometry`);
+  assert.ok(
+    Math.abs(box.width - expectedWidth) <= 0.5,
+    `${id} preview width should be ${expectedWidth}px, received ${box.width}px`,
+  );
+}
+
 try {
   await openParticle("p-toggle-8");
   const bookmark = page.getByRole("button", { name: "Bookmark this" });
@@ -140,11 +150,54 @@ try {
     );
   }
 
+  await assertPreviewWidth("p-radio-group-6", 320);
+  for (const id of [
+    "p-slider-13",
+    "p-slider-14",
+    "p-slider-15",
+    "p-slider-16",
+    "p-slider-21",
+    "p-slider-22",
+    "p-slider-23",
+  ]) {
+    await assertPreviewWidth(id, 256);
+  }
+  for (const id of ["p-switch-7", "p-switch-8", "p-switch-9"]) {
+    await assertPreviewWidth(id, 896);
+  }
+
+  await page.setViewportSize({ height: 900, width: 500 });
+  await assertPreviewWidth("p-switch-7", 452);
+  await page.setViewportSize({ height: 900, width: 1440 });
+
   await openParticle("p-radio-group-6");
   const system = page.getByRole("radio", { name: "System", exact: true });
   const light = page.getByRole("radio", { name: "Light", exact: true });
   const dark = page.getByRole("radio", { name: "Dark", exact: true });
   assert.equal(await system.isChecked(), true);
+  const themeGeometry = await light.evaluate((element) => {
+    const card = element.nextElementSibling?.nextElementSibling;
+    const panel = card?.firstElementChild;
+    if (!(card instanceof HTMLElement) || !(panel instanceof HTMLElement)) return null;
+    const cardBox = card.getBoundingClientRect();
+    const panelBox = panel.getBoundingClientRect();
+    return {
+      cardHeight: cardBox.height,
+      cardWidth: cardBox.width,
+      panelHeight: panelBox.height,
+      panelLeft: panelBox.x - cardBox.x,
+      panelTop: panelBox.y - cardBox.y,
+      panelWidth: panelBox.width,
+    };
+  });
+  assert.deepEqual(themeGeometry, {
+    cardHeight: 70,
+    cardWidth: 88,
+    panelHeight: 62,
+    panelLeft: 10,
+    panelTop: 8,
+    panelWidth: 78,
+  });
   await light.locator("xpath=following-sibling::span[1]").click();
   assert.equal(await light.isChecked(), true);
   await page.getByText("Dark", { exact: true }).click();

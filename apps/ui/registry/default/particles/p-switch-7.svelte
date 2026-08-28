@@ -1,7 +1,7 @@
 <script module lang="ts">
-import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+import { defineParticleMeta, type ParticleMeta } from "$lib/registry/particle-metadata.js";
 
-export const meta = defineParticleMeta({
+const particleMeta = {
   components: [
     "button",
     "checkbox",
@@ -13,13 +13,16 @@ export const meta = defineParticleMeta({
     "switch",
     "tooltip",
   ],
-  containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-3xl",
+  colSpan: 2,
+  containerClass: "**:data-[slot=preview]:w-full sm:**:data-[slot=preview]:max-w-4xl",
   id: "p-switch-7",
   iframeHeight: 540,
   interactive: true,
   responsive: true,
   title: "Weekly availability 7",
-});
+} satisfies ParticleMeta & { readonly colSpan: 2 };
+
+export const meta = defineParticleMeta(particleMeta);
 </script>
 
 <script lang="ts">

@@ -254,7 +254,65 @@ describe("D5 control examples", () => {
     const dark = page.getByRole("radio", { name: "Dark", exact: true });
 
     await expect.element(system).toBeChecked();
+
+    const systemCard = system.element().nextElementSibling?.nextElementSibling;
     const lightCard = light.element().nextElementSibling?.nextElementSibling;
+    expect(systemCard).toBeInstanceOf(HTMLElement);
+    expect(lightCard).toBeInstanceOf(HTMLElement);
+
+    const assertRect = (
+      element: Element | null,
+      expected: { height: number; left: number; top: number; width: number },
+      origin: DOMRect,
+    ) => {
+      expect(element).toBeInstanceOf(HTMLElement);
+      const rect = (element as HTMLElement).getBoundingClientRect();
+      expect(rect.left - origin.left).toBeCloseTo(expected.left, 1);
+      expect(rect.top - origin.top).toBeCloseTo(expected.top, 1);
+      expect(rect.width).toBeCloseTo(expected.width, 1);
+      expect(rect.height).toBeCloseTo(expected.height, 1);
+    };
+
+    const lightCardRect = (lightCard as HTMLElement).getBoundingClientRect();
+    expect(lightCardRect.width).toBeCloseTo(88, 1);
+    expect(lightCardRect.height).toBeCloseTo(70, 1);
+    const lightPanel = lightCard?.firstElementChild ?? null;
+    assertRect(lightPanel, { height: 62, left: 10, top: 8, width: 78 }, lightCardRect);
+    const lightPanelChildren = lightPanel?.children ?? [];
+    assertRect(
+      lightPanelChildren[0] ?? null,
+      { height: 16, left: 10, top: 10, width: 16 },
+      lightPanel?.getBoundingClientRect() ?? lightCardRect,
+    );
+    assertRect(
+      lightPanelChildren[1] ?? null,
+      { height: 4, left: 10, top: 34, width: 58 },
+      lightPanel?.getBoundingClientRect() ?? lightCardRect,
+    );
+    assertRect(
+      lightPanelChildren[2] ?? null,
+      { height: 4, left: 10, top: 41, width: 58 },
+      lightPanel?.getBoundingClientRect() ?? lightCardRect,
+    );
+    assertRect(
+      lightPanelChildren[3] ?? null,
+      { height: 4, left: 10, top: 48, width: 29 },
+      lightPanel?.getBoundingClientRect() ?? lightCardRect,
+    );
+
+    const systemCardRect = (systemCard as HTMLElement).getBoundingClientRect();
+    const systemPanels = Array.from(systemCard?.children ?? []).slice(2);
+    assertRect(
+      systemPanels[0] ?? null,
+      { height: 62, left: 10, top: 8, width: 34 },
+      systemCardRect,
+    );
+    assertRect(
+      systemPanels[1] ?? null,
+      { height: 62, left: 54, top: 8, width: 34 },
+      systemCardRect,
+    );
+
     expect(lightCard).toBeInstanceOf(HTMLElement);
     await userEvent.click(lightCard as HTMLElement);
     await expect.element(light).toBeChecked();

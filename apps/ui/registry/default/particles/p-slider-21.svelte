@@ -6,7 +6,7 @@ export const meta = defineParticleMeta({
   interactive: true,
   responsive: true,
   title: "Object position",
-  containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-96",
+  containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64",
 });
 </script>
 
