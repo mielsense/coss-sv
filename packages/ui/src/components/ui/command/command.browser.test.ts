@@ -28,4 +28,15 @@ describe("Command browser contract", () => {
     await page.getByRole("combobox", { name: "Search commands" }).fill("missing");
     await expect.element(page.getByText("No results found.")).toBeVisible();
   });
+
+  test("dismisses with Escape and restores focus to the dialog trigger", async () => {
+    render(Fixture);
+    const trigger = page.getByRole("button", { name: "Open Command Palette" });
+    await trigger.click();
+    const input = page.getByRole("combobox", { name: "Search commands" });
+    await expect.element(input).toHaveFocus();
+    await userEvent.keyboard("{Escape}");
+    await expect.element(page.getByRole("dialog")).not.toBeInTheDocument();
+    await expect.element(trigger).toHaveFocus();
+  });
 });

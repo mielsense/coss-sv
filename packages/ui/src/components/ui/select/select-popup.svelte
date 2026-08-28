@@ -36,18 +36,11 @@ let positioner = $state<HTMLElement | null>(null);
 let alignDelta = $state(0);
 let sideDelta = $state(0);
 const anchorProps = $derived(anchor === undefined ? {} : { anchor });
-const resolvedAlignOffset = $derived.by(() => {
-  if (!alignItemWithTrigger) return alignOffset;
-  if (typeof alignOffset === "function")
-    return (data: Parameters<typeof alignOffset>[0]) => alignOffset(data) + alignDelta;
-  return alignOffset + alignDelta;
-});
-const resolvedSideOffset = $derived.by(() => {
-  if (!alignItemWithTrigger) return sideOffset;
-  if (typeof sideOffset === "function")
-    return (data: Parameters<typeof sideOffset>[0]) => sideOffset(data) + sideDelta;
-  return sideOffset + sideDelta;
-});
+const positionerStyle = $derived(
+  alignItemWithTrigger && (alignDelta !== 0 || sideDelta !== 0)
+    ? `translate: ${alignDelta}px ${sideDelta}px`
+    : undefined,
+);
 function frame() {
   return new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
 }
@@ -59,6 +52,7 @@ async function alignSelected(cancelled: () => boolean) {
     await tick();
     await frame();
     if (cancelled()) return;
+    if (pos.hidden || pos.style.opacity === "0" || pos.style.transform === "") continue;
     const item = pos.querySelector<HTMLElement>('[role="option"][aria-selected="true"]');
     const triggerLabel = trigger.querySelector<HTMLElement>('[data-slot="select-value"]');
     const itemLabel = item?.querySelector<HTMLElement>(".col-start-2");
@@ -68,10 +62,25 @@ async function alignSelected(cancelled: () => boolean) {
     const tl = triggerLabel.getBoundingClientRect();
     const il = itemLabel.getBoundingClientRect();
     const y = tr.top + tr.height / 2 - (ir.top + ir.height / 2);
-    const x = tl.left - il.left;
+    const rtl = getComputedStyle(pos).direction === "rtl";
+    const x = rtl ? tl.right - il.right : tl.left - il.left;
     if (Math.abs(y) <= 0.5 && Math.abs(x) <= 0.5) return;
+    const needsX = Math.abs(x) > 0.5;
+    const needsY = Math.abs(y) > 0.5;
+    const previousRect = pos.getBoundingClientRect();
     if (Math.abs(y) > 0.5) sideDelta += y;
     if (Math.abs(x) > 0.5) alignDelta += x;
+    await tick();
+    let movedX = !needsX;
+    let movedY = !needsY;
+    for (let wait = 0; wait < 8 && (!movedX || !movedY); wait += 1) {
+      await frame();
+      if (cancelled()) return;
+      const nextRect = pos.getBoundingClientRect();
+      movedX ||= Math.abs(nextRect.left - previousRect.left) > 0.5;
+      movedY ||= Math.abs(nextRect.top - previousRect.top) > 0.5;
+    }
+    if (!movedX || !movedY) return;
   }
 }
 $effect(() => {
@@ -96,14 +105,15 @@ $effect(() => {
 <S.Portal {...portalProps}
   ><S.Positioner
     {align}
-    alignOffset={resolvedAlignOffset}
+    {alignOffset}
     {...anchorProps}
     bind:ref={positioner}
     class="z-50 select-none"
     data-side={alignItemWithTrigger?"none":undefined}
     data-slot="select-positioner"
     {side}
-    sideOffset={resolvedSideOffset}
+    {sideOffset}
+    style={positionerStyle}
     ><S.Popup
       bind:ref
       class="origin-(--transform-origin) text-foreground outline-none"

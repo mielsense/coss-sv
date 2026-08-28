@@ -79,6 +79,23 @@ const adornmentPosition = $derived(size === "sm" ? "end-0" : "end-0.5");
     <ComboboxTrigger class={cn(adornmentClass, adornmentPosition)} {...triggerProps} />
   {/if}
   {#if showClear}
-    <ComboboxClear class={cn(adornmentClass, adornmentPosition)} {...clearProps} />
+    <ComboboxClear aria-label="Clear" class={cn(adornmentClass, adornmentPosition)} {...clearProps}>
+      {#snippet children()}
+        <svg
+          aria-hidden="true"
+          fill="none"
+          height="24"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+          width="24"
+        >
+          <path d="M18 6 6 18" />
+          <path d="m6 6 12 12" />
+        </svg>
+      {/snippet}
+    </ComboboxClear>
   {/if}
 </C.InputGroup>

@@ -8,7 +8,7 @@ afterEach(cleanup);
 describe("Select browser contract", () => {
   test("supports keyboard navigation, typeahead, disabled items, form values, and item alignment", async () => {
     render(Fixture);
-    const trigger = page.getByRole("combobox", { name: "Framework" });
+    const trigger = page.getByRole("combobox", { exact: true, name: "Framework" });
     await expect.element(trigger).toHaveTextContent("Next.js");
     trigger.element().focus();
     await userEvent.keyboard("v");
@@ -22,6 +22,7 @@ describe("Select browser contract", () => {
     await userEvent.keyboard("{Enter}");
     await expect.element(page.getByTestId("framework-value")).toHaveTextContent("vite");
     await userEvent.keyboard("{Escape}");
+    await expect.element(trigger).toHaveFocus();
     expect(
       new FormData(page.getByTestId("select-form").element() as HTMLFormElement).get("framework"),
     ).toBe("vite");
@@ -48,5 +49,32 @@ describe("Select browser contract", () => {
     await trigger.click();
     await page.getByRole("option", { name: "Grace Hopper" }).click();
     await expect.element(page.getByTestId("select-identity")).toHaveTextContent("same");
+  });
+
+  test("aligns the selected item label with the trigger value in RTL", async () => {
+    render(Fixture);
+    await page.getByRole("combobox", { name: "RTL framework" }).click();
+    const positioner = document.querySelector<HTMLElement>(
+      '[data-slot="select-positioner"][data-side="none"]',
+    );
+    const triggerValue = page
+      .getByTestId("rtl-trigger")
+      .element()
+      .querySelector<HTMLElement>('[data-slot="select-value"]');
+    const itemLabel = positioner
+      ?.querySelector<HTMLElement>('[role="option"][aria-selected="true"]')
+      ?.querySelector<HTMLElement>(".col-start-2");
+    expect(positioner).toBeTruthy();
+    expect(triggerValue).toBeTruthy();
+    expect(itemLabel).toBeTruthy();
+    expect(getComputedStyle(positioner as HTMLElement).direction).toBe("rtl");
+    await expect
+      .poll(() =>
+        Math.abs(
+          (triggerValue?.getBoundingClientRect().right ?? 0) -
+            (itemLabel?.getBoundingClientRect().right ?? 0),
+        ),
+      )
+      .toBeLessThanOrEqual(1);
   });
 });

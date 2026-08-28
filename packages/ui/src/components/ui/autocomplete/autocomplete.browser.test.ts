@@ -47,4 +47,16 @@ describe("Autocomplete browser contract", () => {
     await expect.element(page.getByRole("option", { name: "Async result" })).toBeVisible();
     await expect.element(page.getByText("Searching...")).not.toBeInTheDocument();
   });
+
+  test("stringifies object items to the exact selected text", async () => {
+    render(Fixture);
+    const input = page.getByRole("combobox", { name: "Person search" });
+    await input.fill("Grace");
+    input.element().focus();
+    await userEvent.keyboard("{ArrowDown}{Enter}");
+    await expect
+      .element(page.getByTestId("autocomplete-object-value"))
+      .toHaveTextContent("Grace Hopper");
+    await expect.element(input).toHaveValue("Grace Hopper");
+  });
 });

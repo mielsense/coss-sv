@@ -14,7 +14,7 @@ The particles cover sizes, disabled and invalid states, add-ons, clear and trigg
 
 The complete implementation and exported types under `shardsui/packages/shardsui/src/lib/components/combobox/`, the Combobox documentation and demos, and every Combobox test and fixture were inspected. Shards owns filtering, item identity, single and multiple state, active-descendant focus, keyboard behavior, chips, hidden form values, portal placement, and collection updates.
 
-Context7 returned `Monthly quota reached`, so the implementation follows the pinned local Svelte Edge references and the complete local Shards source. Chrome was not used.
+Current Svelte documentation was checked through Context7 alongside the pinned local Svelte Edge references. Chrome was not used.
 
 ## Translation decisions
 
@@ -23,7 +23,7 @@ Context7 returned `Monthly quota reached`, so the implementation follows the pin
 - The standard input, chips input, chips frame, chip, and chip-removal parts preserve the exact COSS classes, icons, slots, and size behavior.
 - The popup splits Portal, Positioner, outer frame, and primitive Popup props. Group, label, row, status, empty, separator, list, trigger, clear, value, and collection parts remain available as namespace and long-form exports.
 - Single and multiple generic values remain intact. Selected object values are not reconstructed from display strings.
-- Clear and chip-removal controls have the accessible names `Clear` and `Remove`, with consumer overrides preserved.
+- Bare `Combobox.Clear` is an unstyled Shards wrapper with no invented child or accessible name. `Combobox.Input showClear` owns the COSS X icon and its `Clear` name; `clearProps` can override that composition. Chip removal retains its COSS `Remove` name.
 
 ## Verification targets
 
@@ -35,3 +35,7 @@ Context7 returned `Monthly quota reached`, so the implementation follows the pin
 ## Browser evidence
 
 The Codex in-app Browser rendered all twenty particle sections. The default input group measured `256×32` pixels, the multiple example rendered its two initial chips, and both external-selection examples rendered two initial member rows. Typing `ora`, navigating to Orange, and pressing Enter closed the popup and synchronized the input to `Orange`. No external Chrome window was used.
+
+## Repair verification
+
+The repair reread the complete COSS wrapper, documentation page, all twenty particles, and the complete local Shards Combobox implementation, documentation, tests, fixtures, and types. SSR coverage distinguishes the bare clear part from the clear button composed by `Combobox.Input`. Browser coverage exercises single and multiple selection, synchronized input text, exact object identity, chip removal, repeated form values, and clearing the composed input.

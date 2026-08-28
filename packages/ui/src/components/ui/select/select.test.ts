@@ -10,6 +10,12 @@ describe("Select SSR and export contract", () => {
     expect(body).toContain('data-slot="select-trigger"');
     expect(body).toContain('data-slot="select-value"');
     expect(body).toContain("relative inline-flex min-h-9");
+    expect(body).toContain(
+      "not-in-data-[slot=field]:mb-2 inline-flex cursor-default items-center gap-2 font-medium text-base/4.5 text-foreground sm:text-sm/4",
+    );
+    expect(body).not.toContain(
+      'data-slot="select-label" class="px-2 py-1.5 font-medium text-muted-foreground text-xs"',
+    );
   });
   test("exports the compound, aliases, and Shards primitive", () => {
     expect(Select.Select).toBe(Select.Root);

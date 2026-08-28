@@ -18,7 +18,7 @@ let {
   dataSlot,
   ref = $bindable(null),
   ...props
-}: CommandPartProps & { baseClass: string; dataSlot: string } = $props();
+}: CommandPartProps & { baseClass: string; dataSlot?: string } = $props();
 </script>
 <svelte:element
   this={as}

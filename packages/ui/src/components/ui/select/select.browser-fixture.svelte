@@ -1,4 +1,5 @@
 <script lang="ts">
+import { DirectionProvider } from "@shardsui/svelte";
 import * as Select from "./index.js";
 const frameworks = [
   { label: "Next.js", value: "next" },
@@ -13,6 +14,7 @@ const people = [
 ];
 let person = $state<(typeof people)[number] | null>(null);
 let personIdentity = $state("different");
+let rtlContainer = $state<HTMLElement | null>(null);
 </script>
 
 <form data-testid="select-form">
@@ -56,3 +58,35 @@ let personIdentity = $state("different");
   </Select.Popup>
 </Select.Root>
 <output data-testid="select-identity">{personIdentity}</output>
+
+<div bind:this={rtlContainer} dir="rtl">
+  <DirectionProvider direction="rtl">
+    <Select.Root aria-label="RTL framework" items={frameworks} value="next">
+      <Select.Trigger data-testid="rtl-trigger"><Select.Value /></Select.Trigger>
+      <Select.Popup portalProps={{ container: rtlContainer }}>
+        {#each frameworks as item (item.value)}
+          <Select.Item value={item.value}>{item.label}</Select.Item>
+        {/each}
+      </Select.Popup>
+    </Select.Root>
+  </DirectionProvider>
+</div>
+
+<style>
+:global([dir="rtl"] [data-testid="rtl-trigger"]) {
+  display: flex;
+  width: 144px;
+  padding-inline: 12px;
+}
+
+:global([dir="rtl"] [data-slot="select-popup"]) {
+  min-width: 164px;
+}
+
+:global([dir="rtl"] [data-slot="select-item"]) {
+  display: grid;
+  grid-template-columns: 16px 1fr;
+  gap: 8px;
+  padding-inline: 8px 16px;
+}
+</style>

@@ -6,6 +6,11 @@ let inlineValue = $state("");
 let asyncItems = $state<string[]>([]);
 let asyncPending = $state(false);
 let asyncRequest = 0;
+const people = [
+  { id: "ada", name: "Ada Lovelace" },
+  { id: "grace", name: "Grace Hopper" },
+];
+let personValue = $state("");
 
 async function searchAsync(query: string): Promise<void> {
   const request = ++asyncRequest;
@@ -53,6 +58,24 @@ async function searchAsync(query: string): Promise<void> {
     </Autocomplete.List>
   </Autocomplete.Popup>
 </Autocomplete.Root>
+
+<Autocomplete.Root
+  bind:value={personValue}
+  items={people}
+  itemToStringValue={(item: (typeof people)[number]) => item.name}
+>
+  <Autocomplete.Input aria-label="Person search" />
+  <Autocomplete.Popup>
+    <Autocomplete.List>
+      <Autocomplete.Collection>
+        {#snippet children(item: (typeof people)[number])}
+          <Autocomplete.Item value={item}>{item.name}</Autocomplete.Item>
+        {/snippet}
+      </Autocomplete.Collection>
+    </Autocomplete.List>
+  </Autocomplete.Popup>
+</Autocomplete.Root>
+<output data-testid="autocomplete-object-value">{personValue}</output>
 <output data-testid="inline-value">{inlineValue}</output>
 
 <Autocomplete.Root filter={null} items={asyncItems} onValueChange={searchAsync}>

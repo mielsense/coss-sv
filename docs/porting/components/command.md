@@ -15,12 +15,12 @@ The two particles cover dialog command palettes, grouped apps and actions, filte
 
 Shards has no separate Command primitive. The complete local Autocomplete and Dialog implementations, exported types, documentation, demos, tests, and fixtures were inspected because those primitives jointly provide the behavior. The local ScrollArea implementation was also inspected for the command list composition.
 
-Context7 returned `Monthly quota reached`; the implementation follows the pinned local Svelte Edge references and the inspected local primitives. Chrome was not used.
+Current Svelte documentation was checked through Context7 alongside the pinned local Svelte Edge references. Chrome was not used.
 
 ## Translation decisions
 
 - `Command.Root` is an always-open inline Shards Autocomplete with `autoHighlight="always"` and `keepHighlight`, matching the COSS command surface.
-- Command input, panel, list, empty, group, label, item, separator, shortcut, and footer preserve the exact COSS slots and class strings. The shared Autocomplete input and list retain the original input and ScrollArea behavior.
+- Command input, list, empty, group, label, item, separator, shortcut, and footer preserve the exact COSS slots and class strings. `Command.Panel` deliberately has no `data-slot`, matching the COSS wrapper. The shared Autocomplete input and list retain the original input and ScrollArea behavior.
 - `Command.DialogRoot`, `DialogTrigger`, `DialogBackdrop`, `DialogViewport`, and `DialogPopup` compose Shards Dialog. The popup retains the exact COSS nested-dialog CSS variables, frame, motion, backdrop, and viewport geometry.
 - The command handle is the Shards Dialog handle, so detached triggers and payload-driven dialogs remain available without shared module state.
 - Item selection callbacks stay normal Svelte callback props. Consumers decide whether selection closes a dialog or navigates to a nested command page.
@@ -35,3 +35,7 @@ Context7 returned `Monthly quota reached`; the implementation follows the pinned
 ## Browser evidence
 
 The Codex in-app Browser rendered both particle sections. Opening the first palette focused the search input and exposed the Suggestions and Commands groups with the exact navigation footer. In the AI particle, entering `create a project` and pressing Tab showed seven skeletons plus `Generating response…`; after the upstream 1.5-second delay, the response and all three reference links replaced the loading state. No external Chrome window was used.
+
+## Repair verification
+
+The repair reread the complete COSS wrapper, documentation page, both direct particles, all indirect importers, and the complete local Shards Autocomplete and Dialog sources, docs, tests, fixtures, and exported types. SSR coverage rejects an invented `command-panel` slot. Browser tests cover grouped filtering, empty results, active-descendant navigation, Enter selection, initial focus, Escape dismissal, and trigger focus restoration.

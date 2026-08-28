@@ -51,4 +51,18 @@ describe("Combobox browser contract", () => {
     await userEvent.keyboard("{ArrowDown}{Enter}");
     await expect.element(page.getByTestId("combobox-identity")).toHaveTextContent("grace:same");
   });
+
+  test("clears the composed input without inventing a public clear-button child", async () => {
+    render(Fixture);
+    const input = page.getByRole("combobox", { name: "Choose fruit", exact: true });
+    await input.fill("Orange");
+    input.element().focus();
+    await userEvent.keyboard("{ArrowDown}{Enter}");
+    await page.getByRole("button", { name: "Clear" }).first().click();
+    await expect.element(input).toHaveValue("");
+    await expect.element(page.getByTestId("single-value")).toHaveTextContent("");
+    expect(
+      new FormData(page.getByTestId("combobox-form").element() as HTMLFormElement).get("fruit"),
+    ).toBe("");
+  });
 });
