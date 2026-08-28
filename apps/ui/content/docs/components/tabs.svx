@@ -1,0 +1,96 @@
+---
+title: Tabs
+description: A component for toggling between related panels on the same page.
+
+links:
+  doc: https://shardsui.com/svelte/tabs
+---
+
+<ComponentPreview name="p-tabs-1" />
+
+## Installation
+
+<InstallCommand pnpm="pnpm add @shardsui/svelte" shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/tabs.json" />
+
+The registry installs the shared segmented-control styling automatically.
+
+## Usage
+
+```svelte
+<script lang="ts">
+  import * as Tabs from "@coss-sv/ui/components/ui/tabs";
+</script>
+
+<Tabs.Root defaultValue="tab-1">
+  <Tabs.List>
+    <Tabs.Tab value="tab-1">Tab 1</Tabs.Tab>
+    <Tabs.Tab value="tab-2">Tab 2</Tabs.Tab>
+    <Tabs.Tab value="tab-3">Tab 3</Tabs.Tab>
+  </Tabs.List>
+  <Tabs.Panel value="tab-1">Tab 1 content</Tabs.Panel>
+  <Tabs.Panel value="tab-2">Tab 2 content</Tabs.Panel>
+  <Tabs.Panel value="tab-3">Tab 3 content</Tabs.Panel>
+</Tabs.Root>
+```
+
+## API Reference
+
+### Tabs.Root
+
+The root component owns selection, orientation, activation, roving focus, and keyboard behavior.
+Use `value` and `bind:value` for controlled state, or `defaultValue` for the initial value.
+
+### Tabs.List
+
+The container for tab triggers. It inserts the styled active indicator and provides the shared
+`size` and `variant` values.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `size` | `"sm" \| "default" \| "lg"` | `"default"` | Controls the size of all tab items. |
+| `variant` | `"default" \| "underline"` | `"default"` | Controls the tab styling. |
+
+### Tabs.Tab
+
+An individual tab trigger. Shards manages its selected, disabled, and focus states.
+
+### Tabs.Panel
+
+The content panel associated with a tab value.
+
+### Tabs.Indicator
+
+The visual indicator for the active tab. `Tabs.List` includes it automatically; the part remains
+available for custom compositions.
+
+See the [Shards Tabs API](https://shardsui.com/svelte/tabs) for activation, focus-loop, orientation,
+and mounting props.
+
+## Examples
+
+For guidance on choosing between Tabs, Radio Group, Toggle Group, and navigation links, see the
+[Segmented Control](/docs/components/segmented-control) pattern.
+
+Tabs use the same optical sizing as segmented controls. The default surface is slightly taller than
+a Button of the same size so its inset active indicator remains visually balanced alongside adjacent
+controls.
+
+### Small
+
+<ComponentPreview name="p-tabs-14" />
+
+### Large
+
+<ComponentPreview name="p-tabs-15" />
+
+### Underline Variant
+
+<ComponentPreview name="p-tabs-2" />
+
+### Vertical Orientation
+
+<ComponentPreview name="p-tabs-3" />
+
+### Underline with Vertical Orientation
+
+<ComponentPreview name="p-tabs-4" />

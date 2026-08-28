@@ -1,0 +1,73 @@
+---
+title: Accordion
+description: A set of collapsible panels with headings and content.
+
+links:
+  doc: https://shardsui.com/svelte/accordion
+---
+
+<ComponentPreview name="p-accordion-1" align="start" />
+
+## Installation
+
+<InstallCommand pnpm="pnpm add @shardsui/svelte" shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/accordion.json" />
+
+## Usage
+
+```svelte
+<script lang="ts">
+  import * as Accordion from "@coss-sv/ui/components/ui/accordion";
+</script>
+
+<Accordion.Root>
+  <Accordion.Item value="item-1">
+    <Accordion.Header>
+      <Accordion.Trigger>Is it accessible?</Accordion.Trigger>
+    </Accordion.Header>
+    <Accordion.Panel>
+      Yes. It adheres to the WAI-ARIA design pattern.
+    </Accordion.Panel>
+  </Accordion.Item>
+</Accordion.Root>
+```
+
+## API Reference
+
+### Accordion.Root
+
+The root component owns single or multiple selection. Use `value` and `bind:value` for controlled
+state, or `defaultValue` for the initial uncontrolled value.
+
+### Accordion.Item
+
+An individual accordion item. Each item needs a unique `value` and keeps the COSS bottom border.
+
+### Accordion.Header
+
+The heading wrapper for an item trigger.
+
+### Accordion.Trigger
+
+The button that toggles its panel. It includes the COSS chevron, which rotates when the item opens.
+
+### Accordion.Panel
+
+The collapsible content panel. It uses the Shards accordion measurements and transition state while
+keeping the COSS height animation. `Accordion.Content` is an alias.
+
+See the [Shards Accordion API](https://shardsui.com/svelte/accordion) for primitive state, keyboard,
+and accessibility props.
+
+## Examples
+
+### Single Accordion
+
+<ComponentPreview name="p-accordion-2" align="start" />
+
+### Multiple Accordion
+
+<ComponentPreview name="p-accordion-3" align="start" />
+
+### Controlled Accordion
+
+<ComponentPreview name="p-accordion-4" align="start" />

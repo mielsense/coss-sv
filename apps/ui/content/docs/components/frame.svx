@@ -1,0 +1,92 @@
+---
+title: Frame
+description: A framed container for grouping related information.
+---
+
+<ComponentPreview name="p-frame-1" />
+
+## Installation
+
+<InstallCommand pnpm="pnpm add @shardsui/svelte" shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/frame.json" />
+
+## Usage
+
+```svelte
+<script lang="ts">
+  import {
+    Frame,
+    FrameDescription,
+    FrameFooter,
+    FrameHeader,
+    FramePanel,
+    FrameTitle,
+  } from "@coss-sv/ui/components/ui/frame";
+</script>
+
+<Frame>
+  <FrameHeader>
+    <FrameTitle>Title</FrameTitle>
+    <FrameDescription>Description</FrameDescription>
+  </FrameHeader>
+  <FramePanel>Content</FramePanel>
+  <FrameFooter>Footer</FrameFooter>
+</Frame>
+```
+
+## API Reference
+
+### Frame
+
+The main container for grouping related information. It accepts native `div` attributes, a bindable
+`ref`, snippets, and `class`.
+
+### FramePanel
+
+A panel container for frame content. It accepts native `div` attributes.
+
+```svelte
+<FramePanel>Content</FramePanel>
+```
+
+### FrameHeader
+
+The semantic header section for a frame.
+
+```svelte
+<FrameHeader>
+  <FrameTitle>Title</FrameTitle>
+  <FrameDescription>Description</FrameDescription>
+</FrameHeader>
+```
+
+### FrameTitle
+
+The frame heading text.
+
+```svelte
+<FrameTitle>Title</FrameTitle>
+```
+
+### FrameDescription
+
+The supporting text for a frame header.
+
+```svelte
+<FrameDescription>Description</FrameDescription>
+```
+
+### FrameFooter
+
+The semantic footer section for a frame.
+
+```svelte
+<FrameFooter>Footer</FrameFooter>
+```
+
+## Examples
+
+### Separated Panels
+
+By default, multiple panels are separated with spacing between them.
+
+<ComponentPreview name="p-frame-3" />

@@ -1,0 +1,71 @@
+---
+title: Empty
+description: A container for displaying empty state information.
+---
+
+<ComponentPreview name="p-empty-1" />
+
+## Installation
+
+<InstallCommand pnpm="pnpm add @shardsui/svelte" shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/empty.json" />
+
+## Usage
+
+```svelte
+<script lang="ts">
+  import { Button } from "@coss-sv/ui/components/ui/button";
+  import {
+    Empty,
+    EmptyContent,
+    EmptyDescription,
+    EmptyHeader,
+    EmptyMedia,
+    EmptyTitle,
+  } from "@coss-sv/ui/components/ui/empty";
+</script>
+
+<Empty>
+  <EmptyHeader>
+    <EmptyMedia variant="icon">Icon</EmptyMedia>
+    <EmptyTitle>No data</EmptyTitle>
+    <EmptyDescription>No data found</EmptyDescription>
+  </EmptyHeader>
+  <EmptyContent>
+    <Button>Add data</Button>
+  </EmptyContent>
+</Empty>
+```
+
+## API Reference
+
+This API follows the familiar shadcn/ui empty-state composition. Every part accepts native `div`
+attributes, snippets, `class`, and a bindable `ref`.
+
+### Empty
+
+The empty-state root. It wraps `EmptyHeader` and `EmptyContent`.
+
+### EmptyHeader
+
+Groups the media, title, and description.
+
+### EmptyMedia
+
+Displays an icon, image, avatar, or another visual. The `icon` variant adds the COSS layered media
+treatment.
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `variant` | `"default" \| "icon"` | `"default"` |
+
+### EmptyTitle
+
+The empty-state title.
+
+### EmptyDescription
+
+Supporting text for the empty state.
+
+### EmptyContent
+
+Actions or other supporting controls for the empty state.

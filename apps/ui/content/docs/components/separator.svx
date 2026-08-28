@@ -1,0 +1,33 @@
+---
+title: Separator
+description: A separator element accessible to screen readers.
+
+links:
+  doc: https://shardsui.com/svelte/separator
+---
+
+<ComponentPreview name="p-separator-1" />
+
+## Installation
+
+<InstallCommand pnpm="pnpm add @shardsui/svelte" shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/separator.json" />
+
+## Usage
+
+```svelte
+<script lang="ts">
+  import { Separator } from "@coss-sv/ui/components/ui/separator";
+</script>
+
+<Separator />
+```
+
+## API Reference
+
+### Separator
+
+An accessible dividing line. It renders horizontally by default, exposes its orientation to
+assistive technology, forwards native attributes, and keeps the COSS muted border color.
+
+See the [Shards Separator API](https://shardsui.com/svelte/separator) for element and orientation
+props.

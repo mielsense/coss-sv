@@ -1,0 +1,48 @@
+---
+title: Collapsible
+description: A collapsible panel controlled by a button trigger.
+
+links:
+  doc: https://shardsui.com/svelte/collapsible
+---
+
+<ComponentPreview name="p-collapsible-1" />
+
+## Installation
+
+<InstallCommand pnpm="pnpm add @shardsui/svelte" shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/collapsible.json" />
+
+## Usage
+
+```svelte
+<script lang="ts">
+  import * as Collapsible from "@coss-sv/ui/components/ui/collapsible";
+</script>
+
+<Collapsible.Root>
+  <Collapsible.Trigger>Can I access the file in the cloud?</Collapsible.Trigger>
+  <Collapsible.Panel>
+    Yes, you can access the file in the cloud.
+  </Collapsible.Panel>
+</Collapsible.Root>
+```
+
+## API Reference
+
+### Collapsible.Root
+
+The root component owns the open state. Use `open` and `bind:open` for controlled state, or
+`defaultOpen` for the initial uncontrolled state.
+
+### Collapsible.Trigger
+
+The button that toggles the panel. Its `delegate` snippet can merge Collapsible behavior into a
+styled button without adding another DOM element.
+
+### Collapsible.Panel
+
+The collapsible content panel. It uses Shards mounting, ARIA relationships, measurements, and
+transition state with the COSS height animation. `Collapsible.Content` is an alias.
+
+See the [Shards Collapsible API](https://shardsui.com/svelte/collapsible) for the complete primitive
+contract.

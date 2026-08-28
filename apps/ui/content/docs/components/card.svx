@@ -1,0 +1,136 @@
+---
+title: Card
+description: A content container for grouping related information.
+---
+
+<ComponentPreview name="p-card-1" />
+
+## Installation
+
+<InstallCommand pnpm="pnpm add @shardsui/svelte" shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/card.json" />
+
+## Usage
+
+```svelte
+<script lang="ts">
+  import {
+    Card,
+    CardDescription,
+    CardFooter,
+    CardHeader,
+    CardPanel,
+    CardTitle,
+  } from "@coss-sv/ui/components/ui/card";
+</script>
+
+<Card>
+  <CardHeader>
+    <CardTitle>Title</CardTitle>
+    <CardDescription>Description</CardDescription>
+  </CardHeader>
+  <CardPanel>Content</CardPanel>
+  <CardFooter>Footer</CardFooter>
+</Card>
+```
+
+### CardFrame with header action
+
+Use `CardFrame` when you need a framed layout with an action button in the header, such as “Add” or
+“Connect”:
+
+```svelte
+<script lang="ts">
+  import { Button } from "@coss-sv/ui/components/ui/button";
+  import {
+    Card,
+    CardFrame,
+    CardFrameAction,
+    CardFrameDescription,
+    CardFrameHeader,
+    CardFrameTitle,
+    CardPanel,
+  } from "@coss-sv/ui/components/ui/card";
+</script>
+
+<CardFrame>
+  <CardFrameHeader>
+    <CardFrameTitle>Project</CardFrameTitle>
+    <CardFrameDescription>Manage your project settings and configuration</CardFrameDescription>
+    <CardFrameAction>
+      <Button variant="outline">Add</Button>
+    </CardFrameAction>
+  </CardFrameHeader>
+  <Card>
+    <CardPanel>Content</CardPanel>
+  </Card>
+</CardFrame>
+```
+
+### CardFrame with a table
+
+For lists or data grids, render a [Table](/docs/components/table) with `variant="card"` inside
+`CardFrame` so the grid matches the frame’s border and radius. See the CardFrame example in the Table
+docs. Add the table registry item if it is not already in the project.
+
+## API Reference
+
+Card is a native, polymorphic Svelte component family. Each part accepts snippets, native attributes,
+a bindable `ref`, `class`, and an `as` prop for changing the rendered element.
+
+### Card
+
+The card root container.
+
+### CardHeader
+
+The header section.
+
+### CardTitle
+
+The card title.
+
+### CardDescription
+
+The supporting description.
+
+### CardAction
+
+A header action container positioned to the right.
+
+### CardPanel
+
+The main content area. `CardContent` is an alias.
+
+### CardFooter
+
+The card footer.
+
+## CardFrame API Reference
+
+`CardFrame` groups a header, content, and footer with consistent styling and clipping. Use it when a
+card needs a framed layout with optional header actions.
+
+### CardFrame
+
+The framed card root.
+
+### CardFrameHeader
+
+The frame header.
+
+### CardFrameTitle
+
+The frame title.
+
+### CardFrameDescription
+
+The frame description.
+
+### CardFrameAction
+
+The action container for controls such as “Add” or “Edit”. Place it beside the title and description
+inside `CardFrameHeader`; the grid positions it in the top-right corner.
+
+### CardFrameFooter
+
+The frame footer.

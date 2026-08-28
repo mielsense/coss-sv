@@ -1,0 +1,33 @@
+---
+title: Skeleton
+description: A loading state skeleton for your components.
+---
+
+<ComponentPreview name="p-skeleton-1" />
+
+## Installation
+
+<InstallCommand pnpm="pnpm add @shardsui/svelte" shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/skeleton.json" />
+
+## Usage
+
+```svelte
+<script lang="ts">
+  import { Skeleton } from "@coss-sv/ui/components/ui/skeleton";
+</script>
+
+<Skeleton class="size-10 rounded-full" />
+```
+
+## API Reference
+
+### Skeleton
+
+A native `div` with the COSS animated loading gradient. Apply size and shape through `class`; native
+attributes, snippets, callbacks, and a bindable `ref` are forwarded.
+
+## Examples
+
+### Skeleton Only
+
+<ComponentPreview name="p-skeleton-2" />
