@@ -51,7 +51,7 @@ Generated from the pinned local reference. The status baseline names every plann
 | `select` | `reference/apps/ui/registry/default/ui/select.tsx` | `packages/ui/src/components/ui/select`<br>`apps/ui/registry/registry-ui.ts` | approved |
 | `separator` | `reference/apps/ui/registry/default/ui/separator.tsx` | `packages/ui/src/components/ui/separator`<br>`apps/ui/registry/registry-ui.ts` | approved |
 | `sheet` | `reference/apps/ui/registry/default/ui/sheet.tsx` | `packages/ui/src/components/ui/sheet`<br>`apps/ui/registry/registry-ui.ts` | approved |
-| `sidebar` | `reference/apps/ui/registry/default/ui/sidebar.tsx` | `packages/ui/src/components/ui/sidebar`<br>`apps/ui/registry/registry-ui.ts` | missing |
+| `sidebar` | `reference/apps/ui/registry/default/ui/sidebar.tsx` | `packages/ui/src/components/ui/sidebar`<br>`apps/ui/registry/registry-ui.ts` | approved |
 | `skeleton` | `reference/apps/ui/registry/default/ui/skeleton.tsx` | `packages/ui/src/components/ui/skeleton`<br>`apps/ui/registry/registry-ui.ts` | approved |
 | `slider` | `reference/apps/ui/registry/default/ui/slider.tsx` | `packages/ui/src/components/ui/slider`<br>`apps/ui/registry/registry-ui.ts` | approved |
 | `spinner` | `reference/apps/ui/registry/default/ui/spinner.tsx` | `packages/ui/src/components/ui/spinner`<br>`apps/ui/registry/registry-ui.ts` | approved |

@@ -419,6 +419,26 @@
 		"relativeUrl": "sheet.json"
 	},
 	{
+		"name": "sidebar",
+		"type": "registry:ui",
+		"description": "Builds responsive application navigation with collapsible desktop and mobile modes.",
+		"dependencies": [
+			"@hugeicons/core-free-icons@4.3.0",
+			"@hugeicons/svelte@1.1.5",
+			"@shardsui/svelte@0.1.0-beta.0"
+		],
+		"registryDependencies": [
+			"local:button",
+			"local:drawer",
+			"local:input",
+			"local:scroll-area",
+			"local:separator",
+			"local:skeleton",
+			"local:tooltip"
+		],
+		"relativeUrl": "sidebar.json"
+	},
+	{
 		"name": "skeleton",
 		"type": "registry:ui",
 		"description": "Reserves space while content is loading.",
