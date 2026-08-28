@@ -244,8 +244,12 @@
       "name": "breadcrumb",
       "type": "registry:ui",
       "description": "Shows the current page within a hierarchy.",
-      "dependencies": [],
-      "registryDependencies": [],
+      "dependencies": [
+        "@hugeicons/core-free-icons@4.3.0"
+      ],
+      "registryDependencies": [
+        "local:hugeicons-icon"
+      ],
       "files": [
         {
           "path": "../../packages/ui/src/components/ui/breadcrumb/breadcrumb.svelte",
@@ -376,9 +380,12 @@
       "type": "registry:ui",
       "description": "Lets a user select or clear an option.",
       "dependencies": [
+        "@hugeicons/core-free-icons@4.3.0",
         "@shardsui/svelte@0.1.0-beta.0"
       ],
-      "registryDependencies": [],
+      "registryDependencies": [
+        "local:hugeicons-icon"
+      ],
       "files": [
         {
           "path": "../../packages/ui/src/components/ui/checkbox/checkbox.svelte",
@@ -647,9 +654,12 @@
       "type": "registry:ui",
       "description": "Opens a menu at the pointer position for contextual actions.",
       "dependencies": [
+        "@hugeicons/core-free-icons@4.3.0",
         "@shardsui/svelte@0.1.0-beta.0"
       ],
-      "registryDependencies": [],
+      "registryDependencies": [
+        "local:hugeicons-icon"
+      ],
       "files": [
         {
           "path": "../../packages/ui/src/components/ui/context-menu/context-menu-checkbox-item.svelte",
@@ -734,10 +744,12 @@
       "type": "registry:ui",
       "description": "Displays focused content in a modal or non-modal overlay.",
       "dependencies": [
+        "@hugeicons/core-free-icons@4.3.0",
         "@shardsui/svelte@0.1.0-beta.0"
       ],
       "registryDependencies": [
         "local:button",
+        "local:hugeicons-icon",
         "local:scroll-area"
       ],
       "files": [
@@ -796,11 +808,13 @@
       "type": "registry:ui",
       "description": "Presents draggable overlay content from an edge of the viewport.",
       "dependencies": [
+        "@hugeicons/core-free-icons@4.3.0",
         "@shardsui/svelte@0.1.0-beta.0"
       ],
       "registryDependencies": [
         "local:button",
         "local:dialog",
+        "local:hugeicons-icon",
         "local:scroll-area"
       ],
       "files": [
@@ -1115,6 +1129,21 @@
       ]
     },
     {
+      "name": "hugeicons-icon",
+      "type": "registry:lib",
+      "description": "Renders official Hugeicons data during SSR and client hydration.",
+      "dependencies": [
+        "@hugeicons/core-free-icons@4.3.0"
+      ],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "../../packages/ui/src/lib/hugeicons-icon.svelte",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
       "name": "input",
       "type": "registry:ui",
       "description": "Collects a single line of user input.",
@@ -1216,9 +1245,12 @@
       "type": "registry:ui",
       "description": "Presents actions, links, and nested choices from a trigger.",
       "dependencies": [
+        "@hugeicons/core-free-icons@4.3.0",
         "@shardsui/svelte@0.1.0-beta.0"
       ],
-      "registryDependencies": [],
+      "registryDependencies": [
+        "local:hugeicons-icon"
+      ],
       "files": [
         {
           "path": "../../packages/ui/src/components/ui/menu/menu-checkbox-item.svelte",
@@ -1330,9 +1362,11 @@
       "type": "registry:ui",
       "description": "Collects and adjusts a locale-aware numeric value.",
       "dependencies": [
+        "@hugeicons/core-free-icons@4.3.0",
         "@shardsui/svelte@0.1.0-beta.0"
       ],
       "registryDependencies": [
+        "local:hugeicons-icon",
         "local:label"
       ],
       "files": [
@@ -1428,9 +1462,12 @@
       "name": "pagination",
       "type": "registry:ui",
       "description": "Provides links for moving through a paged collection.",
-      "dependencies": [],
+      "dependencies": [
+        "@hugeicons/core-free-icons@4.3.0"
+      ],
       "registryDependencies": [
-        "local:button"
+        "local:button",
+        "local:hugeicons-icon"
       ],
       "files": [
         {
@@ -1711,11 +1748,13 @@
       "type": "registry:ui",
       "description": "Displays overlay content from a chosen side of the viewport.",
       "dependencies": [
+        "@hugeicons/core-free-icons@4.3.0",
         "@shardsui/svelte@0.1.0-beta.0"
       ],
       "registryDependencies": [
         "local:button",
         "local:dialog",
+        "local:hugeicons-icon",
         "local:scroll-area"
       ],
       "files": [
@@ -1954,8 +1993,12 @@
       "name": "spinner",
       "type": "registry:ui",
       "description": "Indicates that an operation is in progress.",
-      "dependencies": [],
-      "registryDependencies": [],
+      "dependencies": [
+        "@hugeicons/core-free-icons@4.3.0"
+      ],
+      "registryDependencies": [
+        "local:hugeicons-icon"
+      ],
       "files": [
         {
           "path": "../../packages/ui/src/components/ui/spinner/spinner.svelte",
@@ -2098,10 +2141,12 @@
       "type": "registry:ui",
       "description": "Displays transient status and action feedback.",
       "dependencies": [
+        "@hugeicons/core-free-icons@4.3.0",
         "@shardsui/svelte@0.1.0-beta.0"
       ],
       "registryDependencies": [
-        "local:button"
+        "local:button",
+        "local:hugeicons-icon"
       ],
       "files": [
         {

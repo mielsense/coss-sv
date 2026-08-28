@@ -3,6 +3,12 @@
 	"name": "breadcrumb",
 	"type": "registry:ui",
 	"description": "Shows the current page within a hierarchy.",
+	"dependencies": [
+		"@hugeicons/core-free-icons@4.3.0"
+	],
+	"registryDependencies": [
+		"./hugeicons-icon.json"
+	],
 	"files": [
 		{
 			"content": "<script module lang=\"ts\">\nimport type { Snippet } from \"svelte\";\nimport type { HTMLAttributes } from \"svelte/elements\";\n\nexport type BreadcrumbNavProps = HTMLAttributes<HTMLElement> & {\n  children?: Snippet;\n  ref?: HTMLElement | null;\n};\n</script>\n\n<script lang=\"ts\">\nlet { children, ref = $bindable(null), ...props }: BreadcrumbNavProps = $props();\n</script>\n\n<nav aria-label=\"breadcrumb\" data-slot=\"breadcrumb\" bind:this={ref} {...props}>\n  {@render children?.()}\n</nav>\n",
@@ -10,7 +16,7 @@
 			"target": "breadcrumb/breadcrumb.svelte"
 		},
 		{
-			"content": "<script module lang=\"ts\">\nimport type { Snippet } from \"svelte\";\nimport type { HTMLAttributes } from \"svelte/elements\";\n\nexport type BreadcrumbEllipsisProps = HTMLAttributes<HTMLSpanElement> & {\n  children?: Snippet;\n  ref?: HTMLSpanElement | null;\n};\n</script>\n\n<script lang=\"ts\">\nlet { children: _children, ref = $bindable(null), ...props }: BreadcrumbEllipsisProps = $props();\n</script>\n\n<span\n  aria-hidden=\"true\"\n  data-slot=\"breadcrumb-ellipsis\"\n  role=\"presentation\"\n  bind:this={ref}\n  {...props}\n>\n  <svg\n    xmlns=\"http://www.w3.org/2000/svg\"\n    width=\"24\"\n    height=\"24\"\n    viewBox=\"0 0 24 24\"\n    fill=\"none\"\n    stroke=\"currentColor\"\n    stroke-width=\"2\"\n    stroke-linecap=\"round\"\n    stroke-linejoin=\"round\"\n    class=\"lucide lucide-ellipsis size-4\"\n    aria-hidden=\"true\"\n  >\n    <circle cx=\"12\" cy=\"12\" r=\"1\"></circle>\n    <circle cx=\"19\" cy=\"12\" r=\"1\"></circle>\n    <circle cx=\"5\" cy=\"12\" r=\"1\"></circle>\n  </svg>\n  <span class=\"sr-only\">More</span>\n</span>\n",
+			"content": "<script module lang=\"ts\">\nimport type { Snippet } from \"svelte\";\nimport type { HTMLAttributes } from \"svelte/elements\";\n\nexport type BreadcrumbEllipsisProps = HTMLAttributes<HTMLSpanElement> & {\n  children?: Snippet;\n  ref?: HTMLSpanElement | null;\n};\n</script>\n\n<script lang=\"ts\">\nimport { MoreHorizontalIcon } from \"@hugeicons/core-free-icons\";\nimport HugeiconsIcon from \"$LIB$/hugeicons-icon.svelte\";\n\nlet { children: _children, ref = $bindable(null), ...props }: BreadcrumbEllipsisProps = $props();\n</script>\n\n<span\n  aria-hidden=\"true\"\n  data-slot=\"breadcrumb-ellipsis\"\n  role=\"presentation\"\n  bind:this={ref}\n  {...props}\n>\n  <HugeiconsIcon aria-hidden=\"true\" class=\"size-4\" icon={MoreHorizontalIcon} strokeWidth={2} />\n  <span class=\"sr-only\">More</span>\n</span>\n",
 			"type": "registry:ui",
 			"target": "breadcrumb/breadcrumb-ellipsis.svelte"
 		},
@@ -35,7 +41,7 @@
 			"target": "breadcrumb/breadcrumb-page.svelte"
 		},
 		{
-			"content": "<script module lang=\"ts\">\nimport type { Snippet } from \"svelte\";\nimport type { HTMLLiAttributes } from \"svelte/elements\";\n\nexport type BreadcrumbSeparatorProps = HTMLLiAttributes & {\n  children?: Snippet;\n  ref?: HTMLLIElement | null;\n};\n</script>\n\n<script lang=\"ts\">\nimport { cn } from \"$UTILS$.js\";\n\nlet {\n  children,\n  class: className,\n  ref = $bindable(null),\n  ...props\n}: BreadcrumbSeparatorProps = $props();\n</script>\n\n<li\n  aria-hidden=\"true\"\n  class={cn(\"opacity-80 [&>svg]:size-4\", className)}\n  data-slot=\"breadcrumb-separator\"\n  role=\"presentation\"\n  bind:this={ref}\n  {...props}\n>\n  {#if children}\n    {@render children()}\n  {:else}\n    <svg\n      xmlns=\"http://www.w3.org/2000/svg\"\n      width=\"24\"\n      height=\"24\"\n      viewBox=\"0 0 24 24\"\n      fill=\"none\"\n      stroke=\"currentColor\"\n      stroke-width=\"2\"\n      stroke-linecap=\"round\"\n      stroke-linejoin=\"round\"\n      class=\"lucide lucide-chevron-right\"\n      aria-hidden=\"true\"\n    >\n      <path d=\"m9 18 6-6-6-6\"></path>\n    </svg>\n  {/if}\n</li>\n",
+			"content": "<script module lang=\"ts\">\nimport type { Snippet } from \"svelte\";\nimport type { HTMLLiAttributes } from \"svelte/elements\";\n\nexport type BreadcrumbSeparatorProps = HTMLLiAttributes & {\n  children?: Snippet;\n  ref?: HTMLLIElement | null;\n};\n</script>\n\n<script lang=\"ts\">\nimport { ChevronRightIcon } from \"@hugeicons/core-free-icons\";\nimport HugeiconsIcon from \"$LIB$/hugeicons-icon.svelte\";\nimport { cn } from \"$UTILS$.js\";\n\nlet {\n  children,\n  class: className,\n  ref = $bindable(null),\n  ...props\n}: BreadcrumbSeparatorProps = $props();\n</script>\n\n<li\n  aria-hidden=\"true\"\n  class={cn(\"opacity-80 [&>svg]:size-4\", className)}\n  data-slot=\"breadcrumb-separator\"\n  role=\"presentation\"\n  bind:this={ref}\n  {...props}\n>\n  {#if children}\n    {@render children()}\n  {:else}\n    <HugeiconsIcon aria-hidden=\"true\" icon={ChevronRightIcon} strokeWidth={2} />\n  {/if}\n</li>\n",
 			"type": "registry:ui",
 			"target": "breadcrumb/breadcrumb-separator.svelte"
 		},

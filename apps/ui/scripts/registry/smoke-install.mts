@@ -492,9 +492,14 @@ async function verifyInstalledProductionRegistry(
   for (const item of items) {
     const registryItem = JSON.parse(
       await readFile(resolve(appRoot, "static/r", item.relativeUrl), "utf8"),
-    ) as { files?: Array<{ target?: string }> };
+    ) as { files?: Array<{ target?: string; type?: string }>; type?: string };
     for (const file of registryItem.files ?? []) {
-      if (file.target) expectedFiles.add(`components/ui/${file.target}`);
+      if (!file.target) continue;
+      expectedFiles.add(
+        registryItem.type === "registry:lib" || file.type === "registry:lib"
+          ? file.target.replace(/^src\/lib\//, "")
+          : `components/ui/${file.target}`,
+      );
     }
   }
 
