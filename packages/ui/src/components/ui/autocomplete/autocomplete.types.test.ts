@@ -1,9 +1,15 @@
 import { createRawSnippet } from "svelte";
-import { expect, test } from "vitest";
+import { expect, expectTypeOf, test } from "vitest";
 import type {
+  AutocompleteEmptyProps,
+  AutocompleteGroupLabelProps,
+  AutocompleteGroupProps,
   AutocompleteInputProps,
   AutocompleteItemProps,
   AutocompletePopupProps,
+  AutocompleteRowProps,
+  AutocompleteSeparatorProps,
+  AutocompleteStatusProps,
 } from "./index.js";
 
 test("types autocomplete native attributes, composed input options, portal props, and item values", () => {
@@ -28,4 +34,19 @@ test("types autocomplete native attributes, composed input options, portal props
   expect(input.size).toBe("lg");
   expect(popup.sideOffset).toBe(8);
   expect(item.disabled).toBe(false);
+});
+
+test("types refs for every delegated autocomplete part", () => {
+  type PartProps =
+    | AutocompleteEmptyProps
+    | AutocompleteGroupProps
+    | AutocompleteGroupLabelProps
+    | AutocompleteRowProps
+    | AutocompleteSeparatorProps
+    | AutocompleteStatusProps;
+  const props = { ref: null } satisfies PartProps;
+
+  expect(props.ref).toBeNull();
+  expectTypeOf(props.ref).toEqualTypeOf<null>();
+  expectTypeOf<PartProps["ref"]>().toEqualTypeOf<HTMLElement | null | undefined>();
 });

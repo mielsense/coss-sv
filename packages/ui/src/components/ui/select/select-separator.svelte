@@ -5,6 +5,6 @@ export type SelectSeparatorProps = ComponentProps<typeof P.Separator>;
 </script>
 <script lang="ts">
 import Part from "./select-parts.svelte";
-let { ...props }: SelectSeparatorProps = $props();
+let { ref = $bindable(null), ...props }: SelectSeparatorProps = $props();
 </script>
-<Part kind="separator" {...props} />
+<Part bind:ref kind="separator" {...props} />

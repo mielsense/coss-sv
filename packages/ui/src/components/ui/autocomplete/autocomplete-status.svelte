@@ -5,6 +5,6 @@ export type AutocompleteStatusProps = ComponentProps<typeof P.Status>;
 </script>
 <script lang="ts">
 import Part from "./autocomplete-parts.svelte";
-let { ...props }: AutocompleteStatusProps = $props();
+let { ref = $bindable(null), ...props }: AutocompleteStatusProps = $props();
 </script>
-<Part kind="status" {...props} />
+<Part bind:ref kind="status" {...props} />

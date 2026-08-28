@@ -3,10 +3,16 @@ import { expect, expectTypeOf, test } from "vitest";
 import type {
   ComboboxChipsProps,
   ComboboxClearProps,
+  ComboboxEmptyProps,
+  ComboboxGroupLabelProps,
+  ComboboxGroupProps,
   ComboboxInputProps,
   ComboboxItemProps,
   ComboboxPopupProps,
+  ComboboxRowProps,
   ComboboxRootProps,
+  ComboboxSeparatorProps,
+  ComboboxStatusProps,
   ComboboxValueProps,
 } from "./index.js";
 
@@ -50,4 +56,19 @@ test("types single and multiple values, input synchronization, native attributes
   expect(multipleValue.children).toBe(multipleValueChildren);
   expectTypeOf(single.onValueChange).parameter(0).toEqualTypeOf<string | null>();
   expectTypeOf(multiple.onValueChange).parameter(0).toEqualTypeOf<string[]>();
+});
+
+test("types refs for every delegated combobox part", () => {
+  type PartProps =
+    | ComboboxEmptyProps
+    | ComboboxGroupProps
+    | ComboboxGroupLabelProps
+    | ComboboxRowProps
+    | ComboboxSeparatorProps
+    | ComboboxStatusProps;
+  const props = { ref: null } satisfies PartProps;
+
+  expect(props.ref).toBeNull();
+  expectTypeOf(props.ref).toEqualTypeOf<null>();
+  expectTypeOf<PartProps["ref"]>().toEqualTypeOf<HTMLElement | null | undefined>();
 });

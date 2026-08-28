@@ -5,6 +5,6 @@ export type AutocompleteGroupLabelProps = ComponentProps<typeof P.GroupLabel>;
 </script>
 <script lang="ts">
 import Part from "./autocomplete-parts.svelte";
-let { ...props }: AutocompleteGroupLabelProps = $props();
+let { ref = $bindable(null), ...props }: AutocompleteGroupLabelProps = $props();
 </script>
-<Part kind="group-label" {...props} />
+<Part bind:ref kind="group-label" {...props} />

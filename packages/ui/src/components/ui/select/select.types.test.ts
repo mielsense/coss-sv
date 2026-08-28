@@ -2,9 +2,12 @@ import { createRawSnippet } from "svelte";
 import { expect, expectTypeOf, test } from "vitest";
 import type {
   SelectButtonProps,
+  SelectGroupLabelProps,
+  SelectGroupProps,
   SelectItemProps,
   SelectPopupProps,
   SelectRootProps,
+  SelectSeparatorProps,
   SelectTriggerProps,
   SelectValueProps,
 } from "./index.js";
@@ -57,4 +60,13 @@ test("types single and multiple values, trigger sizes, value snippets, alignment
   expectTypeOf(multiple.value).toEqualTypeOf<string[]>();
   expectTypeOf(single.onValueChange).parameter(0).toEqualTypeOf<string | null>();
   expectTypeOf(multiple.onValueChange).parameter(0).toEqualTypeOf<string[]>();
+});
+
+test("types refs for every delegated select part", () => {
+  type PartProps = SelectGroupProps | SelectGroupLabelProps | SelectSeparatorProps;
+  const props = { ref: null } satisfies PartProps;
+
+  expect(props.ref).toBeNull();
+  expectTypeOf(props.ref).toEqualTypeOf<null>();
+  expectTypeOf<PartProps["ref"]>().toEqualTypeOf<HTMLElement | null | undefined>();
 });

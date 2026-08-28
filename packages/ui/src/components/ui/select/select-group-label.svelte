@@ -5,6 +5,6 @@ export type SelectGroupLabelProps = ComponentProps<typeof P.GroupLabel>;
 </script>
 <script lang="ts">
 import Part from "./select-parts.svelte";
-let { ...props }: SelectGroupLabelProps = $props();
+let { ref = $bindable(null), ...props }: SelectGroupLabelProps = $props();
 </script>
-<Part kind="group-label" {...props} />
+<Part bind:ref kind="group-label" {...props} />

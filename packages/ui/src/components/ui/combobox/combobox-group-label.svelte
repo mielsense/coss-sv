@@ -5,6 +5,6 @@ export type ComboboxGroupLabelProps = ComponentProps<typeof P.GroupLabel>;
 </script>
 <script lang="ts">
 import Part from "./combobox-parts.svelte";
-let { ...props }: ComboboxGroupLabelProps = $props();
+let { ref = $bindable(null), ...props }: ComboboxGroupLabelProps = $props();
 </script>
-<Part kind="group-label" {...props} />
+<Part bind:ref kind="group-label" {...props} />

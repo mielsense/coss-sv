@@ -5,6 +5,6 @@ export type AutocompleteGroupProps = ComponentProps<typeof P.Group>;
 </script>
 <script lang="ts">
 import Part from "./autocomplete-parts.svelte";
-let { ...props }: AutocompleteGroupProps = $props();
+let { ref = $bindable(null), ...props }: AutocompleteGroupProps = $props();
 </script>
-<Part kind="group" {...props} />
+<Part bind:ref kind="group" {...props} />

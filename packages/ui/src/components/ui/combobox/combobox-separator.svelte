@@ -5,6 +5,6 @@ export type ComboboxSeparatorProps = ComponentProps<typeof P.Separator>;
 </script>
 <script lang="ts">
 import Part from "./combobox-parts.svelte";
-let { ...props }: ComboboxSeparatorProps = $props();
+let { ref = $bindable(null), ...props }: ComboboxSeparatorProps = $props();
 </script>
-<Part kind="separator" {...props} />
+<Part bind:ref kind="separator" {...props} />

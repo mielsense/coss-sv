@@ -5,6 +5,6 @@ export type ComboboxStatusProps = ComponentProps<typeof P.Status>;
 </script>
 <script lang="ts">
 import Part from "./combobox-parts.svelte";
-let { ...props }: ComboboxStatusProps = $props();
+let { ref = $bindable(null), ...props }: ComboboxStatusProps = $props();
 </script>
-<Part kind="status" {...props} />
+<Part bind:ref kind="status" {...props} />

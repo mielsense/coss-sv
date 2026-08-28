@@ -5,6 +5,6 @@ export type AutocompleteEmptyProps = ComponentProps<typeof P.Empty>;
 </script>
 <script lang="ts">
 import Part from "./autocomplete-parts.svelte";
-let { ...props }: AutocompleteEmptyProps = $props();
+let { ref = $bindable(null), ...props }: AutocompleteEmptyProps = $props();
 </script>
-<Part kind="empty" {...props} />
+<Part bind:ref kind="empty" {...props} />

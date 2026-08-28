@@ -5,6 +5,6 @@ export type AutocompleteSeparatorProps = ComponentProps<typeof P.Separator>;
 </script>
 <script lang="ts">
 import Part from "./autocomplete-parts.svelte";
-let { ...props }: AutocompleteSeparatorProps = $props();
+let { ref = $bindable(null), ...props }: AutocompleteSeparatorProps = $props();
 </script>
-<Part kind="separator" {...props} />
+<Part bind:ref kind="separator" {...props} />

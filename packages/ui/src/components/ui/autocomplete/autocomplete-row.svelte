@@ -5,6 +5,6 @@ export type AutocompleteRowProps = ComponentProps<typeof P.Row>;
 </script>
 <script lang="ts">
 import Part from "./autocomplete-parts.svelte";
-let { ...props }: AutocompleteRowProps = $props();
+let { ref = $bindable(null), ...props }: AutocompleteRowProps = $props();
 </script>
-<Part kind="row" {...props} />
+<Part bind:ref kind="row" {...props} />
