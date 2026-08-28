@@ -1,5 +1,5 @@
 <script lang="ts">
-import { Button, Toast } from "@coss-sv/ui";
+import { Button, buttonVariants, Spinner, Toast, Tooltip } from "@coss-sv/ui";
 import { onDestroy } from "svelte";
 
 const texts = [
@@ -8,6 +8,11 @@ const texts = [
   "This is a longer description that intentionally takes more vertical space to demonstrate stacking with varying heights.",
   "An even longer description that should span multiple lines so we can verify the clamped collapsed height and smooth expansion animation when hovering or focusing the viewport.",
 ];
+// Shards merges promise updates, but its exact-optional type does not model an explicit clear.
+const clearActionProps = { actionProps: undefined } as unknown as Pick<
+  Toast.ToastObject,
+  "actionProps"
+>;
 
 let copyButton = $state<HTMLButtonElement | null>(null);
 let submitButton = $state<HTMLButtonElement | null>(null);
@@ -53,6 +58,7 @@ function performAction(): void {
       },
     },
     description: "You can undo this action.",
+    timeout: 1000000,
     title: "Action performed",
     type: "success",
   });
@@ -151,17 +157,23 @@ async function download(): Promise<void> {
         error: (error: unknown) =>
           error instanceof Error && error.name === "AbortError"
             ? {
+                ...clearActionProps,
                 description: "Report generation was cancelled.",
                 title: "Cancelled",
                 type: "info",
               }
-            : { description: "Please try again later.", title: "Failed to generate report" },
+            : {
+                ...clearActionProps,
+                description: "Please try again later.",
+                title: "Failed to generate report",
+              },
         loading: {
           actionProps: { children: "Cancel", onclick: () => abortController?.abort() },
           description: "Your download will begin once ready.",
           title: "Generating report…",
         },
         success: () => ({
+          ...clearActionProps,
           description: "Your file is now downloading.",
           title: "Download started",
         }),
@@ -235,25 +247,28 @@ function saveTooltip(anchor: HTMLButtonElement | null, error = false): void {
         <Button onclick={varyingHeight} variant="outline">With Varying Heights</Button>
       </section>
       <section data-particle="p-toast-7">
-        <Button
-          aria-label="Copy link"
-          bind:ref={copyButton}
-          disabled={copied}
-          onclick={copyLink}
-          size="icon"
-          variant="outline"
-        >
-          {#if copied}
-            {@render checkIcon()}
-          {:else}
-            {@render copyIcon()}
-          {/if}
-        </Button>
+        <Tooltip.Root>
+          <Tooltip.Trigger
+            aria-label="Copy link"
+            bind:ref={copyButton}
+            class={buttonVariants({ size: "icon", variant: "outline" })}
+            disabled={copied}
+            onclick={copyLink}
+            type="button"
+          >
+            {#if copied}
+              {@render checkIcon("size-4")}
+            {:else}
+              {@render copyIcon("size-4")}
+            {/if}
+          </Tooltip.Trigger>
+          <Tooltip.Popup><p>Copy to clipboard</p></Tooltip.Popup>
+        </Tooltip.Root>
       </section>
       <section data-particle="p-toast-8">
         <Button bind:ref={submitButton} disabled={submitting} onclick={submit} variant="outline">
           {#if submitting}
-            {@render loaderIcon()}
+            <Spinner />
             Submitting…
           {:else}
             Submit
@@ -297,32 +312,43 @@ function saveTooltip(anchor: HTMLButtonElement | null, error = false): void {
         >
       </section>
       <section data-particle="p-toast-12">
-        <Button
-          aria-label="Save"
-          bind:ref={successSaveButton}
-          onclick={() => saveTooltip(successSaveButton)}
-          size="icon"
-          variant="outline"
-          >{@render saveIcon()}</Button
-        >
+        <Tooltip.Root>
+          <Tooltip.Trigger
+            aria-label="Save"
+            bind:ref={successSaveButton}
+            class={buttonVariants({ size: "icon", variant: "outline" })}
+            delay={0}
+            onclick={() => saveTooltip(successSaveButton)}
+            type="button"
+          >
+            {@render saveIcon()}
+          </Tooltip.Trigger>
+          <Tooltip.Popup><p>Save</p></Tooltip.Popup>
+        </Tooltip.Root>
       </section>
       <section data-particle="p-toast-13">
-        <Button
-          aria-label="Save"
-          bind:ref={errorSaveButton}
-          onclick={() => saveTooltip(errorSaveButton, true)}
-          size="icon"
-          variant="outline"
-          >{@render saveIcon()}</Button
-        >
+        <Tooltip.Root>
+          <Tooltip.Trigger
+            aria-label="Save"
+            bind:ref={errorSaveButton}
+            class={buttonVariants({ size: "icon", variant: "outline" })}
+            delay={0}
+            onclick={() => saveTooltip(errorSaveButton, true)}
+            type="button"
+          >
+            {@render saveIcon()}
+          </Tooltip.Trigger>
+          <Tooltip.Popup><p>Save</p></Tooltip.Popup>
+        </Tooltip.Root>
       </section>
     </div>
   </Toast.AnchoredProvider>
 </Toast.Provider>
 
-{#snippet icon(paths: import("svelte").Snippet)}
+{#snippet icon(paths: import("svelte").Snippet, className?: string)}
   <svg
     aria-hidden="true"
+    class={className}
     fill="none"
     stroke="currentColor"
     stroke-linecap="round"
@@ -333,24 +359,18 @@ function saveTooltip(anchor: HTMLButtonElement | null, error = false): void {
     {@render paths()}
   </svg>
 {/snippet}
-{#snippet checkIcon()}
-  {@render icon(checkPaths)}
+{#snippet checkIcon(className?: string)}
+  {@render icon(checkPaths, className)}
 {/snippet}
 {#snippet checkPaths()}
   <path d="m20 6-11 11-5-5" />
 {/snippet}
-{#snippet copyIcon()}
-  {@render icon(copyPaths)}
+{#snippet copyIcon(className?: string)}
+  {@render icon(copyPaths, className)}
 {/snippet}
 {#snippet copyPaths()}
   <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
   <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
-{/snippet}
-{#snippet loaderIcon()}
-  {@render icon(loaderPaths)}
-{/snippet}
-{#snippet loaderPaths()}
-  <path d="M21 12a9 9 0 1 1-6.219-8.56" />
 {/snippet}
 {#snippet downloadIcon()}
   {@render icon(downloadPaths)}

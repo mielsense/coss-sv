@@ -59,6 +59,98 @@ describe("Toast browser contract", () => {
     expect(standardRoots()[0]?.getAttribute("data-type")).toBe("error");
   });
 
+  test.each([
+    ["success", "resolve-report", "Report generated"],
+    ["error", "reject-report", "Failed"],
+    ["cancel", "Cancel", "Cancelled"],
+  ])("clears a loading action after a %s promise transition", async (_, control, title) => {
+    render(ToastFixture);
+    await page.getByTestId("start-report").click();
+    await expect.element(page.getByRole("button", { name: "Cancel" })).toBeInTheDocument();
+
+    if (control === "Cancel") await page.getByRole("button", { name: control }).click();
+    else await page.getByTestId(control).click();
+
+    await expect.element(page.getByText(title, { exact: true })).toBeInTheDocument();
+    await expect.element(page.getByRole("button", { name: "Cancel" })).not.toBeInTheDocument();
+  });
+
+  test("announces high-priority toasts assertively without duplicating visible content", async () => {
+    render(ToastFixture);
+    await page.getByTestId("add-high").click();
+
+    const root = document.querySelector<HTMLElement>(
+      '[data-slot="toast-viewport"] > [role="alertdialog"]',
+    );
+    const alert = document.querySelector<HTMLElement>('[role="alert"][aria-atomic="true"]');
+    expect(root?.getAttribute("aria-hidden")).toBe("true");
+    expect(alert?.textContent).toContain("Payment failed");
+    expect(alert?.parentElement?.style.position).toBe("fixed");
+    expect(alert?.parentElement?.style.clipPath).toBe("inset(50%)");
+  });
+
+  test("portals the viewport into the requested container", async () => {
+    const portalTarget = document.createElement("section");
+    portalTarget.dataset.testid = "portal-target";
+    document.body.append(portalTarget);
+    render(ToastFixture, { portalTarget });
+
+    await page.getByTestId("add-default").click();
+    expect(portalTarget.querySelector('[data-slot="toast-viewport"]')).not.toBeNull();
+    expect(portalTarget.textContent).toContain("Event has been created");
+  });
+
+  test("dismisses a toast after a genuine pointer swipe past the threshold", async () => {
+    render(ToastFixture);
+    await page.getByTestId("add-default").click();
+    const root = standardRoots()[0] as HTMLElement;
+    const bounds = root.getBoundingClientRect();
+
+    root.dispatchEvent(
+      new PointerEvent("pointerdown", {
+        bubbles: true,
+        button: 0,
+        clientX: bounds.left + 20,
+        clientY: bounds.top + 20,
+        pointerId: 1,
+        pointerType: "touch",
+      }),
+    );
+    root.dispatchEvent(
+      new PointerEvent("pointermove", {
+        bubbles: true,
+        clientX: bounds.left + 21,
+        clientY: bounds.top + 20,
+        pointerId: 1,
+        pointerType: "touch",
+      }),
+    );
+    root.dispatchEvent(
+      new PointerEvent("pointermove", {
+        bubbles: true,
+        clientX: bounds.left + 81,
+        clientY: bounds.top + 20,
+        pointerId: 1,
+        pointerType: "touch",
+      }),
+    );
+    await Promise.resolve();
+    expect(root.getAttribute("data-swipe-direction")).toBe("right");
+    expect(root.hasAttribute("data-swiping")).toBe(true);
+
+    root.dispatchEvent(
+      new PointerEvent("pointerup", {
+        bubbles: true,
+        clientX: bounds.left + 81,
+        clientY: bounds.top + 20,
+        pointerId: 1,
+        pointerType: "touch",
+      }),
+    );
+    await Promise.resolve();
+    expect(!root.isConnected || root.hasAttribute("data-ending-style")).toBe(true);
+  });
+
   test("stacks, expands, limits, replays upserts, and dismisses all", async () => {
     render(ToastFixture);
     for (let index = 0; index < 4; index += 1) await page.getByTestId("add-default").click();

@@ -1,13 +1,23 @@
 <script lang="ts">
 import * as Toast from "./index.js";
 
-let { position = "bottom-right" }: { position?: Toast.ToastPosition } = $props();
+let {
+  portalTarget,
+  position = "bottom-right",
+}: { portalTarget?: HTMLElement; position?: Toast.ToastPosition } = $props();
 const manager = new Toast.Manager<{ source?: string }>();
 const anchoredManager = new Toast.Manager<Toast.ToastData>();
+// Shards merges promise updates, but its exact-optional type does not model an explicit clear.
+const clearActionProps = { actionProps: undefined } as unknown as Pick<
+  Toast.ToastObject<{ source?: string }>,
+  "actionProps"
+>;
 let anchor = $state<HTMLButtonElement | null>(null);
 let resolvePromise: ((value: string) => void) | undefined;
 let rejectPromise: ((reason: Error) => void) | undefined;
 let actionCount = $state(0);
+let resolveReport: (() => void) | undefined;
+let rejectReport: ((reason: Error) => void) | undefined;
 
 function addDefault(): void {
   manager.add({
@@ -32,6 +42,38 @@ function addAction(): void {
 
 function addTimed(): void {
   manager.add({ title: "Timed", timeout: 80 });
+}
+
+function addHighPriority(): void {
+  manager.add({ priority: "high", title: "Payment failed", timeout: 0, type: "error" });
+}
+
+function startReport(): void {
+  const controller = new AbortController();
+  const promise = new Promise<void>((resolve, reject) => {
+    resolveReport = resolve;
+    rejectReport = reject;
+    controller.signal.addEventListener("abort", () => reject(controller.signal.reason), {
+      once: true,
+    });
+  });
+
+  manager
+    .promise(promise, {
+      error: (error) => ({
+        ...clearActionProps,
+        description: error instanceof Error ? error.message : "Unknown error",
+        title:
+          error instanceof DOMException && error.name === "AbortError" ? "Cancelled" : "Failed",
+        type: error instanceof DOMException && error.name === "AbortError" ? "info" : "error",
+      }),
+      loading: {
+        actionProps: { children: "Cancel", onclick: () => controller.abort() },
+        title: "Generating report…",
+      },
+      success: { ...clearActionProps, title: "Report generated", type: "success" },
+    })
+    .catch(() => undefined);
 }
 
 function startPromise(): void {
@@ -60,16 +102,33 @@ function addAnchored(tooltipStyle = false): void {
 }
 </script>
 
-<Toast.Provider limit={3} {position} toastManager={manager}>
+<Toast.Provider
+  {...(portalTarget ? { portalProps: { container: portalTarget } } : {})}
+  limit={3}
+  {position}
+  toastManager={manager}
+>
   <button data-testid="add-default" onclick={addDefault} type="button">Add default</button>
   <button data-testid="add-action" onclick={addAction} type="button">Add action</button>
   <button data-testid="add-timed" onclick={addTimed} type="button">Add timed</button>
+  <button data-testid="add-high" onclick={addHighPriority} type="button">Add high</button>
   <button data-testid="start-promise" onclick={startPromise} type="button">Start promise</button>
   <button data-testid="resolve" onclick={() => resolvePromise?.("Complete")} type="button">
     Resolve
   </button>
   <button data-testid="reject" onclick={() => rejectPromise?.(new Error("Nope"))} type="button">
     Reject
+  </button>
+  <button data-testid="start-report" onclick={startReport} type="button">Start report</button>
+  <button data-testid="resolve-report" onclick={() => resolveReport?.()} type="button">
+    Resolve report
+  </button>
+  <button
+    data-testid="reject-report"
+    onclick={() => rejectReport?.(new Error("Generation failed"))}
+    type="button"
+  >
+    Reject report
   </button>
   <button
     data-testid="upsert-success"
