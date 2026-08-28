@@ -21,3 +21,9 @@ SSR, type, hydration, and browser tests cover both orientations, native tags, de
 `apps/ui/src/lib/parity/components/group.svelte` reproduces all seven dependency-free Group particles in source order: `p-group-7` through `p-group-10`, `p-group-16`, `p-group-17`, and `p-group-20`. Each has exact `id` and `data-particle` selectors. None has a registry width override. The fixtures preserve nested Group structure, separator orientation, Label delegation, button and input order, accessible labels, visible copy, and the official Lucide SVG geometry used by the React source.
 
 Fifteen Group particles remain dependency-gated after fresh import inspection. `p-group-1`, `p-group-3` through `p-group-6`, and `p-group-13` require Menu. `p-group-2` requires Tooltip and the copy-to-clipboard hook. `p-group-11` requires Popover; `p-group-12` requires Tooltip; `p-group-14` requires NumberField and Select; `p-group-15`, `p-group-18`, and `p-group-19` require Select; `p-group-22` requires NumberField; and `p-group-23` requires Combobox. `p-group-21` does not exist in the pinned source.
+
+## D6 documentation port
+
+All 22 D6-owned Group particles are now ported after fresh inspection of each source and its landed package dependencies: `p-group-1` through `p-group-20`, `p-group-22`, and `p-group-23`. The documentation page preserves the upstream preview order `p-group-1` through `p-group-14`; the remaining particles stay registry examples. Exact copy, member data, image order, popup controls, orientations, nested groups, accessibility guidance, and public Svelte namespace composition are retained.
+
+The exact 22-particle subset is covered by D6 compile, SSR, metadata, source-authority, and narrow light/dark mount tests.

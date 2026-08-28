@@ -31,3 +31,9 @@ Shards `Field.Label` requires Field context and automatically associates a regis
 The Svelte API uses `for` instead of React's `htmlFor`, snippets instead of React children, `as` instead of Base UI's `render`, and a bindable element ref. SSR and browser tests cover exact classes, consumer overrides, forwarded native attributes, alternate elements, ref binding, native label activation, and warning-free hydration of server-equivalent markup. The parity fixture is `apps/ui/src/lib/parity/components/label-c3.svelte`; Playwright coverage is `tests/e2e/label-c3.spec.ts`.
 
 The parity fixture keeps the `p-input-6` root class `flex flex-col items-start gap-2` unchanged inside a neutral 16rem docs-width shell. Fresh React measurements give a 256px root, 8px gap, and 56px desktop or 62px mobile height. Playwright asserts that geometry as well as native label activation.
+
+## D6 documentation port
+
+The Label page keeps the upstream example order and the exact `checkbox-demo` identifier. Fresh full-tree inspection confirmed that `checkbox-demo` has no source under the permitted `reference/apps/ui/**` boundary, so the page does not invent a replacement. `p-input-6` remains the complete visible Label example and retains its native `for`/`id` association.
+
+The D6 source test asserts both the dangling upstream identifier and the missing licensed source. The Label page is deliberately excluded from eager SVX compilation until the coordinator resolves that registry seam; the other nine D6 pages compile and SSR render.

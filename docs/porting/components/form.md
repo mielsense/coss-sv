@@ -19,3 +19,9 @@ The local COSS Form page was inspected in the in-app Browser. Both examples rend
 ## parity fixture inventory
 
 `apps/ui/src/lib/parity/components/form.svelte` reproduces both Form particles, `p-form-1` and `p-form-2`, with exact `id` and `data-particle` review selectors and the upstream full-width, `max-w-64` preview constraint. The second fixture preserves the Name/Age order, validation messages, 800 ms loading phase, external Form errors, focus behavior, and success alert text. Its local validation is behaviorally equivalent to the source Zod schema without adding a fixture-only package dependency. There are no dependency-gated Form particles. Registry entries and the full documentation page remain coordinator-owned.
+
+## D6 documentation port
+
+The D6 docs port freshly inspected both complete upstream particles and uses Zod 4 exactly for `p-form-2`: `z.coerce.number`, `safeParse`, and `z.flattenError` are preserved rather than replaced by ad hoc validation. The page keeps `p-form-1` as the usage example, `p-form-2` under “Using with Zod,” the API copy, loading details, success alert, and changelog.
+
+Both particles and the displayed source compile and SSR render. The browser suite retains a native required-email submission regression for `p-form-1`.

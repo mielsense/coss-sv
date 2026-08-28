@@ -1,0 +1,52 @@
+---
+title: Form
+description: A form wrapper component that simplifies validation and submission.
+
+links:
+  doc: https://shardsui.com/svelte/form
+---
+
+<ComponentPreview name="p-form-1" />
+
+## Installation
+
+<InstallCommand pnpm="pnpm add @coss-sv/ui" shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/form.json" />
+
+## Usage
+
+```svelte
+<script lang="ts">
+  import { Field, Form, Input } from "@coss-sv/ui";
+
+  function submit(event: SubmitEvent) {
+    event.preventDefault();
+    /* handle submit */
+  }
+</script>
+
+<Form class="flex w-full flex-col gap-4" onsubmit={submit}>
+  <Field.Root>
+    <Field.Label>Email</Field.Label>
+    <Input name="email" type="email" required />
+    <Field.Error>Please enter a valid email.</Field.Error>
+  </Field.Root>
+</Form>
+```
+
+## API Reference
+
+### Form
+
+Thin wrapper around Shards UI `Form` with no default layout. Pass `class` for spacing and structure, for example `flex w-full flex-col gap-4` for a vertical field stack.
+
+**Dialog, sheet, drawer:** Place the header outside the form. Wrap the panel and footer only in `<Form class="contents">`, or `<form class="contents">`. The `contents` display value keeps the panel and footer participating correctly in the popup flex layout without nesting the header inside the form.
+
+## Examples
+
+### Using with Zod
+
+<ComponentPreview name="p-form-2" />
+
+## Changelog
+
+- [Apr 17, 2026](/docs/changelog#form) - `Form` no longer applies default layout classes. Pass `class` for stacked fields, such as `flex w-full flex-col gap-4`. For overlays, wrap the panel and footer in `<Form class="contents">` with the header outside.

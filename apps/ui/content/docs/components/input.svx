@@ -1,0 +1,66 @@
+---
+title: Input
+description: A native input element.
+
+links:
+  doc: https://shardsui.com/svelte/input
+---
+
+<ComponentPreview name="p-input-1" />
+
+## Installation
+
+<InstallCommand pnpm="pnpm add @coss-sv/ui" shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/input.json" />
+
+## Usage
+
+```svelte
+<script lang="ts">
+  import { Input } from "@coss-sv/ui";
+</script>
+
+<Input />
+```
+
+## API Reference
+
+### Input
+
+Styled wrapper for the Shards UI Input with custom size options.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `size` | `"sm" \| "default" \| "lg" \| number` | `"default"` | Controls the input height. Number values pass to the native `size` attribute |
+| `unstyled` | `boolean` | `false` | Removes the wrapper styling, including the border and shadow |
+
+## Examples
+
+For accessible labelling and validation, prefer using the `Field` component to wrap inputs, or the `Field.Control` component. See some [related examples](/docs/components/field).
+
+### Small Size
+
+<ComponentPreview name="p-input-2" />
+
+### Large Size
+
+<ComponentPreview name="p-input-3" />
+
+### Disabled
+
+<ComponentPreview name="p-input-4" />
+
+### File
+
+<ComponentPreview name="p-input-5" />
+
+### With Label
+
+<ComponentPreview name="p-input-6" />
+
+### With Button
+
+<ComponentPreview name="p-input-7" />
+
+### Form Integration
+
+<ComponentPreview name="p-form-1" />

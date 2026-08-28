@@ -1,0 +1,132 @@
+---
+title: Input Group
+description: A flexible component for grouping inputs with addons, buttons, and other elements.
+---
+
+<ComponentPreview name="p-input-group-1" />
+
+## Installation
+
+<InstallCommand pnpm="pnpm add @coss-sv/ui" shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/input-group.json" />
+
+## Usage
+
+```svelte
+<script lang="ts">
+  import { InputGroup } from "@coss-sv/ui";
+  import { Mail01Icon } from "@hugeicons/core-free-icons";
+  import { HugeiconsIcon } from "@hugeicons/svelte";
+</script>
+
+<InputGroup.Root>
+  <InputGroup.Input type="email" placeholder="Email" />
+  <InputGroup.Addon>
+    <HugeiconsIcon aria-hidden="true" icon={Mail01Icon} strokeWidth={2} />
+  </InputGroup.Addon>
+</InputGroup.Root>
+```
+
+## API Reference
+
+### InputGroup.Root
+
+The main component that wraps inputs and addons.
+
+| Prop | Type | Description |
+| --- | --- | --- |
+| `class` | `string` | Additional CSS classes |
+| `...props` | `HTMLAttributes<HTMLDivElement>` | Native div attributes |
+
+### InputGroup.Addon
+
+A container for icons, text, buttons, and other elements. It can appear at the inline start, inline end, block start, or block end.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `align` | `"inline-start" \| "inline-end" \| "block-start" \| "block-end"` | `"inline-start"` | Position relative to the input |
+| `class` | `string` | | Additional CSS classes |
+
+For correct focus order, place `InputGroup.Addon` after the input in the DOM.
+
+### InputGroup.Text
+
+A text container for content within an addon. It styles muted text and child icons.
+
+| Prop | Type | Description |
+| --- | --- | --- |
+| `class` | `string` | Additional CSS classes |
+| `...props` | `HTMLAttributes<HTMLSpanElement>` | Native span attributes |
+
+### InputGroup.Input
+
+An unstyled `Input` that inherits the parent input-group styling. It accepts the same props as `Input`.
+
+### InputGroup.Textarea
+
+An unstyled `Textarea` that inherits the parent input-group styling. It accepts the same props as `Textarea`.
+
+## Examples
+
+### With End Icon
+
+<ComponentPreview name="p-input-group-2" />
+
+### With Start Text
+
+<ComponentPreview name="p-input-group-3" />
+
+### With End Text
+
+<ComponentPreview name="p-input-group-4" />
+
+### With Start and End Text
+
+<ComponentPreview name="p-input-group-5" />
+
+### With Tooltip
+
+<ComponentPreview name="p-input-group-7" />
+
+### With Icon Button
+
+<ComponentPreview name="p-input-group-8" />
+
+### With Button
+
+<ComponentPreview name="p-input-group-9" />
+
+### With Badge
+
+<ComponentPreview name="p-input-group-10" />
+
+### With Keyboard Shortcut
+
+<ComponentPreview name="p-input-group-11" />
+
+### With Inner Label
+
+<ComponentPreview name="p-input-group-12" />
+
+### Small Size
+
+<ComponentPreview name="p-input-group-13" />
+
+### Large Size
+
+<ComponentPreview name="p-input-group-14" />
+
+### Disabled
+
+<ComponentPreview name="p-input-group-15" />
+
+### Loading
+
+<ComponentPreview name="p-input-group-16" />
+
+### With Number Field
+
+<ComponentPreview name="p-input-group-6" />
+
+### With Textarea
+
+<ComponentPreview name="p-input-group-17" />

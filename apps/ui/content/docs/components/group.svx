@@ -1,0 +1,153 @@
+---
+title: Group
+description: A component for visually grouping a series of controls.
+---
+
+<ComponentPreview name="p-group-1" />
+
+## Installation
+
+<InstallCommand pnpm="pnpm add @coss-sv/ui" shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/group.json" />
+
+## Usage
+
+```svelte
+<script lang="ts">
+  import { Button, Group } from "@coss-sv/ui";
+</script>
+
+<Group.Root>
+  <Button>Button</Button>
+  <Group.Separator />
+  <Button>Button</Button>
+</Group.Root>
+```
+
+## Accessibility
+
+- `Group.Root` has `role="group"`.
+- Use Tab to navigate between the controls in the group.
+- Use `aria-label` or `aria-labelledby` to label the group.
+
+```svelte
+<Group.Root aria-label="Media controls">
+  <Button variant="outline">Play</Button>
+  <Group.Separator />
+  <Button variant="outline">Pause</Button>
+</Group.Root>
+```
+
+### Group vs ToggleGroup
+
+- Use `Group.Root` when the controls perform actions.
+- Use `ToggleGroup.Root` when the controls toggle state.
+
+## API Reference
+
+### Group.Root
+
+The root visually groups related controls with consistent connected styling.
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `orientation` | `"horizontal" \| "vertical"` | `"horizontal"` |
+
+```svelte
+<Group.Root>
+  <Button>Button 1</Button>
+  <Group.Separator />
+  <Button>Button 2</Button>
+</Group.Root>
+```
+
+Nest multiple groups to create layouts with spacing. See the [nested groups](#nested-groups) example.
+
+### Group.Separator
+
+The separator visually divides controls within a group.
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `orientation` | `"horizontal" \| "vertical"` | `"vertical"` |
+
+Unlike shadcn's ButtonGroup, `Group.Separator` is required between all controls, including outline buttons. It preserves the intended hierarchy and focus states.
+
+### Group.Text
+
+Use this component for text such as labels or prefixes.
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `as` | `keyof HTMLElementTagNameMap` | `"span"` |
+
+```svelte
+<Group.Root>
+  <Group.Text>https://</Group.Text>
+  <Group.Separator />
+  <Input placeholder="example.com" />
+</Group.Root>
+```
+
+Render it as a label when the text names a control.
+
+```svelte
+<Group.Root>
+  <Group.Text as="label" for="domain" aria-label="Domain">https://</Group.Text>
+  <Group.Separator />
+  <Input id="domain" placeholder="example.com" />
+</Group.Root>
+```
+
+## Examples
+
+### With Input
+
+<ComponentPreview name="p-group-2" />
+
+### Small Size
+
+<ComponentPreview name="p-group-3" />
+
+### Large Size
+
+<ComponentPreview name="p-group-4" />
+
+### With Disabled Button
+
+<ComponentPreview name="p-group-5" />
+
+### With Default Buttons
+
+<ComponentPreview name="p-group-6" />
+
+### With Start Labeled Text
+
+<ComponentPreview name="p-group-7" />
+
+### With End Text
+
+<ComponentPreview name="p-group-8" />
+
+### Vertical
+
+<ComponentPreview name="p-group-9" />
+
+### Nested Groups
+
+<ComponentPreview name="p-group-10" />
+
+### With Popup
+
+<ComponentPreview name="p-group-11" />
+
+### With Input Group
+
+<ComponentPreview name="p-group-12" />
+
+### With Menu
+
+<ComponentPreview name="p-group-13" />
+
+### With Select
+
+<ComponentPreview name="p-group-14" />

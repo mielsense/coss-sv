@@ -81,3 +81,9 @@ Accepted deviations: none.
 ## Hugeicons authority update
 
 The increment and decrement buttons now render `PlusSignIcon` and `MinusSignIcon` through the local SSR-safe Hugeicons renderer, preserving their labels, hit targets, disabled state, responsive sizing, and step behavior. The scrub cursor uses `ArrowHorizontalIcon`, the closest free Hugeicons bidirectional horizontal arrow. Its renderer preserves the COSS 26 by 14 root dimensions, native attribute forwarding, bindable SVG ref, and full Svelte class arrays and objects. The user-required Hugeicons authority changes the original filled black cursor with white outline into Hugeicons' stroked arrow and requires its 24 by 24 view box; that glyph-shape and view-box difference is unavoidable without retaining the prohibited custom path.
+
+## D6 documentation port
+
+Fresh inspection covered `p-number-field-1` through `p-number-field-11` and the complete Number Field page. The page preserves the first ten upstream previews, API parts, locale/range/step/format examples, Scrub Area behavior, labels, validation, and Zod form integration. `p-number-field-11` remains an additional registry example.
+
+The D6 browser regression keeps a confirmed package seam red: the rendered `p-number-field-7` native input exposes `type="text"` and `aria-roledescription="Number field"`, but it has neither `role="spinbutton"` nor an accessible-name relationship. The test still exercises Increase, ArrowDown, Home, the minimum boundary, and disabled Decrease once the semantic assertions can pass. D6 does not add particle-only ARIA that would mask the public package defect.

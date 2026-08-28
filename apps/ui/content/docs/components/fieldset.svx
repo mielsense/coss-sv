@@ -1,0 +1,35 @@
+---
+title: Fieldset
+description: A native fieldset element with a legend.
+
+links:
+  doc: https://shardsui.com/svelte/fieldset
+---
+
+<ComponentPreview name="p-fieldset-1" />
+
+## Installation
+
+<InstallCommand pnpm="pnpm add @coss-sv/ui" shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/fieldset.json" />
+
+## Usage
+
+```svelte
+<script lang="ts">
+  import { Fieldset } from "@coss-sv/ui";
+</script>
+
+<Fieldset.Root>
+  <Fieldset.Legend>Fieldset legend</Fieldset.Legend>
+</Fieldset.Root>
+```
+
+## API Reference
+
+### Fieldset.Root
+
+Root component. Styled wrapper for `Fieldset.Root` from Shards UI with native fieldset semantics.
+
+### Fieldset.Legend
+
+Legend for the fieldset. Styled wrapper for the Shards UI fieldset legend with semibold font weight.

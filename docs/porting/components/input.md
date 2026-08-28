@@ -40,3 +40,9 @@ Tests cover SSR structure and class variants, native numeric size, unstyled outp
 The parity fixture keeps `p-input-1` and `p-input-5` unchanged inside separate neutral 16rem docs-width shells. Fresh React measurements give a 256px wrapper and 254px input at both 1200px and 390px viewports. Wrapper/input heights are 32px/30px on desktop and 36px/34px on mobile. Playwright checks those values, the exact light and dark border/background colors, the settled ring color and 3px focus shadow, the file-input classes, and a real file selection.
 
 The static text-input particle passes axe in both themes. Chromium axe reports 4.46:1 for the dark Shards file input's muted filename text. The React file input has the same computed foreground and effective background colors, but axe does not report that native control. The file parity check therefore asserts its accessible name and exact colors directly; it does not change COSS colors to silence the engine difference.
+
+## D6 documentation port
+
+Fresh inspection covered the complete Input page and all 18 D6-owned Input particles: `p-input-1` through `p-input-11` and `p-input-13` through `p-input-19`. The Svelte page preserves the documented preview order `p-input-1` through `p-input-7`, followed by the exact `p-form-1` integration example. Registry-only examples remain available without being inserted into the page. The displayed source uses the public `Input` API and the exact pnpm `shadcn-svelte` registry command.
+
+The D6 compiler and SSR suite imports every owned particle, renders each one, compiles every displayed Svelte block, and rejects React syntax, legacy Svelte syntax, Lucide imports, and inline icon SVGs. The browser suite covers password visibility and the clear-button interaction that imports Input through Input Group.

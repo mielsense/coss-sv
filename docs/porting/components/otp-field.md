@@ -67,3 +67,9 @@ Tests cover SSR, genuine server-to-client hydration HTML with no diagnostics, nu
 - Target dark and narrow variants use the same route query contract.
 
 Accepted deviations: none.
+
+## D6 documentation port
+
+Fresh inspection covered all nine owned particles, `p-otp-field-1` through `p-otp-field-4` and `p-otp-field-6` through `p-otp-field-10`, plus the complete OTP Field page. The page preserves all nine previews in source order, exact labels and explanatory copy, normalization, separators, validation states, alphanumeric behavior, placeholder hints, masking, API prose, and changelog.
+
+The auto-validation translation keeps the controlled COSS callback contract: `onValueChange` updates the parent value and invalid state, and the conditionally rendered Shards error uses `match={true}` so it is visible while the particle’s explicit invalid branch is mounted. Browser coverage types `654321`, verifies all six slot values, the exact error, roving Home focus, and password inputs for the masked example.

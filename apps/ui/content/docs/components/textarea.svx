@@ -1,0 +1,66 @@
+---
+title: Textarea
+description: A native textarea element.
+---
+
+<ComponentPreview name="p-textarea-1" />
+
+## Installation
+
+<InstallCommand pnpm="pnpm add @coss-sv/ui" shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/textarea.json" />
+
+## Usage
+
+```svelte
+<script lang="ts">
+  import { Textarea } from "@coss-sv/ui";
+</script>
+
+<Textarea />
+```
+
+## Field Integration
+
+Shards UI does not provide a native Textarea part. This component wraps the native `<textarea>` element in `Field.Control` internally, so it integrates with `Field` without another wrapper.
+
+```svelte
+<Field.Root>
+  <Field.Label>Bio</Field.Label>
+  <Textarea placeholder="Tell us about yourself…" />
+  <Field.Description>Write a short bio.</Field.Description>
+  <Field.Error>This field is required.</Field.Error>
+</Field.Root>
+```
+
+## API Reference
+
+### Textarea
+
+Styled native textarea element with custom size options.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `size` | `"sm" \| "default" \| "lg" \| number` | `"default"` | Controls the textarea padding. Number values pass to the native `rows` attribute |
+| `unstyled` | `boolean` | `false` | Removes all default styling |
+
+## Examples
+
+### Small Size
+
+<ComponentPreview name="p-textarea-2" />
+
+### Large Size
+
+<ComponentPreview name="p-textarea-3" />
+
+### Disabled
+
+<ComponentPreview name="p-textarea-4" />
+
+### With Label
+
+<ComponentPreview name="p-textarea-5" />
+
+### Form Integration
+
+<ComponentPreview name="p-textarea-6" />

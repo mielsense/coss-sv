@@ -1,0 +1,101 @@
+---
+title: Number Field
+description: A numeric input element with increment and decrement buttons, and a scrub area.
+---
+
+<ComponentPreview name="p-number-field-1" />
+
+## Installation
+
+<InstallCommand pnpm="pnpm add @coss-sv/ui" shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/number-field.json" />
+
+## Usage
+
+```svelte
+<script lang="ts">
+  import { NumberField } from "@coss-sv/ui";
+</script>
+
+<NumberField.Root defaultValue={0}>
+  <NumberField.ScrubArea label="Quantity" />
+  <NumberField.Group>
+    <NumberField.Decrement />
+    <NumberField.Input />
+    <NumberField.Increment />
+  </NumberField.Group>
+</NumberField.Root>
+```
+
+## API Reference
+
+### NumberField.Root
+
+Root component for the local Svelte number-field behavior.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `size` | `"sm" \| "default" \| "lg"` | `"default"` | Controls the size of all child components through context |
+
+### NumberField.Group
+
+Container for the input and buttons.
+
+### NumberField.Input
+
+Input element for the numeric value.
+
+### NumberField.Increment
+
+Button that increments the value and displays the Hugeicons add glyph.
+
+### NumberField.Decrement
+
+Button that decrements the value and displays the Hugeicons minus glyph.
+
+### NumberField.ScrubArea
+
+Draggable area for scrubbing the value.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `label` | `string` | - | Label text displayed in the scrub area |
+
+## Examples
+
+For accessible labelling and validation, prefer using `Field` to wrap number fields. See [Number field](/docs/components/field#number-field).
+
+### Small Size
+
+<ComponentPreview name="p-number-field-2" />
+
+### Large Size
+
+<ComponentPreview name="p-number-field-3" />
+
+### Disabled
+
+<ComponentPreview name="p-number-field-4" />
+
+### With External Label
+
+<ComponentPreview name="p-number-field-5" />
+
+### With Scrub
+
+<ComponentPreview name="p-number-field-6" />
+
+### With Range
+
+<ComponentPreview name="p-number-field-7" />
+
+### With Formatted Value
+
+<ComponentPreview name="p-number-field-8" />
+
+### With Step
+
+<ComponentPreview name="p-number-field-9" />
+
+### Form Integration
+
+<ComponentPreview name="p-number-field-10" />

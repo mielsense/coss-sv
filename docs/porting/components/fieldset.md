@@ -15,3 +15,7 @@ The root has no default COSS class. Legend uses `font-semibold text-foreground`.
 The live COSS page confirmed one non-obvious detail: the default `FieldsetLegend` tag is `DIV`, not native `LEGEND`. The reference fieldset points to it with `aria-labelledby`. The port leaves the Shards default intact and still accepts `as="legend"` when a consumer wants native legend markup.
 
 SSR, hydration, and browser tests cover slots, exact classes, generated and explicit legend IDs, nested disabled propagation on root and Legend metadata, Legend snippet state, native disabled descendants, polymorphism, refs, and aliases. `apps/ui/src/lib/parity/components/fieldset.svelte` reproduces the only standalone Fieldset particle, `p-fieldset-1`, with its exact full-width, `max-w-64` preview metadata and `id` plus `data-particle` review selectors. There are no dependency-gated standalone Fieldset particles.
+
+## D6 documentation port
+
+Fresh inspection covered the complete Fieldset page, `p-fieldset-1`, and its Input/Label dependency sources. The Svelte page keeps the single upstream example, exact visible copy, disabled Field composition, API descriptions, and public `Fieldset.Root`/`Fieldset.Legend` usage. The particle and displayed source compile and SSR render in the D6 inventory.

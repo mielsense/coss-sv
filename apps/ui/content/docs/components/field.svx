@@ -1,0 +1,137 @@
+---
+title: Field
+description: A component that provides labelling and validation for form controls.
+
+links:
+  doc: https://shardsui.com/svelte/field
+---
+
+<ComponentPreview name="p-field-1" />
+
+## Installation
+
+<InstallCommand pnpm="pnpm add @coss-sv/ui" shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/field.json" />
+
+## Usage
+
+```svelte
+<script lang="ts">
+  import { Field, Input } from "@coss-sv/ui";
+</script>
+
+<Field.Root>
+  <Field.Label>Name</Field.Label>
+  <Input type="text" placeholder="Enter your name" />
+  <Field.Description>Visible on your profile</Field.Description>
+  <Field.Error>Please enter a valid name</Field.Error>
+  <Field.Validity>
+    {#snippet children(validity)}
+      {#if validity.error}<p>{validity.error}</p>{/if}
+    {/snippet}
+  </Field.Validity>
+</Field.Root>
+```
+
+## API Reference
+
+### Field.Root
+
+Root component. Styled wrapper for `Field.Root` from Shards UI with flex column layout.
+
+### Field.Label
+
+Label for the field. Styled wrapper for `Field.Label` from Shards UI.
+
+### Field.Item
+
+Container for field items. Styled wrapper for `Field.Item` from Shards UI.
+
+### Field.Description
+
+Description text for the field. Styled wrapper for `Field.Description` from Shards UI with muted foreground color.
+
+### Field.Error
+
+Error message for the field. Styled wrapper for `Field.Error` from Shards UI with destructive foreground color.
+
+### Field.Control
+
+Alias for `Field.Control` from Shards UI. Use it to register a custom or third-party control with the field context so it participates in labelling, validation, and error state.
+
+`Textarea` does not require `Field.Control`. It wraps the control internally and integrates with `Field` in the same way as `Input` and the other built-in controls.
+
+### Field.Validity
+
+Alias for `Field.Validity` from Shards UI.
+
+## Examples
+
+### Required Field
+
+<ComponentPreview name="p-field-2" />
+
+### Disabled Field
+
+<ComponentPreview name="p-field-3" />
+
+### With Error
+
+Enter an invalid email address and press enter to see the error.
+
+<ComponentPreview name="p-field-4" />
+
+### With Validity
+
+<ComponentPreview name="p-field-5" />
+
+### Input Group
+
+<ComponentPreview name="p-field-6" />
+
+### Autocomplete Field
+
+<ComponentPreview name="p-field-7" />
+
+### Combobox Field
+
+<ComponentPreview name="p-field-8" />
+
+### Combobox Multiple Field
+
+<ComponentPreview name="p-field-9" />
+
+### Textarea Field
+
+<ComponentPreview name="p-field-10" />
+
+### Select Field
+
+<ComponentPreview name="p-field-11" />
+
+### Checkbox Field
+
+<ComponentPreview name="p-field-12" />
+
+### Checkbox Group Field
+
+<ComponentPreview name="p-field-13" />
+
+### Radio Group Field
+
+<ComponentPreview name="p-field-14" />
+
+### Switch Field
+
+<ComponentPreview name="p-field-15" />
+
+### Slider Field
+
+<ComponentPreview name="p-field-16" />
+
+### Number Field
+
+<ComponentPreview name="p-field-17" />
+
+### Complete Form Example
+
+<ComponentPreview name="p-field-18" />
