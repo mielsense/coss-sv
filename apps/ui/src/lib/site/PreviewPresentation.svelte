@@ -21,7 +21,7 @@ let presentation: HTMLElement;
 
 const resolvedTheme = $derived(theme ?? siteTheme);
 const previewUrl = $derived(
-  `/preview/${encodeURIComponent(name)}?theme=${resolvedTheme}&width=${width}`,
+  `/preview/${encodeURIComponent(name)}?theme=${resolvedTheme}&width=${width}&timers=real`,
 );
 
 function trackPresentation(node: HTMLElement) {

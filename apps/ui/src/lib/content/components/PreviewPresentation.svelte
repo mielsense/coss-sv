@@ -29,7 +29,7 @@ let {
 let siteTheme = $state<PreviewTheme>("light");
 const resolvedTheme = $derived(theme ?? siteTheme);
 const previewUrl = $derived(
-  `/preview/${encodeURIComponent(name)}?theme=${resolvedTheme}&width=${width}&align=${align}`,
+  `/preview/${encodeURIComponent(name)}?theme=${resolvedTheme}&width=${width}&align=${align}&timers=real`,
 );
 
 function trackSiteTheme(_node: HTMLElement) {

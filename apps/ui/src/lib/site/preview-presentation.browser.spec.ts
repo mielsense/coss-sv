@@ -19,7 +19,7 @@ describe("preview presentation", () => {
       .toHaveAttribute("aria-pressed", "true");
     await expect
       .element(frame)
-      .toHaveAttribute("src", "/preview/p-button-1?theme=light&width=desktop");
+      .toHaveAttribute("src", "/preview/p-button-1?theme=light&width=desktop&timers=real");
     await expect.element(frame).toHaveAttribute("data-preview-width", "desktop");
 
     const mobile = page.getByRole("button", { name: "Mobile preview" });
@@ -28,7 +28,7 @@ describe("preview presentation", () => {
     await expect.element(mobile).toHaveAttribute("aria-pressed", "true");
     await expect
       .element(frame)
-      .toHaveAttribute("src", "/preview/p-button-1?theme=light&width=mobile");
+      .toHaveAttribute("src", "/preview/p-button-1?theme=light&width=mobile&timers=real");
     await expect.element(frame).toHaveStyle({ width: "390px" });
 
     await page.getByRole("button", { name: "Tablet preview" }).click();
@@ -73,14 +73,14 @@ describe("preview presentation", () => {
 
     await expect
       .element(inheritedFrame)
-      .toHaveAttribute("src", "/preview/p-button-1?theme=dark&width=desktop");
+      .toHaveAttribute("src", "/preview/p-button-1?theme=dark&width=desktop&timers=real");
 
     document.documentElement.classList.remove("dark");
     document.documentElement.classList.add("light");
     document.dispatchEvent(new Event("coss-sv:themechange"));
     await expect
       .element(inheritedFrame)
-      .toHaveAttribute("src", "/preview/p-button-1?theme=light&width=desktop");
+      .toHaveAttribute("src", "/preview/p-button-1?theme=light&width=desktop&timers=real");
     await unmount(inherited);
 
     document.documentElement.classList.remove("light");
@@ -91,7 +91,7 @@ describe("preview presentation", () => {
     });
     await expect
       .element(page.getByTitle("Button preview"))
-      .toHaveAttribute("src", "/preview/p-button-1?theme=light&width=desktop");
+      .toHaveAttribute("src", "/preview/p-button-1?theme=light&width=desktop&timers=real");
     await unmount(explicit);
   });
 
