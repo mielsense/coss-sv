@@ -17,9 +17,9 @@ import { Accordion } from "@coss-sv/ui";
 
 <Accordion.Root class="w-full">
   <Accordion.Item value="item-1">
-    <Accordion.Header><Accordion.Trigger>What is Shards UI?</Accordion.Trigger></Accordion.Header>
+    <Accordion.Header><Accordion.Trigger>What is ShardsUI?</Accordion.Trigger></Accordion.Header>
     <Accordion.Panel>
-      Shards UI is a library of headless, accessible Svelte 5 components for design systems and web
+      ShardsUI is a library of headless, accessible Svelte 5 components for design systems and web
       apps.
     </Accordion.Panel>
   </Accordion.Item>
@@ -36,6 +36,6 @@ import { Accordion } from "@coss-sv/ui";
     <Accordion.Header
       ><Accordion.Trigger>Can I use it for my project?</Accordion.Trigger></Accordion.Header
     >
-    <Accordion.Panel>Of course! Shards UI is free and open source.</Accordion.Panel>
+    <Accordion.Panel>Of course! ShardsUI is free and open source.</Accordion.Panel>
   </Accordion.Item>
 </Accordion.Root>

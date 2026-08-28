@@ -29,10 +29,13 @@ Shards owns selection state, disabled handling, trigger and panel IDs, ARIA rela
 ## D4 documentation coverage
 
 The Svelte page preserves the four upstream previews in order. The four particles keep the source
-sentence structure, item order, values, and layout. Framework-specific references now describe
-Shards UI as a library of headless, accessible Svelte 5 components instead of describing Base UI's
-React package. Each D4 page's pnpm tab installs `@coss-sv/ui`, which provides the imports shown in
-the usage example. The shadcn-svelte tab keeps its component-specific registry command.
+sentence structure, item order, values, and layout. Framework-specific references now use the local
+`ShardsUI` brand and describe its headless, accessible Svelte 5 components instead of Base UI's
+React package. Each D4 pnpm command installs every package imported by its displayed Svelte blocks.
+Card also installs `@hugeicons/svelte` and `@hugeicons/core-free-icons`; the other seven pages import
+only `@coss-sv/ui`. The shadcn-svelte tab keeps its component-specific registry command.
+The repair check packed `@coss-sv/ui@0.0.0`, installed the Card command in a new pnpm project, and
+resolved the Card, Hugeicons Svelte, and Hugeicons icon-data imports from that project.
 `apps/ui/tests/docs/d4-disclosure.test.ts` locks their ownership, metadata, source syntax, and page
 order. It also rejects React and Base UI copy and checks that each install command matches the
 displayed package imports. `tests/e2e/d4-disclosure-docs.spec.ts` opens each route in the required

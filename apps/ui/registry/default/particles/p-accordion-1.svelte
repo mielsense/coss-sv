@@ -17,9 +17,9 @@ import { Accordion } from "@coss-sv/ui";
 const items = [
   {
     content:
-      "Shards UI is a library of headless, accessible Svelte 5 components for design systems and web apps.",
+      "ShardsUI is a library of headless, accessible Svelte 5 components for design systems and web apps.",
     id: "1",
-    title: "What is Shards UI?",
+    title: "What is ShardsUI?",
   },
   {
     content:
@@ -28,7 +28,7 @@ const items = [
     title: "How do I get started?",
   },
   {
-    content: "Of course! Shards UI is free and open source.",
+    content: "Of course! ShardsUI is free and open source.",
     id: "3",
     title: "Can I use it for my project?",
   },

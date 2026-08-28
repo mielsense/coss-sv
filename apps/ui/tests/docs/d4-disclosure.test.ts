@@ -100,8 +100,35 @@ const expectedPagePreviews: Record<(typeof pages)[number], readonly string[]> = 
   tabs: ["p-tabs-1", "p-tabs-14", "p-tabs-15", "p-tabs-2", "p-tabs-3", "p-tabs-4"],
 };
 
+const expectedPagePackages: Record<(typeof pages)[number], readonly string[]> = {
+  accordion: ["@coss-sv/ui"],
+  card: ["@coss-sv/ui", "@hugeicons/svelte", "@hugeicons/core-free-icons"],
+  collapsible: ["@coss-sv/ui"],
+  empty: ["@coss-sv/ui"],
+  frame: ["@coss-sv/ui"],
+  separator: ["@coss-sv/ui"],
+  skeleton: ["@coss-sv/ui"],
+  tabs: ["@coss-sv/ui"],
+};
+
 function source(path: string): string {
   return readFileSync(resolve(repositoryRoot, path), "utf8");
+}
+
+function displayedSvelteImports(page: string): string[] {
+  const codeBlocks = [...page.matchAll(/```svelte\s*\n([\s\S]*?)```/g)].map(
+    ([, code]) => code ?? "",
+  );
+  return codeBlocks.flatMap((code) => [
+    ...[...code.matchAll(/\bfrom\s+["']([^"']+)["']/g)].map(([, specifier]) => specifier ?? ""),
+    ...[...code.matchAll(/\bimport\s+["']([^"']+)["']/g)].map(([, specifier]) => specifier ?? ""),
+  ]);
+}
+
+function barePackageName(specifier: string): string | undefined {
+  if (!specifier || /^(?:\.|\/|\$|#|node:)/.test(specifier)) return undefined;
+  const segments = specifier.split("/");
+  return specifier.startsWith("@") ? segments.slice(0, 2).join("/") : segments[0];
 }
 
 describe("D4 disclosure and surface documentation inventory", () => {
@@ -168,16 +195,16 @@ describe("D4 disclosure and surface documentation inventory", () => {
     );
   });
 
-  test("uses Svelte and Shards UI copy in every accordion particle", () => {
+  test("uses Svelte and ShardsUI copy in every accordion particle", () => {
     for (const id of ["p-accordion-1", "p-accordion-2", "p-accordion-3", "p-accordion-4"]) {
       const particle = source(`apps/ui/registry/default/particles/${id}.svelte`);
       const visibleCopy = particle.replace(/\s+/g, " ");
 
-      expect(visibleCopy).toContain("What is Shards UI?");
+      expect(visibleCopy).toContain("What is ShardsUI?");
       expect(visibleCopy).toContain(
-        "Shards UI is a library of headless, accessible Svelte 5 components for design systems and web apps.",
+        "ShardsUI is a library of headless, accessible Svelte 5 components for design systems and web apps.",
       );
-      expect(visibleCopy).toContain("Of course! Shards UI is free and open source.");
+      expect(visibleCopy).toContain("Of course! ShardsUI is free and open source.");
       expect(visibleCopy).not.toMatch(/Base UI|React components/);
     }
   });
@@ -187,18 +214,18 @@ describe("D4 disclosure and surface documentation inventory", () => {
     (slug) => {
       const page = source(`apps/ui/content/docs/components/${slug}.svx`);
       const install = /<InstallCommand\s+pnpm="([^"]+)"\s+shadcnSvelte="([^"]+)"\s*\/>/.exec(page);
-      const displayedImports = [...page.matchAll(/from\s+"(@coss-sv\/ui[^"]*)"/g)].map(
-        ([, specifier]) => specifier,
-      );
+      const displayedImports = displayedSvelteImports(page);
+      const displayedPackages = [
+        ...new Set(displayedImports.map(barePackageName).filter((value) => value !== undefined)),
+      ];
+      const installedPackages = install?.[1]?.split(/\s+/).slice(2);
 
-      expect(install?.[1]).toBe("pnpm add @coss-sv/ui");
+      expect(installedPackages).toEqual(expectedPagePackages[slug]);
       expect(install?.[2]).toBe(
         `pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/${slug}.json`,
       );
       expect(displayedImports.length).toBeGreaterThan(0);
-      expect(displayedImports.every((specifier) => specifier?.startsWith("@coss-sv/ui"))).toBe(
-        true,
-      );
+      expect(displayedPackages.toSorted()).toEqual(expectedPagePackages[slug].toSorted());
     },
   );
 

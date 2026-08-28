@@ -117,7 +117,7 @@ test("D4 keyboard paths preserve disclosure, tabs, and Select behavior", async (
   const theme = testInfo.project.name === "dark" ? "dark" : "light";
 
   let preview = await openReadyPreview(page, "p-accordion-1", theme, "desktop");
-  const accordionTrigger = preview.ready.getByRole("button", { name: "What is Shards UI?" });
+  const accordionTrigger = preview.ready.getByRole("button", { name: "What is ShardsUI?" });
   const accordionIndicator = accordionTrigger.locator('[data-slot="accordion-indicator"]');
   await expect(accordionIndicator).toHaveAttribute("aria-hidden", "true");
   await expect(accordionIndicator).toHaveCSS("rotate", "none");
@@ -126,7 +126,7 @@ test("D4 keyboard paths preserve disclosure, tabs, and Select behavior", async (
   await expect(accordionTrigger).toHaveAttribute("aria-expanded", "true");
   await expect(accordionIndicator).toHaveCSS("rotate", "180deg");
   await expect(preview.ready).toContainText(
-    "Shards UI is a library of headless, accessible Svelte 5 components for design systems and web apps.",
+    "ShardsUI is a library of headless, accessible Svelte 5 components for design systems and web apps.",
   );
   await expect(preview.ready).not.toContainText(/Base UI|React components/);
 
