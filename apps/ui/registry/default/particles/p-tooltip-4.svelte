@@ -11,11 +11,7 @@
 
 <script lang="ts">
   import { buttonVariants, Group, Tooltip } from "@coss-sv/ui";
-  import {
-    Link01Icon,
-    Mail01Icon,
-    Share08Icon,
-  } from "@hugeicons/core-free-icons";
+  import { Link01Icon, Mail01Icon, Share08Icon } from "@hugeicons/core-free-icons";
   import { HugeiconsIcon } from "@hugeicons/svelte";
   import type { Snippet } from "svelte";
 

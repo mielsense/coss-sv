@@ -10,15 +10,7 @@
 </script>
 
 <script lang="ts">
-  import {
-    Button,
-    buttonVariants,
-    Dialog,
-    Drawer,
-    Field,
-    Form,
-    Input,
-  } from "@coss-sv/ui";
+  import { Button, buttonVariants, Dialog, Drawer, Field, Form, Input } from "@coss-sv/ui";
   import { MediaQuery } from "svelte/reactivity";
 
   const isMobile = new MediaQuery("(max-width: 799px)", false);
@@ -28,10 +20,7 @@
   <Field.Root>
     <Field.Label>Name</Field.Label><Input value="Margaret Welsh" type="text" />
   </Field.Root><Field.Root>
-    <Field.Label>Username</Field.Label><Input
-      value="@maggie.welsh"
-      type="text"
-    />
+    <Field.Label>Username</Field.Label><Input value="@maggie.welsh" type="text" />
   </Field.Root>
 {/snippet}
 {#if isMobile.current}
@@ -48,9 +37,9 @@
         <Drawer.Panel class="grid gap-4" scrollable={false}>
           {@render fields()}
         </Drawer.Panel><Drawer.Footer>
-          <Drawer.Close class={buttonVariants({ variant: "ghost" })}>
-            Cancel
-          </Drawer.Close><Button type="submit">Save</Button>
+          <Drawer.Close class={buttonVariants({ variant: "ghost" })}>Cancel</Drawer.Close><Button
+            type="submit">Save</Button
+          >
         </Drawer.Footer>
       </Form>
     </Drawer.Popup>
@@ -69,9 +58,9 @@
         <Dialog.Panel class="grid gap-4">
           {@render fields()}
         </Dialog.Panel><Dialog.Footer>
-          <Dialog.Close class={buttonVariants({ variant: "ghost" })}>
-            Cancel
-          </Dialog.Close><Button type="submit">Save</Button>
+          <Dialog.Close class={buttonVariants({ variant: "ghost" })}>Cancel</Dialog.Close><Button
+            type="submit">Save</Button
+          >
         </Dialog.Footer>
       </Form>
     </Dialog.Popup>

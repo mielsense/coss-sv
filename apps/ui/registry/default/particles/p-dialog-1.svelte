@@ -10,20 +10,11 @@
 </script>
 
 <script lang="ts">
-  import {
-    Button,
-    buttonVariants,
-    Dialog,
-    Field,
-    Form,
-    Input,
-  } from "@coss-sv/ui";
+  import { Button, buttonVariants, Dialog, Field, Form, Input } from "@coss-sv/ui";
 </script>
 
 <Dialog.Root>
-  <Dialog.Trigger class={buttonVariants({ variant: "outline" })}>
-    Open Dialog
-  </Dialog.Trigger>
+  <Dialog.Trigger class={buttonVariants({ variant: "outline" })}>Open Dialog</Dialog.Trigger>
   <Dialog.Popup class="sm:max-w-sm">
     <Dialog.Header>
       <Dialog.Title>Edit profile</Dialog.Title><Dialog.Description>
@@ -33,10 +24,7 @@
     <Form class="contents">
       <Dialog.Panel class="grid gap-4">
         <Field.Root>
-          <Field.Label>Name</Field.Label><Input
-            value="Margaret Welsh"
-            type="text"
-          />
+          <Field.Label>Name</Field.Label><Input value="Margaret Welsh" type="text" />
         </Field.Root>
         <Field.Root>
           <Field.Label>Username</Field.Label>
@@ -44,9 +32,9 @@
         </Field.Root>
       </Dialog.Panel>
       <Dialog.Footer>
-        <Dialog.Close class={buttonVariants({ variant: "ghost" })}>
-          Cancel
-        </Dialog.Close><Button type="submit">Save</Button>
+        <Dialog.Close class={buttonVariants({ variant: "ghost" })}>Cancel</Dialog.Close><Button
+          type="submit">Save</Button
+        >
       </Dialog.Footer>
     </Form>
   </Dialog.Popup>

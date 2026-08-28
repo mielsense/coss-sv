@@ -18,18 +18,14 @@
 
 <div class="relative min-h-80 w-full overflow-hidden rounded-xl border">
   <Drawer.Root modal={false} position="left">
-    <Drawer.SwipeArea
-      class="absolute border-input border-e border-dashed bg-muted"
-    >
+    <Drawer.SwipeArea class="absolute border-input border-e border-dashed bg-muted">
       <span
         class="pointer-events-none absolute top-1/2 left-0 ms-2 -translate-y-1/2 rotate-90 whitespace-nowrap font-medium text-muted-foreground text-xs uppercase"
       >
         Swipe area
       </span>
     </Drawer.SwipeArea>
-    <div
-      class="flex min-h-80 items-center justify-center p-6 ps-14 text-center"
-    >
+    <div class="flex min-h-80 items-center justify-center p-6 ps-14 text-center">
       <p class="max-w-56 text-balance text-muted-foreground text-sm">
         Swipe from the left edge to open the menu.
       </p>

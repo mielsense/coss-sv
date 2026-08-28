@@ -16,9 +16,7 @@
 </script>
 
 <Menu.Root>
-  <Menu.Trigger class={buttonVariants({ variant: "outline" })}>
-    Open menu
-  </Menu.Trigger>
+  <Menu.Trigger class={buttonVariants({ variant: "outline" })}>Open menu</Menu.Trigger>
   <Menu.Popup align="start">
     <Menu.Item onclick={() => (dialogOpen = true)}>Open dialog</Menu.Item>
   </Menu.Popup>
@@ -31,9 +29,7 @@
       </Dialog.Description>
     </Dialog.Header>
     <Dialog.Footer>
-      <Dialog.Close class={buttonVariants({ variant: "ghost" })}>
-        Close
-      </Dialog.Close>
+      <Dialog.Close class={buttonVariants({ variant: "ghost" })}>Close</Dialog.Close>
     </Dialog.Footer>
   </Dialog.Popup>
 </Dialog.Root>

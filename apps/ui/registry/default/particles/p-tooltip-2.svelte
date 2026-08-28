@@ -11,11 +11,7 @@
 
 <script lang="ts">
   import { ToggleGroup, Tooltip, toggleVariants } from "@coss-sv/ui";
-  import {
-    BoldIcon,
-    ItalicIcon,
-    UnderlineIcon,
-  } from "@hugeicons/core-free-icons";
+  import { BoldIcon, ItalicIcon, UnderlineIcon } from "@hugeicons/core-free-icons";
   import { HugeiconsIcon } from "@hugeicons/svelte";
 
   const controls = [
@@ -39,9 +35,7 @@
     const triggers = Array.from(
       current
         .closest('[data-slot="toggle-group"]')
-        ?.querySelectorAll<HTMLButtonElement>(
-          '[data-slot="tooltip-trigger"]',
-        ) ?? [],
+        ?.querySelectorAll<HTMLButtonElement>('[data-slot="tooltip-trigger"]') ?? [],
     );
     const index = triggers.indexOf(current);
     if (index < 0) return;
@@ -51,8 +45,7 @@
         ? 0
         : event.key === "End"
           ? triggers.length - 1
-          : (index + (event.key === "ArrowRight" ? 1 : -1) + triggers.length) %
-            triggers.length;
+          : (index + (event.key === "ArrowRight" ? 1 : -1) + triggers.length) % triggers.length;
     triggers[next]?.focus();
   }
 </script>
@@ -71,11 +64,7 @@
           onkeydown={moveFocus}
           tabindex={focusValue === control.value ? 0 : -1}
         >
-          <HugeiconsIcon
-            aria-hidden="true"
-            icon={control.icon}
-            strokeWidth={2}
-          />
+          <HugeiconsIcon aria-hidden="true" icon={control.icon} strokeWidth={2} />
         </Tooltip.Trigger><Tooltip.Popup id={`format-${control.value}-tooltip`}>
           {control.label}
         </Tooltip.Popup>

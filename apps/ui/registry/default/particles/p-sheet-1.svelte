@@ -10,14 +10,7 @@
 </script>
 
 <script lang="ts">
-  import {
-    Button,
-    buttonVariants,
-    Field,
-    Form,
-    Input,
-    Sheet,
-  } from "@coss-sv/ui";
+  import { Button, buttonVariants, Field, Form, Input, Sheet } from "@coss-sv/ui";
 </script>
 
 <Sheet.Root>
@@ -32,18 +25,15 @@
     <Form class="contents">
       <Sheet.Panel class="grid gap-4">
         <Field.Root>
-          <Field.Label>Name</Field.Label><Input
-            value="Margaret Welsh"
-            type="text"
-          />
+          <Field.Label>Name</Field.Label><Input value="Margaret Welsh" type="text" />
         </Field.Root><Field.Root>
           <Field.Label>Username</Field.Label>
           <Input value="@maggie.welsh" type="text" />
         </Field.Root>
       </Sheet.Panel><Sheet.Footer>
-        <Sheet.Close class={buttonVariants({ variant: "ghost" })}>
-          Cancel
-        </Sheet.Close><Button type="submit">Save</Button>
+        <Sheet.Close class={buttonVariants({ variant: "ghost" })}>Cancel</Sheet.Close><Button
+          type="submit">Save</Button
+        >
       </Sheet.Footer>
     </Form>
   </Sheet.Popup>

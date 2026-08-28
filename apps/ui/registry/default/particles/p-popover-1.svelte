@@ -10,14 +10,7 @@
 </script>
 
 <script lang="ts">
-  import {
-    Button,
-    buttonVariants,
-    Field,
-    Form,
-    Popover,
-    Textarea,
-  } from "@coss-sv/ui";
+  import { Button, buttonVariants, Field, Form, Popover, Textarea } from "@coss-sv/ui";
 </script>
 
 <Popover.Root>
@@ -25,19 +18,13 @@
     Open Popover
   </Popover.Trigger><Popover.Popup class="w-80">
     <div class="mb-4">
-      <Popover.Title class="text-base">
-        Send us feedback
-      </Popover.Title><Popover.Description>
+      <Popover.Title class="text-base">Send us feedback</Popover.Title><Popover.Description>
         Let us know how we can improve.
       </Popover.Description>
     </div>
     <Form class="flex w-full flex-col gap-4">
       <Field.Root>
-        <Textarea
-          aria-label="Send feedback"
-          id="feedback"
-          placeholder="How can we improve?"
-        />
+        <Textarea aria-label="Send feedback" id="feedback" placeholder="How can we improve?" />
       </Field.Root><Button type="submit">Send feedback</Button>
     </Form>
   </Popover.Popup>

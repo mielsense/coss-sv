@@ -1,15 +1,7 @@
 <script module lang="ts">
   import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
   export const meta = defineParticleMeta({
-    components: [
-      "badge",
-      "button",
-      "checkbox",
-      "checkbox-group",
-      "group",
-      "label",
-      "popover",
-    ],
+    components: ["badge", "button", "checkbox", "checkbox-group", "group", "label", "popover"],
     id: "p-popover-4",
     interactive: true,
     responsive: true,
@@ -18,15 +10,7 @@
 </script>
 
 <script lang="ts">
-  import {
-    Badge,
-    Button,
-    buttonVariants,
-    CheckboxGroup,
-    Group,
-    Label,
-    Popover,
-  } from "@coss-sv/ui";
+  import { Badge, Button, buttonVariants, CheckboxGroup, Group, Label, Popover } from "@coss-sv/ui";
   import { ArrowDown01Icon } from "@hugeicons/core-free-icons";
   import { HugeiconsIcon } from "@hugeicons/svelte";
 
@@ -39,27 +23,19 @@
 </script>
 
 <div class="flex gap-2">
-  <Button size="xs" variant="outline">Reject</Button><Group.Root
-    aria-label="Confirm booking"
-  >
-    <Button size="xs">Confirm all</Button><Group.Separator
-      class="bg-primary/72"
-    />
+  <Button size="xs" variant="outline">Reject</Button><Group.Root aria-label="Confirm booking">
+    <Button size="xs">Confirm all</Button><Group.Separator class="bg-primary/72" />
     <Popover.Root>
       <Popover.Trigger
         aria-label="Choose occurrences to confirm"
         class={buttonVariants({ size: "icon-xs" })}
       >
-        <HugeiconsIcon
-          aria-hidden="true"
-          icon={ArrowDown01Icon}
-          strokeWidth={2}
-        />
+        <HugeiconsIcon aria-hidden="true" icon={ArrowDown01Icon} strokeWidth={2} />
       </Popover.Trigger><Popover.Popup align="end" class="w-84">
         <div class="mb-3">
-          <Popover.Title class="text-sm">
-            Confirm occurrences
-          </Popover.Title><Popover.Description class="text-xs">
+          <Popover.Title class="text-sm">Confirm occurrences</Popover.Title><Popover.Description
+            class="text-xs"
+          >
             {occurrences.length}
             pending for this booking
           </Popover.Description>

@@ -46,17 +46,13 @@
 </script>
 
 <Dialog.Root>
-  <Dialog.Trigger class={buttonVariants({ variant: "outline" })}>
-    Terms & Conditions
-  </Dialog.Trigger>
+  <Dialog.Trigger class={buttonVariants({ variant: "outline" })}>Terms & Conditions</Dialog.Trigger>
   <Dialog.Popup class="sm:max-w-md" showCloseButton={false}>
     <Dialog.Header>
       <Dialog.Title>Terms & Conditions</Dialog.Title>
     </Dialog.Header>
     <Dialog.Panel>
-      <div
-        class="flex flex-col gap-4 [&_strong]:font-semibold [&_strong]:text-foreground"
-      >
+      <div class="flex flex-col gap-4 [&_strong]:font-semibold [&_strong]:text-foreground">
         {#each sections.slice(0, 4) as [title, copy]}
           <div class="flex flex-col gap-1">
             <p><strong>{title}</strong></p>
@@ -81,9 +77,9 @@
       </div>
     </Dialog.Panel>
     <Dialog.Footer>
-      <Dialog.Close class={buttonVariants({ variant: "ghost" })}>
-        Cancel
-      </Dialog.Close><Button type="button">I agree</Button>
+      <Dialog.Close class={buttonVariants({ variant: "ghost" })}>Cancel</Dialog.Close><Button
+        type="button">I agree</Button
+      >
     </Dialog.Footer>
   </Dialog.Popup>
 </Dialog.Root>

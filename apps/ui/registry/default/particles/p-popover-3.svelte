@@ -19,9 +19,7 @@
 </script>
 
 {#snippet notificationsContent()}
-  <Popover.Title class="text-base">
-    Notifications
-  </Popover.Title><Popover.Description>
+  <Popover.Title class="text-base">Notifications</Popover.Title><Popover.Description>
     You have no new notifications at this time.
   </Popover.Description>
 {/snippet}
@@ -36,9 +34,7 @@
       </Avatar.Root>
       <div class="min-w-0 flex-1">
         <h4 class="line-clamp-1 font-medium text-sm">Mark Andersson</h4>
-        <div class="flex items-center gap-3 text-muted-foreground text-xs">
-          Product Designer
-        </div>
+        <div class="flex items-center gap-3 text-muted-foreground text-xs">Product Designer</div>
       </div>
     </div>
     <Button class="mt-3 w-full" size="sm" variant="outline">Log out</Button>
@@ -51,11 +47,7 @@
     handle={popoverHandle}
     payload={notificationsContent}
   >
-    <HugeiconsIcon
-      aria-hidden="true"
-      icon={Notification01Icon}
-      strokeWidth={2}
-    />
+    <HugeiconsIcon aria-hidden="true" icon={Notification01Icon} strokeWidth={2} />
   </Popover.Trigger>
   <Popover.Trigger
     aria-label="Profile"

@@ -23,9 +23,9 @@
       </Drawer.Description>
     </Drawer.Header><Drawer.Panel>
       <p class="text-muted-foreground text-sm">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-        veniam, quis nostrud exercitation ullamco laboris.
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut
+        labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+        laboris.
       </p>
     </Drawer.Panel>
   </Drawer.Popup>

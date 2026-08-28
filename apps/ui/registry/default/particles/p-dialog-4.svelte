@@ -1,14 +1,7 @@
 <script module lang="ts">
   import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
   export const meta = defineParticleMeta({
-    components: [
-      "alert-dialog",
-      "button",
-      "dialog",
-      "field",
-      "form",
-      "textarea",
-    ],
+    components: ["alert-dialog", "button", "dialog", "field", "form", "textarea"],
     id: "p-dialog-4",
     interactive: true,
     responsive: true,
@@ -17,15 +10,7 @@
 </script>
 
 <script lang="ts">
-  import {
-    AlertDialog,
-    Button,
-    buttonVariants,
-    Dialog,
-    Field,
-    Form,
-    Textarea,
-  } from "@coss-sv/ui";
+  import { AlertDialog, Button, buttonVariants, Dialog, Field, Form, Textarea } from "@coss-sv/ui";
 
   let dialogOpen = $state(false);
   let confirmOpen = $state(false);
@@ -42,9 +27,7 @@
 </script>
 
 <Dialog.Root open={dialogOpen} onOpenChange={changeDialog}>
-  <Dialog.Trigger class={buttonVariants({ variant: "outline" })}>
-    Compose
-  </Dialog.Trigger>
+  <Dialog.Trigger class={buttonVariants({ variant: "outline" })}>Compose</Dialog.Trigger>
   <Dialog.Popup showCloseButton={false}>
     <Dialog.Header>
       <Dialog.Title>New message</Dialog.Title><Dialog.Description>
@@ -62,9 +45,7 @@
         <Field.Root><Textarea bind:value /></Field.Root>
       </Dialog.Panel>
       <Dialog.Footer>
-        <Dialog.Close class={buttonVariants({ variant: "ghost" })}>
-          Cancel
-        </Dialog.Close>
+        <Dialog.Close class={buttonVariants({ variant: "ghost" })}>Cancel</Dialog.Close>
         <Button
           onclick={() => {
             value = "";
@@ -76,15 +57,10 @@
       </Dialog.Footer>
     </Form>
   </Dialog.Popup>
-  <AlertDialog.Root
-    open={confirmOpen}
-    onOpenChange={(open) => (confirmOpen = open)}
-  >
+  <AlertDialog.Root open={confirmOpen} onOpenChange={(open) => (confirmOpen = open)}>
     <AlertDialog.Popup>
       <AlertDialog.Header>
-        <AlertDialog.Title>
-          Discard changes?
-        </AlertDialog.Title><AlertDialog.Description>
+        <AlertDialog.Title>Discard changes?</AlertDialog.Title><AlertDialog.Description>
           Your message will be lost.
         </AlertDialog.Description>
       </AlertDialog.Header>

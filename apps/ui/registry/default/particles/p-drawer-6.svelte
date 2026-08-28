@@ -29,9 +29,7 @@
         {/each}
       </div>
     </Drawer.Panel><Drawer.Footer>
-      <Drawer.Close class={buttonVariants({ variant: "outline" })}>
-        Close
-      </Drawer.Close>
+      <Drawer.Close class={buttonVariants({ variant: "outline" })}>Close</Drawer.Close>
     </Drawer.Footer>
   </Drawer.Popup>
 </Drawer.Root>

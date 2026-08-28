@@ -17,15 +17,8 @@
   let snapPoint = $state<string | number | null>("300px");
 </script>
 
-<Drawer.Root
-  bind:snapPoint
-  position="bottom"
-  snapPoints={["300px", 1]}
-  snapToSequentialPoints
->
-  <Drawer.Trigger class={buttonVariants({ variant: "outline" })}>
-    With snap points
-  </Drawer.Trigger>
+<Drawer.Root bind:snapPoint position="bottom" snapPoints={["300px", 1]} snapToSequentialPoints>
+  <Drawer.Trigger class={buttonVariants({ variant: "outline" })}>With snap points</Drawer.Trigger>
   <Drawer.Popup showBar>
     <Drawer.Header>
       <Drawer.Title>Snap Points</Drawer.Title><Drawer.Description>

@@ -14,9 +14,7 @@
 </script>
 
 <Dialog.Root>
-  <Dialog.Trigger class={buttonVariants({ variant: "outline" })}>
-    Open parent
-  </Dialog.Trigger>
+  <Dialog.Trigger class={buttonVariants({ variant: "outline" })}>Open parent</Dialog.Trigger>
   <Dialog.Popup showCloseButton={false}>
     <Dialog.Header>
       <Dialog.Title>Manage team member</Dialog.Title><Dialog.Description>
@@ -35,9 +33,7 @@
     </Dialog.Panel>
     <Dialog.Footer>
       <Dialog.Root>
-        <Dialog.Trigger class={buttonVariants({ variant: "outline" })}>
-          Edit details
-        </Dialog.Trigger>
+        <Dialog.Trigger class={buttonVariants({ variant: "outline" })}>Edit details</Dialog.Trigger>
         <Dialog.Popup showCloseButton={false}>
           <Dialog.Header>
             <Dialog.Title>Edit details</Dialog.Title><Dialog.Description>
@@ -46,10 +42,7 @@
           </Dialog.Header>
           <Dialog.Panel class="grid gap-4">
             <Field.Root>
-              <Field.Label>Name</Field.Label><Input
-                value="Bora Baloglu"
-                type="text"
-              />
+              <Field.Label>Name</Field.Label><Input value="Bora Baloglu" type="text" />
             </Field.Root>
             <Field.Root>
               <Field.Label>Email</Field.Label>
@@ -57,9 +50,9 @@
             </Field.Root>
           </Dialog.Panel>
           <Dialog.Footer>
-            <Dialog.Close class={buttonVariants({ variant: "ghost" })}>
-              Cancel
-            </Dialog.Close><Button type="submit">Save changes</Button>
+            <Dialog.Close class={buttonVariants({ variant: "ghost" })}>Cancel</Dialog.Close><Button
+              type="submit">Save changes</Button
+            >
           </Dialog.Footer>
         </Dialog.Popup>
       </Dialog.Root>

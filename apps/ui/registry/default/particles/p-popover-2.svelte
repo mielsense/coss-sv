@@ -30,14 +30,10 @@
       <HugeiconsIcon aria-hidden="true" icon={Cancel01Icon} strokeWidth={2} />
     </Popover.Close>
     <div class="mb-2">
-      <Popover.Title class="text-base">
-        Notifications
-      </Popover.Title><Popover.Description>
+      <Popover.Title class="text-base">Notifications</Popover.Title><Popover.Description>
         You are all caught up. Good job!
       </Popover.Description>
     </div>
-    <Popover.Close class={buttonVariants({ variant: "outline" })}>
-      Close
-    </Popover.Close>
+    <Popover.Close class={buttonVariants({ variant: "outline" })}>Close</Popover.Close>
   </Popover.Popup>
 </Popover.Root>

@@ -10,14 +10,7 @@
 </script>
 
 <script lang="ts">
-  import {
-    Button,
-    buttonVariants,
-    Drawer,
-    Field,
-    Form,
-    Input,
-  } from "@coss-sv/ui";
+  import { Button, buttonVariants, Drawer, Field, Form, Input } from "@coss-sv/ui";
 </script>
 
 {#snippet profileForm(variant?: "bare")}
@@ -29,20 +22,14 @@
   <Form class="contents">
     <Drawer.Panel class="grid gap-4">
       <Field.Root>
-        <Field.Label>Name</Field.Label><Input
-          value="Margaret Welsh"
-          type="text"
-        />
+        <Field.Label>Name</Field.Label><Input value="Margaret Welsh" type="text" />
       </Field.Root><Field.Root>
-        <Field.Label>Username</Field.Label><Input
-          value="@maggie.welsh"
-          type="text"
-        />
+        <Field.Label>Username</Field.Label><Input value="@maggie.welsh" type="text" />
       </Field.Root>
     </Drawer.Panel><Drawer.Footer {variant}>
-      <Drawer.Close class={buttonVariants({ variant: "ghost" })}>
-        Cancel
-      </Drawer.Close><Button>Save</Button>
+      <Drawer.Close class={buttonVariants({ variant: "ghost" })}>Cancel</Drawer.Close><Button
+        >Save</Button
+      >
     </Drawer.Footer>
   </Form>
 {/snippet}
