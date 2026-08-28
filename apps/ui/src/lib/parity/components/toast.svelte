@@ -8,11 +8,6 @@ const texts = [
   "This is a longer description that intentionally takes more vertical space to demonstrate stacking with varying heights.",
   "An even longer description that should span multiple lines so we can verify the clamped collapsed height and smooth expansion animation when hovering or focusing the viewport.",
 ];
-// Shards merges promise updates, but its exact-optional type does not model an explicit clear.
-const clearActionProps = { actionProps: undefined } as unknown as Pick<
-  Toast.ToastObject,
-  "actionProps"
->;
 
 let copyButton = $state<HTMLButtonElement | null>(null);
 let submitButton = $state<HTMLButtonElement | null>(null);
@@ -157,13 +152,13 @@ async function download(): Promise<void> {
         error: (error: unknown) =>
           error instanceof Error && error.name === "AbortError"
             ? {
-                ...clearActionProps,
+                actionProps: undefined,
                 description: "Report generation was cancelled.",
                 title: "Cancelled",
                 type: "info",
               }
             : {
-                ...clearActionProps,
+                actionProps: undefined,
                 description: "Please try again later.",
                 title: "Failed to generate report",
               },
@@ -173,7 +168,7 @@ async function download(): Promise<void> {
           title: "Generating report…",
         },
         success: () => ({
-          ...clearActionProps,
+          actionProps: undefined,
           description: "Your file is now downloading.",
           title: "Download started",
         }),

@@ -174,8 +174,23 @@ test("matches p7 through p9 tooltip, spinner, anchored error, and cancellation b
   await ready.getByRole("button", { name: "Download", exact: true }).click();
   await expect(standardToasts(page).first()).toContainText("Generating report…");
   await standardToasts(page).first().getByRole("button", { name: "Cancel" }).click();
-  await expect(standardToasts(page).first()).toContainText("Cancelled");
-  await expect(standardToasts(page).first().getByRole("button", { name: "Cancel" })).toHaveCount(0);
+  const cancelledToast = standardToasts(page).first();
+  await expect(cancelledToast).toContainText("Cancelled");
+  await expect(cancelledToast).toHaveAttribute("data-type", "info");
+  const infoIcon = cancelledToast.locator('[data-slot="toast-icon"] svg');
+  await expect(infoIcon).toHaveClass(/lucide-info/);
+  await expect(infoIcon).toHaveClass(/text-info/);
+  const [iconColor, infoColor] = await infoIcon.evaluate((element) => {
+    const probe = document.createElement("span");
+    probe.style.color = "var(--info)";
+    document.body.append(probe);
+    const colors = [getComputedStyle(element).color, getComputedStyle(probe).color];
+    probe.remove();
+    return colors;
+  });
+  expect(iconColor).toBe(infoColor);
+  expect(iconColor).not.toBe("rgba(0, 0, 0, 0)");
+  await expect(cancelledToast.getByRole("button", { name: "Cancel" })).toHaveCount(0);
 
   ({ ready } = await openReadyPreview(page, "toast", "light", "desktop"));
   await page.evaluate(() => {
@@ -189,8 +204,13 @@ test("matches p7 through p9 tooltip, spinner, anchored error, and cancellation b
       )) as typeof window.setTimeout;
   });
   await ready.getByRole("button", { name: "Download", exact: true }).click();
-  await expect(standardToasts(page).first()).toContainText("Failed to generate report");
-  await expect(standardToasts(page).first().getByRole("button", { name: "Cancel" })).toHaveCount(0);
+  const failedToast = standardToasts(page).first();
+  await expect(failedToast).toContainText("Failed to generate report");
+  await expect(failedToast).toHaveAttribute("data-type", "error");
+  await expect(failedToast.locator('[data-slot="toast-icon"] svg')).toHaveClass(
+    /lucide-circle-alert/,
+  );
+  await expect(failedToast.getByRole("button", { name: "Cancel" })).toHaveCount(0);
 
   ({ ready } = await openReadyPreview(page, "toast", "light", "desktop"));
   await page.evaluate(() => {
@@ -204,8 +224,13 @@ test("matches p7 through p9 tooltip, spinner, anchored error, and cancellation b
       )) as typeof window.setTimeout;
   });
   await ready.getByRole("button", { name: "Download", exact: true }).click();
-  await expect(standardToasts(page).first()).toContainText("Download started");
-  await expect(standardToasts(page).first().getByRole("button", { name: "Cancel" })).toHaveCount(0);
+  const successToast = standardToasts(page).first();
+  await expect(successToast).toContainText("Download started");
+  await expect(successToast).toHaveAttribute("data-type", "success");
+  await expect(successToast.locator('[data-slot="toast-icon"] svg')).toHaveClass(
+    /lucide-circle-check/,
+  );
+  await expect(successToast.getByRole("button", { name: "Cancel" })).toHaveCount(0);
   guard.assertNoErrors();
 });
 

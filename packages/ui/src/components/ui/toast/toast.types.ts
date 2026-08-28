@@ -1,5 +1,9 @@
-import type { ToastManager, Toast as ToastPrimitive } from "@shardsui/svelte";
+import type {
+  ToastManager as PrimitiveToastManager,
+  Toast as ToastPrimitive,
+} from "@shardsui/svelte";
 import type { ComponentProps, Snippet } from "svelte";
+import type { ToastManager } from "./toast-manager.js";
 
 export type ToastPosition =
   | "top-left"
@@ -29,7 +33,7 @@ export type ToastProviderProps<Data extends object = ToastData> = Omit<
   children?: Snippet;
   portalProps?: ToastPortalProps;
   position?: ToastPosition;
-  toastManager?: ToastManager<Data>;
+  toastManager?: ToastManager<Data> | PrimitiveToastManager<Data>;
 };
 
 export type AnchoredToastProviderProps<Data extends object = ToastData> = Omit<
@@ -38,7 +42,7 @@ export type AnchoredToastProviderProps<Data extends object = ToastData> = Omit<
 > & {
   children?: Snippet;
   portalProps?: ToastPortalProps;
-  toastManager?: ToastManager<Data>;
+  toastManager?: ToastManager<Data> | PrimitiveToastManager<Data>;
 };
 
 export function getToastSwipeDirection(position: ToastPosition): ToastSwipeDirection[] {

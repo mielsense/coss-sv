@@ -1,5 +1,5 @@
-import { Toast as ToastPrimitive } from "@shardsui/svelte";
 import type { ToastData } from "./toast.types.js";
+import { ToastManager } from "./toast-manager.js";
 
-export const toastManager = new ToastPrimitive.Manager<ToastData>();
-export const anchoredToastManager = new ToastPrimitive.Manager<ToastData>();
+export const toastManager = new ToastManager<ToastData>();
+export const anchoredToastManager = new ToastManager<ToastData>();

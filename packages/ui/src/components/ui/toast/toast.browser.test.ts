@@ -60,20 +60,28 @@ describe("Toast browser contract", () => {
   });
 
   test.each([
-    ["success", "resolve-report", "Report generated"],
-    ["error", "reject-report", "Failed"],
-    ["cancel", "Cancel", "Cancelled"],
-  ])("clears a loading action after a %s promise transition", async (_, control, title) => {
-    render(ToastFixture);
-    await page.getByTestId("start-report").click();
-    await expect.element(page.getByRole("button", { name: "Cancel" })).toBeInTheDocument();
+    ["success", "resolve-report", "Report generated", "success", "lucide-circle-check"],
+    ["error", "reject-report", "Failed", "error", "lucide-circle-alert"],
+    ["cancel", "Cancel", "Cancelled", "info", "lucide-info"],
+  ])(
+    "preserves the %s promise terminal type and clears its loading action",
+    async (_, control, title, type, iconClass) => {
+      render(ToastFixture);
+      await page.getByTestId("start-report").click();
+      await expect.element(page.getByRole("button", { name: "Cancel" })).toBeInTheDocument();
 
-    if (control === "Cancel") await page.getByRole("button", { name: control }).click();
-    else await page.getByTestId(control).click();
+      if (control === "Cancel") await page.getByRole("button", { name: control }).click();
+      else await page.getByTestId(control).click();
 
-    await expect.element(page.getByText(title, { exact: true })).toBeInTheDocument();
-    await expect.element(page.getByRole("button", { name: "Cancel" })).not.toBeInTheDocument();
-  });
+      await expect.element(page.getByText(title, { exact: true })).toBeInTheDocument();
+      const root = standardRoots()[0];
+      const icon = root?.querySelector<SVGElement>('[data-slot="toast-icon"] svg');
+      expect(root?.getAttribute("data-type")).toBe(type);
+      expect(icon?.classList.contains(iconClass)).toBe(true);
+      if (type === "info") expect(icon?.getAttribute("class")).toContain("text-info");
+      await expect.element(page.getByRole("button", { name: "Cancel" })).not.toBeInTheDocument();
+    },
+  );
 
   test("announces high-priority toasts assertively without duplicating visible content", async () => {
     render(ToastFixture);

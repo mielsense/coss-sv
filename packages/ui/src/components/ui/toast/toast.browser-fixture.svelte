@@ -7,11 +7,6 @@ let {
 }: { portalTarget?: HTMLElement; position?: Toast.ToastPosition } = $props();
 const manager = new Toast.Manager<{ source?: string }>();
 const anchoredManager = new Toast.Manager<Toast.ToastData>();
-// Shards merges promise updates, but its exact-optional type does not model an explicit clear.
-const clearActionProps = { actionProps: undefined } as unknown as Pick<
-  Toast.ToastObject<{ source?: string }>,
-  "actionProps"
->;
 let anchor = $state<HTMLButtonElement | null>(null);
 let resolvePromise: ((value: string) => void) | undefined;
 let rejectPromise: ((reason: Error) => void) | undefined;
@@ -61,7 +56,7 @@ function startReport(): void {
   manager
     .promise(promise, {
       error: (error) => ({
-        ...clearActionProps,
+        actionProps: undefined,
         description: error instanceof Error ? error.message : "Unknown error",
         title:
           error instanceof DOMException && error.name === "AbortError" ? "Cancelled" : "Failed",
@@ -71,7 +66,7 @@ function startReport(): void {
         actionProps: { children: "Cancel", onclick: () => controller.abort() },
         title: "Generating report…",
       },
-      success: { ...clearActionProps, title: "Report generated", type: "success" },
+      success: { actionProps: undefined, title: "Report generated", type: "success" },
     })
     .catch(() => undefined);
 }

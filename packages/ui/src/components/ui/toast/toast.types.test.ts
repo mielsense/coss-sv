@@ -26,9 +26,9 @@ test("types managers, custom data, native actions, promises, positions, and prov
   } satisfies ToastManagerAddOptions<Data>;
   const id = manager.add(add);
   const promise = manager.promise(Promise.resolve("done"), {
-    error: (error) => ({ description: String(error), type: "error" }),
+    error: (error) => ({ actionProps: undefined, description: String(error), type: "info" }),
     loading: { title: "Loading", type: "loading" },
-    success: (value) => ({ description: value, type: "success" }),
+    success: (value) => ({ actionProps: undefined, description: value, type: "success" }),
   });
   const children = createRawSnippet(() => ({ render: () => "child" }));
   const provider = {
