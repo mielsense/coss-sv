@@ -1,0 +1,225 @@
+---
+title: Drawer
+description: A panel that slides in from the edge of the screen with swipe gestures, snap points, and nested drawer support.
+
+links:
+  doc: https://shardsui.com/svelte/drawer
+---
+
+<ComponentPreview name="p-drawer-1" />
+
+## Installation
+
+<InstallCommand pnpm="pnpm add @coss-sv/ui" shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/drawer.json" />
+
+## Usage
+
+```svelte
+<script lang="ts">
+  import * as Drawer from "@coss-sv/ui/components/ui/drawer";
+</script>
+
+<Drawer.Root>
+  <Drawer.Trigger>Open</Drawer.Trigger>
+  <Drawer.Popup>
+    <Drawer.Header>
+      <Drawer.Title>Drawer Title</Drawer.Title>
+      <Drawer.Description>Drawer Description</Drawer.Description>
+    </Drawer.Header>
+    <Drawer.Panel>Content</Drawer.Panel>
+    <Drawer.Footer>
+      <Drawer.Close>Close</Drawer.Close>
+    </Drawer.Footer>
+  </Drawer.Popup>
+</Drawer.Root>
+```
+
+## API Reference
+
+### Drawer.Root
+
+Root component. Wraps `Drawer.Root` from Shards UI with automatic `swipeDirection` mapping based on `position`.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `position` | `"right" \| "left" \| "top" \| "bottom"` | `"bottom"` | Controls which edge the drawer opens from. Sets the swipe direction automatically and flows to child components via context |
+| `swipeDirection` | `"up" \| "down" \| "left" \| "right"` | derived | Overrides the swipe direction derived from `position`. Use when you need different swipe behavior |
+
+All other props from `Drawer.Root` are supported, including `open`, `onOpenChange`, `modal`, `snapPoints`, `snapPoint`, `onSnapPointChange`, and `snapToSequentialPoints`. Note: Snap points only work for bottom drawers.
+
+### Drawer.createHandle
+
+Creates a handle for detached drawer triggers. Use it when triggers and drawer content need to be coordinated across different parts of the tree.
+
+### Drawer.Trigger
+
+Trigger button that opens the drawer. Wraps `Drawer.Trigger` from Shards UI.
+
+### Drawer.Popup
+
+Popup container that displays the drawer content.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `variant` | `"default" \| "straight" \| "inset"` | `"default"` | Controls the drawer style. `straight` removes rounded corners, `inset` adds spacing around the drawer on desktop screens |
+| `showCloseButton` | `boolean` | `false` | When true, displays a close button in the top-right corner |
+| `showBar` | `boolean` | `false` | When true, displays a drag bar indicator |
+| `portalProps` | `ComponentProps<typeof Drawer.Portal>` | - | Props forwarded to the internal portal (`keepMounted`, `container`, etc.); see the Shards UI Drawer portal API |
+
+**Example:**
+
+```svelte
+<!-- Bottom drawer (default) -->
+<Drawer.Root><Drawer.Popup>...</Drawer.Popup></Drawer.Root>
+
+<!-- Right side drawer -->
+<Drawer.Root position="right"><Drawer.Popup>...</Drawer.Popup></Drawer.Root>
+
+<!-- Left side drawer -->
+<Drawer.Root position="left"><Drawer.Popup>...</Drawer.Popup></Drawer.Root>
+
+<!-- Drawer with inset variant -->
+<Drawer.Root position="right"><Drawer.Popup variant="inset">...</Drawer.Popup></Drawer.Root>
+```
+
+### Drawer.Header
+
+Container for the drawer title and description. Supports the `as` prop for polymorphic composition (for example, `as="header"`).
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `allowSelection` | `boolean` | `false` | When true, wraps the header in `Drawer.Content` to reduce swipe interference during mouse text selection |
+
+### Drawer.Footer
+
+Footer section for action buttons. Supports the `as` prop for polymorphic composition.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `variant` | `"default" \| "bare"` | `"default"` | Controls the footer styling. `default` includes border and background, `bare` removes them |
+| `allowSelection` | `boolean` | `true` | When true, wraps the footer in `Drawer.Content` to reduce swipe interference during mouse text selection |
+
+### Drawer.Title
+
+Title component. Wraps `Drawer.Title` from Shards UI.
+
+### Drawer.Description
+
+Description component. Wraps `Drawer.Description` from Shards UI.
+
+### Drawer.Panel
+
+Content container. When `scrollable` is true (default), wraps content in a `ScrollArea` component. Supports the `as` prop for polymorphic composition.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `scrollable` | `boolean` | `true` | When true, wraps content in a `ScrollArea`. Set to false for non-scrollable content |
+| `scrollFade` | `boolean` | `true` | When true, shows a fade effect at scroll edges (only applies when `scrollable` is true) |
+| `allowSelection` | `boolean` | `true` | When true, wraps the panel in `Drawer.Content` to reduce swipe interference during mouse text selection |
+
+### Drawer.Menu
+
+Container for drawer menu items. Use with `Drawer.MenuItem`, `Drawer.MenuSeparator`, `Drawer.MenuGroup`, `Drawer.MenuGroupLabel`, `Drawer.MenuCheckboxItem`, `Drawer.MenuRadioGroup`, `Drawer.MenuRadioItem`, and `Drawer.MenuTrigger` to build menus that mirror the Menu component API. Supports the `as` prop for polymorphic composition.
+
+### Drawer.MenuItem
+
+Styled menu item that matches `Menu.Item` appearance. Does not close the drawer — wrap with `Drawer.Close` when close-on-click is needed. Supports the `as` prop for polymorphic composition.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `variant` | `"default" \| "destructive"` | `"default"` | When `destructive`, uses destructive text color |
+| `disabled` | `boolean` | — | When true, disables the item |
+
+**Example:** Use `Drawer.Close` with `Drawer.drawerMenuItemVariants()` for a close-on-click menu item: `<Drawer.Close class={Drawer.drawerMenuItemVariants()}>Edit</Drawer.Close>`.
+
+### Drawer.MenuSeparator
+
+Horizontal separator between menu items or groups. Supports the `as` prop for polymorphic composition.
+
+### Drawer.MenuGroup
+
+Container for grouping related menu items. Use with `Drawer.MenuGroupLabel` for labeled sections. Supports the `as` prop for polymorphic composition.
+
+### Drawer.MenuGroupLabel
+
+Label for a `Drawer.MenuGroup` section. Renders muted, smaller text above a group of items. In nested drawers, use as a section title at the top of the menu (no back button needed — swipe to go back). Supports the `as` prop for polymorphic composition.
+
+### Drawer.MenuTrigger
+
+Trigger that opens a nested drawer. Styled like a menu item with a trailing chevron. Use for menu items that open nested drawers (for example, “Add to Playlist” → nested drawer with playlist options). Wraps `Drawer.Trigger` internally.
+
+**Example:** `<Drawer.MenuTrigger>Add to Playlist</Drawer.MenuTrigger>` opens a nested drawer when tapped.
+
+### Drawer.MenuCheckboxItem
+
+Checkbox menu item for independent toggles. Supports `variant="switch"` for toggle-style switches. For selection groups, use `Drawer.MenuRadioGroup` with `Drawer.MenuRadioItem`.
+
+### Drawer.MenuRadioGroup
+
+Container for radio menu items. Use with `Drawer.MenuRadioItem` for mutually exclusive options (for example, “Sort by” with Artist, Album, Title).
+
+### Drawer.MenuRadioItem
+
+Radio menu item. Must be used inside `Drawer.MenuRadioGroup` with a `value` prop.
+
+### Drawer.Close
+
+Close button component. Wraps `Drawer.Close` from Shards UI.
+
+### Drawer.Portal
+
+Portal component for rendering outside the DOM hierarchy. Wraps `Drawer.Portal` from Shards UI.
+
+### Drawer.Backdrop
+
+Backdrop/overlay component. Wraps `Drawer.Backdrop` from Shards UI.
+
+### Drawer.Viewport
+
+Viewport component for positioning. Wraps `Drawer.Viewport` from Shards UI. Typically not used directly — `Drawer.Popup` renders it internally.
+
+### Drawer.Bar
+
+Drag handle indicator shown when `showBar` is true on `Drawer.Popup`. Typically not used directly.
+
+### Drawer.Content
+
+Primitive content wrapper used for polymorphic composition with the `as` prop. Wraps `Drawer.Content` from Shards UI.
+
+## Examples
+
+### Inset variant
+
+<ComponentPreview name="p-drawer-4" />
+
+### Straight variant
+
+<ComponentPreview name="p-drawer-5" />
+
+### Scrollable content
+
+<ComponentPreview name="p-drawer-6" />
+
+### Nested drawers
+
+<ComponentPreview name="p-drawer-7" />
+
+### Snap points
+
+<ComponentPreview name="p-drawer-9" />
+
+### Mobile menu
+
+<ComponentPreview name="p-drawer-11" />
+
+### Responsive dialog
+
+Use `Drawer` on small screens and `Dialog` on larger ones to show the same content in a modal on desktop and a bottom sheet on mobile.
+
+<ComponentPreview name="p-drawer-12" />
+
+### Responsive menu
+
+Pair `Drawer` with `Menu` so actions appear in a dropdown on desktop and a swipe-up sheet on mobile. Use `Drawer.MenuTrigger` for items that open nested drawers on mobile. Nested drawers use `Drawer.MenuGroupLabel` as section titles; swipe to go back.
+
+<ComponentPreview name="p-drawer-13" />

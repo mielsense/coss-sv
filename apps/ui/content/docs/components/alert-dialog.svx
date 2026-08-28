@@ -1,0 +1,121 @@
+---
+title: Alert Dialog
+description: A dialog that requires user response to proceed.
+
+links:
+  doc: https://shardsui.com/svelte/alert-dialog
+---
+
+<ComponentPreview name="p-alert-dialog-1" />
+
+## Installation
+
+<InstallCommand pnpm="pnpm add @coss-sv/ui" shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/alert-dialog.json" />
+
+## Usage
+
+```svelte
+<script lang="ts">
+  import * as AlertDialog from "@coss-sv/ui/components/ui/alert-dialog";
+</script>
+
+<AlertDialog.Root>
+  <AlertDialog.Trigger>Delete Account</AlertDialog.Trigger>
+  <AlertDialog.Popup>
+    <AlertDialog.Header>
+      <AlertDialog.Title>Are you absolutely sure?</AlertDialog.Title>
+      <AlertDialog.Description>
+        This action cannot be undone. This will permanently delete your account
+        and remove your data from our servers.
+      </AlertDialog.Description>
+    </AlertDialog.Header>
+    <AlertDialog.Footer>
+      <AlertDialog.Close>Cancel</AlertDialog.Close>
+      <AlertDialog.Close>Delete Account</AlertDialog.Close>
+    </AlertDialog.Footer>
+  </AlertDialog.Popup>
+</AlertDialog.Root>
+```
+
+## API Reference
+
+### AlertDialog.Root
+
+Root component. Wraps `AlertDialog.Root` from Shards UI.
+
+### AlertDialog.Trigger
+
+Trigger button that opens the alert dialog. Wraps `AlertDialog.Trigger` from Shards UI.
+
+### AlertDialog.Popup
+
+Popup container that displays the alert dialog content. Also exported as `AlertDialog.Content`.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `bottomStickOnMobile` | `boolean` | `true` | When true, sticks to the bottom of the screen on mobile devices |
+| `portalProps` | `ComponentProps<typeof AlertDialog.Portal>` | - | Props forwarded to the internal portal (`keepMounted`, `container`, etc.); see the Shards UI Alert Dialog portal API |
+
+### AlertDialog.Header
+
+Container for the alert dialog title and description.
+
+### AlertDialog.Footer
+
+Footer section for action buttons.
+
+Unlike [Dialog](/docs/components/dialog), alert dialog has no `AlertDialog.Panel`. Put title and description in `AlertDialog.Header`, actions in `AlertDialog.Footer`, and use a plain element with `class` if you need extra body content between them.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `variant` | `"default" \| "bare"` | `"default"` | Controls the footer styling. `default` includes border and background, `bare` removes them |
+
+**Example:**
+
+```svelte
+<!-- Default variant (with border and background) -->
+<AlertDialog.Footer>
+  <AlertDialog.Close>Cancel</AlertDialog.Close>
+  <AlertDialog.Close>Delete</AlertDialog.Close>
+</AlertDialog.Footer>
+
+<!-- Bare variant (no border or background) -->
+<AlertDialog.Footer variant="bare">
+  <AlertDialog.Close>Cancel</AlertDialog.Close>
+  <AlertDialog.Close>Delete</AlertDialog.Close>
+</AlertDialog.Footer>
+```
+
+### AlertDialog.Title
+
+Title component. Wraps `AlertDialog.Title` from Shards UI.
+
+### AlertDialog.Description
+
+Description component. Wraps `AlertDialog.Description` from Shards UI.
+
+### AlertDialog.Close
+
+Close button component. Wraps `AlertDialog.Close` from Shards UI.
+
+### AlertDialog.Portal
+
+Portal component for rendering outside the DOM hierarchy. Wraps `AlertDialog.Portal` from Shards UI.
+
+### AlertDialog.Backdrop
+
+Backdrop/overlay component. Also exported as `AlertDialog.Overlay`. Wraps `AlertDialog.Backdrop` from Shards UI.
+
+### AlertDialog.Viewport
+
+Viewport component for positioning. Wraps `AlertDialog.Viewport` from Shards UI.
+
+## Examples
+
+### Alert Dialog with Bare Footer
+
+<ComponentPreview name="p-alert-dialog-2" />
+
+### Close Confirmation
+
+<ComponentPreview name="p-dialog-4" />

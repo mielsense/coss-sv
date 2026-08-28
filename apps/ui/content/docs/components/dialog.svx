@@ -1,0 +1,151 @@
+---
+title: Dialog
+description: A popup that opens on top of the entire page.
+
+links:
+  doc: https://shardsui.com/svelte/dialog
+---
+
+<ComponentPreview name="p-dialog-1" />
+
+## Installation
+
+<InstallCommand pnpm="pnpm add @coss-sv/ui" shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/dialog.json" />
+
+## Usage
+
+```svelte
+<script lang="ts">
+  import * as Dialog from "@coss-sv/ui/components/ui/dialog";
+</script>
+
+<Dialog.Root>
+  <Dialog.Trigger>Open Dialog</Dialog.Trigger>
+  <Dialog.Popup>
+    <Dialog.Header>
+      <Dialog.Title>Dialog Title</Dialog.Title>
+      <Dialog.Description>Dialog Description</Dialog.Description>
+    </Dialog.Header>
+    <Dialog.Panel>Content</Dialog.Panel>
+    <Dialog.Footer>
+      <Dialog.Close>Close</Dialog.Close>
+    </Dialog.Footer>
+  </Dialog.Popup>
+</Dialog.Root>
+```
+
+## API Reference
+
+### Dialog.Root
+
+Root component. Wraps `Dialog.Root` from Shards UI.
+
+### Dialog.Trigger
+
+Trigger button that opens the dialog. Wraps `Dialog.Trigger` from Shards UI.
+
+### Dialog.createHandle
+
+Creates a handle for detached dialog triggers. Use it when the trigger and popup need to be coordinated across different parts of the tree.
+
+### Dialog.Popup
+
+Popup container that displays the dialog content. Also exported as `Dialog.Content`.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `showCloseButton` | `boolean` | `true` | When true, displays a close button in the top-right corner |
+| `bottomStickOnMobile` | `boolean` | `true` | When true, sticks to the bottom of the screen on mobile devices |
+| `closeProps` | `ComponentProps<typeof Dialog.Close>` | - | Props forwarded to the internal close button, useful for overriding `aria-label` |
+| `portalProps` | `ComponentProps<typeof Dialog.Portal>` | - | Props forwarded to the internal portal (`keepMounted`, `container`, etc.); see the Shards UI Dialog portal API |
+
+### Dialog.Header
+
+Container for the dialog title and description. Supports the `as` prop for polymorphic composition (for example, `as="header"`).
+
+### Dialog.Footer
+
+Footer section for action buttons. Supports the `as` prop for polymorphic composition.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `variant` | `"default" \| "bare"` | `"default"` | Controls the footer styling. `default` includes border and background, `bare` removes them |
+
+**Example:**
+
+```svelte
+<!-- Default variant (with border and background) -->
+<Dialog.Footer>
+  <Dialog.Close>Cancel</Dialog.Close>
+  <Button>Save</Button>
+</Dialog.Footer>
+
+<!-- Bare variant (no border or background) -->
+<Dialog.Footer variant="bare">
+  <Dialog.Close>Cancel</Dialog.Close>
+  <Button>Save</Button>
+</Dialog.Footer>
+```
+
+### Dialog.Title
+
+Title component. Wraps `Dialog.Title` from Shards UI.
+
+### Dialog.Description
+
+Description component. Wraps `Dialog.Description` from Shards UI.
+
+### Dialog.Panel
+
+Scrollable content container. Automatically wraps content in a `ScrollArea` component. Supports the `as` prop for polymorphic composition.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `scrollFade` | `boolean` | `true` | When true, shows a fade effect at scroll edges |
+
+**Example:**
+
+```svelte
+<Dialog.Panel>
+  <!-- Long content that will scroll if it exceeds the dialog height -->
+  <div>...</div>
+</Dialog.Panel>
+```
+
+### Dialog.Close
+
+Close button component. Wraps `Dialog.Close` from Shards UI.
+
+### Dialog.Portal
+
+Portal component for rendering outside the DOM hierarchy. Wraps `Dialog.Portal` from Shards UI.
+
+### Dialog.Backdrop
+
+Backdrop/overlay component. Also exported as `Dialog.Overlay`. Wraps `Dialog.Backdrop` from Shards UI.
+
+### Dialog.Viewport
+
+Viewport component for positioning. Wraps `Dialog.Viewport` from Shards UI.
+
+## Examples
+
+### Open from a Menu
+
+<ComponentPreview name="p-dialog-2" />
+
+### Dialog with Bare Footer
+
+<ComponentPreview name="p-dialog-6" />
+
+### Dialog with scroll inside
+
+<ComponentPreview name="p-dialog-5" />
+
+### Nested Dialogs
+
+<ComponentPreview name="p-dialog-3" />
+
+### Close Confirmation
+
+<ComponentPreview name="p-dialog-4" />

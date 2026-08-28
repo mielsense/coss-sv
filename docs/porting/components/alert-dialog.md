@@ -33,3 +33,10 @@ Context7 was requested for current Svelte overlay and portal guidance. It return
 ## Licensing
 
 This port adapts only the MIT-designated COSS application source listed above. The Svelte behavior comes from the locally pinned Shards dependency.
+
+## D7 documentation lane
+
+- Re-read the complete permitted page, `p-alert-dialog-1`, `p-alert-dialog-2`, shared `p-dialog-4`, every permitted dependency, and the complete local Shards Alert Dialog source, docs, tests, demos, fixtures, and types.
+- Preserved modal response semantics, focus return, Escape and outside-interaction behavior, mobile placement, footer variants, destructive actions, and non-empty message confirmation. The page order matches upstream; `p-dialog-4` remains Dialog-owned.
+- D7 tests cover inventory, source restrictions, SSR, page order, MDsveX compilation, APIs, focus, Escape, cancellation, and focus return.
+- The Codex in-app Browser runtime was unavailable in this worktree. Chrome was not used; headless production-browser coverage passed, and independent parity review must repeat manual inspection after integration.

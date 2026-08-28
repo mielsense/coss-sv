@@ -37,3 +37,10 @@ The trigger remains one Shards-owned element. `as`, ref, native attributes, dela
 - Exact particle copy, 256-pixel class geometry, slot attributes, and transition-state classes.
 
 Manual visual comparison is pending because the Codex in-app Browser was unavailable. No product deviation is accepted.
+
+## D7 documentation lane
+
+- Re-read the complete permitted page, `p-preview-card-1`, its permitted Button dependency, and the complete local Shards Preview Card source, docs, tests, demos, fixtures, positioning, timing, focus behavior, and detached handles.
+- Preserved the exact trigger, repository copy, TypeScript marker, `58.2k` stars, `5.1k` forks, popup geometry, and hover/focus behavior. The trigger explicitly renders as a button to retain the upstream ghost Button contract.
+- Hugeicons replace upstream star and fork icons with two-pixel strokes. D7 tests cover inventory, SSR, compilation, exact data, and production-browser hover opening.
+- The Codex in-app Browser runtime was unavailable in this worktree. Chrome was not used; headless production-browser coverage passed, and independent parity review must repeat manual inspection after integration.

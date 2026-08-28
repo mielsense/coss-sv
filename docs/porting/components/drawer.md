@@ -54,3 +54,11 @@ This port adapts only the MIT-designated COSS application source listed above. T
 ## Hugeicons authority update
 
 Drawer close, menu selection, and nested-menu affordances now use `Cancel01Icon`, `Tick02Icon`, and `ChevronRightIcon` through `HugeiconsIcon`. The icons remain decorative and keep the COSS indicator columns, trigger margin and opacity, responsive sizing selectors, and gesture behavior.
+
+## D7 documentation lane
+
+- Re-read the complete permitted page, the complete Drawer registry implementation, particles `p-drawer-1` through `p-drawer-14`, every permitted dependency, and the complete local Shards Drawer source, docs, tests, demos, fixtures, handles, gesture helpers, and types.
+- Preserved edge-derived swipe direction, surface variants, drag bars, scrolling, nesting, snap points, non-modal swipe areas, responsive Dialog/Drawer and Menu/Drawer presentations, keyboard behavior, and cleanup. The page displays the upstream subset and order: `p-drawer-1`, `p-drawer-4`, `p-drawer-5`, `p-drawer-6`, `p-drawer-7`, `p-drawer-9`, `p-drawer-11`, `p-drawer-12`, and `p-drawer-13`.
+- Both responsive overlay roots are closed during SSR, so server markup is deterministic. Hugeicons replace upstream Lucide action icons with two-pixel strokes.
+- D7 tests cover inventory, source restrictions, SSR, page order, MDsveX compilation, APIs, and responsive overlay transitions.
+- The Codex in-app Browser runtime was unavailable in this worktree. Chrome was not used; headless production-browser coverage passed, and independent parity review must repeat manual inspection after integration.

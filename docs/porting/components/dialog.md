@@ -41,3 +41,10 @@ This port adapts only the MIT-designated COSS application source listed above. T
 ## Hugeicons authority update
 
 The built-in close control now renders `Cancel01Icon` through `HugeiconsIcon`. Its accessible name remains on the close button; the glyph is decorative, uses a two-unit stroke, and does not change popup dismissal, focus restoration, button classes, or DOM ownership.
+
+## D7 documentation lane
+
+- Re-read the complete permitted page, particles `p-dialog-1` through `p-dialog-6`, every permitted dependency, and the complete local Shards Dialog source, docs, tests, demos, fixtures, and types.
+- Preserved focus trapping, dismissal, callback-controlled examples, nesting, mobile placement, scrolling, footer variants, and detached handles. The page order is `p-dialog-1`, `p-dialog-2`, `p-dialog-6`, `p-dialog-5`, `p-dialog-3`, then `p-dialog-4`, matching upstream.
+- D7 tests cover inventory, source restrictions, SSR, page order, MDsveX compilation, APIs, focus, Escape, and focus return.
+- The Codex in-app Browser runtime was unavailable in this worktree. Chrome was not used; headless production-browser coverage passed, and independent parity review must repeat manual inspection after integration.

@@ -54,3 +54,10 @@ COSS has no `motion-reduce:*` class on this component. The port preserves that o
 - Exact class and slot attributes, including tooltip style and transition states.
 
 Manual visual inspection is pending because no Codex in-app Browser instance was available. No implementation or style deviation is accepted.
+
+## D7 documentation lane
+
+- Re-read the complete permitted page, particles `p-popover-1` through `p-popover-4`, every permitted dependency, and the complete local Shards Popover source, docs, tests, demos, fixtures, detached handles, positioning, timing, modal behavior, and focus handling.
+- Preserved feedback, close-control, detached-payload, and occurrence-selection examples. The page order is `p-popover-1`, `p-popover-2`, D5-owned `p-input-group-7`, then `p-popover-3`; `p-popover-4` remains an assigned registry example.
+- Hugeicons replace upstream close, notification, profile, and chevron icons with two-pixel strokes. D7 tests cover SSR, compilation, selection, disabled actions, and detached payload transitions.
+- The Codex in-app Browser runtime was unavailable in this worktree. Chrome was not used; headless production-browser coverage passed, and independent parity review must repeat manual inspection after integration.

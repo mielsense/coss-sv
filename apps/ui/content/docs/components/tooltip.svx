@@ -1,0 +1,78 @@
+---
+title: Tooltip
+description: A popup that appears when an element is hovered or focused, showing a hint for sighted users.
+
+links:
+  doc: https://shardsui.com/svelte/tooltip
+---
+
+<ComponentPreview name="p-tooltip-1" />
+
+## Installation
+
+<InstallCommand pnpm="pnpm add @coss-sv/ui" shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/tooltip.json" />
+
+## Usage
+
+```svelte
+<script lang="ts">
+  import * as Tooltip from "@coss-sv/ui/components/ui/tooltip";
+</script>
+
+<Tooltip.Provider>
+  <Tooltip.Root>
+    <Tooltip.Trigger>Hover me</Tooltip.Trigger>
+    <Tooltip.Popup>Helpful hint</Tooltip.Popup>
+  </Tooltip.Root>
+</Tooltip.Provider>
+```
+
+## API Reference
+
+### Tooltip.Root
+
+Root component. Wraps `Tooltip.Root` from Shards UI.
+
+### Tooltip.Trigger
+
+Trigger element that shows the tooltip on hover/focus. Wraps `Tooltip.Trigger` from Shards UI.
+
+### Tooltip.Popup
+
+Popup container that displays the tooltip content. Also exported as `Tooltip.Content`.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `side` | `"top" \| "bottom" \| "left" \| "right"` | `"top"` | Side of the trigger to position the tooltip |
+| `align` | `"start" \| "center" \| "end"` | `"center"` | Alignment relative to the trigger |
+| `sideOffset` | `number` | `4` | Distance from the trigger in pixels |
+| `portalProps` | `ComponentProps<typeof Tooltip.TooltipPrimitive.Portal>` | - | Props forwarded to the internal portal (`keepMounted`, `container`, etc.); see the Shards UI Tooltip portal API |
+
+### Tooltip.Provider
+
+Provider for grouping tooltips. Wraps `Tooltip.Provider` from Shards UI.
+
+### Tooltip.Handle
+
+Creates a handle for detached tooltip triggers. Use `new Tooltip.Handle<Payload>()` to attach multiple triggers to one animated popup.
+
+## Examples
+
+### Grouped Tooltips
+
+To group multiple tooltips so they appear instantly after the first one is opened, wrap them in `Tooltip.Provider`. The grouping logic ensures that once a tooltip becomes visible, the adjacent tooltips will be shown instantly.
+
+<ComponentPreview name="p-tooltip-2" />
+
+### Animated Tooltips
+
+You can create animated tooltips that smoothly transition between different triggers using detached triggers. This pattern allows multiple triggers to share a single tooltip popup, with automatic animations for position, size, and content changes.
+
+To create detached triggers:
+
+1. Create a handle using `new Tooltip.Handle<Payload>()`
+2. Attach the same handle to multiple `Tooltip.Trigger` components
+3. Each trigger provides a `payload` prop containing a content snippet
+4. Use a single `Tooltip.Root` component with the handle to render the popup
+
+<ComponentPreview name="p-tooltip-3" />

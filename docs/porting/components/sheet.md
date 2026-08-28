@@ -37,3 +37,10 @@ This port adapts only the MIT-designated COSS application source listed above. T
 ## Hugeicons authority update
 
 The optional close button now renders `Cancel01Icon` through `HugeiconsIcon`. The button retains its `Close` accessible name, slot, classes, dismissal behavior, and focus restoration; the glyph is decorative and uses `strokeWidth={2}`.
+
+## D7 documentation lane
+
+- Re-read the complete permitted page, particles `p-sheet-1` through `p-sheet-3`, every permitted dependency, and the complete local Shards Dialog and Drawer source, docs, tests, demos, fixtures, and types.
+- Preserved all four sides, inset styling, modal and focus semantics, close controls, panel scrolling, and footer behavior. Shards has no Sheet primitive, so the page accurately links Shards Dialog, which underpins the package Sheet.
+- D7 tests cover exact inventory, source restrictions, SSR, upstream page order, MDsveX compilation, and namespace APIs.
+- The Codex in-app Browser runtime was unavailable in this worktree. Chrome was not used; headless production-browser coverage passed, and independent parity review must repeat manual inspection after integration.

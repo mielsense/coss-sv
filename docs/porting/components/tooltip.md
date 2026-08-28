@@ -45,3 +45,10 @@ The COSS formatting particles compose Base UI triggers with toggle-group items t
 - Accessible description relationships, exact classes and slots, viewport morphing state, and reduced-motion/instant-state behavior.
 
 Manual visual comparison is pending because the Codex in-app Browser was unavailable. No implementation or styling deviation is accepted.
+
+## D7 documentation lane
+
+- Re-read the complete permitted page, particles `p-tooltip-1` through `p-tooltip-4`, every permitted dependency, and the complete local Shards Tooltip source, docs, tests, demos, fixtures, provider timing, detached handles, IDs, positioning, focus, hoverability, and cleanup.
+- Preserved hover/focus opening, accessible descriptions on the actual controls, grouped instant timing, animated payload transitions, exact formatting/share copy, right-side placement, and non-nested interactive markup through a typed `display: contents` trigger adapter. The page displays `p-tooltip-1`, `p-tooltip-2`, and `p-tooltip-3`; `p-tooltip-4` remains an assigned registry example.
+- Hugeicons replace all seven upstream Lucide icons with two-pixel strokes. D7 tests cover inventory, SSR, compilation, focus, grouped hover, and detached hover transitions.
+- The Codex in-app Browser runtime was unavailable in this worktree. Chrome was not used; headless production-browser coverage passed, and independent parity review must repeat manual inspection after integration.

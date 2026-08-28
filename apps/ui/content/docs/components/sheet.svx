@@ -1,0 +1,138 @@
+---
+title: Sheet
+description: A flyout that opens from the side of the screen, based on the dialog component.
+
+links:
+  doc: https://shardsui.com/svelte/dialog
+---
+
+<ComponentPreview name="p-sheet-1" />
+
+## Installation
+
+<InstallCommand pnpm="pnpm add @coss-sv/ui" shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/sheet.json" />
+
+## Usage
+
+```svelte
+<script lang="ts">
+  import * as Sheet from "@coss-sv/ui/components/ui/sheet";
+</script>
+
+<Sheet.Root>
+  <Sheet.Trigger>Open</Sheet.Trigger>
+  <Sheet.Popup>
+    <Sheet.Header>
+      <Sheet.Title>Are you absolutely sure?</Sheet.Title>
+      <Sheet.Description>
+        This action cannot be undone. This will permanently delete your account
+        and remove your data from our servers.
+      </Sheet.Description>
+    </Sheet.Header>
+    <Sheet.Panel>Content</Sheet.Panel>
+    <Sheet.Footer>
+      <Sheet.Close>Close</Sheet.Close>
+    </Sheet.Footer>
+  </Sheet.Popup>
+</Sheet.Root>
+```
+
+## API Reference
+
+### Sheet.Root
+
+Root component. Wraps `Dialog.Root` from Shards UI.
+
+### Sheet.Trigger
+
+Trigger button that opens the sheet. Wraps `Dialog.Trigger` from Shards UI.
+
+### Sheet.Popup
+
+Popup container that displays the sheet content. Also exported as `Sheet.Content`.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `side` | `"right" \| "left" \| "top" \| "bottom"` | `"right"` | Controls which side of the screen the sheet opens from |
+| `variant` | `"default" \| "inset"` | `"default"` | Controls the sheet style. `inset` adds spacing around the sheet on desktop screens |
+| `showCloseButton` | `boolean` | `true` | When true, displays a close button in the top-right corner |
+| `closeProps` | `ComponentProps<typeof Dialog.Close>` | - | Props forwarded to the internal close button, useful for overriding `aria-label` |
+| `portalProps` | `ComponentProps<typeof Dialog.Portal>` | - | Props forwarded to the internal portal (`keepMounted`, `container`, etc.); see the Shards UI Dialog portal API |
+
+**Example:**
+
+```svelte
+<!-- Right side sheet (default) -->
+<Sheet.Popup side="right">...</Sheet.Popup>
+
+<!-- Left side sheet -->
+<Sheet.Popup side="left">...</Sheet.Popup>
+
+<!-- Top sheet -->
+<Sheet.Popup side="top">...</Sheet.Popup>
+
+<!-- Bottom sheet -->
+<Sheet.Popup side="bottom">...</Sheet.Popup>
+
+<!-- Sheet with inset variant -->
+<Sheet.Popup side="right" variant="inset">...</Sheet.Popup>
+```
+
+### Sheet.Header
+
+Container for the sheet title and description. Supports the `as` prop for polymorphic composition (for example, `as="header"`).
+
+### Sheet.Footer
+
+Footer section for action buttons. Supports the `as` prop for polymorphic composition.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `variant` | `"default" \| "bare"` | `"default"` | Controls the footer styling. `default` includes border and background, `bare` removes them |
+
+### Sheet.Title
+
+Title component. Wraps `Dialog.Title` from Shards UI.
+
+### Sheet.Description
+
+Description component. Wraps `Dialog.Description` from Shards UI.
+
+### Sheet.Panel
+
+Scrollable content container. Automatically wraps content in a `ScrollArea` component. Supports the `as` prop for polymorphic composition.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `scrollFade` | `boolean` | `true` | When true, shows a fade effect at scroll edges |
+
+**Example:**
+
+```svelte
+<Sheet.Panel>
+  <!-- Long content that will scroll if it exceeds the sheet height -->
+  <div>...</div>
+</Sheet.Panel>
+```
+
+### Sheet.Close
+
+Close button component. Wraps `Dialog.Close` from Shards UI.
+
+### Sheet.Portal
+
+Portal component for rendering outside the DOM hierarchy. Wraps `Dialog.Portal` from Shards UI.
+
+### Sheet.Backdrop
+
+Backdrop/overlay component. Also exported as `Sheet.Overlay`. Wraps `Dialog.Backdrop` from Shards UI.
+
+## Examples
+
+### Sheet with Inset
+
+<ComponentPreview name="p-sheet-2" />
+
+### Side sheets
+
+<ComponentPreview name="p-sheet-3" />
