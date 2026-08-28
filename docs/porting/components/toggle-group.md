@@ -51,3 +51,7 @@ Light and dark themes were checked. The wrapper keeps the COSS class strings, so
 - Browser coverage for single and multiple selection, binding, declined writes, disabled groups and items, horizontal and vertical roving focus, wrapping, Home and End, callback values, and hydration
 - The parity fixture reproduces particles 1 through 8. Particle 9 composes Toggle Group with Tooltip; it must be added after the Tooltip port is available rather than replacing that dependency with a different primitive.
 - Focused SSR, browser, and Playwright parity suites pass. Playwright covers exact connected geometry, responsive sizes, accessible names, pressed attributes, focus behavior, both themes, and axe.
+
+## D5 documentation port
+
+The D5 lane re-read the complete Toggle Group MDX page, particles `p-toggle-group-1` through `p-toggle-group-9`, the target namespace, and the complete matching local Shards source, tests, docs, and examples. The page keeps all nine preview IDs, their order, and the upstream Changelog section. The live page exposed 9 previews at 1440px; at 390px its h1 was x=16, y=88, 358×36 with no horizontal overflow. Particle 9 preserves the three accessible toggle labels and initial Bold selection; fully delegated Tooltip-trigger composition remains a Tooltip API seam. Shared page metadata remains coordinator-owned.

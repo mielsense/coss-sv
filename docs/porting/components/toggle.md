@@ -49,3 +49,7 @@ Clicking sets `aria-pressed="true"`, adds `data-pressed`, and applies the input 
 - Browser coverage for click, Enter, Space, disabled behavior, callback order, ref binding, controlled decline, and hydration without warnings
 - The parity fixture reproduces particles 1 through 7. Particle 8 composes Toggle with Tooltip and anchored Toast; its exact port must wait for those components. A separate review probe exercises the controlled bookmark state without claiming to reproduce that particle.
 - Focused SSR, browser, and Playwright parity suites pass. Playwright covers exact particle copy, icon names, geometry at desktop and mobile widths, pressed styling, both themes, and axe.
+
+## D5 documentation port
+
+The D5 lane re-read the complete Toggle MDX page, particles `p-toggle-1` through `p-toggle-8`, the target Toggle, and the complete local Shards Toggle, Tooltip, and Toast material. The page preserves the seven documented preview IDs and order. The live upstream page exposed 7 previews and the expected Installation, Usage, API Reference, and Examples sections at 1440px; at 390px its h1 was x=16, y=88, 358×36 with no horizontal overflow. Particle 8 uses the COSS Tooltip trigger surface, an anchored success toast, and the Hugeicons bookmark glyph. Shared page metadata remains a coordinator seam.

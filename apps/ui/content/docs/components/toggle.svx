@@ -1,0 +1,58 @@
+---
+title: Toggle
+description: A two-state button that can be toggled on or off.
+
+links:
+  doc: https://shardsui.com/svelte/toggle
+---
+
+<ComponentPreview name="p-toggle-1" />
+
+## Installation
+
+<InstallCommand pnpm="pnpm add @coss-sv/ui" shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/toggle.json" />
+
+## Usage
+
+```svelte
+<script lang="ts">
+  import { Toggle } from "@coss-sv/ui/components/ui/toggle";
+</script>
+
+<Toggle>Toggle</Toggle>
+```
+
+## API Reference
+
+### Toggle
+
+`Toggle` wraps the Shards toggle and adds the COSS `default` and `outline` variants plus `sm`,
+`default`, and `lg` sizes. Use `pressed` for an initial value or `bind:pressed` for controlled state.
+
+See the [Shards Toggle API](https://shardsui.com/svelte/toggle) for state and keyboard props.
+
+## Examples
+
+### Outline
+
+<ComponentPreview name="p-toggle-2" />
+
+### With Icon
+
+<ComponentPreview name="p-toggle-3" />
+
+### Small Size
+
+<ComponentPreview name="p-toggle-4" />
+
+### Large Size
+
+<ComponentPreview name="p-toggle-5" />
+
+### Disabled
+
+<ComponentPreview name="p-toggle-6" />
+
+### Icon Group
+
+<ComponentPreview name="p-toggle-7" />

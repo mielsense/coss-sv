@@ -1,0 +1,58 @@
+---
+title: Radio Group
+description: A set of checkable buttons where no more than one button can be checked at a time.
+
+links:
+  doc: https://shardsui.com/svelte/radio-group
+---
+
+<ComponentPreview name="p-radio-group-1" />
+
+## Installation
+
+<InstallCommand pnpm="pnpm add @coss-sv/ui" shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/radio-group.json" />
+
+## Usage
+
+```svelte
+<script lang="ts">
+  import * as RadioGroup from "@coss-sv/ui/components/ui/radio-group";
+</script>
+
+<RadioGroup.Root defaultValue="next">
+  <label><RadioGroup.Item value="next" /> Next.js</label>
+  <label><RadioGroup.Item value="vite" /> Vite</label>
+  <label><RadioGroup.Item value="astro" /> Astro</label>
+</RadioGroup.Root>
+```
+
+## API Reference
+
+### RadioGroup.Root
+
+The root owns one selected value. Use `defaultValue` for the initial selection or `bind:value` for
+controlled state. Arrow keys move the selection and skip disabled items.
+
+### RadioGroup.Item
+
+Each item needs a unique `value` and includes the COSS indicator. `RadioGroup.Radio` is an alias.
+
+See the [Shards Radio API](https://shardsui.com/svelte/radio) for form, focus, and validation props.
+
+## Examples
+
+### Disabled
+
+<ComponentPreview name="p-radio-group-2" />
+
+### With Description
+
+<ComponentPreview name="p-radio-group-3" />
+
+### Card Style
+
+<ComponentPreview name="p-radio-group-4" />
+
+### Form Integration
+
+<ComponentPreview name="p-radio-group-5" />

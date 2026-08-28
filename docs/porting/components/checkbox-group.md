@@ -133,3 +133,7 @@ Additional consumer particles are not Checkbox Group documentation examples. `p-
 - Reference route: `/ui/docs/components/checkbox-group`
 
 Accepted visual or behavioral deviations: none.
+
+## D5 documentation port
+
+The D5 lane re-read the complete Checkbox Group MDX page, particles `p-checkbox-group-1` through `p-checkbox-group-5`, the target group context, and the complete matching local Shards source, tests, docs, and examples. The page keeps all five preview IDs and order. The live upstream page exposed 5 previews at 1440px; at 390px its h1 was x=16, y=88, 358×36 with no horizontal overflow. The nested example is implemented with the target group context; the coordinator-owned shared metadata index is the remaining route-discovery seam.

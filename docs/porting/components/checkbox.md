@@ -45,3 +45,7 @@ The Codex in-app Browser was requested again for the final Checkbox comparison, 
 ## Hugeicons authority update
 
 The checked and indeterminate states now render `Tick02Icon` and `MinusSignIcon` through `HugeiconsIcon`. The icons stay decorative and retain the responsive `size-3.5 sm:size-3` geometry inside the unchanged Shards indicator. Source, SSR, hydration, and mounted-browser tests cover both states and prohibit copied icon paths.
+
+## D5 documentation port
+
+The D5 lane re-read the complete Checkbox MDX page, particles `p-checkbox-1` through `p-checkbox-5`, the target Checkbox, and the complete matching local Shards implementation and documentation. The page keeps all five upstream preview IDs and order. The live upstream page exposed 5 previews at 1440px; at 390px its h1 was x=16, y=88, 358×36 with no horizontal overflow. Focused browser coverage verifies labeled checkbox activation and checked state. Shared page metadata remains a coordinator seam.

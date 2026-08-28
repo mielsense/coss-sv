@@ -38,3 +38,7 @@ Focus-ring parity is entered by keyboard Tab so the `focus-visible` selectors ar
 Final focused verification on August 27, 2026: the combined C5 Svelte/Vitest gate passed 15 files and 47 tests; the combined light, dark, mobile, desktop, keyboard, axe, and motion Playwright gate passed 17 tests with four intentional static Toggle/Toggle Group motion-project skips; Svelte check reported 0 errors and 0 warnings; Biome checked 46 C5 files without diagnostics; and `git diff --check` passed.
 
 The Codex in-app Browser was requested again for the final Switch comparison, but its browser list was empty. No Chrome substitute was used. Automated headless parity remains green, and the missing manual pass is recorded rather than claimed.
+
+## D5 documentation port
+
+The D5 lane re-read the complete Switch MDX page, particles `p-switch-1` through `p-switch-9`, the target Switch, and the complete matching local Shards source, tests, documentation, and examples. The page preserves the upstream six-preview order. The live page exposed 6 previews at 1440px; at 390px its h1 was x=16, y=88, 358×36 with no overflow. The three availability editors preserve upstream day data, default ranges, toggle/add/delete behavior, and their distinct row layouts; their time inputs use native selects pending an exact Combobox composition review. Shared page metadata remains coordinator-owned.

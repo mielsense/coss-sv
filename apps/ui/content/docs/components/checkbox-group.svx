@@ -1,0 +1,61 @@
+---
+title: Checkbox Group
+description: Provides shared state to a series of checkboxes.
+
+links:
+  doc: https://shardsui.com/svelte/checkbox-group
+---
+
+<ComponentPreview name="p-checkbox-group-1" />
+
+## Installation
+
+<InstallCommand pnpm="pnpm add @coss-sv/ui" shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/checkbox-group.json" />
+
+## Usage
+
+```svelte
+<script lang="ts">
+  import { Checkbox } from "@coss-sv/ui/components/ui/checkbox";
+  import * as CheckboxGroup from "@coss-sv/ui/components/ui/checkbox-group";
+</script>
+
+<CheckboxGroup.Root aria-label="Select frameworks" defaultValue={["next"]}>
+  <CheckboxGroup.Item value="next"><Checkbox /> Next.js</CheckboxGroup.Item>
+  <CheckboxGroup.Item value="vite"><Checkbox /> Vite</CheckboxGroup.Item>
+  <CheckboxGroup.Item value="astro"><Checkbox /> Astro</CheckboxGroup.Item>
+</CheckboxGroup.Root>
+```
+
+## API Reference
+
+### CheckboxGroup.Root
+
+The root owns an array of selected values. Use `defaultValue` for the initial selection or
+`bind:value` for controlled state. `allValues` enables parent-checkbox selection.
+
+### CheckboxGroup.Item
+
+An item registers its `value` with the root and shares disabled and form state. The public
+`CheckboxGroup.Checkbox` alias points to the same part.
+
+See the [Shards Checkbox Group API](https://shardsui.com/svelte/checkbox-group) for parent selection,
+form values, and validation.
+
+## Examples
+
+### With Disabled Item
+
+<ComponentPreview name="p-checkbox-group-2" />
+
+### Parent Checkbox
+
+<ComponentPreview name="p-checkbox-group-3" />
+
+### Nested Parent Checkbox
+
+<ComponentPreview name="p-checkbox-group-4" />
+
+### Form Integration
+
+<ComponentPreview name="p-checkbox-group-5" />

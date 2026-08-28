@@ -1,0 +1,84 @@
+---
+title: Toggle Group
+description: Provides a shared state to a series of toggle buttons.
+
+links:
+  doc: https://shardsui.com/svelte/toggle-group
+---
+
+<ComponentPreview name="p-toggle-group-1" />
+
+## Installation
+
+<InstallCommand pnpm="pnpm add @coss-sv/ui" shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/toggle-group.json" />
+
+## Usage
+
+```svelte
+<script lang="ts">
+  import * as ToggleGroup from "@coss-sv/ui/components/ui/toggle-group";
+</script>
+
+<ToggleGroup.Root>
+  <ToggleGroup.Item value="bold">Bold</ToggleGroup.Item>
+  <ToggleGroup.Item value="italic">Italic</ToggleGroup.Item>
+  <ToggleGroup.Item value="underline">Underline</ToggleGroup.Item>
+</ToggleGroup.Root>
+```
+
+## API Reference
+
+### ToggleGroup.Root
+
+The root owns a `readonly string[]` selection and shares its size, variant, orientation, and disabled
+state. Use `defaultValue` for the initial selection or `bind:value` for controlled state. Set
+`multiple` to allow more than one pressed item.
+
+### ToggleGroup.Item
+
+Each item needs a unique `value`. Arrow keys, Home, and End move focus within the group.
+
+### ToggleGroup.Separator
+
+The separator follows the group's orientation and preserves the connected outline treatment.
+
+See the [Shards Toggle Group API](https://shardsui.com/svelte/toggle-group) for focus and selection
+behavior.
+
+## Examples
+
+### Small Toggles
+
+<ComponentPreview name="p-toggle-group-2" />
+
+### Large Toggles
+
+<ComponentPreview name="p-toggle-group-3" />
+
+### With Outline Toggles
+
+<ComponentPreview name="p-toggle-group-4" />
+
+### Vertical
+
+<ComponentPreview name="p-toggle-group-5" />
+
+### Disabled
+
+<ComponentPreview name="p-toggle-group-6" />
+
+### With Disabled Toggle
+
+<ComponentPreview name="p-toggle-group-7" />
+
+### Multiple selection
+
+<ComponentPreview name="p-toggle-group-8" />
+
+### With Tooltips
+
+<ComponentPreview name="p-toggle-group-9" />
+
+## Changelog
+
+- [Mar 20, 2026](/ui/docs/changelog#toggle-group): `Toggle` was renamed to `ToggleGroupItem` upstream.

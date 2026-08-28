@@ -1,0 +1,57 @@
+---
+title: Switch
+description: A control that indicates whether a setting is on or off.
+
+links:
+  doc: https://shardsui.com/svelte/switch
+---
+
+<ComponentPreview name="p-switch-1" />
+
+## Installation
+
+<InstallCommand pnpm="pnpm add @coss-sv/ui" shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/switch.json" />
+
+## Usage
+
+```svelte
+<script lang="ts">
+  import { Switch } from "@coss-sv/ui/components/ui/switch";
+</script>
+
+<Switch aria-label="Marketing emails" />
+```
+
+## API Reference
+
+### Switch
+
+`Switch` includes the COSS thumb and responsive sizing. Use `checked` for an initial value or
+`bind:checked` for controlled state. Native form props and `onCheckedChange` pass to the Shards root.
+
+See the [Shards Switch API](https://shardsui.com/svelte/switch) for form, validation, and state props.
+
+## Examples
+
+### Disabled
+
+<ComponentPreview name="p-switch-2" />
+
+### With Description
+
+<ComponentPreview name="p-switch-3" />
+
+### Customizing Size
+
+The `--thumb-size` CSS variable controls the switch size. The default is larger on coarse mobile
+controls. Override the variable with a spacing token or a fixed length.
+
+<ComponentPreview name="p-switch-6" />
+
+### Card Style
+
+<ComponentPreview name="p-switch-4" />
+
+### Form Integration
+
+<ComponentPreview name="p-switch-5" />

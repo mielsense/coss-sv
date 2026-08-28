@@ -1,0 +1,56 @@
+---
+title: Slider
+description: An input where the user selects a value from within a given range.
+
+links:
+  doc: https://shardsui.com/svelte/slider
+---
+
+<ComponentPreview name="p-slider-1" />
+
+## Installation
+
+<InstallCommand pnpm="pnpm add @coss-sv/ui" shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/slider.json" />
+
+## Usage
+
+```svelte
+<script lang="ts">
+  import * as Slider from "@coss-sv/ui/components/ui/slider";
+</script>
+
+<Slider.Root aria-label="Volume" defaultValue={50} />
+```
+
+## API Reference
+
+### Slider.Root
+
+The root accepts a number or an array for range sliders. It defaults to `min={0}`, `max={100}`, and
+edge-aligned thumbs. Use `defaultValue` for the initial value or `bind:value` for controlled state.
+
+### Slider.Value
+
+The value part displays the current formatted value and points to the thumb inputs.
+
+The package also exports `Slider.Control`, `Slider.Track`, `Slider.Indicator`, `Slider.Thumb`, and
+`Slider.Label` for custom compositions. See the [Shards Slider API](https://shardsui.com/svelte/slider)
+for drag, keyboard, formatting, and form props.
+
+## Examples
+
+### With Label and Value
+
+<ComponentPreview name="p-slider-2" />
+
+### Range Slider
+
+<ComponentPreview name="p-slider-3" />
+
+### Vertical
+
+<ComponentPreview name="p-slider-4" />
+
+### Form Integration
+
+<ComponentPreview name="p-slider-5" />
