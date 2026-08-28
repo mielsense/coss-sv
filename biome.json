@@ -45,7 +45,7 @@
   "html": {
     "experimentalFullSupportEnabled": true,
     "formatter": {
-      "enabled": true
+      "enabled": false
     }
   },
   "javascript": {

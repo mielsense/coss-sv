@@ -1,0 +1,16 @@
+.agents/
+.claude/
+.playwright-cli/
+.playwright-mcp/
+.svelte-kit/
+.turbo/
+.worktrees/
+artifacts/
+build/
+coverage/
+dist/
+node_modules/
+playwright-report/
+reference/
+shardsui/
+test-results/
