@@ -1,0 +1,21 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "p-button-38",
+	"type": "registry:block",
+	"description": "COSS button example.",
+	"dependencies": [
+		"@coss-sv/ui",
+		"@hugeicons/core-free-icons@4.3.0",
+		"@hugeicons/svelte@1.1.5"
+	],
+	"registryDependencies": [
+		"./particle-metadata.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\nimport { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\nexport const meta = defineParticleMeta({\n  components: [\"button\"],\n  id: \"p-button-38\",\n  interactive: true,\n  responsive: true,\n  title: \"Social login buttons\",\n  containerClass: \"**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64\",\n});\n</script>\n\n<script lang=\"ts\">\nimport { Button } from \"@coss-sv/ui\";\nimport { Github01Icon, GoogleIcon, NewTwitterIcon } from \"@hugeicons/core-free-icons\";\nimport { HugeiconsIcon } from \"@hugeicons/svelte\";\n\nconst providers = [\n  { icon: GoogleIcon, label: \"Google\" },\n  { icon: NewTwitterIcon, label: \"X\" },\n  { icon: Github01Icon, label: \"GitHub\" },\n];\n</script>\n\n<div class=\"flex flex-col gap-2\">\n  {#each providers as provider (provider.label)}\n    <Button variant=\"outline\">\n      <HugeiconsIcon aria-hidden=\"true\" icon={provider.icon} strokeWidth={2} />\n      <span class=\"flex-1\">Login with {provider.label}</span>\n    </Button>\n  {/each}\n</div>\n",
+			"type": "registry:block",
+			"target": "p-button-38.svelte"
+		}
+	]
+}

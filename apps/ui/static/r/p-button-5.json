@@ -1,0 +1,21 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "p-button-5",
+	"type": "registry:block",
+	"description": "COSS button example.",
+	"dependencies": [
+		"@coss-sv/ui",
+		"@hugeicons/core-free-icons@4.3.0",
+		"@hugeicons/svelte@1.1.5"
+	],
+	"registryDependencies": [
+		"./particle-metadata.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\nimport { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\nexport const meta = defineParticleMeta({\n  components: [\"button\"],\n  id: \"p-button-5\",\n  interactive: true,\n  responsive: false,\n  title: \"Destructive outline button\",\n});\n</script>\n\n<script lang=\"ts\">\nimport { Button } from \"@coss-sv/ui\";\n</script>\n\n<Button variant=\"destructive-outline\">Delete</Button>\n",
+			"type": "registry:block",
+			"target": "p-button-5.svelte"
+		}
+	]
+}

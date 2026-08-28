@@ -1,0 +1,21 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "p-button-23",
+	"type": "registry:block",
+	"description": "COSS button example.",
+	"dependencies": [
+		"@coss-sv/ui",
+		"@hugeicons/core-free-icons@4.3.0",
+		"@hugeicons/svelte@1.1.5"
+	],
+	"registryDependencies": [
+		"./particle-metadata.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\nimport { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\nexport const meta = defineParticleMeta({\n  components: [\"button\"],\n  id: \"p-button-23\",\n  interactive: true,\n  responsive: false,\n  title: \"Like button with count\",\n});\n</script>\n\n<script lang=\"ts\">\nimport { Button } from \"@coss-sv/ui\";\nimport { ThumbsUpIcon } from \"@hugeicons/core-free-icons\";\nimport { HugeiconsIcon } from \"@hugeicons/svelte\";\n</script>\n\n<Button class=\"pe-0\" variant=\"outline\"\n  ><HugeiconsIcon aria-hidden=\"true\" icon={ThumbsUpIcon} strokeWidth={2} />Like<span\n    class=\"relative ms-1 px-3 font-medium text-muted-foreground text-xs before:absolute before:inset-0 before:left-0 before:w-px before:bg-input\"\n    >86</span\n  ></Button\n>\n",
+			"type": "registry:block",
+			"target": "p-button-23.svelte"
+		}
+	]
+}

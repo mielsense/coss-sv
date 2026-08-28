@@ -1,0 +1,21 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "p-slider-16",
+	"type": "registry:block",
+	"description": "COSS slider example.",
+	"dependencies": [
+		"@coss-sv/ui",
+		"@hugeicons/core-free-icons@4.3.0",
+		"@hugeicons/svelte@1.1.5"
+	],
+	"registryDependencies": [
+		"./particle-metadata.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\nimport { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\nexport const meta = defineParticleMeta({\n  components: [\"field\", \"slider\"],\n  id: \"p-slider-16\",\n  interactive: true,\n  responsive: true,\n  title: \"Rating slider\",\n  containerClass: \"**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64\",\n});\n</script>\n\n<script lang=\"ts\">\nimport { Field, Slider } from \"@coss-sv/ui\";\n\nconst labels = [\"Awful\", \"Poor\", \"Okay\", \"Good\", \"Amazing\"];\nlet value = $state<number | readonly number[]>(3);\nconst currentValue = $derived(Array.isArray(value) ? (value[0] ?? 3) : value);\n</script>\n\n<Field.Root class=\"*:grid *:grid-cols-[auto_1fr_auto] *:items-center *:gap-x-2\">\n  <Slider.Root aria-label=\"Rate your experience\" max={5} min={1} bind:value>\n    <div class=\"col-span-3 mb-2 flex items-center justify-between gap-1\">\n      <Field.Label>Rate your experience</Field.Label\n      ><span class=\"text-sm\">{labels[currentValue - 1]}</span>\n    </div>\n    <span aria-hidden=\"true\" class=\"text-2xl\">😡</span\n    ><span aria-hidden=\"true\" class=\"order-1 text-2xl\">😍</span>\n  </Slider.Root>\n</Field.Root>\n",
+			"type": "registry:block",
+			"target": "p-slider-16.svelte"
+		}
+	]
+}

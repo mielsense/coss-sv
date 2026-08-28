@@ -1,0 +1,21 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "p-button-22",
+	"type": "registry:block",
+	"description": "COSS button example.",
+	"dependencies": [
+		"@coss-sv/ui",
+		"@hugeicons/core-free-icons@4.3.0",
+		"@hugeicons/svelte@1.1.5"
+	],
+	"registryDependencies": [
+		"./particle-metadata.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\nimport { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\nexport const meta = defineParticleMeta({\n  components: [\"button\"],\n  id: \"p-button-22\",\n  interactive: true,\n  responsive: false,\n  title: \"Directional pad\",\n});\n</script>\n\n<script lang=\"ts\">\nimport { Button } from \"@coss-sv/ui\";\nimport {\n  ArrowDown01Icon,\n  ArrowLeft01Icon,\n  ArrowRight01Icon,\n  ArrowUp01Icon,\n  CircleIcon,\n} from \"@hugeicons/core-free-icons\";\nimport { HugeiconsIcon } from \"@hugeicons/svelte\";\n</script>\n\n<div class=\"inline-grid w-fit grid-cols-3 gap-1\">\n  <Button aria-label=\"Pan camera up\" class=\"col-start-2\" size=\"icon\" variant=\"outline\">\n    <HugeiconsIcon aria-hidden=\"true\" icon={ArrowUp01Icon} strokeWidth={2} />\n  </Button>\n  <Button aria-label=\"Pan camera left\" class=\"col-start-1\" size=\"icon\" variant=\"outline\">\n    <HugeiconsIcon aria-hidden=\"true\" icon={ArrowLeft01Icon} strokeWidth={2} />\n  </Button>\n  <div aria-hidden=\"true\" class=\"flex items-center justify-center\">\n    <HugeiconsIcon class=\"size-4 opacity-80\" icon={CircleIcon} strokeWidth={2} />\n  </div>\n  <Button aria-label=\"Pan camera right\" size=\"icon\" variant=\"outline\">\n    <HugeiconsIcon aria-hidden=\"true\" icon={ArrowRight01Icon} strokeWidth={2} />\n  </Button>\n  <Button aria-label=\"Pan camera down\" class=\"col-start-2\" size=\"icon\" variant=\"outline\">\n    <HugeiconsIcon aria-hidden=\"true\" icon={ArrowDown01Icon} strokeWidth={2} />\n  </Button>\n</div>\n",
+			"type": "registry:block",
+			"target": "p-button-22.svelte"
+		}
+	]
+}

@@ -1,0 +1,21 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "p-slider-15",
+	"type": "registry:block",
+	"description": "COSS slider example.",
+	"dependencies": [
+		"@coss-sv/ui",
+		"@hugeicons/core-free-icons@4.3.0",
+		"@hugeicons/svelte@1.1.5"
+	],
+	"registryDependencies": [
+		"./particle-metadata.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\nimport { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\nexport const meta = defineParticleMeta({\n  components: [\"fieldset\", \"slider\"],\n  id: \"p-slider-15\",\n  interactive: true,\n  responsive: true,\n  title: \"Price range\",\n  containerClass: \"**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64\",\n});\n</script>\n\n<script lang=\"ts\">\nimport { Fieldset, Slider } from \"@coss-sv/ui\";\n\nconst min = 5;\nconst max = 1240;\nlet values = $state<number[]>([min, max]);\nconst formatPrice = (price: number) =>\n  price === max ? `$${price.toLocaleString()}+` : `$${price.toLocaleString()}`;\n</script>\n\n<Fieldset.Root class=\"flex w-full flex-col gap-3\">\n  <Fieldset.Legend class=\"tabular-nums\"\n    >From {formatPrice(values[0] ?? min)} to {formatPrice(values[1] ?? max)}</Fieldset.Legend\n  >\n  <Slider.Root\n    aria-label=\"Price range\"\n    class=\"flex-1\"\n    {max}\n    {min}\n    name=\"price-range\"\n    bind:value={values}\n  />\n</Fieldset.Root>\n",
+			"type": "registry:block",
+			"target": "p-slider-15.svelte"
+		}
+	]
+}

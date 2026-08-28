@@ -1,0 +1,21 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "p-button-40",
+	"type": "registry:block",
+	"description": "COSS button example.",
+	"dependencies": [
+		"@coss-sv/ui",
+		"@hugeicons/core-free-icons@4.3.0",
+		"@hugeicons/svelte@1.1.5"
+	],
+	"registryDependencies": [
+		"./particle-metadata.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\nimport { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\nexport const meta = defineParticleMeta({\n  components: [\"button\", \"group\", \"spinner\", \"toast\", \"tooltip\"],\n  id: \"p-button-40\",\n  interactive: true,\n  responsive: false,\n  title: \"Download progress button\",\n});\n</script>\n\n<script lang=\"ts\">\nimport { Button, buttonVariants, Group, Spinner, Toast, Tooltip } from \"@coss-sv/ui\";\nimport { Cancel01Icon, Download01Icon } from \"@hugeicons/core-free-icons\";\nimport { HugeiconsIcon } from \"@hugeicons/svelte\";\n\nlet downloading = $state(false);\nlet progress = $state(0);\nlet abortController: AbortController | null = null;\nlet infoToastId: string | null = null;\n\n$effect(() => {\n  if (!downloading) return;\n  const interval = window.setInterval(() => {\n    progress = Math.min(99, progress + Math.round(Math.random() * 8 + 2));\n  }, 300);\n  return () => window.clearInterval(interval);\n});\n\nasync function start() {\n  if (downloading) return;\n  downloading = true;\n  progress = 0;\n  abortController = new AbortController();\n  infoToastId = Toast.toastManager.add({\n    description: \"Your download will begin once ready.\",\n    title: \"Generating report…\",\n    type: \"info\",\n  });\n\n  try {\n    await new Promise<void>((resolve, reject) => {\n      const shouldSucceed = Math.random() > 0.2;\n      const timeout = window.setTimeout(\n        () => (shouldSucceed ? resolve() : reject(new Error(\"Download failed\"))),\n        4000,\n      );\n      abortController?.signal.addEventListener(\n        \"abort\",\n        () => {\n          window.clearTimeout(timeout);\n          reject(new DOMException(\"Cancelled\", \"AbortError\"));\n        },\n        { once: true },\n      );\n    });\n  } catch (error) {\n    if (infoToastId) Toast.toastManager.close(infoToastId);\n    infoToastId = null;\n    Toast.toastManager.add(\n      error instanceof DOMException && error.name === \"AbortError\"\n        ? {\n            description: \"Report generation was cancelled.\",\n            title: \"Cancelled\",\n            type: \"error\",\n          }\n        : {\n            description: \"Please try again later.\",\n            title: \"Failed to generate report\",\n            type: \"error\",\n          },\n    );\n  } finally {\n    downloading = false;\n    progress = 0;\n    abortController = null;\n    infoToastId = null;\n  }\n}\n\nfunction cancel() {\n  abortController?.abort();\n}\n</script>\n\n<Toast.Provider>\n  <Tooltip.Provider delay={0}>\n    {#if downloading}\n      <Group.Root>\n        <Group.Text aria-live=\"polite\" class=\"cursor-default gap-2\" role=\"status\">\n          <Spinner />\n          <span aria-hidden=\"true\" class=\"font-medium text-foreground tabular-nums\">\n            {String(progress).padStart(2, \"\\u2007\")}%\n          </span>\n          <span class=\"sr-only\">Generating report, {progress}% complete</span>\n        </Group.Text>\n        <Group.Separator />\n        <Tooltip.Root>\n          <Tooltip.Trigger\n            aria-label=\"Cancel download\"\n            class={buttonVariants({ size: \"icon\", variant: \"outline\" })}\n            onclick={cancel}\n          >\n            <HugeiconsIcon aria-hidden=\"true\" icon={Cancel01Icon} strokeWidth={2} />\n          </Tooltip.Trigger>\n          <Tooltip.Popup>Cancel</Tooltip.Popup>\n        </Tooltip.Root>\n      </Group.Root>\n    {:else}\n      <Button onclick={() => void start()} variant=\"outline\">\n        <HugeiconsIcon aria-hidden=\"true\" icon={Download01Icon} strokeWidth={2} />\n        Download\n      </Button>\n    {/if}\n  </Tooltip.Provider>\n</Toast.Provider>\n",
+			"type": "registry:block",
+			"target": "p-button-40.svelte"
+		}
+	]
+}

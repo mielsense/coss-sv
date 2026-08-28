@@ -1,4 +1,20 @@
 {
-  "pages": ["accordion", "card", "collapsible", "empty", "frame", "separator", "skeleton"],
+  "pages": [
+    "accordion",
+    "button",
+    "card",
+    "checkbox",
+    "checkbox-group",
+    "collapsible",
+    "empty",
+    "frame",
+    "radio-group",
+    "separator",
+    "skeleton",
+    "slider",
+    "switch",
+    "toggle",
+    "toggle-group"
+  ],
   "title": "Components"
 }

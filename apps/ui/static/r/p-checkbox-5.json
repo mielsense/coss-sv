@@ -1,0 +1,21 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "p-checkbox-5",
+	"type": "registry:block",
+	"description": "COSS checkbox example.",
+	"dependencies": [
+		"@coss-sv/ui",
+		"@hugeicons/core-free-icons@4.3.0",
+		"@hugeicons/svelte@1.1.5"
+	],
+	"registryDependencies": [
+		"./particle-metadata.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\nimport { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\nexport const meta = defineParticleMeta({\n  components: [\"button\", \"checkbox\", \"field\", \"form\"],\n  id: \"p-checkbox-5\",\n  interactive: true,\n  responsive: false,\n  title: \"Checkbox form\",\n});\n</script>\n\n<script lang=\"ts\">\nimport { Button, Checkbox, Field, Form } from \"@coss-sv/ui\";\n\nlet loading = $state(false);\nasync function submit(event: SubmitEvent) {\n  event.preventDefault();\n  const formData = new FormData(event.currentTarget as HTMLFormElement);\n  loading = true;\n  await new Promise((resolve) => window.setTimeout(resolve, 800));\n  loading = false;\n  window.alert(`Terms: ${formData.get(\"terms\")}`);\n}\n</script>\n\n<Form class=\"flex w-auto flex-col gap-4\" onsubmit={submit}>\n  <Field.Root name=\"terms\">\n    <Field.Label><Checkbox checked value=\"yes\" />Accept terms and conditions</Field.Label>\n  </Field.Root>\n  <Button {loading} type=\"submit\">Submit</Button>\n</Form>\n",
+			"type": "registry:block",
+			"target": "p-checkbox-5.svelte"
+		}
+	]
+}

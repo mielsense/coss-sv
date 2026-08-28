@@ -1,0 +1,21 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "p-radio-group-2",
+	"type": "registry:block",
+	"description": "COSS radio-group example.",
+	"dependencies": [
+		"@coss-sv/ui",
+		"@hugeicons/core-free-icons@4.3.0",
+		"@hugeicons/svelte@1.1.5"
+	],
+	"registryDependencies": [
+		"./particle-metadata.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\nimport { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\nexport const meta = defineParticleMeta({\n  components: [\"label\", \"radio-group\"],\n  id: \"p-radio-group-2\",\n  interactive: true,\n  responsive: false,\n  title: \"Disabled radio item\",\n});\n</script>\n\n<script lang=\"ts\">\nimport { Label, RadioGroup } from \"@coss-sv/ui\";\n\nconst frameworks = [\n  { value: \"next\", label: \"Next.js\" },\n  { value: \"vite\", label: \"Vite (disabled)\" },\n  { value: \"astro\", label: \"Astro\" },\n];\n</script>\n\n<RadioGroup.Root defaultValue=\"next\">\n  {#each frameworks as framework (framework.value)}\n    <Label\n      ><RadioGroup.Item disabled={framework.value === \"vite\"} value={framework.value} />\n      {framework.label}</Label\n    >\n  {/each}\n</RadioGroup.Root>\n",
+			"type": "registry:block",
+			"target": "p-radio-group-2.svelte"
+		}
+	]
+}

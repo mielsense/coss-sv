@@ -1,0 +1,21 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "p-toggle-7",
+	"type": "registry:block",
+	"description": "COSS toggle example.",
+	"dependencies": [
+		"@coss-sv/ui",
+		"@hugeicons/core-free-icons@4.3.0",
+		"@hugeicons/svelte@1.1.5"
+	],
+	"registryDependencies": [
+		"./particle-metadata.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\nimport { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\nexport const meta = defineParticleMeta({\n  components: [\"toggle\"],\n  id: \"p-toggle-7\",\n  interactive: true,\n  responsive: false,\n  title: \"Icon toggle group\",\n});\n</script>\n\n<script lang=\"ts\">\nimport { Toggle } from \"@coss-sv/ui\";\nimport { TextBoldIcon, TextItalicIcon, TextUnderlineIcon } from \"@hugeicons/core-free-icons\";\nimport { HugeiconsIcon } from \"@hugeicons/svelte\";\n\nconst tools = [\n  { icon: TextBoldIcon, label: \"Toggle bold\" },\n  { icon: TextItalicIcon, label: \"Toggle italic\" },\n  { icon: TextUnderlineIcon, label: \"Toggle underline\" },\n];\n</script>\n\n<div class=\"flex items-center gap-1\">\n  {#each tools as tool (tool.label)}\n    <Toggle aria-label={tool.label} variant=\"outline\">\n      <HugeiconsIcon aria-hidden=\"true\" icon={tool.icon} strokeWidth={2} />\n    </Toggle>\n  {/each}\n</div>\n",
+			"type": "registry:block",
+			"target": "p-toggle-7.svelte"
+		}
+	]
+}

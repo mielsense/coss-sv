@@ -1,0 +1,21 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "p-button-35",
+	"type": "registry:block",
+	"description": "COSS button example.",
+	"dependencies": [
+		"@coss-sv/ui",
+		"@hugeicons/core-free-icons@4.3.0",
+		"@hugeicons/svelte@1.1.5"
+	],
+	"registryDependencies": [
+		"./particle-metadata.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\nimport { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\nexport const meta = defineParticleMeta({\n  components: [\"button\"],\n  id: \"p-button-35\",\n  interactive: true,\n  responsive: false,\n  title: \"Icon-only copy button\",\n});\n</script>\n\n<script lang=\"ts\">\nimport { Button } from \"@coss-sv/ui\";\nimport { Copy01Icon, Tick01Icon } from \"@hugeicons/core-free-icons\";\nimport { HugeiconsIcon } from \"@hugeicons/svelte\";\n\nlet copied = $state(false);\n\nasync function copy() {\n  await navigator.clipboard.writeText(\"Text copied!\");\n  copied = true;\n  window.setTimeout(() => (copied = false), 2000);\n}\n</script>\n\n<Button\n  aria-label={copied ? \"Copied\" : \"Copy to clipboard\"}\n  onclick={copy}\n  size=\"icon\"\n  variant=\"outline\"\n>\n  <HugeiconsIcon aria-hidden=\"true\" icon={copied ? Tick01Icon : Copy01Icon} strokeWidth={2} />\n</Button>\n",
+			"type": "registry:block",
+			"target": "p-button-35.svelte"
+		}
+	]
+}

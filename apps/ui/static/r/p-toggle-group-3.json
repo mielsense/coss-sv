@@ -1,0 +1,21 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "p-toggle-group-3",
+	"type": "registry:block",
+	"description": "COSS toggle-group example.",
+	"dependencies": [
+		"@coss-sv/ui",
+		"@hugeicons/core-free-icons@4.3.0",
+		"@hugeicons/svelte@1.1.5"
+	],
+	"registryDependencies": [
+		"./particle-metadata.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\nimport { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\nexport const meta = defineParticleMeta({\n  components: [\"toggle-group\"],\n  id: \"p-toggle-group-3\",\n  interactive: true,\n  responsive: false,\n  title: \"Large toggle group\",\n});\n</script>\n\n<script lang=\"ts\">\nimport { ToggleGroup } from \"@coss-sv/ui\";\nimport { TextBoldIcon, TextItalicIcon, TextUnderlineIcon } from \"@hugeicons/core-free-icons\";\nimport { HugeiconsIcon } from \"@hugeicons/svelte\";\n\nconst tools = [\n  { icon: TextBoldIcon, label: \"Toggle bold\", value: \"bold\" },\n  { icon: TextItalicIcon, label: \"Toggle italic\", value: \"italic\" },\n  { icon: TextUnderlineIcon, label: \"Toggle underline\", value: \"underline\" },\n];\n</script>\n\n<ToggleGroup.Root defaultValue={[\"bold\"]} size=\"lg\">\n  {#each tools as tool, index (tool.value)}\n    <ToggleGroup.Item aria-label={tool.label} disabled={false} value={tool.value} title={undefined}>\n      <HugeiconsIcon aria-hidden=\"true\" icon={tool.icon} strokeWidth={2} />\n    </ToggleGroup.Item>\n  {/each}\n</ToggleGroup.Root>\n",
+			"type": "registry:block",
+			"target": "p-toggle-group-3.svelte"
+		}
+	]
+}
