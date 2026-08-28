@@ -25,10 +25,18 @@ let menuOpen = $state(false);
   size="icon"
   variant="outline"
 >
-  <HugeiconsIcon
-    aria-hidden="true"
-    class="transition-transform duration-300"
-    icon={menuOpen ? Cancel01Icon : Menu01Icon}
-    strokeWidth={2}
-  />
+  <span aria-hidden="true" class="relative block size-4">
+    <HugeiconsIcon
+      class={`absolute inset-0 transition-[transform,opacity] duration-300 motion-reduce:duration-0 ${menuOpen ? "scale-75 rotate-90 opacity-0" : "scale-100 rotate-0 opacity-100"}`}
+      data-menu-icon="menu"
+      icon={Menu01Icon}
+      strokeWidth={2}
+    />
+    <HugeiconsIcon
+      class={`absolute inset-0 transition-[transform,opacity] duration-300 motion-reduce:duration-0 ${menuOpen ? "scale-100 rotate-0 opacity-100" : "scale-75 -rotate-90 opacity-0"}`}
+      data-menu-icon="cancel"
+      icon={Cancel01Icon}
+      strokeWidth={2}
+    />
+  </span>
 </Button>

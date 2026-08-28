@@ -78,7 +78,7 @@ const themes = [
       <Label class="cursor-pointer flex-col">
         <RadioGroup.Item class="peer sr-only absolute" value={theme.value} />
         <span
-          class={["relative block h-[70px] w-[88px] overflow-hidden rounded-lg shadow-xs transition-shadow not-peer-data-checked:opacity-80 peer-data-checked:ring-2 peer-data-checked:ring-primary/48 peer-data-checked:ring-offset-1", theme.class]}
+          class={["relative block h-[70px] w-[88px] overflow-hidden rounded-lg shadow-xs transition-shadow not-peer-data-checked:opacity-80 peer-data-checked:ring-2 peer-data-checked:ring-primary/48 peer-data-checked:ring-offset-1 peer-data-checked:ring-offset-background peer-data-disabled:cursor-not-allowed peer-data-disabled:opacity-64", theme.class]}
         >
           {@render preview(theme.value)}
         </span>

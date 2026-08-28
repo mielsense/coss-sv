@@ -35,7 +35,7 @@ props.
 
 ## Examples
 
-For accessible labelling and validation, prefer the `Field` component around a checkbox.
+For accessible labelling and validation, prefer using the `Field` component to wrap checkboxes. See the related example: [Checkbox field](/docs/components/field#checkbox-field).
 
 ### Disabled
 
@@ -51,7 +51,6 @@ For accessible labelling and validation, prefer the `Field` component around a c
 
 ### Form Integration
 
-Field provides accessible labelling and validation for form controls. Use it with `Form` to submit
-values.
+Field provides accessible labelling and validation primitives for form controls. Use it with `Form` to submit values.
 
 <ComponentPreview name="p-checkbox-5" />

@@ -1,9 +1,9 @@
 ---
 title: Radio Group
-description: A set of checkable buttons where no more than one button can be checked at a time.
+description: A set of checkable buttons where no more than one of the buttons can be checked at a time.
 
 links:
-  doc: https://shardsui.com/svelte/radio-group
+  doc: https://shardsui.com/svelte/radio
 ---
 
 <ComponentPreview name="p-radio-group-1" />
@@ -40,6 +40,10 @@ Each item needs a unique `value` and includes the COSS indicator. `RadioGroup.Ra
 See the [Shards Radio API](https://shardsui.com/svelte/radio) for form, focus, and validation props.
 
 ## Examples
+
+For accessible labelling and validation, prefer using the `Field` component to wrap radio buttons. See the related example: [Radio Group field](/docs/components/field#radio-group-field).
+
+For tabs-style mutually exclusive choices, see the [Segmented Control](/docs/components/segmented-control) pattern.
 
 ### Disabled
 

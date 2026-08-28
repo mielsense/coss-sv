@@ -16,14 +16,14 @@ links:
 
 ```svelte
 <script lang="ts">
-  import { Checkbox } from "@coss-sv/ui/components/ui/checkbox";
+  import { Label } from "@coss-sv/ui/components/ui/label";
   import * as CheckboxGroup from "@coss-sv/ui/components/ui/checkbox-group";
 </script>
 
 <CheckboxGroup.Root aria-label="Select frameworks" defaultValue={["next"]}>
-  <CheckboxGroup.Item value="next"><Checkbox /> Next.js</CheckboxGroup.Item>
-  <CheckboxGroup.Item value="vite"><Checkbox /> Vite</CheckboxGroup.Item>
-  <CheckboxGroup.Item value="astro"><Checkbox /> Astro</CheckboxGroup.Item>
+  <Label><CheckboxGroup.Item value="next" /> Next.js</Label>
+  <Label><CheckboxGroup.Item value="vite" /> Vite</Label>
+  <Label><CheckboxGroup.Item value="astro" /> Astro</Label>
 </CheckboxGroup.Root>
 ```
 
@@ -43,6 +43,8 @@ See the [Shards Checkbox Group API](https://shardsui.com/svelte/checkbox-group) 
 form values, and validation.
 
 ## Examples
+
+For accessible group labelling and validation, prefer wrapping checkbox groups with `Field` and `Fieldset`. See the related example: [Checkbox group field](/docs/components/field#checkbox-group-field).
 
 ### With Disabled Item
 

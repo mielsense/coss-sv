@@ -81,4 +81,4 @@ behavior.
 
 ## Changelog
 
-- [Mar 20, 2026](/ui/docs/changelog#toggle-group): `Toggle` was renamed to `ToggleGroupItem` upstream.
+- [Mar 20, 2026](/docs/changelog#toggle-group) — `Toggle` renamed to `ToggleGroupItem`

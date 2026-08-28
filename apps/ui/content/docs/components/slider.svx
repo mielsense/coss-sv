@@ -39,6 +39,8 @@ for drag, keyboard, formatting, and form props.
 
 ## Examples
 
+For accessible labelling and validation, prefer using the `Field` component to wrap checkboxes. See the related example: [Slider field](/docs/components/field#slider-field).
+
 ### With Label and Value
 
 <ComponentPreview name="p-slider-2" />

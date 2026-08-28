@@ -165,4 +165,73 @@ describe("D5 control documentation inventory", () => {
       );
     }
   });
+
+  test("keeps every weekly availability editor complete and searchable", () => {
+    for (const id of ["p-switch-7", "p-switch-8", "p-switch-9"]) {
+      const particle = source(`apps/ui/registry/default/particles/${id}.svelte`);
+
+      expect(particle).toContain("Array.from({ length: 96 }");
+      expect(particle).toContain('placeholder="Search time"');
+      expect(particle).toContain("<Combobox.Empty>No times found.</Combobox.Empty>");
+      expect(particle).toContain("<Combobox.Collection>");
+      expect(particle).toContain("timeOptions.slice(timeIndex(range.start) + 1)");
+      expect(particle).toContain("Math.min(timeIndex(lastRange.end) + 4, timeOptions.length - 2)");
+      expect(particle).toContain("Math.min(startIndex + 4, timeOptions.length - 1)");
+      expect(particle).toContain("Math.min(timeIndex(start) + 4, timeOptions.length - 1)");
+      expect(particle).toContain("Copy times to");
+      expect(particle).toContain("<CheckboxGroup.Item");
+      expect(particle).not.toMatch(/<select\b|<Checkbox(?:\s|>)/);
+    }
+  });
+
+  test("keeps the Hugeicons menu transition and reduced-motion contract", () => {
+    const particle = source("apps/ui/registry/default/particles/p-button-39.svelte");
+
+    expect(particle).toContain("Menu01Icon");
+    expect(particle).toContain("Cancel01Icon");
+    expect(particle).toContain("transition-[transform,opacity]");
+    expect(particle).toContain("duration-300");
+    expect(particle).toContain("motion-reduce:duration-0");
+    expect(particle).toContain('data-menu-icon="menu"');
+    expect(particle).toContain('data-menu-icon="cancel"');
+    expect(particle).not.toMatch(/<svg\b|lucide/i);
+  });
+
+  test("keeps checkbox-group ownership, the radio API route, and theme-card state classes", () => {
+    const usage = source("apps/ui/content/docs/components/checkbox-group.svx");
+    const radioPage = source("apps/ui/content/docs/components/radio-group.svx");
+    const themeRadio = source("apps/ui/registry/default/particles/p-radio-group-6.svelte");
+
+    expect(usage).toContain('<CheckboxGroup.Item value="next" />');
+    expect(usage).not.toMatch(/<CheckboxGroup\.Item[^>]*>\s*<Checkbox\b/s);
+    expect(radioPage).toContain("https://shardsui.com/svelte/radio");
+    expect(radioPage).not.toContain("https://shardsui.com/svelte/radio-group");
+    expect(themeRadio).toContain("peer-data-disabled:cursor-not-allowed");
+    expect(themeRadio).toContain("peer-data-disabled:opacity-64");
+    expect(themeRadio).toContain("peer-data-checked:ring-offset-background");
+  });
+
+  test("preserves unchanged COSS guidance with only route and framework adaptations", () => {
+    expect(source("apps/ui/content/docs/components/checkbox.svx")).toContain(
+      "For accessible labelling and validation, prefer using the `Field` component to wrap checkboxes. See the related example: [Checkbox field](/docs/components/field#checkbox-field).",
+    );
+    expect(source("apps/ui/content/docs/components/checkbox-group.svx")).toContain(
+      "For accessible group labelling and validation, prefer wrapping checkbox groups with `Field` and `Fieldset`. See the related example: [Checkbox group field](/docs/components/field#checkbox-group-field).",
+    );
+    expect(source("apps/ui/content/docs/components/radio-group.svx")).toContain(
+      "A set of checkable buttons where no more than one of the buttons can be checked at a time.",
+    );
+    expect(source("apps/ui/content/docs/components/radio-group.svx")).toContain(
+      "For tabs-style mutually exclusive choices, see the [Segmented Control](/docs/components/segmented-control) pattern.",
+    );
+    expect(source("apps/ui/content/docs/components/switch.svx")).toContain(
+      "The switch size is controlled by the `--thumb-size` CSS variable. By default, the switch uses responsive sizing with `[--thumb-size:--spacing(5)] sm:[--thumb-size:--spacing(4)]` classes, making it slightly larger on mobile devices (like other interactive elements).",
+    );
+    expect(source("apps/ui/content/docs/components/slider.svx")).toContain(
+      "For accessible labelling and validation, prefer using the `Field` component to wrap checkboxes. See the related example: [Slider field](/docs/components/field#slider-field).",
+    );
+    expect(source("apps/ui/content/docs/components/toggle-group.svx")).toContain(
+      "- [Mar 20, 2026](/docs/changelog#toggle-group) — `Toggle` renamed to `ToggleGroupItem`",
+    );
+  });
 });
