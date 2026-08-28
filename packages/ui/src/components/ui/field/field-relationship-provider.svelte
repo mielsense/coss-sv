@@ -14,9 +14,12 @@ let {
   describedBy?: string | undefined;
   labelId?: string | undefined;
 } = $props();
+let controlId = $state<string | undefined>();
 
 setFieldRelationshipContext(
   new FieldRelationshipState(
+    () => controlId,
+    (next) => (controlId = next),
     () => labelId,
     (next) => (labelId = next),
     () => describedBy,

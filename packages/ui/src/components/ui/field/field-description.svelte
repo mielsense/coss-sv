@@ -11,13 +11,13 @@ import { cn } from "$lib/utils.js";
 import { getFieldRelationshipContext } from "./relationship-context.svelte.js";
 
 const uid = $props.id();
+const relationships = getFieldRelationshipContext();
 let {
   class: className,
   id = uid,
   ref = $bindable(null),
   ...props
 }: FieldDescriptionProps = $props();
-const relationships = getFieldRelationshipContext();
 untrack(() => relationships?.registerInitialMessageId(id));
 $effect(() => {
   const nextId = id;

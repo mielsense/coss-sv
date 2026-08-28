@@ -8,10 +8,12 @@ export interface NumberFieldContext {
   readonly ariaInvalid: HTMLAttributes<HTMLDivElement>["aria-invalid"];
   readonly ariaLabel: HTMLAttributes<HTMLDivElement>["aria-label"];
   readonly ariaLabelledBy: HTMLAttributes<HTMLDivElement>["aria-labelledby"];
+  readonly ariaValue: number | null;
   readonly canDecrement: boolean;
   readonly canIncrement: boolean;
   readonly disabled: boolean;
   readonly displayValue: string;
+  readonly defaultAccessibleName: string | undefined;
   readonly form: string | undefined;
   readonly id: string;
   readonly inputMode: "decimal" | "numeric";
@@ -22,8 +24,10 @@ export interface NumberFieldContext {
   readonly readonly: boolean;
   readonly required: boolean;
   readonly size: "default" | "lg" | "sm";
+  readonly scrubLabelId: string | undefined;
   commit(): void;
   registerInput(input: HTMLInputElement | null): void;
+  registerScrubLabelId(id: string): () => void;
   scrub(delta: number): void;
   setEditing(editing: boolean): void;
   setInput(raw: string): void;

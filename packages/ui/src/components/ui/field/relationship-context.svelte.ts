@@ -1,23 +1,33 @@
 import { createContext } from "svelte";
 
 export class FieldRelationshipState {
+  #readControlId: () => string | undefined;
   #readLabelId: () => string | undefined;
   #readDescribedBy: () => string | undefined;
   #writeLabelId: (id: string | undefined) => void;
   #writeDescribedBy: (ids: string | undefined) => void;
+  #writeControlId: (id: string | undefined) => void;
+  #initialControlId: string | undefined;
   #initialLabelId: string | undefined;
   #initialMessageIds = new Set<string>();
-
   constructor(
+    readControlId: () => string | undefined,
+    writeControlId: (id: string | undefined) => void,
     readLabelId: () => string | undefined,
     writeLabelId: (id: string | undefined) => void,
     readDescribedBy: () => string | undefined,
     writeDescribedBy: (ids: string | undefined) => void,
   ) {
+    this.#readControlId = readControlId;
+    this.#writeControlId = writeControlId;
     this.#readLabelId = readLabelId;
     this.#writeLabelId = writeLabelId;
     this.#readDescribedBy = readDescribedBy;
     this.#writeDescribedBy = writeDescribedBy;
+  }
+
+  get controlId(): string | undefined {
+    return this.#readControlId();
   }
 
   get describedBy(): string | undefined {
@@ -26,6 +36,19 @@ export class FieldRelationshipState {
 
   get labelledBy(): string | undefined {
     return this.#readLabelId();
+  }
+
+  registerInitialControlId(id: string): void {
+    this.#initialControlId = id;
+    this.#writeControlId(id);
+  }
+
+  registerControlId(id: string): () => void {
+    if (this.#initialControlId === id) this.#initialControlId = undefined;
+    this.#writeControlId(id);
+    return () => {
+      if (this.#readControlId() === id) this.#writeControlId(undefined);
+    };
   }
 
   registerInitialLabelId(id: string): void {

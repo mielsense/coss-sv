@@ -5,7 +5,10 @@ test("types native input attributes and COSS options", () => {
   expectTypeOf<InputSize>().toEqualTypeOf<"sm" | "default" | "lg" | number>();
 
   const props = {
+    "aria-describedby": "help",
     "aria-invalid": "grammar",
+    "aria-label": "Upload",
+    "aria-labelledby": "upload-label",
     class: "w-full",
     defaultValue: "report.csv",
     disabled: true,

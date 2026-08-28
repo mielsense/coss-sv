@@ -39,7 +39,12 @@ describe("NumberField number contract", () => {
     const body = render(NumberFieldSSRFixture).body;
     expect(body).toContain('role="group"');
     expect(body).toContain('data-slot="number-field-group"');
+    expect(body).toContain('role="spinbutton"');
     expect(body).toContain('aria-roledescription="Number field"');
+    expect(body).toContain('aria-valuenow="2"');
+    expect(body).toContain('aria-valuemin="0"');
+    expect(body).toContain('aria-valuemax="10"');
+    expect(body).toContain('aria-valuetext="2"');
     expect(body).toContain('aria-label="Decrease"');
     expect(body).toContain("<svg");
     expect(body).toContain('xmlns="http://www.w3.org/2000/svg"');
@@ -54,6 +59,18 @@ describe("NumberField number contract", () => {
     expect(render(NumberField.CursorGrowIcon, { props: { class: "cursor" } }).body).toContain(
       "cursor",
     );
+  });
+
+  test("server-renders the unlabeled range fallback as a named spinbutton", () => {
+    const body = render(NumberFieldSSRFixture).body;
+    const input = body.match(/<input[^>]*data-testid="ssr-unnamed-number"[^>]*>/)?.[0];
+
+    expect(input).toContain('role="spinbutton"');
+    expect(input).toContain('aria-label="Number field"');
+    expect(input).toContain('aria-roledescription="Number field"');
+    expect(input).toContain('aria-valuenow="5"');
+    expect(input).toContain('aria-valuemin="0"');
+    expect(input).toContain('aria-valuemax="10"');
   });
 
   test("renders delegated Root and Group as one element during SSR", () => {

@@ -39,3 +39,27 @@ let composedDisabled = $state(true);
     <Input data-testid="nested-control" />
   </Field.Item>
 </Field.Root>
+
+<Field.Root name="native">
+  <Field.Label data-testid="native-label">Native field</Field.Label>
+  <Input data-testid="native-control" nativeInput />
+  <Field.Description data-testid="native-description">Native helpful text.</Field.Description>
+</Field.Root>
+
+<span id="consumer-label">Consumer label</span>
+<span id="consumer-description">Consumer description.</span>
+<Field.Root name="overridden">
+  <Field.Label data-testid="overridden-label">Generated label</Field.Label>
+  <Input
+    aria-describedby="consumer-description"
+    aria-labelledby="consumer-label"
+    data-testid="overridden-control"
+    nativeInput
+  />
+  <Field.Description data-testid="overridden-description"> Context description. </Field.Description>
+</Field.Root>
+
+<Field.Root name="aria-label">
+  <Field.Label>Generated aria label</Field.Label>
+  <Input aria-label="Consumer aria label" data-testid="aria-label-control" nativeInput />
+</Field.Root>

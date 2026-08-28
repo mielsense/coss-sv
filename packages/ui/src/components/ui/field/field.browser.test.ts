@@ -49,6 +49,53 @@ describe("Field browser contract", () => {
     expect(nestedControl?.id).not.toBe(controlElement?.id);
   });
 
+  test("relates native inputs and preserves consumer ARIA overrides", async () => {
+    render(FieldFixture);
+
+    const nativeControl = page.getByTestId("native-control");
+    await expect.element(nativeControl).toHaveAccessibleName("Native field");
+    await expect.element(nativeControl).toHaveAccessibleDescription("Native helpful text.");
+
+    const nativeElement = document.querySelector<HTMLInputElement>(
+      '[data-testid="native-control"]',
+    );
+    const nativeLabel = document.querySelector<HTMLLabelElement>('[data-testid="native-label"]');
+    const nativeDescription = document.querySelector<HTMLElement>(
+      '[data-testid="native-description"]',
+    );
+    expect(nativeElement?.id).toBeTruthy();
+    expect(nativeLabel?.htmlFor).toBe(nativeElement?.id);
+    expect(
+      nativeLabel?.htmlFor === nativeElement?.id ||
+        nativeElement
+          ?.getAttribute("aria-labelledby")
+          ?.split(/\s+/)
+          .includes(nativeLabel?.id ?? ""),
+    ).toBe(true);
+    expect(nativeElement?.getAttribute("aria-describedby")?.split(/\s+/)).toContain(
+      nativeDescription?.id,
+    );
+    await nativeLabel?.click();
+    await expect.element(nativeControl).toHaveFocus();
+
+    const overridden = page.getByTestId("overridden-control");
+    await expect.element(overridden).toHaveAccessibleName("Consumer label");
+    await expect
+      .element(overridden)
+      .toHaveAccessibleDescription("Consumer description. Context description.");
+    expect((await overridden.element()).getAttribute("aria-labelledby")).toBe("consumer-label");
+    expect((await overridden.element()).getAttribute("aria-describedby")?.split(/\s+/)).toEqual(
+      expect.arrayContaining([
+        "consumer-description",
+        document.querySelector<HTMLElement>('[data-testid="overridden-description"]')?.id,
+      ]),
+    );
+
+    const ariaLabel = page.getByTestId("aria-label-control");
+    await expect.element(ariaLabel).toHaveAccessibleName("Consumer aria label");
+    expect((await ariaLabel.element()).hasAttribute("aria-labelledby")).toBe(false);
+  });
+
   test("hydrates the COSS root without changing server markup", async () => {
     const warning = vi.spyOn(console, "warn").mockImplementation(() => undefined);
     const target = document.createElement("div");

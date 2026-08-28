@@ -57,7 +57,7 @@ let {
   disabled = false,
   form,
   format,
-  id = uid,
+  id: idProp,
   locale,
   max,
   min,
@@ -74,9 +74,17 @@ let {
 }: NumberFieldRootProps = $props();
 
 let input = $state<HTMLInputElement | null>(null);
+let scrubLabelId = $state<string | undefined>();
 let editing = $state(false);
+const id = $derived(idProp ?? uid);
 let raw = $state(untrack(() => formatNumber(value, locale, format)));
 const numberLocale = $derived(createNumberLocale(locale));
+const ariaValue = $derived.by(() => {
+  const parsed = parseNumber(raw, numberLocale);
+  return parsed !== null && format?.style === "percent" && raw.includes(numberLocale.percent)
+    ? parsed / 100
+    : parsed;
+});
 const isReadonly = $derived(readonly || readOnly);
 const inputMode = $derived(
   format?.style === "percent" || Number.isInteger(step) ? "numeric" : "decimal",
@@ -157,6 +165,9 @@ setNumberFieldContext({
   get ariaLabelledBy() {
     return ariaLabelledBy;
   },
+  get ariaValue() {
+    return ariaValue;
+  },
   get canDecrement() {
     return !disabled && !isReadonly && (value === null || min === undefined || value > min);
   },
@@ -165,6 +176,9 @@ setNumberFieldContext({
   },
   get disabled() {
     return disabled;
+  },
+  get defaultAccessibleName() {
+    return idProp === undefined ? "Number field" : undefined;
   },
   get displayValue() {
     return raw;
@@ -196,12 +210,21 @@ setNumberFieldContext({
   get required() {
     return required;
   },
+  get scrubLabelId() {
+    return scrubLabelId;
+  },
   get size() {
     return size;
   },
   commit,
   registerInput(node) {
     input = node;
+  },
+  registerScrubLabelId(nextId) {
+    scrubLabelId = nextId;
+    return () => {
+      if (scrubLabelId === nextId) scrubLabelId = undefined;
+    };
   },
   scrub(delta) {
     stepBy(delta);

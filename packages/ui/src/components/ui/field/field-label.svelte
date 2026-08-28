@@ -11,13 +11,14 @@ import { cn } from "$lib/utils.js";
 import { getFieldRelationshipContext } from "./relationship-context.svelte.js";
 
 const uid = $props.id();
-let { class: className, id = uid, ref = $bindable(null), ...props }: FieldLabelProps = $props();
 const relationships = getFieldRelationshipContext();
+let { class: className, id = uid, ref = $bindable(null), ...props }: FieldLabelProps = $props();
 untrack(() => relationships?.registerInitialLabelId(id));
 $effect(() => {
   const nextId = id;
   return untrack(() => relationships?.registerLabelId(nextId));
 });
+const controlFor = $derived(relationships?.controlId ? { for: relationships.controlId } : {});
 </script>
 
 <FieldPrimitive.Label
@@ -28,5 +29,6 @@ $effect(() => {
     className,
   )}
   {id}
+  {...controlFor}
   {...props}
 />

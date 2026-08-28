@@ -6,7 +6,7 @@ import * as NumberField from "./index.js";
   <NumberField.Group {...props} />
 {/snippet}
 
-<NumberField.Root defaultValue={2}>
+<NumberField.Root defaultValue={2} max={10} min={0}>
   <NumberField.ScrubArea label="Quantity" />
   <NumberField.Group>
     <NumberField.Decrement />
@@ -17,4 +17,8 @@ import * as NumberField from "./index.js";
 
 <NumberField.Root aria-label="Delegated quantity" delegate={group}>
   <NumberField.Input />
+</NumberField.Root>
+
+<NumberField.Root defaultValue={5} max={10} min={0}>
+  <NumberField.Input data-testid="ssr-unnamed-number" />
 </NumberField.Root>

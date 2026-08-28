@@ -28,6 +28,11 @@ let {
   "aria-invalid": ariaInvalid,
   "aria-label": ariaLabel,
   "aria-labelledby": ariaLabelledBy,
+  "aria-roledescription": ariaRoleDescription = "Number field",
+  "aria-valuemax": ariaValueMax,
+  "aria-valuemin": ariaValueMin,
+  "aria-valuenow": ariaValueNow,
+  "aria-valuetext": ariaValueText,
   class: className,
   onblur,
   onfocus,
@@ -35,11 +40,20 @@ let {
   onkeydown,
   onwheel,
   ref = $bindable(null),
+  role = "spinbutton",
   ...props
 }: NumberFieldInputProps = $props();
 
 const context = getNumberFieldContext();
 let inputValue = $state(context.displayValue);
+const computedLabelledBy = $derived(
+  ariaLabelledBy ?? context.ariaLabelledBy ?? context.scrubLabelId,
+);
+const computedLabel = $derived(
+  ariaLabel ??
+    context.ariaLabel ??
+    (computedLabelledBy === undefined ? context.defaultAccessibleName : undefined),
+);
 
 $effect(() => {
   inputValue = context.displayValue;
@@ -118,9 +132,13 @@ function handleWheel(event: WheelEvent): void {
   bind:value={inputValue}
   aria-describedby={ariaDescribedBy ?? context.ariaDescribedBy}
   aria-invalid={ariaInvalid ?? context.ariaInvalid}
-  aria-label={ariaLabel ?? context.ariaLabel}
-  aria-labelledby={ariaLabelledBy ?? context.ariaLabelledBy}
-  aria-roledescription="Number field"
+  aria-label={computedLabel}
+  aria-labelledby={computedLabelledBy}
+  aria-roledescription={ariaRoleDescription}
+  aria-valuemax={ariaValueMax ?? context.max}
+  aria-valuemin={ariaValueMin ?? context.min}
+  aria-valuenow={ariaValueNow ?? context.ariaValue ?? undefined}
+  aria-valuetext={ariaValueText ?? (context.ariaValue === null ? undefined : context.displayValue)}
   autocomplete="off"
   autocorrect="off"
   class={cn(
@@ -135,6 +153,7 @@ function handleWheel(event: WheelEvent): void {
   name={context.name}
   readonly={context.readonly}
   required={context.required}
+  {role}
   spellcheck={false}
   type="text"
   {...props}

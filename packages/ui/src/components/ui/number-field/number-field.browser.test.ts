@@ -15,12 +15,19 @@ describe("NumberField browser contract", () => {
     const input = page.getByTestId("number-input");
     await expect.element(input).toHaveValue("1,5");
     await expect.element(input).toHaveAccessibleName("Quantity");
+    await expect.element(input).toHaveAttribute("role", "spinbutton");
+    await expect.element(input).toHaveAttribute("aria-valuenow", "1.5");
+    await expect.element(input).toHaveAttribute("aria-valuemin", "-2");
+    await expect.element(input).toHaveAttribute("aria-valuemax", "3");
+    await expect.element(input).toHaveAttribute("aria-valuetext", "1,5");
     await expect.element(input).toHaveAttribute("inputmode", "decimal");
     await expect.element(input).toHaveAttribute("required");
     await expect.element(page.getByTestId("number-state")).toHaveTextContent("1.5:0:INPUT");
 
     await userEvent.click(page.getByTestId("increment"));
     await expect.element(input).toHaveValue("2,0");
+    await expect.element(input).toHaveAttribute("aria-valuenow", "2");
+    await expect.element(input).toHaveAttribute("aria-valuetext", "2,0");
     await userEvent.click(page.getByTestId("decrement"));
     await expect.element(input).toHaveValue("1,5");
 
@@ -40,8 +47,11 @@ describe("NumberField browser contract", () => {
     element.value = "100";
     element.dispatchEvent(new InputEvent("input", { bubbles: true, data: "0" }));
     await expect.element(input).toHaveValue("100");
+    await expect.element(input).toHaveAttribute("aria-valuenow", "100");
+    await expect.element(input).toHaveAttribute("aria-valuetext", "100");
     element.dispatchEvent(new FocusEvent("blur", { bubbles: true }));
     await expect.element(input).toHaveValue("3,0");
+    await expect.element(input).toHaveAttribute("aria-valuenow", "3");
 
     element.focus();
     element.value = "-1,25";
@@ -54,6 +64,33 @@ describe("NumberField browser contract", () => {
     await expect.element(page.getByTestId("number-state")).toHaveTextContent("-1.25:");
   });
 
+  test("publishes formatted, empty, and consumer-overridden spinbutton values", async () => {
+    render(NumberFieldFixture);
+
+    const currency = page.getByTestId("currency-number");
+    await expect.element(currency).toHaveAttribute("role", "spinbutton");
+    await expect.element(currency).toHaveAccessibleName("Price");
+    await expect.element(currency).toHaveAttribute("aria-valuenow", "12.5");
+    await expect.element(currency).toHaveAttribute("aria-valuemin", "0");
+    await expect.element(currency).toHaveAttribute("aria-valuemax", "100");
+    await expect.element(currency).toHaveAttribute("aria-valuetext", "$12.50");
+
+    const empty = page.getByTestId("empty-number");
+    await expect.element(empty).toHaveAttribute("role", "spinbutton");
+    await expect.element(empty).toHaveAccessibleName("Empty number");
+    await expect.element(empty).not.toHaveAttribute("aria-valuenow");
+    await expect.element(empty).not.toHaveAttribute("aria-valuetext");
+    await expect.element(empty).toHaveAttribute("aria-valuemin", "-10");
+    await expect.element(empty).toHaveAttribute("aria-valuemax", "10");
+
+    const overridden = page.getByTestId("overridden-number");
+    await expect.element(overridden).toHaveAccessibleName("Input override");
+    await expect.element(overridden).toHaveAttribute("aria-valuenow", "6");
+    await expect.element(overridden).toHaveAttribute("aria-valuemin", "-8");
+    await expect.element(overridden).toHaveAttribute("aria-valuemax", "8");
+    await expect.element(overridden).toHaveAttribute("aria-valuetext", "Six widgets");
+  });
+
   test("rejects invalid fill and delegates its root to one exact group element", async () => {
     render(NumberFieldFixture);
     const invalid = document.querySelector<HTMLInputElement>('[data-testid="invalid-fill-number"]');
@@ -61,6 +98,10 @@ describe("NumberField browser contract", () => {
     invalid.value = "abc";
     invalid.dispatchEvent(new InputEvent("input", { bubbles: true, data: "c" }));
     expect(invalid.value).toBe("0");
+    await expect.element(page.getByTestId("unnamed-number")).toHaveAccessibleName("Number field");
+    await expect
+      .element(page.getByTestId("unnamed-number"))
+      .toHaveAttribute("aria-roledescription", "Number field");
     invalid.focus();
     await userEvent.keyboard("{Home}{End}{PageUp}{PageDown}");
     expect(invalid.value).toBe("0");
@@ -107,7 +148,7 @@ describe("NumberField browser contract", () => {
 
     const disabled = page.getByTestId("disabled-number");
     await expect.element(disabled).toBeDisabled();
-    await expect.element(disabled).toHaveAttribute("aria-roledescription", "Number field");
+    await expect.element(disabled).toHaveAttribute("role", "spinbutton");
 
     const readonly = page.getByTestId("readonly-number");
     await expect.element(readonly).toHaveAttribute("readonly");

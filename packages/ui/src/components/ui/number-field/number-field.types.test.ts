@@ -25,6 +25,11 @@ test("types bindable state, callbacks, formatting, native attributes, snippets, 
 
   const input = {
     "aria-invalid": true,
+    "aria-label": "Quantity",
+    "aria-valuemax": 10,
+    "aria-valuemin": -10,
+    "aria-valuenow": 2,
+    "aria-valuetext": "2 widgets",
     class: "custom",
     onblur: (_event: FocusEvent) => undefined,
     placeholder: "0",

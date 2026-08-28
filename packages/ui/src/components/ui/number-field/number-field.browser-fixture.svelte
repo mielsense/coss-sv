@@ -71,6 +71,38 @@ let showRemountWheel = $state(true);
   <NumberField.Group><NumberField.Input data-testid="invalid-fill-number" /></NumberField.Group>
 </NumberField.Root>
 
+<NumberField.Root defaultValue={5} max={10} min={0}>
+  <NumberField.Group><NumberField.Input data-testid="unnamed-number" /></NumberField.Group>
+</NumberField.Root>
+
+<label for="currency-field">Price</label>
+<NumberField.Root
+  defaultValue={12.5}
+  format={{ currency: "USD", style: "currency" }}
+  id="currency-field"
+  max={100}
+  min={0}
+>
+  <NumberField.Group><NumberField.Input data-testid="currency-number" /></NumberField.Group>
+</NumberField.Root>
+
+<NumberField.Root aria-label="Empty number" max={10} min={-10}>
+  <NumberField.Group><NumberField.Input data-testid="empty-number" /></NumberField.Group>
+</NumberField.Root>
+
+<NumberField.Root aria-label="Root fallback" defaultValue={2} max={4} min={1}>
+  <NumberField.Group>
+    <NumberField.Input
+      aria-label="Input override"
+      aria-valuemax={8}
+      aria-valuemin={-8}
+      aria-valuenow={6}
+      aria-valuetext="Six widgets"
+      data-testid="overridden-number"
+    />
+  </NumberField.Group>
+</NumberField.Root>
+
 <form data-testid="required-number-form">
   <NumberField.Root aria-label="Required number" name="required-number" required>
     <NumberField.Group><NumberField.Input data-testid="required-number" /></NumberField.Group>

@@ -6,6 +6,7 @@ export type NumberFieldScrubAreaProps = Omit<HTMLAttributes<HTMLSpanElement>, "c
 };
 </script>
 <script lang="ts">
+import { untrack } from "svelte";
 import { cn } from "$lib/utils.js";
 import Label from "../label/label.svelte";
 import { getNumberFieldContext } from "./context.js";
@@ -20,6 +21,9 @@ let {
   ...props
 }: NumberFieldScrubAreaProps = $props();
 const context = getNumberFieldContext();
+const labelId = $props.id();
+untrack(() => context.registerScrubLabelId(labelId));
+$effect(() => untrack(() => context.registerScrubLabelId(labelId)));
 let origin = 0;
 let consumed = 0;
 let scrubbing = $state(false);
@@ -63,7 +67,7 @@ function pointerup(): void {
   onpointerup={pointerup}
   {...props}
 >
-  <Label class="cursor-ew-resize" for={context.id}>{label}</Label>
+  <Label class="cursor-ew-resize" for={context.id} id={labelId}>{label}</Label>
   {#if scrubbing}
     <span
       aria-hidden="true"
