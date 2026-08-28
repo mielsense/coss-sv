@@ -29,7 +29,7 @@
 </script>
 
 <Combobox.Root {items} value={items[2]} disabled>
-  <Combobox.Input aria-label="Select an item" placeholder="Select an item..."></Combobox.Input>
+  <Combobox.Input aria-label="Select an item" placeholder="Select an item…"></Combobox.Input>
 
   <Combobox.Popup>
     <Combobox.Empty>No items found.</Combobox.Empty>

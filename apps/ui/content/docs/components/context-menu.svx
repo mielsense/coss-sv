@@ -27,6 +27,16 @@ links:
   <ContextMenu.Popup>
     <ContextMenu.Item>Back</ContextMenu.Item>
     <ContextMenu.Item>Forward</ContextMenu.Item>
+    <ContextMenu.Separator />
+    <ContextMenu.LinkItem href="/docs">Documentation</ContextMenu.LinkItem>
+    <ContextMenu.Separator />
+    <ContextMenu.Sub>
+      <ContextMenu.SubTrigger>More tools</ContextMenu.SubTrigger>
+      <ContextMenu.SubPopup>
+        <ContextMenu.Item>Inspect</ContextMenu.Item>
+        <ContextMenu.Item>View source</ContextMenu.Item>
+      </ContextMenu.SubPopup>
+    </ContextMenu.Sub>
   </ContextMenu.Popup>
 </ContextMenu.Root>
 ```
@@ -35,63 +45,113 @@ links:
 
 ### ContextMenu.Root
 
-Manages a context menu.
+Root component. Alias for `ContextMenu.Root` from Shards UI.
 
 ### ContextMenu.Trigger
 
-The region that responds to right click or long press.
+An area that opens the menu on right click or long press. Renders a `<div>` element.
 
 ### ContextMenu.Popup
 
-Positions menu content at the pointer.
+Popup container that displays the menu content at the pointer.
+
+| Prop          | Type                                     | Default    | Description                              |
+| ------------- | ---------------------------------------- | ---------- | ---------------------------------------- |
+| `side`        | `"top" \| "bottom" \| "left" \| "right"` | `"bottom"` | Side of the anchor to position the popup |
+| `align`       | `"start" \| "center" \| "end"`           | `"center"` | Alignment relative to the anchor         |
+| `sideOffset`  | `number`                                 | `4`        | Distance from the anchor in pixels       |
+| `alignOffset` | `number`                                 | -          | Offset along the alignment axis          |
+| `portalProps` | `ContextMenuPortalProps`                 | -          | Props forwarded to the internal portal   |
 
 ### ContextMenu.Group
 
-Groups related items.
+Groups related menu items. Alias for `ContextMenu.Group` from Shards UI.
 
 ### ContextMenu.Item
 
-An individual action.
+Individual menu item.
+
+| Prop      | Type                         | Default     | Description                                           |
+| --------- | ---------------------------- | ----------- | ----------------------------------------------------- |
+| `inset`   | `boolean`                    | -           | Adds left padding to align with items that have icons |
+| `variant` | `"default" \| "destructive"` | `"default"` | Controls the item styling                             |
+
+**Using `inset`:** When mixing items with and without icons, use `inset` on icon-less items to maintain alignment:
+
+```svelte
+<ContextMenu.Item><PencilIcon /> Edit</ContextMenu.Item>
+<ContextMenu.Item inset>Properties</ContextMenu.Item>
+```
 
 ### ContextMenu.LinkItem
 
-A native anchor styled as a context-menu item.
+Link menu item for navigation. **`LinkItem`** renders a native **`<a>`** when you pass **`href`**. Styled like **`ContextMenu.Item`**.
+
+| Prop           | Type                         | Default     | Description                                           |
+| -------------- | ---------------------------- | ----------- | ----------------------------------------------------- |
+| `inset`        | `boolean`                    | -           | Adds left padding to align with items that have icons |
+| `variant`      | `"default" \| "destructive"` | `"default"` | Controls the item styling                             |
+| `closeOnClick` | `boolean`                    | `true`      | Whether the menu closes when the link is clicked      |
+
+Use **`href`** for plain anchor links:
+
+```svelte
+<ContextMenu.LinkItem href="/docs">Docs</ContextMenu.LinkItem>
+```
 
 ### ContextMenu.CheckboxItem
 
-A checkable item with an optional switch appearance.
+Checkbox menu item.
+
+| Prop      | Type                    | Default     | Description                                             |
+| --------- | ----------------------- | ----------- | ------------------------------------------------------- |
+| `variant` | `"default" \| "switch"` | `"default"` | Display style; `switch` shows a toggle switch indicator |
 
 ### ContextMenu.RadioGroup
 
-Groups radio items.
+Groups radio menu items. Alias for `ContextMenu.RadioGroup` from Shards UI.
 
 ### ContextMenu.RadioItem
 
-A radio item.
+Radio menu item. Styled wrapper for `ContextMenu.RadioItem` from Shards UI.
 
 ### ContextMenu.GroupLabel
 
-Labels a group.
+Label for a menu group.
+
+| Prop    | Type      | Default | Description                                           |
+| ------- | --------- | ------- | ----------------------------------------------------- |
+| `inset` | `boolean` | -       | Adds left padding to align with items that have icons |
 
 ### ContextMenu.Separator
 
-Separates sections.
+Visual separator between menu items.
 
 ### ContextMenu.Shortcut
 
-Displays keyboard shortcut text.
+Displays keyboard shortcut text. Custom component.
 
 ### ContextMenu.Sub
 
-Manages a submenu.
+Submenu container. Alias for `ContextMenu.Sub` from Shards UI.
 
 ### ContextMenu.SubTrigger
 
-Opens a submenu.
+Trigger for opening a submenu.
+
+| Prop    | Type      | Default | Description                                           |
+| ------- | --------- | ------- | ----------------------------------------------------- |
+| `inset` | `boolean` | -       | Adds left padding to align with items that have icons |
 
 ### ContextMenu.SubPopup
 
-Contains submenu items.
+Popup for submenu content.
+
+| Prop          | Type                           | Default   | Description                                                               |
+| ------------- | ------------------------------ | --------- | ------------------------------------------------------------------------- |
+| `align`       | `"start" \| "center" \| "end"` | `"start"` | Alignment relative to the trigger                                         |
+| `sideOffset`  | `number`                       | `0`       | Distance from the trigger in pixels                                       |
+| `alignOffset` | `number`                       | `-5`      | Offset along the alignment axis; defaults to `-5` unless `align="center"` |
 
 ## Examples
 

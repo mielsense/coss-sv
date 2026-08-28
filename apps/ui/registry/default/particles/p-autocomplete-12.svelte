@@ -27,23 +27,38 @@
   let searchValue = $state("");
   let loading = $state(false);
   let results = $state<Movie[]>([]);
+  let error = $state<string | null>(null);
   let request = 0;
+  async function searchMovies(value: string): Promise<Movie[]> {
+    await new Promise((resolve) => setTimeout(resolve, 400));
+    if (value === "will_error") throw new Error("Network error");
+    const query = value.toLowerCase();
+    return movies.filter(
+      (movie) => movie.title.toLowerCase().includes(query) || String(movie.year).includes(query),
+    );
+  }
   async function search(value: string): Promise<void> {
     searchValue = value;
     const current = ++request;
     if (!value) {
       results = [];
       loading = false;
+      error = null;
       return;
     }
     loading = true;
-    await new Promise((resolve) => setTimeout(resolve, 400));
-    if (current !== request) return;
-    const query = value.toLowerCase();
-    results = movies.filter(
-      (movie) => movie.title.toLowerCase().includes(query) || String(movie.year).includes(query),
-    );
-    loading = false;
+    error = null;
+    try {
+      const nextResults = await searchMovies(value);
+      if (current !== request) return;
+      results = nextResults;
+    } catch {
+      if (current !== request) return;
+      error = "Failed to fetch movies. Please try again.";
+      results = [];
+    } finally {
+      if (current === request) loading = false;
+    }
   }
 </script>
 
@@ -61,6 +76,7 @@
         {#if loading}<span class="flex items-center justify-between gap-2 text-muted-foreground"
             >Searching... <Spinner class="size-4.5 sm:size-4" /></span
           >
+        {:else if error}<span class="font-normal text-destructive text-sm">{error}</span>
         {:else if results.length === 0}<span class="font-normal text-muted-foreground text-sm"
             >Movie or year "{searchValue}" does not exist in the Top 100 IMDb movies</span
           >

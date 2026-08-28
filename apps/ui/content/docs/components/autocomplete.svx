@@ -41,39 +41,100 @@ links:
 
 ### Autocomplete.Root
 
-Manages the input value, popup, filtering, and item collection.
+The root autocomplete component. Manages the autocomplete state and provides context to child components.
+
+| Prop       | Type                    | Description                                       |
+| ---------- | ----------------------- | ------------------------------------------------- |
+| `items`    | `readonly unknown[]`    | The array of items to display in the autocomplete |
+| `open`     | `boolean`               | Controls whether the popup is open                |
+| `children` | `Snippet`               | Autocomplete content                              |
+| `...props` | `AutocompleteRootProps` | All Shards UI Autocomplete props are supported    |
 
 ### Autocomplete.Input
 
-The text input with size, addon, trigger, and clear controls.
+The input field component with extended features for size variants and addon support.
+
+| Prop           | Type                        | Default     | Description                                                                            |
+| -------------- | --------------------------- | ----------- | -------------------------------------------------------------------------------------- |
+| `size`         | `"sm" \| "default" \| "lg"` | `"default"` | The size variant of the input field                                                    |
+| `startAddon`   | `Snippet`                   | -           | Content to display at the start of the input, such as an icon                          |
+| `showTrigger`  | `boolean`                   | `false`     | Whether to display a trigger button on the right side of the input                     |
+| `showClear`    | `boolean`                   | `false`     | Whether to display a clear button on the right side of the input when there is a value |
+| `triggerProps` | `AutocompleteTriggerProps`  | -           | Props forwarded to the internal trigger button, useful for overriding `aria-label`     |
+| `clearProps`   | `AutocompleteClearProps`    | -           | Props forwarded to the internal clear button, useful for overriding `aria-label`       |
+| `class`        | `string`                    | -           | Additional CSS classes to apply to the component                                       |
+| `...props`     | `AutocompleteInputProps`    | -           | All standard autocomplete input attributes are supported                               |
 
 ### Autocomplete.Popup
 
-The positioned suggestions popup.
+The popup container that displays the autocomplete suggestions.
+
+| Prop          | Type                      | Description                                              |
+| ------------- | ------------------------- | -------------------------------------------------------- |
+| `class`       | `string`                  | Additional CSS classes to apply to the component         |
+| `portalProps` | `AutocompletePortalProps` | Props forwarded to the internal portal                   |
+| `...props`    | `AutocompletePopupProps`  | All standard autocomplete popup attributes are supported |
 
 ### Autocomplete.List
 
-A scrollable container for suggestions.
+A scrollable container for autocomplete items.
+
+| Prop       | Type                    | Description                                             |
+| ---------- | ----------------------- | ------------------------------------------------------- |
+| `class`    | `string`                | Additional CSS classes to apply to the component        |
+| `children` | `Snippet`               | List content                                            |
+| `...props` | `AutocompleteListProps` | All standard autocomplete list attributes are supported |
 
 ### Autocomplete.Item
 
-An individual selectable suggestion.
+An individual selectable autocomplete item.
+
+| Prop       | Type                    | Description                                             |
+| ---------- | ----------------------- | ------------------------------------------------------- |
+| `value`    | `unknown`               | The value of the item                                   |
+| `class`    | `string`                | Additional CSS classes to apply to the component        |
+| `children` | `Snippet`               | Item content                                            |
+| `...props` | `AutocompleteItemProps` | All standard autocomplete item attributes are supported |
 
 ### Autocomplete.Empty
 
-Shown when filtering returns no suggestions.
+Displays a message when no results are found.
+
+| Prop       | Type                     | Description                                              |
+| ---------- | ------------------------ | -------------------------------------------------------- |
+| `class`    | `string`                 | Additional CSS classes to apply to the component         |
+| `children` | `Snippet`                | Empty-state content                                      |
+| `...props` | `AutocompleteEmptyProps` | All standard autocomplete empty attributes are supported |
 
 ### Autocomplete.Group
 
-Groups related suggestions.
+Groups related autocomplete items together.
+
+| Prop       | Type                     | Description                                              |
+| ---------- | ------------------------ | -------------------------------------------------------- |
+| `items`    | `readonly unknown[]`     | The array of items in this group                         |
+| `class`    | `string`                 | Additional CSS classes to apply to the component         |
+| `children` | `Snippet`                | Group content                                            |
+| `...props` | `AutocompleteGroupProps` | All standard autocomplete group attributes are supported |
 
 ### Autocomplete.GroupLabel
 
-Labels a suggestion group.
+Displays a label for an autocomplete group.
+
+| Prop       | Type                          | Description                                                    |
+| ---------- | ----------------------------- | -------------------------------------------------------------- |
+| `class`    | `string`                      | Additional CSS classes to apply to the component               |
+| `children` | `Snippet`                     | Label content                                                  |
+| `...props` | `AutocompleteGroupLabelProps` | All standard autocomplete group label attributes are supported |
 
 ### Autocomplete.Collection
 
-Renders the filtered items through a typed snippet.
+Used to wrap items within a group for rendering.
+
+| Prop       | Type                       | Description                                                   |
+| ---------- | -------------------------- | ------------------------------------------------------------- |
+| `children` | `Snippet<[unknown]>`       | Renders each filtered item                                    |
+| `...props` | Shards UI Collection props | All standard autocomplete collection attributes are supported |
 
 ## Examples
 

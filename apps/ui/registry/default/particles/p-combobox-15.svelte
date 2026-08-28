@@ -30,8 +30,8 @@
 
 <Combobox.Root {items}>
   <Combobox.Input
-    aria-label="Select an item"
-    placeholder="Select an item..."
+    aria-label="Select a item"
+    placeholder="Select a item..."
     class="[--radius-lg:9999px] [--radius:9999px]"
   ></Combobox.Input>
 

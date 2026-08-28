@@ -1,6 +1,6 @@
 ---
 title: Select
-description: A control for choosing one or more values from a list.
+description: A common form component for choosing a predefined value in a dropdown menu.
 
 links:
   doc: https://shardsui.com/svelte/select
@@ -20,11 +20,19 @@ links:
 ```svelte
 <script lang="ts">
   import * as Select from "@coss-sv/ui/components/ui/select";
+
+  const items = [
+    { label: "Select framework", value: null },
+    { label: "SvelteKit", value: "sveltekit" },
+    { label: "Vite", value: "vite" },
+    { label: "Astro", value: "astro" },
+  ];
 </script>
 
 <Select.Root {items}>
   <Select.Trigger><Select.Value placeholder="Select a framework" /></Select.Trigger>
   <Select.Popup>
+    <Select.Label>Frameworks</Select.Label>
     {#each items as item (item.value)}
       <Select.Item value={item.value}>{item.label}</Select.Item>
     {/each}
@@ -36,45 +44,71 @@ links:
 
 ### Select.Root
 
-Manages single or multiple selection and popup state.
+Root component. Alias for `Select.Root` from Shards UI.
 
 ### Select.Trigger
 
-Opens the select popup.
+Trigger button that opens the select dropdown. Styled wrapper for `Select.Trigger` from Shards UI.
+
+| Prop   | Type                        | Default     | Description                      |
+| ------ | --------------------------- | ----------- | -------------------------------- |
+| `size` | `"sm" \| "default" \| "lg"` | `"default"` | Controls the size of the trigger |
 
 ### Select.Value
 
-Displays the selected value or a custom typed snippet.
+Displays the selected value. Styled wrapper for `Select.Value` from Shards UI.
 
 ### Select.Popup
 
-Contains the selectable options.
+Popup container for select options. Also exported as `Select.Content`.
+
+| Prop                   | Type                | Default | Description                               |
+| ---------------------- | ------------------- | ------- | ----------------------------------------- |
+| `alignItemWithTrigger` | `boolean`           | `true`  | Aligns the selected item with the trigger |
+| `sideOffset`           | `number`            | `4`     | Distance from the trigger in pixels       |
+| `portalProps`          | `SelectPortalProps` | -       | Props forwarded to the internal portal    |
 
 ### Select.Item
 
-An individual option with its selection indicator.
+Individual select option. Styled wrapper for `Select.Item` from Shards UI with built-in indicator.
 
 ### Select.Group
 
-Groups related options.
+Groups related select items. Alias for `Select.Group` from Shards UI.
 
 ### Select.Label
 
-Labels the entire select.
+Label for all options in the popup. Styled wrapper for `Select.Label` from Shards UI. Clicking it focuses the select trigger without opening the popup.
 
 ### Select.GroupLabel
 
-Labels a group of options.
+Label for a select group. Styled wrapper for `Select.GroupLabel` from Shards UI.
 
 ### Select.Separator
 
-Separates groups or options.
+Visual separator between items. Styled wrapper for `Select.Separator` from Shards UI.
 
 ### Select.Button
 
-A standalone button with select-trigger styling.
+A standalone button styled like a `Select.Trigger`. Use `selectTriggerClass` on other trigger components, such as `Combobox.Trigger` or `Menu.Trigger`, to give them a select-like appearance.
+
+| Prop   | Type                        | Default     | Description                     |
+| ------ | --------------------------- | ----------- | ------------------------------- |
+| `size` | `"sm" \| "default" \| "lg"` | `"default"` | Controls the size of the button |
+
+```svelte
+<script lang="ts">
+  import { selectTriggerClass } from "@coss-sv/ui/components/ui/select";
+</script>
+
+<Combobox.Trigger class={selectTriggerClass}>
+  <Combobox.Value placeholder="Select a fruit" />
+</Combobox.Trigger>
+```
 
 ## Examples
+
+For accessible labelling and validation, prefer using the `Field` component to wrap selects. See the related example: [Select field](/ui/docs/components/field#select-field).
 
 ### Small Size
 
@@ -118,7 +152,7 @@ A standalone button with select-trigger styling.
 
 ### SelectButton with Combobox
 
-Use the Select trigger classes on `Combobox.Trigger` to create a combobox that looks like a select.
+Use `selectTriggerClass` on `Combobox.Trigger` to create a combobox that looks like a select.
 
 <ComponentPreview name="p-combobox-18" />
 

@@ -1,6 +1,6 @@
 ---
 title: Combobox
-description: An input that allows selecting values from a list of suggestions.
+description: An input combined with a list of predefined items to select.
 
 links:
   doc: https://shardsui.com/svelte/combobox
@@ -41,55 +41,142 @@ links:
 
 ### Combobox.Root
 
-Manages single or multiple selection, input state, filtering, and popup state.
+The root combobox component. Manages the combobox state and provides context to child components.
+
+| Prop       | Type                 | Description                                   |
+| ---------- | -------------------- | --------------------------------------------- |
+| `items`    | `readonly unknown[]` | The array of items to display in the combobox |
+| `multiple` | `boolean`            | Whether to allow multiple selection           |
+| `open`     | `boolean`            | Controls whether the popup is open            |
+| `children` | `Snippet`            | Combobox content                              |
+| `...props` | `ComboboxRootProps`  | All Shards UI Combobox props are supported    |
 
 ### Combobox.Input
 
-The input used for single selection.
+The input field component for single selection mode with extended features for size variants and addon support.
+
+| Prop           | Type                        | Default     | Description                                                                            |
+| -------------- | --------------------------- | ----------- | -------------------------------------------------------------------------------------- |
+| `size`         | `"sm" \| "default" \| "lg"` | `"default"` | The size variant of the input field                                                    |
+| `startAddon`   | `Snippet`                   | -           | Content to display at the start of the input, such as an icon                          |
+| `showTrigger`  | `boolean`                   | `true`      | Whether to display a trigger button on the right side of the input                     |
+| `showClear`    | `boolean`                   | `false`     | Whether to display a clear button on the right side of the input when there is a value |
+| `triggerProps` | `ComboboxTriggerProps`      | -           | Props forwarded to the internal trigger button, useful for overriding `aria-label`     |
+| `clearProps`   | `ComboboxClearProps`        | -           | Props forwarded to the internal clear button, useful for overriding `aria-label`       |
+| `class`        | `string`                    | -           | Additional CSS classes to apply to the component                                       |
+| `...props`     | `ComboboxInputProps`        | -           | All standard combobox input attributes are supported                                   |
 
 ### Combobox.Popup
 
-The positioned options popup.
+The popup container that displays the combobox options.
+
+| Prop          | Type                  | Description                                          |
+| ------------- | --------------------- | ---------------------------------------------------- |
+| `class`       | `string`              | Additional CSS classes to apply to the component     |
+| `portalProps` | `ComboboxPortalProps` | Props forwarded to the internal portal               |
+| `...props`    | `ComboboxPopupProps`  | All standard combobox popup attributes are supported |
 
 ### Combobox.List
 
-A scrollable options container.
+A scrollable container for combobox items.
+
+| Prop       | Type                | Description                                         |
+| ---------- | ------------------- | --------------------------------------------------- |
+| `class`    | `string`            | Additional CSS classes to apply to the component    |
+| `children` | `Snippet`           | List content                                        |
+| `...props` | `ComboboxListProps` | All standard combobox list attributes are supported |
 
 ### Combobox.Item
 
-An individual selectable option.
+An individual selectable combobox item.
+
+| Prop       | Type                | Description                                         |
+| ---------- | ------------------- | --------------------------------------------------- |
+| `value`    | `unknown`           | The value of the item                               |
+| `class`    | `string`            | Additional CSS classes to apply to the component    |
+| `children` | `Snippet`           | Item content                                        |
+| `...props` | `ComboboxItemProps` | All standard combobox item attributes are supported |
 
 ### Combobox.Empty
 
-Shown when no options match.
+Displays a message when no results are found.
+
+| Prop       | Type                 | Description                                          |
+| ---------- | -------------------- | ---------------------------------------------------- |
+| `class`    | `string`             | Additional CSS classes to apply to the component     |
+| `children` | `Snippet`            | Empty-state content                                  |
+| `...props` | `ComboboxEmptyProps` | All standard combobox empty attributes are supported |
 
 ### Combobox.Group
 
-Groups related options.
+Groups related combobox items together.
+
+| Prop       | Type                 | Description                                          |
+| ---------- | -------------------- | ---------------------------------------------------- |
+| `items`    | `readonly unknown[]` | The array of items in this group                     |
+| `class`    | `string`             | Additional CSS classes to apply to the component     |
+| `children` | `Snippet`            | Group content                                        |
+| `...props` | `ComboboxGroupProps` | All standard combobox group attributes are supported |
 
 ### Combobox.GroupLabel
 
-Labels an option group.
+Displays a label for a combobox group.
+
+| Prop       | Type                      | Description                                                |
+| ---------- | ------------------------- | ---------------------------------------------------------- |
+| `class`    | `string`                  | Additional CSS classes to apply to the component           |
+| `children` | `Snippet`                 | Label content                                              |
+| `...props` | `ComboboxGroupLabelProps` | All standard combobox group label attributes are supported |
 
 ### Combobox.Collection
 
-Renders filtered options through a typed snippet.
+Used to wrap items within a group for rendering.
+
+| Prop       | Type                       | Description                                               |
+| ---------- | -------------------------- | --------------------------------------------------------- |
+| `children` | `Snippet<[unknown]>`       | Renders each filtered item                                |
+| `...props` | Shards UI Collection props | All standard combobox collection attributes are supported |
 
 ### Combobox.Chips
 
-Contains selected chips in multiple mode.
+Container for displaying selected chips in multiple selection mode.
+
+| Prop         | Type                 | Description                                       |
+| ------------ | -------------------- | ------------------------------------------------- |
+| `startAddon` | `Snippet`            | Content to display at the start of the chips area |
+| `class`      | `string`             | Additional CSS classes to apply to the component  |
+| `children`   | `Snippet`            | Chips content                                     |
+| `...props`   | `ComboboxChipsProps` | All standard div attributes are supported         |
 
 ### Combobox.ChipsInput
 
-The input used inside `Combobox.Chips`.
+The input field component for use inside `Combobox.Chips` in multiple selection mode. This is a minimal input without the wrapper, trigger, or clear button.
+
+| Prop       | Type                        | Default     | Description                                          |
+| ---------- | --------------------------- | ----------- | ---------------------------------------------------- |
+| `size`     | `"sm" \| "default" \| "lg"` | `"default"` | The size variant of the input field                  |
+| `class`    | `string`                    | -           | Additional CSS classes to apply to the component     |
+| `...props` | `ComboboxChipsInputProps`   | -           | All standard combobox input attributes are supported |
 
 ### Combobox.Chip
 
-A selected value in multiple mode.
+An individual chip representing a selected item in multiple selection mode.
+
+| Prop          | Type                      | Description                                                                       |
+| ------------- | ------------------------- | --------------------------------------------------------------------------------- |
+| `removeProps` | `ComboboxChipRemoveProps` | Props forwarded to the internal remove button, useful for overriding `aria-label` |
+| `class`       | `string`                  | Additional CSS classes to apply to the component                                  |
+| `children`    | `Snippet`                 | Chip content                                                                      |
+| `...props`    | `ComboboxChipProps`       | All standard combobox chip attributes are supported                               |
 
 ### Combobox.Value
 
-Provides the current value to a typed snippet.
+Provides access to the current value for custom rendering.
+
+| Prop       | Type                 | Description                                          |
+| ---------- | -------------------- | ---------------------------------------------------- |
+| `children` | `Snippet<[unknown]>` | Receives the current combobox value                  |
+| `...props` | `ComboboxValueProps` | All standard combobox value attributes are supported |
 
 ## Examples
 
@@ -129,13 +216,13 @@ Automatically highlight the first matching option.
 
 ### With Start Addon
 
-Display an icon or other element at the start of the input using the `startAddon` snippet.
+Display an icon or other element at the start of the input using the `startAddon` prop.
 
 <ComponentPreview name="p-combobox-13" />
 
 ### With Start Addon - Multiple
 
-Use the `startAddon` snippet on `Combobox.Chips` when using multiple selection.
+Use the `startAddon` prop on `Combobox.Chips` to display an icon at the start when using multiple selection.
 
 <ComponentPreview name="p-combobox-14" />
 
@@ -145,7 +232,7 @@ Use the `startAddon` snippet on `Combobox.Chips` when using multiple selection.
 
 ### With Select-like Button
 
-Use the Select trigger classes on `Combobox.Trigger` to give the combobox a select-like button.
+Use `selectTriggerClass` on `Combobox.Trigger` to make the combobox trigger look like a select.
 
 <ComponentPreview name="p-combobox-18" />
 

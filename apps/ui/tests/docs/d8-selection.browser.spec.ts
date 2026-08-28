@@ -4,6 +4,7 @@ import { mount, unmount } from "svelte";
 import { afterEach, describe, expect, test } from "vitest";
 import { page, userEvent } from "vitest/browser";
 import AutocompleteExample from "../../registry/default/particles/p-autocomplete-1.svelte";
+import AsyncAutocompleteExample from "../../registry/default/particles/p-autocomplete-12.svelte";
 import ComboboxExample from "../../registry/default/particles/p-combobox-9.svelte";
 import CommandExample from "../../registry/default/particles/p-command-1.svelte";
 import ContextMenuExample from "../../registry/default/particles/p-context-menu-1.svelte";
@@ -92,12 +93,45 @@ describe("D8 selection, command, and menu examples", () => {
   });
   test("keeps the toolbar one keyboard sequence with named controls", async () => {
     const view = mount(ToolbarExample, { target: document.body });
+    const after = document.createElement("button");
+    after.textContent = "After toolbar";
+    document.body.append(after);
     const left = page.getByRole("button", { name: "Align left" });
+    const toolbar = page.getByRole("toolbar", { name: "Text formatting" });
+    await expect.element(toolbar).toBeVisible();
+    const toolbarElement = left.element().closest<HTMLElement>('[role="toolbar"]');
+    expect(toolbarElement).not.toBeNull();
     left.element().focus();
+    await expect
+      .poll(
+        () =>
+          Array.from(
+            toolbarElement?.querySelectorAll<HTMLElement>('button,[role="combobox"]') ?? [],
+          ).filter((control) => control.tabIndex === 0).length,
+      )
+      .toBe(1);
     await userEvent.keyboard("{ArrowRight}");
-    await expect.element(page.getByRole("button", { name: "Align center" })).toHaveFocus();
-    await userEvent.keyboard("{End}");
-    await expect.element(page.getByRole("button", { name: "Save" })).toHaveFocus();
+    await expect.element(page.getByRole("button", { name: "Toggle center" })).toHaveFocus();
+    await userEvent.keyboard("{ArrowRight}");
+    await expect.element(page.getByRole("button", { name: "Toggle right" })).toHaveFocus();
+    await userEvent.keyboard("{Tab}");
+    expect(document.activeElement).toBe(after);
+    await unmount(view);
+  });
+
+  test("renders the deterministic async autocomplete error after real debounce timers", async () => {
+    const view = mount(AsyncAutocompleteExample, { target: document.body });
+    const input = page.getByRole("combobox");
+    await userEvent.fill(input, "will_error");
+    await expect.element(page.getByText("Searching...", { exact: true })).toBeVisible();
+    await expect
+      .poll(
+        () =>
+          document.body.textContent?.includes("Failed to fetch movies. Please try again.") ?? false,
+        { timeout: 2_000 },
+      )
+      .toBe(true);
+    await expect.element(page.getByText("Failed to fetch movies. Please try again.")).toBeVisible();
     await unmount(view);
   });
 });

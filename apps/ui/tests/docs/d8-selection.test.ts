@@ -175,4 +175,52 @@ describe("D8 selection, command, and menu documentation", () => {
       );
     }
   });
+
+  test("locks the rejected particle copy and deterministic async error contract", () => {
+    const asyncAutocomplete = source("apps/ui/registry/default/particles/p-autocomplete-12.svelte");
+    expect(asyncAutocomplete).toContain('value === "will_error"');
+    expect(asyncAutocomplete).toContain('throw new Error("Network error")');
+    expect(asyncAutocomplete).toContain("Failed to fetch movies. Please try again.");
+
+    expect(source("apps/ui/registry/default/particles/p-combobox-2.svelte")).toContain(
+      'placeholder="Select an item…"',
+    );
+    expect(source("apps/ui/registry/default/particles/p-combobox-13.svelte")).toContain(
+      'aria-label="Search items" placeholder="Search items…"',
+    );
+    const pillCombobox = source("apps/ui/registry/default/particles/p-combobox-15.svelte");
+    expect(pillCombobox).toContain('aria-label="Select a item"');
+    expect(pillCombobox).toContain('placeholder="Select a item..."');
+  });
+
+  test("ports the complete command reference instead of API stubs", () => {
+    const page = source("apps/ui/content/docs/components/command.svx");
+    expect(page).toContain("A command palette component built with Dialog and Autocomplete");
+    expect(page).toContain("| `items`");
+    expect(page).toContain("| `portalProps`");
+    expect(page).toContain("| `children`");
+    expect(page).toContain('document.addEventListener("keydown", down)');
+    expect(page).toContain("const groupedItems = [");
+    expect(page).toContain("Standalone Command (Without Dialog)");
+    expect([...page.matchAll(/```svelte/g)]).toHaveLength(5);
+  });
+
+  test("does not omit upstream API tables or Select labelling guidance", () => {
+    const minimumTableCounts = {
+      autocomplete: 9,
+      combobox: 12,
+      command: 15,
+      "context-menu": 7,
+      menu: 7,
+      select: 3,
+      toolbar: 0,
+    } as const;
+    for (const [slug, minimum] of Object.entries(minimumTableCounts)) {
+      const page = source(`apps/ui/content/docs/components/${slug}.svx`);
+      expect((page.match(/^\| Prop/gm) ?? []).length, slug).toBeGreaterThanOrEqual(minimum);
+    }
+    expect(source("apps/ui/content/docs/components/select.svx")).toContain(
+      "For accessible labelling and validation, prefer using the `Field` component to wrap selects.",
+    );
+  });
 });

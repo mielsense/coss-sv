@@ -84,7 +84,19 @@ async function openParticle(id) {
   );
 }
 
+const allParticles = [
+  ...Array.from({ length: 16 }, (_, index) => `p-autocomplete-${index + 1}`),
+  ...Array.from({ length: 20 }, (_, index) => `p-combobox-${index + 1}`),
+  ...Array.from({ length: 23 }, (_, index) => `p-select-${index + 1}`),
+  ...Array.from({ length: 2 }, (_, index) => `p-command-${index + 1}`),
+  ...Array.from({ length: 9 }, (_, index) => `p-menu-${index + 1}`),
+  ...Array.from({ length: 8 }, (_, index) => `p-context-menu-${index + 1}`),
+  "p-toolbar-1",
+];
+
 try {
+  for (const id of allParticles) await openParticle(id);
+
   await openParticle("p-autocomplete-1");
   const autocomplete = page.getByRole("combobox", { name: "Search items" });
   await autocomplete.fill("gra");
@@ -98,6 +110,11 @@ try {
     Math.abs(autocompleteWidth.width - 256) <= 0.5,
     `autocomplete preview should preserve max-w-64, received ${autocompleteWidth.width}px`,
   );
+
+  await openParticle("p-autocomplete-12");
+  const asyncAutocomplete = page.getByRole("combobox");
+  await asyncAutocomplete.fill("will_error");
+  await page.getByText("Failed to fetch movies. Please try again.", { exact: true }).waitFor();
 
   await openParticle("p-combobox-9");
   const combobox = page.getByRole("combobox", { name: "Select a item" });
@@ -172,14 +189,14 @@ try {
   await alignLeft.press("ArrowRight");
   assert.equal(
     await page
-      .getByRole("button", { name: "Align center" })
+      .getByRole("button", { name: "Toggle center" })
       .evaluate((element) => element === document.activeElement),
     true,
   );
-  await page.keyboard.press("End");
+  await page.keyboard.press("ArrowRight");
   assert.equal(
     await page
-      .getByRole("button", { name: "Save" })
+      .getByRole("button", { name: "Toggle right" })
       .evaluate((element) => element === document.activeElement),
     true,
   );

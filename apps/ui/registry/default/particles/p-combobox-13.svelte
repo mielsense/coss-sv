@@ -31,7 +31,7 @@
 </script>
 
 <Combobox.Root {items}>
-  <Combobox.Input aria-label="Select an item" placeholder="Select an item...">
+  <Combobox.Input aria-label="Search items" placeholder="Search items…">
     {#snippet startAddon()}<HugeiconsIcon
         aria-hidden="true"
         icon={Search01Icon}
