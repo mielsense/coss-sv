@@ -1,0 +1,21 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "p-skeleton-1",
+	"type": "registry:block",
+	"description": "COSS skeleton example.",
+	"dependencies": [
+		"@coss-sv/ui",
+		"@hugeicons/core-free-icons@4.3.0",
+		"@hugeicons/svelte@1.1.5"
+	],
+	"registryDependencies": [
+		"./particle-metadata.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\nimport { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\nexport const meta = defineParticleMeta({\n  components: [\"avatar\", \"button\", \"skeleton\"],\n  containerClass:\n    \"**:data-[slot=preview]:w-full **:data-[slot=preview]:flex **:data-[slot=preview]:justify-center\",\n  id: \"p-skeleton-1\",\n  interactive: true,\n  responsive: true,\n  title: \"Basic skeleton\",\n});\n</script>\n\n<script lang=\"ts\">\nimport { Avatar, Button, Skeleton } from \"@coss-sv/ui\";\nimport { UserRoundPlusIcon, UsersRoundIcon } from \"@hugeicons/core-free-icons\";\nimport { HugeiconsIcon } from \"@hugeicons/svelte\";\n\nconst users = [\n  {\n    delay: 3000,\n    fallback: \"SJ\",\n    followers: \"15k\",\n    image: \"https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&h=80&dpr=2&q=80\",\n    name: \"Sarah Johnson\",\n    role: \"Design Engineer\",\n  },\n  {\n    delay: 4000,\n    fallback: \"MA\",\n    followers: \"8k\",\n    image: \"https://images.unsplash.com/photo-1543610892-0b1f7e6d8ac1?w=80&h=80&dpr=2&q=80\",\n    name: \"Mark Bennett Andersson\",\n    role: \"Product Designer\",\n  },\n  {\n    delay: 3400,\n    fallback: \"AR\",\n    followers: \"12k\",\n    image: \"https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&dpr=2&q=80\",\n    name: \"Alex Rivera\",\n    role: \"UI/UX Designer\",\n  },\n] as const;\n\nlet loaded = $state(new Set<string>());\n\n$effect(() => {\n  let timers: number[] = [];\n  const frame = window.requestAnimationFrame(() => {\n    timers = users.map((user) =>\n      window.setTimeout(() => {\n        loaded = new Set([...loaded, user.fallback]);\n      }, user.delay),\n    );\n  });\n  return () => {\n    window.cancelAnimationFrame(frame);\n    timers.forEach(window.clearTimeout);\n  };\n});\n</script>\n\n<div class=\"flex w-full max-w-92 flex-col gap-6\">\n  {#each users as user (user.fallback)}\n    <div class=\"flex items-center gap-4\">\n      {#if loaded.has(user.fallback)}\n        <Avatar.Root class=\"size-10\">\n          <Avatar.Image alt={user.name} src={user.image} />\n          <Avatar.Fallback>{user.fallback}</Avatar.Fallback>\n        </Avatar.Root>\n        <div class=\"flex min-w-0 flex-1 flex-col gap-1\">\n          <h4 class=\"line-clamp-1 font-medium text-sm\">{user.name}</h4>\n          <div class=\"flex items-center gap-3 text-muted-foreground text-xs\">\n            <span class=\"truncate\">{user.role}</span>\n            <div class=\"flex min-w-0 items-center gap-1\">\n              <HugeiconsIcon\n                aria-hidden=\"true\"\n                class=\"size-3 shrink-0\"\n                icon={UsersRoundIcon}\n                strokeWidth={2}\n              />\n              <span class=\"truncate\">\n                {user.followers}<span class=\"max-sm:hidden\"> followers</span>\n              </span>\n            </div>\n          </div>\n        </div>\n        <Button size=\"xs\">\n          <HugeiconsIcon aria-hidden=\"true\" icon={UserRoundPlusIcon} strokeWidth={2} />\n          Follow\n        </Button>\n      {:else}\n        <Skeleton class=\"size-10 rounded-full\" />\n        <div class=\"flex flex-1 flex-col\">\n          <Skeleton class=\"my-0.5 h-4 max-w-54\" />\n          <div class=\"flex max-w-54 items-center gap-1\">\n            <Skeleton class=\"my-0.5 h-4 w-1/2\" />\n            <Skeleton class=\"my-0.5 h-4 w-1/2\" />\n          </div>\n        </div>\n        <Skeleton class=\"h-7 w-19 sm:h-6 sm:w-17\" />\n      {/if}\n    </div>\n  {/each}\n</div>\n",
+			"type": "registry:block",
+			"target": "p-skeleton-1.svelte"
+		}
+	]
+}

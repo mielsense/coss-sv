@@ -1,0 +1,21 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "p-accordion-4",
+	"type": "registry:block",
+	"description": "COSS accordion example.",
+	"dependencies": [
+		"@coss-sv/ui",
+		"@hugeicons/core-free-icons@4.3.0",
+		"@hugeicons/svelte@1.1.5"
+	],
+	"registryDependencies": [
+		"./particle-metadata.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\nimport { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\nexport const meta = defineParticleMeta({\n  components: [\"accordion\", \"button\"],\n  containerClass: \"**:data-[slot=preview]:w-full sm:**:data-[slot=preview]:max-w-[80%]\",\n  id: \"p-accordion-4\",\n  interactive: true,\n  responsive: true,\n  title: \"Controlled accordion\",\n});\n</script>\n\n<script lang=\"ts\">\nimport { Accordion, Button } from \"@coss-sv/ui\";\n\nlet value = $state<string[]>([]);\n</script>\n\n<div class=\"flex w-full flex-col gap-4\">\n  <Accordion.Root bind:value class=\"w-full\">\n    <Accordion.Item value=\"item-1\">\n      <Accordion.Header><Accordion.Trigger>What is ShardsUI?</Accordion.Trigger></Accordion.Header>\n      <Accordion.Panel>\n        ShardsUI is a library of headless, accessible Svelte 5 components for design systems and web\n        apps.\n      </Accordion.Panel>\n    </Accordion.Item>\n    <Accordion.Item value=\"item-2\">\n      <Accordion.Header\n        ><Accordion.Trigger>How do I get started?</Accordion.Trigger></Accordion.Header\n      >\n      <Accordion.Panel>\n        Head to the \"Quick start\" guide in the docs. If you've used unstyled libraries before,\n        you'll feel at home.\n      </Accordion.Panel>\n    </Accordion.Item>\n    <Accordion.Item value=\"item-3\">\n      <Accordion.Header\n        ><Accordion.Trigger>Can I use it for my project?</Accordion.Trigger></Accordion.Header\n      >\n      <Accordion.Panel>Of course! ShardsUI is free and open source.</Accordion.Panel>\n    </Accordion.Item>\n  </Accordion.Root>\n\n  <div class=\"flex flex-col items-start gap-4\">\n    <Button onclick={() => (value = [\"item-1\", \"item-2\"])} variant=\"outline\">\n      Open First Two\n    </Button>\n    <p class=\"text-muted-foreground text-sm\">\n      Open items: {value.length > 0 ? value.join(\", \") : \"None\"}\n    </p>\n  </div>\n</div>\n",
+			"type": "registry:block",
+			"target": "p-accordion-4.svelte"
+		}
+	]
+}

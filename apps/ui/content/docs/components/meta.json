@@ -1,0 +1,4 @@
+{
+  "pages": ["accordion", "card", "collapsible", "empty", "frame", "separator", "skeleton"],
+  "title": "Components"
+}

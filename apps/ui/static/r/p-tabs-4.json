@@ -1,0 +1,21 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "p-tabs-4",
+	"type": "registry:block",
+	"description": "COSS tabs example.",
+	"dependencies": [
+		"@coss-sv/ui",
+		"@hugeicons/core-free-icons@4.3.0",
+		"@hugeicons/svelte@1.1.5"
+	],
+	"registryDependencies": [
+		"./particle-metadata.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\nimport { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\nexport const meta = defineParticleMeta({\n  components: [\"tabs\"],\n  containerClass: \"**:data-[slot=preview]:w-full sm:**:data-[slot=preview]:max-w-80\",\n  id: \"p-tabs-4\",\n  interactive: true,\n  responsive: true,\n  title: \"Vertical tabs with underline\",\n});\n</script>\n<script lang=\"ts\">\nimport { Tabs } from \"@coss-sv/ui\";\n</script>\n\n<Tabs.Root class=\"w-full flex-row\" defaultValue=\"tab-1\" orientation=\"vertical\">\n  <div class=\"border-s\">\n    <Tabs.List variant=\"underline\">\n      <Tabs.Tab value=\"tab-1\">Tab 1</Tabs.Tab><Tabs.Tab value=\"tab-2\">Tab 2</Tabs.Tab\n      ><Tabs.Tab value=\"tab-3\">Tab 3</Tabs.Tab>\n    </Tabs.List>\n  </div>\n  <Tabs.Panel value=\"tab-1\"\n    ><p class=\"p-4 text-center text-muted-foreground text-xs\">Tab 1 content</p></Tabs.Panel\n  >\n  <Tabs.Panel value=\"tab-2\"\n    ><p class=\"p-4 text-center text-muted-foreground text-xs\">Tab 2 content</p></Tabs.Panel\n  >\n  <Tabs.Panel value=\"tab-3\"\n    ><p class=\"p-4 text-center text-muted-foreground text-xs\">Tab 3 content</p></Tabs.Panel\n  >\n</Tabs.Root>\n",
+			"type": "registry:block",
+			"target": "p-tabs-4.svelte"
+		}
+	]
+}

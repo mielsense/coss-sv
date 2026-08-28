@@ -274,7 +274,7 @@
     {
       "id": "components/accordion",
       "kind": "doc",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "components/alert-dialog",
@@ -319,7 +319,7 @@
     {
       "id": "components/card",
       "kind": "doc",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "components/checkbox-group",
@@ -334,7 +334,7 @@
     {
       "id": "components/collapsible",
       "kind": "doc",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "components/combobox",
@@ -369,7 +369,7 @@
     {
       "id": "components/empty",
       "kind": "doc",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "components/field",
@@ -389,7 +389,7 @@
     {
       "id": "components/frame",
       "kind": "doc",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "components/group",
@@ -479,7 +479,7 @@
     {
       "id": "components/separator",
       "kind": "doc",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "components/sheet",
@@ -489,7 +489,7 @@
     {
       "id": "components/skeleton",
       "kind": "doc",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "components/slider",
@@ -594,22 +594,22 @@
     {
       "id": "p-accordion-1",
       "kind": "particle",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "p-accordion-2",
       "kind": "particle",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "p-accordion-3",
       "kind": "particle",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "p-accordion-4",
       "kind": "particle",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "p-alert-1",
@@ -1269,57 +1269,57 @@
     {
       "id": "p-card-1",
       "kind": "particle",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "p-card-10",
       "kind": "particle",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "p-card-11",
       "kind": "particle",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "p-card-2",
       "kind": "particle",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "p-card-3",
       "kind": "particle",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "p-card-4",
       "kind": "particle",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "p-card-5",
       "kind": "particle",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "p-card-6",
       "kind": "particle",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "p-card-7",
       "kind": "particle",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "p-card-8",
       "kind": "particle",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "p-card-9",
       "kind": "particle",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "p-checkbox-1",
@@ -1374,7 +1374,7 @@
     {
       "id": "p-collapsible-1",
       "kind": "particle",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "p-combobox-1",
@@ -1674,7 +1674,7 @@
     {
       "id": "p-empty-1",
       "kind": "particle",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "p-field-1",
@@ -1784,22 +1784,22 @@
     {
       "id": "p-frame-1",
       "kind": "particle",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "p-frame-2",
       "kind": "particle",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "p-frame-3",
       "kind": "particle",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "p-frame-4",
       "kind": "particle",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "p-group-1",
@@ -2574,7 +2574,7 @@
     {
       "id": "p-separator-1",
       "kind": "particle",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "p-sheet-1",
@@ -2594,12 +2594,12 @@
     {
       "id": "p-skeleton-1",
       "kind": "particle",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "p-skeleton-2",
       "kind": "particle",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "p-slider-1",
@@ -2814,72 +2814,72 @@
     {
       "id": "p-tabs-10",
       "kind": "particle",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "p-tabs-11",
       "kind": "particle",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "p-tabs-12",
       "kind": "particle",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "p-tabs-13",
       "kind": "particle",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "p-tabs-14",
       "kind": "particle",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "p-tabs-15",
       "kind": "particle",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "p-tabs-2",
       "kind": "particle",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "p-tabs-3",
       "kind": "particle",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "p-tabs-4",
       "kind": "particle",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "p-tabs-5",
       "kind": "particle",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "p-tabs-6",
       "kind": "particle",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "p-tabs-7",
       "kind": "particle",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "p-tabs-8",
       "kind": "particle",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "p-tabs-9",
       "kind": "particle",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "p-textarea-1",

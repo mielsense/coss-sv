@@ -1,0 +1,21 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "p-accordion-1",
+	"type": "registry:block",
+	"description": "COSS accordion example.",
+	"dependencies": [
+		"@coss-sv/ui",
+		"@hugeicons/core-free-icons@4.3.0",
+		"@hugeicons/svelte@1.1.5"
+	],
+	"registryDependencies": [
+		"./particle-metadata.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\nimport { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\nexport const meta = defineParticleMeta({\n  components: [\"accordion\"],\n  containerClass: \"**:data-[slot=preview]:w-full sm:**:data-[slot=preview]:max-w-[80%]\",\n  id: \"p-accordion-1\",\n  interactive: true,\n  responsive: true,\n  title: \"Basic accordion\",\n});\n</script>\n\n<script lang=\"ts\">\nimport { Accordion } from \"@coss-sv/ui\";\n\nconst items = [\n  {\n    content:\n      \"ShardsUI is a library of headless, accessible Svelte 5 components for design systems and web apps.\",\n    id: \"1\",\n    title: \"What is ShardsUI?\",\n  },\n  {\n    content:\n      \"Head to the \\\"Quick start\\\" guide in the docs. If you've used unstyled libraries before, you'll feel at home.\",\n    id: \"2\",\n    title: \"How do I get started?\",\n  },\n  {\n    content: \"Of course! ShardsUI is free and open source.\",\n    id: \"3\",\n    title: \"Can I use it for my project?\",\n  },\n];\n</script>\n\n<Accordion.Root class=\"w-full\" defaultValue={[\"3\"]}>\n  {#each items as item (item.id)}\n    <Accordion.Item value={item.id}>\n      <Accordion.Header><Accordion.Trigger>{item.title}</Accordion.Trigger></Accordion.Header>\n      <Accordion.Panel>{item.content}</Accordion.Panel>\n    </Accordion.Item>\n  {/each}\n</Accordion.Root>\n",
+			"type": "registry:block",
+			"target": "p-accordion-1.svelte"
+		}
+	]
+}

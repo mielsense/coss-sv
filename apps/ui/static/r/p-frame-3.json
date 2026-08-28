@@ -1,0 +1,21 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "p-frame-3",
+	"type": "registry:block",
+	"description": "COSS frame example.",
+	"dependencies": [
+		"@coss-sv/ui",
+		"@hugeicons/core-free-icons@4.3.0",
+		"@hugeicons/svelte@1.1.5"
+	],
+	"registryDependencies": [
+		"./particle-metadata.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\nimport { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\nexport const meta = defineParticleMeta({\n  components: [\"frame\"],\n  containerClass: \"**:data-[slot=preview]:w-full\",\n  id: \"p-frame-3\",\n  interactive: false,\n  responsive: true,\n  title: \"Frame with multiple separated panels\",\n});\n</script>\n\n<script lang=\"ts\">\nimport { Frame, FrameDescription, FrameHeader, FramePanel, FrameTitle } from \"@coss-sv/ui\";\n</script>\n\n<Frame class=\"w-full\">\n  <FrameHeader>\n    <FrameTitle>Section header</FrameTitle>\n    <FrameDescription>Brief description about the section</FrameDescription>\n  </FrameHeader>\n  <FramePanel>\n    <h2 class=\"font-semibold text-sm\">Separated panel</h2>\n    <p class=\"text-muted-foreground text-sm\">Section description</p>\n  </FramePanel>\n  <FramePanel>\n    <h2 class=\"font-semibold text-sm\">Separated panel</h2>\n    <p class=\"text-muted-foreground text-sm\">Section description</p>\n  </FramePanel>\n</Frame>\n",
+			"type": "registry:block",
+			"target": "p-frame-3.svelte"
+		}
+	]
+}

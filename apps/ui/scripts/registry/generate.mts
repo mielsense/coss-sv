@@ -4,11 +4,17 @@ import { pathToFileURL } from "node:url";
 import { createRegistry, serializeRegistry, validateRegistry } from "../../registry/registry.js";
 import { registryLibs } from "../../registry/registry-libs.js";
 import { registryParticles } from "../../registry/registry-particles.js";
+import { registrySupport } from "../../registry/registry-support.js";
 import { registryUi } from "../../registry/registry-ui.js";
 import { appRoot } from "./lib.mjs";
 
 export async function registrySource(): Promise<string> {
-  const registry = createRegistry([...registryLibs, ...registryUi, ...registryParticles]);
+  const registry = createRegistry([
+    ...registryLibs,
+    ...registryUi,
+    ...registryParticles,
+    ...registrySupport,
+  ]);
   await validateRegistry(registry);
   return serializeRegistry(registry);
 }

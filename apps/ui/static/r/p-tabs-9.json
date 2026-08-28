@@ -1,0 +1,21 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "p-tabs-9",
+	"type": "registry:block",
+	"description": "COSS tabs example.",
+	"dependencies": [
+		"@coss-sv/ui",
+		"@hugeicons/core-free-icons@4.3.0",
+		"@hugeicons/svelte@1.1.5"
+	],
+	"registryDependencies": [
+		"./particle-metadata.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\nimport { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\nexport const meta = defineParticleMeta({\n  components: [\"tabs\"],\n  id: \"p-tabs-9\",\n  interactive: true,\n  responsive: false,\n  title: \"Tabs with underline and icon on top\",\n});\n</script>\n\n<script lang=\"ts\">\nimport { Tabs } from \"@coss-sv/ui\";\nimport { BoxIcon, House01Icon, PanelsTopLeftIcon } from \"@hugeicons/core-free-icons\";\nimport { HugeiconsIcon } from \"@hugeicons/svelte\";\n</script>\n\n<Tabs.Root class=\"items-center\" defaultValue=\"tab-1\">\n  <div class=\"border-b\">\n    <Tabs.List variant=\"underline\">\n      <Tabs.Tab class=\"h-auto! flex-col gap-1.5 py-[calc(--spacing(2)-1px)]\" value=\"tab-1\">\n        <HugeiconsIcon\n          aria-hidden=\"true\"\n          class=\"size-4 opacity-60\"\n          icon={House01Icon}\n          strokeWidth={2}\n        />\n        Overview\n      </Tabs.Tab>\n      <Tabs.Tab class=\"h-auto! flex-col gap-1.5 py-[calc(--spacing(2)-1px)]\" value=\"tab-2\">\n        <HugeiconsIcon\n          aria-hidden=\"true\"\n          class=\"size-4 opacity-60\"\n          icon={PanelsTopLeftIcon}\n          strokeWidth={2}\n        />\n        Projects\n      </Tabs.Tab>\n      <Tabs.Tab class=\"h-auto! flex-col gap-1.5 py-[calc(--spacing(2.5)-1px)]\" value=\"tab-3\">\n        <HugeiconsIcon\n          aria-hidden=\"true\"\n          class=\"size-4 opacity-60\"\n          icon={BoxIcon}\n          strokeWidth={2}\n        />\n        Packages\n      </Tabs.Tab>\n    </Tabs.List>\n  </div>\n  <Tabs.Panel value=\"tab-1\">\n    <p class=\"p-4 text-center text-muted-foreground text-xs\">Overview content</p>\n  </Tabs.Panel>\n  <Tabs.Panel value=\"tab-2\">\n    <p class=\"p-4 text-center text-muted-foreground text-xs\">Projects content</p>\n  </Tabs.Panel>\n  <Tabs.Panel value=\"tab-3\">\n    <p class=\"p-4 text-center text-muted-foreground text-xs\">Packages content</p>\n  </Tabs.Panel>\n</Tabs.Root>\n",
+			"type": "registry:block",
+			"target": "p-tabs-9.svelte"
+		}
+	]
+}

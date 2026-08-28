@@ -475,12 +475,14 @@ async function verifyInstalledFixture(fixtureRoot: string): Promise<void> {
 type ProductionRegistryIndexItem = {
   name: string;
   relativeUrl: string;
+  type: string;
 };
 
 async function productionRegistryItems(): Promise<ProductionRegistryIndexItem[]> {
-  return JSON.parse(
+  const items = JSON.parse(
     await readFile(resolve(appRoot, "static/r/index.json"), "utf8"),
   ) as ProductionRegistryIndexItem[];
+  return items.filter(({ type }) => type === "registry:ui");
 }
 
 async function verifyInstalledProductionRegistry(

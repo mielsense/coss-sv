@@ -1,0 +1,13 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "particle-metadata",
+	"type": "registry:file",
+	"description": "Validates documentation preview metadata.",
+	"files": [
+		{
+			"content": "export type ParticleMeta = {\n  components: readonly string[];\n  containerClass?: string;\n  id: string;\n  iframeHeight?: number;\n  interactive: boolean;\n  responsive: boolean;\n  title: string;\n};\n\nexport function validateParticleMeta(meta: ParticleMeta): ParticleMeta {\n  if (meta.components.length === 0) {\n    throw new Error(`Particle ${meta.id} must name at least one component`);\n  }\n  if (\n    meta.iframeHeight !== undefined &&\n    (!Number.isInteger(meta.iframeHeight) || meta.iframeHeight <= 0)\n  ) {\n    throw new Error(`Particle ${meta.id} iframeHeight must be a positive integer`);\n  }\n  if (!meta.id || !meta.title.trim()) {\n    throw new Error(\"Particle metadata requires a nonempty id and title\");\n  }\n  if (typeof meta.interactive !== \"boolean\" || typeof meta.responsive !== \"boolean\") {\n    throw new Error(`Particle ${meta.id} interaction metadata must be boolean`);\n  }\n  return Object.freeze({ ...meta, components: Object.freeze([...meta.components]) });\n}\n\nexport function defineParticleMeta(meta: ParticleMeta): ParticleMeta {\n  return validateParticleMeta(meta);\n}\n",
+			"type": "registry:file",
+			"target": "src/lib/registry/particle-metadata.ts"
+		}
+	]
+}

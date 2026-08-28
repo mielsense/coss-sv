@@ -3,6 +3,7 @@ import { registryLibs } from "../../registry/registry-libs.js";
 import { registryUi } from "../../registry/registry-ui.js";
 
 const adapterConsumers = [
+  "accordion",
   "breadcrumb",
   "calendar",
   "checkbox",

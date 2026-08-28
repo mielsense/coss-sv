@@ -215,7 +215,7 @@ export function collectReferenceInventory(root = repositoryRoot): ReferenceInven
         "doc",
         `components/${id}`,
         source,
-        join(root, `apps/ui/content/docs/components/${id}.md`),
+        join(root, `apps/ui/content/docs/components/${id}.svx`),
         "apps/ui/src/lib/content/docs-manifest.ts",
       );
     },
@@ -229,7 +229,7 @@ export function collectReferenceInventory(root = repositoryRoot): ReferenceInven
       "doc",
       id,
       source,
-      join(root, `apps/ui/content/docs/${id}.md`),
+      join(root, `apps/ui/content/docs/${id}.svx`),
       "apps/ui/src/lib/content/docs-manifest.ts",
     );
   });
@@ -242,7 +242,7 @@ export function collectReferenceInventory(root = repositoryRoot): ReferenceInven
       "doc",
       `hooks/${id}`,
       source,
-      join(root, `apps/ui/content/docs/hooks/${id}.md`),
+      join(root, `apps/ui/content/docs/hooks/${id}.svx`),
       "apps/ui/src/lib/content/docs-manifest.ts",
     );
   });
@@ -1782,7 +1782,7 @@ function promotedTargetError(root: string, item: ParityEntry) {
 
   const expectedComponentRoot = `packages/ui/src/components/ui/${item.id}`;
   const expectedParticle = `apps/ui/registry/default/particles/${item.id}.svelte`;
-  const expectedDoc = `apps/ui/content/docs/${item.id}.md`;
+  const expectedDoc = `apps/ui/content/docs/${item.id}.svx`;
   const isCanonical =
     (item.kind === "component" && path === expectedComponentRoot) ||
     (item.kind === "particle" && path === expectedParticle) ||
@@ -1821,7 +1821,7 @@ function promotedTargetError(root: string, item: ParityEntry) {
     valid =
       stats.isFile() &&
       !stats.isSymbolicLink() &&
-      extname(absolutePath) === ".md" &&
+      extname(absolutePath) === ".svx" &&
       hasAuthoredMarkdownContent(absolutePath);
   }
 

@@ -12,8 +12,8 @@ export const registryUi = defineRegistryItems([
     name: "accordion",
     type: "registry:ui",
     description: "Organizes content into expandable sections.",
-    dependencies: ["@shardsui/svelte@0.1.0-beta.0"],
-    registryDependencies: [],
+    dependencies: ["@hugeicons/core-free-icons@4.3.0", "@shardsui/svelte@0.1.0-beta.0"],
+    registryDependencies: ["local:hugeicons-icon"],
     files: uiFiles("accordion", [
       "accordion-root.svelte",
       "accordion-item.svelte",

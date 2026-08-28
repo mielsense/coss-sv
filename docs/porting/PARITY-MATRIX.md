@@ -69,79 +69,79 @@ Generated from the pinned local reference. The status baseline names every plann
 
 | ID | Reference | Target | Status |
 | --- | --- | --- | --- |
-| `components/accordion` | `reference/apps/ui/content/docs/components/accordion.mdx` | `apps/ui/content/docs/components/accordion.md`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
-| `components/alert-dialog` | `reference/apps/ui/content/docs/components/alert-dialog.mdx` | `apps/ui/content/docs/components/alert-dialog.md`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
-| `components/alert` | `reference/apps/ui/content/docs/components/alert.mdx` | `apps/ui/content/docs/components/alert.md`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
-| `components/autocomplete` | `reference/apps/ui/content/docs/components/autocomplete.mdx` | `apps/ui/content/docs/components/autocomplete.md`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
-| `components/avatar` | `reference/apps/ui/content/docs/components/avatar.mdx` | `apps/ui/content/docs/components/avatar.md`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
-| `components/badge` | `reference/apps/ui/content/docs/components/badge.mdx` | `apps/ui/content/docs/components/badge.md`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
-| `components/breadcrumb` | `reference/apps/ui/content/docs/components/breadcrumb.mdx` | `apps/ui/content/docs/components/breadcrumb.md`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
-| `components/button` | `reference/apps/ui/content/docs/components/button.mdx` | `apps/ui/content/docs/components/button.md`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
-| `components/calendar` | `reference/apps/ui/content/docs/components/calendar.mdx` | `apps/ui/content/docs/components/calendar.md`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
-| `components/card` | `reference/apps/ui/content/docs/components/card.mdx` | `apps/ui/content/docs/components/card.md`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
-| `components/checkbox-group` | `reference/apps/ui/content/docs/components/checkbox-group.mdx` | `apps/ui/content/docs/components/checkbox-group.md`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
-| `components/checkbox` | `reference/apps/ui/content/docs/components/checkbox.mdx` | `apps/ui/content/docs/components/checkbox.md`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
-| `components/collapsible` | `reference/apps/ui/content/docs/components/collapsible.mdx` | `apps/ui/content/docs/components/collapsible.md`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
-| `components/combobox` | `reference/apps/ui/content/docs/components/combobox.mdx` | `apps/ui/content/docs/components/combobox.md`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
-| `components/command` | `reference/apps/ui/content/docs/components/command.mdx` | `apps/ui/content/docs/components/command.md`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
-| `components/context-menu` | `reference/apps/ui/content/docs/components/context-menu.mdx` | `apps/ui/content/docs/components/context-menu.md`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
-| `components/date-picker` | `reference/apps/ui/content/docs/components/date-picker.mdx` | `apps/ui/content/docs/components/date-picker.md`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
-| `components/dialog` | `reference/apps/ui/content/docs/components/dialog.mdx` | `apps/ui/content/docs/components/dialog.md`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
-| `components/drawer` | `reference/apps/ui/content/docs/components/drawer.mdx` | `apps/ui/content/docs/components/drawer.md`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
-| `components/empty` | `reference/apps/ui/content/docs/components/empty.mdx` | `apps/ui/content/docs/components/empty.md`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
-| `components/field` | `reference/apps/ui/content/docs/components/field.mdx` | `apps/ui/content/docs/components/field.md`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
-| `components/fieldset` | `reference/apps/ui/content/docs/components/fieldset.mdx` | `apps/ui/content/docs/components/fieldset.md`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
-| `components/form` | `reference/apps/ui/content/docs/components/form.mdx` | `apps/ui/content/docs/components/form.md`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
-| `components/frame` | `reference/apps/ui/content/docs/components/frame.mdx` | `apps/ui/content/docs/components/frame.md`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
-| `components/group` | `reference/apps/ui/content/docs/components/group.mdx` | `apps/ui/content/docs/components/group.md`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
-| `components/input-group` | `reference/apps/ui/content/docs/components/input-group.mdx` | `apps/ui/content/docs/components/input-group.md`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
-| `components/input` | `reference/apps/ui/content/docs/components/input.mdx` | `apps/ui/content/docs/components/input.md`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
-| `components/kbd` | `reference/apps/ui/content/docs/components/kbd.mdx` | `apps/ui/content/docs/components/kbd.md`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
-| `components/label` | `reference/apps/ui/content/docs/components/label.mdx` | `apps/ui/content/docs/components/label.md`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
-| `components/menu` | `reference/apps/ui/content/docs/components/menu.mdx` | `apps/ui/content/docs/components/menu.md`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
-| `components/meter` | `reference/apps/ui/content/docs/components/meter.mdx` | `apps/ui/content/docs/components/meter.md`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
-| `components/number-field` | `reference/apps/ui/content/docs/components/number-field.mdx` | `apps/ui/content/docs/components/number-field.md`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
-| `components/otp-field` | `reference/apps/ui/content/docs/components/otp-field.mdx` | `apps/ui/content/docs/components/otp-field.md`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
-| `components/pagination` | `reference/apps/ui/content/docs/components/pagination.mdx` | `apps/ui/content/docs/components/pagination.md`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
-| `components/popover` | `reference/apps/ui/content/docs/components/popover.mdx` | `apps/ui/content/docs/components/popover.md`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
-| `components/preview-card` | `reference/apps/ui/content/docs/components/preview-card.mdx` | `apps/ui/content/docs/components/preview-card.md`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
-| `components/progress` | `reference/apps/ui/content/docs/components/progress.mdx` | `apps/ui/content/docs/components/progress.md`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
-| `components/radio-group` | `reference/apps/ui/content/docs/components/radio-group.mdx` | `apps/ui/content/docs/components/radio-group.md`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
-| `components/scroll-area` | `reference/apps/ui/content/docs/components/scroll-area.mdx` | `apps/ui/content/docs/components/scroll-area.md`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
-| `components/segmented-control` | `reference/apps/ui/content/docs/components/segmented-control.mdx` | `apps/ui/content/docs/components/segmented-control.md`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
-| `components/select` | `reference/apps/ui/content/docs/components/select.mdx` | `apps/ui/content/docs/components/select.md`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
-| `components/separator` | `reference/apps/ui/content/docs/components/separator.mdx` | `apps/ui/content/docs/components/separator.md`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
-| `components/sheet` | `reference/apps/ui/content/docs/components/sheet.mdx` | `apps/ui/content/docs/components/sheet.md`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
-| `components/skeleton` | `reference/apps/ui/content/docs/components/skeleton.mdx` | `apps/ui/content/docs/components/skeleton.md`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
-| `components/slider` | `reference/apps/ui/content/docs/components/slider.mdx` | `apps/ui/content/docs/components/slider.md`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
-| `components/spinner` | `reference/apps/ui/content/docs/components/spinner.mdx` | `apps/ui/content/docs/components/spinner.md`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
-| `components/switch` | `reference/apps/ui/content/docs/components/switch.mdx` | `apps/ui/content/docs/components/switch.md`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
-| `components/table` | `reference/apps/ui/content/docs/components/table.mdx` | `apps/ui/content/docs/components/table.md`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
-| `components/tabs` | `reference/apps/ui/content/docs/components/tabs.mdx` | `apps/ui/content/docs/components/tabs.md`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
-| `components/textarea` | `reference/apps/ui/content/docs/components/textarea.mdx` | `apps/ui/content/docs/components/textarea.md`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
-| `components/toast` | `reference/apps/ui/content/docs/components/toast.mdx` | `apps/ui/content/docs/components/toast.md`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
-| `components/toggle-group` | `reference/apps/ui/content/docs/components/toggle-group.mdx` | `apps/ui/content/docs/components/toggle-group.md`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
-| `components/toggle` | `reference/apps/ui/content/docs/components/toggle.mdx` | `apps/ui/content/docs/components/toggle.md`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
-| `components/toolbar` | `reference/apps/ui/content/docs/components/toolbar.mdx` | `apps/ui/content/docs/components/toolbar.md`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
-| `components/tooltip` | `reference/apps/ui/content/docs/components/tooltip.mdx` | `apps/ui/content/docs/components/tooltip.md`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
-| `changelog` | `reference/apps/ui/content/docs/(root)/changelog.mdx` | `apps/ui/content/docs/changelog.md`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
-| `get-started` | `reference/apps/ui/content/docs/(root)/get-started.mdx` | `apps/ui/content/docs/get-started.md`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
-| `index` | `reference/apps/ui/content/docs/(root)/index.mdx` | `apps/ui/content/docs/index.md`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
-| `radix-migration` | `reference/apps/ui/content/docs/(root)/radix-migration.mdx` | `apps/ui/content/docs/radix-migration.md`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
-| `roadmap` | `reference/apps/ui/content/docs/(root)/roadmap.mdx` | `apps/ui/content/docs/roadmap.md`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
-| `skills` | `reference/apps/ui/content/docs/(root)/skills.mdx` | `apps/ui/content/docs/skills.md`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
-| `styling` | `reference/apps/ui/content/docs/(root)/styling.mdx` | `apps/ui/content/docs/styling.md`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
-| `hooks/use-copy-to-clipboard` | `reference/apps/ui/content/docs/hooks/use-copy-to-clipboard.mdx` | `apps/ui/content/docs/hooks/use-copy-to-clipboard.md`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
-| `hooks/use-media-query` | `reference/apps/ui/content/docs/hooks/use-media-query.mdx` | `apps/ui/content/docs/hooks/use-media-query.md`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
+| `components/accordion` | `reference/apps/ui/content/docs/components/accordion.mdx` | `apps/ui/content/docs/components/accordion.svx`<br>`apps/ui/src/lib/content/docs-manifest.ts` | approved |
+| `components/alert-dialog` | `reference/apps/ui/content/docs/components/alert-dialog.mdx` | `apps/ui/content/docs/components/alert-dialog.svx`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
+| `components/alert` | `reference/apps/ui/content/docs/components/alert.mdx` | `apps/ui/content/docs/components/alert.svx`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
+| `components/autocomplete` | `reference/apps/ui/content/docs/components/autocomplete.mdx` | `apps/ui/content/docs/components/autocomplete.svx`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
+| `components/avatar` | `reference/apps/ui/content/docs/components/avatar.mdx` | `apps/ui/content/docs/components/avatar.svx`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
+| `components/badge` | `reference/apps/ui/content/docs/components/badge.mdx` | `apps/ui/content/docs/components/badge.svx`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
+| `components/breadcrumb` | `reference/apps/ui/content/docs/components/breadcrumb.mdx` | `apps/ui/content/docs/components/breadcrumb.svx`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
+| `components/button` | `reference/apps/ui/content/docs/components/button.mdx` | `apps/ui/content/docs/components/button.svx`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
+| `components/calendar` | `reference/apps/ui/content/docs/components/calendar.mdx` | `apps/ui/content/docs/components/calendar.svx`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
+| `components/card` | `reference/apps/ui/content/docs/components/card.mdx` | `apps/ui/content/docs/components/card.svx`<br>`apps/ui/src/lib/content/docs-manifest.ts` | approved |
+| `components/checkbox-group` | `reference/apps/ui/content/docs/components/checkbox-group.mdx` | `apps/ui/content/docs/components/checkbox-group.svx`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
+| `components/checkbox` | `reference/apps/ui/content/docs/components/checkbox.mdx` | `apps/ui/content/docs/components/checkbox.svx`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
+| `components/collapsible` | `reference/apps/ui/content/docs/components/collapsible.mdx` | `apps/ui/content/docs/components/collapsible.svx`<br>`apps/ui/src/lib/content/docs-manifest.ts` | approved |
+| `components/combobox` | `reference/apps/ui/content/docs/components/combobox.mdx` | `apps/ui/content/docs/components/combobox.svx`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
+| `components/command` | `reference/apps/ui/content/docs/components/command.mdx` | `apps/ui/content/docs/components/command.svx`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
+| `components/context-menu` | `reference/apps/ui/content/docs/components/context-menu.mdx` | `apps/ui/content/docs/components/context-menu.svx`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
+| `components/date-picker` | `reference/apps/ui/content/docs/components/date-picker.mdx` | `apps/ui/content/docs/components/date-picker.svx`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
+| `components/dialog` | `reference/apps/ui/content/docs/components/dialog.mdx` | `apps/ui/content/docs/components/dialog.svx`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
+| `components/drawer` | `reference/apps/ui/content/docs/components/drawer.mdx` | `apps/ui/content/docs/components/drawer.svx`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
+| `components/empty` | `reference/apps/ui/content/docs/components/empty.mdx` | `apps/ui/content/docs/components/empty.svx`<br>`apps/ui/src/lib/content/docs-manifest.ts` | approved |
+| `components/field` | `reference/apps/ui/content/docs/components/field.mdx` | `apps/ui/content/docs/components/field.svx`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
+| `components/fieldset` | `reference/apps/ui/content/docs/components/fieldset.mdx` | `apps/ui/content/docs/components/fieldset.svx`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
+| `components/form` | `reference/apps/ui/content/docs/components/form.mdx` | `apps/ui/content/docs/components/form.svx`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
+| `components/frame` | `reference/apps/ui/content/docs/components/frame.mdx` | `apps/ui/content/docs/components/frame.svx`<br>`apps/ui/src/lib/content/docs-manifest.ts` | approved |
+| `components/group` | `reference/apps/ui/content/docs/components/group.mdx` | `apps/ui/content/docs/components/group.svx`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
+| `components/input-group` | `reference/apps/ui/content/docs/components/input-group.mdx` | `apps/ui/content/docs/components/input-group.svx`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
+| `components/input` | `reference/apps/ui/content/docs/components/input.mdx` | `apps/ui/content/docs/components/input.svx`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
+| `components/kbd` | `reference/apps/ui/content/docs/components/kbd.mdx` | `apps/ui/content/docs/components/kbd.svx`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
+| `components/label` | `reference/apps/ui/content/docs/components/label.mdx` | `apps/ui/content/docs/components/label.svx`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
+| `components/menu` | `reference/apps/ui/content/docs/components/menu.mdx` | `apps/ui/content/docs/components/menu.svx`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
+| `components/meter` | `reference/apps/ui/content/docs/components/meter.mdx` | `apps/ui/content/docs/components/meter.svx`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
+| `components/number-field` | `reference/apps/ui/content/docs/components/number-field.mdx` | `apps/ui/content/docs/components/number-field.svx`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
+| `components/otp-field` | `reference/apps/ui/content/docs/components/otp-field.mdx` | `apps/ui/content/docs/components/otp-field.svx`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
+| `components/pagination` | `reference/apps/ui/content/docs/components/pagination.mdx` | `apps/ui/content/docs/components/pagination.svx`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
+| `components/popover` | `reference/apps/ui/content/docs/components/popover.mdx` | `apps/ui/content/docs/components/popover.svx`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
+| `components/preview-card` | `reference/apps/ui/content/docs/components/preview-card.mdx` | `apps/ui/content/docs/components/preview-card.svx`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
+| `components/progress` | `reference/apps/ui/content/docs/components/progress.mdx` | `apps/ui/content/docs/components/progress.svx`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
+| `components/radio-group` | `reference/apps/ui/content/docs/components/radio-group.mdx` | `apps/ui/content/docs/components/radio-group.svx`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
+| `components/scroll-area` | `reference/apps/ui/content/docs/components/scroll-area.mdx` | `apps/ui/content/docs/components/scroll-area.svx`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
+| `components/segmented-control` | `reference/apps/ui/content/docs/components/segmented-control.mdx` | `apps/ui/content/docs/components/segmented-control.svx`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
+| `components/select` | `reference/apps/ui/content/docs/components/select.mdx` | `apps/ui/content/docs/components/select.svx`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
+| `components/separator` | `reference/apps/ui/content/docs/components/separator.mdx` | `apps/ui/content/docs/components/separator.svx`<br>`apps/ui/src/lib/content/docs-manifest.ts` | approved |
+| `components/sheet` | `reference/apps/ui/content/docs/components/sheet.mdx` | `apps/ui/content/docs/components/sheet.svx`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
+| `components/skeleton` | `reference/apps/ui/content/docs/components/skeleton.mdx` | `apps/ui/content/docs/components/skeleton.svx`<br>`apps/ui/src/lib/content/docs-manifest.ts` | approved |
+| `components/slider` | `reference/apps/ui/content/docs/components/slider.mdx` | `apps/ui/content/docs/components/slider.svx`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
+| `components/spinner` | `reference/apps/ui/content/docs/components/spinner.mdx` | `apps/ui/content/docs/components/spinner.svx`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
+| `components/switch` | `reference/apps/ui/content/docs/components/switch.mdx` | `apps/ui/content/docs/components/switch.svx`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
+| `components/table` | `reference/apps/ui/content/docs/components/table.mdx` | `apps/ui/content/docs/components/table.svx`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
+| `components/tabs` | `reference/apps/ui/content/docs/components/tabs.mdx` | `apps/ui/content/docs/components/tabs.svx`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
+| `components/textarea` | `reference/apps/ui/content/docs/components/textarea.mdx` | `apps/ui/content/docs/components/textarea.svx`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
+| `components/toast` | `reference/apps/ui/content/docs/components/toast.mdx` | `apps/ui/content/docs/components/toast.svx`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
+| `components/toggle-group` | `reference/apps/ui/content/docs/components/toggle-group.mdx` | `apps/ui/content/docs/components/toggle-group.svx`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
+| `components/toggle` | `reference/apps/ui/content/docs/components/toggle.mdx` | `apps/ui/content/docs/components/toggle.svx`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
+| `components/toolbar` | `reference/apps/ui/content/docs/components/toolbar.mdx` | `apps/ui/content/docs/components/toolbar.svx`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
+| `components/tooltip` | `reference/apps/ui/content/docs/components/tooltip.mdx` | `apps/ui/content/docs/components/tooltip.svx`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
+| `changelog` | `reference/apps/ui/content/docs/(root)/changelog.mdx` | `apps/ui/content/docs/changelog.svx`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
+| `get-started` | `reference/apps/ui/content/docs/(root)/get-started.mdx` | `apps/ui/content/docs/get-started.svx`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
+| `index` | `reference/apps/ui/content/docs/(root)/index.mdx` | `apps/ui/content/docs/index.svx`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
+| `radix-migration` | `reference/apps/ui/content/docs/(root)/radix-migration.mdx` | `apps/ui/content/docs/radix-migration.svx`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
+| `roadmap` | `reference/apps/ui/content/docs/(root)/roadmap.mdx` | `apps/ui/content/docs/roadmap.svx`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
+| `skills` | `reference/apps/ui/content/docs/(root)/skills.mdx` | `apps/ui/content/docs/skills.svx`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
+| `styling` | `reference/apps/ui/content/docs/(root)/styling.mdx` | `apps/ui/content/docs/styling.svx`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
+| `hooks/use-copy-to-clipboard` | `reference/apps/ui/content/docs/hooks/use-copy-to-clipboard.mdx` | `apps/ui/content/docs/hooks/use-copy-to-clipboard.svx`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
+| `hooks/use-media-query` | `reference/apps/ui/content/docs/hooks/use-media-query.mdx` | `apps/ui/content/docs/hooks/use-media-query.svx`<br>`apps/ui/src/lib/content/docs-manifest.ts` | missing |
 
 ## Particles
 
 | ID | Reference | Target | Component imports | Status |
 | --- | --- | --- | --- | --- |
-| `p-accordion-1` | `reference/apps/ui/registry/default/particles/p-accordion-1.tsx` | `apps/ui/registry/default/particles/p-accordion-1.svelte`<br>`apps/ui/registry/registry-particles.ts` | `accordion` | missing |
-| `p-accordion-2` | `reference/apps/ui/registry/default/particles/p-accordion-2.tsx` | `apps/ui/registry/default/particles/p-accordion-2.svelte`<br>`apps/ui/registry/registry-particles.ts` | `accordion` | missing |
-| `p-accordion-3` | `reference/apps/ui/registry/default/particles/p-accordion-3.tsx` | `apps/ui/registry/default/particles/p-accordion-3.svelte`<br>`apps/ui/registry/registry-particles.ts` | `accordion` | missing |
-| `p-accordion-4` | `reference/apps/ui/registry/default/particles/p-accordion-4.tsx` | `apps/ui/registry/default/particles/p-accordion-4.svelte`<br>`apps/ui/registry/registry-particles.ts` | `accordion`, `button` | missing |
+| `p-accordion-1` | `reference/apps/ui/registry/default/particles/p-accordion-1.tsx` | `apps/ui/registry/default/particles/p-accordion-1.svelte`<br>`apps/ui/registry/registry-particles.ts` | `accordion` | approved |
+| `p-accordion-2` | `reference/apps/ui/registry/default/particles/p-accordion-2.tsx` | `apps/ui/registry/default/particles/p-accordion-2.svelte`<br>`apps/ui/registry/registry-particles.ts` | `accordion` | approved |
+| `p-accordion-3` | `reference/apps/ui/registry/default/particles/p-accordion-3.tsx` | `apps/ui/registry/default/particles/p-accordion-3.svelte`<br>`apps/ui/registry/registry-particles.ts` | `accordion` | approved |
+| `p-accordion-4` | `reference/apps/ui/registry/default/particles/p-accordion-4.tsx` | `apps/ui/registry/default/particles/p-accordion-4.svelte`<br>`apps/ui/registry/registry-particles.ts` | `accordion`, `button` | approved |
 | `p-alert-1` | `reference/apps/ui/registry/default/particles/p-alert-1.tsx` | `apps/ui/registry/default/particles/p-alert-1.svelte`<br>`apps/ui/registry/registry-particles.ts` | `alert` | missing |
 | `p-alert-2` | `reference/apps/ui/registry/default/particles/p-alert-2.tsx` | `apps/ui/registry/default/particles/p-alert-2.svelte`<br>`apps/ui/registry/registry-particles.ts` | `alert` | missing |
 | `p-alert-3` | `reference/apps/ui/registry/default/particles/p-alert-3.tsx` | `apps/ui/registry/default/particles/p-alert-3.svelte`<br>`apps/ui/registry/registry-particles.ts` | `alert`, `button` | missing |
@@ -273,17 +273,17 @@ Generated from the pinned local reference. The status baseline names every plann
 | `p-calendar-7` | `reference/apps/ui/registry/default/particles/p-calendar-7.tsx` | `apps/ui/registry/default/particles/p-calendar-7.svelte`<br>`apps/ui/registry/registry-particles.ts` | `calendar` | missing |
 | `p-calendar-8` | `reference/apps/ui/registry/default/particles/p-calendar-8.tsx` | `apps/ui/registry/default/particles/p-calendar-8.svelte`<br>`apps/ui/registry/registry-particles.ts` | `calendar` | missing |
 | `p-calendar-9` | `reference/apps/ui/registry/default/particles/p-calendar-9.tsx` | `apps/ui/registry/default/particles/p-calendar-9.svelte`<br>`apps/ui/registry/registry-particles.ts` | `calendar` | missing |
-| `p-card-1` | `reference/apps/ui/registry/default/particles/p-card-1.tsx` | `apps/ui/registry/default/particles/p-card-1.svelte`<br>`apps/ui/registry/registry-particles.ts` | `button`, `card`, `field`, `form`, `input`, `select` | missing |
-| `p-card-10` | `reference/apps/ui/registry/default/particles/p-card-10.tsx` | `apps/ui/registry/default/particles/p-card-10.svelte`<br>`apps/ui/registry/registry-particles.ts` | `button`, `card`, `field`, `form`, `frame`, `input`, `select` | missing |
-| `p-card-11` | `reference/apps/ui/registry/default/particles/p-card-11.tsx` | `apps/ui/registry/default/particles/p-card-11.svelte`<br>`apps/ui/registry/registry-particles.ts` | `button`, `card`, `empty` | missing |
-| `p-card-2` | `reference/apps/ui/registry/default/particles/p-card-2.tsx` | `apps/ui/registry/default/particles/p-card-2.svelte`<br>`apps/ui/registry/registry-particles.ts` | `button`, `card`, `field`, `form`, `input` | missing |
-| `p-card-3` | `reference/apps/ui/registry/default/particles/p-card-3.tsx` | `apps/ui/registry/default/particles/p-card-3.svelte`<br>`apps/ui/registry/registry-particles.ts` | `button`, `card`, `field`, `form`, `input` | missing |
-| `p-card-4` | `reference/apps/ui/registry/default/particles/p-card-4.tsx` | `apps/ui/registry/default/particles/p-card-4.svelte`<br>`apps/ui/registry/registry-particles.ts` | `button`, `card`, `field`, `form`, `input`, `select` | missing |
-| `p-card-5` | `reference/apps/ui/registry/default/particles/p-card-5.tsx` | `apps/ui/registry/default/particles/p-card-5.svelte`<br>`apps/ui/registry/registry-particles.ts` | `button`, `card`, `field`, `form`, `input`, `select` | missing |
-| `p-card-6` | `reference/apps/ui/registry/default/particles/p-card-6.tsx` | `apps/ui/registry/default/particles/p-card-6.svelte`<br>`apps/ui/registry/registry-particles.ts` | `button`, `card`, `field`, `form`, `input`, `select` | missing |
-| `p-card-7` | `reference/apps/ui/registry/default/particles/p-card-7.tsx` | `apps/ui/registry/default/particles/p-card-7.svelte`<br>`apps/ui/registry/registry-particles.ts` | `button`, `card`, `field`, `form`, `input`, `select` | missing |
-| `p-card-8` | `reference/apps/ui/registry/default/particles/p-card-8.tsx` | `apps/ui/registry/default/particles/p-card-8.svelte`<br>`apps/ui/registry/registry-particles.ts` | `button`, `card`, `field`, `form`, `frame`, `input`, `select` | missing |
-| `p-card-9` | `reference/apps/ui/registry/default/particles/p-card-9.tsx` | `apps/ui/registry/default/particles/p-card-9.svelte`<br>`apps/ui/registry/registry-particles.ts` | `button`, `card`, `field`, `form`, `frame`, `input`, `select` | missing |
+| `p-card-1` | `reference/apps/ui/registry/default/particles/p-card-1.tsx` | `apps/ui/registry/default/particles/p-card-1.svelte`<br>`apps/ui/registry/registry-particles.ts` | `button`, `card`, `field`, `form`, `input`, `select` | approved |
+| `p-card-10` | `reference/apps/ui/registry/default/particles/p-card-10.tsx` | `apps/ui/registry/default/particles/p-card-10.svelte`<br>`apps/ui/registry/registry-particles.ts` | `button`, `card`, `field`, `form`, `frame`, `input`, `select` | approved |
+| `p-card-11` | `reference/apps/ui/registry/default/particles/p-card-11.tsx` | `apps/ui/registry/default/particles/p-card-11.svelte`<br>`apps/ui/registry/registry-particles.ts` | `button`, `card`, `empty` | approved |
+| `p-card-2` | `reference/apps/ui/registry/default/particles/p-card-2.tsx` | `apps/ui/registry/default/particles/p-card-2.svelte`<br>`apps/ui/registry/registry-particles.ts` | `button`, `card`, `field`, `form`, `input` | approved |
+| `p-card-3` | `reference/apps/ui/registry/default/particles/p-card-3.tsx` | `apps/ui/registry/default/particles/p-card-3.svelte`<br>`apps/ui/registry/registry-particles.ts` | `button`, `card`, `field`, `form`, `input` | approved |
+| `p-card-4` | `reference/apps/ui/registry/default/particles/p-card-4.tsx` | `apps/ui/registry/default/particles/p-card-4.svelte`<br>`apps/ui/registry/registry-particles.ts` | `button`, `card`, `field`, `form`, `input`, `select` | approved |
+| `p-card-5` | `reference/apps/ui/registry/default/particles/p-card-5.tsx` | `apps/ui/registry/default/particles/p-card-5.svelte`<br>`apps/ui/registry/registry-particles.ts` | `button`, `card`, `field`, `form`, `input`, `select` | approved |
+| `p-card-6` | `reference/apps/ui/registry/default/particles/p-card-6.tsx` | `apps/ui/registry/default/particles/p-card-6.svelte`<br>`apps/ui/registry/registry-particles.ts` | `button`, `card`, `field`, `form`, `input`, `select` | approved |
+| `p-card-7` | `reference/apps/ui/registry/default/particles/p-card-7.tsx` | `apps/ui/registry/default/particles/p-card-7.svelte`<br>`apps/ui/registry/registry-particles.ts` | `button`, `card`, `field`, `form`, `input`, `select` | approved |
+| `p-card-8` | `reference/apps/ui/registry/default/particles/p-card-8.tsx` | `apps/ui/registry/default/particles/p-card-8.svelte`<br>`apps/ui/registry/registry-particles.ts` | `button`, `card`, `field`, `form`, `frame`, `input`, `select` | approved |
+| `p-card-9` | `reference/apps/ui/registry/default/particles/p-card-9.tsx` | `apps/ui/registry/default/particles/p-card-9.svelte`<br>`apps/ui/registry/registry-particles.ts` | `button`, `card`, `field`, `form`, `frame`, `input`, `select` | approved |
 | `p-checkbox-1` | `reference/apps/ui/registry/default/particles/p-checkbox-1.tsx` | `apps/ui/registry/default/particles/p-checkbox-1.svelte`<br>`apps/ui/registry/registry-particles.ts` | `checkbox`, `label` | missing |
 | `p-checkbox-2` | `reference/apps/ui/registry/default/particles/p-checkbox-2.tsx` | `apps/ui/registry/default/particles/p-checkbox-2.svelte`<br>`apps/ui/registry/registry-particles.ts` | `checkbox`, `label` | missing |
 | `p-checkbox-3` | `reference/apps/ui/registry/default/particles/p-checkbox-3.tsx` | `apps/ui/registry/default/particles/p-checkbox-3.svelte`<br>`apps/ui/registry/registry-particles.ts` | `checkbox`, `label` | missing |
@@ -294,7 +294,7 @@ Generated from the pinned local reference. The status baseline names every plann
 | `p-checkbox-group-3` | `reference/apps/ui/registry/default/particles/p-checkbox-group-3.tsx` | `apps/ui/registry/default/particles/p-checkbox-group-3.svelte`<br>`apps/ui/registry/registry-particles.ts` | `checkbox`, `checkbox-group`, `label` | missing |
 | `p-checkbox-group-4` | `reference/apps/ui/registry/default/particles/p-checkbox-group-4.tsx` | `apps/ui/registry/default/particles/p-checkbox-group-4.svelte`<br>`apps/ui/registry/registry-particles.ts` | `checkbox`, `checkbox-group`, `label` | missing |
 | `p-checkbox-group-5` | `reference/apps/ui/registry/default/particles/p-checkbox-group-5.tsx` | `apps/ui/registry/default/particles/p-checkbox-group-5.svelte`<br>`apps/ui/registry/registry-particles.ts` | `button`, `checkbox`, `checkbox-group`, `field`, `fieldset`, `form` | missing |
-| `p-collapsible-1` | `reference/apps/ui/registry/default/particles/p-collapsible-1.tsx` | `apps/ui/registry/default/particles/p-collapsible-1.svelte`<br>`apps/ui/registry/registry-particles.ts` | `collapsible` | missing |
+| `p-collapsible-1` | `reference/apps/ui/registry/default/particles/p-collapsible-1.tsx` | `apps/ui/registry/default/particles/p-collapsible-1.svelte`<br>`apps/ui/registry/registry-particles.ts` | `collapsible` | approved |
 | `p-combobox-1` | `reference/apps/ui/registry/default/particles/p-combobox-1.tsx` | `apps/ui/registry/default/particles/p-combobox-1.svelte`<br>`apps/ui/registry/registry-particles.ts` | `combobox` | missing |
 | `p-combobox-10` | `reference/apps/ui/registry/default/particles/p-combobox-10.tsx` | `apps/ui/registry/default/particles/p-combobox-10.svelte`<br>`apps/ui/registry/registry-particles.ts` | `button`, `combobox` | missing |
 | `p-combobox-11` | `reference/apps/ui/registry/default/particles/p-combobox-11.tsx` | `apps/ui/registry/default/particles/p-combobox-11.svelte`<br>`apps/ui/registry/registry-particles.ts` | `button`, `combobox`, `field`, `form` | missing |
@@ -354,7 +354,7 @@ Generated from the pinned local reference. The status baseline names every plann
 | `p-drawer-7` | `reference/apps/ui/registry/default/particles/p-drawer-7.tsx` | `apps/ui/registry/default/particles/p-drawer-7.svelte`<br>`apps/ui/registry/registry-particles.ts` | `button`, `drawer` | missing |
 | `p-drawer-8` | `reference/apps/ui/registry/default/particles/p-drawer-8.tsx` | `apps/ui/registry/default/particles/p-drawer-8.svelte`<br>`apps/ui/registry/registry-particles.ts` | `button`, `drawer`, `field`, `input` | missing |
 | `p-drawer-9` | `reference/apps/ui/registry/default/particles/p-drawer-9.tsx` | `apps/ui/registry/default/particles/p-drawer-9.svelte`<br>`apps/ui/registry/registry-particles.ts` | `button`, `drawer` | missing |
-| `p-empty-1` | `reference/apps/ui/registry/default/particles/p-empty-1.tsx` | `apps/ui/registry/default/particles/p-empty-1.svelte`<br>`apps/ui/registry/registry-particles.ts` | `button`, `empty` | missing |
+| `p-empty-1` | `reference/apps/ui/registry/default/particles/p-empty-1.tsx` | `apps/ui/registry/default/particles/p-empty-1.svelte`<br>`apps/ui/registry/registry-particles.ts` | `button`, `empty` | approved |
 | `p-field-1` | `reference/apps/ui/registry/default/particles/p-field-1.tsx` | `apps/ui/registry/default/particles/p-field-1.svelte`<br>`apps/ui/registry/registry-particles.ts` | `field`, `input` | missing |
 | `p-field-10` | `reference/apps/ui/registry/default/particles/p-field-10.tsx` | `apps/ui/registry/default/particles/p-field-10.svelte`<br>`apps/ui/registry/registry-particles.ts` | `field`, `textarea` | missing |
 | `p-field-11` | `reference/apps/ui/registry/default/particles/p-field-11.tsx` | `apps/ui/registry/default/particles/p-field-11.svelte`<br>`apps/ui/registry/registry-particles.ts` | `field`, `select` | missing |
@@ -376,10 +376,10 @@ Generated from the pinned local reference. The status baseline names every plann
 | `p-fieldset-1` | `reference/apps/ui/registry/default/particles/p-fieldset-1.tsx` | `apps/ui/registry/default/particles/p-fieldset-1.svelte`<br>`apps/ui/registry/registry-particles.ts` | `field`, `fieldset`, `input` | missing |
 | `p-form-1` | `reference/apps/ui/registry/default/particles/p-form-1.tsx` | `apps/ui/registry/default/particles/p-form-1.svelte`<br>`apps/ui/registry/registry-particles.ts` | `button`, `field`, `form`, `input` | missing |
 | `p-form-2` | `reference/apps/ui/registry/default/particles/p-form-2.tsx` | `apps/ui/registry/default/particles/p-form-2.svelte`<br>`apps/ui/registry/registry-particles.ts` | `button`, `field`, `form`, `input` | missing |
-| `p-frame-1` | `reference/apps/ui/registry/default/particles/p-frame-1.tsx` | `apps/ui/registry/default/particles/p-frame-1.svelte`<br>`apps/ui/registry/registry-particles.ts` | `frame` | missing |
-| `p-frame-2` | `reference/apps/ui/registry/default/particles/p-frame-2.tsx` | `apps/ui/registry/default/particles/p-frame-2.svelte`<br>`apps/ui/registry/registry-particles.ts` | `button`, `collapsible`, `frame` | missing |
-| `p-frame-3` | `reference/apps/ui/registry/default/particles/p-frame-3.tsx` | `apps/ui/registry/default/particles/p-frame-3.svelte`<br>`apps/ui/registry/registry-particles.ts` | `frame` | missing |
-| `p-frame-4` | `reference/apps/ui/registry/default/particles/p-frame-4.tsx` | `apps/ui/registry/default/particles/p-frame-4.svelte`<br>`apps/ui/registry/registry-particles.ts` | `frame`, `separator` | missing |
+| `p-frame-1` | `reference/apps/ui/registry/default/particles/p-frame-1.tsx` | `apps/ui/registry/default/particles/p-frame-1.svelte`<br>`apps/ui/registry/registry-particles.ts` | `frame` | approved |
+| `p-frame-2` | `reference/apps/ui/registry/default/particles/p-frame-2.tsx` | `apps/ui/registry/default/particles/p-frame-2.svelte`<br>`apps/ui/registry/registry-particles.ts` | `button`, `collapsible`, `frame` | approved |
+| `p-frame-3` | `reference/apps/ui/registry/default/particles/p-frame-3.tsx` | `apps/ui/registry/default/particles/p-frame-3.svelte`<br>`apps/ui/registry/registry-particles.ts` | `frame` | approved |
+| `p-frame-4` | `reference/apps/ui/registry/default/particles/p-frame-4.tsx` | `apps/ui/registry/default/particles/p-frame-4.svelte`<br>`apps/ui/registry/registry-particles.ts` | `frame`, `separator` | approved |
 | `p-group-1` | `reference/apps/ui/registry/default/particles/p-group-1.tsx` | `apps/ui/registry/default/particles/p-group-1.svelte`<br>`apps/ui/registry/registry-particles.ts` | `button`, `group`, `menu` | missing |
 | `p-group-10` | `reference/apps/ui/registry/default/particles/p-group-10.tsx` | `apps/ui/registry/default/particles/p-group-10.svelte`<br>`apps/ui/registry/registry-particles.ts` | `button`, `group` | missing |
 | `p-group-11` | `reference/apps/ui/registry/default/particles/p-group-11.tsx` | `apps/ui/registry/default/particles/p-group-11.svelte`<br>`apps/ui/registry/registry-particles.ts` | `badge`, `button`, `group`, `popover` | missing |
@@ -534,12 +534,12 @@ Generated from the pinned local reference. The status baseline names every plann
 | `p-select-7` | `reference/apps/ui/registry/default/particles/p-select-7.tsx` | `apps/ui/registry/default/particles/p-select-7.svelte`<br>`apps/ui/registry/registry-particles.ts` | `select` | missing |
 | `p-select-8` | `reference/apps/ui/registry/default/particles/p-select-8.tsx` | `apps/ui/registry/default/particles/p-select-8.svelte`<br>`apps/ui/registry/registry-particles.ts` | `select` | missing |
 | `p-select-9` | `reference/apps/ui/registry/default/particles/p-select-9.tsx` | `apps/ui/registry/default/particles/p-select-9.svelte`<br>`apps/ui/registry/registry-particles.ts` | `select` | missing |
-| `p-separator-1` | `reference/apps/ui/registry/default/particles/p-separator-1.tsx` | `apps/ui/registry/default/particles/p-separator-1.svelte`<br>`apps/ui/registry/registry-particles.ts` | `separator` | missing |
+| `p-separator-1` | `reference/apps/ui/registry/default/particles/p-separator-1.tsx` | `apps/ui/registry/default/particles/p-separator-1.svelte`<br>`apps/ui/registry/registry-particles.ts` | `separator` | approved |
 | `p-sheet-1` | `reference/apps/ui/registry/default/particles/p-sheet-1.tsx` | `apps/ui/registry/default/particles/p-sheet-1.svelte`<br>`apps/ui/registry/registry-particles.ts` | `button`, `field`, `form`, `input`, `sheet` | missing |
 | `p-sheet-2` | `reference/apps/ui/registry/default/particles/p-sheet-2.tsx` | `apps/ui/registry/default/particles/p-sheet-2.svelte`<br>`apps/ui/registry/registry-particles.ts` | `button`, `field`, `form`, `input`, `sheet` | missing |
 | `p-sheet-3` | `reference/apps/ui/registry/default/particles/p-sheet-3.tsx` | `apps/ui/registry/default/particles/p-sheet-3.svelte`<br>`apps/ui/registry/registry-particles.ts` | `button`, `sheet` | missing |
-| `p-skeleton-1` | `reference/apps/ui/registry/default/particles/p-skeleton-1.tsx` | `apps/ui/registry/default/particles/p-skeleton-1.svelte`<br>`apps/ui/registry/registry-particles.ts` | `avatar`, `button`, `skeleton` | missing |
-| `p-skeleton-2` | `reference/apps/ui/registry/default/particles/p-skeleton-2.tsx` | `apps/ui/registry/default/particles/p-skeleton-2.svelte`<br>`apps/ui/registry/registry-particles.ts` | `skeleton` | missing |
+| `p-skeleton-1` | `reference/apps/ui/registry/default/particles/p-skeleton-1.tsx` | `apps/ui/registry/default/particles/p-skeleton-1.svelte`<br>`apps/ui/registry/registry-particles.ts` | `avatar`, `button`, `skeleton` | approved |
+| `p-skeleton-2` | `reference/apps/ui/registry/default/particles/p-skeleton-2.tsx` | `apps/ui/registry/default/particles/p-skeleton-2.svelte`<br>`apps/ui/registry/registry-particles.ts` | `skeleton` | approved |
 | `p-slider-1` | `reference/apps/ui/registry/default/particles/p-slider-1.tsx` | `apps/ui/registry/default/particles/p-slider-1.svelte`<br>`apps/ui/registry/registry-particles.ts` | `slider` | missing |
 | `p-slider-10` | `reference/apps/ui/registry/default/particles/p-slider-10.tsx` | `apps/ui/registry/default/particles/p-slider-10.svelte`<br>`apps/ui/registry/registry-particles.ts` | `slider` | missing |
 | `p-slider-11` | `reference/apps/ui/registry/default/particles/p-slider-11.tsx` | `apps/ui/registry/default/particles/p-slider-11.svelte`<br>`apps/ui/registry/registry-particles.ts` | `field`, `slider` | missing |
@@ -582,20 +582,20 @@ Generated from the pinned local reference. The status baseline names every plann
 | `p-table-7` | `reference/apps/ui/registry/default/particles/p-table-7.tsx` | `apps/ui/registry/default/particles/p-table-7.svelte`<br>`apps/ui/registry/registry-particles.ts` | `badge`, `card`, `table` | missing |
 | `p-table-8` | `reference/apps/ui/registry/default/particles/p-table-8.tsx` | `apps/ui/registry/default/particles/p-table-8.svelte`<br>`apps/ui/registry/registry-particles.ts` | `badge`, `button`, `card`, `checkbox`, `pagination`, `select`, `table` | missing |
 | `p-tabs-1` | `reference/apps/ui/registry/default/particles/p-tabs-1.tsx` | `apps/ui/registry/default/particles/p-tabs-1.svelte`<br>`apps/ui/registry/registry-particles.ts` | `tabs` | missing |
-| `p-tabs-10` | `reference/apps/ui/registry/default/particles/p-tabs-10.tsx` | `apps/ui/registry/default/particles/p-tabs-10.svelte`<br>`apps/ui/registry/registry-particles.ts` | `badge`, `tabs` | missing |
-| `p-tabs-11` | `reference/apps/ui/registry/default/particles/p-tabs-11.tsx` | `apps/ui/registry/default/particles/p-tabs-11.svelte`<br>`apps/ui/registry/registry-particles.ts` | `tabs` | missing |
-| `p-tabs-12` | `reference/apps/ui/registry/default/particles/p-tabs-12.tsx` | `apps/ui/registry/default/particles/p-tabs-12.svelte`<br>`apps/ui/registry/registry-particles.ts` | `badge`, `tabs` | missing |
-| `p-tabs-13` | `reference/apps/ui/registry/default/particles/p-tabs-13.tsx` | `apps/ui/registry/default/particles/p-tabs-13.svelte`<br>`apps/ui/registry/registry-particles.ts` | `tabs`, `tooltip` | missing |
-| `p-tabs-14` | `reference/apps/ui/registry/default/particles/p-tabs-14.tsx` | `apps/ui/registry/default/particles/p-tabs-14.svelte`<br>`apps/ui/registry/registry-particles.ts` | `tabs` | missing |
-| `p-tabs-15` | `reference/apps/ui/registry/default/particles/p-tabs-15.tsx` | `apps/ui/registry/default/particles/p-tabs-15.svelte`<br>`apps/ui/registry/registry-particles.ts` | `tabs` | missing |
-| `p-tabs-2` | `reference/apps/ui/registry/default/particles/p-tabs-2.tsx` | `apps/ui/registry/default/particles/p-tabs-2.svelte`<br>`apps/ui/registry/registry-particles.ts` | `tabs` | missing |
-| `p-tabs-3` | `reference/apps/ui/registry/default/particles/p-tabs-3.tsx` | `apps/ui/registry/default/particles/p-tabs-3.svelte`<br>`apps/ui/registry/registry-particles.ts` | `tabs` | missing |
-| `p-tabs-4` | `reference/apps/ui/registry/default/particles/p-tabs-4.tsx` | `apps/ui/registry/default/particles/p-tabs-4.svelte`<br>`apps/ui/registry/registry-particles.ts` | `tabs` | missing |
-| `p-tabs-5` | `reference/apps/ui/registry/default/particles/p-tabs-5.tsx` | `apps/ui/registry/default/particles/p-tabs-5.svelte`<br>`apps/ui/registry/registry-particles.ts` | `tabs` | missing |
-| `p-tabs-6` | `reference/apps/ui/registry/default/particles/p-tabs-6.tsx` | `apps/ui/registry/default/particles/p-tabs-6.svelte`<br>`apps/ui/registry/registry-particles.ts` | `tabs` | missing |
-| `p-tabs-7` | `reference/apps/ui/registry/default/particles/p-tabs-7.tsx` | `apps/ui/registry/default/particles/p-tabs-7.svelte`<br>`apps/ui/registry/registry-particles.ts` | `tabs` | missing |
-| `p-tabs-8` | `reference/apps/ui/registry/default/particles/p-tabs-8.tsx` | `apps/ui/registry/default/particles/p-tabs-8.svelte`<br>`apps/ui/registry/registry-particles.ts` | `tabs` | missing |
-| `p-tabs-9` | `reference/apps/ui/registry/default/particles/p-tabs-9.tsx` | `apps/ui/registry/default/particles/p-tabs-9.svelte`<br>`apps/ui/registry/registry-particles.ts` | `tabs` | missing |
+| `p-tabs-10` | `reference/apps/ui/registry/default/particles/p-tabs-10.tsx` | `apps/ui/registry/default/particles/p-tabs-10.svelte`<br>`apps/ui/registry/registry-particles.ts` | `badge`, `tabs` | approved |
+| `p-tabs-11` | `reference/apps/ui/registry/default/particles/p-tabs-11.tsx` | `apps/ui/registry/default/particles/p-tabs-11.svelte`<br>`apps/ui/registry/registry-particles.ts` | `tabs` | approved |
+| `p-tabs-12` | `reference/apps/ui/registry/default/particles/p-tabs-12.tsx` | `apps/ui/registry/default/particles/p-tabs-12.svelte`<br>`apps/ui/registry/registry-particles.ts` | `badge`, `tabs` | approved |
+| `p-tabs-13` | `reference/apps/ui/registry/default/particles/p-tabs-13.tsx` | `apps/ui/registry/default/particles/p-tabs-13.svelte`<br>`apps/ui/registry/registry-particles.ts` | `tabs`, `tooltip` | approved |
+| `p-tabs-14` | `reference/apps/ui/registry/default/particles/p-tabs-14.tsx` | `apps/ui/registry/default/particles/p-tabs-14.svelte`<br>`apps/ui/registry/registry-particles.ts` | `tabs` | approved |
+| `p-tabs-15` | `reference/apps/ui/registry/default/particles/p-tabs-15.tsx` | `apps/ui/registry/default/particles/p-tabs-15.svelte`<br>`apps/ui/registry/registry-particles.ts` | `tabs` | approved |
+| `p-tabs-2` | `reference/apps/ui/registry/default/particles/p-tabs-2.tsx` | `apps/ui/registry/default/particles/p-tabs-2.svelte`<br>`apps/ui/registry/registry-particles.ts` | `tabs` | approved |
+| `p-tabs-3` | `reference/apps/ui/registry/default/particles/p-tabs-3.tsx` | `apps/ui/registry/default/particles/p-tabs-3.svelte`<br>`apps/ui/registry/registry-particles.ts` | `tabs` | approved |
+| `p-tabs-4` | `reference/apps/ui/registry/default/particles/p-tabs-4.tsx` | `apps/ui/registry/default/particles/p-tabs-4.svelte`<br>`apps/ui/registry/registry-particles.ts` | `tabs` | approved |
+| `p-tabs-5` | `reference/apps/ui/registry/default/particles/p-tabs-5.tsx` | `apps/ui/registry/default/particles/p-tabs-5.svelte`<br>`apps/ui/registry/registry-particles.ts` | `tabs` | approved |
+| `p-tabs-6` | `reference/apps/ui/registry/default/particles/p-tabs-6.tsx` | `apps/ui/registry/default/particles/p-tabs-6.svelte`<br>`apps/ui/registry/registry-particles.ts` | `tabs` | approved |
+| `p-tabs-7` | `reference/apps/ui/registry/default/particles/p-tabs-7.tsx` | `apps/ui/registry/default/particles/p-tabs-7.svelte`<br>`apps/ui/registry/registry-particles.ts` | `tabs` | approved |
+| `p-tabs-8` | `reference/apps/ui/registry/default/particles/p-tabs-8.tsx` | `apps/ui/registry/default/particles/p-tabs-8.svelte`<br>`apps/ui/registry/registry-particles.ts` | `tabs` | approved |
+| `p-tabs-9` | `reference/apps/ui/registry/default/particles/p-tabs-9.tsx` | `apps/ui/registry/default/particles/p-tabs-9.svelte`<br>`apps/ui/registry/registry-particles.ts` | `tabs` | approved |
 | `p-textarea-1` | `reference/apps/ui/registry/default/particles/p-textarea-1.tsx` | `apps/ui/registry/default/particles/p-textarea-1.svelte`<br>`apps/ui/registry/registry-particles.ts` | `textarea` | missing |
 | `p-textarea-10` | `reference/apps/ui/registry/default/particles/p-textarea-10.tsx` | `apps/ui/registry/default/particles/p-textarea-10.svelte`<br>`apps/ui/registry/registry-particles.ts` | `textarea` | missing |
 | `p-textarea-11` | `reference/apps/ui/registry/default/particles/p-textarea-11.tsx` | `apps/ui/registry/default/particles/p-textarea-11.svelte`<br>`apps/ui/registry/registry-particles.ts` | `field`, `textarea` | missing |

@@ -93,6 +93,7 @@ const logicalTrustRoot = resolve(appRoot, "../..");
 const defaultSourceRoots = [
   resolve(appRoot, "../../packages/ui/src"),
   resolve(appRoot, "registry/default/particles"),
+  resolve(appRoot, "src/lib/registry"),
 ];
 const defaultInstallRoots = ["src/lib/components", "src/lib/hooks", "src/lib"];
 const forbiddenPackages = new Set(["react", "react-dom", "react-is"]);

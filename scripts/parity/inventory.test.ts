@@ -47,7 +47,7 @@ const promotedTargetFixtures: Array<{
     id: "components/accordion",
     kind: "doc",
     status: "approved",
-    targetPath: "apps/ui/content/docs/components/accordion.md",
+    targetPath: "apps/ui/content/docs/components/accordion.svx",
   },
 ];
 
@@ -279,7 +279,7 @@ test("allows absent foundation manifests but requires membership before promotio
         id: "components/accordion",
         kind: "doc",
         sourcePaths: [],
-        targetPaths: ["apps/ui/content/docs/components/accordion.md"],
+        targetPaths: ["apps/ui/content/docs/components/accordion.svx"],
         status: "missing",
       },
     ] as typeof inventory.entries;
