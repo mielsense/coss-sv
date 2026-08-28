@@ -41,3 +41,7 @@ positioning, and dismissal. The wrappers do not add tab stops or roles.
 and the D9 seam. `tests/e2e/d4-disclosure-docs.spec.ts` checks every owned particle route, plus Tabs
 roving focus, activation, tooltip focus and hover, accessible names, wrapper geometry, list gaps,
 growth, themes, and responsive layout.
+
+## D9 primary particle
+
+D9 re-read `p-tabs-1.tsx`, the complete permitted Tabs component and page, every Tabs particle consumer, and the complete local Shards Tabs source, tests, fixtures, examples, documentation, and types. `p-tabs-1.svelte` supplies the missing default Tabs preview with the exact three triggers, panels, default value, and visible copy. This unblocks the D4 Tabs page without changing its coordinator-owned particles or aggregates. The focused D9 test server-renders the particle and rejects React, Lucide, copied SVG, and legacy Svelte syntax.

@@ -53,3 +53,7 @@ The React-only `render` element prop is translated to a typed Svelte `delegate` 
 ## Hugeicons authority update
 
 Previous, next, and ellipsis now use `ChevronLeftIcon`, `ChevronRightIcon`, and `MoreHorizontalIcon` through `HugeiconsIcon`. Accessible copy stays on the owning link or screen-reader span; every glyph is decorative. Responsive label hiding, negative icon margins, ellipsis sizes, delegated Button behavior, and ref forwarding are unchanged.
+
+## D9 documentation and particle pass
+
+The D9 lane re-read the complete permitted page, all three dedicated particles, both flight-table consumers, and the local Button and Select behavior before porting the examples. The page keeps the one upstream preview and exact component-part guidance. The particles preserve numbered anchors, `aria-current="page"`, responsive labels, boundary states, result ranges, and page mutation with native Svelte callbacks. Focused source, SSR, and MDsveX tests cover the lane. Manual in-app comparison remains pending because the Browser control was unavailable; Chrome was not used.

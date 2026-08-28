@@ -16,13 +16,13 @@ All source used for the port is inside the MIT-designated `reference/apps/ui/**`
 
 `ScrollArea` wraps one root, viewport, content container, two scrollbar tracks, two thumbs, and a corner. The vertical track comes before the horizontal track. COSS exposes five options.
 
-| Option | Default | Effect |
-| --- | --- | --- |
-| `scrollFade` | `false` | Adds four masks driven by the Shards overflow distance variables and sets `--fade-size: 1.5rem`. |
-| `scrollbarGutter` | `false` | Adds `pe-2.5` for vertical overflow and `pb-2.5` for horizontal overflow. |
-| `fill` | `false` | Adds `size-full` to the content part. |
-| `clampContentMinWidth` | `true` | Overrides Shards `min-width: fit-content` with `min-width: 0`. |
-| `overscrollContain` | `false` | Applies axis-specific overscroll containment only when that axis overflows. |
+| Option                 | Default | Effect                                                                                           |
+| ---------------------- | ------- | ------------------------------------------------------------------------------------------------ |
+| `scrollFade`           | `false` | Adds four masks driven by the Shards overflow distance variables and sets `--fade-size: 1.5rem`. |
+| `scrollbarGutter`      | `false` | Adds `pe-2.5` for vertical overflow and `pb-2.5` for horizontal overflow.                        |
+| `fill`                 | `false` | Adds `size-full` to the content part.                                                            |
+| `clampContentMinWidth` | `true`  | Overrides Shards `min-width: fit-content` with `min-width: 0`.                                   |
+| `overscrollContain`    | `false` | Applies axis-specific overscroll containment only when that axis overflows.                      |
 
 The root classes are `size-full min-h-0`. The viewport uses `h-full rounded-[inherit] outline-none transition-shadows` plus the COSS focus ring. Each track uses `m-1`, a 300 ms delayed opacity transition, a 6 px cross-axis size, and the Shards `data-hovering` and `data-scrolling` states. The thumb is `relative flex-1 rounded-full bg-foreground/20`.
 
@@ -62,3 +62,7 @@ The deterministic component parity fixture reproduces all five dedicated example
 ## Deviations
 
 None in component behavior or styling.
+
+## D9 documentation and particle pass
+
+The D9 lane re-read the complete COSS page and five particle sources plus the complete matching Shards implementation, documentation, examples, fixtures, tests, and types. The page preserves the upstream preview order `1, 4, 2, 5, 3`; the particles retain the Alice copy, horizontal and two-axis sizing, fade, gutter, and overscroll options. Focused source, SSR, and MDsveX tests cover all five. The in-app Browser was unavailable in this subagent session, so Chrome was not used and manual visual comparison remains pending.

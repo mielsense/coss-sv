@@ -18,15 +18,15 @@ The default variant uses collapsed row borders. The `card` variant switches to s
 
 The remaining parts map directly to native elements.
 
-| Part | Element | Key contract |
-| --- | --- | --- |
-| `TableHeader` | `thead` | Adds a bottom border to its rows. |
-| `TableBody` | `tbody` | Owns card borders, corners, cell surfaces, hover and selected colors, and the last-row border rule. |
-| `TableFooter` | `tfoot` | Uses the variant-aware background and footer row border rule. |
-| `TableRow` | `tr` | Publishes hover and selected-state colors. |
-| `TableHead` | `th` | Uses 40 px height, nowrap text, muted foreground, and checkbox-aware widths. |
-| `TableCell` | `td` | Uses 10 px padding, footer padding, card edge corrections, and checkbox-aware widths. |
-| `TableCaption` | `caption` | Stays inside the table and moves farther away in the card variant. |
+| Part           | Element   | Key contract                                                                                        |
+| -------------- | --------- | --------------------------------------------------------------------------------------------------- |
+| `TableHeader`  | `thead`   | Adds a bottom border to its rows.                                                                   |
+| `TableBody`    | `tbody`   | Owns card borders, corners, cell surfaces, hover and selected colors, and the last-row border rule. |
+| `TableFooter`  | `tfoot`   | Uses the variant-aware background and footer row border rule.                                       |
+| `TableRow`     | `tr`      | Publishes hover and selected-state colors.                                                          |
+| `TableHead`    | `th`      | Uses 40 px height, nowrap text, muted foreground, and checkbox-aware widths.                        |
+| `TableCell`    | `td`      | Uses 10 px padding, footer padding, card edge corrections, and checkbox-aware widths.               |
+| `TableCaption` | `caption` | Stays inside the table and moves farther away in the card variant.                                  |
 
 `p-table-1`, `p-table-2`, `p-table-5`, and `p-table-7` are static project tables in the default, Frame, bare card, and CardFrame layouts. `p-table-3` and `p-table-6` add TanStack row selection. `p-table-4` and `p-table-8` add sorting, paging, Select, and Pagination around a fixed flight table.
 
@@ -57,3 +57,9 @@ The deterministic component parity fixture reproduces all four static examples w
 ## Deviations
 
 React's container `render` prop is replaced by typed native container props. Component state and styling have no deviation.
+
+## D9 TanStack and documentation pass
+
+The D9 lane re-read the complete permitted page and all eight particle sources. The four stateful examples use the official Svelte 5 adapter from `@tanstack/svelte-table@9.2.3`, with explicit row-selection, sizing, sorting, and pagination features rather than React or v8 compatibility APIs. The flight examples preserve the 30 upstream records, column widths, fixed table layout, status treatments, sortable time header, page ranges, and Frame/CardFrame surfaces. Lucide glyphs are replaced only by the corresponding Hugeicons arrows and takeoff icon.
+
+Each of `p-table-3`, `p-table-4`, `p-table-6`, and `p-table-8` needs an item-level `@tanstack/svelte-table` registry dependency when the coordinator generates registry items. The package is centrally approved and licensed; it must not become an undeclared transitive assumption. Focused tests source-audit and server-render all eight particles and compile the page. The in-app Browser was unavailable in this subagent session; Chrome was not used, and manual visual and keyboard comparison remains pending.

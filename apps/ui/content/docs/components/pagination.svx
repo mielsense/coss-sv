@@ -1,0 +1,62 @@
+---
+title: Pagination
+description: A pagination with page navigation, next and previous links.
+---
+
+<ComponentPreview name="p-pagination-1" />
+
+## Installation
+
+<InstallCommand
+  pnpm="pnpm add @coss-sv/ui"
+  shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/pagination.json"
+/>
+
+## Usage
+
+```svelte
+<script lang="ts">
+  import { Pagination } from "@coss-sv/ui";
+</script>
+
+<Pagination.Root>
+  <Pagination.Content>
+    <Pagination.Item><Pagination.Previous href="#previous" /></Pagination.Item>
+    <Pagination.Item><Pagination.Link href="#page-1">1</Pagination.Link></Pagination.Item>
+    <Pagination.Item><Pagination.Ellipsis /></Pagination.Item>
+    <Pagination.Item><Pagination.Next href="#next" /></Pagination.Item>
+  </Pagination.Content>
+</Pagination.Root>
+```
+
+## API Reference
+
+This is a custom Svelte component, not a Shards wrapper.
+
+### Pagination.Root
+
+Root navigation container with `aria-label="pagination"`.
+
+### Pagination.Content
+
+Unordered list container for pagination items.
+
+### Pagination.Item
+
+Individual list item container.
+
+### Pagination.Link
+
+Link for page numbers. `isActive` adds `aria-current="page"` and the active visual treatment.
+
+### Pagination.Previous
+
+Link to the previous page. Includes a Hugeicons left chevron and “Previous” text.
+
+### Pagination.Next
+
+Link to the next page. Includes “Next” text and a Hugeicons right chevron.
+
+### Pagination.Ellipsis
+
+Ellipsis indicator for skipped pages with screen reader text “More pages”.

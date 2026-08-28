@@ -1,0 +1,70 @@
+---
+title: Breadcrumb
+description: Displays the path to the current resource using a hierarchy of links.
+---
+
+<ComponentPreview name="p-breadcrumb-1" />
+
+## Installation
+
+<InstallCommand
+  pnpm="pnpm add @coss-sv/ui"
+  shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/breadcrumb.json"
+/>
+
+## Usage
+
+```svelte
+<script lang="ts">
+  import { Breadcrumb } from "@coss-sv/ui";
+</script>
+
+<Breadcrumb>
+  <BreadcrumbList>
+    <BreadcrumbItem><BreadcrumbLink href="/">Home</BreadcrumbLink></BreadcrumbItem>
+    <BreadcrumbSeparator />
+    <BreadcrumbItem><BreadcrumbEllipsis /></BreadcrumbItem>
+    <BreadcrumbItem><BreadcrumbLink href="/docs">Components</BreadcrumbLink></BreadcrumbItem>
+    <BreadcrumbSeparator />
+    <BreadcrumbItem><BreadcrumbPage>Breadcrumb</BreadcrumbPage></BreadcrumbItem>
+  </BreadcrumbList>
+</Breadcrumb>
+```
+
+## API Reference
+
+This is a custom Svelte component, not a Shards wrapper.
+
+### Breadcrumb
+
+Root navigation container with `aria-label="breadcrumb"`.
+
+### BreadcrumbList
+
+Ordered list container for breadcrumb items.
+
+### BreadcrumbItem
+
+Individual breadcrumb item container.
+
+### BreadcrumbLink
+
+Link element for navigable breadcrumb items. Use `as` when another native element is required.
+
+### BreadcrumbPage
+
+Non-interactive element representing the current page. Includes `aria-current="page"`.
+
+### BreadcrumbSeparator
+
+Separator between breadcrumb items. Defaults to a Hugeicons chevron and accepts custom children.
+
+### BreadcrumbEllipsis
+
+Ellipsis indicator for collapsed breadcrumb items.
+
+## Examples
+
+### With custom separator
+
+<ComponentPreview name="p-breadcrumb-2" />

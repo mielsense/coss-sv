@@ -45,3 +45,7 @@ Accepted translations: React `render` on `BreadcrumbLink` becomes the typed Svel
 ## Hugeicons authority update
 
 The default separator and ellipsis now use `ChevronRightIcon` and `MoreHorizontalIcon` through `HugeiconsIcon`. Both remain decorative, keep the COSS size and opacity classes, and preserve the custom-separator snippet contract. Focused source and mounted-browser checks reject copied paths and legacy Lucide markers.
+
+## D9 documentation and particle pass
+
+The D9 lane re-read the complete permitted Breadcrumb component, MDX page, all seven particles, every permitted consumer, and the complete Shards Menu source, tests, fixtures, examples, documentation, and types before writing the registry examples. The Svelte page preserves the primary and custom-separator preview order. All seven particles use the package implementation and Hugeicons; the menu example keeps real Shards focus and keyboard behavior. Focused D9 source, SSR, and MDsveX tests cover the complete inventory. The Codex in-app Browser control was not exposed in this subagent session, so no Chrome substitute was used and manual visual comparison remains required during integration review.

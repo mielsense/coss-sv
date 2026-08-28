@@ -1,0 +1,79 @@
+---
+title: Scroll Area
+description: A native scroll container with custom scrollbars.
+
+links:
+  doc: https://shardsui.com/svelte/scroll-area
+---
+
+<ComponentPreview name="p-scroll-area-1" />
+
+## Installation
+
+<InstallCommand
+  pnpm="pnpm add @coss-sv/ui"
+  shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/scroll-area.json"
+/>
+
+## Usage
+
+```svelte
+<script lang="ts">
+  import { ScrollArea } from "@coss-sv/ui";
+</script>
+
+<ScrollArea class="h-64 rounded-md border">
+  <div class="p-4">Long content...</div>
+</ScrollArea>
+```
+
+## API Reference
+
+### ScrollArea
+
+Styled composition of the Shards Scroll Area parts with COSS scrollbar styling.
+
+| Prop                   | Type      | Default | Description                                                  |
+| ---------------------- | --------- | ------- | ------------------------------------------------------------ |
+| `scrollFade`           | `boolean` | `false` | Masks overflowing viewport edges.                            |
+| `scrollbarGutter`      | `boolean` | `false` | Reserves space for visible scrollbars.                       |
+| `fill`                 | `boolean` | `false` | Makes the content wrapper fill the viewport.                 |
+| `clampContentMinWidth` | `boolean` | `true`  | Prevents unintended horizontal overflow in vertical layouts. |
+| `overscrollContain`    | `boolean` | `false` | Stops scroll chaining into parent scrollers.                 |
+
+See the [Shards Scroll Area API](https://shardsui.com/svelte/scroll-area) for primitive part props.
+
+## Examples
+
+### Scroll Fade
+
+<ComponentPreview name="p-scroll-area-4" />
+
+### Horizontal Scroll
+
+<ComponentPreview name="p-scroll-area-2" />
+
+### Scrollbar Gutter
+
+<ComponentPreview name="p-scroll-area-5" />
+
+### Both Scrollbars
+
+<ComponentPreview name="p-scroll-area-3" />
+
+### Fill viewport (flex layouts)
+
+Use `fill` when the scroll area wraps a flex column that should stretch to the full viewport height.
+
+```svelte
+<ScrollArea class="min-h-0 flex-1" fill>
+  <div class="flex h-full flex-col">
+    <nav>Main items</nav>
+    <footer class="mt-auto">Pinned footer</footer>
+  </div>
+</ScrollArea>
+```
+
+### Overscroll contain
+
+Use `overscrollContain` to stop wheel and touch scrolling from chaining into a parent scroller.

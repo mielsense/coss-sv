@@ -1,0 +1,78 @@
+---
+title: Calendar
+description: A date picker component with range and multi-select support.
+---
+
+<ComponentPreview name="p-calendar-1" />
+
+## Installation
+
+<InstallCommand
+  pnpm="pnpm add @coss-sv/ui"
+  shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/calendar.json"
+/>
+
+## Usage
+
+```svelte
+<script lang="ts">
+  import { Calendar } from "@coss-sv/ui";
+</script>
+
+<Calendar />
+```
+
+## API Reference
+
+`Calendar` is the Svelte calendar implementation used by COSS for Svelte. It preserves the COSS
+calendar grid, styling, keyboard navigation, locale handling, and single, multiple, and range
+selection contracts.
+
+| Prop              | Type                                                             | Default    | Description                                  |
+| ----------------- | ---------------------------------------------------------------- | ---------- | -------------------------------------------- |
+| `mode`            | `"single" \| "multiple" \| "range"`                              | `"single"` | Selection mode for the calendar.             |
+| `captionLayout`   | `"label" \| "dropdown" \| "dropdown-months" \| "dropdown-years"` | `"label"`  | Caption presentation.                        |
+| `selected`        | `Date \| Date[] \| DateRange`                                    |            | Current selection. Supports `bind:selected`. |
+| `onSelect`        | `(selected, triggerDate, modifiers, event) => void`              |            | Runs after a date selection.                 |
+| `showOutsideDays` | `boolean`                                                        | `true`     | Shows dates from adjacent months.            |
+| `startMonth`      | `Date`                                                           |            | First navigable month.                       |
+| `endMonth`        | `Date`                                                           |            | Last navigable month.                        |
+| `classNames`      | `CalendarClassNames`                                             |            | Adds classes to calendar parts.              |
+| `components`      | `CalendarComponents`                                             |            | Svelte snippets that replace calendar parts. |
+
+### Customizing Cell Size
+
+The calendar uses CSS custom properties for cell sizing. It uses `--spacing(10)` on mobile and
+`--spacing(9)` on larger screens by default.
+
+```svelte
+<Calendar class="[--cell-size:--spacing(11)] sm:[--cell-size:--spacing(10)]" />
+```
+
+## Examples
+
+### Single Date Selection
+
+<ComponentPreview name="p-calendar-2" />
+
+### Date Range Selection
+
+<ComponentPreview name="p-calendar-3" />
+
+### Dropdown Navigation
+
+Use `captionLayout="dropdown"` with `startMonth` and `endMonth` to enable month and year navigation.
+
+<ComponentPreview name="p-calendar-4" />
+
+### Select Dropdown for Month/Year
+
+Calendar with the COSS Select component for month and year navigation.
+
+<ComponentPreview name="p-calendar-5" />
+
+### Combobox Dropdown for Month/Year
+
+Calendar with a searchable COSS Combobox for month and year navigation.
+
+<ComponentPreview name="p-calendar-6" />

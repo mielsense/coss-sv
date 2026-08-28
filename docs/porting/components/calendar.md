@@ -150,3 +150,7 @@ the architecture or dependency choice.
   hydration without adding a shared Vitest command outside this lane.
 
 Documentation pages, registry entries, and aggregate exports remain coordinator work.
+
+## D9 documentation and particle pass
+
+The D9 lane ported all 25 permitted COSS calendar particles and the six documented previews after re-reading their complete sources. Every example uses a frozen local-noon 28 August 2026 clock so SSR, hydration, disabled ranges, multi-month navigation, and price data are deterministic. Custom dropdowns use the package Select or Combobox, week numbers and priced days use typed Svelte snippets, and all visible icons use Hugeicons. The page retains the COSS preview order and adapts only React-specific syntax and installation commands. Focused tests compile, server-render, and source-audit each particle. The in-app Browser control was unavailable in this subagent session; Chrome was not used and visual comparison remains an integration-review requirement.

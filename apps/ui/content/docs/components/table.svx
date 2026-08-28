@@ -1,0 +1,87 @@
+---
+title: Table
+description: A simple table component for displaying tabular data.
+---
+
+<ComponentPreview name="p-table-1" />
+
+## Installation
+
+<InstallCommand
+  pnpm="pnpm add @coss-sv/ui"
+  shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/table.json"
+/>
+
+## Usage
+
+```svelte
+<script lang="ts">
+  import { Table } from "@coss-sv/ui";
+</script>
+
+<Table.Root>
+  <Table.Caption>Caption</Table.Caption>
+  <Table.Header><Table.Row><Table.Head>Header</Table.Head></Table.Row></Table.Header>
+  <Table.Body><Table.Row><Table.Cell>Cell</Table.Cell></Table.Row></Table.Body>
+</Table.Root>
+```
+
+## API Reference
+
+### Table.Root
+
+The table container. Set `variant="card"` for separated borders, rounded corners, and card row surfaces.
+
+| Prop      | Type                  | Default     |
+| --------- | --------------------- | ----------- |
+| `class`   | `string`              |             |
+| `variant` | `"default" \| "card"` | `"default"` |
+
+### Table.Header
+
+Header section containing column headers.
+
+### Table.Body
+
+Body section containing table rows and cells.
+
+### Table.Footer
+
+Footer section for totals and summary rows.
+
+### Table.Row
+
+A table row.
+
+### Table.Head
+
+A column header cell.
+
+### Table.Cell
+
+A data cell.
+
+### Table.Caption
+
+A caption for the table.
+
+## Examples
+
+### Card-style table
+
+<ComponentPreview name="p-table-5" />
+
+### Table in CardFrame
+
+<ComponentPreview name="p-table-7" />
+
+### Table in Frame
+
+<ComponentPreview name="p-table-2" />
+
+### Data table with TanStack
+
+Use [TanStack Table for Svelte](https://tanstack.com/table/latest/docs/framework/svelte/svelte-table)
+with `variant="card"` when you need column definitions and row selection over the same table primitives.
+
+<ComponentPreview name="p-table-6" />
