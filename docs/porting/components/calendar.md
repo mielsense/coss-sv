@@ -146,6 +146,7 @@ the architecture or dependency choice.
 - The browser suite hydrates actual Calendar SSR HTML under a frozen clock at a UTC to Los
   Angeles date boundary. It verifies that `defaultSelected` survives hydration. The
   compressed fixture records the current server render, including official Hugeicons path
-  data, and avoids adding a shared Vitest command outside this lane.
+  data and both navigation glyph classes. The test checks those classes before and after
+  hydration without adding a shared Vitest command outside this lane.
 
 Documentation pages, registry entries, and aggregate exports remain coordinator work.

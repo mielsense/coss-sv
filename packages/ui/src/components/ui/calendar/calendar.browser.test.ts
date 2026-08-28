@@ -455,12 +455,26 @@ describe("Calendar browser contract", () => {
     }
     target.innerHTML = serverHtml + decoder.decode();
     document.body.append(target);
+    const serverNavigationGlyphs = target.querySelectorAll<SVGSVGElement>(
+      '[data-slot="calendar-nav"] svg',
+    );
+    expect(serverNavigationGlyphs).toHaveLength(2);
+    for (const glyph of serverNavigationGlyphs) {
+      expect(glyph).toHaveClass("rdp-chevron", "rtl:rotate-180");
+    }
 
     const component = hydrate(SingleCalendar, { props, target });
     try {
       await tick();
       await tick();
       expect(warning).not.toHaveBeenCalled();
+      const navigationGlyphs = target.querySelectorAll<SVGSVGElement>(
+        '[data-slot="calendar-nav"] svg',
+      );
+      expect(navigationGlyphs).toHaveLength(2);
+      for (const glyph of navigationGlyphs) {
+        expect(glyph).toHaveClass("rdp-chevron", "rtl:rotate-180");
+      }
       const todayCell = target.querySelector<HTMLElement>('[data-today="true"]');
       expect(todayCell).not.toBeNull();
       expect(todayCell?.getAttribute("data-day")).toBe("2025-12-31");
