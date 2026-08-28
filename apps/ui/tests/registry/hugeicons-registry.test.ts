@@ -36,7 +36,7 @@ describe("Hugeicons registry adapter", () => {
 
   test("wires every adapter consumer to its library and icon data dependency", () => {
     const consumers = registryUi.filter((item) =>
-      item.registryDependencies.includes("local:hugeicons-icon"),
+      (item.registryDependencies as readonly string[]).includes("local:hugeicons-icon"),
     );
 
     expect(consumers.map((item) => item.name).sort()).toEqual([...adapterConsumers].sort());
