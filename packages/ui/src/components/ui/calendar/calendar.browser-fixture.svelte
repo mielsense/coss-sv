@@ -25,6 +25,15 @@ let noonSingle = $state<Date | undefined>();
 let noonMultiple = $state<Date[] | undefined>();
 let noonRange = $state<DateRange | undefined>();
 let noonEvidence = $state("");
+let oppositeSingle = $state<Date | undefined>();
+let oppositeMultiple = $state<Date[] | undefined>();
+let oppositeRange = $state<DateRange | undefined>();
+let oppositeEvidence = $state("");
+let undefinedControlledCallback = $state("");
+let dynamicSelection = $state<Date | undefined>();
+let dynamicSelectionControlled = $state(false);
+let dynamicSelectionCallback = $state("");
+let dynamicMonthControlled = $state(false);
 const selection = $derived(
   mode === "single" ? singleSelected : mode === "multiple" ? multipleSelected : rangeSelected,
 );
@@ -47,6 +56,10 @@ function selectionText(value: Date | Date[] | DateRange | undefined): string {
   return [value.from && localDateKey(value.from), value.to && localDateKey(value.to)]
     .filter(Boolean)
     .join("–");
+}
+
+function ignoreDynamicSelection(value: Date | undefined): void {
+  dynamicSelectionCallback = value ? localDateKey(value) : "cleared";
 }
 </script>
 
@@ -197,9 +210,63 @@ function selectionText(value: Date | Date[] | DateRange | undefined): string {
 <output data-testid="bound-selection">{selectionText(boundSelection)}</output>
 
 <div data-testid="bound-month-calendar">
-  <Calendar bind:month={boundMonth} />
+  <Calendar
+    bind:month={boundMonth}
+    onMonthChange={(value) => {
+      boundMonth = value;
+    }}
+  />
 </div>
-<output data-testid="bound-month">{boundMonth.getFullYear()}-{boundMonth.getMonth() + 1}</output>
+<output data-testid="bound-month"> {boundMonth.getFullYear()}-{boundMonth.getMonth() + 1} </output>
+
+<div data-testid="undefined-controlled-selection-calendar">
+  <Calendar
+    defaultMonth={new Date(2026, 0, 1, 12)}
+    mode="single"
+    onSelect={(value) => {
+      undefinedControlledCallback = value ? localDateKey(value) : "cleared";
+    }}
+  />
+</div>
+<output data-testid="undefined-controlled-selection-callback">
+  {undefinedControlledCallback}
+</output>
+
+<div data-testid="month-without-callback-calendar">
+  <Calendar month={new Date(2026, 0, 1, 12)} />
+</div>
+
+<button
+  data-testid="toggle-dynamic-selection-control"
+  onclick={() => (dynamicSelectionControlled = !dynamicSelectionControlled)}
+  type="button"
+>
+  Toggle selection control
+</button>
+<div data-testid="dynamic-selection-calendar">
+  <Calendar
+    {...(dynamicSelectionControlled ? { onSelect: ignoreDynamicSelection } : {})}
+    bind:selected={dynamicSelection}
+    defaultMonth={new Date(2026, 0, 1, 12)}
+    mode="single"
+  />
+</div>
+<output data-testid="dynamic-selection">{selectionText(dynamicSelection)}</output>
+<output data-testid="dynamic-selection-callback">{dynamicSelectionCallback}</output>
+
+<button
+  data-testid="toggle-dynamic-month-control"
+  onclick={() => (dynamicMonthControlled = !dynamicMonthControlled)}
+  type="button"
+>
+  Toggle month control
+</button>
+<div data-testid="dynamic-month-calendar">
+  <Calendar
+    {...(dynamicMonthControlled ? { month: new Date(2026, 0, 1, 12) } : {})}
+    defaultMonth={new Date(2026, 0, 1, 12)}
+  />
+</div>
 
 <div data-testid="noon-single-calendar">
   <Calendar
@@ -209,9 +276,9 @@ function selectionText(value: Date | Date[] | DateRange | undefined): string {
     noonSafe
     onSelect={(value) => {
       noonSingle = value;
-      noonEvidence = `single:${value?.getHours()}`;
+      noonEvidence = `single:${selectionText(value)}:${value?.getHours()}`;
     }}
-    timeZone="America/Los_Angeles"
+    timeZone="Etc/GMT+12"
   />
 </div>
 <div data-testid="noon-multiple-calendar">
@@ -222,9 +289,9 @@ function selectionText(value: Date | Date[] | DateRange | undefined): string {
     noonSafe
     onSelect={(value) => {
       noonMultiple = value;
-      noonEvidence += `|multiple:${value?.[0]?.getHours()}`;
+      noonEvidence += `|multiple:${selectionText(value)}:${value?.[0]?.getHours()}`;
     }}
-    timeZone="America/Los_Angeles"
+    timeZone="Etc/GMT+12"
   />
 </div>
 <div data-testid="noon-range-calendar">
@@ -235,12 +302,53 @@ function selectionText(value: Date | Date[] | DateRange | undefined): string {
     noonSafe
     onSelect={(value) => {
       noonRange = value;
-      noonEvidence += `|range:${value?.from?.getHours()}:${value?.to?.getHours()}`;
+      noonEvidence += `|range:${selectionText(value)}:${value?.from?.getHours()}:${value?.to?.getHours()}`;
     }}
-    timeZone="America/Los_Angeles"
+    timeZone="Etc/GMT+12"
   />
 </div>
 <output data-testid="noon-evidence">{noonEvidence}</output>
+
+<div data-testid="opposite-single-calendar">
+  <Calendar
+    bind:selected={oppositeSingle}
+    defaultMonth={new Date("2026-01-01T11:00:00.000Z")}
+    mode="single"
+    noonSafe
+    onSelect={(value) => {
+      oppositeSingle = value;
+      oppositeEvidence = `single:${selectionText(value)}:${value?.getHours()}`;
+    }}
+    timeZone="Pacific/Kiritimati"
+  />
+</div>
+<div data-testid="opposite-multiple-calendar">
+  <Calendar
+    bind:selected={oppositeMultiple}
+    defaultMonth={new Date("2026-01-01T11:00:00.000Z")}
+    mode="multiple"
+    noonSafe
+    onSelect={(value) => {
+      oppositeMultiple = value;
+      oppositeEvidence += `|multiple:${selectionText(value)}:${value?.[0]?.getHours()}`;
+    }}
+    timeZone="Pacific/Kiritimati"
+  />
+</div>
+<div data-testid="opposite-range-calendar">
+  <Calendar
+    bind:selected={oppositeRange}
+    defaultMonth={new Date("2026-01-01T11:00:00.000Z")}
+    mode="range"
+    noonSafe
+    onSelect={(value) => {
+      oppositeRange = value;
+      oppositeEvidence += `|range:${selectionText(value)}:${value?.from?.getHours()}:${value?.to?.getHours()}`;
+    }}
+    timeZone="Pacific/Kiritimati"
+  />
+</div>
+<output data-testid="opposite-evidence">{oppositeEvidence}</output>
 
 <Popover.Root bind:open={datePickerOpen}>
   <Popover.Trigger data-testid="date-picker-trigger">Pick a date</Popover.Trigger>

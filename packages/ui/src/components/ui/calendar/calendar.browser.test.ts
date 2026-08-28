@@ -215,6 +215,57 @@ describe("Calendar browser contract", () => {
     await expect.element(page.getByTestId("bound-month")).toHaveTextContent("2026-2");
   });
 
+  test("uses the live DayPicker controlled-state matrix", async () => {
+    render(CalendarFixture);
+
+    const undefinedControlled = page.getByTestId("undefined-controlled-selection-calendar");
+    await undefinedControlled.getByRole("button", { name: /Thursday, January 15th, 2026/ }).click();
+    await expect
+      .element(page.getByTestId("undefined-controlled-selection-callback"))
+      .toHaveTextContent("2026-01-15");
+    expect(undefinedControlled.element().querySelectorAll("[data-selected=true]")).toHaveLength(0);
+
+    const monthWithoutCallback = page.getByTestId("month-without-callback-calendar");
+    await monthWithoutCallback.getByRole("button", { name: "Go to the Next Month" }).click();
+    await expect
+      .element(monthWithoutCallback.getByRole("grid", { name: "January 2026" }))
+      .toBeInTheDocument();
+
+    const dynamicSelectionRoot = page.getByTestId("dynamic-selection-calendar");
+    await dynamicSelectionRoot
+      .getByRole("button", { name: /Thursday, January 15th, 2026/ })
+      .click();
+    await expect.element(page.getByTestId("dynamic-selection")).toHaveTextContent("2026-01-15");
+    await page.getByTestId("toggle-dynamic-selection-control").click();
+    await dynamicSelectionRoot.getByRole("button", { name: /Friday, January 16th, 2026/ }).click();
+    await expect
+      .element(page.getByTestId("dynamic-selection-callback"))
+      .toHaveTextContent("2026-01-16");
+    await expect.element(page.getByTestId("dynamic-selection")).toHaveTextContent("2026-01-15");
+    await page.getByTestId("toggle-dynamic-selection-control").click();
+    await dynamicSelectionRoot.getByRole("button", { name: /Friday, January 16th, 2026/ }).click();
+    await expect.element(page.getByTestId("dynamic-selection")).toHaveTextContent("2026-01-16");
+
+    const dynamicMonthRoot = page.getByTestId("dynamic-month-calendar");
+    await dynamicMonthRoot.getByRole("button", { name: "Go to the Next Month" }).click();
+    await expect
+      .element(dynamicMonthRoot.getByRole("grid", { name: "February 2026" }))
+      .toBeInTheDocument();
+    await page.getByTestId("toggle-dynamic-month-control").click();
+    await expect
+      .element(dynamicMonthRoot.getByRole("grid", { name: "January 2026" }))
+      .toBeInTheDocument();
+    await dynamicMonthRoot.getByRole("button", { name: "Go to the Next Month" }).click();
+    await expect
+      .element(dynamicMonthRoot.getByRole("grid", { name: "January 2026" }))
+      .toBeInTheDocument();
+    await page.getByTestId("toggle-dynamic-month-control").click();
+    await dynamicMonthRoot.getByRole("button", { name: "Go to the Next Month" }).click();
+    await expect
+      .element(dynamicMonthRoot.getByRole("grid", { name: "March 2026" }))
+      .toBeInTheDocument();
+  });
+
   test("returns noon-safe bound and callback values in every selection mode", async () => {
     render(CalendarFixture);
 
@@ -233,7 +284,34 @@ describe("Calendar browser contract", () => {
 
     await expect
       .element(page.getByTestId("noon-evidence"))
-      .toHaveTextContent("single:12|multiple:12|range:12:12");
+      .toHaveTextContent(
+        "single:2025-12-29:12|multiple:2025-12-30:12|range:2025-12-31–2025-12-31:12:12",
+      );
+    await expect
+      .element(
+        page
+          .getByTestId("noon-single-calendar")
+          .getByRole("button", { name: "Monday, December 29th, 2025, selected", exact: true }),
+      )
+      .toBeInTheDocument();
+
+    await page
+      .getByTestId("opposite-single-calendar")
+      .getByRole("button", { name: /Monday, January 5th, 2026/ })
+      .click();
+    await page
+      .getByTestId("opposite-multiple-calendar")
+      .getByRole("button", { name: /Tuesday, January 6th, 2026/ })
+      .click();
+    await page
+      .getByTestId("opposite-range-calendar")
+      .getByRole("button", { name: /Wednesday, January 7th, 2026/ })
+      .click();
+    await expect
+      .element(page.getByTestId("opposite-evidence"))
+      .toHaveTextContent(
+        "single:2026-01-05:12|multiple:2026-01-06:12|range:2026-01-07–2026-01-07:12:12",
+      );
   });
 
   test("lets DayButton and WeekNumber replace their host elements with complete props", async () => {

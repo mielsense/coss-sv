@@ -226,6 +226,53 @@ function addToRange(
   return range;
 }
 
+export function resolveCanonicalSelection(
+  mode: CalendarMode,
+  date: Date,
+  current: CalendarSelection,
+  options: {
+    max?: number;
+    min?: number;
+    required?: boolean;
+    resetOnSelect?: boolean;
+  } = {},
+): CalendarSelection {
+  const nextDate = date;
+  if (mode === "single") {
+    const selected = current instanceof Date ? current : undefined;
+    if (isSameCalendarDay(selected, nextDate)) return options.required ? selected : undefined;
+    return nextDate;
+  }
+
+  if (mode === "multiple") {
+    const selected = Array.isArray(current) ? current : [];
+    const index = selected.findIndex((entry) => isSameCalendarDay(entry, nextDate));
+    if (index >= 0) {
+      if (options.required && selected.length === 1) return selected;
+      if (options.min !== undefined && selected.length === options.min) return selected;
+      return selected.filter((_, itemIndex) => itemIndex !== index);
+    }
+    if (options.max !== undefined && selected.length === options.max) return [nextDate];
+    return [...selected, nextDate];
+  }
+
+  const currentRange =
+    current && !(current instanceof Date) && !Array.isArray(current) ? current : undefined;
+  const range = currentRange;
+  const isFullRange = Boolean(range?.from && range.to);
+  const isClickingSingleDayRange = Boolean(
+    range?.from &&
+      range.to &&
+      isSameCalendarDay(range.from, range.to) &&
+      isSameCalendarDay(nextDate, range.from),
+  );
+  if (options.resetOnSelect && (isFullRange || !range?.from)) {
+    if (!options.required && isClickingSingleDayRange) return undefined;
+    return { from: nextDate };
+  }
+  return addToRange(nextDate, range, options);
+}
+
 export function resolveSelection(
   mode: CalendarMode,
   date: Date,
@@ -239,47 +286,7 @@ export function resolveSelection(
     timeZone?: string | undefined;
   } = {},
 ): CalendarSelection {
-  const nextDate = normalizeCalendarDate(date, options);
-  if (mode === "single") {
-    const selected = current instanceof Date ? current : undefined;
-    if (isSameCalendarDay(selected, nextDate)) return options.required ? selected : undefined;
-    return nextDate;
-  }
-
-  if (mode === "multiple") {
-    const selected = Array.isArray(current)
-      ? current.map((entry) => normalizeCalendarDate(entry, options))
-      : [];
-    const index = selected.findIndex((entry) => isSameCalendarDay(entry, nextDate));
-    if (index >= 0) {
-      if (options.required && selected.length === 1) return selected;
-      if (options.min !== undefined && selected.length === options.min) return selected;
-      return selected.filter((_, itemIndex) => itemIndex !== index);
-    }
-    if (options.max !== undefined && selected.length === options.max) return [nextDate];
-    return [...selected, nextDate];
-  }
-
-  const currentRange =
-    current && !(current instanceof Date) && !Array.isArray(current) ? current : undefined;
-  const range = currentRange
-    ? {
-        from: currentRange.from ? normalizeCalendarDate(currentRange.from, options) : undefined,
-        ...(currentRange.to ? { to: normalizeCalendarDate(currentRange.to, options) } : {}),
-      }
-    : undefined;
-  const isFullRange = Boolean(range?.from && range.to);
-  const isClickingSingleDayRange = Boolean(
-    range?.from &&
-      range.to &&
-      isSameCalendarDay(range.from, range.to) &&
-      isSameCalendarDay(nextDate, range.from),
-  );
-  if (options.resetOnSelect && (isFullRange || !range?.from)) {
-    if (!options.required && isClickingSingleDayRange) return undefined;
-    return { from: nextDate };
-  }
-  return addToRange(nextDate, range, options);
+  return resolveCanonicalSelection(mode, normalizeCalendarDate(date, options), current, options);
 }
 
 export function isSelectedDate(

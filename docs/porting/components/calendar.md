@@ -86,11 +86,14 @@ The month and year dropdown handlers use the chronological offset between each c
 month and the first displayed month. This keeps cross-year, multi-month, and
 `reverseMonths` changes anchored to the caption the user changed.
 
-A defined `selected` value paired with `onSelect`, or a `month` value paired with
-`onMonthChange`, is controlled: the callback reports the proposed value and the calendar
-continues rendering the supplied value until its owner changes it. Binding without the
-corresponding callback is the Svelte two-way form. `defaultSelected` and `defaultMonth`
-remain internal state, including across hydration.
+Selection is controlled whenever `onSelect` is present, including when `selected` is
+undefined. Any supplied `month` is controlled whether or not `onMonthChange` is present.
+Callbacks report proposed values while ignored parent values remain rendered. Adding or
+removing either control input updates the mode without remounting. In the Svelte two-way
+form, values emitted through `bind:selected` or `bind:month` remain canonical calendar
+dates and are not converted through the IANA zone a second time. `defaultSelected` and
+`defaultMonth` remain internal state, including across hydration when their corresponding
+control input is absent.
 
 Roving focus only targets visible, enabled days. A disabled selected date falls back to the
 first enabled day. Month changes and externally controlled months recompute the target;
@@ -116,14 +119,16 @@ the architecture or dependency choice.
 - `calendar.types.test.ts` checks the mode and required union, callback arguments, rejected
   combinations, and full DayButton and WeekNumber replacement props.
 - `calendar.test.ts` checks matcher forms, selection rules, `resetOnSelect`, time-zone day
-  conversion, noon-safe values returned by every selection mode, date-preserving month
-  movement, per-instance current dates, a controlled `today`, COSS and `rdp-*` classes,
-  locale objects, and SSR output.
+  conversion, canonical existing selections at the `Etc/GMT+12` and
+  `Pacific/Kiritimati` boundaries, noon-safe values returned by every selection mode,
+  date-preserving month movement, per-instance current dates, a controlled `today`, COSS
+  and `rdp-*` classes, locale objects, and SSR output.
 - `calendar.browser.test.ts` checks all selection modes, callback data, disabled and
   unavailable dates, the full keyboard model, enabled roving focus, navigation exhaustion,
-  controlled and bound state, noon-safe callback and bound values, externally controlled
-  month bounds, native dropdowns, cross-year reversed months, replacement hosts, and Shards
-  Popover focus restoration.
+  controlled and bound state, live control-mode transitions, controlled undefined
+  selection, month control without a callback, GMT-12 and GMT+14 noon-safe callback and
+  bound values, externally controlled month bounds, native dropdowns, cross-year reversed
+  months, replacement hosts, and Shards Popover focus restoration.
 - The browser suite hydrates actual Calendar SSR HTML under a frozen clock at a UTC to Los
   Angeles date boundary. It verifies that `defaultSelected` survives hydration. The
   compressed fixture records the server render used by that regression and avoids adding a

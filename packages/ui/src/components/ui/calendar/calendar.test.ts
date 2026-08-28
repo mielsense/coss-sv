@@ -118,10 +118,41 @@ describe("Calendar date model", () => {
     expect(multiple).toEqual([new Date(2025, 11, 31, 12)]);
     expect(range).toEqual({ from: new Date(2025, 11, 31, 12) });
   });
+
+  test("does not re-zone canonical existing selections in an extreme time zone", () => {
+    const options = { noonSafe: true, timeZone: "Etc/GMT+12" };
+    const existing = new Date(2025, 11, 29, 12);
+    const triggerInstant = new Date("2025-12-31T11:00:00.000Z");
+
+    expect(resolveSelection("single", triggerInstant, undefined, options)).toEqual(
+      new Date(2025, 11, 30, 12),
+    );
+    expect(resolveSelection("multiple", triggerInstant, [existing], options)).toEqual([
+      existing,
+      new Date(2025, 11, 30, 12),
+    ]);
+    expect(resolveSelection("range", triggerInstant, { from: existing }, options)).toEqual({
+      from: existing,
+      to: new Date(2025, 11, 30, 12),
+    });
+
+    const oppositeOptions = { noonSafe: true, timeZone: "Pacific/Kiritimati" };
+    const oppositeExisting = new Date(2026, 0, 5, 12);
+    const oppositeInstant = new Date("2026-01-06T12:00:00.000Z");
+    expect(resolveSelection("single", oppositeInstant, undefined, oppositeOptions)).toEqual(
+      new Date(2026, 0, 7, 12),
+    );
+    expect(
+      resolveSelection("multiple", oppositeInstant, [oppositeExisting], oppositeOptions),
+    ).toEqual([oppositeExisting, new Date(2026, 0, 7, 12)]);
+    expect(
+      resolveSelection("range", oppositeInstant, { from: oppositeExisting }, oppositeOptions),
+    ).toEqual({ from: oppositeExisting, to: new Date(2026, 0, 7, 12) });
+  });
 });
 
 describe("Calendar SSR contract", () => {
-  test("keeps defaultSelected when a callback does not supply a controlled value", () => {
+  test("treats selection as controlled whenever onSelect is present", () => {
     const body = render(SingleCalendar, {
       props: {
         defaultMonth: new Date(2026, 0, 1),
@@ -131,7 +162,7 @@ describe("Calendar SSR contract", () => {
       },
     }).body;
 
-    expect(body).toMatch(/data-day="2026-01-15"[^>]*data-selected="true"/);
+    expect(body).not.toMatch(/data-day="2026-01-15"[^>]*data-selected="true"/);
   });
 
   test("computes default today per instance and honors a controllable today prop", () => {
