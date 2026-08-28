@@ -79,63 +79,64 @@ docs. Add the table registry item if it is not already in the project.
 
 ## API Reference
 
-Card is a native, polymorphic Svelte component family. Each part accepts snippets, native attributes,
-a bindable `ref`, `class`, and an `as` prop for changing the rendered element.
+This is a custom component using a polymorphic Svelte `as` prop, not a direct Shards UI wrapper.
 
 ### Card
 
-The card root container.
+Root container for the card. Supports the `as` prop.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `as` | `keyof HTMLElementTagNameMap` | `"div"` | Render as a different element |
 
 ### CardHeader
 
-The header section.
+Header section container. Supports the `as` prop.
 
 ### CardTitle
 
-The card title.
+Title text for the card. Supports the `as` prop.
 
 ### CardDescription
 
-The supporting description.
+Description text for the card. Supports the `as` prop.
 
 ### CardAction
 
-A header action container positioned to the right.
+Container for action buttons in the header. Automatically positions to the right. Supports the `as` prop.
 
 ### CardPanel
 
-The main content area. `CardContent` is an alias.
+Main content area of the card. Also exported as `CardContent`. Supports the `as` prop.
 
 ### CardFooter
 
-The card footer.
+Footer section for the card. Supports the `as` prop.
 
 ## CardFrame API Reference
 
-`CardFrame` groups a header, content, and footer with consistent styling and clipping. Use it when a
-card needs a framed layout with optional header actions.
+`CardFrame` is an alternative layout for cards that groups a header, content, and footer with consistent styling and clipping. Use it when you need a framed card with optional header actions.
 
 ### CardFrame
 
-The framed card root.
+Root container for the framed card layout. Supports the `as` prop.
 
 ### CardFrameHeader
 
-The frame header.
+Header section for the frame. Contains title, description, and optionally `CardFrameAction`. Supports the `as` prop.
 
 ### CardFrameTitle
 
-The frame title.
+Title text for the frame. Supports the `as` prop.
 
 ### CardFrameDescription
 
-The frame description.
+Description text for the frame. Supports the `as` prop.
 
 ### CardFrameAction
 
-The action container for controls such as “Add” or “Edit”. Place it beside the title and description
-inside `CardFrameHeader`; the grid positions it in the top-right corner.
+Container for action buttons (e.g. "Add", "Edit") in the header. Place it as a sibling of `CardFrameTitle` and `CardFrameDescription` inside `CardFrameHeader`. It is positioned in the top-right via CSS grid (`col-start-2`, `row-span-2`, `self-center`, `justify-self-end`). Use it for primary actions that apply to the entire frame. Supports the `as` prop.
 
 ### CardFrameFooter
 
-The frame footer.
+Footer section for the frame. Supports the `as` prop.

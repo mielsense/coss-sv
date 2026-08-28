@@ -37,12 +37,19 @@ description: A framed container for grouping related information.
 
 ### Frame
 
-The main container for grouping related information. It accepts native `div` attributes, a bindable
-`ref`, snippets, and `class`.
+The main container component for grouping related information.
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `class` | `string` | |
 
 ### FramePanel
 
-A panel container for frame content. It accepts native `div` attributes.
+A panel container for frame content.
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `class` | `string` | |
 
 ```svelte
 <FramePanel>Content</FramePanel>
@@ -50,7 +57,11 @@ A panel container for frame content. It accepts native `div` attributes.
 
 ### FrameHeader
 
-The semantic header section for a frame.
+Header section for the frame.
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `class` | `string` | |
 
 ```svelte
 <FrameHeader>
@@ -61,7 +72,11 @@ The semantic header section for a frame.
 
 ### FrameTitle
 
-The frame heading text.
+Title text for the frame header.
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `class` | `string` | |
 
 ```svelte
 <FrameTitle>Title</FrameTitle>
@@ -69,7 +84,11 @@ The frame heading text.
 
 ### FrameDescription
 
-The supporting text for a frame header.
+Description text for the frame header.
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `class` | `string` | |
 
 ```svelte
 <FrameDescription>Description</FrameDescription>
@@ -77,7 +96,11 @@ The supporting text for a frame header.
 
 ### FrameFooter
 
-The semantic footer section for a frame.
+Footer section for the frame.
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `class` | `string` | |
 
 ```svelte
 <FrameFooter>Footer</FrameFooter>

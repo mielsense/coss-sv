@@ -43,12 +43,15 @@ description: A container for displaying empty state information.
 
 ## API Reference
 
-This API follows the familiar shadcn/ui empty-state composition. Every part accepts native `div`
-attributes, snippets, `class`, and a bindable `ref`.
+The API design of this component is modeled after [shadcn/ui's empty component](https://ui.shadcn.com/docs/components/empty) to ensure familiarity and consistency for developers already using shadcn. This standardization makes it easier to adopt **coss ui** while maintaining API parity with the patterns developers already know and love.
 
 ### Empty
 
-The empty-state root. It wraps `EmptyHeader` and `EmptyContent`.
+The main component of the empty state. Wraps the `EmptyHeader` and `EmptyContent` components.
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `class` | `string` | |
 
 ```svelte
 <Empty>
@@ -59,7 +62,11 @@ The empty-state root. It wraps `EmptyHeader` and `EmptyContent`.
 
 ### EmptyHeader
 
-Groups the media, title, and description.
+The `EmptyHeader` component wraps the empty media, title, and description.
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `class` | `string` | |
 
 ```svelte
 <EmptyHeader>
@@ -71,12 +78,12 @@ Groups the media, title, and description.
 
 ### EmptyMedia
 
-Displays an icon, image, avatar, or another visual. The `icon` variant adds the COSS layered media
-treatment.
+Use the `EmptyMedia` component to display the media of the empty state such as an icon or an image. You can also use it to display other components such as an avatar.
 
 | Prop | Type | Default |
 | --- | --- | --- |
-| `variant` | `"default" \| "icon"` | `"default"` |
+| `variant` | `"default" \| "icon"` | `default` |
+| `class` | `string` | |
 
 ```svelte
 <EmptyMedia variant="icon">
@@ -95,7 +102,11 @@ treatment.
 
 ### EmptyTitle
 
-The empty-state title.
+Use the `EmptyTitle` component to display the title of the empty state.
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `class` | `string` | |
 
 ```svelte
 <EmptyTitle>No data</EmptyTitle>
@@ -103,7 +114,11 @@ The empty-state title.
 
 ### EmptyDescription
 
-Supporting text for the empty state.
+Use the `EmptyDescription` component to display the description of the empty state.
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `class` | `string` | |
 
 ```svelte
 <EmptyDescription>You do not have any notifications.</EmptyDescription>
@@ -111,7 +126,11 @@ Supporting text for the empty state.
 
 ### EmptyContent
 
-Actions or other supporting controls for the empty state.
+Use the `EmptyContent` component to display the content of the empty state such as a button, input or a link.
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `class` | `string` | |
 
 ```svelte
 <EmptyContent>

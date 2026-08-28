@@ -147,6 +147,19 @@ function levelThreeSections(markdown: string): Array<{ body: string; heading: st
   });
 }
 
+function normalizedCopy(value: string): string {
+  return value.replace(/\s+/g, " ").trim();
+}
+
+function expectClassPropTable(section: { body: string; heading: string }): void {
+  expect(section.body, `${section.heading} should retain its prop table`).toContain(
+    "| Prop | Type | Default |",
+  );
+  expect(section.body, `${section.heading} should document class`).toContain(
+    "| `class` | `string` | |",
+  );
+}
+
 describe("D4 disclosure and surface documentation inventory", () => {
   test("keeps the locked 38-particle ownership set exact", () => {
     const ownership = JSON.parse(source("docs/porting/docs-ownership.json")) as OwnershipFile;
@@ -248,6 +261,123 @@ describe("D4 disclosure and surface documentation inventory", () => {
     expect(examples.filter((example) => example.includes("<HugeiconsIcon"))).toEqual([examples[2]]);
     expect(usage).toContain("Avatar,");
     expect(page).toContain('from "@coss-sv/ui"');
+  });
+
+  test("keeps the complete Empty API copy and all six prop tables", () => {
+    const page = source("apps/ui/content/docs/components/empty.svx");
+    const apiReference = page.slice(page.indexOf("## API Reference"));
+    const sections = levelThreeSections(apiReference);
+    const expectedDescriptions = [
+      "The main component of the empty state. Wraps the `EmptyHeader` and `EmptyContent` components.",
+      "The `EmptyHeader` component wraps the empty media, title, and description.",
+      "Use the `EmptyMedia` component to display the media of the empty state such as an icon or an image. You can also use it to display other components such as an avatar.",
+      "Use the `EmptyTitle` component to display the title of the empty state.",
+      "Use the `EmptyDescription` component to display the description of the empty state.",
+      "Use the `EmptyContent` component to display the content of the empty state such as a button, input or a link.",
+    ];
+
+    expect(normalizedCopy(apiReference)).toContain(
+      normalizedCopy(
+        "The API design of this component is modeled after [shadcn/ui's empty component](https://ui.shadcn.com/docs/components/empty) to ensure familiarity and consistency for developers already using shadcn. This standardization makes it easier to adopt **coss ui** while maintaining API parity with the patterns developers already know and love.",
+      ),
+    );
+    expect(sections.map(({ heading }) => heading)).toEqual([
+      "Empty",
+      "EmptyHeader",
+      "EmptyMedia",
+      "EmptyTitle",
+      "EmptyDescription",
+      "EmptyContent",
+    ]);
+    sections.forEach((section, index) => {
+      expect(normalizedCopy(section.body)).toContain(
+        normalizedCopy(expectedDescriptions[index] ?? "missing description"),
+      );
+      expectClassPropTable(section);
+    });
+    expect(sections[2]?.body).toContain('| `variant` | `"default" \\| "icon"` | `default` |');
+  });
+
+  test("keeps every Card and CardFrame part description plus the Svelte as contract", () => {
+    const page = source("apps/ui/content/docs/components/card.svx");
+    const apiReference = page.slice(page.indexOf("## API Reference"));
+    const sections = levelThreeSections(apiReference);
+    const expectedSections = [
+      ["Card", "Root container for the card. Supports the `as` prop."],
+      ["CardHeader", "Header section container. Supports the `as` prop."],
+      ["CardTitle", "Title text for the card. Supports the `as` prop."],
+      ["CardDescription", "Description text for the card. Supports the `as` prop."],
+      [
+        "CardAction",
+        "Container for action buttons in the header. Automatically positions to the right. Supports the `as` prop.",
+      ],
+      [
+        "CardPanel",
+        "Main content area of the card. Also exported as `CardContent`. Supports the `as` prop.",
+      ],
+      ["CardFooter", "Footer section for the card. Supports the `as` prop."],
+      ["CardFrame", "Root container for the framed card layout. Supports the `as` prop."],
+      [
+        "CardFrameHeader",
+        "Header section for the frame. Contains title, description, and optionally `CardFrameAction`. Supports the `as` prop.",
+      ],
+      ["CardFrameTitle", "Title text for the frame. Supports the `as` prop."],
+      ["CardFrameDescription", "Description text for the frame. Supports the `as` prop."],
+      [
+        "CardFrameAction",
+        'Container for action buttons (e.g. "Add", "Edit") in the header. Place it as a sibling of `CardFrameTitle` and `CardFrameDescription` inside `CardFrameHeader`. It is positioned in the top-right via CSS grid (`col-start-2`, `row-span-2`, `self-center`, `justify-self-end`). Use it for primary actions that apply to the entire frame. Supports the `as` prop.',
+      ],
+      ["CardFrameFooter", "Footer section for the frame. Supports the `as` prop."],
+    ] as const;
+
+    expect(normalizedCopy(apiReference)).toContain(
+      "This is a custom component using a polymorphic Svelte `as` prop, not a direct Shards UI wrapper.",
+    );
+    expect(normalizedCopy(apiReference)).toContain(
+      normalizedCopy(
+        "`CardFrame` is an alternative layout for cards that groups a header, content, and footer with consistent styling and clipping. Use it when you need a framed card with optional header actions.",
+      ),
+    );
+    expect(sections.map(({ heading }) => heading)).toEqual(
+      expectedSections.map(([heading]) => heading),
+    );
+    sections.forEach((section, index) => {
+      expect(normalizedCopy(section.body)).toContain(
+        normalizedCopy(expectedSections[index]?.[1] ?? "missing description"),
+      );
+    });
+    expect(sections[0]?.body).toContain(
+      '| `as` | `keyof HTMLElementTagNameMap` | `"div"` | Render as a different element |',
+    );
+  });
+
+  test("keeps all six Frame descriptions and class prop tables", () => {
+    const page = source("apps/ui/content/docs/components/frame.svx");
+    const apiReference = page.slice(page.indexOf("## API Reference"));
+    const sections = levelThreeSections(apiReference).slice(0, 6);
+    const expectedDescriptions = [
+      "The main container component for grouping related information.",
+      "A panel container for frame content.",
+      "Header section for the frame.",
+      "Title text for the frame header.",
+      "Description text for the frame header.",
+      "Footer section for the frame.",
+    ];
+
+    expect(sections.map(({ heading }) => heading)).toEqual([
+      "Frame",
+      "FramePanel",
+      "FrameHeader",
+      "FrameTitle",
+      "FrameDescription",
+      "FrameFooter",
+    ]);
+    sections.forEach((section, index) => {
+      expect(normalizedCopy(section.body)).toContain(
+        normalizedCopy(expectedDescriptions[index] ?? "missing description"),
+      );
+      expectClassPropTable(section);
+    });
   });
 
   test("compiles every displayed Empty Svelte source block", () => {
