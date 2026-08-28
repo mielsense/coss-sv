@@ -24,6 +24,8 @@
   },
   "dependencies": {
     "@coss-sv/ui": "workspace:*",
+    "@hugeicons/core-free-icons": "^4.3.0",
+    "@hugeicons/svelte": "^1.1.5",
     "@shardsui/svelte": "0.1.0-beta.0"
   },
   "devDependencies": {

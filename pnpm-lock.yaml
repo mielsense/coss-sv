@@ -121,6 +121,12 @@ importers:
       '@coss-sv/ui':
         specifier: workspace:*
         version: link:../../packages/ui
+      '@hugeicons/core-free-icons':
+        specifier: ^4.3.0
+        version: 4.3.0
+      '@hugeicons/svelte':
+        specifier: ^1.1.5
+        version: 1.1.5(svelte@5.56.10)
       '@shardsui/svelte':
         specifier: 0.1.0-beta.0
         version: 0.1.0-beta.0(svelte@5.56.10)
@@ -203,6 +209,12 @@ importers:
 
   packages/ui:
     dependencies:
+      '@hugeicons/core-free-icons':
+        specifier: ^4.3.0
+        version: 4.3.0
+      '@hugeicons/svelte':
+        specifier: ^1.1.5
+        version: 1.1.5(svelte@5.56.10)
       '@shardsui/svelte':
         specifier: 0.1.0-beta.0
         version: 0.1.0-beta.0(svelte@5.56.10)
@@ -505,6 +517,14 @@ packages:
 
   '@floating-ui/utils@0.2.12':
     resolution: {integrity: sha512-HpCo8tmWzLVad5s2d19EhAz5zqrrQ6s69qd6moPMQvkOuSwDT1YgRfWSVuc4ennqrgv3OHppiOGMQ7oC13yIww==}
+
+  '@hugeicons/core-free-icons@4.3.0':
+    resolution: {integrity: sha512-5DC5gq2psNDKBQThOjpuFCtMco8nl2FkrBzZgG15cFGM0kSwUoych/pw0DmjBygF9qRDITdBPtmzJqLsOeImMg==}
+
+  '@hugeicons/svelte@1.1.5':
+    resolution: {integrity: sha512-aau7Z9kJWi3QtakeHeFBj+TqHl7NQBO6/BWbnBTete8On3+L/CD1iSmf4vFNs90fcpQeP+567hT4wImEMNd1Fg==}
+    peerDependencies:
+      svelte: ^5.0.0
 
   '@isaacs/fs-minipass@4.0.1':
     resolution: {integrity: sha512-wgm9Ehl2jpeqP3zw/7mo3kRHFp5MEDhqAdwy1fTGkHAwnkGOVsgpvQhL8B5n1qlb01jV3n/bI0ZfZp5lWA1k4w==}
@@ -1975,6 +1995,12 @@ snapshots:
       '@floating-ui/utils': 0.2.12
 
   '@floating-ui/utils@0.2.12': {}
+
+  '@hugeicons/core-free-icons@4.3.0': {}
+
+  '@hugeicons/svelte@1.1.5(svelte@5.56.10)':
+    dependencies:
+      svelte: 5.56.10
 
   '@isaacs/fs-minipass@4.0.1':
     dependencies:

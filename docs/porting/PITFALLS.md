@@ -47,3 +47,11 @@
 **Cause:** the local tagged source is ahead of the public registry.
 
 **Safe pattern:** use the local beta.1 checkout as the inspection authority, pin the installable dependency to beta.0, and run a compatibility test for every wrapped export. Upgrade the dependency when beta.1 is publicly resolvable; never link the uncommitted local checkout into published output.
+
+## Component authority and icon source
+
+**Symptom:** an implementation follows a shadcn-svelte component structure or copies a Lucide SVG because it resembles the COSS reference.
+
+**Cause:** an implementation aid was treated as the product specification.
+
+**Safe pattern:** the allowed COSS source is the sole authority for visible API, behavior, styling, copy, and examples. Read the matching local Shards source for primitive behavior, then choose a Svelte-native composition that reproduces COSS. Render UI icons with `HugeiconsIcon` from `@hugeicons/svelte` and the matching free asset from `@hugeicons/core-free-icons`. Do not add Lucide packages, Lucide class names, copied Lucide path data, or substitute hand-drawn SVG icons. Logos and non-icon illustrations require separate provenance review.
