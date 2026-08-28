@@ -14,6 +14,7 @@ describe("Accordion SSR contract", () => {
     expect(body).toContain('data-slot="accordion-trigger"');
     expect(body).toContain('data-slot="accordion-indicator"');
     expect(body).toMatch(/<svg[^>]*aria-hidden="true"[^>]*data-slot="accordion-indicator"/);
+    expect(body).toContain('d="M18 9.00005C18 9.00005 13.5811 15 12 15C10.4188 15 6 9 6 9"');
     expect(body).toContain('aria-expanded="true"');
     expect(body).toContain('role="region"');
     expect(body).toContain('style="--accordion-panel-height:');
@@ -25,9 +26,9 @@ describe("Accordion SSR contract", () => {
   test("uses the free Hugeicons chevron without copied Lucide or inline icon source", () => {
     const source = readFileSync(new URL("./accordion-trigger.svelte", import.meta.url), "utf8");
 
-    expect(source).toContain('import { ChevronDownIcon } from "@hugeicons/core-free-icons";');
-    expect(source).toContain('import { HugeiconsIcon } from "@hugeicons/svelte";');
-    expect(source).toContain("icon={ChevronDownIcon}");
+    expect(source).toContain('import { ArrowDown01Icon } from "@hugeicons/core-free-icons";');
+    expect(source).toContain('import HugeiconsIcon from "$lib/hugeicons-icon.svelte";');
+    expect(source).toContain("icon={ArrowDown01Icon}");
     expect(source).toContain("strokeWidth={2}");
     expect(source).not.toMatch(/lucide|<svg\b|<path\b/i);
   });

@@ -6,9 +6,9 @@ export type AccordionTriggerProps = ComponentProps<typeof ShardsAccordion.Trigge
 </script>
 
 <script lang="ts">
-import { ChevronDownIcon } from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/svelte";
+import { ArrowDown01Icon } from "@hugeicons/core-free-icons";
 import { Accordion as AccordionPrimitive } from "@shardsui/svelte";
+import HugeiconsIcon from "$lib/hugeicons-icon.svelte";
 import { cn } from "$lib/utils.js";
 
 let {
@@ -34,7 +34,7 @@ let {
       aria-hidden="true"
       class="pointer-events-none size-4 shrink-0 translate-y-0.5 opacity-80 transition-transform duration-200 ease-in-out"
       data-slot="accordion-indicator"
-      icon={ChevronDownIcon}
+      icon={ArrowDown01Icon}
       strokeWidth={2}
     />
   {/snippet}
