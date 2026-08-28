@@ -1,6 +1,6 @@
 import { hydrate, unmount } from "svelte";
 import { afterEach, describe, expect, test, vi } from "vitest";
-import { page } from "vitest/browser";
+import { page, userEvent } from "vitest/browser";
 import { render } from "vitest-browser-svelte";
 import InputFixture from "./input.browser-fixture.svelte";
 import Input from "./input.svelte";
@@ -117,6 +117,44 @@ describe("Input browser contract", () => {
     expect(target.querySelector("input")?.id).toBe("hydrated-input");
     await unmount(component);
     warning.mockRestore();
+  });
+
+  test("reconciles reactive Field descriptions across null, inherited, merged, and rapid transitions", async () => {
+    render(InputFixture);
+    const input = page.getByTestId("reactive-aria-input");
+
+    await expect.element(input).not.toHaveAttribute("aria-describedby");
+    await userEvent.click(page.getByTestId("input-description-inherit"));
+    await expect
+      .element(input)
+      .toHaveAttribute("aria-describedby", "reactive-input-field-description");
+    await userEvent.click(page.getByTestId("input-description-external"));
+    await expect
+      .element(input)
+      .toHaveAttribute(
+        "aria-describedby",
+        "reactive-input-external reactive-input-field-description",
+      );
+    await userEvent.click(page.getByTestId("input-description-remove"));
+    await expect.element(input).not.toHaveAttribute("aria-describedby");
+    await userEvent.click(page.getByTestId("input-description-race"));
+    await expect
+      .element(input)
+      .toHaveAttribute(
+        "aria-describedby",
+        "reactive-input-external reactive-input-field-description",
+      );
+  });
+
+  test("disconnects the null-removal observer when a Field input unmounts", async () => {
+    render(InputFixture);
+    const input = document.querySelector<HTMLInputElement>('[data-testid="reactive-aria-input"]');
+    if (!input) throw new Error("reactive input missing");
+
+    await userEvent.click(page.getByTestId("input-description-mount"));
+    input.setAttribute("aria-describedby", "detached-description");
+    await Promise.resolve();
+    expect(input.getAttribute("aria-describedby")).toBe("detached-description");
   });
 
   test("hydrates inherited and explicitly removed Field relationships without a mismatch", async () => {

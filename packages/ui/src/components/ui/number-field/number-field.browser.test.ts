@@ -137,6 +137,44 @@ describe("NumberField browser contract", () => {
     await expect.element(input).toHaveAccessibleName("Root number label");
   });
 
+  test("reconciles reactive Field descriptions across null, inherited, merged, and rapid transitions", async () => {
+    render(NumberFieldFixture);
+    const input = page.getByTestId("reactive-aria-number");
+
+    await expect.element(input).not.toHaveAttribute("aria-describedby");
+    await userEvent.click(page.getByTestId("number-description-inherit"));
+    await expect
+      .element(input)
+      .toHaveAttribute("aria-describedby", "reactive-number-field-description");
+    await userEvent.click(page.getByTestId("number-description-external"));
+    await expect
+      .element(input)
+      .toHaveAttribute(
+        "aria-describedby",
+        "reactive-number-external reactive-number-field-description",
+      );
+    await userEvent.click(page.getByTestId("number-description-remove"));
+    await expect.element(input).not.toHaveAttribute("aria-describedby");
+    await userEvent.click(page.getByTestId("number-description-race"));
+    await expect
+      .element(input)
+      .toHaveAttribute(
+        "aria-describedby",
+        "reactive-number-external reactive-number-field-description",
+      );
+  });
+
+  test("disconnects the null-removal observer when a Field number input unmounts", async () => {
+    render(NumberFieldFixture);
+    const input = document.querySelector<HTMLInputElement>('[data-testid="reactive-aria-number"]');
+    if (!input) throw new Error("reactive number input missing");
+
+    await userEvent.click(page.getByTestId("number-description-mount"));
+    input.setAttribute("aria-describedby", "detached-description");
+    await Promise.resolve();
+    expect(input.getAttribute("aria-describedby")).toBe("detached-description");
+  });
+
   test("rejects invalid fill and delegates its root to one exact group element", async () => {
     render(NumberFieldFixture);
     const invalid = document.querySelector<HTMLInputElement>('[data-testid="invalid-fill-number"]');

@@ -1,22 +1,34 @@
 <script lang="ts">
-import * as Field from "../field/index.js";
-import * as NumberField from "./index.js";
+  import { tick } from "svelte";
+  import * as Field from "../field/index.js";
+  import * as NumberField from "./index.js";
 
-let value = $state<number | null>(1.5);
-let changes = $state(0);
-let inputRef = $state<HTMLInputElement | null>(null);
-let delegatedRef = $state<HTMLDivElement | null>(null);
-let cursorRef = $state<SVGSVGElement | null>(null);
-let showRemountWheel = $state(true);
-let showFieldError = $state(false);
-const removedNumberAria = {
-  "aria-describedby": null,
-  "aria-labelledby": null,
-  "aria-valuemax": null,
-  "aria-valuemin": null,
-  "aria-valuenow": null,
-  "aria-valuetext": null,
-} satisfies NumberField.NumberFieldInputProps;
+  let value = $state<number | null>(1.5);
+  let changes = $state(0);
+  let inputRef = $state<HTMLInputElement | null>(null);
+  let delegatedRef = $state<HTMLDivElement | null>(null);
+  let cursorRef = $state<SVGSVGElement | null>(null);
+  let showRemountWheel = $state(true);
+  let showFieldError = $state(false);
+  let reactiveDescription = $state<string | null | undefined>(null);
+  let showReactiveNumber = $state(true);
+  const removedNumberAria = {
+    "aria-describedby": null,
+    "aria-labelledby": null,
+    "aria-valuemax": null,
+    "aria-valuemin": null,
+    "aria-valuenow": null,
+    "aria-valuetext": null,
+  } satisfies NumberField.NumberFieldInputProps;
+
+  async function raceReactiveDescription(): Promise<void> {
+    reactiveDescription = null;
+    await tick();
+    reactiveDescription = undefined;
+    await tick();
+    reactiveDescription = "reactive-number-external";
+    await tick();
+  }
 </script>
 
 {#snippet delegatedGroup(props: NumberField.NumberFieldGroupProps)}
@@ -144,6 +156,48 @@ const removedNumberAria = {
   </NumberField.Root>
   <Field.Description>Scrub quantity description</Field.Description>
 </Field.Root>
+
+<p id="reactive-number-external">Reactive external number description</p>
+<Field.Root>
+  <Field.Label>Reactive number label</Field.Label>
+  <NumberField.Root defaultValue={2} max={4} min={1}>
+    <NumberField.Group>
+      {#if showReactiveNumber}
+        <NumberField.Input
+          aria-describedby={reactiveDescription}
+          data-testid="reactive-aria-number"
+        />
+      {/if}
+    </NumberField.Group>
+  </NumberField.Root>
+  <Field.Description id="reactive-number-field-description">
+    Reactive field number description
+  </Field.Description>
+</Field.Root>
+<button
+  data-testid="number-description-inherit"
+  type="button"
+  onclick={() => (reactiveDescription = undefined)}>Inherit number description</button
+>
+<button
+  data-testid="number-description-external"
+  type="button"
+  onclick={() => (reactiveDescription = "reactive-number-external")}
+  >Merge number description</button
+>
+<button
+  data-testid="number-description-remove"
+  type="button"
+  onclick={() => (reactiveDescription = null)}>Remove number description</button
+>
+<button data-testid="number-description-race" type="button" onclick={raceReactiveDescription}
+  >Race number description</button
+>
+<button
+  data-testid="number-description-mount"
+  type="button"
+  onclick={() => (showReactiveNumber = !showReactiveNumber)}>Toggle reactive number</button
+>
 
 <Field.Root>
   <Field.Label id="root-number-label">Root number label</Field.Label>

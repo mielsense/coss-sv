@@ -1,17 +1,29 @@
 <script lang="ts">
-import { Field } from "@shardsui/svelte";
-import * as LocalField from "../field/index.js";
-import Input from "./input.svelte";
+  import { Field } from "@shardsui/svelte";
+  import { tick } from "svelte";
+  import * as LocalField from "../field/index.js";
+  import Input from "./input.svelte";
 
-let inputRef = $state<HTMLInputElement | null>(null);
-let value = $state("seed");
-let changes = $state(0);
-let valueChange = $state("none");
-let nativeInputRef = $state<HTMLInputElement | null>(null);
-let nativeValue = $state("native seed");
-let nativeInputs = $state(0);
-let fileChanges = $state(0);
-let nativeFileChanges = $state(0);
+  let inputRef = $state<HTMLInputElement | null>(null);
+  let value = $state("seed");
+  let changes = $state(0);
+  let valueChange = $state("none");
+  let nativeInputRef = $state<HTMLInputElement | null>(null);
+  let nativeValue = $state("native seed");
+  let nativeInputs = $state(0);
+  let fileChanges = $state(0);
+  let nativeFileChanges = $state(0);
+  let reactiveDescription = $state<string | null | undefined>(null);
+  let showReactiveInput = $state(true);
+
+  async function raceReactiveDescription(): Promise<void> {
+    reactiveDescription = null;
+    await tick();
+    reactiveDescription = undefined;
+    await tick();
+    reactiveDescription = "reactive-input-external";
+    await tick();
+  }
 </script>
 
 <form data-testid="input-form">
@@ -58,6 +70,39 @@ let nativeFileChanges = $state(0);
   <Input aria-describedby={null} aria-labelledby={null} data-testid="null-aria-input" />
   <LocalField.Description>Removed input description</LocalField.Description>
 </LocalField.Root>
+<p id="reactive-input-external">Reactive external input description</p>
+<LocalField.Root>
+  <LocalField.Label>Reactive input label</LocalField.Label>
+  {#if showReactiveInput}
+    <Input aria-describedby={reactiveDescription} data-testid="reactive-aria-input" />
+  {/if}
+  <LocalField.Description id="reactive-input-field-description">
+    Reactive field input description
+  </LocalField.Description>
+</LocalField.Root>
+<button
+  data-testid="input-description-inherit"
+  type="button"
+  onclick={() => (reactiveDescription = undefined)}>Inherit input description</button
+>
+<button
+  data-testid="input-description-external"
+  type="button"
+  onclick={() => (reactiveDescription = "reactive-input-external")}>Merge input description</button
+>
+<button
+  data-testid="input-description-remove"
+  type="button"
+  onclick={() => (reactiveDescription = null)}>Remove input description</button
+>
+<button data-testid="input-description-race" type="button" onclick={raceReactiveDescription}
+  >Race input description</button
+>
+<button
+  data-testid="input-description-mount"
+  type="button"
+  onclick={() => (showReactiveInput = !showReactiveInput)}>Toggle reactive input</button
+>
 <p id="external-input-description">External input description</p>
 <LocalField.Root>
   <LocalField.Label>Inherited input label</LocalField.Label>
