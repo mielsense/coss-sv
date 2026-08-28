@@ -20,6 +20,14 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v6
 
+      - name: Check out pinned COSS reference
+        uses: actions/checkout@v6
+        with:
+          repository: cosscom/coss
+          ref: 19620ae8cae81e30775f2cde03829326cb4916b2
+          path: reference
+          persist-credentials: false
+
       - name: Install pnpm
         uses: pnpm/action-setup@v4
         with:
