@@ -128,6 +128,75 @@
       ]
     },
     {
+      "name": "autocomplete",
+      "type": "registry:ui",
+      "description": "Suggests and filters values as a user types.",
+      "dependencies": [
+        "@hugeicons/core-free-icons@4.3.0",
+        "@hugeicons/svelte@1.1.5",
+        "@shardsui/svelte@0.1.0-beta.0"
+      ],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "../../packages/ui/src/components/ui/autocomplete/autocomplete-clear.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/autocomplete/autocomplete-empty.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/autocomplete/autocomplete-group-label.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/autocomplete/autocomplete-group.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/autocomplete/autocomplete-input.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/autocomplete/autocomplete-item.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/autocomplete/autocomplete-list.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/autocomplete/autocomplete-parts.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/autocomplete/autocomplete-popup.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/autocomplete/autocomplete-row.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/autocomplete/autocomplete-separator.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/autocomplete/autocomplete-status.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/autocomplete/autocomplete-trigger.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/autocomplete/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "avatar",
       "type": "registry:ui",
       "description": "Displays an image or fallback for a person or entity.",
@@ -391,6 +460,184 @@
         },
         {
           "path": "../../packages/ui/src/components/ui/collapsible/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "combobox",
+      "type": "registry:ui",
+      "description": "Selects one or more values from a filterable collection.",
+      "dependencies": [
+        "@hugeicons/core-free-icons@4.3.0",
+        "@hugeicons/svelte@1.1.5",
+        "@shardsui/svelte@0.1.0-beta.0"
+      ],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "../../packages/ui/src/components/ui/combobox/combobox-chip-remove.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/combobox/combobox-chip.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/combobox/combobox-chips-input.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/combobox/combobox-chips.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/combobox/combobox-clear.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/combobox/combobox-empty.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/combobox/combobox-group-label.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/combobox/combobox-group.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/combobox/combobox-input.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/combobox/combobox-item.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/combobox/combobox-list.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/combobox/combobox-parts.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/combobox/combobox-popup.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/combobox/combobox-root.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/combobox/combobox-row.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/combobox/combobox-separator.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/combobox/combobox-status.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/combobox/combobox-trigger.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/combobox/combobox-value.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/combobox/context.svelte.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/combobox/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "command",
+      "type": "registry:ui",
+      "description": "Presents searchable commands in a panel or dialog.",
+      "dependencies": [
+        "@hugeicons/core-free-icons@4.3.0",
+        "@hugeicons/svelte@1.1.5",
+        "@shardsui/svelte@0.1.0-beta.0"
+      ],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "../../packages/ui/src/components/ui/command/command-dialog-backdrop.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/command/command-dialog-popup.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/command/command-dialog-trigger.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/command/command-dialog-viewport.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/command/command-empty.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/command/command-footer.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/command/command-group-label.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/command/command-group.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/command/command-input.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/command/command-item.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/command/command-list.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/command/command-panel.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/command/command-part.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/command/command-root.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/command/command-separator.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/command/command-shortcut.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/command/index.ts",
           "type": "registry:ui"
         }
       ]
@@ -1371,6 +1618,71 @@
         },
         {
           "path": "../../packages/ui/src/components/ui/scroll-area/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "select",
+      "type": "registry:ui",
+      "description": "Chooses a value from a popup list.",
+      "dependencies": [
+        "@hugeicons/core-free-icons@4.3.0",
+        "@hugeicons/svelte@1.1.5",
+        "@shardsui/svelte@0.1.0-beta.0"
+      ],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "../../packages/ui/src/components/ui/select/context.svelte.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/select/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/select/select-button.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/select/select-group-label.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/select/select-group.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/select/select-item.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/select/select-label.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/select/select-parts.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/select/select-popup.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/select/select-root.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/select/select-separator.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/select/select-trigger.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/select/select-value.svelte",
           "type": "registry:ui"
         }
       ]

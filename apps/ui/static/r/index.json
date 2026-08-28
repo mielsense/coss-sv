@@ -30,6 +30,18 @@
 		"relativeUrl": "alert-dialog.json"
 	},
 	{
+		"name": "autocomplete",
+		"type": "registry:ui",
+		"description": "Suggests and filters values as a user types.",
+		"dependencies": [
+			"@hugeicons/core-free-icons@4.3.0",
+			"@hugeicons/svelte@1.1.5",
+			"@shardsui/svelte@0.1.0-beta.0"
+		],
+		"registryDependencies": [],
+		"relativeUrl": "autocomplete.json"
+	},
+	{
 		"name": "avatar",
 		"type": "registry:ui",
 		"description": "Displays an image or fallback for a person or entity.",
@@ -108,6 +120,30 @@
 			"local:button"
 		],
 		"relativeUrl": "collapsible.json"
+	},
+	{
+		"name": "combobox",
+		"type": "registry:ui",
+		"description": "Selects one or more values from a filterable collection.",
+		"dependencies": [
+			"@hugeicons/core-free-icons@4.3.0",
+			"@hugeicons/svelte@1.1.5",
+			"@shardsui/svelte@0.1.0-beta.0"
+		],
+		"registryDependencies": [],
+		"relativeUrl": "combobox.json"
+	},
+	{
+		"name": "command",
+		"type": "registry:ui",
+		"description": "Presents searchable commands in a panel or dialog.",
+		"dependencies": [
+			"@hugeicons/core-free-icons@4.3.0",
+			"@hugeicons/svelte@1.1.5",
+			"@shardsui/svelte@0.1.0-beta.0"
+		],
+		"registryDependencies": [],
+		"relativeUrl": "command.json"
 	},
 	{
 		"name": "context-menu",
@@ -345,6 +381,18 @@
 		],
 		"registryDependencies": [],
 		"relativeUrl": "scroll-area.json"
+	},
+	{
+		"name": "select",
+		"type": "registry:ui",
+		"description": "Chooses a value from a popup list.",
+		"dependencies": [
+			"@hugeicons/core-free-icons@4.3.0",
+			"@hugeicons/svelte@1.1.5",
+			"@shardsui/svelte@0.1.0-beta.0"
+		],
+		"registryDependencies": [],
+		"relativeUrl": "select.json"
 	},
 	{
 		"name": "separator",

@@ -19,7 +19,7 @@
     {
       "id": "autocomplete",
       "kind": "component",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "avatar",
@@ -69,12 +69,12 @@
     {
       "id": "combobox",
       "kind": "component",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "command",
       "kind": "component",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "context-menu",
@@ -194,7 +194,7 @@
     {
       "id": "select",
       "kind": "component",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "separator",

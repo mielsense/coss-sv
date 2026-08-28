@@ -13,7 +13,7 @@ Generated from the pinned local reference. The status baseline names every plann
 | `accordion` | `reference/apps/ui/registry/default/ui/accordion.tsx` | `packages/ui/src/components/ui/accordion`<br>`apps/ui/registry/registry-ui.ts` | approved |
 | `alert-dialog` | `reference/apps/ui/registry/default/ui/alert-dialog.tsx` | `packages/ui/src/components/ui/alert-dialog`<br>`apps/ui/registry/registry-ui.ts` | approved |
 | `alert` | `reference/apps/ui/registry/default/ui/alert.tsx` | `packages/ui/src/components/ui/alert`<br>`apps/ui/registry/registry-ui.ts` | approved |
-| `autocomplete` | `reference/apps/ui/registry/default/ui/autocomplete.tsx` | `packages/ui/src/components/ui/autocomplete`<br>`apps/ui/registry/registry-ui.ts` | missing |
+| `autocomplete` | `reference/apps/ui/registry/default/ui/autocomplete.tsx` | `packages/ui/src/components/ui/autocomplete`<br>`apps/ui/registry/registry-ui.ts` | approved |
 | `avatar` | `reference/apps/ui/registry/default/ui/avatar.tsx` | `packages/ui/src/components/ui/avatar`<br>`apps/ui/registry/registry-ui.ts` | approved |
 | `badge` | `reference/apps/ui/registry/default/ui/badge.tsx` | `packages/ui/src/components/ui/badge`<br>`apps/ui/registry/registry-ui.ts` | approved |
 | `breadcrumb` | `reference/apps/ui/registry/default/ui/breadcrumb.tsx` | `packages/ui/src/components/ui/breadcrumb`<br>`apps/ui/registry/registry-ui.ts` | approved |
@@ -23,8 +23,8 @@ Generated from the pinned local reference. The status baseline names every plann
 | `checkbox-group` | `reference/apps/ui/registry/default/ui/checkbox-group.tsx` | `packages/ui/src/components/ui/checkbox-group`<br>`apps/ui/registry/registry-ui.ts` | approved |
 | `checkbox` | `reference/apps/ui/registry/default/ui/checkbox.tsx` | `packages/ui/src/components/ui/checkbox`<br>`apps/ui/registry/registry-ui.ts` | approved |
 | `collapsible` | `reference/apps/ui/registry/default/ui/collapsible.tsx` | `packages/ui/src/components/ui/collapsible`<br>`apps/ui/registry/registry-ui.ts` | approved |
-| `combobox` | `reference/apps/ui/registry/default/ui/combobox.tsx` | `packages/ui/src/components/ui/combobox`<br>`apps/ui/registry/registry-ui.ts` | missing |
-| `command` | `reference/apps/ui/registry/default/ui/command.tsx` | `packages/ui/src/components/ui/command`<br>`apps/ui/registry/registry-ui.ts` | missing |
+| `combobox` | `reference/apps/ui/registry/default/ui/combobox.tsx` | `packages/ui/src/components/ui/combobox`<br>`apps/ui/registry/registry-ui.ts` | approved |
+| `command` | `reference/apps/ui/registry/default/ui/command.tsx` | `packages/ui/src/components/ui/command`<br>`apps/ui/registry/registry-ui.ts` | approved |
 | `context-menu` | `reference/apps/ui/registry/default/ui/context-menu.tsx` | `packages/ui/src/components/ui/context-menu`<br>`apps/ui/registry/registry-ui.ts` | approved |
 | `dialog` | `reference/apps/ui/registry/default/ui/dialog.tsx` | `packages/ui/src/components/ui/dialog`<br>`apps/ui/registry/registry-ui.ts` | approved |
 | `drawer` | `reference/apps/ui/registry/default/ui/drawer.tsx` | `packages/ui/src/components/ui/drawer`<br>`apps/ui/registry/registry-ui.ts` | approved |
@@ -48,7 +48,7 @@ Generated from the pinned local reference. The status baseline names every plann
 | `progress` | `reference/apps/ui/registry/default/ui/progress.tsx` | `packages/ui/src/components/ui/progress`<br>`apps/ui/registry/registry-ui.ts` | approved |
 | `radio-group` | `reference/apps/ui/registry/default/ui/radio-group.tsx` | `packages/ui/src/components/ui/radio-group`<br>`apps/ui/registry/registry-ui.ts` | approved |
 | `scroll-area` | `reference/apps/ui/registry/default/ui/scroll-area.tsx` | `packages/ui/src/components/ui/scroll-area`<br>`apps/ui/registry/registry-ui.ts` | approved |
-| `select` | `reference/apps/ui/registry/default/ui/select.tsx` | `packages/ui/src/components/ui/select`<br>`apps/ui/registry/registry-ui.ts` | missing |
+| `select` | `reference/apps/ui/registry/default/ui/select.tsx` | `packages/ui/src/components/ui/select`<br>`apps/ui/registry/registry-ui.ts` | approved |
 | `separator` | `reference/apps/ui/registry/default/ui/separator.tsx` | `packages/ui/src/components/ui/separator`<br>`apps/ui/registry/registry-ui.ts` | approved |
 | `sheet` | `reference/apps/ui/registry/default/ui/sheet.tsx` | `packages/ui/src/components/ui/sheet`<br>`apps/ui/registry/registry-ui.ts` | approved |
 | `sidebar` | `reference/apps/ui/registry/default/ui/sidebar.tsx` | `packages/ui/src/components/ui/sidebar`<br>`apps/ui/registry/registry-ui.ts` | missing |
