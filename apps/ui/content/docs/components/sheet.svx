@@ -10,7 +10,10 @@ links:
 
 ## Installation
 
-<InstallCommand pnpm="pnpm add @coss-sv/ui" shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/sheet.json" />
+<InstallCommand
+  pnpm="pnpm add @coss-sv/ui"
+  shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/sheet.json"
+/>
 
 ## Usage
 
@@ -51,13 +54,13 @@ Trigger button that opens the sheet. Wraps `Dialog.Trigger` from Shards UI.
 
 Popup container that displays the sheet content. Also exported as `Sheet.Content`.
 
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `side` | `"right" \| "left" \| "top" \| "bottom"` | `"right"` | Controls which side of the screen the sheet opens from |
-| `variant` | `"default" \| "inset"` | `"default"` | Controls the sheet style. `inset` adds spacing around the sheet on desktop screens |
-| `showCloseButton` | `boolean` | `true` | When true, displays a close button in the top-right corner |
-| `closeProps` | `ComponentProps<typeof Dialog.Close>` | - | Props forwarded to the internal close button, useful for overriding `aria-label` |
-| `portalProps` | `ComponentProps<typeof Dialog.Portal>` | - | Props forwarded to the internal portal (`keepMounted`, `container`, etc.); see the Shards UI Dialog portal API |
+| Prop              | Type                                     | Default     | Description                                                                                                    |
+| ----------------- | ---------------------------------------- | ----------- | -------------------------------------------------------------------------------------------------------------- |
+| `side`            | `"right" \| "left" \| "top" \| "bottom"` | `"right"`   | Controls which side of the screen the sheet opens from                                                         |
+| `variant`         | `"default" \| "inset"`                   | `"default"` | Controls the sheet style. `inset` adds spacing around the sheet on desktop screens                             |
+| `showCloseButton` | `boolean`                                | `true`      | When true, displays a close button in the top-right corner                                                     |
+| `closeProps`      | `ComponentProps<typeof Dialog.Close>`    | -           | Props forwarded to the internal close button, useful for overriding `aria-label`                               |
+| `portalProps`     | `ComponentProps<typeof Dialog.Portal>`   | -           | Props forwarded to the internal portal (`keepMounted`, `container`, etc.); see the Shards UI Dialog portal API |
 
 **Example:**
 
@@ -86,8 +89,8 @@ Container for the sheet title and description. Supports the `as` prop for polymo
 
 Footer section for action buttons. Supports the `as` prop for polymorphic composition.
 
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
+| Prop      | Type                  | Default     | Description                                                                                |
+| --------- | --------------------- | ----------- | ------------------------------------------------------------------------------------------ |
 | `variant` | `"default" \| "bare"` | `"default"` | Controls the footer styling. `default` includes border and background, `bare` removes them |
 
 ### Sheet.Title
@@ -102,9 +105,9 @@ Description component. Wraps `Dialog.Description` from Shards UI.
 
 Scrollable content container. Automatically wraps content in a `ScrollArea` component. Supports the `as` prop for polymorphic composition.
 
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `scrollFade` | `boolean` | `true` | When true, shows a fade effect at scroll edges |
+| Prop         | Type      | Default | Description                                    |
+| ------------ | --------- | ------- | ---------------------------------------------- |
+| `scrollFade` | `boolean` | `true`  | When true, shows a fade effect at scroll edges |
 
 **Example:**
 

@@ -10,7 +10,10 @@ links:
 
 ## Installation
 
-<InstallCommand pnpm="pnpm add @coss-sv/ui" shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/dialog.json" />
+<InstallCommand
+  pnpm="pnpm add @coss-sv/ui"
+  shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/dialog.json"
+/>
 
 ## Usage
 
@@ -52,12 +55,12 @@ Creates a handle for detached dialog triggers. Use it when the trigger and popup
 
 Popup container that displays the dialog content. Also exported as `Dialog.Content`.
 
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `showCloseButton` | `boolean` | `true` | When true, displays a close button in the top-right corner |
-| `bottomStickOnMobile` | `boolean` | `true` | When true, sticks to the bottom of the screen on mobile devices |
-| `closeProps` | `ComponentProps<typeof Dialog.Close>` | - | Props forwarded to the internal close button, useful for overriding `aria-label` |
-| `portalProps` | `ComponentProps<typeof Dialog.Portal>` | - | Props forwarded to the internal portal (`keepMounted`, `container`, etc.); see the Shards UI Dialog portal API |
+| Prop                  | Type                                   | Default | Description                                                                                                    |
+| --------------------- | -------------------------------------- | ------- | -------------------------------------------------------------------------------------------------------------- |
+| `showCloseButton`     | `boolean`                              | `true`  | When true, displays a close button in the top-right corner                                                     |
+| `bottomStickOnMobile` | `boolean`                              | `true`  | When true, sticks to the bottom of the screen on mobile devices                                                |
+| `closeProps`          | `ComponentProps<typeof Dialog.Close>`  | -       | Props forwarded to the internal close button, useful for overriding `aria-label`                               |
+| `portalProps`         | `ComponentProps<typeof Dialog.Portal>` | -       | Props forwarded to the internal portal (`keepMounted`, `container`, etc.); see the Shards UI Dialog portal API |
 
 ### Dialog.Header
 
@@ -67,8 +70,8 @@ Container for the dialog title and description. Supports the `as` prop for polym
 
 Footer section for action buttons. Supports the `as` prop for polymorphic composition.
 
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
+| Prop      | Type                  | Default     | Description                                                                                |
+| --------- | --------------------- | ----------- | ------------------------------------------------------------------------------------------ |
 | `variant` | `"default" \| "bare"` | `"default"` | Controls the footer styling. `default` includes border and background, `bare` removes them |
 
 **Example:**
@@ -99,9 +102,9 @@ Description component. Wraps `Dialog.Description` from Shards UI.
 
 Scrollable content container. Automatically wraps content in a `ScrollArea` component. Supports the `as` prop for polymorphic composition.
 
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `scrollFade` | `boolean` | `true` | When true, shows a fade effect at scroll edges |
+| Prop         | Type      | Default | Description                                    |
+| ------------ | --------- | ------- | ---------------------------------------------- |
+| `scrollFade` | `boolean` | `true`  | When true, shows a fade effect at scroll edges |
 
 **Example:**
 

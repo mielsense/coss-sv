@@ -10,7 +10,10 @@ links:
 
 ## Installation
 
-<InstallCommand pnpm="pnpm add @coss-sv/ui" shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/tooltip.json" />
+<InstallCommand
+  pnpm="pnpm add @coss-sv/ui"
+  shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/tooltip.json"
+/>
 
 ## Usage
 
@@ -19,12 +22,10 @@ links:
   import * as Tooltip from "@coss-sv/ui/components/ui/tooltip";
 </script>
 
-<Tooltip.Provider>
-  <Tooltip.Root>
-    <Tooltip.Trigger>Hover me</Tooltip.Trigger>
-    <Tooltip.Popup>Helpful hint</Tooltip.Popup>
-  </Tooltip.Root>
-</Tooltip.Provider>
+<Tooltip.Root>
+  <Tooltip.Trigger>Hover me</Tooltip.Trigger>
+  <Tooltip.Popup>Helpful hint</Tooltip.Popup>
+</Tooltip.Root>
 ```
 
 ## API Reference
@@ -41,12 +42,12 @@ Trigger element that shows the tooltip on hover/focus. Wraps `Tooltip.Trigger` f
 
 Popup container that displays the tooltip content. Also exported as `Tooltip.Content`.
 
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `side` | `"top" \| "bottom" \| "left" \| "right"` | `"top"` | Side of the trigger to position the tooltip |
-| `align` | `"start" \| "center" \| "end"` | `"center"` | Alignment relative to the trigger |
-| `sideOffset` | `number` | `4` | Distance from the trigger in pixels |
-| `portalProps` | `ComponentProps<typeof Tooltip.TooltipPrimitive.Portal>` | - | Props forwarded to the internal portal (`keepMounted`, `container`, etc.); see the Shards UI Tooltip portal API |
+| Prop          | Type                                                     | Default    | Description                                                                                                     |
+| ------------- | -------------------------------------------------------- | ---------- | --------------------------------------------------------------------------------------------------------------- |
+| `side`        | `"top" \| "bottom" \| "left" \| "right"`                 | `"top"`    | Side of the trigger to position the tooltip                                                                     |
+| `align`       | `"start" \| "center" \| "end"`                           | `"center"` | Alignment relative to the trigger                                                                               |
+| `sideOffset`  | `number`                                                 | `4`        | Distance from the trigger in pixels                                                                             |
+| `portalProps` | `ComponentProps<typeof Tooltip.TooltipPrimitive.Portal>` | -          | Props forwarded to the internal portal (`keepMounted`, `container`, etc.); see the Shards UI Tooltip portal API |
 
 ### Tooltip.Provider
 

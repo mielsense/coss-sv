@@ -129,7 +129,9 @@ describe("D7 overlay documentation", () => {
     expect(particle).toContain(`id: "${id}"`);
     expect(particle).toContain("defineParticleMeta({");
     const declared = /components:\s*(\[[^\]]*\])/s.exec(particle)?.[1];
-    expect(JSON.parse(declared ?? "[]")).toEqual(record?.componentImports);
+    expect([...(declared?.matchAll(/"([^"]+)"/g) ?? [])].map(([, component]) => component)).toEqual(
+      record?.componentImports,
+    );
     expect(particle).not.toMatch(
       /\b(?:export let|createEventDispatcher|className|onClick|useState|useEffect)\b|\bon:/,
     );
@@ -189,6 +191,22 @@ describe("D7 overlay documentation", () => {
       const slug = namespace.replace(/([a-z])([A-Z])/g, "$1-$2").toLowerCase();
       expect(source(`apps/ui/content/docs/components/${slug}.svx`)).toContain(`<${namespace}.Root`);
     }
+  });
+
+  test("keeps the basic tooltip usage and particle provider-free", () => {
+    const page = source("apps/ui/content/docs/components/tooltip.svx");
+    const usage = /```svelte\n([\s\S]*?)\n```/.exec(page)?.[1];
+    expect(usage).toBeDefined();
+    expect(usage).not.toContain("<Tooltip.Provider>");
+    expect(usage).toMatch(
+      /<Tooltip\.Root>\s*<Tooltip\.Trigger>Hover me<\/Tooltip\.Trigger>\s*<Tooltip\.Popup>Helpful hint<\/Tooltip\.Popup>\s*<\/Tooltip\.Root>/,
+    );
+
+    const particle = source("apps/ui/registry/default/particles/p-tooltip-1.svelte");
+    expect(particle).not.toContain("<Tooltip.Provider");
+    expect(particle).toMatch(
+      /<Tooltip\.Root>\s*<Tooltip\.Trigger[^>]*>\s*Hover me\s*<\/Tooltip\.Trigger>\s*<Tooltip\.Popup>Helpful hint<\/Tooltip\.Popup>\s*<\/Tooltip\.Root>/,
+    );
   });
 
   test("preserves high-risk interaction data and Hugeicons", () => {

@@ -10,7 +10,10 @@ links:
 
 ## Installation
 
-<InstallCommand pnpm="pnpm add @coss-sv/ui" shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/drawer.json" />
+<InstallCommand
+  pnpm="pnpm add @coss-sv/ui"
+  shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/drawer.json"
+/>
 
 ## Usage
 
@@ -40,10 +43,10 @@ links:
 
 Root component. Wraps `Drawer.Root` from Shards UI with automatic `swipeDirection` mapping based on `position`.
 
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `position` | `"right" \| "left" \| "top" \| "bottom"` | `"bottom"` | Controls which edge the drawer opens from. Sets the swipe direction automatically and flows to child components via context |
-| `swipeDirection` | `"up" \| "down" \| "left" \| "right"` | derived | Overrides the swipe direction derived from `position`. Use when you need different swipe behavior |
+| Prop             | Type                                     | Default    | Description                                                                                                                 |
+| ---------------- | ---------------------------------------- | ---------- | --------------------------------------------------------------------------------------------------------------------------- |
+| `position`       | `"right" \| "left" \| "top" \| "bottom"` | `"bottom"` | Controls which edge the drawer opens from. Sets the swipe direction automatically and flows to child components via context |
+| `swipeDirection` | `"up" \| "down" \| "left" \| "right"`    | derived    | Overrides the swipe direction derived from `position`. Use when you need different swipe behavior                           |
 
 All other props from `Drawer.Root` are supported, including `open`, `onOpenChange`, `modal`, `snapPoints`, `snapPoint`, `onSnapPointChange`, and `snapToSequentialPoints`. Note: Snap points only work for bottom drawers.
 
@@ -59,12 +62,12 @@ Trigger button that opens the drawer. Wraps `Drawer.Trigger` from Shards UI.
 
 Popup container that displays the drawer content.
 
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `variant` | `"default" \| "straight" \| "inset"` | `"default"` | Controls the drawer style. `straight` removes rounded corners, `inset` adds spacing around the drawer on desktop screens |
-| `showCloseButton` | `boolean` | `false` | When true, displays a close button in the top-right corner |
-| `showBar` | `boolean` | `false` | When true, displays a drag bar indicator |
-| `portalProps` | `ComponentProps<typeof Drawer.Portal>` | - | Props forwarded to the internal portal (`keepMounted`, `container`, etc.); see the Shards UI Drawer portal API |
+| Prop              | Type                                   | Default     | Description                                                                                                              |
+| ----------------- | -------------------------------------- | ----------- | ------------------------------------------------------------------------------------------------------------------------ |
+| `variant`         | `"default" \| "straight" \| "inset"`   | `"default"` | Controls the drawer style. `straight` removes rounded corners, `inset` adds spacing around the drawer on desktop screens |
+| `showCloseButton` | `boolean`                              | `false`     | When true, displays a close button in the top-right corner                                                               |
+| `showBar`         | `boolean`                              | `false`     | When true, displays a drag bar indicator                                                                                 |
+| `portalProps`     | `ComponentProps<typeof Drawer.Portal>` | -           | Props forwarded to the internal portal (`keepMounted`, `container`, etc.); see the Shards UI Drawer portal API           |
 
 **Example:**
 
@@ -86,18 +89,18 @@ Popup container that displays the drawer content.
 
 Container for the drawer title and description. Supports the `as` prop for polymorphic composition (for example, `as="header"`).
 
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
+| Prop             | Type      | Default | Description                                                                                              |
+| ---------------- | --------- | ------- | -------------------------------------------------------------------------------------------------------- |
 | `allowSelection` | `boolean` | `false` | When true, wraps the header in `Drawer.Content` to reduce swipe interference during mouse text selection |
 
 ### Drawer.Footer
 
 Footer section for action buttons. Supports the `as` prop for polymorphic composition.
 
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `variant` | `"default" \| "bare"` | `"default"` | Controls the footer styling. `default` includes border and background, `bare` removes them |
-| `allowSelection` | `boolean` | `true` | When true, wraps the footer in `Drawer.Content` to reduce swipe interference during mouse text selection |
+| Prop             | Type                  | Default     | Description                                                                                              |
+| ---------------- | --------------------- | ----------- | -------------------------------------------------------------------------------------------------------- |
+| `variant`        | `"default" \| "bare"` | `"default"` | Controls the footer styling. `default` includes border and background, `bare` removes them               |
+| `allowSelection` | `boolean`             | `true`      | When true, wraps the footer in `Drawer.Content` to reduce swipe interference during mouse text selection |
 
 ### Drawer.Title
 
@@ -111,11 +114,11 @@ Description component. Wraps `Drawer.Description` from Shards UI.
 
 Content container. When `scrollable` is true (default), wraps content in a `ScrollArea` component. Supports the `as` prop for polymorphic composition.
 
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `scrollable` | `boolean` | `true` | When true, wraps content in a `ScrollArea`. Set to false for non-scrollable content |
-| `scrollFade` | `boolean` | `true` | When true, shows a fade effect at scroll edges (only applies when `scrollable` is true) |
-| `allowSelection` | `boolean` | `true` | When true, wraps the panel in `Drawer.Content` to reduce swipe interference during mouse text selection |
+| Prop             | Type      | Default | Description                                                                                             |
+| ---------------- | --------- | ------- | ------------------------------------------------------------------------------------------------------- |
+| `scrollable`     | `boolean` | `true`  | When true, wraps content in a `ScrollArea`. Set to false for non-scrollable content                     |
+| `scrollFade`     | `boolean` | `true`  | When true, shows a fade effect at scroll edges (only applies when `scrollable` is true)                 |
+| `allowSelection` | `boolean` | `true`  | When true, wraps the panel in `Drawer.Content` to reduce swipe interference during mouse text selection |
 
 ### Drawer.Menu
 
@@ -125,10 +128,10 @@ Container for drawer menu items. Use with `Drawer.MenuItem`, `Drawer.MenuSeparat
 
 Styled menu item that matches `Menu.Item` appearance. Does not close the drawer — wrap with `Drawer.Close` when close-on-click is needed. Supports the `as` prop for polymorphic composition.
 
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `variant` | `"default" \| "destructive"` | `"default"` | When `destructive`, uses destructive text color |
-| `disabled` | `boolean` | — | When true, disables the item |
+| Prop       | Type                         | Default     | Description                                     |
+| ---------- | ---------------------------- | ----------- | ----------------------------------------------- |
+| `variant`  | `"default" \| "destructive"` | `"default"` | When `destructive`, uses destructive text color |
+| `disabled` | `boolean`                    | —           | When true, disables the item                    |
 
 **Example:** Use `Drawer.Close` with `Drawer.drawerMenuItemVariants()` for a close-on-click menu item: `<Drawer.Close class={Drawer.drawerMenuItemVariants()}>Edit</Drawer.Close>`.
 

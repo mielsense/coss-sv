@@ -10,7 +10,10 @@ links:
 
 ## Installation
 
-<InstallCommand pnpm="pnpm add @coss-sv/ui" shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/preview-card.json" />
+<InstallCommand
+  pnpm="pnpm add @coss-sv/ui"
+  shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/preview-card.json"
+/>
 
 ## Usage
 
@@ -39,8 +42,8 @@ Trigger element that shows the preview card on hover. Wraps `PreviewCard.Trigger
 
 Popup container that displays the preview content. Also exported as `PreviewCard.HoverCardContent`.
 
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `align` | `"start" \| "center" \| "end"` | `"center"` | Alignment relative to the trigger |
-| `sideOffset` | `number` | `4` | Distance from the trigger in pixels |
-| `portalProps` | `ComponentProps<typeof PreviewCard.PreviewCardPrimitive.Portal>` | - | Props forwarded to the internal portal (`keepMounted`, `container`, etc.); see the Shards UI Preview Card portal API |
+| Prop          | Type                                                             | Default    | Description                                                                                                          |
+| ------------- | ---------------------------------------------------------------- | ---------- | -------------------------------------------------------------------------------------------------------------------- |
+| `align`       | `"start" \| "center" \| "end"`                                   | `"center"` | Alignment relative to the trigger                                                                                    |
+| `sideOffset`  | `number`                                                         | `4`        | Distance from the trigger in pixels                                                                                  |
+| `portalProps` | `ComponentProps<typeof PreviewCard.PreviewCardPrimitive.Portal>` | -          | Props forwarded to the internal portal (`keepMounted`, `container`, etc.); see the Shards UI Preview Card portal API |

@@ -10,7 +10,10 @@ links:
 
 ## Installation
 
-<InstallCommand pnpm="pnpm add @coss-sv/ui" shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/popover.json" />
+<InstallCommand
+  pnpm="pnpm add @coss-sv/ui"
+  shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/popover.json"
+/>
 
 ## Usage
 
@@ -43,14 +46,14 @@ Trigger button that opens the popover. Wraps `Popover.Trigger` from Shards UI.
 
 Popup container that displays the popover content. Also exported as `Popover.Content`.
 
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `tooltipStyle` | `boolean` | `false` | When true, applies tooltip-like styling (smaller padding, arrow) |
-| `side` | `"top" \| "bottom" \| "left" \| "right"` | `"bottom"` | Side of the trigger to position the popup |
-| `align` | `"start" \| "center" \| "end"` | `"center"` | Alignment relative to the trigger |
-| `sideOffset` | `number` | `4` | Distance from the trigger in pixels |
-| `alignOffset` | `number` | `0` | Offset along the alignment axis |
-| `portalProps` | `ComponentProps<typeof Popover.PopoverPrimitive.Portal>` | - | Props forwarded to the internal portal (`keepMounted`, `container`, etc.); see the Shards UI Popover portal API |
+| Prop           | Type                                                     | Default    | Description                                                                                                     |
+| -------------- | -------------------------------------------------------- | ---------- | --------------------------------------------------------------------------------------------------------------- |
+| `tooltipStyle` | `boolean`                                                | `false`    | When true, applies tooltip-like styling (smaller padding, arrow)                                                |
+| `side`         | `"top" \| "bottom" \| "left" \| "right"`                 | `"bottom"` | Side of the trigger to position the popup                                                                       |
+| `align`        | `"start" \| "center" \| "end"`                           | `"center"` | Alignment relative to the trigger                                                                               |
+| `sideOffset`   | `number`                                                 | `4`        | Distance from the trigger in pixels                                                                             |
+| `alignOffset`  | `number`                                                 | `0`        | Offset along the alignment axis                                                                                 |
+| `portalProps`  | `ComponentProps<typeof Popover.PopoverPrimitive.Portal>` | -          | Props forwarded to the internal portal (`keepMounted`, `container`, etc.); see the Shards UI Popover portal API |
 
 ### Popover.Title
 

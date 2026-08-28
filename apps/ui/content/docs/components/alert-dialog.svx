@@ -10,7 +10,10 @@ links:
 
 ## Installation
 
-<InstallCommand pnpm="pnpm add @coss-sv/ui" shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/alert-dialog.json" />
+<InstallCommand
+  pnpm="pnpm add @coss-sv/ui"
+  shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/alert-dialog.json"
+/>
 
 ## Usage
 
@@ -51,10 +54,10 @@ Trigger button that opens the alert dialog. Wraps `AlertDialog.Trigger` from Sha
 
 Popup container that displays the alert dialog content. Also exported as `AlertDialog.Content`.
 
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `bottomStickOnMobile` | `boolean` | `true` | When true, sticks to the bottom of the screen on mobile devices |
-| `portalProps` | `ComponentProps<typeof AlertDialog.Portal>` | - | Props forwarded to the internal portal (`keepMounted`, `container`, etc.); see the Shards UI Alert Dialog portal API |
+| Prop                  | Type                                        | Default | Description                                                                                                          |
+| --------------------- | ------------------------------------------- | ------- | -------------------------------------------------------------------------------------------------------------------- |
+| `bottomStickOnMobile` | `boolean`                                   | `true`  | When true, sticks to the bottom of the screen on mobile devices                                                      |
+| `portalProps`         | `ComponentProps<typeof AlertDialog.Portal>` | -       | Props forwarded to the internal portal (`keepMounted`, `container`, etc.); see the Shards UI Alert Dialog portal API |
 
 ### AlertDialog.Header
 
@@ -66,8 +69,8 @@ Footer section for action buttons.
 
 Unlike [Dialog](/docs/components/dialog), alert dialog has no `AlertDialog.Panel`. Put title and description in `AlertDialog.Header`, actions in `AlertDialog.Footer`, and use a plain element with `class` if you need extra body content between them.
 
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
+| Prop      | Type                  | Default     | Description                                                                                |
+| --------- | --------------------- | ----------- | ------------------------------------------------------------------------------------------ |
 | `variant` | `"default" \| "bare"` | `"default"` | Controls the footer styling. `default` includes border and background, `bare` removes them |
 
 **Example:**
