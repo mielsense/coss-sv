@@ -66,6 +66,19 @@ if (!baseUrl) {
 const browser = await chromium.launch({ headless: true });
 const context = await browser.newContext({ viewport: { width: 1280, height: 720 } });
 const page = await context.newPage();
+const browserDiagnostics = [];
+
+page.on("console", (message) => {
+  if (/Failed to load resource: the server responded with a status of 404/.test(message.text())) {
+    return;
+  }
+  if (message.type() === "warning" || message.type() === "error") {
+    browserDiagnostics.push(`${message.type()}: ${message.text()}`);
+  }
+});
+page.on("pageerror", (error) => {
+  browserDiagnostics.push(`pageerror: ${error.message}`);
+});
 
 function assertNear(actual, expected, label, tolerance = 0.75) {
   assert.ok(
@@ -161,16 +174,33 @@ try {
       frame: metrics(".docs-frame"),
       heading: metrics(".docs-content h1"),
       sidebar: metrics(".docs-sidebar"),
+      sidebarGroup: metrics(".docs-sidebar section"),
+      sidebarLink: metrics(".docs-sidebar section a"),
+      headingFontSize: getComputedStyle(document.querySelector(".docs-content h1")).fontSize,
+      headingLineHeight: getComputedStyle(document.querySelector(".docs-content h1")).lineHeight,
+      sidebarGroupPaddingLeft: getComputedStyle(document.querySelector(".docs-sidebar section"))
+        .paddingLeft,
     };
   });
 
-  assert.ok(geometry.frame && geometry.heading && geometry.sidebar);
+  assert.ok(
+    geometry.frame &&
+      geometry.heading &&
+      geometry.sidebar &&
+      geometry.sidebarGroup &&
+      geometry.sidebarLink,
+  );
   assertNear(geometry.frame.x, 256, "desktop docs frame x");
   assertNear(geometry.frame.y, 96, "desktop docs frame y");
   assertNear(geometry.frame.width, 720, "desktop docs frame width");
   assertNear(geometry.heading.x, 289, "desktop docs heading x");
   assertNear(geometry.heading.y, 129, "desktop docs heading y");
+  assert.equal(geometry.headingFontSize, "36px");
+  assert.equal(geometry.headingLineHeight, "40px");
   assertNear(geometry.sidebar.width, 240, "desktop sidebar width");
+  assertNear(geometry.sidebarGroup.x, 16, "desktop sidebar group x");
+  assert.equal(geometry.sidebarGroupPaddingLeft, "8px");
+  assertNear(geometry.sidebarLink.x, 24, "desktop sidebar link x");
 
   const introduction = page.getByRole("link", { name: "Introduction", exact: true });
   assert.equal(await introduction.getAttribute("aria-current"), "page");
@@ -181,8 +211,68 @@ try {
   );
 
   await page.goto(`${baseUrl}/definitely-missing`);
+  assert.equal(await page.title(), "Page Not Found");
   assert.equal(await page.getByRole("heading", { name: "Page Not Found" }).isVisible(), true);
-  assert.equal(await page.getByRole("link", { name: /Back to Home/ }).getAttribute("href"), "/");
+  const backHome = page.getByRole("link", { name: /Back to Home/ });
+  assert.equal(await backHome.getAttribute("href"), "/");
+  assert.equal(await page.locator("footer").count(), 0);
+  assert.equal(await page.locator(".error-code").count(), 0);
+  assert.doesNotMatch(await page.locator("body").innerText(), /(^|\s)404(\s|$)/);
+
+  const desktopError = await page.evaluate(() => {
+    const metrics = (selector) => {
+      const element = document.querySelector(selector);
+      if (!element) return null;
+      const rect = element.getBoundingClientRect();
+      const style = getComputedStyle(element);
+      return {
+        x: rect.x,
+        y: rect.y,
+        width: rect.width,
+        height: rect.height,
+        fontSize: style.fontSize,
+        lineHeight: style.lineHeight,
+        fontWeight: style.fontWeight,
+      };
+    };
+    return {
+      heading: metrics(".error-page h1"),
+      description: metrics(".error-page > p"),
+      action: metrics(".error-page .site-button"),
+    };
+  });
+  assert.ok(desktopError.heading && desktopError.description && desktopError.action);
+  assertNear(desktopError.heading.x, 466.977, "desktop 404 heading x");
+  assertNear(desktopError.heading.y, 128, "desktop 404 heading y");
+  assertNear(desktopError.heading.width, 346.039, "desktop 404 heading width");
+  assertNear(desktopError.heading.height, 48, "desktop 404 heading height");
+  assert.equal(desktopError.heading.fontSize, "48px");
+  assert.equal(desktopError.heading.lineHeight, "48px");
+  assert.equal(desktopError.heading.fontWeight, "700");
+  assertNear(desktopError.description.x, 369.086, "desktop 404 description x");
+  assertNear(desktopError.description.y, 192, "desktop 404 description y");
+  assertNear(desktopError.description.width, 541.82, "desktop 404 description width");
+  assertNear(desktopError.description.height, 28, "desktop 404 description height");
+  assert.equal(desktopError.description.fontSize, "18px");
+  assert.equal(desktopError.description.lineHeight, "28px");
+  assertNear(desktopError.action.x, 569.719, "desktop 404 action x");
+  assertNear(desktopError.action.y, 252, "desktop 404 action y");
+  assertNear(desktopError.action.width, 140.555, "desktop 404 action width");
+  assertNear(desktopError.action.height, 36, "desktop 404 action height");
+  assert.equal(desktopError.action.fontSize, "14px");
+  assert.equal(desktopError.action.lineHeight, "20px");
+  const arrowTransition = await backHome.locator("svg").evaluate((element) => {
+    const style = getComputedStyle(element);
+    return { property: style.transitionProperty, transform: style.transform };
+  });
+  assert.equal(arrowTransition.property, "transform");
+  assert.equal(arrowTransition.transform, "none");
+  await backHome.hover();
+  await page.waitForTimeout(200);
+  assert.equal(
+    await backHome.locator("svg").evaluate((element) => getComputedStyle(element).transform),
+    "matrix(1, 0, 0, 1, -2, 0)",
+  );
 
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto(`${baseUrl}/`);
@@ -222,6 +312,11 @@ try {
   const mobileColumn = await page.locator(".docs-column").boundingBox();
   assert.ok(mobileColumn);
   assertNear(mobileColumn.x, 0, "mobile docs column x");
+  const mobileHeading = await page.locator(".docs-content h1").evaluate((element) => {
+    const style = getComputedStyle(element);
+    return { fontSize: style.fontSize, lineHeight: style.lineHeight };
+  });
+  assert.deepEqual(mobileHeading, { fontSize: "30px", lineHeight: "36px" });
 
   const menuTrigger = page.locator(".mobile-menu-trigger");
   await page.waitForTimeout(250);
@@ -232,6 +327,52 @@ try {
   await page.keyboard.press("Escape");
   await menuDialog.waitFor({ state: "hidden" });
   assert.equal(await menuTrigger.evaluate((element) => element === document.activeElement), true);
+
+  await page.goto(`${baseUrl}/definitely-missing`);
+  const mobileError = await page.evaluate(() => {
+    const metrics = (selector) => {
+      const element = document.querySelector(selector);
+      if (!element) return null;
+      const rect = element.getBoundingClientRect();
+      const style = getComputedStyle(element);
+      return {
+        x: rect.x,
+        y: rect.y,
+        width: rect.width,
+        height: rect.height,
+        fontSize: style.fontSize,
+        lineHeight: style.lineHeight,
+      };
+    };
+    return {
+      heading: metrics(".error-page h1"),
+      description: metrics(".error-page > p"),
+      action: metrics(".error-page .site-button"),
+    };
+  });
+  assert.ok(mobileError.heading && mobileError.description && mobileError.action);
+  assertNear(mobileError.heading.x, 65.234, "mobile 404 heading x");
+  assertNear(mobileError.heading.y, 96, "mobile 404 heading y");
+  assertNear(mobileError.heading.width, 259.531, "mobile 404 heading width");
+  assertNear(mobileError.heading.height, 40, "mobile 404 heading height");
+  assert.equal(mobileError.heading.fontSize, "36px");
+  assert.equal(mobileError.heading.lineHeight, "40px");
+  assertNear(mobileError.description.x, 16, "mobile 404 description x");
+  assertNear(mobileError.description.y, 144, "mobile 404 description y");
+  assertNear(mobileError.description.width, 358, "mobile 404 description width");
+  assertNear(mobileError.description.height, 48, "mobile 404 description height");
+  assert.equal(mobileError.description.fontSize, "16px");
+  assert.equal(mobileError.description.lineHeight, "24px");
+  assertNear(mobileError.action.x, 117.633, "mobile 404 action x");
+  assertNear(mobileError.action.y, 216, "mobile 404 action y");
+  assertNear(mobileError.action.width, 154.727, "mobile 404 action width");
+  assertNear(mobileError.action.height, 40, "mobile 404 action height");
+  assert.equal(mobileError.action.fontSize, "16px");
+  assert.equal(mobileError.action.lineHeight, "24px");
+  assert.equal(await page.locator("footer").count(), 0);
+  assert.equal(await page.locator(".error-code").count(), 0);
+  assert.doesNotMatch(await page.locator("body").innerText(), /(^|\s)404(\s|$)/);
+  assert.deepEqual(browserDiagnostics, []);
 } finally {
   await browser.close();
   preview?.kill("SIGTERM");

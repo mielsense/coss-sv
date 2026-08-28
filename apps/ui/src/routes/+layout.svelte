@@ -8,6 +8,7 @@ import { SiteFooter, SiteHeader } from "$lib/site/index.js";
 let { children }: { children: Snippet } = $props();
 let isPreview = $derived(page.url.pathname.startsWith("/preview"));
 let isDocs = $derived(page.url.pathname === "/docs" || page.url.pathname.startsWith("/docs/"));
+let showGlobalFooter = $derived(!isDocs && page.status < 400);
 </script>
 
 {#if isPreview}
@@ -18,7 +19,7 @@ let isDocs = $derived(page.url.pathname === "/docs" || page.url.pathname.startsW
     <main class="site-main">
       {@render children()}
     </main>
-    {#if !isDocs}
+    {#if showGlobalFooter}
       <SiteFooter />
     {/if}
   </div>
