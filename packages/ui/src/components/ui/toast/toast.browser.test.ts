@@ -97,9 +97,9 @@ describe("Toast browser contract", () => {
     expect(alert?.parentElement?.style.clipPath).toBe("inset(50%)");
   });
 
-  test("forwards native attributes, styles, events, and its bindable ref to the portal element", async () => {
+  test("forwards native attributes, styles, and events to the portal element", async () => {
     const onPortalClick = vi.fn();
-    render(ToastFixture, { onPortalClick, portalProbe: true });
+    render(ToastFixture, { onPortalClick });
     const portal = document.querySelector<HTMLDivElement>("#toast-portal-probe");
 
     expect(portal?.classList.contains("custom-toast-portal")).toBe(true);
@@ -108,9 +108,28 @@ describe("Toast browser contract", () => {
     expect(portal?.style.getPropertyValue("--portal-marker")).toBe("37");
     portal?.click();
     expect(onPortalClick).toHaveBeenCalledOnce();
-    await expect
-      .element(page.getByTestId("portal-ref"))
-      .toHaveTextContent("toast-portal-ref-probe");
+  });
+
+  test("delivers public standard and anchored portal refs and clears them on teardown", async () => {
+    const standardNodes: Array<HTMLDivElement | null> = [];
+    const anchoredRef: { current: HTMLDivElement | null } = { current: null };
+    const cleanupStandardRef = vi.fn();
+    const view = await render(ToastFixture, {
+      anchoredPortalRef: anchoredRef,
+      standardPortalRef(node) {
+        standardNodes.push(node);
+        if (node) return cleanupStandardRef;
+      },
+    });
+    const standardPortal = document.querySelector<HTMLDivElement>("#toast-portal-probe");
+    const anchoredPortal = document.querySelector<HTMLDivElement>("#anchored-toast-portal-probe");
+
+    expect(standardNodes).toEqual([standardPortal]);
+    expect(anchoredRef.current).toBe(anchoredPortal);
+
+    await view.unmount();
+    expect(cleanupStandardRef).toHaveBeenCalledOnce();
+    expect(anchoredRef.current).toBeNull();
   });
 
   test("portals the viewport into an HTMLElement container", async () => {
@@ -134,6 +153,33 @@ describe("Toast browser contract", () => {
     expect(shadowRoot.querySelector("#toast-portal-probe")?.parentNode).toBe(shadowRoot);
     expect(shadowRoot.querySelector('[data-slot="toast-viewport"]')).not.toBeNull();
     expect(shadowRoot.textContent).toContain("Event has been created");
+  });
+
+  test("reacts to public standard and anchored container ref objects, including null fallback", async () => {
+    render(ToastFixture, { useContainerRefs: true });
+    const standardPortal = document.querySelector<HTMLDivElement>("#toast-portal-probe");
+    const anchoredPortal = document.querySelector<HTMLDivElement>("#anchored-toast-portal-probe");
+    const standardTarget = document.querySelector<HTMLDivElement>(
+      '[data-testid="standard-container-ref-target"]',
+    );
+    const anchoredHost = document.querySelector<HTMLDivElement>(
+      '[data-testid="anchored-container-ref-host"]',
+    );
+
+    expect(standardPortal?.parentNode).toBe(document.body);
+    expect(anchoredPortal?.parentNode).toBe(document.body);
+
+    await page.getByTestId("set-container-refs").click();
+    await vi.waitFor(() => {
+      expect(standardPortal?.parentNode).toBe(standardTarget);
+      expect(anchoredPortal?.parentNode).toBe(anchoredHost?.shadowRoot);
+    });
+
+    await page.getByTestId("clear-container-refs").click();
+    await vi.waitFor(() => {
+      expect(standardPortal?.parentNode).toBe(document.body);
+      expect(anchoredPortal?.parentNode).toBe(document.body);
+    });
   });
 
   test("dismisses a toast after a genuine pointer swipe past the threshold", async () => {

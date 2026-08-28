@@ -12,7 +12,12 @@ export {
 } from "./anchored-toast-provider.svelte";
 export type {
   ToastData,
+  ToastPortalContainer,
+  ToastPortalContainerRef,
   ToastPortalProps,
+  ToastPortalRef,
+  ToastPortalRefCallback,
+  ToastPortalRefObject,
   ToastPosition,
   ToastSwipeDirection,
 } from "./toast.types.js";

@@ -1,17 +1,20 @@
 <script lang="ts">
 import * as Toast from "./index.js";
-import ToastPortal from "./toast-portal.svelte";
 
 let {
+  anchoredPortalRef,
   onPortalClick,
-  portalProbe = false,
   portalTarget,
   position = "bottom-right",
+  standardPortalRef,
+  useContainerRefs = false,
 }: {
+  anchoredPortalRef?: Toast.ToastPortalRef;
   onPortalClick?: (event: MouseEvent) => void;
-  portalProbe?: boolean;
   portalTarget?: HTMLElement | ShadowRoot;
   position?: Toast.ToastPosition;
+  standardPortalRef?: Toast.ToastPortalRef;
+  useContainerRefs?: boolean;
 } = $props();
 const manager = new Toast.Manager<{ source?: string }>();
 const anchoredManager = new Toast.Manager<Toast.ToastData>();
@@ -21,7 +24,23 @@ let rejectPromise: ((reason: Error) => void) | undefined;
 let actionCount = $state(0);
 let resolveReport: (() => void) | undefined;
 let rejectReport: ((reason: Error) => void) | undefined;
-let portalProbeRef = $state<HTMLDivElement | null>(null);
+let standardContainerTarget = $state<HTMLDivElement | null>(null);
+let anchoredContainerHost = $state<HTMLDivElement | null>(null);
+const standardContainerRef = $state<Toast.ToastPortalContainerRef>({ current: null });
+const anchoredContainerRef = $state<Toast.ToastPortalContainerRef>({ current: null });
+
+function setContainerRefs(): void {
+  standardContainerRef.current = standardContainerTarget;
+  anchoredContainerRef.current =
+    anchoredContainerHost?.shadowRoot ??
+    anchoredContainerHost?.attachShadow({ mode: "open" }) ??
+    null;
+}
+
+function clearContainerRefs(): void {
+  standardContainerRef.current = null;
+  anchoredContainerRef.current = null;
+}
 
 function addDefault(): void {
   manager.add({
@@ -110,10 +129,11 @@ function addAnchored(tooltipStyle = false): void {
   portalProps={{
     "aria-label": "Toast portal",
     class: "custom-toast-portal",
-    container: portalTarget,
+    container: useContainerRefs ? standardContainerRef : portalTarget,
     "data-portal": "custom",
     id: "toast-portal-probe",
     onclick: onPortalClick,
+    ref: standardPortalRef,
     style: "--portal-marker: 37",
   }}
   limit={3}
@@ -159,7 +179,14 @@ function addAnchored(tooltipStyle = false): void {
   <button data-testid="close-all" onclick={() => manager.close()} type="button">Close all</button>
 </Toast.Provider>
 
-<Toast.AnchoredProvider toastManager={anchoredManager}>
+<Toast.AnchoredProvider
+  portalProps={{
+    container: useContainerRefs ? anchoredContainerRef : undefined,
+    id: "anchored-toast-portal-probe",
+    ref: anchoredPortalRef,
+  }}
+  toastManager={anchoredManager}
+>
   <button bind:this={anchor} data-testid="anchor" style="margin-top: 6rem" type="button">
     Anchor
   </button>
@@ -173,13 +200,13 @@ function addAnchored(tooltipStyle = false): void {
 
 <output data-testid="action-count">{actionCount}</output>
 
-{#if portalProbe}
-  <ToastPortal
-    bind:ref={portalProbeRef}
-    dataSlot="toast-portal-anchored"
-    id="toast-portal-ref-probe"
-  >
-    <span>Portal ref probe</span>
-  </ToastPortal>
-  <output data-testid="portal-ref">{portalProbeRef?.id ?? "missing"}</output>
+{#if useContainerRefs}
+  <div bind:this={standardContainerTarget} data-testid="standard-container-ref-target"></div>
+  <div bind:this={anchoredContainerHost} data-testid="anchored-container-ref-host"></div>
+  <button data-testid="set-container-refs" onclick={setContainerRefs} type="button">
+    Set container refs
+  </button>
+  <button data-testid="clear-container-refs" onclick={clearContainerRefs} type="button">
+    Clear container refs
+  </button>
 {/if}

@@ -25,9 +25,18 @@ export type ToastData = {
 };
 
 type PrimitiveProviderProps = ComponentProps<typeof ToastPrimitive.Provider>;
+export type ToastPortalContainerRef = {
+  current: HTMLElement | ShadowRoot | null;
+};
+export type ToastPortalContainer = HTMLElement | ShadowRoot | ToastPortalContainerRef | null;
+export type ToastPortalRefCallback = (node: HTMLDivElement | null) => void;
+export type ToastPortalRefObject = {
+  current: HTMLDivElement | null;
+};
+export type ToastPortalRef = ToastPortalRefCallback | ToastPortalRefObject | null;
 export type ToastPortalProps = Omit<HTMLAttributes<HTMLDivElement>, "children" | "ref"> & {
-  container?: HTMLElement | ShadowRoot | null | undefined;
-  ref?: HTMLDivElement | null | undefined;
+  container?: ToastPortalContainer | undefined;
+  ref?: ToastPortalRef | undefined;
 };
 
 export type ToastProviderProps<Data extends object = ToastData> = Omit<
