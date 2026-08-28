@@ -14,6 +14,7 @@ export {
   AccordionTrigger,
   type AccordionTriggerProps,
 } from "./components/ui/accordion/index.js";
+export * as Autocomplete from "./components/ui/autocomplete/index.js";
 export {
   Alert,
   AlertAction,
@@ -138,6 +139,8 @@ export {
   type CollapsibleTriggerDelegateRef,
   type CollapsibleTriggerProps,
 } from "./components/ui/collapsible/index.js";
+export * as Combobox from "./components/ui/combobox/index.js";
+export * as Command from "./components/ui/command/index.js";
 export * as ContextMenu from "./components/ui/context-menu/index.js";
 export {
   ContextMenu as ContextMenuRoot,
@@ -547,6 +550,7 @@ export {
   ScrollBar,
   type ScrollBarProps,
 } from "./components/ui/scroll-area/index.js";
+export * as Select from "./components/ui/select/index.js";
 export {
   Separator,
   type SeparatorOrientation,
