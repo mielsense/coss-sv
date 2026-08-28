@@ -1,0 +1,21 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "p-popover-2",
+	"type": "registry:block",
+	"description": "COSS popover example.",
+	"dependencies": [
+		"@coss-sv/ui",
+		"@hugeicons/core-free-icons@4.3.0",
+		"@hugeicons/svelte@1.1.5"
+	],
+	"registryDependencies": [
+		"./particle-metadata.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n  export const meta = defineParticleMeta({\n    components: [\"button\", \"popover\"],\n    id: \"p-popover-2\",\n    interactive: true,\n    responsive: true,\n    title: \"Popover close controls\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { buttonVariants, Popover } from \"@coss-sv/ui\";\n  import { Cancel01Icon } from \"@hugeicons/core-free-icons\";\n  import { HugeiconsIcon } from \"@hugeicons/svelte\";\n</script>\n\n<Popover.Root>\n  <Popover.Trigger class={buttonVariants({ variant: \"outline\" })}>\n    Open Popover\n  </Popover.Trigger><Popover.Popup class=\"w-80\">\n    <Popover.Close\n      aria-label=\"Close\"\n      class={buttonVariants({\n        class: \"absolute end-2 top-2\",\n        size: \"icon\",\n        variant: \"ghost\",\n      })}\n    >\n      <HugeiconsIcon aria-hidden=\"true\" icon={Cancel01Icon} strokeWidth={2} />\n    </Popover.Close>\n    <div class=\"mb-2\">\n      <Popover.Title class=\"text-base\">Notifications</Popover.Title><Popover.Description>\n        You are all caught up. Good job!\n      </Popover.Description>\n    </div>\n    <Popover.Close class={buttonVariants({ variant: \"outline\" })}>Close</Popover.Close>\n  </Popover.Popup>\n</Popover.Root>\n",
+			"type": "registry:block",
+			"target": "p-popover-2.svelte"
+		}
+	]
+}

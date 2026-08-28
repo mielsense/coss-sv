@@ -1,0 +1,21 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "p-tooltip-1",
+	"type": "registry:block",
+	"description": "COSS tooltip example.",
+	"dependencies": [
+		"@coss-sv/ui",
+		"@hugeicons/core-free-icons@4.3.0",
+		"@hugeicons/svelte@1.1.5"
+	],
+	"registryDependencies": [
+		"./particle-metadata.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n  export const meta = defineParticleMeta({\n    components: [\"button\", \"tooltip\"],\n    id: \"p-tooltip-1\",\n    interactive: true,\n    responsive: true,\n    title: \"Basic tooltip\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { buttonVariants, Tooltip } from \"@coss-sv/ui\";\n</script>\n\n<Tooltip.Root>\n  <Tooltip.Trigger class={buttonVariants({ variant: \"outline\" })}>\n    Hover me\n  </Tooltip.Trigger><Tooltip.Popup>Helpful hint</Tooltip.Popup>\n</Tooltip.Root>\n",
+			"type": "registry:block",
+			"target": "p-tooltip-1.svelte"
+		}
+	]
+}

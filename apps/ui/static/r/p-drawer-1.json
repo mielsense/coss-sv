@@ -1,0 +1,21 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "p-drawer-1",
+	"type": "registry:block",
+	"description": "COSS drawer example.",
+	"dependencies": [
+		"@coss-sv/ui",
+		"@hugeicons/core-free-icons@4.3.0",
+		"@hugeicons/svelte@1.1.5"
+	],
+	"registryDependencies": [
+		"./particle-metadata.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n  export const meta = defineParticleMeta({\n    components: [\"button\", \"drawer\"],\n    id: \"p-drawer-1\",\n    interactive: true,\n    responsive: true,\n    title: \"Basic drawer\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { buttonVariants, Drawer } from \"@coss-sv/ui\";\n</script>\n\n<Drawer.Root>\n  <Drawer.Trigger class={buttonVariants({ variant: \"outline\" })}>\n    Open drawer\n  </Drawer.Trigger><Drawer.Popup showBar>\n    <Drawer.Header class=\"text-center\">\n      <Drawer.Title>Notifications</Drawer.Title><Drawer.Description>\n        This is the description of the drawer.\n      </Drawer.Description>\n    </Drawer.Header><Drawer.Footer class=\"justify-center sm:justify-center\" variant=\"bare\">\n      <Drawer.Close class={buttonVariants({ variant: \"outline\" })}>Close</Drawer.Close>\n    </Drawer.Footer>\n  </Drawer.Popup>\n</Drawer.Root>\n",
+			"type": "registry:block",
+			"target": "p-drawer-1.svelte"
+		}
+	]
+}

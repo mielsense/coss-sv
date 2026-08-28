@@ -1,0 +1,21 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "p-preview-card-1",
+	"type": "registry:block",
+	"description": "COSS preview-card example.",
+	"dependencies": [
+		"@coss-sv/ui",
+		"@hugeicons/core-free-icons@4.3.0",
+		"@hugeicons/svelte@1.1.5"
+	],
+	"registryDependencies": [
+		"./particle-metadata.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n  export const meta = defineParticleMeta({\n    components: [\"button\", \"preview-card\"],\n    id: \"p-preview-card-1\",\n    interactive: true,\n    responsive: true,\n    title: \"Repository preview card\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { buttonVariants, PreviewCard } from \"@coss-sv/ui\";\n  import { ArrowTurnBackwardIcon, StarIcon } from \"@hugeicons/core-free-icons\";\n  import { HugeiconsIcon } from \"@hugeicons/svelte\";\n</script>\n\n<PreviewCard.Root>\n  <PreviewCard.Trigger as=\"button\" class={buttonVariants({ variant: \"ghost\" })}>\n    coss.com/ui\n  </PreviewCard.Trigger><PreviewCard.Popup>\n    <div class=\"flex flex-col gap-4\">\n      <div class=\"flex flex-col gap-1\">\n        <h4 class=\"font-medium text-sm\">coss.com/ui</h4>\n        <p class=\"text-muted-foreground text-sm\">\n          Beautifully designed components that you can copy and paste into your apps.\n        </p>\n      </div>\n      <div class=\"flex items-center gap-4 text-muted-foreground text-xs\">\n        <div class=\"flex items-center gap-1\">\n          <span aria-hidden=\"true\" class=\"size-2 rounded-full bg-blue-500\"></span>\n          <span>TypeScript</span>\n        </div>\n        <div class=\"flex items-center gap-1\">\n          <HugeiconsIcon aria-hidden=\"true\" class=\"size-3\" icon={StarIcon} strokeWidth={2} />\n          <span>58.2k</span>\n        </div>\n        <div class=\"flex items-center gap-1\">\n          <HugeiconsIcon\n            aria-hidden=\"true\"\n            class=\"size-3\"\n            icon={ArrowTurnBackwardIcon}\n            strokeWidth={2}\n          />\n          <span>5.1k</span>\n        </div>\n      </div>\n    </div>\n  </PreviewCard.Popup>\n</PreviewCard.Root>\n",
+			"type": "registry:block",
+			"target": "p-preview-card-1.svelte"
+		}
+	]
+}

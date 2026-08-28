@@ -1,0 +1,21 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "p-drawer-11",
+	"type": "registry:block",
+	"description": "COSS drawer example.",
+	"dependencies": [
+		"@coss-sv/ui",
+		"@hugeicons/core-free-icons@4.3.0",
+		"@hugeicons/svelte@1.1.5"
+	],
+	"registryDependencies": [
+		"./particle-metadata.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n  export const meta = defineParticleMeta({\n    components: [\"button\", \"drawer\"],\n    id: \"p-drawer-11\",\n    interactive: true,\n    responsive: true,\n    title: \"Navigation drawer\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { buttonVariants, Drawer } from \"@coss-sv/ui\";\n\n  const links = [\"Home\", \"Profile\", \"Settings\", \"Sign out\"];\n</script>\n\n<Drawer.Root position=\"left\">\n  <Drawer.Trigger class={buttonVariants({ variant: \"outline\" })}>\n    Open menu\n  </Drawer.Trigger><Drawer.Popup showCloseButton variant=\"straight\">\n    <Drawer.Header>\n      <Drawer.Title>Menu</Drawer.Title>\n    </Drawer.Header><Drawer.Panel>\n      <nav class=\"-mx-[calc(--spacing(3)-1px)] flex flex-col gap-0.5\">\n        {#each links as label}\n          <Drawer.Close\n            as=\"a\"\n            class={buttonVariants({ class: \"justify-start\", variant: \"ghost\" })}\n            href=\"#\"\n          >\n            {label}\n          </Drawer.Close>\n        {/each}\n      </nav>\n    </Drawer.Panel>\n  </Drawer.Popup>\n</Drawer.Root>\n",
+			"type": "registry:block",
+			"target": "p-drawer-11.svelte"
+		}
+	]
+}

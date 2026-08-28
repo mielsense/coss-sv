@@ -1,0 +1,21 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "p-drawer-10",
+	"type": "registry:block",
+	"description": "COSS drawer example.",
+	"dependencies": [
+		"@coss-sv/ui",
+		"@hugeicons/core-free-icons@4.3.0",
+		"@hugeicons/svelte@1.1.5"
+	],
+	"registryDependencies": [
+		"./particle-metadata.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n  export const meta = defineParticleMeta({\n    components: [\"button\", \"drawer\", \"field\", \"form\", \"input\"],\n    id: \"p-drawer-10\",\n    interactive: true,\n    responsive: true,\n    title: \"Drawer footer variants\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { Button, buttonVariants, Drawer, Field, Form, Input } from \"@coss-sv/ui\";\n</script>\n\n{#snippet profileForm(variant?: \"bare\")}\n  <Drawer.Header>\n    <Drawer.Title>Edit profile</Drawer.Title><Drawer.Description>\n      Make changes to your profile here. Click save when you're done.\n    </Drawer.Description>\n  </Drawer.Header>\n  <Form class=\"contents\">\n    <Drawer.Panel class=\"grid gap-4\">\n      <Field.Root>\n        <Field.Label>Name</Field.Label><Input value=\"Margaret Welsh\" type=\"text\" />\n      </Field.Root><Field.Root>\n        <Field.Label>Username</Field.Label><Input value=\"@maggie.welsh\" type=\"text\" />\n      </Field.Root>\n    </Drawer.Panel><Drawer.Footer {variant}>\n      <Drawer.Close class={buttonVariants({ variant: \"ghost\" })}>Cancel</Drawer.Close><Button\n        >Save</Button\n      >\n    </Drawer.Footer>\n  </Form>\n{/snippet}\n<div class=\"flex flex-wrap gap-2\">\n  <Drawer.Root position=\"right\">\n    <Drawer.Trigger class={buttonVariants({ variant: \"outline\" })}>\n      Default footer\n    </Drawer.Trigger><Drawer.Popup variant=\"inset\">\n      {@render profileForm()}\n    </Drawer.Popup>\n  </Drawer.Root>\n  <Drawer.Root position=\"right\">\n    <Drawer.Trigger class={buttonVariants({ variant: \"outline\" })}>\n      Bare footer\n    </Drawer.Trigger><Drawer.Popup variant=\"inset\">\n      {@render profileForm(\"bare\")}\n    </Drawer.Popup>\n  </Drawer.Root>\n</div>\n",
+			"type": "registry:block",
+			"target": "p-drawer-10.svelte"
+		}
+	]
+}

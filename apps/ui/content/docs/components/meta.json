@@ -1,20 +1,26 @@
 {
   "pages": [
     "accordion",
+    "alert-dialog",
     "button",
     "card",
     "checkbox",
     "checkbox-group",
     "collapsible",
+    "dialog",
+    "drawer",
     "empty",
     "frame",
+    "preview-card",
     "radio-group",
     "separator",
+    "sheet",
     "skeleton",
     "slider",
     "switch",
     "toggle",
-    "toggle-group"
+    "toggle-group",
+    "tooltip"
   ],
   "title": "Components"
 }

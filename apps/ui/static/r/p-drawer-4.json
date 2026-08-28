@@ -1,0 +1,21 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "p-drawer-4",
+	"type": "registry:block",
+	"description": "COSS drawer example.",
+	"dependencies": [
+		"@coss-sv/ui",
+		"@hugeicons/core-free-icons@4.3.0",
+		"@hugeicons/svelte@1.1.5"
+	],
+	"registryDependencies": [
+		"./particle-metadata.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n  export const meta = defineParticleMeta({\n    components: [\"button\", \"drawer\"],\n    id: \"p-drawer-4\",\n    interactive: true,\n    responsive: true,\n    title: \"Inset drawer positions\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { buttonVariants, Drawer } from \"@coss-sv/ui\";\n\n  const positions = [\n    { label: \"Right\", position: \"right\" },\n    { label: \"Left\", position: \"left\" },\n    { label: \"Top\", position: \"top\" },\n    { label: \"Bottom\", position: \"bottom\" },\n  ] as const;\n</script>\n\n<div class=\"flex flex-wrap gap-2\">\n  {#each positions as item}\n    <Drawer.Root position={item.position}>\n      <Drawer.Trigger class={buttonVariants({ variant: \"outline\" })}>\n        {item.label}\n      </Drawer.Trigger><Drawer.Popup variant=\"inset\">\n        <Drawer.Header>\n          <Drawer.Title>{item.label}</Drawer.Title>\n        </Drawer.Header><Drawer.Panel>\n          <p class=\"text-muted-foreground text-sm\">\n            Content from the {item.position}.\n          </p>\n        </Drawer.Panel>\n      </Drawer.Popup>\n    </Drawer.Root>\n  {/each}\n</div>\n",
+			"type": "registry:block",
+			"target": "p-drawer-4.svelte"
+		}
+	]
+}

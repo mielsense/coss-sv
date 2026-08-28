@@ -1,0 +1,21 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "p-drawer-8",
+	"type": "registry:block",
+	"description": "COSS drawer example.",
+	"dependencies": [
+		"@coss-sv/ui",
+		"@hugeicons/core-free-icons@4.3.0",
+		"@hugeicons/svelte@1.1.5"
+	],
+	"registryDependencies": [
+		"./particle-metadata.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n  export const meta = defineParticleMeta({\n    components: [\"button\", \"drawer\", \"field\", \"input\"],\n    id: \"p-drawer-8\",\n    interactive: true,\n    responsive: true,\n    title: \"Nested inset drawers\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { Button, buttonVariants, Drawer, Field, Input } from \"@coss-sv/ui\";\n</script>\n\n<Drawer.Root position=\"right\">\n  <Drawer.Trigger class={buttonVariants({ variant: \"outline\" })}>\n    Nested inset drawers\n  </Drawer.Trigger>\n  <Drawer.Popup variant=\"inset\">\n    <Drawer.Header>\n      <Drawer.Title>Manage team member</Drawer.Title><Drawer.Description>\n        View and manage a user in your team.\n      </Drawer.Description>\n    </Drawer.Header>\n    <Drawer.Panel class=\"grid gap-4\">\n      <div class=\"grid gap-1\">\n        <p class=\"text-muted-foreground text-sm\">Name</p>\n        <p class=\"font-medium text-sm\">Bora Baloglu</p>\n      </div>\n      <div class=\"grid gap-1\">\n        <p class=\"text-muted-foreground text-sm\">Email</p>\n        <p class=\"font-medium text-sm\">bora@example.com</p>\n      </div>\n    </Drawer.Panel>\n    <Drawer.Footer>\n      <Drawer.Root position=\"right\">\n        <Drawer.Trigger class={buttonVariants({ variant: \"outline\" })}>\n          Edit details\n        </Drawer.Trigger><Drawer.Popup variant=\"inset\">\n          <Drawer.Header>\n            <Drawer.Title>Edit details</Drawer.Title><Drawer.Description>\n              Make changes to the member's information.\n            </Drawer.Description>\n          </Drawer.Header><Drawer.Panel class=\"grid gap-4\">\n            <Field.Root>\n              <Field.Label>Name</Field.Label><Input value=\"Bora Baloglu\" type=\"text\" />\n            </Field.Root><Field.Root>\n              <Field.Label>Email</Field.Label>\n              <Input value=\"bora@example.com\" type=\"email\" />\n            </Field.Root>\n          </Drawer.Panel><Drawer.Footer>\n            <Drawer.Close class={buttonVariants({ variant: \"ghost\" })}>Cancel</Drawer.Close><Button\n              type=\"submit\">Save changes</Button\n            >\n          </Drawer.Footer>\n        </Drawer.Popup>\n      </Drawer.Root>\n    </Drawer.Footer>\n  </Drawer.Popup>\n</Drawer.Root>\n",
+			"type": "registry:block",
+			"target": "p-drawer-8.svelte"
+		}
+	]
+}

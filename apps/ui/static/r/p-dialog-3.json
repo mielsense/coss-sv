@@ -1,0 +1,21 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "p-dialog-3",
+	"type": "registry:block",
+	"description": "COSS dialog example.",
+	"dependencies": [
+		"@coss-sv/ui",
+		"@hugeicons/core-free-icons@4.3.0",
+		"@hugeicons/svelte@1.1.5"
+	],
+	"registryDependencies": [
+		"./particle-metadata.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n  export const meta = defineParticleMeta({\n    components: [\"button\", \"dialog\", \"field\", \"input\"],\n    id: \"p-dialog-3\",\n    interactive: true,\n    responsive: true,\n    title: \"Nested dialogs\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { Button, buttonVariants, Dialog, Field, Input } from \"@coss-sv/ui\";\n</script>\n\n<Dialog.Root>\n  <Dialog.Trigger class={buttonVariants({ variant: \"outline\" })}>Open parent</Dialog.Trigger>\n  <Dialog.Popup showCloseButton={false}>\n    <Dialog.Header>\n      <Dialog.Title>Manage team member</Dialog.Title><Dialog.Description>\n        View and manage a user in your team.\n      </Dialog.Description>\n    </Dialog.Header>\n    <Dialog.Panel class=\"grid gap-4\">\n      <div class=\"grid gap-1\">\n        <p class=\"text-muted-foreground text-sm\">Name</p>\n        <p class=\"font-medium text-sm\">Bora Baloglu</p>\n      </div>\n      <div class=\"grid gap-1\">\n        <p class=\"text-muted-foreground text-sm\">Email</p>\n        <p class=\"font-medium text-sm\">bora@example.com</p>\n      </div>\n    </Dialog.Panel>\n    <Dialog.Footer>\n      <Dialog.Root>\n        <Dialog.Trigger class={buttonVariants({ variant: \"outline\" })}>Edit details</Dialog.Trigger>\n        <Dialog.Popup showCloseButton={false}>\n          <Dialog.Header>\n            <Dialog.Title>Edit details</Dialog.Title><Dialog.Description>\n              Make changes to the member's information.\n            </Dialog.Description>\n          </Dialog.Header>\n          <Dialog.Panel class=\"grid gap-4\">\n            <Field.Root>\n              <Field.Label>Name</Field.Label><Input value=\"Bora Baloglu\" type=\"text\" />\n            </Field.Root>\n            <Field.Root>\n              <Field.Label>Email</Field.Label>\n              <Input value=\"bora@example.com\" type=\"text\" />\n            </Field.Root>\n          </Dialog.Panel>\n          <Dialog.Footer>\n            <Dialog.Close class={buttonVariants({ variant: \"ghost\" })}>Cancel</Dialog.Close><Button\n              type=\"submit\">Save changes</Button\n            >\n          </Dialog.Footer>\n        </Dialog.Popup>\n      </Dialog.Root>\n    </Dialog.Footer>\n  </Dialog.Popup>\n</Dialog.Root>\n",
+			"type": "registry:block",
+			"target": "p-dialog-3.svelte"
+		}
+	]
+}

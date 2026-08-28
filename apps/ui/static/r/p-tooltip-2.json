@@ -1,0 +1,21 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "p-tooltip-2",
+	"type": "registry:block",
+	"description": "COSS tooltip example.",
+	"dependencies": [
+		"@coss-sv/ui",
+		"@hugeicons/core-free-icons@4.3.0",
+		"@hugeicons/svelte@1.1.5"
+	],
+	"registryDependencies": [
+		"./particle-metadata.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n  export const meta = defineParticleMeta({\n    components: [\"toggle-group\", \"tooltip\"],\n    id: \"p-tooltip-2\",\n    interactive: true,\n    responsive: true,\n    title: \"Tooltip provider group\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { ToggleGroup, Tooltip, toggleVariants } from \"@coss-sv/ui\";\n  import { BoldIcon, ItalicIcon, UnderlineIcon } from \"@hugeicons/core-free-icons\";\n  import { HugeiconsIcon } from \"@hugeicons/svelte\";\n\n  const controls = [\n    { label: \"Bold\", value: \"bold\", icon: BoldIcon },\n    { label: \"Italic\", value: \"italic\", icon: ItalicIcon },\n    { label: \"Underline\", value: \"underline\", icon: UnderlineIcon },\n  ] as const;\n  let selected = $state([\"bold\"]);\n  let focusValue = $state(\"bold\");\n\n  function toggle(value: string): void {\n    selected = selected.includes(value)\n      ? selected.filter((item) => item !== value)\n      : [...selected, value];\n  }\n\n  function moveFocus(event: KeyboardEvent): void {\n    if (![\"ArrowLeft\", \"ArrowRight\", \"Home\", \"End\"].includes(event.key)) return;\n    const current = event.currentTarget;\n    if (!(current instanceof HTMLButtonElement)) return;\n    const triggers = Array.from(\n      current\n        .closest('[data-slot=\"toggle-group\"]')\n        ?.querySelectorAll<HTMLButtonElement>('[data-slot=\"tooltip-trigger\"]') ?? [],\n    );\n    const index = triggers.indexOf(current);\n    if (index < 0) return;\n    event.preventDefault();\n    const next =\n      event.key === \"Home\"\n        ? 0\n        : event.key === \"End\"\n          ? triggers.length - 1\n          : (index + (event.key === \"ArrowRight\" ? 1 : -1) + triggers.length) % triggers.length;\n    triggers[next]?.focus();\n  }\n</script>\n\n<Tooltip.Provider>\n  <ToggleGroup.Root multiple value={selected}>\n    {#each controls as control}\n      <Tooltip.Root>\n        <Tooltip.Trigger\n          aria-label={`Toggle ${control.value}`}\n          aria-pressed={selected.includes(control.value)}\n          class={toggleVariants()}\n          data-pressed={selected.includes(control.value) ? \"\" : undefined}\n          onclick={() => toggle(control.value)}\n          onfocus={() => (focusValue = control.value)}\n          onkeydown={moveFocus}\n          tabindex={focusValue === control.value ? 0 : -1}\n        >\n          <HugeiconsIcon aria-hidden=\"true\" icon={control.icon} strokeWidth={2} />\n        </Tooltip.Trigger><Tooltip.Popup id={`format-${control.value}-tooltip`}>\n          {control.label}\n        </Tooltip.Popup>\n      </Tooltip.Root>\n    {/each}\n  </ToggleGroup.Root>\n</Tooltip.Provider>\n",
+			"type": "registry:block",
+			"target": "p-tooltip-2.svelte"
+		}
+	]
+}

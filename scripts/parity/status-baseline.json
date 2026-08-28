@@ -279,7 +279,7 @@
     {
       "id": "components/alert-dialog",
       "kind": "doc",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "components/alert",
@@ -359,12 +359,12 @@
     {
       "id": "components/dialog",
       "kind": "doc",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "components/drawer",
       "kind": "doc",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "components/empty",
@@ -449,7 +449,7 @@
     {
       "id": "components/preview-card",
       "kind": "doc",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "components/progress",
@@ -484,7 +484,7 @@
     {
       "id": "components/sheet",
       "kind": "doc",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "components/skeleton",
@@ -544,7 +544,7 @@
     {
       "id": "components/tooltip",
       "kind": "doc",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "changelog",
@@ -649,12 +649,12 @@
     {
       "id": "p-alert-dialog-1",
       "kind": "particle",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "p-alert-dialog-2",
       "kind": "particle",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "p-autocomplete-1",
@@ -1574,102 +1574,102 @@
     {
       "id": "p-dialog-1",
       "kind": "particle",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "p-dialog-2",
       "kind": "particle",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "p-dialog-3",
       "kind": "particle",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "p-dialog-4",
       "kind": "particle",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "p-dialog-5",
       "kind": "particle",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "p-dialog-6",
       "kind": "particle",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "p-drawer-1",
       "kind": "particle",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "p-drawer-10",
       "kind": "particle",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "p-drawer-11",
       "kind": "particle",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "p-drawer-12",
       "kind": "particle",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "p-drawer-13",
       "kind": "particle",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "p-drawer-14",
       "kind": "particle",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "p-drawer-2",
       "kind": "particle",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "p-drawer-3",
       "kind": "particle",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "p-drawer-4",
       "kind": "particle",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "p-drawer-5",
       "kind": "particle",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "p-drawer-6",
       "kind": "particle",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "p-drawer-7",
       "kind": "particle",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "p-drawer-8",
       "kind": "particle",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "p-drawer-9",
       "kind": "particle",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "p-empty-1",
@@ -2349,27 +2349,27 @@
     {
       "id": "p-popover-1",
       "kind": "particle",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "p-popover-2",
       "kind": "particle",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "p-popover-3",
       "kind": "particle",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "p-popover-4",
       "kind": "particle",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "p-preview-card-1",
       "kind": "particle",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "p-progress-1",
@@ -2579,17 +2579,17 @@
     {
       "id": "p-sheet-1",
       "kind": "particle",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "p-sheet-2",
       "kind": "particle",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "p-sheet-3",
       "kind": "particle",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "p-skeleton-1",
@@ -3114,22 +3114,22 @@
     {
       "id": "p-tooltip-1",
       "kind": "particle",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "p-tooltip-2",
       "kind": "particle",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "p-tooltip-3",
       "kind": "particle",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "p-tooltip-4",
       "kind": "particle",
-      "status": "missing"
+      "status": "approved"
     }
   ]
 }
