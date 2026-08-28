@@ -558,6 +558,7 @@ export {
   type SeparatorProps,
 } from "./components/ui/separator/index.js";
 export * as Sheet from "./components/ui/sheet/index.js";
+export * as Sidebar from "./components/ui/sidebar/index.js";
 export {
   Sheet as SheetRoot,
   SheetBackdrop,
