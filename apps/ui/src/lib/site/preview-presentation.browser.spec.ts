@@ -5,6 +5,7 @@ import PreviewPresentationFixture from "./preview-presentation.browser-fixture.s
 
 afterEach(() => {
   document.body.innerHTML = "";
+  document.documentElement.classList.remove("dark", "light");
   vi.restoreAllMocks();
 });
 
@@ -61,6 +62,46 @@ describe("preview presentation", () => {
     await expect
       .element(page.getByRole("button", { name: "View fullscreen" }))
       .toHaveAttribute("aria-pressed", "false");
+    await unmount(view);
+  });
+
+  test("inherits live site theme changes while preserving an explicit theme", async () => {
+    document.documentElement.classList.remove("light");
+    document.documentElement.classList.add("dark");
+    const inherited = mount(PreviewPresentationFixture, { target: document.body });
+    const inheritedFrame = page.getByTitle("Button preview");
+
+    await expect
+      .element(inheritedFrame)
+      .toHaveAttribute("src", "/preview/p-button-1?theme=dark&width=desktop");
+
+    document.documentElement.classList.remove("dark");
+    document.documentElement.classList.add("light");
+    document.dispatchEvent(new Event("coss-sv:themechange"));
+    await expect
+      .element(inheritedFrame)
+      .toHaveAttribute("src", "/preview/p-button-1?theme=light&width=desktop");
+    await unmount(inherited);
+
+    document.documentElement.classList.remove("light");
+    document.documentElement.classList.add("dark");
+    const explicit = mount(PreviewPresentationFixture, {
+      target: document.body,
+      props: { theme: "light" },
+    });
+    await expect
+      .element(page.getByTitle("Button preview"))
+      .toHaveAttribute("src", "/preview/p-button-1?theme=light&width=desktop");
+    await unmount(explicit);
+  });
+
+  test("shows a visible selected viewport state", async () => {
+    const view = mount(PreviewPresentationFixture, { target: document.body });
+    const selected = page.getByRole("button", { name: "Desktop preview" });
+    const background = getComputedStyle(selected.element()).backgroundColor;
+
+    expect(background).not.toBe("rgba(0, 0, 0, 0)");
+    expect(background).not.toBe("transparent");
     await unmount(view);
   });
 });

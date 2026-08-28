@@ -69,6 +69,42 @@ describe("documentation routes", () => {
     expect(body).toContain("ready");
   });
 
+  test("exports and production-wires the preview presentation", async () => {
+    const siteIndex = await readFile(new URL("./index.ts", import.meta.url), "utf8");
+    const presentationRoute = await readFile(
+      new URL("../../routes/docs/preview/[name]/+page.svelte", import.meta.url),
+      "utf8",
+    );
+    const presentationLayout = await readFile(
+      new URL("../../routes/docs/preview/+layout@.svelte", import.meta.url),
+      "utf8",
+    );
+
+    expect(siteIndex).toContain(
+      'export { default as PreviewPresentation } from "./PreviewPresentation.svelte";',
+    );
+    expect(presentationRoute).toContain(
+      'import { PreviewPresentation } from "$lib/site/index.js";',
+    );
+    expect(presentationRoute).toContain("<PreviewPresentation");
+    expect(presentationLayout).toContain("{@render children()}");
+  });
+
+  test("runs site browser contracts from package and root test gates", async () => {
+    const packageManifest = JSON.parse(
+      await readFile(new URL("../../../package.json", import.meta.url), "utf8"),
+    ) as { scripts: Record<string, string> };
+    const rootManifest = JSON.parse(
+      await readFile(new URL("../../../../../package.json", import.meta.url), "utf8"),
+    ) as { scripts: Record<string, string> };
+
+    expect(packageManifest.scripts["test:browser"]).toContain("vitest.browser.config.ts");
+    expect(packageManifest.scripts["test:unit"]).toContain("test:browser");
+    expect(packageManifest.scripts.test).toContain("test:unit");
+    expect(rootManifest.scripts["test:docs:browser"]).toContain("test:browser");
+    expect(rootManifest.scripts.test).toContain("turbo run test:unit");
+  });
+
   test("the error route keeps the upstream 404 copy and recovery action", () => {
     const { body } = render(ErrorPage, {
       context: new Map([["__request__", { page: { status: 404 } }]]),
@@ -90,6 +126,8 @@ describe("theme boundaries", () => {
 
     expect(appCss).toMatch(/\.site-shell\s*\{[^}]*--site-primary:\s*#ff3e00;/s);
     expect(appCss).not.toMatch(/(^|\n)\s*--primary:\s*#ff3e00/);
+    expect(appCss).toMatch(/\.site-shell\s*\{[^}]*--site-accent:/s);
+    expect(appCss).toMatch(/html\.dark \.site-shell\s*\{[^}]*--site-accent:/s);
     expect(previewCss).not.toContain("--site-");
     expect(previewCss).toMatch(
       /\.preview-canvas,\s*\[data-preview-theme="light"\]\s*\{[^}]*--primary:/s,

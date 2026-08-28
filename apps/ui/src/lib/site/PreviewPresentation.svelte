@@ -13,32 +13,40 @@ type Props = HTMLAttributes<HTMLElement> & {
   title?: string;
 };
 
-let {
-  class: className,
-  iframeHeight = 450,
-  name,
-  theme = "light",
-  title = name,
-  ...rest
-}: Props = $props();
+let { class: className, iframeHeight = 450, name, theme, title = name, ...rest }: Props = $props();
 let width = $state<PreviewWidth>("desktop");
 let fullscreen = $state(false);
+let siteTheme = $state<PreviewTheme>("light");
 let presentation: HTMLElement;
 
-const previewUrl = $derived(`/preview/${encodeURIComponent(name)}?theme=${theme}&width=${width}`);
+const resolvedTheme = $derived(theme ?? siteTheme);
+const previewUrl = $derived(
+  `/preview/${encodeURIComponent(name)}?theme=${resolvedTheme}&width=${width}`,
+);
 
-function trackFullscreen(node: HTMLElement) {
-  const update = () => {
-    fullscreen = document.fullscreenElement === node;
+function trackPresentation(node: HTMLElement) {
+  const ownerDocument = node.ownerDocument;
+  const updateFullscreen = () => {
+    fullscreen = ownerDocument.fullscreenElement === node;
   };
-  document.addEventListener("fullscreenchange", update);
-  update();
-  return () => document.removeEventListener("fullscreenchange", update);
+  const updateTheme = () => {
+    siteTheme = ownerDocument.documentElement.classList.contains("dark") ? "dark" : "light";
+  };
+
+  ownerDocument.addEventListener("fullscreenchange", updateFullscreen);
+  ownerDocument.addEventListener("coss-sv:themechange", updateTheme);
+  updateFullscreen();
+  updateTheme();
+
+  return () => {
+    ownerDocument.removeEventListener("fullscreenchange", updateFullscreen);
+    ownerDocument.removeEventListener("coss-sv:themechange", updateTheme);
+  };
 }
 
 async function toggleFullscreen(): Promise<void> {
-  if (document.fullscreenElement === presentation) {
-    await document.exitFullscreen();
+  if (presentation.ownerDocument.fullscreenElement === presentation) {
+    await presentation.ownerDocument.exitFullscreen();
     return;
   }
   await presentation.requestFullscreen();
@@ -49,9 +57,10 @@ async function toggleFullscreen(): Promise<void> {
   bind:this={presentation}
   class={["preview-presentation", className]}
   data-preview-presentation
+  data-preview-theme={resolvedTheme}
   style:--preview-height={`${iframeHeight}px`}
   {...rest}
-  {@attach trackFullscreen}
+  {@attach trackPresentation}
 >
   <div class="preview-presentation-toolbar">
     <fieldset class="preview-size-controls">

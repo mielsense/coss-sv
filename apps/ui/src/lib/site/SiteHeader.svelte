@@ -8,6 +8,7 @@ function setTheme(nextDark: boolean) {
   document.documentElement.classList.toggle("dark", nextDark);
   document.documentElement.classList.toggle("light", !nextDark);
   localStorage.setItem("coss-sv-theme", nextDark ? "dark" : "light");
+  document.dispatchEvent(new Event("coss-sv:themechange"));
 }
 
 function toggleTheme() {

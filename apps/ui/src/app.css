@@ -97,6 +97,7 @@ body {
   --input: rgb(0 0 0 / 10%);
   --site-primary: #ff3e00;
   --site-primary-foreground: #fff8f5;
+  --site-accent: color-mix(in srgb, var(--site-foreground) 6%, transparent);
   --site-accent-foreground: #c93200;
   --site-background: #fafafa;
   --site-foreground: #272727;
@@ -1424,6 +1425,7 @@ html.dark .site-shell {
   --muted-foreground: #818181;
   --border: rgb(255 255 255 / 6%);
   --input: rgb(255 255 255 / 8%);
+  --site-accent: color-mix(in srgb, var(--site-foreground) 10%, transparent);
   --site-accent-foreground: #ff6b3a;
   --site-background: #111111;
   --site-foreground: #f5f5f5;
@@ -1501,6 +1503,7 @@ html.dark .shiki {
     --muted-foreground: #818181;
     --border: rgb(255 255 255 / 6%);
     --input: rgb(255 255 255 / 8%);
+    --site-accent: color-mix(in srgb, var(--site-foreground) 10%, transparent);
     --site-accent-foreground: #ff6b3a;
     --site-background: #111111;
     --site-foreground: #f5f5f5;

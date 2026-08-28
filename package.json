@@ -25,6 +25,7 @@
     "registry:build": "pnpm --dir=apps/ui run registry:build",
     "registry:check": "pnpm --dir=apps/ui run registry:check",
     "test": "pnpm test:repo && pnpm test:harness && turbo run build && turbo run test:unit",
+    "test:docs:browser": "pnpm --filter @coss-sv/docs test:browser",
     "test:docs:e2e": "pnpm --filter @coss-sv/docs test:e2e",
     "test:e2e": "playwright test --config playwright.config.ts",
     "test:harness": "vitest run --config vitest.workspace.ts",

@@ -75,6 +75,78 @@ function assertNear(actual, expected, label, tolerance = 0.75) {
 }
 
 try {
+  await page.goto(`${baseUrl}/`);
+  await page.locator(".category-grid").waitFor();
+
+  const desktopHome = await page.evaluate(() => {
+    const metrics = (selector) => {
+      const element = document.querySelector(selector);
+      if (!element) return null;
+      const rect = element.getBoundingClientRect();
+      return { x: rect.x, y: rect.y, width: rect.width, height: rect.height };
+    };
+    return {
+      card: metrics(".category-card"),
+      grid: metrics(".category-grid"),
+      heading: metrics(".hero h1"),
+      hero: metrics(".hero"),
+      categoryNames: [...document.querySelectorAll(".category-card h2")].map((item) =>
+        item.textContent?.trim(),
+      ),
+      headingText: document.querySelector(".hero h1")?.textContent?.trim(),
+      heroCopy: document.querySelector(".hero-copy")?.textContent?.trim(),
+      actions: [...document.querySelectorAll(".hero-actions a")].map((item) =>
+        item.textContent?.trim(),
+      ),
+    };
+  });
+
+  assert.equal(
+    desktopHome.headingText,
+    "A new, modern UI component library built on top of Shards UI.",
+  );
+  assert.equal(desktopHome.heroCopy, "Built for developers and AI.");
+  assert.deepEqual(desktopHome.actions, ["Get started", "Browse 508 particles"]);
+  assert.equal(desktopHome.categoryNames.length, 55);
+  assert.deepEqual(desktopHome.categoryNames.slice(0, 4), [
+    "Accordion",
+    "Alert",
+    "Alert Dialog",
+    "Autocomplete",
+  ]);
+  assert.ok(desktopHome.hero && desktopHome.heading && desktopHome.grid && desktopHome.card);
+  assertNear(desktopHome.hero.x, 24, "desktop home hero x");
+  assertNear(desktopHome.hero.y, 64, "desktop home hero y");
+  assertNear(desktopHome.heading.width, 672, "desktop home heading width");
+  assertNear(desktopHome.grid.x, 24, "desktop home category grid x");
+  assertNear(desktopHome.grid.y, 392, "desktop home category grid y");
+  assertNear(desktopHome.card.width, 284, "desktop home category card width");
+  assertNear(desktopHome.card.height, 316, "desktop home category card height");
+
+  await page.goto(`${baseUrl}/docs/preview/p-button-1`);
+  const productionPreview = page.getByTitle("p-button-1 preview");
+  await productionPreview.waitFor();
+  assert.equal(
+    await productionPreview.getAttribute("src"),
+    "/preview/p-button-1?theme=light&width=desktop",
+  );
+  const selectedViewportBackground = await page
+    .getByRole("button", { name: "Desktop preview" })
+    .evaluate((element) => getComputedStyle(element).backgroundColor);
+  assert.notEqual(selectedViewportBackground, "rgba(0, 0, 0, 0)");
+  await page.getByRole("button", { name: "Toggle theme" }).click();
+  await page.waitForFunction(
+    () =>
+      document
+        .querySelector('iframe[title="p-button-1 preview"]')
+        ?.getAttribute("src")
+        ?.includes("theme=dark") ?? false,
+  );
+  assert.equal(
+    await productionPreview.getAttribute("src"),
+    "/preview/p-button-1?theme=dark&width=desktop",
+  );
+
   await page.goto(`${baseUrl}/docs`);
   await page.locator(".docs-frame").waitFor();
 
@@ -113,6 +185,37 @@ try {
   assert.equal(await page.getByRole("link", { name: /Back to Home/ }).getAttribute("href"), "/");
 
   await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto(`${baseUrl}/`);
+  await page.locator(".category-grid").waitFor();
+  const mobileHome = await page.evaluate(() => {
+    const metrics = (selector) => {
+      const element = document.querySelector(selector);
+      if (!element) return null;
+      const rect = element.getBoundingClientRect();
+      return { x: rect.x, y: rect.y, width: rect.width, height: rect.height };
+    };
+    return {
+      actions: metrics(".hero-actions"),
+      card: metrics(".category-card"),
+      grid: metrics(".category-grid"),
+      heading: metrics(".hero h1"),
+      hero: metrics(".hero"),
+    };
+  });
+  assert.ok(
+    mobileHome.hero &&
+      mobileHome.heading &&
+      mobileHome.actions &&
+      mobileHome.grid &&
+      mobileHome.card,
+  );
+  assertNear(mobileHome.hero.x, 16, "mobile home hero x");
+  assertNear(mobileHome.hero.y, 64, "mobile home hero y");
+  assertNear(mobileHome.heading.width, 358, "mobile home heading width");
+  assertNear(mobileHome.actions.width, 307.578, "mobile home actions width");
+  assertNear(mobileHome.grid.x, 16, "mobile home category grid x");
+  assertNear(mobileHome.card.width, 358, "mobile home category card width");
+
   await page.goto(`${baseUrl}/docs`);
   assert.equal(await page.locator(".docs-sidebar").isVisible(), false);
   assert.equal(await page.locator(".docs-toc").count(), 0);
