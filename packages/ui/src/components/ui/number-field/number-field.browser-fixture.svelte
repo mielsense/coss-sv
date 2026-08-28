@@ -1,4 +1,5 @@
 <script lang="ts">
+import * as Field from "../field/index.js";
 import * as NumberField from "./index.js";
 
 let value = $state<number | null>(1.5);
@@ -7,6 +8,15 @@ let inputRef = $state<HTMLInputElement | null>(null);
 let delegatedRef = $state<HTMLDivElement | null>(null);
 let cursorRef = $state<SVGSVGElement | null>(null);
 let showRemountWheel = $state(true);
+let showFieldError = $state(false);
+const removedNumberAria = {
+  "aria-describedby": null,
+  "aria-labelledby": null,
+  "aria-valuemax": null,
+  "aria-valuemin": null,
+  "aria-valuenow": null,
+  "aria-valuetext": null,
+} satisfies NumberField.NumberFieldInputProps;
 </script>
 
 {#snippet delegatedGroup(props: NumberField.NumberFieldGroupProps)}
@@ -100,6 +110,48 @@ let showRemountWheel = $state(true);
       aria-valuetext="Six widgets"
       data-testid="overridden-number"
     />
+  </NumberField.Group>
+</NumberField.Root>
+
+<Field.Root invalid={showFieldError}>
+  <Field.Label>Field quantity</Field.Label>
+  <NumberField.Root defaultValue={4} max={10} min={1}>
+    <NumberField.Group>
+      <NumberField.Input data-testid="field-number-input" />
+    </NumberField.Group>
+  </NumberField.Root>
+  <Field.Description>Field quantity description</Field.Description>
+  <Field.Error match={showFieldError}>Field quantity error</Field.Error>
+</Field.Root>
+<button
+  data-testid="toggle-field-error"
+  type="button"
+  onclick={() => (showFieldError = !showFieldError)}
+>
+  Toggle field error
+</button>
+
+<Field.Root>
+  <NumberField.Root defaultValue={2} max={100} min={1}>
+    <NumberField.ScrubArea label="Scrub quantity" />
+    <NumberField.Group>
+      <NumberField.Input data-testid="field-scrub-number-input" />
+    </NumberField.Group>
+  </NumberField.Root>
+  <Field.Description>Scrub quantity description</Field.Description>
+</Field.Root>
+
+<span id="root-number-label">Root number label</span>
+<span id="root-number-description">Root number description</span>
+<NumberField.Root
+  aria-describedby="root-number-description"
+  aria-labelledby="root-number-label"
+  defaultValue={2}
+  max={4}
+  min={1}
+>
+  <NumberField.Group>
+    <NumberField.Input {...removedNumberAria} data-testid="null-aria-number" />
   </NumberField.Group>
 </NumberField.Root>
 

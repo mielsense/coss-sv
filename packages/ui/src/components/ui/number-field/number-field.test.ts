@@ -3,6 +3,7 @@ import { render } from "svelte/server";
 import { describe, expect, test } from "vitest";
 import * as NumberField from "./index.js";
 import NumberFieldSSRFixture from "./number-field.ssr-fixture.svelte";
+import NumberFieldFieldSSRFixture from "./number-field-field.ssr-fixture.svelte";
 import { clampValue, createNumberLocale, parseNumber } from "./number-field-machine.js";
 
 const text = (value: string) => createRawSnippet(() => ({ render: () => value }));
@@ -71,6 +72,22 @@ describe("NumberField number contract", () => {
     expect(input).toContain('aria-valuenow="5"');
     expect(input).toContain('aria-valuemin="0"');
     expect(input).toContain('aria-valuemax="10"');
+  });
+
+  test("server-renders enclosing Field relationships for NumberField inputs", () => {
+    const body = render(NumberFieldFieldSSRFixture).body;
+    const fieldInput = body.match(/<input[^>]*data-testid="ssr-field-number-input"[^>]*>/)?.[0];
+    const scrubInput = body.match(
+      /<input[^>]*data-testid="ssr-field-scrub-number-input"[^>]*>/,
+    )?.[0];
+
+    expect(fieldInput).toContain('aria-labelledby="ssr-field-number-label"');
+    expect(fieldInput).toContain(
+      'aria-describedby="ssr-field-number-description ssr-field-number-error"',
+    );
+    expect(fieldInput).toContain('aria-invalid="true"');
+    expect(scrubInput).toMatch(/aria-labelledby="s\d+"/);
+    expect(scrubInput).toContain('aria-describedby="ssr-field-scrub-number-description"');
   });
 
   test("renders delegated Root and Group as one element during SSR", () => {

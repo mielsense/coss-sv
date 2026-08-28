@@ -87,6 +87,9 @@ describe("Input browser contract", () => {
     await fieldInput.fill("valid");
     await expect.element(fieldInput).toHaveAttribute("data-dirty");
     await expect.element(fieldInput).toHaveAttribute("data-filled");
+
+    const nullAriaInput = page.getByTestId("null-aria-input");
+    await expect.element(nullAriaInput).not.toHaveAttribute("aria-labelledby");
   });
 
   test("hydrates the native-input escape hatch without a mismatch", async () => {

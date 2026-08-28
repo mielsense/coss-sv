@@ -15,7 +15,7 @@ export type InputProps = Omit<HTMLInputAttributes, "class" | "size"> & {
 
 <script lang="ts">
 import { Input as InputPrimitive } from "@shardsui/svelte";
-import { untrack, type Component } from "svelte";
+import { type Component, untrack } from "svelte";
 import { cn } from "$lib/utils.js";
 import { getFieldRelationshipContext } from "../field/relationship-context.svelte.js";
 
@@ -53,10 +53,22 @@ $effect(() => {
 });
 
 const classes = $derived(cn(!unstyled && controlClass, className) || undefined);
-const describedBy = $derived(mergeAriaIds(ariaDescribedBy, relationships?.describedBy));
-const labelledBy = $derived(
-  ariaLabelledBy ?? (ariaLabel === undefined ? relationships?.labelledBy : undefined),
+const describedBy = $derived(
+  ariaDescribedBy === null ? null : mergeAriaIds(ariaDescribedBy, relationships?.describedBy),
 );
+const labelledBy = $derived(
+  ariaLabelledBy !== undefined
+    ? ariaLabelledBy
+    : ariaLabel === undefined
+      ? relationships?.labelledBy
+      : undefined,
+);
+const relationshipProps = $derived.by(() => {
+  const attributes: Pick<HTMLInputAttributes, "aria-describedby" | "aria-labelledby"> = {};
+  if (describedBy !== undefined) attributes["aria-describedby"] = describedBy;
+  if (labelledBy !== undefined) attributes["aria-labelledby"] = labelledBy;
+  return attributes;
+});
 const nativeSize = $derived(typeof size === "number" ? size : undefined);
 const nativeSizeProps = $derived(nativeSize === undefined ? {} : { size: nativeSize });
 const innerClasses = $derived(
@@ -82,28 +94,26 @@ function mergeAriaIds(...values: (string | null | undefined)[]): string | undefi
     {#if type === "file"}
       <input
         bind:this={ref}
-        aria-describedby={describedBy}
         aria-label={ariaLabel}
-        aria-labelledby={labelledBy}
         {id}
         {type}
         size={nativeSize}
         data-slot="input"
         class={innerClasses}
+        {...relationshipProps}
         {...props}
       >
     {:else}
       <input
         bind:this={ref}
         bind:value
-        aria-describedby={describedBy}
         aria-label={ariaLabel}
-        aria-labelledby={labelledBy}
         {id}
         {type}
         size={nativeSize}
         data-slot="input"
         class={innerClasses}
+        {...relationshipProps}
         {...props}
       >
     {/if}
@@ -111,14 +121,13 @@ function mergeAriaIds(...values: (string | null | undefined)[]): string | undefi
     <InputControl
       bind:ref
       bind:value
-      aria-describedby={describedBy}
       aria-label={ariaLabel}
-      aria-labelledby={labelledBy}
       {id}
       {type}
       {...nativeSizeProps}
       data-slot="input"
       class={innerClasses}
+      {...relationshipProps}
       {...props}
     />
   {/if}

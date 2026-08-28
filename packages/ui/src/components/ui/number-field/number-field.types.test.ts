@@ -37,6 +37,16 @@ test("types bindable state, callbacks, formatting, native attributes, snippets, 
   } satisfies NumberFieldInputProps;
   expectTypeOf(input.ref).toEqualTypeOf<null>();
 
+  const removedAria = {
+    "aria-describedby": null,
+    "aria-labelledby": null,
+    "aria-valuemax": null,
+    "aria-valuemin": null,
+    "aria-valuenow": null,
+    "aria-valuetext": null,
+  } satisfies NumberFieldInputProps;
+  expect(removedAria["aria-valuenow"]).toBeNull();
+
   const invalid = {
     // @ts-expect-error size names are limited to the COSS contract.
     size: "xl",

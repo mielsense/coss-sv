@@ -12,9 +12,10 @@ export type NumberFieldInputProps = Omit<
 
 <script lang="ts">
 import { Input as ShardsInput } from "@shardsui/svelte";
-import type { Component } from "svelte";
+import { type Component, untrack } from "svelte";
 import type { Attachment } from "svelte/attachments";
 import { cn } from "$lib/utils.js";
+import { getFieldRelationshipContext } from "../field/relationship-context.svelte.js";
 import { getNumberFieldContext } from "./context.js";
 
 const InputPrimitive = ShardsInput as unknown as Component<
@@ -45,15 +46,79 @@ let {
 }: NumberFieldInputProps = $props();
 
 const context = getNumberFieldContext();
+const relationships = getFieldRelationshipContext();
 let inputValue = $state(context.displayValue);
+untrack(() => relationships?.registerInitialControlId(context.id));
+$effect(() => {
+  const nextId = context.id;
+  return untrack(() => relationships?.registerControlId(nextId));
+});
+const inheritedDescribedBy = $derived(
+  context.ariaDescribedBy === null
+    ? null
+    : mergeAriaIds(context.ariaDescribedBy, relationships?.describedBy),
+);
+const computedDescribedBy = $derived(
+  ariaDescribedBy !== undefined
+    ? ariaDescribedBy === null
+      ? null
+      : inheritedDescribedBy === null
+        ? mergeAriaIds(ariaDescribedBy)
+        : mergeAriaIds(ariaDescribedBy, inheritedDescribedBy)
+    : inheritedDescribedBy,
+);
+const inheritedLabelledBy = $derived(
+  context.ariaLabelledBy !== undefined
+    ? context.ariaLabelledBy
+    : mergeAriaIds(relationships?.labelledBy, context.scrubLabelId),
+);
 const computedLabelledBy = $derived(
-  ariaLabelledBy ?? context.ariaLabelledBy ?? context.scrubLabelId,
+  ariaLabelledBy !== undefined ? ariaLabelledBy : inheritedLabelledBy,
 );
 const computedLabel = $derived(
-  ariaLabel ??
-    context.ariaLabel ??
-    (computedLabelledBy === undefined ? context.defaultAccessibleName : undefined),
+  ariaLabel !== undefined
+    ? ariaLabel
+    : context.ariaLabel !== undefined
+      ? context.ariaLabel
+      : computedLabelledBy === undefined
+        ? context.defaultAccessibleName
+        : undefined,
 );
+const accessibilityProps = $derived.by(() => {
+  const attributes: Pick<
+    HTMLInputAttributes,
+    | "aria-describedby"
+    | "aria-invalid"
+    | "aria-label"
+    | "aria-labelledby"
+    | "aria-valuemax"
+    | "aria-valuemin"
+    | "aria-valuenow"
+    | "aria-valuetext"
+  > = {};
+  const invalid = ariaInvalid !== undefined ? ariaInvalid : context.ariaInvalid;
+  const valueMax = ariaValueMax !== undefined ? ariaValueMax : context.max;
+  const valueMin = ariaValueMin !== undefined ? ariaValueMin : context.min;
+  const valueNow = ariaValueNow !== undefined ? ariaValueNow : (context.ariaValue ?? undefined);
+  const valueText =
+    ariaValueText !== undefined
+      ? ariaValueText
+      : context.ariaValue === null
+        ? undefined
+        : context.displayValue;
+
+  if (computedDescribedBy !== undefined) {
+    attributes["aria-describedby"] = computedDescribedBy;
+  }
+  if (invalid !== undefined) attributes["aria-invalid"] = invalid;
+  if (computedLabel !== undefined) attributes["aria-label"] = computedLabel;
+  if (computedLabelledBy !== undefined) attributes["aria-labelledby"] = computedLabelledBy;
+  if (valueMax !== undefined) attributes["aria-valuemax"] = valueMax;
+  if (valueMin !== undefined) attributes["aria-valuemin"] = valueMin;
+  if (valueNow !== undefined) attributes["aria-valuenow"] = valueNow;
+  if (valueText !== undefined) attributes["aria-valuetext"] = valueText;
+  return attributes;
+});
 
 $effect(() => {
   inputValue = context.displayValue;
@@ -124,21 +189,18 @@ function handleWheel(event: WheelEvent): void {
     context.stepBy(event.deltaY < 0 ? 1 : -1);
   }
 }
+
+function mergeAriaIds(...values: (string | null | undefined)[]): string | undefined {
+  const ids = [...new Set(values.flatMap((value) => value?.split(/\s+/).filter(Boolean) ?? []))];
+  return ids.join(" ") || undefined;
+}
 </script>
 
 <InputPrimitive
   {@attach inputBehavior}
   bind:ref
   bind:value={inputValue}
-  aria-describedby={ariaDescribedBy ?? context.ariaDescribedBy}
-  aria-invalid={ariaInvalid ?? context.ariaInvalid}
-  aria-label={computedLabel}
-  aria-labelledby={computedLabelledBy}
   aria-roledescription={ariaRoleDescription}
-  aria-valuemax={ariaValueMax ?? context.max}
-  aria-valuemin={ariaValueMin ?? context.min}
-  aria-valuenow={ariaValueNow ?? context.ariaValue ?? undefined}
-  aria-valuetext={ariaValueText ?? (context.ariaValue === null ? undefined : context.displayValue)}
   autocomplete="off"
   autocorrect="off"
   class={cn(
@@ -156,5 +218,6 @@ function handleWheel(event: WheelEvent): void {
   {role}
   spellcheck={false}
   type="text"
+  {...accessibilityProps}
   {...props}
 />

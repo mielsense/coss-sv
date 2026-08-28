@@ -30,4 +30,9 @@ test("types native input attributes and COSS options", () => {
     size: "xl",
   } satisfies InputProps;
   expectTypeOf(invalid.size).toEqualTypeOf<"xl">();
+
+  const removedRelationships = {
+    "aria-labelledby": null,
+  } satisfies InputProps;
+  expect(removedRelationships["aria-labelledby"]).toBeNull();
 });

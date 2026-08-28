@@ -3,6 +3,7 @@ import { afterEach, describe, expect, test, vi } from "vitest";
 import { page, userEvent } from "vitest/browser";
 import { render } from "vitest-browser-svelte";
 import NumberFieldFixture from "./number-field.browser-fixture.svelte";
+import NumberFieldFieldHydrationFixture from "./number-field-field.hydration-fixture.svelte";
 import NumberFieldRoot from "./number-field-root.svelte";
 
 afterEach(() => {
@@ -89,6 +90,39 @@ describe("NumberField browser contract", () => {
     await expect.element(overridden).toHaveAttribute("aria-valuemin", "-8");
     await expect.element(overridden).toHaveAttribute("aria-valuemax", "8");
     await expect.element(overridden).toHaveAttribute("aria-valuetext", "Six widgets");
+  });
+
+  test("inherits Field labels, descriptions, and dynamic errors with and without a scrub area", async () => {
+    render(NumberFieldFixture);
+
+    const fieldInput = page.getByTestId("field-number-input");
+    await expect.element(fieldInput).toHaveAccessibleName("Field quantity");
+    await expect.element(fieldInput).toHaveAccessibleDescription("Field quantity description");
+    await expect.element(fieldInput).not.toHaveAttribute("aria-invalid");
+    await userEvent.click(page.getByTestId("toggle-field-error"));
+    await expect
+      .element(fieldInput)
+      .toHaveAccessibleDescription("Field quantity description Field quantity error");
+    await expect.element(fieldInput).toHaveAttribute("aria-invalid", "true");
+    await userEvent.click(page.getByTestId("toggle-field-error"));
+    await expect.element(fieldInput).toHaveAccessibleDescription("Field quantity description");
+    await expect.element(fieldInput).not.toHaveAttribute("aria-invalid");
+
+    const scrubInput = page.getByTestId("field-scrub-number-input");
+    await expect.element(scrubInput).toHaveAccessibleName("Scrub quantity");
+    await expect.element(scrubInput).toHaveAccessibleDescription("Scrub quantity description");
+  });
+
+  test("preserves explicit null as removal instead of falling back to NumberField state", async () => {
+    render(NumberFieldFixture);
+    const input = page.getByTestId("null-aria-number");
+
+    await expect.element(input).not.toHaveAttribute("aria-labelledby");
+    await expect.element(input).not.toHaveAttribute("aria-describedby");
+    await expect.element(input).not.toHaveAttribute("aria-valuenow");
+    await expect.element(input).not.toHaveAttribute("aria-valuemin");
+    await expect.element(input).not.toHaveAttribute("aria-valuemax");
+    await expect.element(input).not.toHaveAttribute("aria-valuetext");
   });
 
   test("rejects invalid fill and delegates its root to one exact group element", async () => {
@@ -196,6 +230,20 @@ describe("NumberField browser contract", () => {
     const component = hydrate(NumberFieldRoot, { target });
     expect(target.querySelector('[data-slot="number-field"]')).not.toBeNull();
     expect(warning).not.toHaveBeenCalled();
+    await unmount(component);
+    warning.mockRestore();
+  });
+
+  test("hydrates direct Field relationships without losing the spinbutton name or description", async () => {
+    const warning = vi.spyOn(console, "warn").mockImplementation(() => undefined);
+    const target = document.createElement("div");
+    target.innerHTML = `<!--[--><!--[--><!--[--><!----><div data-slot="field" class="flex flex-col items-start gap-2"><!--[--><!--$s7--><!--[--><!--$s8--><!----><label id="hydrated-number-label" data-slot="field-label" class="inline-flex items-center gap-2 font-medium text-base/4.5 text-foreground data-disabled:opacity-64 sm:text-sm/4"><!---->Hydrated quantity<!----><!----></label><!----><!--]--><!--]--> <!--[--><!--$s9--><!--[-1--><div class="flex w-full flex-col items-start gap-2" data-size="default" data-slot="number-field"><!--[--><!--$s10--><!----><input id="hydrated-number" aria-labelledby="hydrated-number-label" aria-describedby="hydrated-number-description" value="3" aria-roledescription="Number field" autocomplete="off" autocorrect="off" class="h-8.5 in-data-[size=lg]:h-9.5 in-data-[size=sm]:h-7.5 w-full min-w-0 grow bg-transparent in-data-[size=sm]:px-[calc(--spacing(2.5)-1px)] px-[calc(--spacing(3)-1px)] text-center text-foreground tabular-nums in-data-[size=lg]:leading-9.5 in-data-[size=sm]:leading-7.5 leading-8.5 outline-none sm:h-7.5 sm:in-data-[size=lg]:h-8.5 sm:in-data-[size=sm]:h-6.5 sm:in-data-[size=lg]:leading-8.5 sm:in-data-[size=sm]:leading-8.5 sm:leading-7.5" data-slot="number-field-input" inputmode="numeric" role="spinbutton" spellcheck="false" type="text" aria-valuemax="10" aria-valuemin="1" aria-valuenow="3" aria-valuetext="3" data-testid="hydrated-field-number-input"><!----><!----><!--]--><!----></div><!--]--><!--]--> <!--[--><!--$s11--><!--[--><!--$s12--><!----><p id="hydrated-number-description" data-slot="field-description" class="text-muted-foreground text-xs"><!---->Hydrated quantity description<!----><!----></p><!----><!--]--><!--]--><!----><!----><!----><!----><!----></div><!----><!--]--><!--]--><!--]-->`;
+    document.body.append(target);
+
+    const component = hydrate(NumberFieldFieldHydrationFixture, { target });
+    const input = page.getByTestId("hydrated-field-number-input");
+    await expect.element(input).toHaveAccessibleName("Hydrated quantity");
+    await expect.element(input).toHaveAccessibleDescription("Hydrated quantity description");
     await unmount(component);
     warning.mockRestore();
   });

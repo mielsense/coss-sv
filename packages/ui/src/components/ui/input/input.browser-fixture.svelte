@@ -1,5 +1,6 @@
 <script lang="ts">
 import { Field } from "@shardsui/svelte";
+import * as LocalField from "../field/index.js";
 import Input from "./input.svelte";
 
 let inputRef = $state<HTMLInputElement | null>(null);
@@ -52,6 +53,11 @@ let nativeFileChanges = $state(0);
 <Field.Root>
   <Input data-testid="field-input" required />
 </Field.Root>
+<LocalField.Root>
+  <LocalField.Label>Removed input label</LocalField.Label>
+  <Input aria-labelledby={null} data-testid="null-aria-input" />
+  <LocalField.Description>Removed input description</LocalField.Description>
+</LocalField.Root>
 <output data-testid="input-state">{value}:{changes}:{inputRef?.tagName ?? "missing"}</output>
 <output data-testid="input-callback-state">{valueChange}</output>
 <output data-testid="native-input-state"
