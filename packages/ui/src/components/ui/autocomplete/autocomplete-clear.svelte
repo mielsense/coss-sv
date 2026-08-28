@@ -5,8 +5,11 @@ export type AutocompleteClearProps = ComponentProps<typeof ShardsAutocomplete.Cl
 </script>
 
 <script lang="ts">
+import { Cancel01Icon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/svelte";
 import { Autocomplete as AutocompletePrimitive } from "@shardsui/svelte";
 import { cn } from "$lib/utils.js";
+
 let {
   "aria-label": ariaLabel = "Clear",
   class: className,
@@ -27,20 +30,7 @@ let {
     {#if child}
       {@render child(state)}
     {:else}
-      <svg
-        aria-hidden="true"
-        fill="none"
-        height="24"
-        stroke="currentColor"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="2"
-        viewBox="0 0 24 24"
-        width="24"
-      >
-        <path d="M18 6 6 18" />
-        <path d="m6 6 12 12" />
-      </svg>
+      <HugeiconsIcon aria-hidden="true" icon={Cancel01Icon} strokeWidth={2} />
     {/if}
   {/snippet}
 </AutocompletePrimitive.Clear>

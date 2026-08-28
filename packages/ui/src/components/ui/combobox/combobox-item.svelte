@@ -4,8 +4,11 @@ import type { ComponentProps } from "svelte";
 export type ComboboxItemProps = ComponentProps<typeof ShardsCombobox.Item>;
 </script>
 <script lang="ts">
+import { Tick02Icon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/svelte";
 import { Combobox as C } from "@shardsui/svelte";
 import { cn } from "$lib/utils.js";
+
 let {
   children: child,
   class: className,
@@ -20,19 +23,7 @@ let {
   {...props}
   >{#snippet children(state)}
     <C.ItemIndicator class="col-start-1"
-      ><svg
-        aria-hidden="true"
-        fill="none"
-        height="24"
-        stroke="currentColor"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="2"
-        viewBox="0 0 24 24"
-        width="24"
-      >
-        <path d="M5.252 12.7 10.2 18.63 18.748 5.37" />
-      </svg></C.ItemIndicator
+      ><HugeiconsIcon aria-hidden="true" icon={Tick02Icon} strokeWidth={2} /></C.ItemIndicator
     >
     <div class="col-start-2">{@render child?.(state)}</div>
   {/snippet}</C.Item

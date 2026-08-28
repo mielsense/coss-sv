@@ -1,6 +1,8 @@
 <script lang="ts">
-import * as Select from "../../../../../../packages/ui/dist/components/ui/select/index.js";
 import { Avatar, Button, Field, Form } from "@coss-sv/ui";
+import { CableIcon, CodeXmlIcon, GlobeIcon, LayersIcon, ZapIcon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/svelte";
+import * as Select from "../../../../../../packages/ui/dist/components/ui/select/index.js";
 
 const frameworks = [
   { label: "Next.js", value: "next" },
@@ -12,10 +14,10 @@ const frontend = ["React", "Vue", "Svelte", "Angular"];
 const backend = ["Node.js", "Django", "Laravel", "Spring"];
 const languages = ["JavaScript", "TypeScript", "Python", "Java", "C#", "C++", "Go", "Rust"];
 const categories = [
-  { icon: "▦", label: "Components", value: "components" },
-  { icon: "ϟ", label: "Performance", value: "performance" },
-  { icon: "◎", label: "Network", value: "network" },
-  { icon: "</>", label: "Development", value: "development" },
+  { icon: LayersIcon, label: "Components", value: "components" },
+  { icon: ZapIcon, label: "Performance", value: "performance" },
+  { icon: GlobeIcon, label: "Network", value: "network" },
+  { icon: CodeXmlIcon, label: "Development", value: "development" },
 ];
 const commands = [
   { description: "npx create-next-app", label: "Next.js", value: "next" },
@@ -130,7 +132,9 @@ let selectedLanguages = $state(["javascript", "typescript"]);
   </section>
   <section data-particle="p-select-8">
     <Select.Root aria-label="Select framework with icon" items={frameworks} value="next"
-      ><Select.Trigger><span aria-hidden="true">⌁</span><Select.Value /></Select.Trigger
+      ><Select.Trigger
+        ><HugeiconsIcon aria-hidden="true" icon={CableIcon} strokeWidth={2} />
+        <Select.Value /></Select.Trigger
       ><Select.Popup alignItemWithTrigger={false}
         >{@render frameworkItems()}</Select.Popup
       ></Select.Root
@@ -143,7 +147,7 @@ let selectedLanguages = $state(["javascript", "typescript"]);
           >{#snippet children(item: (typeof categories)[number] | null)}
             {#if item}
               <span class="flex items-center gap-2"
-                ><span aria-hidden="true">{item.icon}</span
+                ><HugeiconsIcon aria-hidden="true" icon={item.icon} strokeWidth={2} />
                 ><span class="truncate">{item.label}</span></span
               >
             {/if}
@@ -153,7 +157,8 @@ let selectedLanguages = $state(["javascript", "typescript"]);
         >{#each categories as item (item.value)}
           <Select.Item value={item}
             ><span class="flex items-center gap-2"
-              ><span aria-hidden="true">{item.icon}</span><span>{item.label}</span></span
+              ><HugeiconsIcon aria-hidden="true" icon={item.icon} strokeWidth={2} />
+              <span>{item.label}</span></span
             ></Select.Item
           >
         {/each}</Select.Popup

@@ -1,6 +1,8 @@
 <script lang="ts">
-import * as Autocomplete from "../../../../../../packages/ui/dist/components/ui/autocomplete/index.js";
 import { Button, Field, Form, Label, Spinner } from "@coss-sv/ui";
+import { MapPinIcon, Search01Icon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/svelte";
+import * as Autocomplete from "../../../../../../packages/ui/dist/components/ui/autocomplete/index.js";
 
 type Item = { label: string; value: string };
 type Tag = { id: string; label: string; group: "Status" | "Priority" | "Team" };
@@ -129,10 +131,11 @@ async function searchAddresses(query: string): Promise<void> {
 {/snippet}
 
 {#snippet searchIcon()}
-  <svg aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-    <path d="m21 21-4.34-4.34" />
-    <circle cx="11" cy="11" r="8" />
-  </svg>
+  <HugeiconsIcon aria-hidden="true" icon={Search01Icon} strokeWidth={2} />
+{/snippet}
+
+{#snippet mapPinIcon()}
+  <HugeiconsIcon aria-hidden="true" icon={MapPinIcon} strokeWidth={2} />
 {/snippet}
 
 <div class="fixture">
@@ -327,7 +330,12 @@ async function searchAddresses(query: string): Promise<void> {
       onValueChange={searchAddresses}
       value={addressQuery}
     >
-      <Autocomplete.Input aria-label="Address" placeholder="Enter an address" />
+      <Autocomplete.Input
+        aria-label="Address"
+        class="min-w-0 *:[input]:truncate"
+        placeholder="Enter an address"
+        startAddon={mapPinIcon}
+      />
       {#if addressQuery}
         <Autocomplete.Popup aria-busy={addressLoading || undefined}>
           <Autocomplete.Status class="text-muted-foreground"

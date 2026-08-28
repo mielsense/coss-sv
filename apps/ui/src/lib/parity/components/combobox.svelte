@@ -1,6 +1,8 @@
 <script lang="ts">
-import * as Combobox from "../../../../../../packages/ui/dist/components/ui/combobox/index.js";
 import { Avatar, Badge, Button, Field, Form, Label } from "@coss-sv/ui";
+import { Cancel01Icon, Search01Icon, UnfoldMoreIcon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/svelte";
+import * as Combobox from "../../../../../../packages/ui/dist/components/ui/combobox/index.js";
 
 type Item = { label: string; value: string };
 type Tag = { group: string; id: string; label: string };
@@ -103,10 +105,7 @@ function removeMember(member: Person): void {
 {/snippet}
 
 {#snippet searchIcon()}
-  <svg aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-    <circle cx="11" cy="11" r="8" />
-    <path d="m21 21-4.35-4.35" />
-  </svg>
+  <HugeiconsIcon aria-hidden="true" icon={Search01Icon} strokeWidth={2} />
 {/snippet}
 
 {#snippet teamSelection(particle: "p-combobox-19" | "p-combobox-20")}
@@ -148,7 +147,7 @@ function removeMember(member: Person): void {
             onclick={() => removeMember(member)}
             size="icon-sm"
             variant="ghost"
-            >×</Button
+            ><HugeiconsIcon aria-hidden="true" icon={Cancel01Icon} strokeWidth={2} /></Button
           >
         </li>
       {/each}
@@ -249,7 +248,13 @@ function removeMember(member: Person): void {
     <Combobox.Root items={countries} value={countries[0]}
       ><Combobox.Trigger
         class="inline-flex h-9 w-full items-center justify-between rounded-lg border border-input bg-background px-3 text-sm shadow-xs"
-        ><Combobox.Value /></Combobox.Trigger
+        ><Combobox.Value />
+        <HugeiconsIcon
+          aria-hidden="true"
+          class="-me-1!"
+          icon={UnfoldMoreIcon}
+          strokeWidth={2}
+        /></Combobox.Trigger
       ><Combobox.Popup aria-label="Select country"
         ><div class="border-b p-2">
           <Combobox.Input
@@ -354,7 +359,13 @@ function removeMember(member: Person): void {
     <Combobox.Root autoHighlight items={timezones}
       ><Combobox.Trigger
         class="inline-flex h-9 w-full items-center justify-between rounded-lg border border-input bg-background px-3 text-sm shadow-xs"
-        ><Combobox.Value placeholder="Select timezone" /></Combobox.Trigger
+        ><Combobox.Value placeholder="Select timezone" />
+        <HugeiconsIcon
+          aria-hidden="true"
+          class="-me-1!"
+          icon={UnfoldMoreIcon}
+          strokeWidth={2}
+        /></Combobox.Trigger
       ><Combobox.Popup aria-label="Select timezone"
         ><div class="border-b p-2">
           <Combobox.Input
@@ -378,7 +389,13 @@ function removeMember(member: Person): void {
     <Combobox.Root {items}
       ><Combobox.Trigger
         class="inline-flex h-9 w-full items-center justify-between rounded-lg border border-input bg-background px-3 text-sm shadow-xs"
-        ><Combobox.Value placeholder="Select a fruit" /></Combobox.Trigger
+        ><Combobox.Value placeholder="Select a fruit" />
+        <HugeiconsIcon
+          aria-hidden="true"
+          class="-me-1!"
+          icon={UnfoldMoreIcon}
+          strokeWidth={2}
+        /></Combobox.Trigger
       ><Combobox.Popup aria-label="Select a fruit"
         ><div class="border-b p-2">
           <Combobox.Input

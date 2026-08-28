@@ -19,6 +19,8 @@ export type AutocompleteInputProps = Omit<
 </script>
 
 <script lang="ts">
+import { UnfoldMoreIcon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/svelte";
 import { Autocomplete as AutocompletePrimitive } from "@shardsui/svelte";
 import { cn } from "$lib/utils.js";
 import AutocompleteClear from "./autocomplete-clear.svelte";
@@ -92,20 +94,7 @@ const adornmentPosition = $derived(size === "sm" ? "end-0" : "end-0.5");
     <AutocompleteTrigger class={cn(adornmentClass, adornmentPosition)} {...triggerProps}>
       {#snippet children()}
         <AutocompletePrimitive.Icon data-slot="autocomplete-icon">
-          <svg
-            aria-hidden="true"
-            fill="none"
-            height="24"
-            stroke="currentColor"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            viewBox="0 0 24 24"
-            width="24"
-          >
-            <path d="m7 15 5 5 5-5" />
-            <path d="m7 9 5-5 5 5" />
-          </svg>
+          <HugeiconsIcon aria-hidden="true" icon={UnfoldMoreIcon} strokeWidth={2} />
         </AutocompletePrimitive.Icon>
       {/snippet}
     </AutocompleteTrigger>

@@ -1,6 +1,6 @@
 <script module lang="ts">
-import type { HTMLButtonAttributes } from "svelte/elements";
 import type { Snippet } from "svelte";
+import type { HTMLButtonAttributes } from "svelte/elements";
 export type SelectButtonProps = Omit<HTMLButtonAttributes, "children"> & {
   children?: Snippet;
   ref?: HTMLButtonElement | null;
@@ -8,8 +8,11 @@ export type SelectButtonProps = Omit<HTMLButtonAttributes, "children"> & {
 };
 </script>
 <script lang="ts">
+import { UnfoldMoreIcon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/svelte";
 import { cn } from "$lib/utils.js";
 import { selectTriggerClass, selectTriggerIconClassName } from "./select-trigger.svelte";
+
 let {
   children,
   class: className,
@@ -28,19 +31,10 @@ let {
 >
   <span class="flex-1 truncate in-data-placeholder:text-muted-foreground/72"
     >{@render children?.()}</span
-  ><svg
+  ><HugeiconsIcon
     aria-hidden="true"
     class={selectTriggerIconClassName}
-    fill="none"
-    height="24"
-    stroke="currentColor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-    viewBox="0 0 24 24"
-    width="24"
-  >
-    <path d="m7 15 5 5 5-5" />
-    <path d="m7 9 5-5 5 5" />
-  </svg>
+    icon={UnfoldMoreIcon}
+    strokeWidth={2}
+  />
 </button>

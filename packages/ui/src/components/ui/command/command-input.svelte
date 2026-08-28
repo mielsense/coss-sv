@@ -4,25 +4,15 @@ import type { AutocompleteInputProps } from "../autocomplete/autocomplete-input.
 export type CommandInputProps = AutocompleteInputProps;
 </script>
 <script lang="ts">
+import { Search01Icon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/svelte";
 import { cn } from "$lib/utils.js";
 import AutocompleteInput from "../autocomplete/autocomplete-input.svelte";
+
 let { class: className, ...props }: CommandInputProps = $props();
 </script>
 {#snippet searchIcon()}
-  <svg
-    aria-hidden="true"
-    fill="none"
-    height="24"
-    stroke="currentColor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-    viewBox="0 0 24 24"
-    width="24"
-  >
-    <path d="m21 21-4.34-4.34" />
-    <circle cx="11" cy="11" r="8" />
-  </svg>
+  <HugeiconsIcon aria-hidden="true" icon={Search01Icon} strokeWidth={2} />
 {/snippet}
 <div class="px-2.5 py-1.5">
   <AutocompleteInput

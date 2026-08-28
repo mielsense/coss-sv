@@ -39,3 +39,5 @@ The Codex in-app Browser rendered all twenty particle sections. The default inpu
 ## Repair verification
 
 The repair reread the complete COSS wrapper, documentation page, all twenty particles, and the complete local Shards Combobox implementation, documentation, tests, fixtures, and types. SSR coverage distinguishes the bare clear part from the clear button composed by `Combobox.Input`. Browser coverage exercises single and multiple selection, synchronized input text, exact object identity, chip removal, repeated form values, and clearing the composed input.
+
+The icon-authority repair replaces copied or representative trigger, clear, search, selection, and remove artwork with `@hugeicons/svelte` and matching free-core assets after rereading every affected COSS particle and Shards part. The parity trigger examples now include the icon supplied by COSS `SelectButton`. Source regression coverage rejects inline SVG and Lucide markup. The separator's stable public prop contract restores its generated declaration, and the built-package regression includes all six delegated Combobox parts.

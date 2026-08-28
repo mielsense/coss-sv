@@ -10,9 +10,12 @@ export const selectTriggerClass =
 export const selectTriggerIconClassName = "-me-1 size-4.5 opacity-80 sm:size-4";
 </script>
 <script lang="ts">
+import { UnfoldMoreIcon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/svelte";
 import { Select as S } from "@shardsui/svelte";
 import { cn } from "$lib/utils.js";
 import { getSelectWrapperContext } from "./context.svelte.js";
+
 let {
   children: child,
   class: className,
@@ -35,21 +38,12 @@ function setRef(el: HTMLElement | null) {
   >{#snippet children(state)}
     {@render child?.(state)}
     <S.Icon data-slot="select-icon"
-      ><svg
+      ><HugeiconsIcon
         aria-hidden="true"
         class={selectTriggerIconClassName}
-        fill="none"
-        height="24"
-        stroke="currentColor"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="2"
-        viewBox="0 0 24 24"
-        width="24"
-      >
-        <path d="m7 15 5 5 5-5" />
-        <path d="m7 9 5-5 5 5" />
-      </svg></S.Icon
+        icon={UnfoldMoreIcon}
+        strokeWidth={2}
+      /></S.Icon
     >
   {/snippet}</S.Trigger
 >

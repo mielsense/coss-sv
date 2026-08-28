@@ -39,3 +39,5 @@ The Codex in-app Browser rendered the lane fixture beside the freshly inspected 
 ## Repair verification
 
 The repair reread the wrapper, documentation page, all sixteen particles, and the full local Shards Autocomplete source, tests, fixtures, documentation, and exported types before changing coverage. Browser tests now cover filtering, active-descendant navigation, form text, clearing, inline completion, empty results, the loading-to-result transition, and object-item stringification.
+
+The icon-authority repair reread the COSS wrapper and all icon-bearing particles before replacing the copied search, clear, trigger, and address-pin artwork with `@hugeicons/svelte` and matching free-core assets. Source regression coverage rejects inline SVG and Lucide markup in the public wrapper and parity fixture. The separator now uses a stable public prop contract derived from the complete Shards separator type; package-output coverage verifies its generated declaration and `ref` binding alongside all other delegated parts.

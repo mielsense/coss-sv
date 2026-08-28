@@ -1,7 +1,11 @@
 <script module lang="ts">
-import type { Combobox as P } from "@shardsui/svelte";
-import type { ComponentProps } from "svelte";
-export type ComboboxSeparatorProps = ComponentProps<typeof P.Separator>;
+import type { SvelteHTMLElements } from "svelte/elements";
+export type ComboboxSeparatorProps = Omit<SvelteHTMLElements["div"], "children" | "id"> & {
+  as?: keyof HTMLElementTagNameMap;
+  ref?: HTMLElement | null;
+  id?: string;
+  orientation?: "horizontal" | "vertical";
+};
 </script>
 <script lang="ts">
 import Part from "./combobox-parts.svelte";

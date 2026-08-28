@@ -1,6 +1,7 @@
 <script lang="ts">
 import {
   Button,
+  buttonVariants,
   EmptyMedia,
   Input,
   Kbd,
@@ -8,8 +9,17 @@ import {
   ScrollArea,
   Skeleton,
   Spinner,
-  buttonVariants,
 } from "@coss-sv/ui";
+import {
+  ArrowDown02Icon,
+  ArrowLeft02Icon,
+  ArrowUp02Icon,
+  CircleQuestionMarkIcon,
+  CornerDownLeftIcon,
+  Search01Icon,
+  SparklesIcon,
+} from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/svelte";
 import * as Command from "../../../../../../packages/ui/dist/components/ui/command/index.js";
 
 type Item = { keywords?: string[]; label: string; shortcut?: string; value: string };
@@ -174,9 +184,17 @@ function onWindowKeydown(event: KeyboardEvent): void {
     {#if hasItems}
       <div class="flex items-center gap-4">
         <div class="flex items-center gap-2">
-          <KbdGroup><Kbd>↑</Kbd><Kbd>↓</Kbd></KbdGroup><span>Navigate</span>
+          <KbdGroup
+            ><Kbd><HugeiconsIcon aria-hidden="true" icon={ArrowUp02Icon} strokeWidth={2} /></Kbd
+            ><Kbd
+              ><HugeiconsIcon aria-hidden="true" icon={ArrowDown02Icon} strokeWidth={2} /></Kbd
+            ></KbdGroup
+          ><span>Navigate</span>
         </div>
-        <div class="flex items-center gap-2"><Kbd>↵</Kbd><span>Open</span></div>
+        <div class="flex items-center gap-2">
+          <Kbd><HugeiconsIcon aria-hidden="true" icon={CornerDownLeftIcon} strokeWidth={2} /></Kbd
+          ><span>Open</span>
+        </div>
       </div>
     {/if}
     <div class="ms-auto flex items-center gap-2"><Kbd>Esc</Kbd><span>Close</span></div>
@@ -221,16 +239,25 @@ function onWindowKeydown(event: KeyboardEvent): void {
                 onclick={() => askAI()}
                 size="sm"
                 variant="ghost"
-                ><span aria-hidden="true">✦</span>Ask AI<Kbd class="ms-0.5 -me-1.5"
-                  >Tab</Kbd
-                ></Button
+                ><HugeiconsIcon
+                  aria-hidden="true"
+                  class="size-4 sm:size-3.5"
+                  icon={SparklesIcon}
+                  strokeWidth={2}
+                />Ask AI<Kbd class="ms-0.5 -me-1.5">Tab</Kbd></Button
               >
             </div>
             <Command.Panel>
               <Command.Empty class="not-empty:py-12"
                 >{#if searchQuery.trim()}
                   <div class="wrap-break-word flex flex-col items-center gap-2">
-                    <EmptyMedia variant="icon">⌕</EmptyMedia>
+                    <EmptyMedia variant="icon"
+                      ><HugeiconsIcon
+                        aria-hidden="true"
+                        icon={Search01Icon}
+                        strokeWidth={2}
+                      /></EmptyMedia
+                    >
                     <p>No results found.</p>
                     <p>
                       Press <Kbd>Enter</Kbd> to ask AI about:<br>
@@ -247,21 +274,36 @@ function onWindowKeydown(event: KeyboardEvent): void {
           <Command.Root>
             <div class="flex items-center *:first:flex-1">
               <div class="px-2.5 py-1.5">
-                <Input
-                  aria-label="AI query input"
-                  bind:value={aiQuery}
-                  disabled={generating}
-                  onkeydown={(event: KeyboardEvent) => { if (event.key === "Enter" && !generating) askAI(aiQuery); if (event.key === "Escape") { event.preventDefault(); resetAI(); } }}
-                  placeholder="Ask AI anything…"
-                  size="lg"
-                />
+                <div class="relative w-full">
+                  <div
+                    aria-hidden="true"
+                    class="pointer-events-none absolute inset-y-0 start-px z-10 flex items-center ps-[calc(--spacing(3)-1px)] opacity-80 has-[+[data-size=sm]]:ps-[calc(--spacing(2.5)-1px)] [&_svg:not([class*='size-'])]:size-4.5 sm:[&_svg:not([class*='size-'])]:size-4 [&_svg]:-mx-0.5"
+                    data-slot="autocomplete-start-addon"
+                  >
+                    <HugeiconsIcon aria-hidden="true" icon={SparklesIcon} strokeWidth={2} />
+                  </div>
+                  <Input
+                    aria-label="AI query input"
+                    bind:value={aiQuery}
+                    class="border-transparent! bg-transparent! shadow-none before:hidden has-focus-visible:ring-0 *:data-[slot=input]:ps-[calc(--spacing(8.5)-1px)] sm:*:data-[slot=input]:ps-[calc(--spacing(8)-1px)]"
+                    disabled={generating}
+                    onkeydown={(event: KeyboardEvent) => { if (event.key === "Enter" && !generating) askAI(aiQuery); if (event.key === "Escape") { event.preventDefault(); resetAI(); } }}
+                    placeholder="Ask AI anything…"
+                    size="lg"
+                  />
+                </div>
               </div>
               <Button
                 class="me-2.5 rounded-md text-sm sm:text-xs"
                 onclick={resetAI}
                 size="sm"
                 variant="ghost"
-                >← Back to search <Kbd class="ms-0.5 -me-1.5">Esc</Kbd></Button
+                ><HugeiconsIcon
+                  aria-hidden="true"
+                  class="size-4 sm:size-3.5"
+                  icon={ArrowLeft02Icon}
+                  strokeWidth={2}
+                />Back to search <Kbd class="ms-0.5 -me-1.5">Esc</Kbd></Button
               >
             </div>
             <Command.Panel
@@ -309,10 +351,26 @@ function onWindowKeydown(event: KeyboardEvent): void {
                 </div>
               {:else if generatedResponse}
                 <div class="flex items-center gap-2">
-                  <span aria-hidden="true">?</span>You asked: <span>"{submittedQuery}"</span>
+                  <div class="flex h-5 items-center justify-center">
+                    <HugeiconsIcon
+                      aria-hidden="true"
+                      class="size-3"
+                      icon={CircleQuestionMarkIcon}
+                      strokeWidth={2}
+                    />
+                  </div>
+                  You asked: <span>"{submittedQuery}"</span>
                 </div>
               {:else}
-                <div class="flex items-center gap-2"><Kbd>↵</Kbd><span>Ask AI</span></div>
+                <div class="flex items-center gap-2">
+                  <Kbd
+                    ><HugeiconsIcon
+                      aria-hidden="true"
+                      icon={CornerDownLeftIcon}
+                      strokeWidth={2}
+                    /></Kbd
+                  ><span>Ask AI</span>
+                </div>
               {/if}</Command.Footer
             >
           </Command.Root>

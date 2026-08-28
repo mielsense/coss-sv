@@ -6,13 +6,13 @@ import { describe, expect, test } from "vitest";
 const packageRoot = resolve(dirname(fileURLToPath(import.meta.url)), "../../../..");
 const distRoot = join(packageRoot, "dist/components/ui");
 const publicParts = {
-  autocomplete: ["empty", "group", "group-label", "row", "status"],
-  combobox: ["empty", "group", "group-label", "row", "status"],
-  select: ["group", "group-label"],
+  autocomplete: ["empty", "group", "group-label", "row", "separator", "status"],
+  combobox: ["empty", "group", "group-label", "row", "separator", "status"],
+  select: ["group", "group-label", "separator"],
 } as const;
 
 describe("built selection part declarations", () => {
-  test("declares ref as a binding on every generated delegated wrapper declaration", () => {
+  test("declares ref as a binding on every delegated public wrapper", () => {
     for (const [family, parts] of Object.entries(publicParts)) {
       for (const part of parts) {
         const declaration = readFileSync(

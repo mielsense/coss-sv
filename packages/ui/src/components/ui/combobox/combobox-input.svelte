@@ -17,6 +17,8 @@ export type ComboboxInputProps = Omit<
 };
 </script>
 <script lang="ts">
+import { Cancel01Icon, UnfoldMoreIcon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/svelte";
 import { Combobox as C } from "@shardsui/svelte";
 import { cn } from "$lib/utils.js";
 import ComboboxClear from "./combobox-clear.svelte";
@@ -87,20 +89,7 @@ const adornmentPosition = $derived(size === "sm" ? "end-0" : "end-0.5");
     <ComboboxTrigger class={cn(adornmentClass, adornmentPosition)} {...triggerProps}>
       {#snippet children()}
         <C.Icon data-slot="combobox-icon">
-          <svg
-            aria-hidden="true"
-            fill="none"
-            height="24"
-            stroke="currentColor"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            viewBox="0 0 24 24"
-            width="24"
-          >
-            <path d="m7 15 5 5 5-5" />
-            <path d="m7 9 5-5 5 5" />
-          </svg>
+          <HugeiconsIcon aria-hidden="true" icon={UnfoldMoreIcon} strokeWidth={2} />
         </C.Icon>
       {/snippet}
     </ComboboxTrigger>
@@ -108,20 +97,7 @@ const adornmentPosition = $derived(size === "sm" ? "end-0" : "end-0.5");
   {#if showClear}
     <ComboboxClear aria-label="Clear" class={cn(adornmentClass, adornmentPosition)} {...clearProps}>
       {#snippet children()}
-        <svg
-          aria-hidden="true"
-          fill="none"
-          height="24"
-          stroke="currentColor"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          viewBox="0 0 24 24"
-          width="24"
-        >
-          <path d="M18 6 6 18" />
-          <path d="m6 6 12 12" />
-        </svg>
+        <HugeiconsIcon aria-hidden="true" icon={Cancel01Icon} strokeWidth={2} />
       {/snippet}
     </ComboboxClear>
   {/if}

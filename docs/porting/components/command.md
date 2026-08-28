@@ -39,3 +39,5 @@ The Codex in-app Browser rendered both particle sections. Opening the first pale
 ## Repair verification
 
 The repair reread the complete COSS wrapper, documentation page, both direct particles, all indirect importers, and the complete local Shards Autocomplete and Dialog sources, docs, tests, fixtures, and exported types. SSR coverage rejects an invented `command-panel` slot. Browser tests cover grouped filtering, empty results, active-descendant navigation, Enter selection, initial focus, Escape dismissal, and trigger focus restoration.
+
+The icon-authority repair reread both COSS particles and the matching local input composition before replacing copied search markup and representative keyboard, AI, empty, back, and question glyphs. The package wrapper and parity fixture now use `@hugeicons/svelte` with matching free-core assets, preserve the COSS classes and accessible names, and mark decorative SVGs as hidden. Source regression coverage prevents inline SVG or Lucide markup from returning.
