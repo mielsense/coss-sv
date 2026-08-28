@@ -12,6 +12,7 @@ export const meta = defineParticleMeta({
 
 <script lang="ts">
 import { Fieldset, Slider } from "@coss-sv/ui";
+
 const min = 5;
 const max = 1240;
 let values = $state<number[]>([min, max]);

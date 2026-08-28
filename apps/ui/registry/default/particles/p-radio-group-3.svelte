@@ -12,6 +12,7 @@ export const meta = defineParticleMeta({
 
 <script lang="ts">
 import { Label, RadioGroup } from "@coss-sv/ui";
+
 const plans = [
   { value: "r-1", title: "Free", description: "Basic features for personal use." },
   { value: "r-2", title: "Pro", description: "Advanced tools for professionals." },

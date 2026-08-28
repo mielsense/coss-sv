@@ -11,6 +11,7 @@ export const meta = defineParticleMeta({
 </script>
 
 <script lang="ts">
+import { Button } from "@coss-sv/ui";
 import {
   ArrowDown01Icon,
   ArrowLeft01Icon,
@@ -19,7 +20,6 @@ import {
   CircleIcon,
 } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/svelte";
-import { Button } from "@coss-sv/ui";
 </script>
 
 <div class="inline-grid w-fit grid-cols-3 gap-1">

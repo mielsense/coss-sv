@@ -12,6 +12,7 @@ export const meta = defineParticleMeta({
 
 <script lang="ts">
 import { Label, RadioGroup } from "@coss-sv/ui";
+
 const methods = [
   { value: "r-1", title: "Email", description: "Receive notifications via email." },
   { value: "r-2", title: "SMS", description: "Receive notifications via text message." },

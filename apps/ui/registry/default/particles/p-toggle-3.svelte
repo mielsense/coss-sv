@@ -11,9 +11,9 @@ export const meta = defineParticleMeta({
 </script>
 
 <script lang="ts">
+import { Toggle } from "@coss-sv/ui";
 import { TextBoldIcon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/svelte";
-import { Toggle } from "@coss-sv/ui";
 </script>
 
 <Toggle aria-label="Toggle bold" variant="outline">

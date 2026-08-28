@@ -11,9 +11,10 @@ export const meta = defineParticleMeta({
 </script>
 
 <script lang="ts">
+import { Button, Field, Slider } from "@coss-sv/ui";
 import { MinusSignIcon, PlusSignIcon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/svelte";
-import { Button, Field, Slider } from "@coss-sv/ui";
+
 const min = 0;
 const max = 200;
 const step = 5;

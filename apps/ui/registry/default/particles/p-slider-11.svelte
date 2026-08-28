@@ -11,9 +11,10 @@ export const meta = defineParticleMeta({
 </script>
 
 <script lang="ts">
+import { Field, Slider } from "@coss-sv/ui";
 import { VolumeHighIcon, VolumeMute02Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/svelte";
-import { Field, Slider } from "@coss-sv/ui";
+
 let value = $state<number | readonly number[]>(25);
 </script>
 

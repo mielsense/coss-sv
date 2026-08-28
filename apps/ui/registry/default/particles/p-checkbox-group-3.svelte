@@ -12,6 +12,7 @@ export const meta = defineParticleMeta({
 
 <script lang="ts">
 import { CheckboxGroup, Label } from "@coss-sv/ui";
+
 const frameworks = [
   { value: "next", label: "Next.js" },
   { value: "vite", label: "Vite" },

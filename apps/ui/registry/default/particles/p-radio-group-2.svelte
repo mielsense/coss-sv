@@ -12,6 +12,7 @@ export const meta = defineParticleMeta({
 
 <script lang="ts">
 import { Label, RadioGroup } from "@coss-sv/ui";
+
 const frameworks = [
   { value: "next", label: "Next.js" },
   { value: "vite", label: "Vite (disabled)" },

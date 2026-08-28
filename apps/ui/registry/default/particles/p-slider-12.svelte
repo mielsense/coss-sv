@@ -12,6 +12,7 @@ export const meta = defineParticleMeta({
 
 <script lang="ts">
 import { NumberField, Slider } from "@coss-sv/ui";
+
 const min = 0;
 const max = 150;
 let value = $state(25);

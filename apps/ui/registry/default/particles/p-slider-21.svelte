@@ -11,9 +11,10 @@ export const meta = defineParticleMeta({
 </script>
 
 <script lang="ts">
+import { Button, Fieldset, Label, NumberField, Slider } from "@coss-sv/ui";
 import { RotateLeft01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/svelte";
-import { Button, Fieldset, Label, NumberField, Slider } from "@coss-sv/ui";
+
 const min = -10;
 const max = 10;
 type Axis = "x" | "y" | "z";

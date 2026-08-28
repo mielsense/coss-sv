@@ -11,6 +11,7 @@ export const meta = defineParticleMeta({
 </script>
 
 <script lang="ts">
+import { Button } from "@coss-sv/ui";
 import {
   Facebook01Icon,
   Github01Icon,
@@ -18,7 +19,6 @@ import {
   NewTwitterIcon,
 } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/svelte";
-import { Button } from "@coss-sv/ui";
 
 const providers = [
   { icon: GoogleIcon, label: "Google" },

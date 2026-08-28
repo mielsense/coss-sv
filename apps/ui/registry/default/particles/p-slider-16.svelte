@@ -12,6 +12,7 @@ export const meta = defineParticleMeta({
 
 <script lang="ts">
 import { Field, Slider } from "@coss-sv/ui";
+
 const labels = ["Awful", "Poor", "Okay", "Good", "Amazing"];
 let value = $state<number | readonly number[]>(3);
 const currentValue = $derived(Array.isArray(value) ? (value[0] ?? 3) : value);

@@ -11,9 +11,9 @@ export const meta = defineParticleMeta({
 </script>
 
 <script lang="ts">
+import { Button, Kbd, KbdGroup } from "@coss-sv/ui";
 import { PrinterIcon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/svelte";
-import { Button, Kbd, KbdGroup } from "@coss-sv/ui";
 </script>
 
 <Button variant="outline"

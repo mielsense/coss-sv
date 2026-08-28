@@ -12,6 +12,7 @@ export const meta = defineParticleMeta({
 
 <script lang="ts">
 import { Checkbox, Label } from "@coss-sv/ui";
+
 const id = $props.id();
 </script>
 

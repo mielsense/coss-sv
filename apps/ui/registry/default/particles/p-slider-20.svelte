@@ -11,6 +11,7 @@ export const meta = defineParticleMeta({
 
 <script lang="ts">
 import { Slider } from "@coss-sv/ui";
+
 const bands = [
   { label: "60 Hz", value: 2 },
   { label: "250 Hz", value: 1 },

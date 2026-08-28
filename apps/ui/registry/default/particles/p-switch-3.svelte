@@ -12,6 +12,7 @@ export const meta = defineParticleMeta({
 
 <script lang="ts">
 import { Label, Switch } from "@coss-sv/ui";
+
 const id = $props.id();
 const labelId = `${id}-label`;
 </script>
