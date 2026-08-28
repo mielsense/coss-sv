@@ -99,6 +99,66 @@ describe("Calendar browser contract", () => {
     await expect.element(page.getByTestId("month")).toHaveTextContent("2025-2");
   });
 
+  test("retains the last focused day as the roving target after focus leaves the grid", async () => {
+    render(CalendarFixture);
+    const root = page.getByTestId("interactive-calendar").element();
+    const day17 = root.querySelector<HTMLButtonElement>('button[data-calendar-date="2026-01-17"]');
+    if (!day17) throw new Error("Calendar did not render the last-focused regression day");
+
+    day17.focus();
+    page.getByTestId("single-mode").element().focus();
+    await tick();
+
+    expect(day17).toHaveAttribute("tabindex", "0");
+    expect(
+      root.querySelectorAll<HTMLButtonElement>('button[data-calendar-date][tabindex="0"]'),
+    ).toHaveLength(1);
+  });
+
+  test("cancels every handled grid-navigation key before it reaches an ancestor", async () => {
+    render(CalendarFixture);
+    const root = page.getByTestId("keyboard-propagation-calendar").element();
+    const day15 = root.querySelector<HTMLButtonElement>('button[data-calendar-date="2026-01-15"]');
+    if (!day15) throw new Error("Calendar did not render the keyboard propagation target");
+
+    for (const key of [
+      "ArrowLeft",
+      "ArrowRight",
+      "ArrowUp",
+      "ArrowDown",
+      "Home",
+      "End",
+      "PageUp",
+      "PageDown",
+    ]) {
+      const event = new KeyboardEvent("keydown", { bubbles: true, cancelable: true, key });
+      day15.dispatchEvent(event);
+      expect(event.defaultPrevented, `${key} should be prevented`).toBe(true);
+    }
+
+    await expect.element(page.getByTestId("ancestor-key-count")).toHaveTextContent("0");
+  });
+
+  test("orders native and custom caption dropdowns using the locale month-year convention", () => {
+    render(CalendarFixture);
+    const japaneseNative = page.getByTestId("japanese-native-dropdown-calendar").element();
+    const japaneseNativeOrder = Array.from(japaneseNative.querySelectorAll("select")).map((node) =>
+      node.getAttribute("aria-label"),
+    );
+    const japaneseCustom = page.getByTestId("japanese-custom-dropdown-calendar").element();
+    const japaneseCustomOrder = Array.from(
+      japaneseCustom.querySelectorAll<HTMLElement>("[data-locale-dropdown]"),
+    ).map((node) => node.dataset.localeDropdown);
+    const englishCustom = page.getByTestId("english-custom-dropdown-calendar").element();
+    const englishCustomOrder = Array.from(
+      englishCustom.querySelectorAll<HTMLElement>("[data-locale-dropdown]"),
+    ).map((node) => node.dataset.localeDropdown);
+
+    expect(japaneseNativeOrder).toEqual(["Choose the Year", "Choose the Month"]);
+    expect(japaneseCustomOrder).toEqual(["year", "month"]);
+    expect(englishCustomOrder).toEqual(["month", "year"]);
+  });
+
   test("navigates captions and restores focus through the Shards popover composition contract", async () => {
     render(CalendarFixture);
     const calendar = page.getByTestId("interactive-calendar");

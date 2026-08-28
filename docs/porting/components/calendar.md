@@ -86,6 +86,11 @@ The month and year dropdown handlers use the chronological offset between each c
 month and the first displayed month. This keeps cross-year, multi-month, and
 `reverseMonths` changes anchored to the caption the user changed.
 
+Caption controls follow DayPicker's locale order. Basque, Hungarian, Japanese, Korean,
+Lithuanian, Latvian, Mongolian, and Chinese locale codes render the year before the month.
+Other locales keep the month first. The same order applies to native selects and
+`components.Dropdown` replacements.
+
 Selection is controlled whenever `onSelect` is present, including when `selected` is
 undefined. Month state is controlled whenever `onMonthChange` is present. The callback
 reports a proposed month while an ignored parent value remains rendered. Without the
@@ -101,13 +106,16 @@ Roving focus only targets visible, enabled days. A disabled selected date falls 
 first enabled day. Month changes and externally controlled months recompute the target;
 controlled months outside the navigation bounds render at the nearest allowed month. If
 keyboard navigation cannot find another enabled date within the bounds, focus stays on the
-existing enabled button. Arrow, Shift+Arrow, Home, End, Page Up, Page Down, and Shift+Page
-follow the DayPicker 10 movement units when they skip disabled dates. Month and year
-movement preserves the day number when the target month contains it and clamps only at the
-target month's end.
+existing enabled button. When focus leaves the grid, the last focused day remains the sole
+tab stop for keyboard re-entry. Arrow, Shift+Arrow, Home, End, Page Up, Page Down, and
+Shift+Page follow the DayPicker 10 movement units when they skip disabled dates. Each
+handled key prevents its browser default and stops propagation before moving focus. Month
+and year movement preserves the day number when the target month contains it and clamps
+only at the target month's end.
 
 Calendar uses `ArrowLeft01Icon`, `ArrowRight01Icon`, and `ArrowUpDownIcon` from the approved
-Hugeicons packages. It adds no calendar runtime dependency.
+Hugeicons data package. The shared Svelte adapter renders the official glyph nodes during
+SSR and on the client. It adds no calendar runtime dependency.
 
 ## Documentation lookup
 
@@ -130,10 +138,12 @@ the architecture or dependency choice.
   controlled and bound state, live callback-marker transitions, controlled undefined
   selection, callback-free month binding, GMT-12 and GMT+14 noon-safe callback and
   bound values, externally controlled month bounds, native dropdowns, cross-year reversed
-  months, replacement hosts, and Shards Popover focus restoration.
+  months, locale-aware native and replacement dropdown order, replacement hosts,
+  last-focused keyboard re-entry, stopped navigation-key propagation, and Shards Popover
+  focus restoration.
 - The browser suite hydrates actual Calendar SSR HTML under a frozen clock at a UTC to Los
   Angeles date boundary. It verifies that `defaultSelected` survives hydration. The
-  compressed fixture records the server render used by that regression and avoids adding a
-  shared Vitest command outside this lane.
+  compressed fixture records the current server render, including official Hugeicons path
+  data, and avoids adding a shared Vitest command outside this lane.
 
 Documentation pages, registry entries, and aggregate exports remain coordinator work.

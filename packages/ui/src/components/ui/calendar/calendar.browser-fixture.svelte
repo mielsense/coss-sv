@@ -2,6 +2,7 @@
 import Calendar from "./calendar.svelte";
 import type {
   CalendarDayButtonProps,
+  CalendarDropdownContext,
   CalendarWeekNumberProps,
   DateRange,
 } from "./calendar.types.js";
@@ -36,6 +37,7 @@ let dynamicSelectionCallback = $state("");
 let dynamicMonthControlled = $state(false);
 let dynamicMonth = $state(new Date(2026, 0, 1, 12));
 let dynamicMonthCallback = $state("");
+let ancestorKeyCount = $state(0);
 const selection = $derived(
   mode === "single" ? singleSelected : mode === "multiple" ? multipleSelected : rangeSelected,
 );
@@ -96,6 +98,10 @@ function ignoreDynamicMonth(value: Date): void {
   >
     {@render props.children()}
   </th>
+{/snippet}
+
+{#snippet localeDropdown(props: CalendarDropdownContext)}
+  <span data-locale-dropdown={props.kind}>{props.value}</span>
 {/snippet}
 
 <button data-testid="single-mode" onclick={() => setMode("single")} type="button">Single</button>
@@ -410,5 +416,43 @@ function ignoreDynamicMonth(value: Date): void {
     mode="single"
     selected={new Date(2026, 0, 15)}
     startMonth={new Date(2026, 0, 1)}
+  />
+</div>
+
+<!-- svelte-ignore a11y_no_noninteractive_element_interactions: this wrapper records whether Calendar handled keys escape its grid. -->
+<div onkeydown={() => (ancestorKeyCount += 1)} role="application">
+  <div data-testid="keyboard-propagation-calendar">
+    <Calendar defaultMonth={new Date(2026, 0, 1)} disableNavigation mode="single" />
+  </div>
+</div>
+<output data-testid="ancestor-key-count">{ancestorKeyCount}</output>
+
+<div data-testid="japanese-native-dropdown-calendar">
+  <Calendar
+    captionLayout="dropdown"
+    defaultMonth={new Date(2026, 0, 1)}
+    endMonth={new Date(2027, 11, 1)}
+    locale={{ code: "ja-JP" }}
+    startMonth={new Date(2025, 0, 1)}
+  />
+</div>
+<div data-testid="japanese-custom-dropdown-calendar">
+  <Calendar
+    captionLayout="dropdown"
+    components={{ Dropdown: localeDropdown }}
+    defaultMonth={new Date(2026, 0, 1)}
+    endMonth={new Date(2027, 11, 1)}
+    locale={{ code: "ja-JP" }}
+    startMonth={new Date(2025, 0, 1)}
+  />
+</div>
+<div data-testid="english-custom-dropdown-calendar">
+  <Calendar
+    captionLayout="dropdown"
+    components={{ Dropdown: localeDropdown }}
+    defaultMonth={new Date(2026, 0, 1)}
+    endMonth={new Date(2027, 11, 1)}
+    locale={{ code: "en-US" }}
+    startMonth={new Date(2025, 0, 1)}
   />
 </div>

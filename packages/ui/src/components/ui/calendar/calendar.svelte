@@ -5,6 +5,26 @@ import type { CalendarClassNames } from "./calendar.types.js";
 const buttonClassNames =
   "relative flex size-(--cell-size) text-base sm:text-sm items-center justify-center rounded-lg text-foreground not-in-data-selected:hover:bg-accent disabled:pointer-events-none disabled:opacity-64 [&_svg:not([class*='opacity-'])]:opacity-80 [&_svg:not([class*='size-'])]:size-4.5 sm:[&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:shrink-0";
 
+const yearFirstLocales = new Set([
+  "eu",
+  "hu",
+  "ja",
+  "ja-Hira",
+  "ja-JP",
+  "ko",
+  "ko-KR",
+  "lt",
+  "lt-LT",
+  "lv",
+  "lv-LV",
+  "mn",
+  "mn-MN",
+  "zh",
+  "zh-CN",
+  "zh-HK",
+  "zh-TW",
+]);
+
 export const calendarDefaultClassNames = {
   button_next: buttonClassNames,
   button_previous: buttonClassNames,
@@ -47,8 +67,8 @@ export const calendarDefaultClassNames = {
 
 <script lang="ts">
 import { ArrowLeft01Icon, ArrowRight01Icon, ArrowUpDownIcon } from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/svelte";
 import { tick, untrack } from "svelte";
+import HugeiconsIcon from "$lib/hugeicons-icon.svelte";
 import { cn } from "$lib/utils.js";
 import type { CalendarDateOptions } from "./calendar.utils.js";
 import type {
@@ -170,11 +190,13 @@ let hadExternalSelection = $state(untrack(() => selected !== undefined));
 let focusedDate = $state<Date | undefined>(
   untrack(() => (autoFocus ? selectedAnchor(initialSelected) : undefined)),
 );
+let lastFocusedDate = $state<Date | undefined>();
 let didAutoFocus = $state(false);
 
 const dateOptions = $derived<CalendarDateOptions>({ noonSafe, timeZone });
 const monthControlled = $derived(onMonthChange !== undefined);
 const localeCode = $derived(locale.code ?? "en-US");
+const monthYearOrder = $derived(yearFirstLocales.has(localeCode) ? "year-first" : "month-first");
 const effectiveWeekStartsOn = $derived(weekStartsOn ?? locale.options?.weekStartsOn ?? 0);
 const currentToday = $derived(normalizeCalendarDate(todayProp ?? instanceNow, dateOptions));
 const monthCount = $derived(Math.max(1, Math.floor(numberOfMonths)));
@@ -266,7 +288,12 @@ const focusTargetDate = $derived.by(() => {
       !entry.outside &&
       !dateState(entry.date, entry.displayMonth, false, renderedSelection, currentToday).disabled,
   );
-  const candidates = [focusedDate, selectedAnchor(renderedSelection), currentToday];
+  const candidates = [
+    focusedDate,
+    lastFocusedDate,
+    selectedAnchor(renderedSelection),
+    currentToday,
+  ];
   for (const candidate of candidates) {
     if (candidate && focusable.some((entry) => isSameCalendarDay(entry.date, candidate))) {
       return candidate;
@@ -708,6 +735,7 @@ function handleDayKeydown(
   }
   if (next) {
     event.preventDefault();
+    event.stopPropagation();
     void focusDay(next, searchDirection, searchStep);
   }
   onDayKeyDown?.(dateValue, modifierValues, event);
@@ -804,7 +832,7 @@ $effect(() => {
               {caption(calendarMonth.value)}
             </span>
           {:else}
-            {#snippet dropdownControls()}
+            {#snippet monthDropdownControl()}
               {#if captionLayout === "dropdown" || captionLayout === "dropdown-months"}
                 {const dropdownContext: CalendarDropdownContext = {
                   "aria-label":
@@ -854,7 +882,9 @@ $effect(() => {
                   >{monthDropdownLabel(calendarMonth.value)}</span
                 >
               {/if}
+            {/snippet}
 
+            {#snippet yearDropdownControl()}
               {#if captionLayout === "dropdown" || captionLayout === "dropdown-years"}
                 {const dropdownContext: CalendarDropdownContext = {
                   "aria-label":
@@ -904,6 +934,16 @@ $effect(() => {
                 <span class={resolvedClassNames.caption_label}
                   >{calendarMonth.value.getFullYear()}</span
                 >
+              {/if}
+            {/snippet}
+
+            {#snippet dropdownControls()}
+              {#if monthYearOrder === "year-first"}
+                {@render yearDropdownControl()}
+                {@render monthDropdownControl()}
+              {:else}
+                {@render monthDropdownControl()}
+                {@render yearDropdownControl()}
               {/if}
               <span class="sr-only" role="status" aria-live="polite"
                 >{caption(calendarMonth.value)}</span
@@ -1065,8 +1105,9 @@ $effect(() => {
                         "data-calendar-date": dateKey(calendarDay.date),
                         disabled: state.disabled && !isFocusTarget(calendarDay.date, state.outside),
                         onblur: (event: FocusEvent) => {
-                          onDayBlur?.(calendarDay.date, modifierValues, event);
+                          lastFocusedDate = calendarDay.date;
                           focusedDate = undefined;
+                          onDayBlur?.(calendarDay.date, modifierValues, event);
                         },
                         onclick: (event: MouseEvent) => selectDate(calendarDay.date, state, event),
                         onfocus: (event: FocusEvent) => {

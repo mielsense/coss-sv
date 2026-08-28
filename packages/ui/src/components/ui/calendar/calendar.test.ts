@@ -243,6 +243,8 @@ describe("Calendar SSR contract", () => {
     expect(body).toContain('<thead aria-hidden="true">');
     expect(body).toContain('aria-label="Monday"');
     expect(body).toContain('aria-label="Thursday, January 15th, 2026, selected"');
+    expect(body).toContain('d="M15 6C15 6 9.00001 10.4189 9 12C8.99999 13.5812 15 18 15 18"');
+    expect(body).toContain('d="M9.00005 6C9.00005 6 15 10.4189 15 12C15 13.5812 9 18 9 18"');
   });
 
   test("renders multiple months, hidden outside days, week numbers, dropdowns, and custom days", () => {
@@ -284,5 +286,33 @@ describe("Calendar SSR contract", () => {
     expect(body).toContain(">lu</th>");
     expect(body).toContain('aria-label="vendredi 2 janvier 2026"');
     expect(body).toContain('aria-label="vendredi 2 janvier 2026"');
+  });
+
+  test("orders native caption dropdowns by locale while retaining western month-first order", () => {
+    const japanese = render(SingleCalendar, {
+      props: {
+        captionLayout: "dropdown",
+        defaultMonth: january,
+        endMonth: new Date(2027, 11, 1),
+        locale: { code: "ja-JP" },
+        startMonth: new Date(2025, 0, 1),
+      },
+    }).body;
+    const english = render(SingleCalendar, {
+      props: {
+        captionLayout: "dropdown",
+        defaultMonth: january,
+        endMonth: new Date(2027, 11, 1),
+        locale: { code: "en-US" },
+        startMonth: new Date(2025, 0, 1),
+      },
+    }).body;
+
+    expect(japanese.indexOf('aria-label="Choose the Year"')).toBeLessThan(
+      japanese.indexOf('aria-label="Choose the Month"'),
+    );
+    expect(english.indexOf('aria-label="Choose the Month"')).toBeLessThan(
+      english.indexOf('aria-label="Choose the Year"'),
+    );
   });
 });
