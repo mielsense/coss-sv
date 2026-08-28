@@ -149,6 +149,7 @@ export async function openReadyPreview(
   name: string,
   theme: "dark" | "light",
   width: PreviewWidth,
+  timers: "manual" | "real" = "manual",
 ) {
   await page.setViewportSize({
     height: previewViewportHeights[width],
@@ -156,7 +157,7 @@ export async function openReadyPreview(
   });
   const externalRequests = await prepareDeterministicPage(page);
   const response = await page.goto(
-    `/preview/${encodeURIComponent(name)}?theme=${theme}&width=${width}`,
+    `/preview/${encodeURIComponent(name)}?theme=${theme}&width=${width}&timers=${timers}`,
     {
       waitUntil: "networkidle",
     },
