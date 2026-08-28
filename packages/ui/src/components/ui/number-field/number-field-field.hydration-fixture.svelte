@@ -1,6 +1,6 @@
 <script lang="ts">
-import * as Field from "../field/index.js";
-import * as NumberField from "./index.js";
+  import * as Field from "../field/index.js";
+  import * as NumberField from "./index.js";
 </script>
 
 <Field.Root>

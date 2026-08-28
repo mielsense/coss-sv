@@ -1,5 +1,5 @@
 <script lang="ts">
-import * as NumberField from "./index.js";
+  import * as NumberField from "./index.js";
 </script>
 
 {#snippet group(props: NumberField.NumberFieldGroupProps)}

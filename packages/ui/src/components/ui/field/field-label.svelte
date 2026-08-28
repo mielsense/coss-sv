@@ -1,24 +1,24 @@
 <script module lang="ts">
-import { Field as FieldPrimitive } from "@shardsui/svelte";
-import type { ComponentProps } from "svelte";
+  import { Field as FieldPrimitive } from "@shardsui/svelte";
+  import type { ComponentProps } from "svelte";
 
-export type FieldLabelProps = ComponentProps<typeof FieldPrimitive.Label>;
+  export type FieldLabelProps = ComponentProps<typeof FieldPrimitive.Label>;
 </script>
 
 <script lang="ts">
-import { untrack } from "svelte";
-import { cn } from "$lib/utils.js";
-import { getFieldRelationshipContext } from "./relationship-context.svelte.js";
+  import { untrack } from "svelte";
+  import { cn } from "$lib/utils.js";
+  import { getFieldRelationshipContext } from "./relationship-context.svelte.js";
 
-const uid = $props.id();
-const relationships = getFieldRelationshipContext();
-let { class: className, id = uid, ref = $bindable(null), ...props }: FieldLabelProps = $props();
-untrack(() => relationships?.registerInitialLabelId(id));
-$effect(() => {
-  const nextId = id;
-  return untrack(() => relationships?.registerLabelId(nextId));
-});
-const controlFor = $derived(relationships?.controlId ? { for: relationships.controlId } : {});
+  const uid = $props.id();
+  const relationships = getFieldRelationshipContext();
+  let { class: className, id = uid, ref = $bindable(null), ...props }: FieldLabelProps = $props();
+  untrack(() => relationships?.registerInitialLabelId(id));
+  $effect(() => {
+    const nextId = id;
+    return untrack(() => relationships?.registerLabelId(nextId));
+  });
+  const controlFor = $derived(relationships?.controlId ? { for: relationships.controlId } : {});
 </script>
 
 <FieldPrimitive.Label

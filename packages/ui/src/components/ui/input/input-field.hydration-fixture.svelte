@@ -1,6 +1,6 @@
 <script lang="ts">
-import * as Field from "../field/index.js";
-import Input from "./input.svelte";
+  import * as Field from "../field/index.js";
+  import Input from "./input.svelte";
 </script>
 
 <Field.Root>

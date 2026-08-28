@@ -1,39 +1,43 @@
 <script module lang="ts">
-import type { HTMLButtonAttributes } from "svelte/elements";
+  import type { HTMLButtonAttributes } from "svelte/elements";
 
-export type NumberFieldStepButtonProps = Omit<
-  HTMLButtonAttributes,
-  "children" | "disabled" | "type"
-> & {
-  direction: -1 | 1;
-  ref?: HTMLButtonElement | null;
-};
+  export type NumberFieldStepButtonProps = Omit<
+    HTMLButtonAttributes,
+    "children" | "disabled" | "type"
+  > & {
+    direction: -1 | 1;
+    ref?: HTMLButtonElement | null;
+  };
 </script>
 
 <script lang="ts">
-import { MinusSignIcon, PlusSignIcon } from "@hugeicons/core-free-icons";
-import { Button as ButtonPrimitive } from "@shardsui/svelte";
-import type { Component } from "svelte";
-import HugeiconsIcon from "$lib/hugeicons-icon.svelte";
-import { cn } from "$lib/utils.js";
-import { getNumberFieldContext } from "./context.js";
+  import { MinusSignIcon, PlusSignIcon } from "@hugeicons/core-free-icons";
+  import { Button as ButtonPrimitive } from "@shardsui/svelte";
+  import type { Component } from "svelte";
+  import HugeiconsIcon from "$lib/hugeicons-icon.svelte";
+  import { cn } from "$lib/utils.js";
+  import { getNumberFieldContext } from "./context.js";
 
-const StepButton = ButtonPrimitive as unknown as Component<Record<string, unknown>, object, "ref">;
+  const StepButton = ButtonPrimitive as unknown as Component<
+    Record<string, unknown>,
+    object,
+    "ref"
+  >;
 
-let {
-  class: className,
-  direction,
-  onclick,
-  ref = $bindable(null),
-  ...props
-}: NumberFieldStepButtonProps = $props();
-const context = getNumberFieldContext();
-const increment = $derived(direction === 1);
+  let {
+    class: className,
+    direction,
+    onclick,
+    ref = $bindable(null),
+    ...props
+  }: NumberFieldStepButtonProps = $props();
+  const context = getNumberFieldContext();
+  const increment = $derived(direction === 1);
 
-function handleClick(event: MouseEvent): void {
-  onclick?.(event as Parameters<NonNullable<typeof onclick>>[0]);
-  if (!event.defaultPrevented) context.stepBy(direction);
-}
+  function handleClick(event: MouseEvent): void {
+    onclick?.(event as Parameters<NonNullable<typeof onclick>>[0]);
+    if (!event.defaultPrevented) context.stepBy(direction);
+  }
 </script>
 
 <StepButton

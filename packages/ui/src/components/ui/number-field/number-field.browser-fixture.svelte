@@ -177,27 +177,34 @@
 <button
   data-testid="number-description-inherit"
   type="button"
-  onclick={() => (reactiveDescription = undefined)}>Inherit number description</button
+  onclick={() => (reactiveDescription = undefined)}
 >
+  Inherit number description
+</button>
 <button
   data-testid="number-description-external"
   type="button"
   onclick={() => (reactiveDescription = "reactive-number-external")}
-  >Merge number description</button
 >
+  Merge number description
+</button>
 <button
   data-testid="number-description-remove"
   type="button"
-  onclick={() => (reactiveDescription = null)}>Remove number description</button
+  onclick={() => (reactiveDescription = null)}
 >
-<button data-testid="number-description-race" type="button" onclick={raceReactiveDescription}
-  >Race number description</button
->
+  Remove number description
+</button>
+<button data-testid="number-description-race" type="button" onclick={raceReactiveDescription}>
+  Race number description
+</button>
 <button
   data-testid="number-description-mount"
   type="button"
-  onclick={() => (showReactiveNumber = !showReactiveNumber)}>Toggle reactive number</button
+  onclick={() => (showReactiveNumber = !showReactiveNumber)}
 >
+  Toggle reactive number
+</button>
 
 <Field.Root>
   <Field.Label id="root-number-label">Root number label</Field.Label>

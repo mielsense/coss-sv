@@ -83,26 +83,34 @@
 <button
   data-testid="input-description-inherit"
   type="button"
-  onclick={() => (reactiveDescription = undefined)}>Inherit input description</button
+  onclick={() => (reactiveDescription = undefined)}
 >
+  Inherit input description
+</button>
 <button
   data-testid="input-description-external"
   type="button"
-  onclick={() => (reactiveDescription = "reactive-input-external")}>Merge input description</button
+  onclick={() => (reactiveDescription = "reactive-input-external")}
 >
+  Merge input description
+</button>
 <button
   data-testid="input-description-remove"
   type="button"
-  onclick={() => (reactiveDescription = null)}>Remove input description</button
+  onclick={() => (reactiveDescription = null)}
 >
-<button data-testid="input-description-race" type="button" onclick={raceReactiveDescription}
-  >Race input description</button
->
+  Remove input description
+</button>
+<button data-testid="input-description-race" type="button" onclick={raceReactiveDescription}>
+  Race input description
+</button>
 <button
   data-testid="input-description-mount"
   type="button"
-  onclick={() => (showReactiveInput = !showReactiveInput)}>Toggle reactive input</button
+  onclick={() => (showReactiveInput = !showReactiveInput)}
 >
+  Toggle reactive input
+</button>
 <p id="external-input-description">External input description</p>
 <LocalField.Root>
   <LocalField.Label>Inherited input label</LocalField.Label>

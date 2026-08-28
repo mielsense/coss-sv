@@ -1,9 +1,9 @@
 <script lang="ts">
-import * as Fieldset from "../fieldset/index.js";
-import Input from "../input/input.svelte";
-import * as Field from "./index.js";
+  import * as Fieldset from "../fieldset/index.js";
+  import Input from "../input/input.svelte";
+  import * as Field from "./index.js";
 
-let composedDisabled = $state(true);
+  let composedDisabled = $state(true);
 </script>
 
 <Field.Root invalid name="generated">
@@ -56,7 +56,7 @@ let composedDisabled = $state(true);
     data-testid="overridden-control"
     nativeInput
   />
-  <Field.Description data-testid="overridden-description"> Context description. </Field.Description>
+  <Field.Description data-testid="overridden-description">Context description.</Field.Description>
 </Field.Root>
 
 <Field.Root name="aria-label">
