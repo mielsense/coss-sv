@@ -28,10 +28,15 @@ Shards owns selection state, disabled handling, trigger and panel IDs, ARIA rela
 
 ## D4 documentation coverage
 
-The Svelte page preserves the four upstream previews in order. The four particles retain the source
-copy and cover the initial value, single selection, multiple selection, and controlled selection.
+The Svelte page preserves the four upstream previews in order. The four particles keep the source
+sentence structure, item order, values, and layout. Framework-specific references now describe
+Shards UI as a library of headless, accessible Svelte 5 components instead of describing Base UI's
+React package. Each D4 page's pnpm tab installs `@coss-sv/ui`, which provides the imports shown in
+the usage example. The shadcn-svelte tab keeps its component-specific registry command.
 `apps/ui/tests/docs/d4-disclosure.test.ts` locks their ownership, metadata, source syntax, and page
-order. `tests/e2e/d4-disclosure-docs.spec.ts` opens each route in the required themes and widths,
-rejects console and external-resource failures, and exercises the trigger with Enter. The package
-source and browser tests reject copied Lucide or inline icon source, require a rendered Hugeicons
-path with two-pixel strokes, and check the decorative and open-state rotation contracts.
+order. It also rejects React and Base UI copy and checks that each install command matches the
+displayed package imports. `tests/e2e/d4-disclosure-docs.spec.ts` opens each route in the required
+themes and widths, rejects console and external-resource failures, and exercises the trigger with
+Enter. The package source and browser tests reject copied Lucide or inline icon source, require a
+rendered Hugeicons path with two-pixel strokes, and check the decorative and open-state rotation
+contracts.

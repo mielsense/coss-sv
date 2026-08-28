@@ -7,7 +7,7 @@ description: A container for displaying empty state information.
 
 ## Installation
 
-<InstallCommand pnpm="pnpm add @shardsui/svelte" shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/empty.json" />
+<InstallCommand pnpm="pnpm add @coss-sv/ui" shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/empty.json" />
 
 ## Usage
 

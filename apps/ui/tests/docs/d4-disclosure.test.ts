@@ -168,6 +168,40 @@ describe("D4 disclosure and surface documentation inventory", () => {
     );
   });
 
+  test("uses Svelte and Shards UI copy in every accordion particle", () => {
+    for (const id of ["p-accordion-1", "p-accordion-2", "p-accordion-3", "p-accordion-4"]) {
+      const particle = source(`apps/ui/registry/default/particles/${id}.svelte`);
+      const visibleCopy = particle.replace(/\s+/g, " ");
+
+      expect(visibleCopy).toContain("What is Shards UI?");
+      expect(visibleCopy).toContain(
+        "Shards UI is a library of headless, accessible Svelte 5 components for design systems and web apps.",
+      );
+      expect(visibleCopy).toContain("Of course! Shards UI is free and open source.");
+      expect(visibleCopy).not.toMatch(/Base UI|React components/);
+    }
+  });
+
+  test.each(pages)(
+    "installs the package that provides the imports shown on the %s page",
+    (slug) => {
+      const page = source(`apps/ui/content/docs/components/${slug}.svx`);
+      const install = /<InstallCommand\s+pnpm="([^"]+)"\s+shadcnSvelte="([^"]+)"\s*\/>/.exec(page);
+      const displayedImports = [...page.matchAll(/from\s+"(@coss-sv\/ui[^"]*)"/g)].map(
+        ([, specifier]) => specifier,
+      );
+
+      expect(install?.[1]).toBe("pnpm add @coss-sv/ui");
+      expect(install?.[2]).toBe(
+        `pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/${slug}.json`,
+      );
+      expect(displayedImports.length).toBeGreaterThan(0);
+      expect(displayedImports.every((specifier) => specifier?.startsWith("@coss-sv/ui"))).toBe(
+        true,
+      );
+    },
+  );
+
   test("keeps the tabs landing route pending on the D9-owned primary preview", () => {
     const ownership = JSON.parse(source("docs/porting/docs-ownership.json")) as OwnershipFile;
     const primaryPreview = ownership.ownership.find(({ particle }) => particle === "p-tabs-1");

@@ -7,7 +7,7 @@ description: A content container for grouping related information.
 
 ## Installation
 
-<InstallCommand pnpm="pnpm add @shardsui/svelte" shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/card.json" />
+<InstallCommand pnpm="pnpm add @coss-sv/ui" shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/card.json" />
 
 ## Usage
 

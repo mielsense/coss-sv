@@ -20,10 +20,10 @@ let value = $state<string[]>([]);
 <div class="flex w-full flex-col gap-4">
   <Accordion.Root bind:value class="w-full">
     <Accordion.Item value="item-1">
-      <Accordion.Header><Accordion.Trigger>What is Base UI?</Accordion.Trigger></Accordion.Header>
+      <Accordion.Header><Accordion.Trigger>What is Shards UI?</Accordion.Trigger></Accordion.Header>
       <Accordion.Panel>
-        Base UI is a library of high-quality unstyled React components for design systems and web
-        apps.
+        Shards UI is a library of headless, accessible Svelte 5 components for design systems and
+        web apps.
       </Accordion.Panel>
     </Accordion.Item>
     <Accordion.Item value="item-2">
@@ -39,7 +39,7 @@ let value = $state<string[]>([]);
       <Accordion.Header
         ><Accordion.Trigger>Can I use it for my project?</Accordion.Trigger></Accordion.Header
       >
-      <Accordion.Panel>Of course! Base UI is free and open source.</Accordion.Panel>
+      <Accordion.Panel>Of course! Shards UI is free and open source.</Accordion.Panel>
     </Accordion.Item>
   </Accordion.Root>
 

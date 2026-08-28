@@ -10,7 +10,7 @@ links:
 
 ## Installation
 
-<InstallCommand pnpm="pnpm add @shardsui/svelte" shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/accordion.json" />
+<InstallCommand pnpm="pnpm add @coss-sv/ui" shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/accordion.json" />
 
 ## Usage
 
