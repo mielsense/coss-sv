@@ -14,7 +14,7 @@ const query = $derived(parsePreviewQuery(page.url.searchParams));
 const entry = $derived(getPreview(name));
 const Preview = $derived(entry?.component);
 const metadata = $derived(entry?.kind === "particle" ? entry.meta : undefined);
-const links = $derived(metadata ? getParticleLinks(metadata.id) : undefined);
+const links = $derived(entry?.kind === "particle" ? getParticleLinks(entry) : undefined);
 const runtime = $derived(query.ok ? createPreviewRuntime(query) : undefined);
 
 setPreviewRuntimeContext({

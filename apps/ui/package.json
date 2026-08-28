@@ -20,7 +20,7 @@
     "test": "pnpm test:unit",
     "test:browser": "vitest run --config vitest.browser.config.ts",
     "test:unit": "pnpm docs:compile && vitest run && pnpm test:browser && pnpm registry:test",
-    "test:e2e": "node tests/site/command-menu.browser.mjs && node tests/site/docs-shell.browser.mjs && node tests/site/preview-card.browser.mjs"
+    "test:e2e": "node tests/site/command-menu.browser.mjs && node tests/site/docs-shell.browser.mjs && node tests/site/preview-card.browser.mjs && node tests/site/preview-runtime.browser.mjs"
   },
   "dependencies": {
     "@coss-sv/ui": "workspace:*",

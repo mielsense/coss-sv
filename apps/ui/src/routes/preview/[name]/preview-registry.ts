@@ -108,9 +108,13 @@ export function assertCompleteParticleInventory(report: InventoryReport): void {
   }
 }
 
-export function getParticleLinks(id: string) {
+export function getParticleLinks(entry: ParticlePreviewEntry) {
+  const { id } = entry.meta;
   if (!/^[a-z0-9][a-z0-9-]*$/.test(id)) {
     throw new Error(`Invalid particle id: ${id}`);
+  }
+  if (nameFromModulePath(entry.modulePath) !== id) {
+    throw new Error(`Particle link id ${id} does not match module ${entry.modulePath}`);
   }
   const registryHref = `/r/${id}.json`;
   return Object.freeze({
