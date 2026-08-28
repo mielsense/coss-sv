@@ -22,7 +22,7 @@ test("renders all thirteen Toast particles with exact responsive and theme geome
   const theme = testInfo.project.name === "dark" ? "dark" : "light";
 
   for (const width of ["desktop", "mobile"] as const) {
-    const { ready } = await openReadyPreview(page, "toast", theme, width, "real");
+    const { ready } = await openReadyPreview(page, "toast", theme, width, "real", "start");
     await expect(ready.locator("[data-particle^='p-toast-']")).toHaveCount(13);
     for (const label of [
       "Default Toast",
@@ -80,7 +80,14 @@ test("matches p1 through p6 status, action, promise, and stack behavior", async 
 }, testInfo) => {
   test.skip(testInfo.project.name === "dark", "Dark rendering is covered by the geometry test.");
   const guard = monitorConsole(page);
-  const { ready } = await openReadyPreview(page, "toast", "light", "desktop", "real");
+  const { ready } = await openReadyPreview(
+    page,
+    "toast",
+    "light",
+    "desktop",
+    "real",
+    "start",
+  );
 
   const statusCases = [
     ["Success Toast", "Success!", "success"],
@@ -152,7 +159,14 @@ test("matches p7 through p9 tooltip, spinner, anchored error, and cancellation b
   test.skip(testInfo.project.name === "dark", "Dark rendering is covered by the geometry test.");
   const guard = monitorConsole(page);
   await context.grantPermissions(["clipboard-read", "clipboard-write"]);
-  let { ready } = await openReadyPreview(page, "toast", "light", "desktop", "real");
+  let { ready } = await openReadyPreview(
+    page,
+    "toast",
+    "light",
+    "desktop",
+    "real",
+    "start",
+  );
 
   const copy = ready.getByRole("button", { name: "Copy link", exact: true });
   await copy.hover();
@@ -192,7 +206,7 @@ test("matches p7 through p9 tooltip, spinner, anchored error, and cancellation b
   expect(iconColor).not.toBe("rgba(0, 0, 0, 0)");
   await expect(cancelledToast.getByRole("button", { name: "Cancel" })).toHaveCount(0);
 
-  ({ ready } = await openReadyPreview(page, "toast", "light", "desktop", "real"));
+  ({ ready } = await openReadyPreview(page, "toast", "light", "desktop", "real", "start"));
   await page.evaluate(() => {
     Math.random = () => 0;
     const nativeSetTimeout = window.setTimeout.bind(window);
@@ -212,7 +226,7 @@ test("matches p7 through p9 tooltip, spinner, anchored error, and cancellation b
   );
   await expect(failedToast.getByRole("button", { name: "Cancel" })).toHaveCount(0);
 
-  ({ ready } = await openReadyPreview(page, "toast", "light", "desktop", "real"));
+  ({ ready } = await openReadyPreview(page, "toast", "light", "desktop", "real", "start"));
   await page.evaluate(() => {
     Math.random = () => 1;
     const nativeSetTimeout = window.setTimeout.bind(window);
@@ -239,7 +253,14 @@ test("matches p10 through p13 replay and tooltip-style anchored feedback", async
 }, testInfo) => {
   test.skip(testInfo.project.name === "dark", "Dark rendering is covered by the geometry test.");
   const guard = monitorConsole(page);
-  const { ready } = await openReadyPreview(page, "toast", "light", "desktop", "real");
+  const { ready } = await openReadyPreview(
+    page,
+    "toast",
+    "light",
+    "desktop",
+    "real",
+    "start",
+  );
 
   const success = ready.getByRole("button", { name: "One Success Toast", exact: true });
   await success.click();
