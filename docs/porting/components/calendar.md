@@ -4,105 +4,116 @@
 
 - COSS reference commit: `19620ae8cae81e30775f2cde03829326cb4916b2`
 - Shards reference commit: `f8b134dfa627cbe3da7e538e2531b0b9fce4d48e`
-- COSS implementation: `reference/apps/ui/registry/default/ui/calendar.tsx`
-- COSS documentation: `reference/apps/ui/content/docs/components/calendar.mdx` and `reference/apps/ui/content/docs/components/date-picker.mdx`
-- COSS agent reference: `reference/apps/ui/skills/coss/references/primitives/calendar.md`
-- Calendar particles: every file from `p-calendar-1.tsx` through `p-calendar-25.tsx`
-- Date-picker particles: every file from `p-date-picker-1.tsx` through `p-date-picker-9.tsx`
+- COSS component: `reference/apps/ui/registry/default/ui/calendar.tsx`
+- COSS pages: `reference/apps/ui/content/docs/components/calendar.mdx` and `date-picker.mdx`
+- COSS particles: `p-calendar-1.tsx` through `p-calendar-25.tsx`, plus
+  `p-date-picker-1.tsx` through `p-date-picker-9.tsx`
+- Exact upstream adapter source: the nested React DayPicker 10.0.1 installed under
+  `reference/node_modules/@daypicker/react/node_modules/react-day-picker`
 
-Only the MIT-designated `reference/apps/ui/**` subtree was used. No source from
-`reference/packages/ui/**` was opened or adapted.
+The COSS files under `reference/apps/ui/**` are the only COSS source used here. No file
+under `reference/packages/ui/**` was opened or adapted.
 
-## COSS contract
+## Contract taken from COSS and DayPicker 10
 
-The wrapper is a styled React DayPicker. Its observable contract includes single,
-multiple, and range selection; controlled and initial month/selection state; month and
-year caption dropdowns; multiple and reversed months; fixed weeks; outside days; week
-numbers; navigation limits; disabled and unavailable dates; selection minimums and
-maximums; custom formatters, modifiers, day content, dropdowns, and week-number content;
-locale and week-start control; and the DayPicker grid keyboard model.
+COSS wraps DayPicker 10 and supplies its own classes and Chevron components. The Svelte
+port keeps the same root, part, modifier, and range classes. It also restores DayPicker's
+unmodified `rdp-*` classes for root, month grid, weekday rows, week rows, selected days,
+and the other parts that COSS does not replace.
 
-The port preserves the COSS root, part, and state classes from `calendar.tsx`, including
-the `--cell-size` contract and the `data-slot="calendar"` root. It uses the same visible
-navigation labels, selected/range/today/outside/disabled states, and semantic calendar
-table. Calendar navigation and dropdown controls use the COSS labels. Day buttons expose
-full localized dates, one roving tab stop, native button activation, selected state, and
-the Arrow, Home, End, Page Up, Page Down, and Shift+Page keyboard behavior.
+`CalendarProps` is a union keyed by `mode` and `required`. Single, multiple, and range
+callbacks receive the selected value, trigger date, modifier record, and original event.
+Invalid mode and selection combinations fail the type test. Range-only props such as
+`excludeDisabled` and `resetOnSelect` cannot be passed to another mode.
 
-The Calendar documentation lists a `buttonVariant` prop, but the pinned COSS component
-does not declare or consume it and none of the 34 particles passes it. The implementation
-source is authoritative, so the Svelte API does not invent this stale documentation prop.
+The component accepts every matcher form used by COSS, plus DayPicker's boolean matcher
+and scalar `dayOfWeek`. Selection covers required and optional single, multiple, and range
+modes. The multiple maximum resets to the clicked date as DayPicker does. Range selection
+implements `min`, `max`, `excludeDisabled`, and the distinct `resetOnSelect` path.
 
-## Particle coverage
+Day buttons and week numbers are full host replacements. `components.DayButton` receives
+the day model, all modifiers, children, native button attributes, and event handlers.
+`components.WeekNumber` receives the week model, children, and native `th` attributes. The
+price calendar in particle 24 and custom week number in particle 12 can therefore use the
+same composition pattern as the COSS files without nested buttons or table headers.
 
-The calendar particles cover the default calendar (`1`); fixed weeks (`2`); dropdown,
-month-only, and year-only captions (`3`–`5`); custom native Select, Combobox, and searchable
-caption controls (`6`–`13`); custom caption layout (`14`); single, multiple, and range
-selection (`15`–`17`); multi-month range selection (`18`); outside days (`19`); disabled
-dates (`20`); paged and reversed multi-month navigation (`21`–`22`); week numbers and a
-custom week-number control (`23`); custom day content (`24`); and unavailable dates (`25`).
+The DOM follows the live DayPicker structure. The root has `lang` and mode data attributes.
+Captions use a polite status region. Weekday headers expose full weekday names and their
+`thead` is hidden from the accessibility tree. The table, rows, cells, day buttons, and
+week-number cells retain their COSS and DayPicker roles, labels, data attributes, and
+classes.
 
-The date-picker particles cover a basic popover picker (`1`); range selection (`2`);
-bounded dropdown navigation (`3`); preset ranges (`4`); text-input parsing (`5`–`6`);
-close-on-select behavior (`7`); natural-language input (`8`); and month/year segments
-(`9`). Date picker remains a composition of Calendar and Shards Popover, Field, and Input;
-it is not a separate package primitive.
+## Particle inventory
 
-## Shards inspection and Svelte design
+The calendar particles cover these cases:
 
-Shards has no Calendar primitive. The inspection therefore covered the complete local
-Popover, Field, and Input implementations, their documentation, tests, examples, and
-exported types. `Input` resolves to Field's `field-control.svelte`. The internal Composite
-and Button implementations were also read to verify Shards' focus and native-button
-conventions.
+- 1 to 3: default single selection, larger cells, and range selection
+- 4 to 6: native dropdowns, a custom Select, and a custom Combobox
+- 7 and 8: disabled range matchers with `excludeDisabled`, then multiple selection
+- 9 to 11: round cells, custom range styling, and right-aligned navigation
+- 12 to 14: a replacement week-number cell, a year Combobox, and replacement dropdown navigation
+- 15 to 17: controlled month, a Today action, and a linked date input
+- 18 to 21: time input, appointment slots, single-date presets, and range presets
+- 22 and 23: paged two-month and three-month ranges
+- 24: replacement price day buttons
+- 25: calendar selection composed with a time autocomplete
 
-Calendar is implemented as a Svelte 5 component rather than importing another calendar
-architecture. Shards Popover supplies modal positioning, dismissal, and trigger focus
-restoration for date-picker compositions. Field and Input supply the text-entry and form
-contracts used by the COSS date-picker particles. Calendar keeps its own semantic grid and
-roving focus because Shards does not expose a calendar or a public composite-grid primitive.
+The date-picker particles cover a single picker, range picker, dropdown picker, presets,
+a linked date input, close on select, multiple-date badges, a Select-style trigger, and a
+two-month range picker. Date Picker remains a Calendar and Shards Popover composition.
 
-The Svelte API uses bindable `month`, `selected`, and `ref` values plus `onMonthChange`,
-`onSelect`, and `onDayClick` callbacks. React component overrides become typed snippets for
-day, dropdown, and week-number content. `class` is the primary root-class prop, with
-`className` retained as a migration alias. The locale prop is a BCP 47 locale string used by
-`Intl.DateTimeFormat`; dates remain local `Date` objects normalized at noon to avoid DST
-date drift.
+## Shards and Svelte design
 
-Navigation uses `ArrowLeft01Icon`, `ArrowRight01Icon`, and `ArrowUpDownIcon` from the
-approved Hugeicons packages. No Lucide dependency, copied Lucide path, hand-drawn SVG, or
-additional calendar runtime dependency was added.
+Shards has no calendar component. The local Popover root, trigger, popup, focus manager,
+tests, and examples were read in full. Shards restores focus to the active trigger when a
+picker closes. Calendar owns the grid because Shards exposes no public calendar grid part.
+
+The implementation uses Svelte 5 runes, snippets, callback props, typed native attributes,
+and declaration tags. Day and week replacement snippets receive the actual host contract.
+There are no React event shims, legacy Svelte events, slots, or module-level mutable date
+state.
+
+`locale` accepts a locale object with `code` and date-fns-compatible week options. The
+component uses the locale code for `Intl.DateTimeFormat` and reads the locale's default
+week start. `timeZone` maps input instants to calendar days in that IANA zone. `noonSafe`
+keeps internal dates at noon for historical offset and DST cases. The default current day
+is created per component instance, while `today` gives SSR callers a fixed value. Internal
+calendar math never converts the same zoned day twice.
+
+The month and year dropdown handlers use the chronological offset between each caption
+month and the first displayed month. This keeps cross-year, multi-month, and
+`reverseMonths` changes anchored to the caption the user changed.
+
+Roving focus only targets visible, enabled days. A disabled selected date falls back to the
+first enabled day. Month changes and externally controlled months recompute the target;
+controlled months outside the navigation bounds render at the nearest allowed month. If
+keyboard navigation cannot find another enabled date within the bounds, focus stays on the
+existing enabled button. Arrow, Shift+Arrow, Home, End, Page Up, Page Down, and Shift+Page
+follow the DayPicker 10 movement units when they skip disabled dates.
+
+Calendar uses `ArrowLeft01Icon`, `ArrowRight01Icon`, and `ArrowUpDownIcon` from the approved
+Hugeicons packages. It adds no calendar runtime dependency.
 
 ## Documentation lookup
 
-Context7 resolved the current Bits UI documentation as `/websites/bits-ui`, then rejected
-the documentation query because the monthly quota was exhausted. The same quota blocked
-the shadcn-svelte lookup. Local installed declarations, the complete local Shards source,
-and official primary documentation were used only as fallback contract checks. Neither
-Bits UI nor shadcn-svelte supplied this component's architecture; COSS and local Shards are
-the authorities.
+Context7 resolved the relevant current library entry, but its documentation query stopped
+at the monthly quota. The implementation therefore used the installed DayPicker 10.0.1
+source and types, plus the complete local Shards source. Shadcn Svelte did not determine
+the architecture or dependency choice.
 
-## Verification coverage
+## Tests
 
-- `calendar.test.ts` covers six-week generation, every matcher shape used by COSS,
-  single/multiple/range minimum and maximum selection rules, exact class and slot output,
-  formatters, multi-month rendering, outside-day hiding, week numbers, caption dropdowns,
-  custom day content, locale, week start, and navigation bounds.
-- `calendar.browser.test.ts` covers live single/multiple/range selection, unavailable and
-  disabled days, range state, Arrow/Home/End/Page/Shift+Page focus movement, disabled-day
-  skipping, button navigation, month/year dropdown changes, and focus restoration after a
-  Calendar selection closes a real Shards Popover.
-- `calendar.browser-fixture.svelte` is package-owned test-only composition evidence. It is
-  not a documentation example or registry entry.
+- `calendar.types.test.ts` checks the mode and required union, callback arguments, rejected
+  combinations, and full DayButton and WeekNumber replacement props.
+- `calendar.test.ts` checks matcher forms, selection rules, `resetOnSelect`, time-zone day
+  conversion, noon-safe dates, per-instance current dates, a controlled `today`, COSS and
+  `rdp-*` classes, locale objects, and SSR output.
+- `calendar.browser.test.ts` checks all selection modes, callback data, disabled and
+  unavailable dates, the full keyboard model, enabled roving focus, navigation exhaustion,
+  externally controlled month bounds, native dropdowns, cross-year reversed months,
+  replacement hosts, and Shards Popover focus restoration.
+- The browser suite hydrates actual Calendar SSR HTML under a frozen clock at a UTC to Los
+  Angeles date boundary. The compressed fixture records the server render used by that
+  regression and avoids adding a shared Vitest command outside this lane.
 
-The COSS Calendar and Date Picker pages were also inspected in the Codex in-app Browser on
-2026-08-28. The live default Calendar rendered a 252-by-264-pixel six-row grid at the
-reference viewport, 36-pixel day buttons, a 10-pixel selected-day radius, Sunday-first
-weekday labels, one `tabindex="0"` day, and the expected foreground/background selection
-pair. Arrow-key movement transferred the roving tab stop. In the close-on-select Date
-Picker example, choosing a day removed the Popover and returned focus to the updated
-trigger. No Chrome session or connector was used.
-
-The documentation preview and public registry entry are coordinator-owned integration work
-and are intentionally outside this lane. There are no accepted visual, behavioral,
-accessibility, or licensing deviations in the package component.
+Documentation pages, registry entries, and aggregate exports remain coordinator work.

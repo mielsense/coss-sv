@@ -1,7 +1,13 @@
-import { afterEach, describe, expect, test } from "vitest";
+import { hydrate, type Component, unmount } from "svelte";
+import { afterEach, describe, expect, test, vi } from "vitest";
 import { page, userEvent } from "vitest/browser";
 import { render } from "vitest-browser-svelte";
+import Calendar from "./calendar.svelte";
 import CalendarFixture from "./calendar.browser-fixture.svelte";
+import { CALENDAR_SSR_FIXTURE_GZIP_BASE64 } from "./calendar.ssr-fixture.js";
+import type { CalendarSingleProps } from "./calendar.types.js";
+
+const SingleCalendar = Calendar as Component<CalendarSingleProps>;
 
 afterEach(() => {
   document.body.innerHTML = "";
@@ -10,36 +16,47 @@ afterEach(() => {
 describe("Calendar browser contract", () => {
   test("selects single, multiple, and range values while blocking unavailable days", async () => {
     render(CalendarFixture);
+    const calendar = page.getByTestId("interactive-calendar");
 
-    const day16 = page.getByRole("button", { name: /Friday, January 16th, 2026/ });
+    const day16 = calendar.getByRole("button", { name: /Friday, January 16th, 2026/ });
     await day16.click();
     await expect.element(page.getByTestId("selection")).toHaveTextContent("2026-01-16");
     await expect
-      .element(day16)
-      .toHaveAttribute("aria-label", "Friday, January 16th, 2026, selected");
+      .element(
+        calendar.getByRole("button", {
+          name: "Friday, January 16th, 2026, selected",
+          exact: true,
+        }),
+      )
+      .toBeInTheDocument();
+    await expect
+      .element(page.getByTestId("callback-evidence"))
+      .toHaveTextContent("select:16:false:click|day:16:false:click");
 
     await page.getByTestId("multiple-mode").click();
     await day16.click();
-    await page.getByRole("button", { name: /Saturday, January 17th, 2026/ }).click();
+    await calendar.getByRole("button", { name: /Saturday, January 17th, 2026/ }).click();
     await expect.element(page.getByTestId("selection")).toHaveTextContent("2026-01-16");
     await expect.element(page.getByTestId("selection")).toHaveTextContent("2026-01-17");
 
-    const unavailable = page.getByRole("button", { name: /Tuesday, January 20th, 2026/ });
+    const unavailable = calendar.getByRole("button", { name: /Tuesday, January 20th, 2026/ });
     await expect.element(unavailable).toBeDisabled();
     await expect
       .element(unavailable)
       .toHaveAttribute("aria-label", "Tuesday, January 20th, 2026, unavailable");
 
     await page.getByTestId("range-mode").click();
-    await page.getByRole("button", { name: /Thursday, January 22nd, 2026/ }).click();
+    await calendar.getByRole("button", { name: /Thursday, January 22nd, 2026/ }).click();
     expect(
       page
+        .getByTestId("interactive-calendar")
         .getByRole("button", { name: /Thursday, January 15th, 2026/ })
         .element()
         .closest("td"),
     ).toHaveClass("range-start");
     expect(
       page
+        .getByTestId("interactive-calendar")
         .getByRole("button", { name: /Thursday, January 22nd, 2026/ })
         .element()
         .closest("td"),
@@ -48,8 +65,12 @@ describe("Calendar browser contract", () => {
 
   test("implements the complete calendar grid keyboard model and month paging", async () => {
     render(CalendarFixture);
-    const day15 = page.getByRole("button", { name: /Thursday, January 15th, 2026/ });
+    const day15 = page
+      .getByTestId("interactive-calendar")
+      .getByRole("button", { name: /Thursday, January 15th, 2026/ });
     day15.element().focus();
+    expect(day15.element().closest("td")).toHaveAttribute("data-focused", "true");
+    expect(day15.element().closest("td")).toHaveClass("rdp-focused");
 
     await userEvent.keyboard("{ArrowRight}");
     expect(document.activeElement?.getAttribute("aria-label")).toContain(
@@ -61,11 +82,11 @@ describe("Calendar browser contract", () => {
     );
     await userEvent.keyboard("{Home}");
     expect(document.activeElement?.getAttribute("aria-label")).toContain(
-      "Monday, January 19th, 2026",
+      "Sunday, January 11th, 2026",
     );
     await userEvent.keyboard("{End}");
     expect(document.activeElement?.getAttribute("aria-label")).toContain(
-      "Saturday, January 24th, 2026",
+      "Saturday, January 17th, 2026",
     );
     await userEvent.keyboard("{PageDown}");
     await expect.element(page.getByTestId("month")).toHaveTextContent("2026-2");
@@ -75,10 +96,11 @@ describe("Calendar browser contract", () => {
 
   test("navigates captions and restores focus through the Shards popover composition contract", async () => {
     render(CalendarFixture);
-    const next = page.getByRole("button", { name: "Go to the Next Month" });
+    const calendar = page.getByTestId("interactive-calendar");
+    const next = calendar.getByRole("button", { name: "Go to the Next Month" });
     await next.click();
     await expect.element(page.getByTestId("month")).toHaveTextContent("2026-2");
-    await page.getByRole("button", { name: "Go to the Previous Month" }).click();
+    await calendar.getByRole("button", { name: "Go to the Previous Month" }).click();
     await expect.element(page.getByTestId("month")).toHaveTextContent("2026-1");
 
     const trigger = page.getByTestId("date-picker-trigger");
@@ -105,5 +127,144 @@ describe("Calendar browser contract", () => {
     yearDropdown.value = "2027";
     yearDropdown.dispatchEvent(new Event("change", { bubbles: true }));
     await expect.element(page.getByTestId("month")).toHaveTextContent("2027-3");
+
+    const activeButtons = Array.from(
+      document.querySelectorAll<HTMLButtonElement>(
+        '[aria-label="Interactive calendar"] button[data-calendar-date][tabindex="0"]',
+      ),
+    );
+    expect(activeButtons).toHaveLength(1);
+    expect(activeButtons[0]?.disabled).toBe(false);
+  });
+
+  test("gives disabled selections and exhausted navigation an enabled roving target", async () => {
+    render(CalendarFixture);
+
+    const disabledRoot = page.getByTestId("disabled-focus-calendar").element();
+    const disabledTargets = disabledRoot.querySelectorAll<HTMLButtonElement>(
+      'button[data-calendar-date][tabindex="0"]',
+    );
+    expect(disabledTargets).toHaveLength(1);
+    expect(disabledTargets[0]?.disabled).toBe(false);
+    expect(disabledTargets[0]?.getAttribute("data-calendar-date")).not.toBe("2026-01-15");
+
+    const exhaustionRoot = page.getByTestId("exhaustion-calendar").element();
+    const initial = exhaustionRoot.querySelector<HTMLButtonElement>(
+      'button[data-calendar-date="2026-01-15"]',
+    );
+    if (!initial) throw new Error("Exhaustion fixture did not render its focus target");
+    initial.focus();
+    await userEvent.keyboard("{ArrowRight}");
+    expect(document.activeElement).toBe(initial);
+    expect(initial).toHaveAttribute("tabindex", "0");
+    expect(initial.disabled).toBe(false);
+  });
+
+  test("clamps an externally controlled month and preserves one enabled roving target", async () => {
+    render(CalendarFixture);
+    await page.getByTestId("external-out-of-bounds-month").click();
+
+    const root = page.getByTestId("interactive-calendar").element();
+    await expect
+      .poll(() => root.querySelector('table[role="grid"]')?.getAttribute("aria-label"))
+      .toBe("December 2027");
+    const targets = root.querySelectorAll<HTMLButtonElement>(
+      'button[data-calendar-date][tabindex="0"]',
+    );
+    expect(targets).toHaveLength(1);
+    expect(targets[0]?.disabled).toBe(false);
+  });
+
+  test("lets DayButton and WeekNumber replace their host elements with complete props", async () => {
+    render(CalendarFixture);
+    const root = page.getByTestId("override-calendar").element();
+
+    expect(root.querySelectorAll("button button")).toHaveLength(0);
+    expect(root.querySelectorAll("th th")).toHaveLength(0);
+    const customDay = root.querySelector<HTMLButtonElement>(
+      'button[data-custom-day-button][data-calendar-date="2026-01-15"]',
+    );
+    if (!customDay) throw new Error("Custom DayButton did not receive the host attributes");
+    expect(customDay.getAttribute("aria-label")).toContain("Thursday, January 15th, 2026");
+    await customDay.click();
+    await expect.element(page.getByTestId("override-evidence")).toHaveTextContent("15:false:click");
+
+    const customWeek = root.querySelector<HTMLElement>("th[data-custom-week-number]");
+    expect(customWeek).not.toBeNull();
+    expect(customWeek).toHaveAttribute("role", "rowheader");
+    expect(customWeek?.textContent?.trim()).toMatch(/^\d+$/);
+  });
+
+  test("anchors cross-year dropdown changes to chronological month identity when reversed", async () => {
+    render(CalendarFixture);
+    const root = page.getByTestId("reverse-calendar").element();
+    const grids = () => Array.from(root.querySelectorAll<HTMLTableElement>('table[role="grid"]'));
+    expect(grids().map((grid) => grid.getAttribute("aria-label"))).toEqual([
+      "January 2027",
+      "December 2026",
+    ]);
+    expect(root.querySelectorAll('button[data-calendar-date][tabindex="0"]')).toHaveLength(1);
+
+    const firstMonth = root.querySelector<HTMLSelectElement>(
+      'select[aria-label="Choose the Month"]',
+    );
+    if (!firstMonth) throw new Error("Reverse-month fixture did not render a month dropdown");
+    firstMonth.value = "1";
+    firstMonth.dispatchEvent(new Event("change", { bubbles: true }));
+    await expect.poll(() => grids()[0]?.getAttribute("aria-label")).toBe("February 2027");
+    expect(grids()[1]?.getAttribute("aria-label")).toBe("January 2027");
+
+    const firstYear = root.querySelector<HTMLSelectElement>('select[aria-label="Choose the Year"]');
+    if (!firstYear) throw new Error("Reverse-month fixture did not render a year dropdown");
+    firstYear.value = "2028";
+    firstYear.dispatchEvent(new Event("change", { bubbles: true }));
+    await expect.poll(() => grids()[0]?.getAttribute("aria-label")).toBe("February 2028");
+    expect(grids()[1]?.getAttribute("aria-label")).toBe("January 2028");
+  });
+
+  test("hydrates the server-rendered time-zone calendar at a frozen date boundary", async () => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date("2026-01-01T01:30:00.000Z"));
+    const warning = vi.spyOn(console, "warn").mockImplementation(() => undefined);
+    const props = {
+      defaultMonth: new Date("2026-01-01T01:30:00.000Z"),
+      mode: "single",
+      noonSafe: true,
+      timeZone: "America/Los_Angeles",
+    } satisfies CalendarSingleProps;
+    const target = document.createElement("div");
+    const compressed = Uint8Array.from(atob(CALENDAR_SSR_FIXTURE_GZIP_BASE64), (char) =>
+      char.charCodeAt(0),
+    );
+    const reader = new Blob([compressed])
+      .stream()
+      .pipeThrough(new DecompressionStream("gzip"))
+      .getReader();
+    const decoder = new TextDecoder();
+    let serverHtml = "";
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      serverHtml += decoder.decode(value, { stream: true });
+    }
+    target.innerHTML = serverHtml + decoder.decode();
+    document.body.append(target);
+
+    const component = hydrate(SingleCalendar, { props, target });
+    try {
+      expect(warning).not.toHaveBeenCalled();
+      const todayCell = target.querySelector<HTMLElement>('[data-today="true"]');
+      expect(todayCell).not.toBeNull();
+      expect(todayCell?.getAttribute("data-day")).toBe("2025-12-31");
+      const todayButton = todayCell?.querySelector<HTMLButtonElement>("button");
+      if (!todayButton)
+        throw new Error("Hydrated time-zone calendar did not render today's button");
+      todayButton.click();
+      await vi.waitFor(() => expect(todayCell).toHaveAttribute("data-selected", "true"));
+    } finally {
+      await unmount(component);
+      warning.mockRestore();
+      vi.useRealTimers();
+    }
   });
 });

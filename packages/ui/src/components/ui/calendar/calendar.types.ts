@@ -1,25 +1,36 @@
 import type { Snippet } from "svelte";
-import type { HTMLAttributes } from "svelte/elements";
+import type { HTMLAttributes, HTMLButtonAttributes, HTMLThAttributes } from "svelte/elements";
 
 export type CalendarMode = "multiple" | "range" | "single";
 export type CaptionLayout = "dropdown" | "dropdown-months" | "dropdown-years" | "label";
 
 export interface DateRange {
-  from?: Date;
-  to?: Date;
+  from: Date | undefined;
+  to?: Date | undefined;
 }
 
 export type CalendarSelection = Date | Date[] | DateRange | undefined;
 
 export type DateMatcher =
+  | boolean
   | Date
   | Date[]
   | ((date: Date) => boolean)
   | { after: Date; before?: never }
   | { before: Date; after?: never }
   | { after: Date; before: Date }
-  | { dayOfWeek: number[] }
-  | { from: Date; to: Date };
+  | { dayOfWeek: number | number[] }
+  | { from: Date | undefined; to?: Date | undefined };
+
+export interface CalendarLocale {
+  [key: string]: unknown;
+  code?: string;
+  options?: {
+    firstWeekContainsDate?: 1 | 4;
+    weekStartsOn?: 0 | 1 | 2 | 3 | 4 | 5 | 6;
+  };
+  localize?: unknown;
+}
 
 export interface CalendarClassNames {
   [part: string]: string | undefined;
@@ -45,26 +56,54 @@ export interface CalendarClassNames {
   weekday?: string;
 }
 
-export interface CalendarFormatters {
-  formatCaption?: (month: Date, options: { locale: string }) => string;
-  formatDay?: (date: Date, options: { locale: string }) => string;
-  formatMonthDropdown?: (month: Date, options: { locale: string }) => string;
-  formatWeekdayName?: (weekday: Date, options: { locale: string }) => string;
-  formatYearDropdown?: (year: number, options: { locale: string }) => string;
+export interface CalendarFormatterOptions {
+  locale: CalendarLocale;
+  localeCode: string;
+  timeZone?: string | undefined;
 }
 
-export interface CalendarDayContext {
+export interface CalendarFormatters {
+  formatCaption?: (month: Date, options: CalendarFormatterOptions) => string;
+  formatDay?: (date: Date, options: CalendarFormatterOptions) => string;
+  formatMonthDropdown?: (month: Date, options: CalendarFormatterOptions) => string;
+  formatWeekdayName?: (weekday: Date, options: CalendarFormatterOptions) => string;
+  formatYearDropdown?: (year: number, options: CalendarFormatterOptions) => string;
+}
+
+export interface CalendarDayModel {
   date: Date;
   displayMonth: Date;
   outside: boolean;
-  selected: boolean;
-  disabled: boolean;
-  unavailable: boolean;
-  today: boolean;
-  rangeStart: boolean;
-  rangeMiddle: boolean;
-  rangeEnd: boolean;
 }
+
+export interface CalendarModifiers {
+  [name: string]: boolean;
+  disabled: boolean;
+  focused: boolean;
+  outside: boolean;
+  range_end: boolean;
+  range_middle: boolean;
+  range_start: boolean;
+  selected: boolean;
+  today: boolean;
+  unavailable: boolean;
+}
+
+export interface CalendarDayContext extends CalendarDayModel {
+  disabled: boolean;
+  rangeEnd: boolean;
+  rangeMiddle: boolean;
+  rangeStart: boolean;
+  selected: boolean;
+  today: boolean;
+  unavailable: boolean;
+}
+
+export type CalendarDayButtonProps = Omit<HTMLButtonAttributes, "children"> & {
+  children: Snippet;
+  day: CalendarDayModel;
+  modifiers: CalendarModifiers;
+};
 
 export interface CalendarDropdownContext {
   "aria-label": string;
@@ -81,8 +120,13 @@ export interface CalendarDropdownNavContext {
 }
 
 export interface CalendarChevronContext {
-  class?: string;
+  class?: string | undefined;
   orientation: "down" | "left" | "right" | "up";
+}
+
+export interface CalendarWeekModel {
+  days: readonly CalendarDayModel[];
+  weekNumber: number;
 }
 
 export interface CalendarWeekNumberContext {
@@ -90,18 +134,36 @@ export interface CalendarWeekNumberContext {
   weekNumber: number;
 }
 
+export type CalendarWeekNumberProps = Omit<HTMLThAttributes, "children"> & {
+  children: Snippet;
+  week: CalendarWeekModel;
+};
+
 export interface CalendarComponents {
   Chevron?: Snippet<[CalendarChevronContext]>;
-  DayButton?: Snippet<[CalendarDayContext]>;
+  DayButton?: Snippet<[CalendarDayButtonProps]>;
   Dropdown?: Snippet<[CalendarDropdownContext]>;
   DropdownNav?: Snippet<[CalendarDropdownNavContext]>;
-  WeekNumber?: Snippet<[CalendarWeekNumberContext]>;
+  WeekNumber?: Snippet<[CalendarWeekNumberProps]>;
 }
 
-export type CalendarProps = Omit<
+export interface CalendarLabels {
+  labelDayButton?: (date: Date, modifiers: CalendarModifiers) => string;
+  labelMonthDropdown?: (month: Date) => string;
+  labelNext?: (month: Date | undefined) => string;
+  labelPrevious?: (month: Date | undefined) => string;
+  labelWeekNumber?: (weekNumber: number) => string;
+  labelWeekNumberHeader?: () => string;
+  labelYearDropdown?: (year: number) => string;
+}
+
+type CalendarRootProps = Omit<
   HTMLAttributes<HTMLDivElement>,
   "children" | "class" | "onkeydown" | "onselect"
-> & {
+>;
+
+interface CalendarBaseProps extends CalendarRootProps {
+  autoFocus?: boolean;
   captionLayout?: CaptionLayout;
   class?: string;
   className?: string;
@@ -109,34 +171,152 @@ export type CalendarProps = Omit<
   components?: CalendarComponents;
   day?: Snippet<[CalendarDayContext]>;
   defaultMonth?: Date;
-  defaultSelected?: CalendarSelection;
+  disableNavigation?: boolean;
   disabled?: DateMatcher | DateMatcher[];
   endMonth?: Date;
-  excludeDisabled?: boolean;
   fixedWeeks?: boolean;
   formatters?: CalendarFormatters;
   hideNavigation?: boolean;
-  locale?: string;
-  max?: number;
+  hideWeekdays?: boolean;
+  labels?: CalendarLabels;
+  locale?: CalendarLocale;
   maxDate?: Date;
-  min?: number;
   minDate?: Date;
-  mode?: CalendarMode;
   modifiers?: Record<string, DateMatcher | DateMatcher[]>;
   month?: Date;
+  noonSafe?: boolean;
   numberOfMonths?: number;
-  onDayClick?: (date: Date, event: MouseEvent) => void;
+  onDayBlur?: (date: Date, modifiers: CalendarModifiers, event: FocusEvent) => void;
+  onDayClick?: (date: Date, modifiers: CalendarModifiers, event: MouseEvent) => void;
+  onDayFocus?: (date: Date, modifiers: CalendarModifiers, event: FocusEvent) => void;
+  onDayKeyDown?: (date: Date, modifiers: CalendarModifiers, event: KeyboardEvent) => void;
+  onDayMouseEnter?: (date: Date, modifiers: CalendarModifiers, event: MouseEvent) => void;
+  onDayMouseLeave?: (date: Date, modifiers: CalendarModifiers, event: MouseEvent) => void;
   onMonthChange?: (month: Date) => void;
-  onSelect?: (selection: CalendarSelection) => void;
+  onNextClick?: (month: Date) => void;
+  onPrevClick?: (month: Date) => void;
   pagedNavigation?: boolean;
   ref?: HTMLDivElement | null;
-  required?: boolean;
   reverseMonths?: boolean;
-  selected?: CalendarSelection;
+  reverseYears?: boolean;
   showOutsideDays?: boolean;
   showWeekNumber?: boolean;
   startMonth?: Date;
+  timeZone?: string;
+  today?: Date;
   unavailable?: DateMatcher | DateMatcher[];
   weekNumber?: Snippet<[CalendarWeekNumberContext]>;
-  weekStartsOn?: number;
-};
+  weekStartsOn?: 0 | 1 | 2 | 3 | 4 | 5 | 6;
+}
+
+export type CalendarSelectEvent = KeyboardEvent | MouseEvent;
+
+export interface CalendarSingleProps extends CalendarBaseProps {
+  defaultSelected?: Date | undefined;
+  excludeDisabled?: never;
+  max?: never;
+  min?: never;
+  mode?: "single";
+  onSelect?: (
+    selected: Date | undefined,
+    triggerDate: Date,
+    modifiers: CalendarModifiers,
+    event: CalendarSelectEvent,
+  ) => void;
+  required?: false | undefined;
+  resetOnSelect?: never;
+  selected?: Date | undefined;
+}
+
+export interface CalendarSingleRequiredProps extends CalendarBaseProps {
+  defaultSelected?: Date;
+  excludeDisabled?: never;
+  max?: never;
+  min?: never;
+  mode?: "single";
+  onSelect?: (
+    selected: Date,
+    triggerDate: Date,
+    modifiers: CalendarModifiers,
+    event: CalendarSelectEvent,
+  ) => void;
+  required: true;
+  resetOnSelect?: never;
+  selected: Date | undefined;
+}
+
+export interface CalendarMultipleProps extends CalendarBaseProps {
+  defaultSelected?: Date[] | undefined;
+  excludeDisabled?: never;
+  max?: number;
+  min?: number;
+  mode: "multiple";
+  onSelect?: (
+    selected: Date[] | undefined,
+    triggerDate: Date,
+    modifiers: CalendarModifiers,
+    event: CalendarSelectEvent,
+  ) => void;
+  required?: false | undefined;
+  resetOnSelect?: never;
+  selected?: Date[] | undefined;
+}
+
+export interface CalendarMultipleRequiredProps extends CalendarBaseProps {
+  defaultSelected?: Date[];
+  excludeDisabled?: never;
+  max?: number;
+  min?: number;
+  mode: "multiple";
+  onSelect?: (
+    selected: Date[],
+    triggerDate: Date,
+    modifiers: CalendarModifiers,
+    event: CalendarSelectEvent,
+  ) => void;
+  required: true;
+  resetOnSelect?: never;
+  selected: Date[] | undefined;
+}
+
+export interface CalendarRangeProps extends CalendarBaseProps {
+  defaultSelected?: DateRange | undefined;
+  excludeDisabled?: boolean;
+  max?: number;
+  min?: number;
+  mode: "range";
+  onSelect?: (
+    selected: DateRange | undefined,
+    triggerDate: Date,
+    modifiers: CalendarModifiers,
+    event: CalendarSelectEvent,
+  ) => void;
+  required?: false | undefined;
+  resetOnSelect?: boolean;
+  selected?: DateRange | undefined;
+}
+
+export interface CalendarRangeRequiredProps extends CalendarBaseProps {
+  defaultSelected?: DateRange;
+  excludeDisabled?: boolean;
+  max?: number;
+  min?: number;
+  mode: "range";
+  onSelect?: (
+    selected: DateRange,
+    triggerDate: Date,
+    modifiers: CalendarModifiers,
+    event: CalendarSelectEvent,
+  ) => void;
+  required: true;
+  resetOnSelect?: boolean;
+  selected: DateRange | undefined;
+}
+
+export type CalendarProps =
+  | CalendarMultipleProps
+  | CalendarMultipleRequiredProps
+  | CalendarRangeProps
+  | CalendarRangeRequiredProps
+  | CalendarSingleProps
+  | CalendarSingleRequiredProps;

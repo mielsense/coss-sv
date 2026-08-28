@@ -1,24 +1,67 @@
-import type { CalendarMode, CalendarSelection, DateMatcher } from "./calendar.types.js";
+import type { CalendarMode, CalendarSelection, DateMatcher, DateRange } from "./calendar.types.js";
 
 const DAY_MS = 86_400_000;
 
-export function normalizeCalendarDate(date: Date): Date {
-  return new Date(date.getFullYear(), date.getMonth(), date.getDate(), 12);
+export interface CalendarDateOptions {
+  noonSafe?: boolean;
+  timeZone?: string | undefined;
 }
 
-export function startOfCalendarMonth(date: Date): Date {
-  return new Date(date.getFullYear(), date.getMonth(), 1, 12);
+function zonedDateParts(
+  date: Date,
+  timeZone: string,
+): { day: number; month: number; year: number } {
+  const parts = new Intl.DateTimeFormat("en-US-u-ca-gregory-nu-latn", {
+    day: "numeric",
+    month: "numeric",
+    timeZone,
+    year: "numeric",
+  }).formatToParts(date);
+  const value = (type: Intl.DateTimeFormatPartTypes) =>
+    Number(parts.find((part) => part.type === type)?.value);
+  return { day: value("day"), month: value("month") - 1, year: value("year") };
 }
 
-export function addCalendarDays(date: Date, amount: number): Date {
-  const next = normalizeCalendarDate(date);
+export function createCalendarDate(
+  year: number,
+  month: number,
+  day: number,
+  options: CalendarDateOptions = {},
+): Date {
+  return new Date(year, month, day, options.noonSafe && options.timeZone ? 12 : 0);
+}
+
+export function normalizeCalendarDate(date: Date, options: CalendarDateOptions = {}): Date {
+  const parts = options.timeZone
+    ? zonedDateParts(date, options.timeZone)
+    : { day: date.getDate(), month: date.getMonth(), year: date.getFullYear() };
+  return createCalendarDate(parts.year, parts.month, parts.day, options);
+}
+
+export function startOfCalendarMonth(date: Date, options: CalendarDateOptions = {}): Date {
+  return createCalendarDate(date.getFullYear(), date.getMonth(), 1, options);
+}
+
+export function addCalendarDays(
+  date: Date,
+  amount: number,
+  options: CalendarDateOptions = {},
+): Date {
+  const next = createCalendarDate(date.getFullYear(), date.getMonth(), date.getDate(), options);
   next.setDate(next.getDate() + amount);
-  return normalizeCalendarDate(next);
+  return createCalendarDate(next.getFullYear(), next.getMonth(), next.getDate(), options);
 }
 
-export function addCalendarMonths(date: Date, amount: number): Date {
-  const next = new Date(date.getFullYear(), date.getMonth() + amount, 1, 12);
-  return startOfCalendarMonth(next);
+export function addCalendarMonths(
+  date: Date,
+  amount: number,
+  options: CalendarDateOptions = {},
+): Date {
+  return createCalendarDate(date.getFullYear(), date.getMonth() + amount, 1, options);
+}
+
+export function differenceInCalendarMonths(left: Date, right: Date): number {
+  return left.getFullYear() * 12 + left.getMonth() - (right.getFullYear() * 12 + right.getMonth());
 }
 
 export function isSameCalendarDay(left: Date | undefined, right: Date | undefined): boolean {
@@ -32,59 +75,86 @@ export function isSameCalendarDay(left: Date | undefined, right: Date | undefine
 }
 
 export function compareCalendarDays(left: Date, right: Date): number {
-  return normalizeCalendarDate(left).getTime() - normalizeCalendarDate(right).getTime();
+  return (
+    Date.UTC(left.getFullYear(), left.getMonth(), left.getDate()) -
+    Date.UTC(right.getFullYear(), right.getMonth(), right.getDate())
+  );
 }
 
 export function differenceInCalendarDays(left: Date, right: Date): number {
-  const utcLeft = Date.UTC(left.getFullYear(), left.getMonth(), left.getDate());
-  const utcRight = Date.UTC(right.getFullYear(), right.getMonth(), right.getDate());
-  return Math.round((utcLeft - utcRight) / DAY_MS);
+  return Math.round(compareCalendarDays(left, right) / DAY_MS);
 }
 
 export function isDateMatched(
   date: Date,
   matcher: DateMatcher | DateMatcher[] | undefined,
+  options: CalendarDateOptions = {},
 ): boolean {
-  if (!matcher) return false;
+  if (matcher === undefined || matcher === false) return false;
+  if (matcher === true) return true;
   if (Array.isArray(matcher)) {
     if (matcher.length === 0) return false;
     if (matcher.every((entry) => entry instanceof Date)) {
-      return matcher.some((entry) => isSameCalendarDay(date, entry as Date));
+      return matcher.some((entry) =>
+        isSameCalendarDay(date, normalizeCalendarDate(entry as Date, options)),
+      );
     }
-    return matcher.some((entry) => isDateMatched(date, entry));
+    return matcher.some((entry) => isDateMatched(date, entry, options));
   }
-  if (matcher instanceof Date) return isSameCalendarDay(date, matcher);
-  if (typeof matcher === "function") return matcher(normalizeCalendarDate(date));
-  if ("dayOfWeek" in matcher) return matcher.dayOfWeek.includes(date.getDay());
-  if ("from" in matcher && "to" in matcher) {
+  if (matcher instanceof Date)
+    return isSameCalendarDay(date, normalizeCalendarDate(matcher, options));
+  if (typeof matcher === "function") return matcher(date);
+  if ("dayOfWeek" in matcher) {
+    const days = Array.isArray(matcher.dayOfWeek) ? matcher.dayOfWeek : [matcher.dayOfWeek];
+    return days.includes(date.getDay());
+  }
+  if ("from" in matcher) {
+    if (matcher.from && !matcher.to) {
+      return compareCalendarDays(date, normalizeCalendarDate(matcher.from, options)) >= 0;
+    }
+    if (!matcher.from && matcher.to) {
+      return compareCalendarDays(date, normalizeCalendarDate(matcher.to, options)) <= 0;
+    }
+    if (!matcher.from || !matcher.to) return false;
     return (
-      compareCalendarDays(date, matcher.from) >= 0 && compareCalendarDays(date, matcher.to) <= 0
+      compareCalendarDays(date, normalizeCalendarDate(matcher.from, options)) >= 0 &&
+      compareCalendarDays(date, normalizeCalendarDate(matcher.to, options)) <= 0
     );
   }
   if ("before" in matcher && "after" in matcher && matcher.before && matcher.after) {
     return (
-      compareCalendarDays(date, matcher.after) > 0 && compareCalendarDays(date, matcher.before) < 0
+      compareCalendarDays(date, normalizeCalendarDate(matcher.after, options)) > 0 &&
+      compareCalendarDays(date, normalizeCalendarDate(matcher.before, options)) < 0
     );
   }
-  if ("before" in matcher && matcher.before) return compareCalendarDays(date, matcher.before) < 0;
-  if ("after" in matcher && matcher.after) return compareCalendarDays(date, matcher.after) > 0;
+  if ("before" in matcher && matcher.before) {
+    return compareCalendarDays(date, normalizeCalendarDate(matcher.before, options)) < 0;
+  }
+  if ("after" in matcher && matcher.after) {
+    return compareCalendarDays(date, normalizeCalendarDate(matcher.after, options)) > 0;
+  }
   return false;
+}
+
+export interface CalendarDayModelData {
+  date: Date;
+  outside: boolean;
 }
 
 export interface CalendarMonthModel {
   value: Date;
-  weeks: Array<Array<{ date: Date; outside: boolean }>>;
+  weeks: Array<Array<CalendarDayModelData>>;
 }
 
 export function buildCalendarMonth(
   month: Date,
-  options: { fixedWeeks?: boolean; weekStartsOn?: number } = {},
+  options: CalendarDateOptions & { fixedWeeks?: boolean; weekStartsOn?: number } = {},
 ): CalendarMonthModel {
-  const value = startOfCalendarMonth(month);
+  const value = startOfCalendarMonth(month, options);
   const weekStartsOn = (((options.weekStartsOn ?? 0) % 7) + 7) % 7;
   const firstOffset = (value.getDay() - weekStartsOn + 7) % 7;
-  const firstDate = addCalendarDays(value, -firstOffset);
-  const lastOfMonth = new Date(value.getFullYear(), value.getMonth() + 1, 0, 12);
+  const firstDate = addCalendarDays(value, -firstOffset, options);
+  const lastOfMonth = createCalendarDate(value.getFullYear(), value.getMonth() + 1, 0, options);
   const naturalCells = firstOffset + lastOfMonth.getDate();
   const cellCount = options.fixedWeeks ? 42 : Math.ceil(naturalCells / 7) * 7;
   const weeks: CalendarMonthModel["weeks"] = [];
@@ -92,7 +162,7 @@ export function buildCalendarMonth(
   for (let offset = 0; offset < cellCount; offset += 7) {
     const week: CalendarMonthModel["weeks"][number] = [];
     for (let day = 0; day < 7; day += 1) {
-      const date = addCalendarDays(firstDate, offset + day);
+      const date = addCalendarDays(firstDate, offset + day, options);
       week.push({ date, outside: date.getMonth() !== value.getMonth() });
     }
     weeks.push(week);
@@ -100,15 +170,52 @@ export function buildCalendarMonth(
   return { value, weeks };
 }
 
-function sortedRange(from: Date, to: Date): { from: Date; to: Date } {
-  return compareCalendarDays(from, to) <= 0 ? { from, to } : { from: to, to: from };
+function addToRange(
+  date: Date,
+  initialRange: DateRange | undefined,
+  options: { max?: number; min?: number; required?: boolean },
+): DateRange | undefined {
+  const { from, to } = initialRange ?? {};
+  const min = options.min ?? 0;
+  const max = options.max ?? 0;
+  let range: DateRange | undefined;
+
+  if (!from && !to) range = min > 0 ? { from: date } : { from: date, to: date };
+  else if (from && !to) {
+    if (isSameCalendarDay(from, date)) {
+      if (min === 0) range = { from, to: date };
+      else range = options.required ? { from } : undefined;
+    } else if (compareCalendarDays(date, from) < 0) range = { from: date, to: from };
+    else range = { from, to: date };
+  } else if (from && to) {
+    if (isSameCalendarDay(from, date) && isSameCalendarDay(to, date)) {
+      range = options.required ? { from, to } : undefined;
+    } else if (isSameCalendarDay(from, date)) {
+      range = min > 0 ? { from } : { from, to: date };
+    } else if (isSameCalendarDay(to, date)) {
+      range = min > 0 ? { from: date } : { from: date, to: date };
+    } else if (compareCalendarDays(date, from) < 0) range = { from: date, to };
+    else range = { from, to: date };
+  }
+
+  if (range?.from && range.to) {
+    const diff = differenceInCalendarDays(range.to, range.from);
+    if (max > 0 && diff > max) range = { from: date };
+    else if (min > 1 && diff < min) range = { from: date };
+  }
+  return range;
 }
 
 export function resolveSelection(
   mode: CalendarMode,
   date: Date,
   current: CalendarSelection,
-  options: { max?: number; min?: number; required?: boolean } = {},
+  options: {
+    max?: number;
+    min?: number;
+    required?: boolean;
+    resetOnSelect?: boolean;
+  } = {},
 ): CalendarSelection {
   const nextDate = normalizeCalendarDate(date);
   if (mode === "single") {
@@ -118,24 +225,33 @@ export function resolveSelection(
   }
 
   if (mode === "multiple") {
-    const selected = Array.isArray(current) ? current.map(normalizeCalendarDate) : [];
+    const selected = Array.isArray(current)
+      ? current.map((entry) => normalizeCalendarDate(entry))
+      : [];
     const index = selected.findIndex((entry) => isSameCalendarDay(entry, nextDate));
     if (index >= 0) {
       if (options.required && selected.length === 1) return selected;
-      if (options.min !== undefined && selected.length <= options.min) return selected;
+      if (options.min !== undefined && selected.length === options.min) return selected;
       return selected.filter((_, itemIndex) => itemIndex !== index);
     }
-    if (options.max !== undefined && selected.length >= options.max) return selected;
-    return [...selected, nextDate].sort(compareCalendarDays);
+    if (options.max !== undefined && selected.length === options.max) return [nextDate];
+    return [...selected, nextDate];
   }
 
-  const range = current && !(current instanceof Date) && !Array.isArray(current) ? current : {};
-  if (!range.from || range.to) return { from: nextDate };
-  const candidate = sortedRange(normalizeCalendarDate(range.from), nextDate);
-  const length = Math.abs(differenceInCalendarDays(candidate.to, candidate.from));
-  if (options.max !== undefined && length > options.max) return { from: nextDate };
-  if (options.min !== undefined && length < options.min) return { from: range.from };
-  return candidate;
+  const range =
+    current && !(current instanceof Date) && !Array.isArray(current) ? current : undefined;
+  const isFullRange = Boolean(range?.from && range.to);
+  const isClickingSingleDayRange = Boolean(
+    range?.from &&
+      range.to &&
+      isSameCalendarDay(range.from, range.to) &&
+      isSameCalendarDay(nextDate, range.from),
+  );
+  if (options.resetOnSelect && (isFullRange || !range?.from)) {
+    if (!options.required && isClickingSingleDayRange) return undefined;
+    return { from: nextDate };
+  }
+  return addToRange(nextDate, range, options);
 }
 
 export function isSelectedDate(
@@ -158,15 +274,11 @@ export function isSelectedDate(
 export function getRangeFlags(
   date: Date,
   selected: CalendarSelection,
-): {
-  rangeEnd: boolean;
-  rangeMiddle: boolean;
-  rangeStart: boolean;
-} {
+): { rangeEnd: boolean; rangeMiddle: boolean; rangeStart: boolean } {
   if (!selected || selected instanceof Date || Array.isArray(selected) || !selected.from) {
     return { rangeEnd: false, rangeMiddle: false, rangeStart: false };
   }
-  const rangeStart = isSameCalendarDay(date, selected.from);
+  const rangeStart = Boolean(selected.to && isSameCalendarDay(date, selected.from));
   const rangeEnd = Boolean(selected.to && isSameCalendarDay(date, selected.to));
   const rangeMiddle = Boolean(
     selected.to &&
@@ -182,4 +294,21 @@ export function getIsoWeekNumber(date: Date): number {
   utc.setUTCDate(utc.getUTCDate() + 4 - day);
   const yearStart = new Date(Date.UTC(utc.getUTCFullYear(), 0, 1));
   return Math.ceil(((utc.getTime() - yearStart.getTime()) / DAY_MS + 1) / 7);
+}
+
+export function getCalendarWeekNumber(
+  date: Date,
+  options: { firstWeekContainsDate?: 1 | 4; weekStartsOn?: number } = {},
+): number {
+  const weekStartsOn = (((options.weekStartsOn ?? 0) % 7) + 7) % 7;
+  const firstWeekContainsDate = options.firstWeekContainsDate ?? 1;
+  const startOfWeek = (value: Date): Date => {
+    const offset = (value.getDay() - weekStartsOn + 7) % 7;
+    return addCalendarDays(value, -offset);
+  };
+  const weekYearStart = (year: number) => startOfWeek(new Date(year, 0, firstWeekContainsDate));
+  let weekYear = date.getFullYear();
+  if (compareCalendarDays(date, weekYearStart(weekYear)) < 0) weekYear -= 1;
+  else if (compareCalendarDays(date, weekYearStart(weekYear + 1)) >= 0) weekYear += 1;
+  return Math.floor(differenceInCalendarDays(date, weekYearStart(weekYear)) / 7) + 1;
 }
