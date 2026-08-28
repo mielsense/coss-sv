@@ -14,7 +14,6 @@ export {
   AccordionTrigger,
   type AccordionTriggerProps,
 } from "./components/ui/accordion/index.js";
-export * as Autocomplete from "./components/ui/autocomplete/index.js";
 export {
   Alert,
   AlertAction,
@@ -51,6 +50,7 @@ export {
   AlertDialogViewport,
   type AlertDialogViewportProps,
 } from "./components/ui/alert-dialog/index.js";
+export * as Autocomplete from "./components/ui/autocomplete/index.js";
 export * as Avatar from "./components/ui/avatar/index.js";
 export {
   AvatarFallback,
@@ -93,6 +93,38 @@ export {
   type ButtonVariant,
   buttonVariants,
 } from "./components/ui/button/index.js";
+export type {
+  CalendarChevronContext,
+  CalendarClassNames,
+  CalendarComponents,
+  CalendarDayButtonProps,
+  CalendarDayContext,
+  CalendarDayModel,
+  CalendarDropdownContext,
+  CalendarDropdownNavContext,
+  CalendarFormatterOptions,
+  CalendarFormatters,
+  CalendarLabels,
+  CalendarLocale,
+  CalendarMode,
+  CalendarModifiers,
+  CalendarMultipleProps,
+  CalendarMultipleRequiredProps,
+  CalendarProps,
+  CalendarRangeProps,
+  CalendarRangeRequiredProps,
+  CalendarSelectEvent,
+  CalendarSelection,
+  CalendarSingleProps,
+  CalendarSingleRequiredProps,
+  CalendarWeekModel,
+  CalendarWeekNumberContext,
+  CalendarWeekNumberProps,
+  CaptionLayout,
+  DateMatcher,
+  DateRange,
+} from "./components/ui/calendar/index.js";
+export { Calendar, calendarDefaultClassNames } from "./components/ui/calendar/index.js";
 export {
   Card,
   CardAction,
@@ -558,7 +590,6 @@ export {
   type SeparatorProps,
 } from "./components/ui/separator/index.js";
 export * as Sheet from "./components/ui/sheet/index.js";
-export * as Sidebar from "./components/ui/sidebar/index.js";
 export {
   Sheet as SheetRoot,
   SheetBackdrop,
@@ -590,6 +621,7 @@ export {
   SheetViewport,
   type SheetViewportProps,
 } from "./components/ui/sheet/index.js";
+export * as Sidebar from "./components/ui/sidebar/index.js";
 export { Skeleton, type SkeletonProps } from "./components/ui/skeleton/index.js";
 export * as Slider from "./components/ui/slider/index.js";
 export {

@@ -84,6 +84,18 @@
 		"relativeUrl": "button.json"
 	},
 	{
+		"name": "calendar",
+		"type": "registry:ui",
+		"description": "Displays and selects dates in one or more calendar months.",
+		"dependencies": [
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:hugeicons-icon"
+		],
+		"relativeUrl": "calendar.json"
+	},
+	{
 		"name": "card",
 		"type": "registry:ui",
 		"description": "Groups related content and actions.",

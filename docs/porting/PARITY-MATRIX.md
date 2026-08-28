@@ -18,7 +18,7 @@ Generated from the pinned local reference. The status baseline names every plann
 | `badge` | `reference/apps/ui/registry/default/ui/badge.tsx` | `packages/ui/src/components/ui/badge`<br>`apps/ui/registry/registry-ui.ts` | approved |
 | `breadcrumb` | `reference/apps/ui/registry/default/ui/breadcrumb.tsx` | `packages/ui/src/components/ui/breadcrumb`<br>`apps/ui/registry/registry-ui.ts` | approved |
 | `button` | `reference/apps/ui/registry/default/ui/button.tsx` | `packages/ui/src/components/ui/button`<br>`apps/ui/registry/registry-ui.ts` | approved |
-| `calendar` | `reference/apps/ui/registry/default/ui/calendar.tsx` | `packages/ui/src/components/ui/calendar`<br>`apps/ui/registry/registry-ui.ts` | missing |
+| `calendar` | `reference/apps/ui/registry/default/ui/calendar.tsx` | `packages/ui/src/components/ui/calendar`<br>`apps/ui/registry/registry-ui.ts` | approved |
 | `card` | `reference/apps/ui/registry/default/ui/card.tsx` | `packages/ui/src/components/ui/card`<br>`apps/ui/registry/registry-ui.ts` | approved |
 | `checkbox-group` | `reference/apps/ui/registry/default/ui/checkbox-group.tsx` | `packages/ui/src/components/ui/checkbox-group`<br>`apps/ui/registry/registry-ui.ts` | approved |
 | `checkbox` | `reference/apps/ui/registry/default/ui/checkbox.tsx` | `packages/ui/src/components/ui/checkbox`<br>`apps/ui/registry/registry-ui.ts` | approved |

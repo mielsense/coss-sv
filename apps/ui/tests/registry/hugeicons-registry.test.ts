@@ -4,6 +4,7 @@ import { registryUi } from "../../registry/registry-ui.js";
 
 const adapterConsumers = [
   "breadcrumb",
+  "calendar",
   "checkbox",
   "context-menu",
   "dialog",

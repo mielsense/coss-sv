@@ -307,6 +307,35 @@
       ]
     },
     {
+      "name": "calendar",
+      "type": "registry:ui",
+      "description": "Displays and selects dates in one or more calendar months.",
+      "dependencies": [
+        "@hugeicons/core-free-icons@4.3.0"
+      ],
+      "registryDependencies": [
+        "local:hugeicons-icon"
+      ],
+      "files": [
+        {
+          "path": "../../packages/ui/src/components/ui/calendar/calendar.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/calendar/calendar.types.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/calendar/calendar.utils.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/calendar/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "card",
       "type": "registry:ui",
       "description": "Groups related content and actions.",

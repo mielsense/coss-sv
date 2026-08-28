@@ -113,6 +113,19 @@ export const registryUi = defineRegistryItems([
     files: uiFiles("button", ["button.svelte", "index.ts"]),
   },
   {
+    name: "calendar",
+    type: "registry:ui",
+    description: "Displays and selects dates in one or more calendar months.",
+    dependencies: ["@hugeicons/core-free-icons@4.3.0"],
+    registryDependencies: ["local:hugeicons-icon"],
+    files: uiFiles("calendar", [
+      "calendar.svelte",
+      "calendar.types.ts",
+      "calendar.utils.ts",
+      "index.ts",
+    ]),
+  },
+  {
     name: "breadcrumb",
     type: "registry:ui",
     description: "Shows the current page within a hierarchy.",
