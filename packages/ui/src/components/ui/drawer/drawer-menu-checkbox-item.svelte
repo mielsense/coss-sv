@@ -7,9 +7,12 @@ export type DrawerMenuCheckboxItemProps = ComponentProps<typeof ShardsP.Root> & 
 };
 </script>
 <script lang="ts">
+import { Tick02Icon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/svelte";
 import { Checkbox as P } from "@shardsui/svelte";
 import { untrack } from "svelte";
 import { cn } from "$lib/utils.js";
+
 let {
   checked = $bindable(),
   defaultChecked,
@@ -52,20 +55,7 @@ const classes = $derived(
       >
     {:else}
       <P.Indicator class="col-start-1"
-        ><svg
-          fill="none"
-          height="24"
-          stroke="currentColor"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          viewBox="0 0 24 24"
-          width="24"
-          xmlns="http://www.w3.org/2000/svg"
-          aria-hidden="true"
-        >
-          <path d="M5.252 12.7 10.2 18.63 18.748 5.37"></path>
-        </svg></P.Indicator
+        ><HugeiconsIcon aria-hidden="true" icon={Tick02Icon} strokeWidth={2} /></P.Indicator
       ><span class="col-start-2">{@render child?.(state)}</span>
     {/if}
   {/snippet}</P.Root

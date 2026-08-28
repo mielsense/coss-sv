@@ -1,4 +1,6 @@
 <script lang="ts">
+import { Tick02Icon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/svelte";
 import { Menu as MenuPrimitive } from "@shardsui/svelte";
 import { cn } from "$lib/utils.js";
 import type { MenuRadioItemProps } from "./menu.types.js";
@@ -22,20 +24,7 @@ let {
 >
   {#snippet children(state)}
     <MenuPrimitive.RadioItemIndicator class="col-start-1 -ms-0.5">
-      <svg
-        aria-hidden="true"
-        fill="none"
-        height="24"
-        stroke="currentColor"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="2"
-        viewBox="0 0 24 24"
-        width="24"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path d="M5.252 12.7 10.2 18.63 18.748 5.37" />
-      </svg>
+      <HugeiconsIcon aria-hidden="true" icon={Tick02Icon} strokeWidth={2} />
     </MenuPrimitive.RadioItemIndicator>
     <span class="col-start-2">{@render child?.(state)}</span>
   {/snippet}

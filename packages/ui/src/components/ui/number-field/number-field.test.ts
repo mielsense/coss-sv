@@ -41,9 +41,9 @@ describe("NumberField number contract", () => {
     expect(body).toContain('data-slot="number-field-group"');
     expect(body).toContain('aria-roledescription="Number field"');
     expect(body).toContain('aria-label="Decrease"');
-    expect(body).toContain("M5 12h14");
+    expect(body).toContain('<svg xmlns="http://www.w3.org/2000/svg"');
     expect(body).toContain('aria-label="Increase"');
-    expect(body).toContain("M12 5v14");
+    expect(body.match(/aria-hidden="true"/g)?.length).toBeGreaterThanOrEqual(2);
     expect(body).toContain("Quantity");
     expect(body).toContain(
       '<span class="flex cursor-ew-resize" data-slot="number-field-scrub-area" role="presentation"',

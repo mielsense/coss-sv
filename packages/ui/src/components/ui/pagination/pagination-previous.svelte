@@ -5,6 +5,8 @@ export type PaginationPreviousProps = PaginationLinkProps;
 </script>
 
 <script lang="ts">
+import { ChevronLeftIcon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/svelte";
 import { cn } from "$lib/utils.js";
 import PaginationLink from "./pagination-link.svelte";
 
@@ -25,20 +27,6 @@ let {
   {size}
   {...props}
 >
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    stroke-width="2"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    class="lucide lucide-chevron-left sm:-ms-1"
-    aria-hidden="true"
-  >
-    <path d="m15 18-6-6 6-6"></path>
-  </svg>
+  <HugeiconsIcon aria-hidden="true" class="sm:-ms-1" icon={ChevronLeftIcon} strokeWidth={2} />
   <span class="max-sm:hidden">Previous</span>
 </PaginationLink>

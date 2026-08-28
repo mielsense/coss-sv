@@ -34,3 +34,7 @@ Context7 returned `Monthly quota reached`. The implementation therefore follows 
 - contextmenu-event opening at the pointer, keyboard opening, long press, collision-safe placement, deep submenus, and focus restoration
 - checkbox, switch, radio, disabled, destructive, links, shortcuts, submenus, RTL arrows, Escape, and typeahead
 - exact SSR DOM, slots, classes, custom portal targets, keep-mounted content, stable explicit and generated root/submenu IDs, nested and sibling submenu relationships, and hydration
+
+## Hugeicons authority update
+
+Default checkbox and radio indicators use `Tick02Icon`; submenu triggers use `ChevronRightIcon`. Each icon is rendered by `HugeiconsIcon` with `aria-hidden="true"` and `strokeWidth={2}` while the COSS grid, margin, opacity, and responsive sizing classes remain on their original elements. The hydration fixture was regenerated from current SSR output so nested initially-open menus retain exact marker alignment.

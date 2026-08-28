@@ -12,6 +12,8 @@ export type DrawerPopupProps = ComponentProps<typeof ShardsDrawer.Popup> & {
 };
 </script>
 <script lang="ts">
+import { Cancel01Icon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/svelte";
 import { Dialog as D, Drawer as P } from "@shardsui/svelte";
 import { cn } from "$lib/utils.js";
 import { buttonVariants } from "../button/button.svelte";
@@ -19,6 +21,7 @@ import { getDrawerPositionContext } from "./context.js";
 import Backdrop from "./drawer-backdrop.svelte";
 import Bar from "./drawer-bar.svelte";
 import Viewport from "./drawer-viewport.svelte";
+
 let {
   children: child,
   class: className,
@@ -92,22 +95,7 @@ const classes = $derived(
             aria-label="Close"
             class={buttonVariants({ class: "absolute end-2 top-2", size: "icon", variant: "ghost" })}
             data-slot="button"
-            ><svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="lucide lucide-x"
-              aria-hidden="true"
-            >
-              <path d="M18 6 6 18"></path>
-              <path d="m6 6 12 12"></path>
-            </svg></D.Close
+            ><HugeiconsIcon aria-hidden="true" icon={Cancel01Icon} strokeWidth={2} /></D.Close
           >
         {/if}
         {#if showBar}

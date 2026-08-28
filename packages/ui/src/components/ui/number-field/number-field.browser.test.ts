@@ -86,6 +86,12 @@ describe("NumberField browser contract", () => {
     expect(scrub?.getAttribute("role")).toBe("presentation");
     expect(scrub?.getAttribute("style")).toContain("touch-action: none");
     expect(scrub?.querySelector('[data-slot="label"]')?.className).toContain("font-medium");
+
+    const cursorIcon = page.getByTestId("cursor-grow-icon");
+    await expect.element(cursorIcon).toHaveAttribute("aria-hidden", "true");
+    await expect.element(cursorIcon).toHaveAttribute("width", "26");
+    await expect.element(cursorIcon).toHaveAttribute("height", "14");
+    expect((await cursorIcon.element()).querySelectorAll("path").length).toBeGreaterThan(0);
   });
 
   test("does not step on wheel by default and preserves disabled semantics", async () => {

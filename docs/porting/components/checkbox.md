@@ -41,3 +41,7 @@ The exact fixture reproduces `p-checkbox-1` through `p-checkbox-4`. `p-checkbox-
 Final focused verification on August 27, 2026: the combined C5 Svelte/Vitest gate passed 15 files and 47 tests; the combined light, dark, mobile, desktop, keyboard, axe, and motion Playwright gate passed 17 tests with four intentional static Toggle/Toggle Group motion-project skips; Svelte check reported 0 errors and 0 warnings; Biome checked 46 C5 files without diagnostics; and `git diff --check` passed.
 
 The Codex in-app Browser was requested again for the final Checkbox comparison, but its browser list was empty. No Chrome substitute was used. Automated headless parity remains green, and the missing manual pass is recorded rather than claimed.
+
+## Hugeicons authority update
+
+The checked and indeterminate states now render `Tick02Icon` and `MinusSignIcon` through `HugeiconsIcon`. The icons stay decorative and retain the responsive `size-3.5 sm:size-3` geometry inside the unchanged Shards indicator. Source, SSR, hydration, and mounted-browser tests cover both states and prohibit copied icon paths.

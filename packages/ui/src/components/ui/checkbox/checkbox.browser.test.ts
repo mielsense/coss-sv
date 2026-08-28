@@ -40,7 +40,7 @@ describe("Checkbox browser contract", () => {
   test("hydrates without a mismatch", async () => {
     const warning = vi.spyOn(console, "warn").mockImplementation(() => undefined);
     const target = document.createElement("div");
-    target.innerHTML = `<span data-slot="checkbox" role="checkbox" aria-checked="false" data-unchecked=""><span data-slot="checkbox-indicator" data-unchecked=""><svg aria-hidden="true"><path d="M5.252 12.7 10.2 18.63 18.748 5.37"></path></svg></span></span><input type="checkbox" id="hydrated-checkbox" tabindex="-1" aria-hidden="true">`;
+    target.innerHTML = `<span data-slot="checkbox" role="checkbox" aria-checked="false" data-unchecked=""><span data-slot="checkbox-indicator" data-unchecked=""><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="size-3.5 sm:size-3" aria-hidden="true"></svg></span></span><input type="checkbox" id="hydrated-checkbox" tabindex="-1" aria-hidden="true">`;
     document.body.append(target);
 
     const component = hydrate(Checkbox, {

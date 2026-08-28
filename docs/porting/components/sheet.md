@@ -33,3 +33,7 @@ Context7 was requested for current Svelte overlay and portal guidance. It return
 ## Licensing
 
 This port adapts only the MIT-designated COSS application source listed above. The Svelte behavior comes from the locally pinned Shards dependency.
+
+## Hugeicons authority update
+
+The optional close button now renders `Cancel01Icon` through `HugeiconsIcon`. The button retains its `Close` accessible name, slot, classes, dismissal behavior, and focus restoration; the glyph is decorative and uses `strokeWidth={2}`.

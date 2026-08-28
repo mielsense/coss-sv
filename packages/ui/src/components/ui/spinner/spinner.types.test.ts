@@ -1,4 +1,3 @@
-import { createRawSnippet } from "svelte";
 import { expect, test } from "vitest";
 import type { SpinnerProps } from "./index.js";
 
@@ -6,7 +5,6 @@ test("types native SVG attributes, callbacks, accessible names, and refs", () =>
   const props = {
     "aria-label": "Saving",
     absoluteStrokeWidth: true,
-    children: createRawSnippet(() => ({ render: () => "<circle></circle>" })),
     class: "size-4",
     height: 18,
     onclick: (_event: MouseEvent) => undefined,
@@ -20,4 +18,10 @@ test("types native SVG attributes, callbacks, accessible names, and refs", () =>
   expect(props.size).toBe(48);
   expect(props.strokeWidth).toBe(4);
   expect(props.width).toBe(16);
+
+  const unsupportedChildren: SpinnerProps = {
+    // @ts-expect-error Hugeicons owns the SVG children; consumers cannot append custom paths.
+    children: () => undefined,
+  };
+  expect(unsupportedChildren).toBeDefined();
 });

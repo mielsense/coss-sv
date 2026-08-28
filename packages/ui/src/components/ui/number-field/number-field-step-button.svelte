@@ -11,6 +11,8 @@ export type NumberFieldStepButtonProps = Omit<
 </script>
 
 <script lang="ts">
+import { MinusSignIcon, PlusSignIcon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/svelte";
 import { Button as ButtonPrimitive } from "@shardsui/svelte";
 import type { Component } from "svelte";
 import { cn } from "$lib/utils.js";
@@ -51,20 +53,9 @@ function handleClick(event: MouseEvent): void {
   type="button"
   {...props}
 >
-  <svg
+  <HugeiconsIcon
     aria-hidden="true"
-    fill="none"
-    stroke="currentColor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-    viewBox="0 0 24 24"
-  >
-    {#if increment}
-      <path d="M5 12h14" />
-      <path d="M12 5v14" />
-    {:else}
-      <path d="M5 12h14" />
-    {/if}
-  </svg>
+    icon={increment ? PlusSignIcon : MinusSignIcon}
+    strokeWidth={2}
+  />
 </StepButton>

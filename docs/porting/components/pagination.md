@@ -35,7 +35,7 @@ Pagination is native in the approved component strategy. There is no matching Sh
 - Link attributes, callback props, snippets, and refs forward to the rendered element.
 - Previous and next intentionally own their icon and label snippets, as COSS does.
 
-The inline SVG paths and Lucide class names match the upstream icons. The package does not need an icon runtime dependency.
+The package delegates its navigation and overflow glyphs to the centrally configured Hugeicons runtime.
 
 ## Tests
 
@@ -49,3 +49,7 @@ The deterministic component parity fixture includes exact `p-pagination-1` and `
 ## Deviations
 
 The React-only `render` element prop is translated to a typed Svelte `delegate` snippet. This is a framework-shaped API difference, not a behavior or styling deviation.
+
+## Hugeicons authority update
+
+Previous, next, and ellipsis now use `ChevronLeftIcon`, `ChevronRightIcon`, and `MoreHorizontalIcon` through `HugeiconsIcon`. Accessible copy stays on the owning link or screen-reader span; every glyph is decorative. Responsive label hiding, negative icon margins, ellipsis sizes, delegated Button behavior, and ref forwarding are unchanged.

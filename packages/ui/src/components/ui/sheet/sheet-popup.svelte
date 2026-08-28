@@ -11,11 +11,14 @@ export type SheetPopupProps = ComponentProps<typeof ShardsP.Popup> & {
 };
 </script>
 <script lang="ts">
+import { Cancel01Icon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/svelte";
 import { Dialog as P } from "@shardsui/svelte";
 import { cn } from "$lib/utils.js";
 import { buttonVariants } from "../button/button.svelte";
 import Backdrop from "./sheet-backdrop.svelte";
 import Viewport from "./sheet-viewport.svelte";
+
 let {
   children: child,
   class: className,
@@ -56,22 +59,7 @@ const classes = $derived(
             class={buttonVariants({ class: "absolute end-2 top-2", size: "icon", variant: "ghost" })}
             data-slot="button"
             {...closeProps}
-            ><svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="lucide lucide-x"
-              aria-hidden="true"
-            >
-              <path d="M18 6 6 18"></path>
-              <path d="m6 6 12 12"></path>
-            </svg></P.Close
+            ><HugeiconsIcon aria-hidden="true" icon={Cancel01Icon} strokeWidth={2} /></P.Close
           >
         {/if}
       {/snippet}</P.Popup

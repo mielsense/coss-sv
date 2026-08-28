@@ -79,12 +79,12 @@ describe("Pagination SSR contract", () => {
 
     expect(previous).toContain('aria-label="Go to previous page"');
     expect(previous).toContain("Previous");
-    expect(previous).toContain("lucide-chevron-left");
+    expect(previous).toContain('class="sm:-ms-1"');
     expect(next).toContain('aria-label="Go to next page"');
     expect(next).toContain("Next");
-    expect(next).toContain("lucide-chevron-right");
+    expect(next).toContain('class="sm:-me-1"');
     expect(ellipsis).toContain('aria-hidden="true"');
-    expect(ellipsis).toContain("lucide-ellipsis");
+    expect(ellipsis).toContain('class="size-5 sm:size-4"');
     expect(ellipsis).toContain("More pages");
   });
 
@@ -131,8 +131,8 @@ describe("Pagination SSR contract", () => {
       expect(body).toContain('data-slot="pagination-link"');
     }
     expect(previous).toContain("Previous");
-    expect(previous).toContain("lucide-chevron-left");
+    expect(previous).toContain('class="sm:-ms-1"');
     expect(next).toContain("Next");
-    expect(next).toContain("lucide-chevron-right");
+    expect(next).toContain('class="sm:-me-1"');
   });
 });

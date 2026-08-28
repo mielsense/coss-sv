@@ -6,6 +6,8 @@ export type ContextMenuSubTriggerProps = ComponentProps<typeof ShardsContextMenu
 };
 </script>
 <script lang="ts">
+import { ChevronRightIcon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/svelte";
 import { ContextMenu as P } from "@shardsui/svelte";
 import { cn } from "$lib/utils.js";
 import { getContextMenuIdContext } from "./id-context.svelte.js";
@@ -32,20 +34,11 @@ const resolvedControls = $derived(ariaControls ?? (menuIds.open ? menuIds.popupI
   {...props}
   >{#snippet children(state)}
     {@render child?.(state)}
-    <svg
+    <HugeiconsIcon
       aria-hidden="true"
-      class="lucide lucide-chevron-right ms-auto -me-0.5 opacity-80"
-      fill="none"
-      height="24"
-      stroke="currentColor"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      stroke-width="2"
-      viewBox="0 0 24 24"
-      width="24"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path d="m9 18 6-6-6-6" />
-    </svg>
+      class="ms-auto -me-0.5 opacity-80"
+      icon={ChevronRightIcon}
+      strokeWidth={2}
+    />
   {/snippet}</P.SubmenuTrigger
 >

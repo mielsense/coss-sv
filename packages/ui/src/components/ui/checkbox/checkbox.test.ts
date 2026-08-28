@@ -19,14 +19,15 @@ describe("Checkbox SSR contract", () => {
     expect(body).toContain("custom-checkbox");
     expect(body).toContain('data-slot="checkbox-indicator"');
     expect(body).toContain('data-checked=""');
-    expect(body).toContain('d="M5.252 12.7 10.2 18.63 18.748 5.37"');
+    expect(body).toContain('class="size-3.5 sm:size-3"');
+    expect(body).toContain('aria-hidden="true"');
     expect(body).toContain('name="terms"');
     expect(body).toContain('value="yes"');
   });
 
   test("renders the exact indeterminate icon and keeps the indicator mounted when unchecked", () => {
     const indeterminate = render(Checkbox, { props: { indeterminate: true } }).body;
-    expect(indeterminate).toContain('d="M5.252 12h13.496"');
+    expect(indeterminate).toContain('class="size-3.5 sm:size-3"');
     expect(indeterminate).toContain('data-indeterminate=""');
 
     const unchecked = render(Checkbox).body;

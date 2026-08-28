@@ -77,3 +77,7 @@ Tests cover SSR, hydration, native attributes, ref and snippet forwarding, deleg
 - Target dark and narrow variants use the same route query contract.
 
 Accepted deviations: none.
+
+## Hugeicons authority update
+
+The increment and decrement buttons now render `PlusSignIcon` and `MinusSignIcon` through `HugeiconsIcon`, preserving their labels, hit targets, disabled state, responsive sizing, and step behavior. The scrub cursor uses `ArrowHorizontalIcon`, the closest free Hugeicons bidirectional horizontal arrow. A post-mount adapter preserves the COSS 26 by 14 root dimensions and native attribute forwarding. The user-required Hugeicons authority changes the original filled black cursor with white outline into Hugeicons' stroked arrow and requires its 24 by 24 view box; that glyph-shape and view-box difference is unavoidable without retaining the prohibited custom path.

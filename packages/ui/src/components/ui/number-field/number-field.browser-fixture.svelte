@@ -100,3 +100,4 @@ let showRemountWheel = $state(true);
 
 <output data-testid="number-state">{value}:{changes}:{inputRef?.tagName ?? "missing"}</output>
 <output data-testid="delegate-ref">{delegatedRef?.dataset.slot ?? "missing"}</output>
+<NumberField.CursorGrowIcon data-testid="cursor-grow-icon" />

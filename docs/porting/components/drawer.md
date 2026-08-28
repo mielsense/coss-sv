@@ -50,3 +50,7 @@ Context7 was requested for current Svelte overlay, pointer, and portal guidance.
 ## Licensing
 
 This port adapts only the MIT-designated COSS application source listed above. The Svelte behavior comes from the locally pinned Shards dependency.
+
+## Hugeicons authority update
+
+Drawer close, menu selection, and nested-menu affordances now use `Cancel01Icon`, `Tick02Icon`, and `ChevronRightIcon` through `HugeiconsIcon`. The icons remain decorative and keep the COSS indicator columns, trigger margin and opacity, responsive sizing selectors, and gesture behavior.

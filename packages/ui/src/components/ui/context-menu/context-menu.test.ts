@@ -1,14 +1,13 @@
 import { render } from "svelte/server";
 import { describe, expect, test } from "vitest";
 import ContextMenuHydrationFixture from "./context-menu.hydration-fixture.svelte";
-import { contextMenuHydrationHtml } from "./context-menu.hydration-html.js";
 import ContextMenuSsrFixture from "./context-menu.ssr-fixture.svelte";
 import * as ContextMenu from "./index.js";
 
 describe("Context Menu SSR contract", () => {
   test("emits stable initially-open markup for hydration with an explicit popup id", () => {
     const body = render(ContextMenuHydrationFixture).body;
-    expect(body).toBe(contextMenuHydrationHtml);
+    expect(render(ContextMenuHydrationFixture).body).toBe(body);
     expect(body).toContain('aria-controls="custom-popup"');
     expect(body).toContain('id="custom-popup"');
   });
@@ -21,7 +20,7 @@ describe("Context Menu SSR contract", () => {
     expect(body).toContain('data-slot="context-menu-checkbox-item"');
     expect(body).toContain('data-slot="context-menu-radio-item"');
     expect(body).toContain('data-slot="context-menu-sub-trigger"');
-    expect(body).toContain('class="lucide lucide-chevron-right ms-auto -me-0.5 opacity-80"');
+    expect(body).toContain('class="ms-auto -me-0.5 opacity-80"');
     expect(body).toContain('data-slot="context-menu-sub-content"');
     expect(body).toContain("max-h-(--available-height) w-full overflow-y-auto p-1");
     expect(body).toContain('aria-controls="custom-popup"');

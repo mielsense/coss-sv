@@ -19,21 +19,19 @@ describe("Spinner browser contract", () => {
     button.focus();
     expect(document.activeElement).toBe(button);
     await expect.element(page.getByTestId("custom-spinner")).toHaveAccessibleName("Saving");
-    const lucidePropsSpinner = page.getByTestId("lucide-props-spinner");
-    await expect.element(lucidePropsSpinner).toHaveAttribute("width", "18");
-    await expect.element(lucidePropsSpinner).toHaveAttribute("height", "20");
-    await expect.element(lucidePropsSpinner).toHaveAttribute("stroke-width", "2");
-    const lucideElement = await lucidePropsSpinner.element();
-    const childOrder = [...lucideElement.children].map(
-      (child) => child.getAttribute("data-testid") ?? child.tagName,
+    const hugeiconsPropsSpinner = page.getByTestId("hugeicons-props-spinner");
+    await expect.element(hugeiconsPropsSpinner).toHaveAttribute("width", "18");
+    await expect.element(hugeiconsPropsSpinner).toHaveAttribute("height", "20");
+    await expect.element(hugeiconsPropsSpinner).toHaveAttribute("stroke-width", "2");
+    expect((await hugeiconsPropsSpinner.element()).querySelectorAll("path").length).toBeGreaterThan(
+      0,
     );
-    expect(childOrder).toEqual(["path", "spinner-consumer-child"]);
   });
   test("hydrates without a mismatch", async () => {
     const warning = vi.spyOn(console, "warn").mockImplementation(() => undefined);
     const target = document.createElement("div");
     target.innerHTML =
-      '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-loader-circle animate-spin" aria-label="Loading" role="status"><path d="M21 12a9 9 0 1 1-6.219-8.56"></path></svg>';
+      '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="animate-spin" aria-label="Loading" role="status"></svg>';
     document.body.append(target);
     const component = hydrate(Spinner, { target });
     expect(warning).not.toHaveBeenCalled();

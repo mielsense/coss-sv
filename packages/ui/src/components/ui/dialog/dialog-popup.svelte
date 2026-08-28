@@ -12,6 +12,8 @@ export type DialogPopupProps = PrimitivePopupProps & {
 </script>
 
 <script lang="ts">
+import { Cancel01Icon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/svelte";
 import { Dialog as DialogPrimitive } from "@shardsui/svelte";
 import { cn } from "$lib/utils.js";
 import { buttonVariants } from "../button/button.svelte";
@@ -55,22 +57,7 @@ const popupClass = $derived(
             data-slot="button"
             {...closeProps}
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="lucide lucide-x"
-              aria-hidden="true"
-            >
-              <path d="M18 6 6 18"></path>
-              <path d="m6 6 12 12"></path>
-            </svg>
+            <HugeiconsIcon aria-hidden="true" icon={Cancel01Icon} strokeWidth={2} />
           </DialogPrimitive.Close>
         {/if}
       {/snippet}

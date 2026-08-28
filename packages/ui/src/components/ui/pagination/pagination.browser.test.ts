@@ -53,7 +53,10 @@ describe("Pagination browser contract", () => {
     await next.click();
     await expect.element(page.getByTestId("state")).toHaveTextContent("0:A:1:BUTTON");
     await expect.element(next).toHaveTextContent("Next");
-    expect((await next.element()).querySelector(".lucide-chevron-right")).not.toBeNull();
+    const nextIcon = (await next.element()).querySelector("svg");
+    expect(nextIcon).not.toBeNull();
+    expect(nextIcon?.getAttribute("aria-hidden")).toBe("true");
+    expect(nextIcon?.querySelectorAll("path").length).toBeGreaterThan(0);
   });
 
   test("binds the public ref to the delegated Button and clears it on teardown", async () => {

@@ -3,19 +3,54 @@ import type { SVGAttributes } from "svelte/elements";
 export type CursorGrowIconProps = SVGAttributes<SVGSVGElement>;
 </script>
 <script lang="ts">
-let { ...props }: CursorGrowIconProps = $props();
+import { ArrowHorizontalIcon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/svelte";
+import type { ComponentProps } from "svelte";
+import { tick } from "svelte";
+import { createAttachmentKey } from "svelte/attachments";
+
+let {
+  class: className,
+  height = 14,
+  stroke = "white",
+  width = 26,
+  ...props
+}: CursorGrowIconProps = $props();
+
+let ref: SVGSVGElement | null = $state(null);
+const forwardedProps = $derived(props as unknown as ComponentProps<typeof HugeiconsIcon>);
+const normalizedClass = $derived(typeof className === "string" ? className : "");
+const normalizedHeight = $derived(height ?? 14);
+const normalizedStroke = $derived(typeof stroke === "string" ? stroke : "white");
+const normalizedWidth = $derived(width ?? 26);
+const refAttachment = {
+  [createAttachmentKey()]: (node: SVGSVGElement) => {
+    ref = node;
+    return () => {
+      ref = null;
+    };
+  },
+};
+
+$effect(() => {
+  normalizedWidth;
+  normalizedHeight;
+  void tick().then(() => {
+    ref?.setAttribute("width", String(normalizedWidth));
+    ref?.setAttribute("height", String(normalizedHeight));
+  });
+});
 </script>
-<svg
+
+<HugeiconsIcon
+  {...forwardedProps}
   aria-hidden="true"
-  fill="black"
-  height="14"
-  stroke="white"
-  viewBox="0 0 24 14"
-  width="26"
-  xmlns="http://www.w3.org/2000/svg"
-  {...props}
->
-  <path
-    d="M19.5 5.5L6.49737 5.51844V2L1 6.9999L6.5 12L6.49737 8.5L19.5 8.5V12L25 6.9999L19.5 2V5.5Z"
-  />
-</svg>
+  class={normalizedClass}
+  color={normalizedStroke}
+  height={normalizedHeight}
+  icon={ArrowHorizontalIcon}
+  size={24}
+  strokeWidth={2}
+  width={normalizedWidth}
+  {...refAttachment}
+/>

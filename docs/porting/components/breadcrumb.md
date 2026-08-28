@@ -41,3 +41,7 @@ The reference server stayed locked to dark mode when its visible theme control w
 - Playwright coverage for light/dark, desktop/mobile, keyboard order, geometry, axe, and console errors.
 
 Accepted translations: React `render` on `BreadcrumbLink` becomes the typed Svelte `as` prop. The particle's Base UI `Menu.Item` rendered as a Next link becomes Shards `Menu.LinkItem` with `closeOnClick` and COSS's `data-slot="menu-item"`. The native tags, visible classes, menu roles, focus order, and link behavior remain the same.
+
+## Hugeicons authority update
+
+The default separator and ellipsis now use `ChevronRightIcon` and `MoreHorizontalIcon` through `HugeiconsIcon`. Both remain decorative, keep the COSS size and opacity classes, and preserve the custom-separator snippet contract. Focused source and mounted-browser checks reject copied paths and legacy Lucide markers.

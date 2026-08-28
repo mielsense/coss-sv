@@ -6,6 +6,8 @@ export type CheckboxProps = ComponentProps<typeof ShardsCheckbox.Root>;
 </script>
 
 <script lang="ts">
+import { MinusSignIcon, Tick02Icon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/svelte";
 import { Checkbox as CheckboxPrimitive } from "@shardsui/svelte";
 import { cn } from "$lib/utils.js";
 
@@ -28,37 +30,19 @@ const classes = $derived(cn(rootClass, className));
   <CheckboxPrimitive.Indicator keepMounted data-slot="checkbox-indicator" class={indicatorClass}>
     {#snippet children(state)}
       {#if state.indeterminate}
-        <svg
+        <HugeiconsIcon
           aria-hidden="true"
           class="size-3.5 sm:size-3"
-          fill="none"
-          height="24"
-          stroke="currentColor"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="3"
-          viewBox="0 0 24 24"
-          width="24"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path d="M5.252 12h13.496" />
-        </svg>
+          icon={MinusSignIcon}
+          strokeWidth={2}
+        />
       {:else}
-        <svg
+        <HugeiconsIcon
           aria-hidden="true"
           class="size-3.5 sm:size-3"
-          fill="none"
-          height="24"
-          stroke="currentColor"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="3"
-          viewBox="0 0 24 24"
-          width="24"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path d="M5.252 12.7 10.2 18.63 18.748 5.37" />
-        </svg>
+          icon={Tick02Icon}
+          strokeWidth={2}
+        />
       {/if}
     {/snippet}
   </CheckboxPrimitive.Indicator>

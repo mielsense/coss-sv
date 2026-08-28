@@ -87,3 +87,7 @@ stack limits and expansion, dismiss-all, F6/Tab/Escape focus behavior, the exact
 position-to-swipe mappings, SSR output, hydration without warnings, cleanup, dark classes, and
 narrow viewport hooks. Type tests cover manager data, promise callbacks, provider options, portal
 targets, root props, action native attributes, and every public alias.
+
+## Hugeicons authority update
+
+Toast status glyphs now map error, info, loading, success, and warning to `AlertCircleIcon`, `InformationCircleIcon`, `Loading03Icon`, `CheckmarkCircle02Icon`, and `Alert02Icon` through `HugeiconsIcon`. The icon remains decorative; type-driven color, loading opacity, and spin classes stay unchanged. Promise transitions and mounted path rendering are covered in the browser suite, while the scoped source audit rejects copied paths and Lucide markers.

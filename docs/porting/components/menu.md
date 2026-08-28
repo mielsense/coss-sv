@@ -42,3 +42,7 @@ Headless Chromium covers the automated interaction checks. The coordinator perfo
 - trigger activation, item close behavior, checkbox and radio selection, disabled items, typeahead, nested submenus, RTL arrows, Escape, portal placement, and focus restoration
 - strict built-output consumption for every wrapper and named prop type
 - no legacy Svelte syntax and no hydration warnings
+
+## Hugeicons authority update
+
+Default checkbox and radio indicators now use `Tick02Icon`, and submenu triggers use `ChevronRightIcon`, all through `HugeiconsIcon`. The migration keeps the COSS columns, margins, opacity, responsive sizing selectors, Shards state ownership, and keyboard behavior. The package wrappers and focused tests contain no legacy Lucide class or copied path marker.
