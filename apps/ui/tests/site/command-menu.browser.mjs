@@ -593,7 +593,7 @@ try {
   assert.equal(await mobileTrigger.getAttribute("aria-expanded"), "true");
 
   await page.setViewportSize({ width: 1280, height: 720 });
-  await page.goto(`${baseUrl}/preview/toolbar?theme=light&width=desktop`);
+  await page.goto(`${baseUrl}/preview/toolbar?theme=light&width=desktop&timers=real`);
   await page.locator('[data-preview-ready="true"]').waitFor();
   await page.waitForTimeout(250);
   const fontTrigger = page.locator('[data-particle="p-toolbar-1"] [data-slot="select-trigger"]');
@@ -623,7 +623,7 @@ try {
   assertNear(arialMetrics.selectedLabelX, arialMetrics.triggerLabelX, "Arial label x");
 
   await page.setViewportSize({ width: 1280, height: 900 });
-  await page.goto(`${baseUrl}/preview/number-field?theme=light&width=desktop`);
+  await page.goto(`${baseUrl}/preview/number-field?theme=light&width=desktop&timers=real`);
   await page.locator('[data-preview-ready="true"]').waitFor();
   await page.waitForTimeout(250);
   const currencyTrigger = page.locator('[data-particle="p-group-14"] [data-slot="select-trigger"]');
