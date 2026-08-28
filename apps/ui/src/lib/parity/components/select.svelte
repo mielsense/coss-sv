@@ -148,7 +148,7 @@ let selectedLanguages = $state(["javascript", "typescript"]);
             {#if item}
               <span class="flex items-center gap-2"
                 ><HugeiconsIcon aria-hidden="true" icon={item.icon} strokeWidth={2} />
-                ><span class="truncate">{item.label}</span></span
+                <span class="truncate">{item.label}</span></span
               >
             {/if}
           {/snippet}</Select.Value

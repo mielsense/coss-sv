@@ -1,6 +1,8 @@
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
+import { render } from "svelte/server";
 import { describe, expect, it } from "vitest";
+import SelectFixture from "./select.svelte";
 
 const fixtureRoot = import.meta.dirname;
 
@@ -43,5 +45,28 @@ describe("C13 parity fixture icon authority", () => {
         expect(source, `${fileName}: ${glyph}`).not.toContain(glyph);
       }
     }
+  });
+
+  it("renders the p-select-9 value as exactly its icon and category label", () => {
+    const body = render(SelectFixture).body;
+    const marker = body.indexOf('data-particle="p-select-9"');
+    const particleStart = body.lastIndexOf("<section", marker);
+    const particleEnd = body.indexOf("</section>", marker) + "</section>".length;
+    const particle = body.slice(particleStart, particleEnd);
+    const categoryMarker = particle.indexOf('class="flex items-center gap-2"');
+    const categoryStart = particle.lastIndexOf("<span", categoryMarker);
+    const categoryEnd =
+      particle.indexOf("</span></span>", categoryMarker) + "</span></span>".length;
+    const category = particle.slice(categoryStart, categoryEnd);
+
+    expect(marker).toBeGreaterThan(-1);
+    expect(category.match(/<svg\b/g)).toHaveLength(1);
+    expect(
+      category
+        ?.replace(/<[^>]+>/g, "")
+        .replaceAll("&gt;", ">")
+        .replace(/\s+/g, " ")
+        .trim(),
+    ).toBe("Components");
   });
 });
