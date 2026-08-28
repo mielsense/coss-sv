@@ -2916,6 +2916,14 @@
 		"relativeUrl": "scroll-area.json"
 	},
 	{
+		"name": "segmented-control",
+		"type": "registry:lib",
+		"description": "Shares COSS segmented-control sizing and state styles across primitives.",
+		"dependencies": [],
+		"registryDependencies": [],
+		"relativeUrl": "segmented-control.json"
+	},
+	{
 		"name": "select",
 		"type": "registry:ui",
 		"description": "Chooses a value from a popup list.",

@@ -20,20 +20,22 @@ const adapterConsumers = [
 
 describe("Hugeicons registry adapter", () => {
   test("publishes the SSR-safe renderer as a registry library", () => {
-    expect(registryLibs).toEqual([
-      expect.objectContaining({
-        name: "hugeicons-icon",
-        type: "registry:lib",
-        dependencies: ["@hugeicons/core-free-icons@4.3.0"],
-        registryDependencies: [],
-        files: [
-          expect.objectContaining({
-            path: "../../packages/ui/src/lib/hugeicons-icon.svelte",
-            type: "registry:lib",
-          }),
-        ],
-      }),
-    ]);
+    expect(registryLibs).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          name: "hugeicons-icon",
+          type: "registry:lib",
+          dependencies: ["@hugeicons/core-free-icons@4.3.0"],
+          registryDependencies: [],
+          files: [
+            expect.objectContaining({
+              path: "../../packages/ui/src/lib/hugeicons-icon.svelte",
+              type: "registry:lib",
+            }),
+          ],
+        }),
+      ]),
+    );
   });
 
   test("wires every adapter consumer to its library and icon data dependency", () => {

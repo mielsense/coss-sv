@@ -28,6 +28,10 @@
       "types": "./dist/lib/utils.d.ts",
       "default": "./dist/lib/utils.js"
     },
+    "./lib/segmented-control": {
+      "types": "./dist/lib/segmented-control.d.ts",
+      "default": "./dist/lib/segmented-control.js"
+    },
     "./styles/globals.css": "./dist/styles/globals.css",
     "./package.json": "./package.json"
   },

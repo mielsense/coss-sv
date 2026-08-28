@@ -14,4 +14,17 @@ export const registryLibs = defineRegistryItems([
       },
     ],
   },
+  {
+    name: "segmented-control",
+    type: "registry:lib",
+    description: "Shares COSS segmented-control sizing and state styles across primitives.",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "../../packages/ui/src/lib/segmented-control.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
 ]);

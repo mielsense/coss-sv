@@ -754,4 +754,13 @@ export {
   type TooltipTriggerProps,
   type TooltipTriggerState,
 } from "./components/ui/tooltip/index.js";
+export {
+  type SegmentedControlItemVariantOptions,
+  type SegmentedControlSize,
+  type SegmentedControlState,
+  segmentedControlItemLayoutClassName,
+  segmentedControlItemSizeClassNames,
+  segmentedControlItemVariants,
+  segmentedControlRootClassName,
+} from "./lib/segmented-control.js";
 export { cn } from "./lib/utils.js";
