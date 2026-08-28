@@ -80,7 +80,7 @@ test("matches p1 through p6 status, action, promise, and stack behavior", async 
 }, testInfo) => {
   test.skip(testInfo.project.name === "dark", "Dark rendering is covered by the geometry test.");
   const guard = monitorConsole(page);
-  const { ready } = await openReadyPreview(
+  let { ready } = await openReadyPreview(
     page,
     "toast",
     "light",
@@ -136,9 +136,10 @@ test("matches p1 through p6 status, action, promise, and stack behavior", async 
     timeout: 3_000,
   });
 
+  ({ ready } = await openReadyPreview(page, "toast", "light", "desktop", "manual", "start"));
   await ready.getByRole("button", { name: "With Varying Heights", exact: true }).click();
-  const swipedToast = standardToasts(page).first();
-  await expect(swipedToast).toContainText("Toast 1 created");
+  const swipedToast = standardToasts(page).filter({ hasText: "Toast 1 created" });
+  await expect(swipedToast).toHaveCount(1);
   const bounds = await swipedToast.boundingBox();
   if (!bounds) throw new Error("The frontmost toast has no pointer geometry.");
   await page.mouse.move(bounds.x + 20, bounds.y + 20);
