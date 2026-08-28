@@ -2,7 +2,11 @@ import { createRawSnippet, type Component, type Snippet } from "svelte";
 import { render } from "svelte/server";
 import { describe, expect, test, vi } from "vitest";
 import Calendar from "./calendar.svelte";
-import type { CalendarDayContext, CalendarSingleProps } from "./calendar.types.js";
+import type {
+  CalendarChevronContext,
+  CalendarDayContext,
+  CalendarSingleProps,
+} from "./calendar.types.js";
 import {
   addCalendarDays,
   addCalendarMonths,
@@ -270,6 +274,30 @@ describe("Calendar SSR contract", () => {
     expect(body).toContain('data-slot="week-number"');
     expect(body).toContain("invisible");
     expect(body).toContain("data-custom-day");
+  });
+
+  test("rotates both default navigation glyphs in RTL without changing Chevron replacements", () => {
+    const defaultBody = render(SingleCalendar, {
+      props: { defaultMonth: january, dir: "rtl" },
+    }).body;
+    const customChevron = createRawSnippet<[CalendarChevronContext]>((getContext) => ({
+      render: () => {
+        const context = getContext();
+        return `<span class="${context.class}" data-custom-chevron="${context.orientation}"></span>`;
+      },
+    })) as Snippet<[CalendarChevronContext]>;
+    const customBody = render(SingleCalendar, {
+      props: {
+        components: { Chevron: customChevron },
+        defaultMonth: january,
+        dir: "rtl",
+      },
+    }).body;
+
+    expect(defaultBody.match(/class="rdp-chevron rtl:rotate-180"/g)).toHaveLength(2);
+    expect(customBody).toContain('data-custom-chevron="left"');
+    expect(customBody).toContain('data-custom-chevron="right"');
+    expect(customBody).not.toContain("rtl:rotate-180");
   });
 
   test("uses the requested locale and week start without treating navigation bounds as disabled dates", () => {

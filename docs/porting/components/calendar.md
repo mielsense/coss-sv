@@ -115,7 +115,9 @@ only at the target month's end.
 
 Calendar uses `ArrowLeft01Icon`, `ArrowRight01Icon`, and `ArrowUpDownIcon` from the approved
 Hugeicons data package. The shared Svelte adapter renders the official glyph nodes during
-SSR and on the client. It adds no calendar runtime dependency.
+SSR and on the client. Both default horizontal glyphs keep COSS's `rtl:rotate-180` class;
+custom Chevron replacements still receive the unmodified DayPicker part class. Calendar
+adds no runtime dependency.
 
 ## Documentation lookup
 

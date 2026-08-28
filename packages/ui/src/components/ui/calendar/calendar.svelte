@@ -796,7 +796,7 @@ $effect(() => {
           {:else}
             <HugeiconsIcon
               aria-hidden="true"
-              class={resolvedClassNames.chevron ?? ""}
+              class={cn(resolvedClassNames.chevron, "rtl:rotate-180")}
               icon={ArrowLeft01Icon}
               strokeWidth={2}
             />
@@ -815,7 +815,7 @@ $effect(() => {
           {:else}
             <HugeiconsIcon
               aria-hidden="true"
-              class={resolvedClassNames.chevron ?? ""}
+              class={cn(resolvedClassNames.chevron, "rtl:rotate-180")}
               icon={ArrowRight01Icon}
               strokeWidth={2}
             />
