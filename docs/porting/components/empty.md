@@ -12,7 +12,7 @@
 - Shards Button test: `shardsui/packages/shardsui/tests/button/button.test.ts`
 - Shards Button documentation and example: `shardsui/docs/src/content/button.md` and `shardsui/docs/src/lib/components/content/demos/button/hero/demo.svelte`
 
-Empty is native layout. The p-empty-1 controls use Shards Button for button behavior, with exact COSS Button classes supplied by the dependency-gated preview helper until Button enters the production package.
+Empty is native layout. The p-empty-1 controls use the public COSS for Svelte Button, which delegates button behavior to Shards.
 
 ## COSS contract
 
@@ -24,7 +24,7 @@ The parity fixture is the complete p-empty-1 particle. It preserves the Route an
 
 - Children are snippets; native attributes, event callbacks, and refs are forwarded.
 - A private zero-DOM part component keeps the five static wrappers consistent.
-- The preview helper uses Shards Button without an extra DOM wrapper and uses Tailwind merge semantics for the COSS class variants.
+- The particle uses the public Button component without an extra DOM wrapper.
 - The review shell centers the untouched particle and leaves its root at intrinsic width. It does not apply minimum height, padding, or width to the Empty root.
 - Preview: `/preview/empty?theme=light&width=desktop`.
 - Component tests: `packages/ui/src/components/ui/empty/*.test.ts`.
@@ -38,6 +38,12 @@ Create meeting and View docs are 28px high desktop and 32px high mobile, with 10
 
 The focused Playwright gate covers light and dark themes, both widths, exact hierarchy and copy, icon layers, treatment classes, geometry, Tab order, console errors, and axe.
 
-The Codex in-app Browser was requested for the manual comparison on 2026-08-27, but the runtime reported no available in-app Browser surface. No manual Browser claim is recorded; manual light/dark visual review remains an integration check.
+## D4 documentation coverage
+
+The page and `p-empty-1` preserve the upstream copy, action order, icon meaning, and layered media
+layout. Route and Book icons use Hugeicons. The D4 inventory test locks metadata, source syntax,
+icon authority, and preview order. The D4 route test opens the particle in light and dark at both
+responsive widths, checks its deterministic links, and rejects browser errors and external
+requests. The focused Empty Playwright gate covers axe.
 
 Accepted component deviations: none.

@@ -24,4 +24,20 @@ Shards owns bindable selection, controlled and uncontrolled state, horizontal an
 - `defaultValue` initializes the bindable Shards value once. Later default prop changes do not replace uncontrolled state. `TabsTrigger` and `TabsContent` remain compatibility aliases.
 - The wrapper keeps Shards `keepMounted`, `activateOnFocus`, `loopFocus`, link rendering, activation direction, and indicator CSS variables available.
 
-`p-tabs-13` is gated on Tooltip. All other Tabs particles can be ported after the docs lane adds the matching icons and already ported Badge.
+## D4 documentation coverage
+
+The lane owns `p-tabs-2` through `p-tabs-15`. It freshly read all 15 upstream particles because the
+Tabs page also consumes D9-owned `p-tabs-1`. The 14 owned Svelte particles preserve the upstream
+copy, order, variants, sizes, orientation, badges, icons, panels, and registry titles. Every UI icon
+uses Hugeicons. The page keeps `p-tabs-1` as its primary preview and the route stays pending until D9
+lands that particle.
+
+`p-tabs-13` uses the approved DOM-only deviation recorded in `docs/porting/DEVIATIONS.md`. Its
+semantic-neutral Tooltip Trigger spans have the same boxes as their child Tabs Tabs. Public Tooltip
+handles restore focus and blur behavior while Shards continues to own hover, registration,
+positioning, and dismissal. The wrappers do not add tab stops or roles.
+
+`apps/ui/tests/docs/d4-disclosure.test.ts` locks D4 ownership, page preview order, Hugeicons imports,
+and the D9 seam. `tests/e2e/d4-disclosure-docs.spec.ts` checks every owned particle route, plus Tabs
+roving focus, activation, tooltip focus and hover, accessible names, wrapper geometry, list gaps,
+growth, themes, and responsive layout.

@@ -33,3 +33,13 @@ The deterministic fixture keeps the exact second COSS particle untouched inside 
 - exact particle fixture with Playwright light/dark, desktop/mobile, reduced/full-motion, exact text/action widths, the full gradient/highlight/background and animation contract, axe, and console coverage.
 
 Accepted deviations: none.
+
+## D4 documentation coverage
+
+The page keeps `p-skeleton-1` and `p-skeleton-2` in upstream order. The first particle preserves its
+loading timer, user copy, actions, and Hugeicons controls. The second retains the fixed avatar,
+lines, and button placeholder geometry. The D4 inventory test locks metadata, icon authority, and
+page order. The D4 route test opens both routes in light and dark, includes mobile coverage for the
+responsive particle, and blocks external requests while preview timers stay manual. The focused
+Skeleton Playwright gate covers axe and motion behavior independently of the manual-timer route
+guard.

@@ -13,7 +13,9 @@
 - Shards Select tests: the root and trigger coverage under `shardsui/packages/shardsui/tests/select/`
 - Shards Select documentation and examples: `shardsui/docs/src/content/select.md`, its hero demo, and the basic Select fixture
 
-Card is native layout. The corrected preview uses the production Card, Input, and Empty ports. Button, Form, Field, and Select are dependency-gated: Shards Button and Select provide behavior, while native `form`, `div`, and `label` elements preserve the rendered Form/Field hierarchy until those production ports are integrated.
+Card is native layout. All 11 particles use the published COSS for Svelte Button, Card, Empty,
+Field, Form, Frame, Input, and Select APIs. Select delegates behavior to the pinned Shards
+implementation.
 
 ## COSS contract
 
@@ -30,9 +32,10 @@ The parity fixture maps two upstream particles without hybrid copy:
 
 - Base UI `render` becomes an explicit `as` prop on production Card parts.
 - A private zero-DOM `CardPart` component centralizes class merging, snippet rendering, native prop forwarding, and bindable refs.
-- The p-card-1 preview uses production Input, an explicit native label association, and Shards Select's `Root/Trigger/Value/Icon/Portal/Positioner/Popup/ScrollUpArrow/List/Item/ItemIndicator/ScrollDownArrow` composition.
+- The Select particles use `Select.Root`, `Select.Trigger`, `Select.Value`, `Select.Popup`, and
+  `Select.Item` from `@coss-sv/ui`. No particle imports Shards source or package internals.
 - The p-card-11 preview uses production Empty inside the nested production Card.
-- The fixture-local Button helper uses Shards Button and exact COSS class variants. It adds no DOM wrapper.
+- Buttons use the public COSS for Svelte Button component and add no wrapper.
 - Preview: `/preview/card?theme=light&width=desktop`.
 - Component tests: `packages/ui/src/components/ui/card/*.test.ts`.
 - Particle parity test: `tests/e2e/card.spec.ts`.
@@ -49,6 +52,23 @@ The keyboard test follows Name → Framework, opens the Shards Select with Arrow
 
 The pinned rendered docs compute the dark background and popover mixes at 96%. The MIT registry metadata in `reference/apps/ui/registry/registry-styles.ts` and styling prose are stale at 95% background and 98% popover. The preview follows the rendered parity authority.
 
-The Codex in-app Browser was requested for the manual comparison on 2026-08-27, but the runtime reported no available in-app Browser surface. No manual Browser claim is recorded; manual light/dark visual review remains an integration check.
+## D4 documentation coverage
+
+The documentation lane freshly read `p-card-1.tsx` through `p-card-11.tsx`, the Card page, every
+direct dependency used by those particles, the complete local Shards Select source, docs, tests,
+examples, and the published COSS for Svelte Select wrappers. The Svelte particles preserve the
+source copy, framework option order, form structure, surface nesting, responsive classes, and all
+11 registry titles. `p-card-1` and `p-card-4` through `p-card-10` use the public Select namespace.
+Every UI icon uses Hugeicons.
+
+`apps/ui/tests/docs/d4-card-particles.test.ts` renders all eight Select-dependent particles on the
+server and checks copy, controls, structure, option order, public imports, and displayed source.
+`tests/e2e/d4-disclosure-docs.spec.ts` opens every Card particle in the required themes and widths,
+checks deterministic source and install links, rejects console and external-resource failures, and
+exercises Select by keyboard. The focused `tests/e2e/card.spec.ts` gate covers axe.
+
+The D4 implementation session could not complete a local in-app Browser pass because its selected
+Browser binding returned unavailable. The coordinator and both exact-tip reviewers must repeat the
+manual source-versus-target comparison; this record does not claim that pass as completed.
 
 Accepted component deviations: none.

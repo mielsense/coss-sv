@@ -19,11 +19,14 @@ import { Accordion } from "@coss-sv/ui";
   <Accordion.Item value="item-1">
     <Accordion.Header><Accordion.Trigger>What is Base UI?</Accordion.Trigger></Accordion.Header>
     <Accordion.Panel>
-      Base UI is a library of high-quality unstyled React components for design systems and web apps.
+      Base UI is a library of high-quality unstyled React components for design systems and web
+      apps.
     </Accordion.Panel>
   </Accordion.Item>
   <Accordion.Item value="item-2">
-    <Accordion.Header><Accordion.Trigger>How do I get started?</Accordion.Trigger></Accordion.Header>
+    <Accordion.Header
+      ><Accordion.Trigger>How do I get started?</Accordion.Trigger></Accordion.Header
+    >
     <Accordion.Panel>
       Head to the "Quick start" guide in the docs. If you've used unstyled libraries before, you'll
       feel at home.

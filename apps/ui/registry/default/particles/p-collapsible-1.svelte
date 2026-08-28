@@ -12,6 +12,8 @@ export const meta = defineParticleMeta({
 
 <script lang="ts">
 import { Collapsible } from "@coss-sv/ui";
+import { ChevronDownIcon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/svelte";
 </script>
 
 <Collapsible.Root>
@@ -19,16 +21,7 @@ import { Collapsible } from "@coss-sv/ui";
     class="inline-flex items-center gap-2 font-medium text-sm data-panel-open:[&_svg]:rotate-180"
   >
     Show recovery keys
-    <svg
-      aria-hidden="true"
-      class="size-4"
-      fill="none"
-      stroke="currentColor"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      stroke-width="2"
-      viewBox="0 0 24 24"
-    ><path d="m6 9 6 6 6-6"></path></svg>
+    <HugeiconsIcon aria-hidden="true" class="size-4" icon={ChevronDownIcon} strokeWidth={2} />
   </Collapsible.Trigger>
   <Collapsible.Panel>
     <ul class="flex flex-col gap-1 py-2 text-muted-foreground text-sm">

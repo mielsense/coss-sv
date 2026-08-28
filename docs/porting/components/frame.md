@@ -38,3 +38,12 @@ The exact upstream dark muted foreground on the translucent muted frame fails ax
 - Playwright light/dark and desktop/mobile geometry, computed colors, border and shadow contract, axe, and console coverage.
 
 Accepted deviations: none.
+
+## D4 documentation coverage
+
+The page preserves the two upstream previews in order. D4 owns `p-frame-1` through `p-frame-4` and
+keeps the source copy, nested disclosure, footer actions, and separator composition. `p-frame-2`
+uses Hugeicons for its Chevron and Trash controls. The D4 inventory test locks metadata and page
+order. The D4 route test opens all four particles in light and dark, uses the mobile width for the
+responsive particles, and rejects console errors and external requests. The focused Frame
+Playwright gate covers axe, including its documented upstream dark contrast exception.

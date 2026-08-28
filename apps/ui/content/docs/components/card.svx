@@ -40,6 +40,8 @@ Use `CardFrame` when you need a framed layout with an action button in the heade
 
 ```svelte
 <script lang="ts">
+  import { Add01Icon } from "@hugeicons/core-free-icons";
+  import { HugeiconsIcon } from "@hugeicons/svelte";
   import { Button } from "@coss-sv/ui/components/ui/button";
   import {
     Card,
@@ -57,7 +59,10 @@ Use `CardFrame` when you need a framed layout with an action button in the heade
     <CardFrameTitle>Project</CardFrameTitle>
     <CardFrameDescription>Manage your project settings and configuration</CardFrameDescription>
     <CardFrameAction>
-      <Button variant="outline">Add</Button>
+      <Button variant="outline">
+        <HugeiconsIcon aria-hidden="true" icon={Add01Icon} strokeWidth={2} />
+        Add
+      </Button>
     </CardFrameAction>
   </CardFrameHeader>
   <Card>

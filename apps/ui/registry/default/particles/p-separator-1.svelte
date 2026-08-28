@@ -23,8 +23,12 @@ import { Separator } from "@coss-sv/ui";
   </div>
   <Separator class="my-4" />
   <div class="flex items-center gap-4 text-sm">
-    <div>Blog</div><Separator orientation="vertical" /><div>Docs</div><Separator
-      orientation="vertical"
-    /><div>Source</div><Separator orientation="vertical" /><div>Releases</div>
+    <div>Blog</div>
+    <Separator orientation="vertical" />
+    <div>Docs</div>
+    <Separator orientation="vertical" />
+    <div>Source</div>
+    <Separator orientation="vertical" />
+    <div>Releases</div>
   </div>
 </div>

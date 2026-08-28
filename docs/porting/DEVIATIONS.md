@@ -17,6 +17,24 @@
   changes, and adding or removing the callback without remounting. The focused Calendar
   browser suite is required in both implementation and independent review.
 
+## Tabs particle 13 tooltip trigger wrapper
+
+- Component or page: `p-tabs-13`, "Tabs with icon only and grouped tooltips".
+- Upstream behavior: Base UI merges Tooltip Trigger and Tabs Tab behavior onto one button through
+  React's `render` prop.
+- Port behavior: each Tabs Tab stays the only focusable control and sits inside a semantic-neutral
+  `span` registered as the Shards tooltip anchor. Focus and blur call the public Tooltip handle;
+  hover remains owned by Shards.
+- Reason: Shards Tooltip Trigger renders its own element and exposes only state to its child
+  snippet. It has no delegation attachment that can merge its private registration, hover, focus,
+  and floating bindings onto Tabs Tab. `display: contents` would remove a stable positioning box,
+  while nesting a Tooltip button around the Tabs button would create invalid interactive markup.
+- Approval: the coordinator approved this DOM-only deviation on 2026-08-28. Visible layout,
+  keyboard behavior, accessible names, and tooltip behavior still require parity.
+- Evidence: `tests/e2e/d4-disclosure-docs.spec.ts` checks wrapper and tab geometry, list gaps,
+  focus and hover tooltips, roving focus, activation, accessible names, theme, and responsive
+  layout. `docs/porting/components/tabs.md` records the source inspection and comparison.
+
 ## Entry format
 
 Each proposed deviation must record:

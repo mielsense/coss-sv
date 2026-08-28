@@ -74,3 +74,11 @@ The component uses `bg-border`; package token tests cover its light and dark val
 - local barrel exports;
 - the repository-wide no-legacy-syntax gate;
 - package build and publish-content checks.
+
+## D4 documentation coverage
+
+The page preserves the single upstream preview and installation command. `p-separator-1` retains
+the Blog, Docs, Source, and Releases order and all four separators. The D4 source test locks the
+particle metadata and preview order. The D4 route test opens the particle in light and dark at
+desktop size, checks deterministic links, and requires an empty browser console. The focused
+Separator Playwright gate covers axe.

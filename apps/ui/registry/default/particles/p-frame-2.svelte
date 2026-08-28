@@ -13,6 +13,8 @@ export const meta = defineParticleMeta({
 
 <script lang="ts">
 import { Button, Collapsible, Frame, FrameHeader, FramePanel } from "@coss-sv/ui";
+import { ChevronDownIcon, TrashIcon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/svelte";
 </script>
 
 <Frame class="w-full">
@@ -20,16 +22,7 @@ import { Button, Collapsible, Frame, FrameHeader, FramePanel } from "@coss-sv/ui
     <FrameHeader class="flex-row items-center justify-between px-2 py-2">
       <Collapsible.Trigger class="data-panel-open:[&_svg]:rotate-180">
         {#snippet children()}
-          <svg
-            aria-hidden="true"
-            class="size-4"
-            fill="none"
-            stroke="currentColor"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            viewBox="0 0 24 24"
-          ><path d="m6 9 6 6 6-6"></path></svg>
+          <HugeiconsIcon aria-hidden="true" class="size-4" icon={ChevronDownIcon} strokeWidth={2} />
           Section header
         {/snippet}
         {#snippet delegate({ props, ref })}
@@ -37,17 +30,7 @@ import { Button, Collapsible, Frame, FrameHeader, FramePanel } from "@coss-sv/ui
         {/snippet}
       </Collapsible.Trigger>
       <Button aria-label="Delete" size="icon" variant="ghost">
-        <svg
-          aria-hidden="true"
-          fill="none"
-          stroke="currentColor"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          viewBox="0 0 24 24"
-        ><path d="M3 6h18"></path><path d="M8 6V4h8v2"></path><path
-            d="M19 6 18 20H6L5 6"
-          ></path><path d="M10 11v6"></path><path d="M14 11v6"></path></svg>
+        <HugeiconsIcon aria-hidden="true" icon={TrashIcon} strokeWidth={2} />
       </Button>
     </FrameHeader>
     <Collapsible.Panel>

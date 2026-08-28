@@ -67,6 +67,28 @@ const pages = [
   "skeleton",
 ] as const;
 
+const iconParticles = new Set([
+  "p-card-1",
+  "p-card-10",
+  "p-card-11",
+  "p-card-3",
+  "p-card-4",
+  "p-card-6",
+  "p-card-7",
+  "p-card-8",
+  "p-collapsible-1",
+  "p-empty-1",
+  "p-frame-2",
+  "p-skeleton-1",
+  "p-tabs-11",
+  "p-tabs-12",
+  "p-tabs-13",
+  "p-tabs-6",
+  "p-tabs-7",
+  "p-tabs-8",
+  "p-tabs-9",
+]);
+
 const expectedPagePreviews: Record<(typeof pages)[number], readonly string[]> = {
   accordion: ["p-accordion-1", "p-accordion-2", "p-accordion-3", "p-accordion-4"],
   card: ["p-card-1"],
@@ -84,9 +106,7 @@ function source(path: string): string {
 
 describe("D4 disclosure and surface documentation inventory", () => {
   test("keeps the locked 38-particle ownership set exact", () => {
-    const ownership = JSON.parse(
-      source("docs/porting/docs-ownership.json"),
-    ) as OwnershipFile;
+    const ownership = JSON.parse(source("docs/porting/docs-ownership.json")) as OwnershipFile;
     const actual = ownership.ownership
       .filter(({ implementationLane }) => implementationLane === "D4")
       .map(({ particle }) => particle)
@@ -96,9 +116,7 @@ describe("D4 disclosure and surface documentation inventory", () => {
   });
 
   test.each(expectedParticles)("ports %s as modern Svelte with exact metadata ownership", (id) => {
-    const ownership = JSON.parse(
-      source("docs/porting/docs-ownership.json"),
-    ) as OwnershipFile;
+    const ownership = JSON.parse(source("docs/porting/docs-ownership.json")) as OwnershipFile;
     const record = ownership.ownership.find(({ particle }) => particle === id);
     expect(record).toBeDefined();
     expect(existsSync(resolve(repositoryRoot, record?.targetPath ?? "missing"))).toBe(true);
@@ -113,6 +131,12 @@ describe("D4 disclosure and surface documentation inventory", () => {
       /\b(?:useEffect|useState|className|onClick)\b|from\s+["']react(?:\/[^"']*)?["']/,
     );
     expect(particle).not.toMatch(/\b(?:export let|createEventDispatcher)\b|\bon:/);
+    expect(particle).not.toMatch(/<svg\b|lucide(?:-react|-svelte)?/i);
+    if (iconParticles.has(id)) {
+      expect(particle).toContain('from "@hugeicons/core-free-icons"');
+      expect(particle).toContain('from "@hugeicons/svelte"');
+      expect(particle).toContain("<HugeiconsIcon");
+    }
   });
 
   test.each(pages)("ports the exact upstream %s page and preview order", (slug) => {
@@ -127,18 +151,14 @@ describe("D4 disclosure and surface documentation inventory", () => {
     expect(page).toContain("<InstallCommand");
     expect(page).toContain("pnpm dlx shadcn-svelte@latest add");
     expect(page).not.toMatch(/\b(?:npm|npx|bun|bunx|yarn)\b/);
-    expect(page).not.toMatch(/```(?:tsx|jsx)|@base-ui\/react|lucide-react|from \"react/);
+    expect(page).not.toMatch(/```(?:tsx|jsx)|@base-ui\/react|lucide-react|from "react/);
 
-    const previews = [...page.matchAll(/<ComponentPreview\s+name="([^"]+)"/g)].map(
-      ([, id]) => id,
-    );
+    const previews = [...page.matchAll(/<ComponentPreview\s+name="([^"]+)"/g)].map(([, id]) => id);
     expect(previews).toEqual(expectedPagePreviews[slug]);
   });
 
   test("documents namespace APIs and the actual Shards-backed behavior", () => {
-    expect(source("apps/ui/content/docs/components/accordion.svx")).toContain(
-      "<Accordion.Root>",
-    );
+    expect(source("apps/ui/content/docs/components/accordion.svx")).toContain("<Accordion.Root>");
     expect(source("apps/ui/content/docs/components/collapsible.svx")).toContain(
       "<Collapsible.Root>",
     );
@@ -146,5 +166,21 @@ describe("D4 disclosure and surface documentation inventory", () => {
     expect(source("apps/ui/content/docs/components/separator.svx")).toContain(
       "https://shardsui.com/svelte/separator",
     );
+  });
+
+  test("keeps the tabs landing route pending on the D9-owned primary preview", () => {
+    const ownership = JSON.parse(source("docs/porting/docs-ownership.json")) as OwnershipFile;
+    const primaryPreview = ownership.ownership.find(({ particle }) => particle === "p-tabs-1");
+
+    expect(primaryPreview).toMatchObject({
+      implementationLane: "D9",
+      primaryPage: "components/segmented-control",
+    });
+    expect(existsSync(resolve(repositoryRoot, primaryPreview?.targetPath ?? "missing"))).toBe(
+      false,
+    );
+    expect(
+      existsSync(resolve(repositoryRoot, "apps/ui/src/routes/docs/components/tabs/+page.svelte")),
+    ).toBe(false);
   });
 });

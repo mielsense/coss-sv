@@ -29,4 +29,10 @@ Shards owns bindable open state, disabled behavior, ARIA relationships, `hidden=
 - Delegated callbacks run before the internal toggle and may call `preventShardsUIHandler()` to cancel it, matching Shards' `chain()` contract.
 - The hydration fixture uses byte-for-byte server output from the current provider boundary. Its SSR test guards the fixture string and its browser test hydrates that exact markup without warnings before the Panel attachment restores `aria-controls`.
 
-The standalone Collapsible particle and `p-frame-2` have no missing dependencies. The parity fixture includes both exact compositions.
+## D4 documentation coverage
+
+The Svelte page and `p-collapsible-1` preserve the upstream recovery-key copy, order, classes, and
+Chevron meaning through Hugeicons. `p-frame-2` keeps the same nested Collapsible composition.
+`apps/ui/tests/docs/d4-disclosure.test.ts` locks metadata, source syntax, icon authority, and preview
+order. `tests/e2e/d4-disclosure-docs.spec.ts` checks both disclosure routes and exercises the
+Collapsible with Space.

@@ -13,7 +13,17 @@ export const meta = defineParticleMeta({
 </script>
 
 <script lang="ts">
-import { Button, Card, CardAction, CardHeader, CardPanel, CardTitle, Field, Form, Input } from "@coss-sv/ui";
+import {
+  Button,
+  Card,
+  CardAction,
+  CardHeader,
+  CardPanel,
+  CardTitle,
+  Field,
+  Form,
+  Input,
+} from "@coss-sv/ui";
 </script>
 
 <Card class="w-full max-w-xs">
@@ -21,6 +31,7 @@ import { Button, Card, CardAction, CardHeader, CardPanel, CardTitle, Field, Form
     <CardTitle>Login to your account</CardTitle>
     <CardAction>
       <!-- svelte-ignore a11y_invalid_attribute -->
+      <!-- biome-ignore lint/a11y/useValidAnchor: exact upstream example uses a placeholder link. -->
       <a class="text-muted-foreground text-sm leading-4.5 hover:underline" href="#">Sign up</a>
     </CardAction>
   </CardHeader>

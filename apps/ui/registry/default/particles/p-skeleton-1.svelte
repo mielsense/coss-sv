@@ -14,15 +14,15 @@ export const meta = defineParticleMeta({
 
 <script lang="ts">
 import { Avatar, Button, Skeleton } from "@coss-sv/ui";
-import { onMount } from "svelte";
+import { UserRoundPlusIcon, UsersRoundIcon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/svelte";
 
 const users = [
   {
     delay: 3000,
     fallback: "SJ",
     followers: "15k",
-    image:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&h=80&dpr=2&q=80",
+    image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&h=80&dpr=2&q=80",
     name: "Sarah Johnson",
     role: "Design Engineer",
   },
@@ -30,8 +30,7 @@ const users = [
     delay: 4000,
     fallback: "MA",
     followers: "8k",
-    image:
-      "https://images.unsplash.com/photo-1543610892-0b1f7e6d8ac1?w=80&h=80&dpr=2&q=80",
+    image: "https://images.unsplash.com/photo-1543610892-0b1f7e6d8ac1?w=80&h=80&dpr=2&q=80",
     name: "Mark Bennett Andersson",
     role: "Product Designer",
   },
@@ -39,8 +38,7 @@ const users = [
     delay: 3400,
     fallback: "AR",
     followers: "12k",
-    image:
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&dpr=2&q=80",
+    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&dpr=2&q=80",
     name: "Alex Rivera",
     role: "UI/UX Designer",
   },
@@ -48,13 +46,19 @@ const users = [
 
 let loaded = $state(new Set<string>());
 
-onMount(() => {
-  const timers = users.map((user) =>
-    window.setTimeout(() => {
-      loaded = new Set([...loaded, user.fallback]);
-    }, user.delay),
-  );
-  return () => timers.forEach(window.clearTimeout);
+$effect(() => {
+  let timers: number[] = [];
+  const frame = window.requestAnimationFrame(() => {
+    timers = users.map((user) =>
+      window.setTimeout(() => {
+        loaded = new Set([...loaded, user.fallback]);
+      }, user.delay),
+    );
+  });
+  return () => {
+    window.cancelAnimationFrame(frame);
+    timers.forEach(window.clearTimeout);
+  };
 });
 </script>
 
@@ -71,22 +75,12 @@ onMount(() => {
           <div class="flex items-center gap-3 text-muted-foreground text-xs">
             <span class="truncate">{user.role}</span>
             <div class="flex min-w-0 items-center gap-1">
-              <svg
+              <HugeiconsIcon
                 aria-hidden="true"
                 class="size-3 shrink-0"
-                fill="none"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                viewBox="0 0 24 24"
-              ><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle
-                  cx="9"
-                  cy="7"
-                  r="4"
-                ></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path
-                  d="M16 3.13a4 4 0 0 1 0 7.75"
-                ></path></svg>
+                icon={UsersRoundIcon}
+                strokeWidth={2}
+              />
               <span class="truncate">
                 {user.followers}<span class="max-sm:hidden"> followers</span>
               </span>
@@ -94,24 +88,7 @@ onMount(() => {
           </div>
         </div>
         <Button size="xs">
-          <svg
-            aria-hidden="true"
-            fill="none"
-            stroke="currentColor"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            viewBox="0 0 24 24"
-          ><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle
-              cx="9"
-              cy="7"
-              r="4"
-            ></circle><line x1="19" x2="19" y1="8" y2="14"></line><line
-              x1="22"
-              x2="16"
-              y1="11"
-              y2="11"
-            ></line></svg>
+          <HugeiconsIcon aria-hidden="true" icon={UserRoundPlusIcon} strokeWidth={2} />
           Follow
         </Button>
       {:else}

@@ -12,26 +12,68 @@ export const meta = defineParticleMeta({
 
 <script lang="ts">
 import { Tabs, Tooltip } from "@coss-sv/ui";
+import { House01Icon, PanelsTopLeftIcon, Settings01Icon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/svelte";
+
+const overviewTooltip = Tooltip.TooltipCreateHandle();
+const projectsTooltip = Tooltip.TooltipCreateHandle();
+const settingsTooltip = Tooltip.TooltipCreateHandle();
 </script>
 
 <Tooltip.Provider>
   <Tabs.Root class="items-center" defaultValue="tab-1">
     <Tabs.List>
-      <Tooltip.Root>
-        <Tooltip.Trigger as="span" class="inline-flex">
-          <Tabs.Tab aria-label="Overview" value="tab-1">{@render houseIcon()}</Tabs.Tab>
+      <Tooltip.Root handle={overviewTooltip}>
+        <Tooltip.Trigger
+          as="span"
+          class="inline-flex flex-1"
+          handle={overviewTooltip}
+          id="overview-tooltip-trigger"
+        >
+          <Tabs.Tab
+            aria-label="Overview"
+            onblur={() => overviewTooltip.close()}
+            onfocus={() => overviewTooltip.open("overview-tooltip-trigger")}
+            value="tab-1"
+          >
+            <HugeiconsIcon aria-hidden="true" icon={House01Icon} strokeWidth={2} />
+          </Tabs.Tab>
         </Tooltip.Trigger>
         <Tooltip.Popup>Overview</Tooltip.Popup>
       </Tooltip.Root>
-      <Tooltip.Root>
-        <Tooltip.Trigger as="span" class="inline-flex">
-          <Tabs.Tab aria-label="Projects" value="tab-2">{@render panelsIcon()}</Tabs.Tab>
+      <Tooltip.Root handle={projectsTooltip}>
+        <Tooltip.Trigger
+          as="span"
+          class="inline-flex flex-1"
+          handle={projectsTooltip}
+          id="projects-tooltip-trigger"
+        >
+          <Tabs.Tab
+            aria-label="Projects"
+            onblur={() => projectsTooltip.close()}
+            onfocus={() => projectsTooltip.open("projects-tooltip-trigger")}
+            value="tab-2"
+          >
+            <HugeiconsIcon aria-hidden="true" icon={PanelsTopLeftIcon} strokeWidth={2} />
+          </Tabs.Tab>
         </Tooltip.Trigger>
         <Tooltip.Popup>Projects</Tooltip.Popup>
       </Tooltip.Root>
-      <Tooltip.Root>
-        <Tooltip.Trigger as="span" class="inline-flex">
-          <Tabs.Tab aria-label="Settings" value="tab-3">{@render settingsIcon()}</Tabs.Tab>
+      <Tooltip.Root handle={settingsTooltip}>
+        <Tooltip.Trigger
+          as="span"
+          class="inline-flex flex-1"
+          handle={settingsTooltip}
+          id="settings-tooltip-trigger"
+        >
+          <Tabs.Tab
+            aria-label="Settings"
+            onblur={() => settingsTooltip.close()}
+            onfocus={() => settingsTooltip.open("settings-tooltip-trigger")}
+            value="tab-3"
+          >
+            <HugeiconsIcon aria-hidden="true" icon={Settings01Icon} strokeWidth={2} />
+          </Tabs.Tab>
         </Tooltip.Trigger>
         <Tooltip.Popup>Settings</Tooltip.Popup>
       </Tooltip.Root>
@@ -47,40 +89,3 @@ import { Tabs, Tooltip } from "@coss-sv/ui";
     </Tabs.Panel>
   </Tabs.Root>
 </Tooltip.Provider>
-
-{#snippet houseIcon()}<svg
-    aria-hidden="true"
-    fill="none"
-    stroke="currentColor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-    viewBox="0 0 24 24"
-  ><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path><path
-      d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"
-    ></path></svg
->{/snippet}
-{#snippet panelsIcon()}<svg
-    aria-hidden="true"
-    fill="none"
-    stroke="currentColor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-    viewBox="0 0 24 24"
-  ><rect width="18" height="18" x="3" y="3" rx="2"></rect><path d="M3 9h18"></path><path
-      d="M9 21V9"
-    ></path></svg
->{/snippet}
-{#snippet settingsIcon()}<svg
-    aria-hidden="true"
-    fill="none"
-    stroke="currentColor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-    viewBox="0 0 24 24"
-  ><path
-      d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.38a2 2 0 0 0-.73-2.73l-.15-.09a2 2 0 0 1-1-1.74v-.51a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"
-    ></path><circle cx="12" cy="12" r="3"></circle></svg
->{/snippet}
