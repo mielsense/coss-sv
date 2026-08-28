@@ -13,7 +13,7 @@
 
 COSS defines styled Root, Label, Item, Description, and Error wrappers. Control and Validity remain direct behavioral parts. The Svelte port keeps that split. Shards owns generated IDs, label forwarding, message registration, validation, form errors, and field state. The wrappers add the exact COSS classes and `data-slot` values.
 
-`Field.Root` accepts Shards validation and state props. `Field.Item` creates the nested label context used by checkbox and radio particles. `Field.Control` and `Field.Validity` are typed aliases to the installed Shards parts. Compatibility exports keep the COSS names such as `FieldLabel` and `FieldControl`.
+`Field.Root` accepts Shards validation and state props. `Field.Item` creates the nested label context used by checkbox and radio particles. `Field.Control` is a local Svelte wrapper around the installed Shards control. It preserves the Shards native-attribute, `as`, `ref`, `value`, and `onValueChange` contract while registering with the port's server-rendered label relationship. `Field.Validity` remains a typed alias to the installed Shards part. Compatibility exports keep the COSS names such as `FieldLabel` and `FieldControl`.
 
 `Field.Root` and `Field.Item` also accept `controlId`. Default COSS controls do not need it: the field allocates a hydration-stable ID and the first default control reuses it. Set `controlId` to the same value as an explicitly identified child control when the label renders before that child. This makes the server-rendered native `label[for]` relationship truthful before JavaScript runs; a later child cannot retroactively change HTML that the server has already emitted. Multiple controls follow Shards' registration order: the first remains the label target, removal falls through to the next control, and remounting appends after controls that stayed mounted.
 
@@ -23,7 +23,7 @@ COSS particles 13 and 14, Checkbox Group 5, and Radio Group 5 and 6 compose Fiel
 
 The local COSS Field page was inspected in the Codex in-app Browser on August 27, 2026. The inspection covered every rendered example's accessible names, generated IDs, descriptions, errors, disabled states, checkbox and radio groups, select and textarea composition, and the exact wrapper classes. Submitting the Form example moved focus to the `email` input, set `aria-invalid="true"`, and linked the input to the generated error ID containing `Please enter a valid email.`
 
-Focused SSR, type, hydration, and headless browser tests cover explicit and generated IDs, label activation, description and error relationships, invalid propagation, nested Item contexts, validation props, the one-root Fieldset mode, its native no-JavaScript disabled semantics, and the exported namespace.
+Focused SSR, type, hydration, and headless browser tests cover explicit and generated IDs, label activation, description and error relationships, invalid propagation, nested Item contexts, validation props, the one-root Fieldset mode, its native no-JavaScript disabled semantics, and the exported namespace. Root and Item tests also prove that a zero-config `Field.Control` has the same server-rendered ID as its preceding label's `for`, that explicit `controlId` values remain stable before hydration, and that the first registered control remains the label target through removal and remounting.
 
 ## parity fixture inventory
 

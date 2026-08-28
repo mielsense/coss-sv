@@ -2,6 +2,8 @@ import { createRawSnippet } from "svelte";
 import { render } from "svelte/server";
 import { describe, expect, test } from "vitest";
 import * as OTPField from "./index.js";
+import OTPFieldHydrationFixture from "./otp-field.hydration-fixture.svelte";
+import { otpFieldHydrationHtml } from "./otp-field.hydration-html.js";
 import OTPFieldSSRFixture from "./otp-field.ssr-fixture.svelte";
 import { normalizeOTP } from "./otp-field-machine.js";
 
@@ -48,6 +50,17 @@ describe("OTPField contract", () => {
     expect(slot).toMatch(
       /<input[^>]*aria-labelledby="ssr-security-label"[^>]*data-slot="otp-field-input"/,
     );
+    const fieldLabel = slot.match(/<label[^>]*id="ssr-security-label"[^>]*>/)?.[0];
+    const firstSlot = slot.match(/<input[^>]*aria-labelledby="ssr-security-label"[^>]*>/)?.[0];
+    expect(fieldLabel?.match(/for="([^"]+)"/)?.[1]).toBe(firstSlot?.match(/id="([^"]+)"/)?.[1]);
+  });
+
+  test("keeps genuine Field hydration HTML synchronized with server output", () => {
+    const body = render(OTPFieldHydrationFixture).body;
+    const label = body.match(/<label[^>]*id="hydrated-security-label"[^>]*>/)?.[0];
+    const first = body.match(/<input[^>]*data-testid="hydrated-security-first"[^>]*>/)?.[0];
+    expect(label?.match(/for="([^"]+)"/)?.[1]).toBe(first?.match(/id="([^"]+)"/)?.[1]);
+    expect(otpFieldHydrationHtml).toBe(body);
   });
 
   test("exports namespace and compatibility aliases", () => {

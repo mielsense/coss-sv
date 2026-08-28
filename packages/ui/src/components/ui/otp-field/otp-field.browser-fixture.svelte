@@ -1,16 +1,17 @@
 <script lang="ts">
-import * as Field from "../field/index.js";
-import * as OTPField from "./index.js";
+  import * as Field from "../field/index.js";
+  import * as OTPField from "./index.js";
 
-let value = $state("");
-let complete = $state("");
-let changes = $state(0);
-let invalidValue = $state("");
-let normalizedInvalidValue = $state("");
-let normalizedValue = $state("");
-let dynamicMiddle = $state(true);
-let resetValue = $state("12");
-let fieldInvalid = $state(false);
+  let value = $state("");
+  let complete = $state("");
+  let changes = $state(0);
+  let invalidValue = $state("");
+  let normalizedInvalidValue = $state("");
+  let normalizedValue = $state("");
+  let dynamicMiddle = $state(true);
+  let resetValue = $state("12");
+  let fieldInvalid = $state(false);
+  let firstFieldSlotMounted = $state(true);
 </script>
 
 <form data-testid="otp-form" onsubmit={(event) => event.preventDefault()}>
@@ -111,6 +112,26 @@ let fieldInvalid = $state(false);
     >
   {/if}
 </Field.Root>
+
+<Field.Root>
+  <Field.Label data-testid="dynamic-field-otp-label">Dynamic security code</Field.Label>
+  <OTPField.Root length={2}>
+    {#if firstFieldSlotMounted}
+      <OTPField.Input data-testid="dynamic-field-otp-first" />
+    {/if}
+    <OTPField.Input
+      aria-label="Dynamic security character 2"
+      data-testid="dynamic-field-otp-second"
+    />
+  </OTPField.Root>
+</Field.Root>
+<button
+  data-testid="toggle-first-field-slot"
+  type="button"
+  onclick={() => (firstFieldSlotMounted = !firstFieldSlotMounted)}
+>
+  Toggle first field slot
+</button>
 <button
   data-testid="toggle-field-error"
   type="button"

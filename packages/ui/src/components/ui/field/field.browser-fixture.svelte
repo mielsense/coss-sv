@@ -17,9 +17,9 @@
 <Field.Root>
   <Field.Label data-testid="multiple-label">Multiple controls</Field.Label>
   {#if firstControlMounted}
-    <Input data-testid="multiple-first-control" />
+    <Field.Control data-testid="multiple-first-control" />
   {/if}
-  <Input data-testid="multiple-second-control" />
+  <Field.Control data-testid="multiple-second-control" />
 </Field.Root>
 <button
   data-testid="toggle-first-control"
@@ -28,6 +28,11 @@
 >
   Toggle first control
 </button>
+
+<Field.Root>
+  <Field.Label data-testid="field-control-label">Field control</Field.Label>
+  <Field.Control data-testid="field-control" />
+</Field.Root>
 
 <button
   data-testid="toggle-composed-disabled"

@@ -1,6 +1,7 @@
 import { render } from "svelte/server";
 import { describe, expect, test } from "vitest";
 import FieldSsrFixture from "./field.ssr-fixture.svelte";
+import FieldControlRelationshipsSsrFixture from "./field-control-relationships.ssr-fixture.svelte";
 import FieldExplicitControlsSsrFixture from "./field-explicit-controls.ssr-fixture.svelte";
 import FieldFieldsetSsrFixture from "./field-fieldset.ssr-fixture.svelte";
 import * as Field from "./index.js";
@@ -89,5 +90,22 @@ describe("Field SSR contract", () => {
     expect(input).toContain('id="explicit-input"');
     expect(numberLabel).toContain('for="explicit-number"');
     expect(number).toContain('id="explicit-number"');
+  });
+
+  test("server-renders Field.Control relationships for Root and Item", () => {
+    const body = render(FieldControlRelationshipsSsrFixture).body;
+    for (const testId of [
+      "default-control",
+      "default-item-control",
+      "explicit-root-control",
+      "explicit-item-control",
+    ]) {
+      const label = body.match(new RegExp(`<label[^>]*data-testid="${testId}-label"[^>]*>`))?.[0];
+      const control = body.match(new RegExp(`<input[^>]*data-testid="${testId}"[^>]*>`))?.[0];
+      const labelFor = label?.match(/for="([^"]+)"/)?.[1];
+      const controlId = control?.match(/id="([^"]+)"/)?.[1];
+      expect(labelFor, testId).toBeTruthy();
+      expect(controlId, testId).toBe(labelFor);
+    }
   });
 });

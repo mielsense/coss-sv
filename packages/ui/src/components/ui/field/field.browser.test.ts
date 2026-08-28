@@ -121,6 +121,12 @@ describe("Field browser contract", () => {
     expect(label?.htmlFor).toBe(second?.id);
   });
 
+  test("focuses the wrapped Field.Control from its native label", async () => {
+    render(FieldFixture);
+    await page.getByTestId("field-control-label").click();
+    await expect.element(page.getByTestId("field-control")).toHaveFocus();
+  });
+
   test("hydrates the COSS root without changing server markup", async () => {
     const warning = vi.spyOn(console, "warn").mockImplementation(() => undefined);
     const target = document.createElement("div");

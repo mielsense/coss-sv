@@ -31,6 +31,7 @@ test("types the full Field state, validation, relationships, and polymorphic par
     id: "control",
     name: "email",
     onValueChange: (value: string) => value,
+    ref: null,
     value: "miel",
   } satisfies FieldControlProps;
   const item = { children, controlId: "choice-control", disabled: true } satisfies FieldItemProps;

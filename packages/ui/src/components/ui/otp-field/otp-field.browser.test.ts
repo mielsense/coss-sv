@@ -257,6 +257,7 @@ describe("OTPField browser contract", () => {
     const component = hydrate(OTPFieldHydrationFixture, { target });
     const group = target.querySelector<HTMLElement>('[data-slot="otp-field"]');
     const firstSlot = page.getByTestId("hydrated-security-first");
+    const label = target.querySelector<HTMLLabelElement>("#hydrated-security-label");
     await expect
       .element(group as HTMLElement)
       .toHaveAttribute("aria-labelledby", "hydrated-security-label");
@@ -265,11 +266,46 @@ describe("OTPField browser contract", () => {
       .toHaveAttribute("aria-describedby", "hydrated-security-description");
     await expect.element(firstSlot).toHaveAttribute("aria-labelledby", "hydrated-security-label");
     expect(firstSlot.element().hasAttribute("aria-describedby")).toBe(false);
+    expect(label?.htmlFor).toBe(firstSlot.element().id);
+    await label?.click();
+    await expect.element(firstSlot).toHaveFocus();
+    const explicitLabel = target.querySelector<HTMLLabelElement>("#hydrated-explicit-otp-label");
+    const explicitFirst = page.getByTestId("hydrated-explicit-otp");
+    expect(explicitLabel?.htmlFor).toBe("hydrated-explicit-otp");
+    await expect.element(explicitFirst).toHaveAttribute("id", "hydrated-explicit-otp");
     expect(warning).not.toHaveBeenCalled();
     expect(error).not.toHaveBeenCalled();
 
     await unmount(component);
     warning.mockRestore();
     error.mockRestore();
+  });
+
+  test("moves the Field label target with OTP slot zero across unmount and remount", async () => {
+    render(OTPFieldFixture);
+    const label = document.querySelector<HTMLLabelElement>(
+      '[data-testid="dynamic-field-otp-label"]',
+    );
+    const first = document.querySelector<HTMLInputElement>(
+      '[data-testid="dynamic-field-otp-first"]',
+    );
+    const second = document.querySelector<HTMLInputElement>(
+      '[data-testid="dynamic-field-otp-second"]',
+    );
+    expect(first?.id).not.toBe(second?.id);
+    expect(label?.htmlFor).toBe(first?.id);
+
+    await page.getByTestId("toggle-first-field-slot").click();
+    await expect
+      .element(page.getByTestId("dynamic-field-otp-second"))
+      .toHaveAttribute("id", label?.htmlFor ?? "missing-label-target");
+    await page.getByTestId("toggle-first-field-slot").click();
+    const remounted = document.querySelector<HTMLInputElement>(
+      '[data-testid="dynamic-field-otp-first"]',
+    );
+    expect(remounted?.id).not.toBe(second?.id);
+    await expect
+      .element(page.getByTestId("dynamic-field-otp-first"))
+      .toHaveAttribute("id", label?.htmlFor ?? "missing-label-target");
   });
 });
