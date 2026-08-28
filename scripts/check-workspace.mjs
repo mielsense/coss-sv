@@ -44,6 +44,14 @@ export function validateWorkspace(root = process.cwd()) {
     }
   }
 
+  const testScript = packageJson.scripts?.test;
+  if (
+    typeof testScript === "string" &&
+    testScript.indexOf("turbo run build") > testScript.indexOf("pnpm test:harness")
+  ) {
+    issues.push("root test must build workspace packages before running the harness");
+  }
+
   if (!existsSync(workspacePath)) {
     issues.push("pnpm-workspace.yaml is missing");
   } else {
