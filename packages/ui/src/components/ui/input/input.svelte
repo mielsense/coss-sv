@@ -16,6 +16,7 @@ export type InputProps = Omit<HTMLInputAttributes, "class" | "size"> & {
 <script lang="ts">
 import { Input as InputPrimitive } from "@shardsui/svelte";
 import { type Component, untrack } from "svelte";
+import type { Attachment } from "svelte/attachments";
 import { cn } from "$lib/utils.js";
 import { getFieldRelationshipContext } from "../field/relationship-context.svelte.js";
 
@@ -63,9 +64,18 @@ const labelledBy = $derived(
       ? relationships?.labelledBy
       : undefined,
 );
-const relationshipProps = $derived.by(() => {
+const nativeRelationshipProps = $derived.by(() => {
   const attributes: Pick<HTMLInputAttributes, "aria-describedby" | "aria-labelledby"> = {};
   if (describedBy !== undefined) attributes["aria-describedby"] = describedBy;
+  if (labelledBy !== undefined) attributes["aria-labelledby"] = labelledBy;
+  return attributes;
+});
+const shardsRelationshipProps = $derived.by(() => {
+  const attributes: Pick<HTMLInputAttributes, "aria-describedby" | "aria-labelledby"> & {
+    "ARIA-DESCRIBEDBY"?: null;
+  } = {};
+  if (describedBy === null) attributes["ARIA-DESCRIBEDBY"] = null;
+  else if (describedBy !== undefined) attributes["aria-describedby"] = describedBy;
   if (labelledBy !== undefined) attributes["aria-labelledby"] = labelledBy;
   return attributes;
 });
@@ -87,6 +97,19 @@ function mergeAriaIds(...values: (string | null | undefined)[]): string | undefi
   const ids = [...new Set(values.flatMap((value) => value?.split(/\s+/).filter(Boolean) ?? []))];
   return ids.join(" ") || undefined;
 }
+
+function preserveDescriptionRemoval(
+  value: string | null | undefined,
+): Attachment<HTMLInputElement> {
+  return (node) => {
+    if (value !== null) return;
+    const remove = () => node.removeAttribute("aria-describedby");
+    remove();
+    const observer = new MutationObserver(remove);
+    observer.observe(node, { attributeFilter: ["aria-describedby"], attributes: true });
+    return () => observer.disconnect();
+  };
+}
 </script>
 
 <span data-size={size} data-slot="input-control" class={classes}>
@@ -100,7 +123,7 @@ function mergeAriaIds(...values: (string | null | undefined)[]): string | undefi
         size={nativeSize}
         data-slot="input"
         class={innerClasses}
-        {...relationshipProps}
+        {...nativeRelationshipProps}
         {...props}
       >
     {:else}
@@ -113,12 +136,13 @@ function mergeAriaIds(...values: (string | null | undefined)[]): string | undefi
         size={nativeSize}
         data-slot="input"
         class={innerClasses}
-        {...relationshipProps}
+        {...nativeRelationshipProps}
         {...props}
       >
     {/if}
   {:else}
     <InputControl
+      {@attach preserveDescriptionRemoval(describedBy)}
       bind:ref
       bind:value
       aria-label={ariaLabel}
@@ -127,7 +151,7 @@ function mergeAriaIds(...values: (string | null | undefined)[]): string | undefi
       {...nativeSizeProps}
       data-slot="input"
       class={innerClasses}
-      {...relationshipProps}
+      {...shardsRelationshipProps}
       {...props}
     />
   {/if}

@@ -115,9 +115,13 @@ const removedNumberAria = {
 
 <Field.Root invalid={showFieldError}>
   <Field.Label>Field quantity</Field.Label>
+  <span id="field-number-external-description">External field quantity description</span>
   <NumberField.Root defaultValue={4} max={10} min={1}>
     <NumberField.Group>
-      <NumberField.Input data-testid="field-number-input" />
+      <NumberField.Input
+        aria-describedby="field-number-external-description"
+        data-testid="field-number-input"
+      />
     </NumberField.Group>
   </NumberField.Root>
   <Field.Description>Field quantity description</Field.Description>
@@ -141,19 +145,21 @@ const removedNumberAria = {
   <Field.Description>Scrub quantity description</Field.Description>
 </Field.Root>
 
-<span id="root-number-label">Root number label</span>
-<span id="root-number-description">Root number description</span>
-<NumberField.Root
-  aria-describedby="root-number-description"
-  aria-labelledby="root-number-label"
-  defaultValue={2}
-  max={4}
-  min={1}
->
-  <NumberField.Group>
-    <NumberField.Input {...removedNumberAria} data-testid="null-aria-number" />
-  </NumberField.Group>
-</NumberField.Root>
+<Field.Root>
+  <Field.Label id="root-number-label">Root number label</Field.Label>
+  <NumberField.Root
+    aria-describedby="root-number-description"
+    aria-labelledby="root-number-label"
+    defaultValue={2}
+    max={4}
+    min={1}
+  >
+    <NumberField.Group>
+      <NumberField.Input {...removedNumberAria} data-testid="null-aria-number" />
+    </NumberField.Group>
+  </NumberField.Root>
+  <Field.Description id="root-number-description">Root number description</Field.Description>
+</Field.Root>
 
 <form data-testid="required-number-form">
   <NumberField.Root aria-label="Required number" name="required-number" required>

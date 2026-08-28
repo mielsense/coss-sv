@@ -55,8 +55,14 @@ let nativeFileChanges = $state(0);
 </Field.Root>
 <LocalField.Root>
   <LocalField.Label>Removed input label</LocalField.Label>
-  <Input aria-labelledby={null} data-testid="null-aria-input" />
+  <Input aria-describedby={null} aria-labelledby={null} data-testid="null-aria-input" />
   <LocalField.Description>Removed input description</LocalField.Description>
+</LocalField.Root>
+<p id="external-input-description">External input description</p>
+<LocalField.Root>
+  <LocalField.Label>Inherited input label</LocalField.Label>
+  <Input aria-describedby="external-input-description" data-testid="merged-aria-input" />
+  <LocalField.Description>Inherited input description</LocalField.Description>
 </LocalField.Root>
 <output data-testid="input-state">{value}:{changes}:{inputRef?.tagName ?? "missing"}</output>
 <output data-testid="input-callback-state">{valueChange}</output>

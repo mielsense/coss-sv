@@ -1,6 +1,8 @@
 import { render } from "svelte/server";
 import { describe, expect, test } from "vitest";
 import { Input, InputPrimitive } from "./index.js";
+import InputFieldHydrationFixture from "./input-field.hydration-fixture.svelte";
+import { inputFieldHydrationHtml } from "./input-field.hydration-html.js";
 
 describe("Input SSR contract", () => {
   test("renders the COSS wrapper and inner input contract", () => {
@@ -42,5 +44,17 @@ describe("Input SSR contract", () => {
   test("exports the wrapped component and Shards primitive", () => {
     expect(Input).toBeTypeOf("function");
     expect(InputPrimitive).toBeTypeOf("function");
+  });
+
+  test("server-renders inherited Field relationships and explicit null removal", () => {
+    const body = render(InputFieldHydrationFixture).body;
+    const inherited = body.match(/<input[^>]*id="hydrated-field-input"[^>]*>/)?.[0];
+    const removed = body.match(/<input[^>]*id="hydrated-null-input"[^>]*>/)?.[0];
+
+    expect(inherited).toContain('aria-labelledby="hydrated-input-label"');
+    expect(inherited).toContain('aria-describedby="hydrated-input-description"');
+    expect(removed).not.toContain("aria-labelledby");
+    expect(removed).not.toContain("aria-describedby");
+    expect(inputFieldHydrationHtml).toBe(body);
   });
 });

@@ -3,6 +3,8 @@ import { render } from "svelte/server";
 import { describe, expect, test } from "vitest";
 import * as NumberField from "./index.js";
 import NumberFieldSSRFixture from "./number-field.ssr-fixture.svelte";
+import NumberFieldFieldHydrationFixture from "./number-field-field.hydration-fixture.svelte";
+import { numberFieldHydrationHtml } from "./number-field-field.hydration-html.js";
 import NumberFieldFieldSSRFixture from "./number-field-field.ssr-fixture.svelte";
 import { clampValue, createNumberLocale, parseNumber } from "./number-field-machine.js";
 
@@ -80,6 +82,9 @@ describe("NumberField number contract", () => {
     const scrubInput = body.match(
       /<input[^>]*data-testid="ssr-field-scrub-number-input"[^>]*>/,
     )?.[0];
+    const removedInput = body.match(
+      /<input[^>]*data-testid="ssr-null-field-number-input"[^>]*>/,
+    )?.[0];
 
     expect(fieldInput).toContain('aria-labelledby="ssr-field-number-label"');
     expect(fieldInput).toContain(
@@ -88,6 +93,12 @@ describe("NumberField number contract", () => {
     expect(fieldInput).toContain('aria-invalid="true"');
     expect(scrubInput).toMatch(/aria-labelledby="s\d+"/);
     expect(scrubInput).toContain('aria-describedby="ssr-field-scrub-number-description"');
+    expect(removedInput).not.toContain("aria-labelledby");
+    expect(removedInput).not.toContain("aria-describedby");
+  });
+
+  test("keeps the committed Field hydration markup synchronized with server output", () => {
+    expect(numberFieldHydrationHtml).toBe(render(NumberFieldFieldHydrationFixture).body);
   });
 
   test("renders delegated Root and Group as one element during SSR", () => {

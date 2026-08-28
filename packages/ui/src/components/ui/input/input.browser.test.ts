@@ -4,6 +4,8 @@ import { page } from "vitest/browser";
 import { render } from "vitest-browser-svelte";
 import InputFixture from "./input.browser-fixture.svelte";
 import Input from "./input.svelte";
+import InputFieldHydrationFixture from "./input-field.hydration-fixture.svelte";
+import { inputFieldHydrationHtml } from "./input-field.hydration-html.js";
 
 afterEach(() => {
   document.body.innerHTML = "";
@@ -90,6 +92,14 @@ describe("Input browser contract", () => {
 
     const nullAriaInput = page.getByTestId("null-aria-input");
     await expect.element(nullAriaInput).not.toHaveAttribute("aria-labelledby");
+    await expect.element(nullAriaInput).not.toHaveAttribute("aria-describedby");
+    await expect.element(nullAriaInput).toHaveAccessibleName("Removed input label");
+
+    const mergedAriaInput = page.getByTestId("merged-aria-input");
+    await expect.element(mergedAriaInput).toHaveAccessibleName("Inherited input label");
+    await expect
+      .element(mergedAriaInput)
+      .toHaveAccessibleDescription("External input description Inherited input description");
   });
 
   test("hydrates the native-input escape hatch without a mismatch", async () => {
@@ -107,5 +117,32 @@ describe("Input browser contract", () => {
     expect(target.querySelector("input")?.id).toBe("hydrated-input");
     await unmount(component);
     warning.mockRestore();
+  });
+
+  test("hydrates inherited and explicitly removed Field relationships without a mismatch", async () => {
+    const warning = vi.spyOn(console, "warn").mockImplementation(() => undefined);
+    const error = vi.spyOn(console, "error").mockImplementation(() => undefined);
+    const target = document.createElement("div");
+    target.innerHTML = inputFieldHydrationHtml;
+    document.body.append(target);
+
+    const component = hydrate(InputFieldHydrationFixture, { target });
+    const inherited = target.querySelector<HTMLInputElement>("#hydrated-field-input");
+    const removed = page.getByTestId("hydrated-null-input");
+
+    await expect
+      .element(inherited as HTMLInputElement)
+      .toHaveAttribute("aria-labelledby", "hydrated-input-label");
+    await expect
+      .element(inherited as HTMLInputElement)
+      .toHaveAttribute("aria-describedby", "hydrated-input-description");
+    await expect.element(removed).not.toHaveAttribute("aria-labelledby");
+    await expect.element(removed).not.toHaveAttribute("aria-describedby");
+    expect(warning).not.toHaveBeenCalled();
+    expect(error).not.toHaveBeenCalled();
+
+    await unmount(component);
+    warning.mockRestore();
+    error.mockRestore();
   });
 });

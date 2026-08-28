@@ -95,7 +95,7 @@ const accessibilityProps = $derived.by(() => {
     | "aria-valuemin"
     | "aria-valuenow"
     | "aria-valuetext"
-  > = {};
+  > & { "ARIA-DESCRIBEDBY"?: null } = {};
   const invalid = ariaInvalid !== undefined ? ariaInvalid : context.ariaInvalid;
   const valueMax = ariaValueMax !== undefined ? ariaValueMax : context.max;
   const valueMin = ariaValueMin !== undefined ? ariaValueMin : context.min;
@@ -107,7 +107,9 @@ const accessibilityProps = $derived.by(() => {
         ? undefined
         : context.displayValue;
 
-  if (computedDescribedBy !== undefined) {
+  if (computedDescribedBy === null) {
+    attributes["ARIA-DESCRIBEDBY"] = null;
+  } else if (computedDescribedBy !== undefined) {
     attributes["aria-describedby"] = computedDescribedBy;
   }
   if (invalid !== undefined) attributes["aria-invalid"] = invalid;
@@ -194,10 +196,24 @@ function mergeAriaIds(...values: (string | null | undefined)[]): string | undefi
   const ids = [...new Set(values.flatMap((value) => value?.split(/\s+/).filter(Boolean) ?? []))];
   return ids.join(" ") || undefined;
 }
+
+function preserveDescriptionRemoval(
+  value: string | null | undefined,
+): Attachment<HTMLInputElement> {
+  return (node) => {
+    if (value !== null) return;
+    const remove = () => node.removeAttribute("aria-describedby");
+    remove();
+    const observer = new MutationObserver(remove);
+    observer.observe(node, { attributeFilter: ["aria-describedby"], attributes: true });
+    return () => observer.disconnect();
+  };
+}
 </script>
 
 <InputPrimitive
   {@attach inputBehavior}
+  {@attach preserveDescriptionRemoval(computedDescribedBy)}
   bind:ref
   bind:value={inputValue}
   aria-roledescription={ariaRoleDescription}

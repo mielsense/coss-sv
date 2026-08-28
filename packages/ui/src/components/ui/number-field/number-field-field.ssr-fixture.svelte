@@ -27,3 +27,23 @@ import * as NumberField from "./index.js";
     SSR scrub quantity description
   </Field.Description>
 </Field.Root>
+
+<Field.Root>
+  <Field.Label id="ssr-removed-number-label">SSR removed quantity</Field.Label>
+  <NumberField.Root
+    aria-describedby="ssr-removed-number-description"
+    aria-labelledby="ssr-removed-number-label"
+    defaultValue={4}
+    max={10}
+    min={1}
+  >
+    <NumberField.Input
+      aria-describedby={null}
+      aria-labelledby={null}
+      data-testid="ssr-null-field-number-input"
+    />
+  </NumberField.Root>
+  <Field.Description id="ssr-removed-number-description">
+    SSR removed quantity description
+  </Field.Description>
+</Field.Root>
