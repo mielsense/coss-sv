@@ -1,0 +1,134 @@
+---
+title: Menu
+description: A popup menu for actions and choices.
+
+links:
+  doc: https://shardsui.com/svelte/menu
+---
+
+<ComponentPreview name="p-menu-1" />
+
+## Installation
+
+<InstallCommand
+  pnpm="pnpm add @coss-sv/ui"
+  shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/menu.json"
+/>
+
+## Usage
+
+```svelte
+<script lang="ts">
+  import * as Menu from "@coss-sv/ui/components/ui/menu";
+</script>
+
+<Menu.Root>
+  <Menu.Trigger>Open menu</Menu.Trigger>
+  <Menu.Popup>
+    <Menu.Item>Profile</Menu.Item>
+    <Menu.Item>Settings</Menu.Item>
+  </Menu.Popup>
+</Menu.Root>
+```
+
+## API Reference
+
+### Menu.Root
+
+Manages a popup menu and its trigger.
+
+### Menu.Trigger
+
+Opens the menu.
+
+### Menu.Popup
+
+Contains menu items.
+
+### Menu.Group
+
+Groups related items.
+
+### Menu.Item
+
+An individual action.
+
+### Menu.LinkItem
+
+A native anchor styled as a menu item.
+
+### Menu.CheckboxItem
+
+A checkable menu item, with an optional switch appearance.
+
+### Menu.RadioGroup
+
+Groups radio menu items.
+
+### Menu.RadioItem
+
+A radio menu item.
+
+### Menu.GroupLabel
+
+Labels a menu group.
+
+### Menu.Separator
+
+Separates menu sections.
+
+### Menu.Shortcut
+
+Displays keyboard shortcut text.
+
+### Menu.Sub
+
+Manages a submenu.
+
+### Menu.SubTrigger
+
+Opens a submenu.
+
+### Menu.SubPopup
+
+Contains submenu items.
+
+## Examples
+
+### Open on Hover
+
+<ComponentPreview name="p-menu-2" />
+
+### With Checkbox
+
+<ComponentPreview name="p-menu-3" />
+
+### With Switch
+
+`Menu.CheckboxItem` keeps checkbox semantics while using the switch appearance.
+
+<ComponentPreview name="p-menu-9" />
+
+### With Radio Group
+
+<ComponentPreview name="p-menu-4" />
+
+### With Link
+
+<ComponentPreview name="p-menu-5" />
+
+### With Group Label
+
+<ComponentPreview name="p-menu-6" />
+
+### Nested Menu
+
+<ComponentPreview name="p-menu-7" />
+
+### Close on Click
+
+<ComponentPreview name="p-menu-8" />
+
+### Open a Dialog
+
+<ComponentPreview name="p-dialog-2" />

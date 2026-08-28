@@ -46,3 +46,9 @@ Headless Chromium covers the automated interaction checks. The coordinator perfo
 ## Hugeicons authority update
 
 Default checkbox and radio indicators now use `Tick02Icon`, and submenu triggers use `ChevronRightIcon`, all through `HugeiconsIcon`. The migration keeps the COSS columns, margins, opacity, responsive sizing selectors, Shards state ownership, and keyboard behavior. The package wrappers and focused tests contain no legacy Lucide class or copied path marker.
+
+## D8 documentation and particle port
+
+The documentation lane freshly reread the complete permitted COSS Menu MDX page, all nine Menu particles, every importing particle, and the complete local Shards Menu source, documentation, demos, tests, 92 fixtures, and exported types. The Svelte page preserves the source preview order `1, 2, 3, 9, 4–8, p-dialog-2` and its exact headings and copy. The nine production particles keep the full playback menu, checkbox, radio, switch, link, hover-open, grouping, submenu, destructive, shortcut, and disabled examples, using Hugeicons throughout.
+
+The source/SSR gate imports and renders every module. Browser coverage verifies persistent checkbox state, nested submenu arrows, Escape focus restoration, normal motion, and reduced motion. The Codex in-app Browser measured both source and Svelte basic triggers at `102.98×32` pixels with identical radius, padding, type, and line height; Shuffle changed to `aria-checked="true"`. Chrome was not used. The coordinator-owned documentation manifest still needs to enroll `components/menu`.

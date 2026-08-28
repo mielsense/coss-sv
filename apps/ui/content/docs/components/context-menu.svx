@@ -1,0 +1,126 @@
+---
+title: Context Menu
+description: A menu that appears at the pointer on right click or long press.
+
+links:
+  doc: https://shardsui.com/svelte/context-menu
+---
+
+<ComponentPreview name="p-context-menu-1" />
+
+## Installation
+
+<InstallCommand
+  pnpm="pnpm add @coss-sv/ui"
+  shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/context-menu.json"
+/>
+
+## Usage
+
+```svelte
+<script lang="ts">
+  import * as ContextMenu from "@coss-sv/ui/components/ui/context-menu";
+</script>
+
+<ContextMenu.Root>
+  <ContextMenu.Trigger>Right click here</ContextMenu.Trigger>
+  <ContextMenu.Popup>
+    <ContextMenu.Item>Back</ContextMenu.Item>
+    <ContextMenu.Item>Forward</ContextMenu.Item>
+  </ContextMenu.Popup>
+</ContextMenu.Root>
+```
+
+## API Reference
+
+### ContextMenu.Root
+
+Manages a context menu.
+
+### ContextMenu.Trigger
+
+The region that responds to right click or long press.
+
+### ContextMenu.Popup
+
+Positions menu content at the pointer.
+
+### ContextMenu.Group
+
+Groups related items.
+
+### ContextMenu.Item
+
+An individual action.
+
+### ContextMenu.LinkItem
+
+A native anchor styled as a context-menu item.
+
+### ContextMenu.CheckboxItem
+
+A checkable item with an optional switch appearance.
+
+### ContextMenu.RadioGroup
+
+Groups radio items.
+
+### ContextMenu.RadioItem
+
+A radio item.
+
+### ContextMenu.GroupLabel
+
+Labels a group.
+
+### ContextMenu.Separator
+
+Separates sections.
+
+### ContextMenu.Shortcut
+
+Displays keyboard shortcut text.
+
+### ContextMenu.Sub
+
+Manages a submenu.
+
+### ContextMenu.SubTrigger
+
+Opens a submenu.
+
+### ContextMenu.SubPopup
+
+Contains submenu items.
+
+## Examples
+
+### With Link
+
+<ComponentPreview name="p-context-menu-2" />
+
+### Nested Menu
+
+<ComponentPreview name="p-context-menu-3" />
+
+### With Checkbox
+
+<ComponentPreview name="p-context-menu-4" />
+
+### With Group Label
+
+<ComponentPreview name="p-context-menu-5" />
+
+### With Icons
+
+<ComponentPreview name="p-context-menu-6" />
+
+### With Radio Group
+
+<ComponentPreview name="p-context-menu-7" />
+
+### With Switch
+
+`ContextMenu.CheckboxItem` keeps checkbox semantics while using the switch appearance.
+
+<ComponentPreview name="p-context-menu-8" />

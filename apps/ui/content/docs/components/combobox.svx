@@ -1,0 +1,158 @@
+---
+title: Combobox
+description: An input that allows selecting values from a list of suggestions.
+
+links:
+  doc: https://shardsui.com/svelte/combobox
+---
+
+<ComponentPreview name="p-combobox-1" />
+
+## Installation
+
+<InstallCommand
+  pnpm="pnpm add @coss-sv/ui"
+  shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/combobox.json"
+/>
+
+## Usage
+
+```svelte
+<script lang="ts">
+  import * as Combobox from "@coss-sv/ui/components/ui/combobox";
+</script>
+
+<Combobox.Root {items}>
+  <Combobox.Input placeholder="Select an item..." />
+  <Combobox.Popup>
+    <Combobox.Empty>No results found.</Combobox.Empty>
+    <Combobox.List>
+      <Combobox.Collection>
+        {#snippet children(item)}
+          <Combobox.Item value={item}>{item.label}</Combobox.Item>
+        {/snippet}
+      </Combobox.Collection>
+    </Combobox.List>
+  </Combobox.Popup>
+</Combobox.Root>
+```
+
+## API Reference
+
+### Combobox.Root
+
+Manages single or multiple selection, input state, filtering, and popup state.
+
+### Combobox.Input
+
+The input used for single selection.
+
+### Combobox.Popup
+
+The positioned options popup.
+
+### Combobox.List
+
+A scrollable options container.
+
+### Combobox.Item
+
+An individual selectable option.
+
+### Combobox.Empty
+
+Shown when no options match.
+
+### Combobox.Group
+
+Groups related options.
+
+### Combobox.GroupLabel
+
+Labels an option group.
+
+### Combobox.Collection
+
+Renders filtered options through a typed snippet.
+
+### Combobox.Chips
+
+Contains selected chips in multiple mode.
+
+### Combobox.ChipsInput
+
+The input used inside `Combobox.Chips`.
+
+### Combobox.Chip
+
+A selected value in multiple mode.
+
+### Combobox.Value
+
+Provides the current value to a typed snippet.
+
+## Examples
+
+### Disabled
+
+<ComponentPreview name="p-combobox-2" />
+
+### Small Size
+
+<ComponentPreview name="p-combobox-3" />
+
+### Large Size
+
+<ComponentPreview name="p-combobox-4" />
+
+### With Label
+
+<ComponentPreview name="p-combobox-5" />
+
+### Auto Highlight
+
+Automatically highlight the first matching option.
+
+<ComponentPreview name="p-combobox-6" />
+
+### With Clear Button
+
+<ComponentPreview name="p-combobox-7" />
+
+### With Groups
+
+<ComponentPreview name="p-combobox-8" />
+
+### With Multiple Selection
+
+<ComponentPreview name="p-combobox-9" />
+
+### With Start Addon
+
+Display an icon or other element at the start of the input using the `startAddon` snippet.
+
+<ComponentPreview name="p-combobox-13" />
+
+### With Start Addon - Multiple
+
+Use the `startAddon` snippet on `Combobox.Chips` when using multiple selection.
+
+<ComponentPreview name="p-combobox-14" />
+
+### With Input Inside Popup
+
+<ComponentPreview name="p-combobox-10" />
+
+### With Select-like Button
+
+Use the Select trigger classes on `Combobox.Trigger` to give the combobox a select-like button.
+
+<ComponentPreview name="p-combobox-18" />
+
+### Form Integration
+
+<ComponentPreview name="p-combobox-11" />
+
+### Form Integration - Multiple
+
+<ComponentPreview name="p-combobox-12" />

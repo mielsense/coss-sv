@@ -38,3 +38,9 @@ Context7 returned `Monthly quota reached`. The implementation therefore follows 
 ## Hugeicons authority update
 
 Default checkbox and radio indicators use `Tick02Icon`; submenu triggers use `ChevronRightIcon`. Each icon is rendered by `HugeiconsIcon` with `aria-hidden="true"` and `strokeWidth={2}` while the COSS grid, margin, opacity, and responsive sizing classes remain on their original elements. The hydration fixture was regenerated from current SSR output so nested initially-open menus retain exact marker alignment.
+
+## D8 documentation and particle port
+
+The documentation lane freshly reread the complete permitted COSS Context Menu MDX page, all eight Context Menu particles, every consumer, and the complete local Shards Context Menu and shared Menu source, documentation, demos, tests, fixtures, and exported types. The Svelte page preserves the source order `1–8` and exact example copy. The production modules retain pointer opening, links, checkbox, switch, radio, group labels, icons, shortcuts, nested submenus, disabled and destructive rows, and Hugeicons.
+
+Source/SSR coverage imports and renders every module. Browser coverage verifies pointer invocation and Escape dismissal in normal and reduced-motion modes. The production-preview gate verifies that the popup's horizontal center and four-pixel side offset originate from the real right-click point. The Codex in-app Browser measured both source and Svelte trigger surfaces at `384×128` pixels with a `10px` radius, and the Back item opened from a right click. Chrome was not used. The coordinator-owned documentation manifest still needs to enroll `components/context-menu`.

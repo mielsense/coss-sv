@@ -33,3 +33,9 @@ Context7 returned `Monthly quota reached`, so the port uses the pinned local Sve
 - horizontal, vertical, LTR, and RTL roving focus; loop and no-loop behavior; disabled items; input selection boundaries
 - Toggle Group selection, tooltip focus behavior, Shards Select opening and selection, and the exact toolbar tab sequence
 - group disabled propagation, separator orientation, ref bindings, and hydration without warnings
+
+## D8 documentation and particle port
+
+The documentation lane freshly reread the complete permitted COSS Toolbar MDX page and particle, its Toggle Group, Tooltip, Select, and Button consumers, and the complete local Shards Toolbar source, documentation, demo, tests, 21 fixtures, and exported types. The page preserves the source's single preview, installation flow, usage, API text, and visible copy. The production particle uses the public namespaces and Hugeicons, preserves the intrinsic toolbar geometry, initial alignment and font, tooltips, separators, and Save action.
+
+The composed Tooltip and toggle controls handle Arrow, Home, and End locally because the same DOM controls cannot also register as Shards Toolbar buttons through Svelte component delegation. The handler stops propagation after moving focus so the outer Toolbar composite cannot process the same key a second time. Browser coverage verifies that Align left advances to Align center and End reaches Save in normal and reduced-motion modes. The Codex in-app Browser measured the COSS toolbar at `428.86×42` pixels; the production particle now uses an intrinsic `w-fit` root to preserve that width in the standalone preview. Chrome was not used. The coordinator-owned documentation manifest still needs to enroll `components/toolbar`.

@@ -1,0 +1,55 @@
+---
+title: Toolbar
+description: A container for grouping a set of buttons and controls.
+
+links:
+  doc: https://shardsui.com/svelte/toolbar
+---
+
+<ComponentPreview name="p-toolbar-1" />
+
+## Installation
+
+<InstallCommand
+  pnpm="pnpm add @coss-sv/ui"
+  shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/toolbar.json"
+/>
+
+## Usage
+
+```svelte
+<script lang="ts">
+  import * as Toolbar from "@coss-sv/ui/components/ui/toolbar";
+</script>
+
+<Toolbar.Root aria-label="Formatting">
+  <Toolbar.Group aria-label="Text style">
+    <Toolbar.Button>Bold</Toolbar.Button>
+    <Toolbar.Button>Underline</Toolbar.Button>
+  </Toolbar.Group>
+  <Toolbar.Separator />
+  <Toolbar.Button>Save</Toolbar.Button>
+</Toolbar.Root>
+```
+
+## API Reference
+
+### Toolbar.Root
+
+Groups controls into one roving-focus toolbar.
+
+### Toolbar.Group
+
+Groups related toolbar items.
+
+### Toolbar.Button
+
+A button in the toolbar focus sequence.
+
+### Toolbar.Separator
+
+A separator perpendicular to the toolbar orientation.
+
+### Toolbar.Link
+
+A link in the toolbar focus sequence.

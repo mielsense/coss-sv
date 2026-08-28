@@ -1,0 +1,136 @@
+---
+title: Autocomplete
+description: An input that suggests options as you type.
+
+links:
+  doc: https://shardsui.com/svelte/autocomplete
+---
+
+<ComponentPreview name="p-autocomplete-1" />
+
+## Installation
+
+<InstallCommand
+  pnpm="pnpm add @coss-sv/ui"
+  shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/autocomplete.json"
+/>
+
+## Usage
+
+```svelte
+<script lang="ts">
+  import * as Autocomplete from "@coss-sv/ui/components/ui/autocomplete";
+</script>
+
+<Autocomplete.Root {items}>
+  <Autocomplete.Input placeholder="Search..." />
+  <Autocomplete.Popup>
+    <Autocomplete.Empty>No results found.</Autocomplete.Empty>
+    <Autocomplete.List>
+      <Autocomplete.Collection>
+        {#snippet children(item)}
+          <Autocomplete.Item value={item}>{item.label}</Autocomplete.Item>
+        {/snippet}
+      </Autocomplete.Collection>
+    </Autocomplete.List>
+  </Autocomplete.Popup>
+</Autocomplete.Root>
+```
+
+## API Reference
+
+### Autocomplete.Root
+
+Manages the input value, popup, filtering, and item collection.
+
+### Autocomplete.Input
+
+The text input with size, addon, trigger, and clear controls.
+
+### Autocomplete.Popup
+
+The positioned suggestions popup.
+
+### Autocomplete.List
+
+A scrollable container for suggestions.
+
+### Autocomplete.Item
+
+An individual selectable suggestion.
+
+### Autocomplete.Empty
+
+Shown when filtering returns no suggestions.
+
+### Autocomplete.Group
+
+Groups related suggestions.
+
+### Autocomplete.GroupLabel
+
+Labels a suggestion group.
+
+### Autocomplete.Collection
+
+Renders the filtered items through a typed snippet.
+
+## Examples
+
+### Disabled
+
+<ComponentPreview name="p-autocomplete-2" />
+
+### Small Size
+
+<ComponentPreview name="p-autocomplete-3" />
+
+### Large Size
+
+<ComponentPreview name="p-autocomplete-4" />
+
+### With Label
+
+<ComponentPreview name="p-autocomplete-5" />
+
+### Inline Autocomplete
+
+Autofill the input with the highlighted item while navigating with arrow keys.
+
+<ComponentPreview name="p-autocomplete-6" />
+
+### Auto Highlight
+
+Automatically highlight the first matching option.
+
+<ComponentPreview name="p-autocomplete-7" />
+
+### With Clear Button
+
+<ComponentPreview name="p-autocomplete-8" />
+
+### With Trigger and Clear Buttons
+
+<ComponentPreview name="p-autocomplete-9" />
+
+### With Start Addon
+
+Display an icon or other element at the start of the input using the `startAddon` snippet.
+
+<ComponentPreview name="p-autocomplete-14" />
+
+### With Groups
+
+<ComponentPreview name="p-autocomplete-10" />
+
+### With Limit Results
+
+<ComponentPreview name="p-autocomplete-11" />
+
+### Async Search
+
+<ComponentPreview name="p-autocomplete-12" />
+
+### Form Integration
+
+<ComponentPreview name="p-autocomplete-13" />

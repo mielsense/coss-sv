@@ -1,0 +1,113 @@
+---
+title: Command
+description: A command menu for searching and running actions.
+
+links:
+  doc: https://shardsui.com/svelte/autocomplete
+---
+
+<ComponentPreview name="p-command-1" />
+
+## Installation
+
+<InstallCommand
+  pnpm="pnpm add @coss-sv/ui"
+  shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/command.json"
+/>
+
+## Usage
+
+```svelte
+<script lang="ts">
+  import * as Command from "@coss-sv/ui/components/ui/command";
+</script>
+
+<Command.DialogRoot>
+  <Command.DialogTrigger>Open Command Palette</Command.DialogTrigger>
+  <Command.DialogPopup>
+    <Command.Root items={groups}>
+      <Command.Input placeholder="Search for apps and commands..." />
+      <Command.Panel>
+        <Command.Empty>No results found.</Command.Empty>
+        <Command.List />
+      </Command.Panel>
+    </Command.Root>
+  </Command.DialogPopup>
+</Command.DialogRoot>
+```
+
+## API Reference
+
+### Command.Root
+
+Autocomplete-backed command state with command-palette defaults.
+
+### Command.DialogRoot
+
+The Shards dialog root used by modal command palettes.
+
+### Command.DialogTrigger
+
+Opens the command dialog.
+
+### Command.DialogPopup
+
+Displays the command palette inside a dialog.
+
+### Command.Input
+
+Search input with its integrated search icon.
+
+### Command.List
+
+Scrollable command items.
+
+### Command.Panel
+
+Styled command content container.
+
+### Command.Empty
+
+Shown when no commands match.
+
+### Command.Group
+
+Groups related commands.
+
+### Command.GroupLabel
+
+Labels a command group.
+
+### Command.Item
+
+An individual command.
+
+### Command.Separator
+
+Separates command groups.
+
+### Command.Shortcut
+
+Displays a keyboard shortcut.
+
+### Command.Footer
+
+Displays command hints.
+
+### Command.Collection
+
+Renders filtered commands through a typed snippet.
+
+## Examples
+
+### With Keyboard Shortcut
+
+Add a document keydown listener and toggle the bound dialog `open` state.
+
+### With Grouped Items
+
+Pass grouped items to `Command.Root`, then render each group with `Command.Collection`.
+
+### Standalone Command (Without Dialog)
+
+Use `Command.Root` with `Command.Panel` when a modal dialog is not needed.

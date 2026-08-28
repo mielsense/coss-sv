@@ -1,0 +1,127 @@
+---
+title: Select
+description: A control for choosing one or more values from a list.
+
+links:
+  doc: https://shardsui.com/svelte/select
+---
+
+<ComponentPreview name="p-select-1" />
+
+## Installation
+
+<InstallCommand
+  pnpm="pnpm add @coss-sv/ui"
+  shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/select.json"
+/>
+
+## Usage
+
+```svelte
+<script lang="ts">
+  import * as Select from "@coss-sv/ui/components/ui/select";
+</script>
+
+<Select.Root {items}>
+  <Select.Trigger><Select.Value placeholder="Select a framework" /></Select.Trigger>
+  <Select.Popup>
+    {#each items as item (item.value)}
+      <Select.Item value={item.value}>{item.label}</Select.Item>
+    {/each}
+  </Select.Popup>
+</Select.Root>
+```
+
+## API Reference
+
+### Select.Root
+
+Manages single or multiple selection and popup state.
+
+### Select.Trigger
+
+Opens the select popup.
+
+### Select.Value
+
+Displays the selected value or a custom typed snippet.
+
+### Select.Popup
+
+Contains the selectable options.
+
+### Select.Item
+
+An individual option with its selection indicator.
+
+### Select.Group
+
+Groups related options.
+
+### Select.Label
+
+Labels the entire select.
+
+### Select.GroupLabel
+
+Labels a group of options.
+
+### Select.Separator
+
+Separates groups or options.
+
+### Select.Button
+
+A standalone button with select-trigger styling.
+
+## Examples
+
+### Small Size
+
+<ComponentPreview name="p-select-2" />
+
+### Large Size
+
+<ComponentPreview name="p-select-3" />
+
+### Disabled
+
+<ComponentPreview name="p-select-4" />
+
+### Without Item Alignment
+
+<ComponentPreview name="p-select-5" />
+
+### With Groups
+
+<ComponentPreview name="p-select-6" />
+
+### With Label
+
+<ComponentPreview name="p-select-23" />
+
+### Multiple Selection
+
+<ComponentPreview name="p-select-7" />
+
+### With Icon
+
+<ComponentPreview name="p-select-8" />
+
+### Options with Icon
+
+<ComponentPreview name="p-select-9" />
+
+### With Object Values
+
+<ComponentPreview name="p-select-10" />
+
+### SelectButton with Combobox
+
+Use the Select trigger classes on `Combobox.Trigger` to create a combobox that looks like a select.
+
+<ComponentPreview name="p-combobox-18" />
+
+### Form Integration
+
+<ComponentPreview name="p-select-11" />
