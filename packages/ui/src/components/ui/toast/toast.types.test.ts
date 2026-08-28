@@ -7,6 +7,7 @@ import {
   type Provider,
   type ToastData,
   type ToastManagerAddOptions,
+  type ToastPortalProps,
   type ToastPosition,
   type ToastProviderProps,
 } from "./index.js";
@@ -31,10 +32,22 @@ test("types managers, custom data, native actions, promises, positions, and prov
     success: (value) => ({ actionProps: undefined, description: value, type: "success" }),
   });
   const children = createRawSnippet(() => ({ render: () => "child" }));
+  const portalProps = {
+    "aria-label": "Toast portal",
+    class: "custom-portal",
+    container: null as HTMLElement | ShadowRoot | null,
+    "data-portal": "custom",
+    id: "custom-toast-portal",
+    onclick(event) {
+      expectTypeOf(event.currentTarget).toEqualTypeOf<EventTarget & HTMLDivElement>();
+    },
+    ref: null,
+    style: "isolation: isolate",
+  } satisfies ToastPortalProps;
   const provider = {
     children,
     limit: 4,
-    portalProps: { container: null, ref: null },
+    portalProps,
     position: "top-left",
     timeout: 3000,
     toastManager: manager,
@@ -48,6 +61,7 @@ test("types managers, custom data, native actions, promises, positions, and prov
 
   expect(id).toBeTypeOf("string");
   expect(provider.position).toBe("top-left");
+  expect(provider.portalProps.container).toBeNull();
   expect(anchored.toastManager).toBe(manager);
   expect(data.tooltipStyle).toBe(true);
   expect(position).toBe("bottom-center");

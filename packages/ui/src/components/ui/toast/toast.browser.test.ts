@@ -97,7 +97,23 @@ describe("Toast browser contract", () => {
     expect(alert?.parentElement?.style.clipPath).toBe("inset(50%)");
   });
 
-  test("portals the viewport into the requested container", async () => {
+  test("forwards native attributes, styles, events, and its bindable ref to the portal element", async () => {
+    const onPortalClick = vi.fn();
+    render(ToastFixture, { onPortalClick, portalProbe: true });
+    const portal = document.querySelector<HTMLDivElement>("#toast-portal-probe");
+
+    expect(portal?.classList.contains("custom-toast-portal")).toBe(true);
+    expect(portal?.dataset.portal).toBe("custom");
+    expect(portal?.getAttribute("aria-label")).toBe("Toast portal");
+    expect(portal?.style.getPropertyValue("--portal-marker")).toBe("37");
+    portal?.click();
+    expect(onPortalClick).toHaveBeenCalledOnce();
+    await expect
+      .element(page.getByTestId("portal-ref"))
+      .toHaveTextContent("toast-portal-ref-probe");
+  });
+
+  test("portals the viewport into an HTMLElement container", async () => {
     const portalTarget = document.createElement("section");
     portalTarget.dataset.testid = "portal-target";
     document.body.append(portalTarget);
@@ -106,6 +122,18 @@ describe("Toast browser contract", () => {
     await page.getByTestId("add-default").click();
     expect(portalTarget.querySelector('[data-slot="toast-viewport"]')).not.toBeNull();
     expect(portalTarget.textContent).toContain("Event has been created");
+  });
+
+  test("portals the viewport into a ShadowRoot container", async () => {
+    const shadowHost = document.createElement("div");
+    const shadowRoot = shadowHost.attachShadow({ mode: "open" });
+    document.body.append(shadowHost);
+    render(ToastFixture, { portalTarget: shadowRoot });
+
+    await page.getByTestId("add-default").click();
+    expect(shadowRoot.querySelector("#toast-portal-probe")?.parentNode).toBe(shadowRoot);
+    expect(shadowRoot.querySelector('[data-slot="toast-viewport"]')).not.toBeNull();
+    expect(shadowRoot.textContent).toContain("Event has been created");
   });
 
   test("dismisses a toast after a genuine pointer swipe past the threshold", async () => {

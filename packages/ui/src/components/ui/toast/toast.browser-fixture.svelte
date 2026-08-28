@@ -1,10 +1,18 @@
 <script lang="ts">
 import * as Toast from "./index.js";
+import ToastPortal from "./toast-portal.svelte";
 
 let {
+  onPortalClick,
+  portalProbe = false,
   portalTarget,
   position = "bottom-right",
-}: { portalTarget?: HTMLElement; position?: Toast.ToastPosition } = $props();
+}: {
+  onPortalClick?: (event: MouseEvent) => void;
+  portalProbe?: boolean;
+  portalTarget?: HTMLElement | ShadowRoot;
+  position?: Toast.ToastPosition;
+} = $props();
 const manager = new Toast.Manager<{ source?: string }>();
 const anchoredManager = new Toast.Manager<Toast.ToastData>();
 let anchor = $state<HTMLButtonElement | null>(null);
@@ -13,6 +21,7 @@ let rejectPromise: ((reason: Error) => void) | undefined;
 let actionCount = $state(0);
 let resolveReport: (() => void) | undefined;
 let rejectReport: ((reason: Error) => void) | undefined;
+let portalProbeRef = $state<HTMLDivElement | null>(null);
 
 function addDefault(): void {
   manager.add({
@@ -98,7 +107,15 @@ function addAnchored(tooltipStyle = false): void {
 </script>
 
 <Toast.Provider
-  {...(portalTarget ? { portalProps: { container: portalTarget } } : {})}
+  portalProps={{
+    "aria-label": "Toast portal",
+    class: "custom-toast-portal",
+    container: portalTarget,
+    "data-portal": "custom",
+    id: "toast-portal-probe",
+    onclick: onPortalClick,
+    style: "--portal-marker: 37",
+  }}
   limit={3}
   {position}
   toastManager={manager}
@@ -155,3 +172,14 @@ function addAnchored(tooltipStyle = false): void {
 </Toast.AnchoredProvider>
 
 <output data-testid="action-count">{actionCount}</output>
+
+{#if portalProbe}
+  <ToastPortal
+    bind:ref={portalProbeRef}
+    dataSlot="toast-portal-anchored"
+    id="toast-portal-ref-probe"
+  >
+    <span>Portal ref probe</span>
+  </ToastPortal>
+  <output data-testid="portal-ref">{portalProbeRef?.id ?? "missing"}</output>
+{/if}

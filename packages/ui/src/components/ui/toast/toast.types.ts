@@ -3,6 +3,7 @@ import type {
   Toast as ToastPrimitive,
 } from "@shardsui/svelte";
 import type { ComponentProps, Snippet } from "svelte";
+import type { HTMLAttributes } from "svelte/elements";
 import type { ToastManager } from "./toast-manager.js";
 
 export type ToastPosition =
@@ -24,7 +25,10 @@ export type ToastData = {
 };
 
 type PrimitiveProviderProps = ComponentProps<typeof ToastPrimitive.Provider>;
-export type ToastPortalProps = ComponentProps<typeof ToastPrimitive.Portal>;
+export type ToastPortalProps = Omit<HTMLAttributes<HTMLDivElement>, "children" | "ref"> & {
+  container?: HTMLElement | ShadowRoot | null | undefined;
+  ref?: HTMLDivElement | null | undefined;
+};
 
 export type ToastProviderProps<Data extends object = ToastData> = Omit<
   PrimitiveProviderProps,

@@ -1,17 +1,16 @@
 <script module lang="ts">
 import type { Snippet } from "svelte";
 import type { Attachment } from "svelte/attachments";
+import type { ToastPortalProps } from "./toast.types.js";
 
-type Props = {
+type Props = ToastPortalProps & {
   children?: Snippet;
-  container?: HTMLElement | null;
   dataSlot: "toast-portal" | "toast-portal-anchored";
-  ref?: HTMLDivElement | null;
 };
 
 const portalOrigins = new WeakMap<Element, Element>();
 
-function portalTo(container: HTMLElement | null | undefined): Attachment {
+function portalTo(container: HTMLElement | ShadowRoot | null | undefined): Attachment {
   return (node) => {
     const origin = portalOrigins.get(node) ?? node.parentElement;
     const target =
@@ -24,9 +23,15 @@ function portalTo(container: HTMLElement | null | undefined): Attachment {
 </script>
 
 <script lang="ts">
-let { children, container, dataSlot, ref = $bindable(null) }: Props = $props();
+let { children, container, dataSlot, ref = $bindable(null), ...restProps }: Props = $props();
 </script>
 
-<div bind:this={ref} {@attach portalTo(container)} data-shards-ui-portal="" data-slot={dataSlot}>
+<div
+  bind:this={ref}
+  {@attach portalTo(container)}
+  data-shards-ui-portal=""
+  data-slot={dataSlot}
+  {...restProps}
+>
   {@render children?.()}
 </div>
