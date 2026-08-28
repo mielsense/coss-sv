@@ -12,7 +12,7 @@ export type SheetPopupProps = ComponentProps<typeof ShardsP.Popup> & {
 </script>
 <script lang="ts">
 import { Cancel01Icon } from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/svelte";
+import HugeiconsIcon from "$lib/hugeicons-icon.svelte";
 import { Dialog as P } from "@shardsui/svelte";
 import { cn } from "$lib/utils.js";
 import { buttonVariants } from "../button/button.svelte";

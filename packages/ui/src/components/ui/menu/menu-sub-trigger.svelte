@@ -8,7 +8,7 @@ export type MenuSubTriggerProps = ComponentProps<typeof ShardsMenu.SubmenuTrigge
 
 <script lang="ts">
 import { ChevronRightIcon } from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/svelte";
+import HugeiconsIcon from "$lib/hugeicons-icon.svelte";
 import { Menu as MenuPrimitive } from "@shardsui/svelte";
 import { cn } from "$lib/utils.js";
 

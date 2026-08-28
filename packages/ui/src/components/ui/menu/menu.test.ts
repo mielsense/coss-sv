@@ -20,7 +20,8 @@ describe("Menu SSR contract", () => {
     expect(body).toContain('data-variant="destructive"');
     expect(body).toContain('data-slot="menu-shortcut"');
     expect(body).toContain('data-slot="menu-checkbox-item"');
-    expect(body).toContain('<svg xmlns="http://www.w3.org/2000/svg"');
+    expect(body).toContain("<svg");
+    expect(body).toContain('xmlns="http://www.w3.org/2000/svg"');
     expect(body).toContain('data-slot="menu-radio-item"');
     expect(body).toContain('data-slot="menu-sub-trigger"');
     expect(body).toContain('class="ms-auto -me-0.5 opacity-80"');

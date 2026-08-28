@@ -91,7 +91,10 @@ describe("NumberField browser contract", () => {
     await expect.element(cursorIcon).toHaveAttribute("aria-hidden", "true");
     await expect.element(cursorIcon).toHaveAttribute("width", "26");
     await expect.element(cursorIcon).toHaveAttribute("height", "14");
+    await expect.element(cursorIcon).toHaveClass("cursor-base");
+    await expect.element(cursorIcon).toHaveClass("cursor-active");
     expect((await cursorIcon.element()).querySelectorAll("path").length).toBeGreaterThan(0);
+    await expect.element(page.getByTestId("cursor-grow-ref")).toHaveTextContent("svg");
   });
 
   test("does not step on wheel by default and preserves disabled semantics", async () => {

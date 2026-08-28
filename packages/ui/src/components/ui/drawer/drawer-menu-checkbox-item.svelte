@@ -8,7 +8,7 @@ export type DrawerMenuCheckboxItemProps = ComponentProps<typeof ShardsP.Root> & 
 </script>
 <script lang="ts">
 import { Tick02Icon } from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/svelte";
+import HugeiconsIcon from "$lib/hugeicons-icon.svelte";
 import { Checkbox as P } from "@shardsui/svelte";
 import { untrack } from "svelte";
 import { cn } from "$lib/utils.js";

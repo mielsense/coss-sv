@@ -5,6 +5,7 @@ let value = $state<number | null>(1.5);
 let changes = $state(0);
 let inputRef = $state<HTMLInputElement | null>(null);
 let delegatedRef = $state<HTMLDivElement | null>(null);
+let cursorRef = $state<SVGSVGElement | null>(null);
 let showRemountWheel = $state(true);
 </script>
 
@@ -100,4 +101,9 @@ let showRemountWheel = $state(true);
 
 <output data-testid="number-state">{value}:{changes}:{inputRef?.tagName ?? "missing"}</output>
 <output data-testid="delegate-ref">{delegatedRef?.dataset.slot ?? "missing"}</output>
-<NumberField.CursorGrowIcon data-testid="cursor-grow-icon" />
+<NumberField.CursorGrowIcon
+  bind:ref={cursorRef}
+  class={["cursor-base", { "cursor-active": true }]}
+  data-testid="cursor-grow-icon"
+/>
+<output data-testid="cursor-grow-ref">{cursorRef?.tagName ?? "missing"}</output>

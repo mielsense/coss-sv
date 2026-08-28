@@ -4,9 +4,9 @@ import {
   AlertCircleIcon,
   CheckmarkCircle02Icon,
   InformationCircleIcon,
-  Loading03Icon,
+  Loading02Icon,
 } from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/svelte";
+import HugeiconsIcon from "$lib/hugeicons-icon.svelte";
 
 let { type }: { type: string } = $props();
 const icon = $derived(
@@ -15,7 +15,7 @@ const icon = $derived(
     : type === "info"
       ? InformationCircleIcon
       : type === "loading"
-        ? Loading03Icon
+        ? Loading02Icon
         : type === "success"
           ? CheckmarkCircle02Icon
           : Alert02Icon,

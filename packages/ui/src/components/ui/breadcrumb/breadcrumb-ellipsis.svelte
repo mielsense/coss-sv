@@ -10,7 +10,7 @@ export type BreadcrumbEllipsisProps = HTMLAttributes<HTMLSpanElement> & {
 
 <script lang="ts">
 import { MoreHorizontalIcon } from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/svelte";
+import HugeiconsIcon from "$lib/hugeicons-icon.svelte";
 
 let { children: _children, ref = $bindable(null), ...props }: BreadcrumbEllipsisProps = $props();
 </script>

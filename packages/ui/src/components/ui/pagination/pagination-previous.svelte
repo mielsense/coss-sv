@@ -6,7 +6,7 @@ export type PaginationPreviousProps = PaginationLinkProps;
 
 <script lang="ts">
 import { ChevronLeftIcon } from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/svelte";
+import HugeiconsIcon from "$lib/hugeicons-icon.svelte";
 import { cn } from "$lib/utils.js";
 import PaginationLink from "./pagination-link.svelte";
 

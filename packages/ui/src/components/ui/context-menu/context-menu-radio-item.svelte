@@ -1,6 +1,6 @@
 <script lang="ts">
 import { Tick02Icon } from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/svelte";
+import HugeiconsIcon from "$lib/hugeicons-icon.svelte";
 import { ContextMenu as P } from "@shardsui/svelte";
 import { cn } from "$lib/utils.js";
 import type { ContextMenuRadioItemProps } from "./context-menu.types.js";

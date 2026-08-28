@@ -12,7 +12,7 @@ export type NumberFieldStepButtonProps = Omit<
 
 <script lang="ts">
 import { MinusSignIcon, PlusSignIcon } from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/svelte";
+import HugeiconsIcon from "$lib/hugeicons-icon.svelte";
 import { Button as ButtonPrimitive } from "@shardsui/svelte";
 import type { Component } from "svelte";
 import { cn } from "$lib/utils.js";

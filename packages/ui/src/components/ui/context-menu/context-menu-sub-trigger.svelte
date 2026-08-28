@@ -7,7 +7,7 @@ export type ContextMenuSubTriggerProps = ComponentProps<typeof ShardsContextMenu
 </script>
 <script lang="ts">
 import { ChevronRightIcon } from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/svelte";
+import HugeiconsIcon from "$lib/hugeicons-icon.svelte";
 import { ContextMenu as P } from "@shardsui/svelte";
 import { cn } from "$lib/utils.js";
 import { getContextMenuIdContext } from "./id-context.svelte.js";

@@ -33,7 +33,7 @@ describe("package icon authority", () => {
     const source = readFileSync(resolve(sourceRoot, relativePath), "utf8");
 
     expect(source).toContain("@hugeicons/core-free-icons");
-    expect(source).toContain("@hugeicons/svelte");
+    expect(source).toContain("$lib/hugeicons-icon.svelte");
     expect(source).toContain("<HugeiconsIcon");
     if (relativePath === "spinner/spinner.svelte") {
       expect(source).toContain("strokeWidth={Number(computedStrokeWidth)}");
@@ -42,5 +42,21 @@ describe("package icon authority", () => {
     }
     expect(source).not.toMatch(/<svg\b|<path\b|<circle\b|<line\b/i);
     expect(source).not.toMatch(/lucide/i);
+  });
+
+  test("keeps all hardcoded SVG glyph data inside the typed adapter", () => {
+    for (const relativePath of migratedSources) {
+      const source = readFileSync(resolve(sourceRoot, relativePath), "utf8");
+      expect(source).not.toMatch(/\bd=(?:"|'|\{)/);
+    }
+  });
+
+  test("renders only explicit Hugeicons node tags without embedded glyph data", () => {
+    const source = readFileSync(resolve(sourceRoot, "../../lib/hugeicons-icon.svelte"), "utf8");
+
+    expect(source).toContain('type SafeNodeTag = "circle" | "ellipse" | "path" | "rect"');
+    expect(source).not.toContain("{@html");
+    expect(source).not.toMatch(/\bd=(?:"|'|\{)/);
+    expect(source).not.toContain("@hugeicons/svelte");
   });
 });

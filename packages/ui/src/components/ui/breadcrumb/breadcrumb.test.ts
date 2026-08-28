@@ -61,7 +61,8 @@ describe("Breadcrumb SSR contract", () => {
     expect(defaultSeparator).toContain('aria-hidden="true"');
     expect(defaultSeparator).toContain('role="presentation"');
     expect(defaultSeparator).toContain('data-slot="breadcrumb-separator"');
-    expect(defaultSeparator).toContain('<svg xmlns="http://www.w3.org/2000/svg"');
+    expect(defaultSeparator).toContain("<svg");
+    expect(defaultSeparator).toContain('xmlns="http://www.w3.org/2000/svg"');
     expect(defaultSeparator).toContain('aria-hidden="true"');
 
     const customSeparator = render(BreadcrumbSeparator, { props: { children: text("/") } }).body;
@@ -70,7 +71,7 @@ describe("Breadcrumb SSR contract", () => {
 
     const ellipsis = render(BreadcrumbEllipsis).body;
     expect(ellipsis).toContain('data-slot="breadcrumb-ellipsis"');
-    expect(ellipsis).toContain('<svg xmlns="http://www.w3.org/2000/svg"');
+    expect(ellipsis).toContain("<svg");
     expect(ellipsis).toContain('class="size-4"');
     expect(ellipsis).toContain('<span class="sr-only">More</span>');
   });

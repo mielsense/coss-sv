@@ -1,8 +1,10 @@
 <script module lang="ts">
+import type { Snippet } from "svelte";
 import type { SVGAttributes } from "svelte/elements";
 
 export type SpinnerProps = Omit<SVGAttributes<SVGSVGElement>, "children" | "height" | "width"> & {
   absoluteStrokeWidth?: boolean;
+  children?: Snippet;
   height?: number | string;
   ref?: SVGSVGElement | null;
   size?: number | string;
@@ -12,21 +14,24 @@ export type SpinnerProps = Omit<SVGAttributes<SVGSVGElement>, "children" | "heig
 </script>
 
 <script lang="ts">
-import { Loading03Icon } from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/svelte";
-import type { ComponentProps } from "svelte";
-import { tick } from "svelte";
-import { createAttachmentKey } from "svelte/attachments";
+import { Loading02Icon } from "@hugeicons/core-free-icons";
+import HugeiconsIcon from "$lib/hugeicons-icon.svelte";
 import { cn } from "$lib/utils.js";
 
 let {
   absoluteStrokeWidth = false,
   "aria-label": ariaLabel = "Loading",
+  children,
   class: className,
+  fill = "none",
   size = 24,
   height = size,
   ref = $bindable(null),
   role = "status",
+  stroke = "currentColor",
+  "stroke-linecap": strokeLinecap = "round",
+  "stroke-linejoin": strokeLinejoin = "round",
+  "stroke-width": nativeStrokeWidth,
   strokeWidth = 2,
   viewBox = "0 0 24 24",
   width = size,
@@ -34,41 +39,28 @@ let {
 }: SpinnerProps = $props();
 
 const classes = $derived(cn("animate-spin", className));
+const requestedStrokeWidth = $derived(nativeStrokeWidth ?? strokeWidth);
 const computedStrokeWidth = $derived(
-  absoluteStrokeWidth ? (Number(strokeWidth) * 24) / Number(size) : strokeWidth,
+  absoluteStrokeWidth ? (Number(requestedStrokeWidth) * 24) / Number(size) : requestedStrokeWidth,
 );
-const forwardedProps = $derived(props as unknown as ComponentProps<typeof HugeiconsIcon>);
-const refAttachment = {
-  [createAttachmentKey()]: (node: SVGSVGElement) => {
-    ref = node;
-    return () => {
-      ref = null;
-    };
-  },
-};
-
-$effect(() => {
-  width;
-  height;
-  computedStrokeWidth;
-  void tick().then(() => {
-    ref?.setAttribute("width", String(width));
-    ref?.setAttribute("height", String(height));
-    ref?.setAttribute("stroke-width", String(computedStrokeWidth));
-  });
-});
 </script>
 
 <HugeiconsIcon
-  {...forwardedProps}
+  {...props}
   aria-label={ariaLabel}
+  bind:ref
   class={classes}
+  {fill}
   {height}
-  icon={Loading03Icon}
+  icon={Loading02Icon}
   {role}
   {size}
+  {stroke}
+  stroke-linecap={strokeLinecap}
+  stroke-linejoin={strokeLinejoin}
   strokeWidth={Number(computedStrokeWidth)}
   {viewBox}
   {width}
-  {...refAttachment}
-/>
+>
+  {@render children?.()}
+</HugeiconsIcon>

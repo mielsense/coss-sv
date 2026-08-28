@@ -7,7 +7,7 @@ export type CheckboxProps = ComponentProps<typeof ShardsCheckbox.Root>;
 
 <script lang="ts">
 import { MinusSignIcon, Tick02Icon } from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/svelte";
+import HugeiconsIcon from "$lib/hugeicons-icon.svelte";
 import { Checkbox as CheckboxPrimitive } from "@shardsui/svelte";
 import { cn } from "$lib/utils.js";
 
