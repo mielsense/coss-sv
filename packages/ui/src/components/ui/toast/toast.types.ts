@@ -29,7 +29,8 @@ export type ToastPortalContainerRef = {
   current: HTMLElement | ShadowRoot | null;
 };
 export type ToastPortalContainer = HTMLElement | ShadowRoot | ToastPortalContainerRef | null;
-export type ToastPortalRefCallback = (node: HTMLDivElement | null) => void;
+// biome-ignore lint/suspicious/noConfusingVoidType: Base UI callback refs may return teardown cleanup.
+export type ToastPortalRefCallback = (node: HTMLDivElement | null) => void | (() => void);
 export type ToastPortalRefObject = {
   current: HTMLDivElement | null;
 };

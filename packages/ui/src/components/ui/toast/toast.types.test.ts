@@ -9,9 +9,15 @@ import {
   type ToastManagerAddOptions,
   type ToastPortalProps,
   type ToastPortalRef,
+  type ToastPortalRefCallback,
   type ToastPosition,
   type ToastProviderProps,
 } from "./index.js";
+
+type Equal<Left, Right> =
+  (<Value>() => Value extends Left ? 1 : 2) extends <Value>() => Value extends Right ? 1 : 2
+    ? true
+    : false;
 
 test("types managers, custom data, native actions, promises, positions, and providers", () => {
   type Data = { source: "save" | "copy" };
@@ -47,6 +53,14 @@ test("types managers, custom data, native actions, promises, positions, and prov
     }) satisfies ToastPortalRef,
     style: "isolation: isolate",
   } satisfies ToastPortalProps;
+  const namedPortalRef: ToastPortalRefCallback = (node) => {
+    if (node) return () => undefined;
+  };
+  const portalRefReturnIsExact: Equal<
+    ReturnType<ToastPortalRefCallback>,
+    // biome-ignore lint/suspicious/noConfusingVoidType: Assert the exact upstream callback cleanup union.
+    void | (() => void)
+  > = true;
   const provider = {
     children,
     limit: 4,
@@ -68,7 +82,9 @@ test("types managers, custom data, native actions, promises, positions, and prov
   expect(anchored.toastManager).toBe(manager);
   expect(data.tooltipStyle).toBe(true);
   expect(position).toBe("bottom-center");
+  expect(portalRefReturnIsExact).toBe(true);
   expectTypeOf(promise).toEqualTypeOf<Promise<string>>();
+  expectTypeOf(namedPortalRef).toEqualTypeOf<ToastPortalRefCallback>();
   expectTypeOf<ComponentProps<typeof Provider<Data>>>().toEqualTypeOf<ToastProviderProps<Data>>();
   expectTypeOf<ComponentProps<typeof AnchoredProvider<Data>>>().toEqualTypeOf<
     AnchoredToastProviderProps<Data>

@@ -31,7 +31,7 @@ function portalTo(container: ToastPortalContainer | undefined): Attachment {
 
 function assignPortalRef(ref: ToastPortalRef | undefined, node: HTMLDivElement): () => void {
   if (typeof ref === "function") {
-    const cleanup = ref(node) as undefined | (() => void);
+    const cleanup = ref(node);
     return () => {
       if (cleanup) cleanup();
       else ref(null);
