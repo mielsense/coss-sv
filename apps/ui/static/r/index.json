@@ -435,6 +435,18 @@
 		"relativeUrl": "textarea.json"
 	},
 	{
+		"name": "toast",
+		"type": "registry:ui",
+		"description": "Displays transient status and action feedback.",
+		"dependencies": [
+			"@shardsui/svelte@0.1.0-beta.0"
+		],
+		"registryDependencies": [
+			"local:button"
+		],
+		"relativeUrl": "toast.json"
+	},
+	{
 		"name": "toggle",
 		"type": "registry:ui",
 		"description": "Switches a single control between pressed and unpressed states.",

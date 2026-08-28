@@ -403,6 +403,29 @@ test("accepts the compound-component root naming convention", () => {
   }
 });
 
+test("accepts a provider-rooted component naming convention", () => {
+  const sourceFixture = promotedTargetFixtures[0];
+  assert.ok(sourceFixture);
+  const fixture = {
+    ...sourceFixture,
+    id: "toast",
+    targetPath: "packages/ui/src/components/ui/toast",
+  };
+  const root = mkdtempSync(join(tmpdir(), "coss-sv-provider-root-"));
+  try {
+    writeFixtureManifest(root, fixture);
+    const target = join(root, fixture.targetPath);
+    mkdirSync(target, { recursive: true });
+    writeFileSync(join(target, "toast-provider.svelte"), "<section>Toast provider</section>\n");
+    const manifests = collectTargetManifests(root);
+    assert.doesNotThrow(() =>
+      validateTargetManifestParity([fixtureEntry(fixture)], manifests, root),
+    );
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
+});
+
 test("accepts an authored component that exposes a primitive Root from its barrel", () => {
   const fixture = promotedTargetFixtures[0];
   assert.ok(fixture);

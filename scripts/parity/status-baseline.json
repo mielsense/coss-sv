@@ -249,7 +249,7 @@
     {
       "id": "toast",
       "kind": "component",
-      "status": "missing"
+      "status": "approved"
     },
     {
       "id": "toggle-group",

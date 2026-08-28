@@ -59,7 +59,7 @@ Generated from the pinned local reference. The status baseline names every plann
 | `table` | `reference/apps/ui/registry/default/ui/table.tsx` | `packages/ui/src/components/ui/table`<br>`apps/ui/registry/registry-ui.ts` | approved |
 | `tabs` | `reference/apps/ui/registry/default/ui/tabs.tsx` | `packages/ui/src/components/ui/tabs`<br>`apps/ui/registry/registry-ui.ts` | approved |
 | `textarea` | `reference/apps/ui/registry/default/ui/textarea.tsx` | `packages/ui/src/components/ui/textarea`<br>`apps/ui/registry/registry-ui.ts` | approved |
-| `toast` | `reference/apps/ui/registry/default/ui/toast.tsx` | `packages/ui/src/components/ui/toast`<br>`apps/ui/registry/registry-ui.ts` | missing |
+| `toast` | `reference/apps/ui/registry/default/ui/toast.tsx` | `packages/ui/src/components/ui/toast`<br>`apps/ui/registry/registry-ui.ts` | approved |
 | `toggle-group` | `reference/apps/ui/registry/default/ui/toggle-group.tsx` | `packages/ui/src/components/ui/toggle-group`<br>`apps/ui/registry/registry-ui.ts` | approved |
 | `toggle` | `reference/apps/ui/registry/default/ui/toggle.tsx` | `packages/ui/src/components/ui/toggle`<br>`apps/ui/registry/registry-ui.ts` | approved |
 | `toolbar` | `reference/apps/ui/registry/default/ui/toolbar.tsx` | `packages/ui/src/components/ui/toolbar`<br>`apps/ui/registry/registry-ui.ts` | approved |

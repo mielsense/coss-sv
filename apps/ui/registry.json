@@ -1657,6 +1657,59 @@
       ]
     },
     {
+      "name": "toast",
+      "type": "registry:ui",
+      "description": "Displays transient status and action feedback.",
+      "dependencies": [
+        "@shardsui/svelte@0.1.0-beta.0"
+      ],
+      "registryDependencies": [
+        "local:button"
+      ],
+      "files": [
+        {
+          "path": "../../packages/ui/src/components/ui/toast/anchored-toast-provider.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/toast/anchored-toast-stack.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/toast/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/toast/toast-icon.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/toast/toast-manager.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/toast/toast-managers.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/toast/toast-portal.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/toast/toast-provider.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/toast/toast-stack.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/toast/toast.types.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "toggle",
       "type": "registry:ui",
       "description": "Switches a single control between pressed and unpressed states.",

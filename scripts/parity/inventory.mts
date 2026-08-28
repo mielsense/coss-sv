@@ -1736,13 +1736,21 @@ function componentHasAuthoredSource(path: string, id: string): boolean {
     const name = basename(path);
     return (
       extname(name) === ".svelte" &&
-      (name === "root.svelte" || name === `${id}.svelte` || name === `${id}-root.svelte`) &&
+      (name === "root.svelte" ||
+        name === `${id}.svelte` ||
+        name === `${id}-root.svelte` ||
+        name === `${id}-provider.svelte`) &&
       hasAuthoredSvelteContent(path)
     );
   }
   if (!stats.isDirectory()) return false;
 
-  const canonicalRootNames = new Set(["root.svelte", `${id}.svelte`, `${id}-root.svelte`]);
+  const canonicalRootNames = new Set([
+    "root.svelte",
+    `${id}.svelte`,
+    `${id}-root.svelte`,
+    `${id}-provider.svelte`,
+  ]);
   const directoryEntries = readdirSync(path, { withFileTypes: true });
   const hasCanonicalRoot = directoryEntries.some(
     (directoryEntry) =>
