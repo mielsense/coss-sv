@@ -26,7 +26,8 @@
     "@coss-sv/ui": "workspace:*",
     "@hugeicons/core-free-icons": "^4.3.0",
     "@hugeicons/svelte": "^1.1.5",
-    "@shardsui/svelte": "0.1.0-beta.0"
+    "@shardsui/svelte": "0.1.0-beta.0",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@coss-sv/typescript-config": "workspace:*",
@@ -37,8 +38,8 @@
     "@types/node": "catalog:dev",
     "mdsvex": "catalog:dev",
     "playwright": "catalog:dev",
-    "shiki": "catalog:dev",
     "shadcn-svelte": "1.5.0",
+    "shiki": "catalog:dev",
     "svelte": "catalog:dev",
     "svelte-check": "catalog:dev",
     "tailwindcss": "catalog:dev",
