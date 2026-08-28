@@ -10,7 +10,8 @@ export const meta = defineParticleMeta({
 });
 </script>
 <script lang="ts">
-import { Sheet, buttonVariants } from "@coss-sv/ui";
+import { buttonVariants, Sheet } from "@coss-sv/ui";
+
 const sides = [
   { label: "Right", side: "right", description: "Right side of the screen." },
   { label: "Left", side: "left", description: "Left side of the screen." },

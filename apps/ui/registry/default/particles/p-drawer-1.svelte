@@ -9,7 +9,7 @@ export const meta = defineParticleMeta({
 });
 </script>
 <script lang="ts">
-import { Drawer, buttonVariants } from "@coss-sv/ui";
+import { buttonVariants, Drawer } from "@coss-sv/ui";
 </script>
 <Drawer.Root
   ><Drawer.Trigger class={buttonVariants({ variant: "outline" })}>Open drawer</Drawer.Trigger

@@ -9,6 +9,7 @@ export const meta = defineParticleMeta({
 });
 </script>
 <script lang="ts">
+import { buttonVariants, Drawer, drawerMenuItemVariants, Menu } from "@coss-sv/ui";
 import {
   CopyIcon,
   Delete02Icon,
@@ -17,10 +18,12 @@ import {
   Share08Icon,
 } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/svelte";
-import { Drawer, Menu, buttonVariants, drawerMenuItemVariants } from "@coss-sv/ui";
+import { MediaQuery } from "svelte/reactivity";
+
+const isMobile = new MediaQuery("(max-width: 799px)", false);
 </script>
 
-<div class="md:hidden">
+{#if isMobile.current}
   <Drawer.Root>
     <Drawer.Trigger
       aria-label="Open menu"
@@ -124,9 +127,7 @@ import { Drawer, Menu, buttonVariants, drawerMenuItemVariants } from "@coss-sv/u
       ></Drawer.Popup
     >
   </Drawer.Root>
-</div>
-
-<div class="hidden md:block">
+{:else}
   <Menu.Root>
     <Menu.Trigger
       aria-label="Open menu"
@@ -183,4 +184,4 @@ import { Drawer, Menu, buttonVariants, drawerMenuItemVariants } from "@coss-sv/u
       >
     </Menu.Popup>
   </Menu.Root>
-</div>
+{/if}

@@ -9,7 +9,10 @@ export const meta = defineParticleMeta({
 });
 </script>
 <script lang="ts">
-import { Button, Dialog, Drawer, Field, Form, Input, buttonVariants } from "@coss-sv/ui";
+import { Button, buttonVariants, Dialog, Drawer, Field, Form, Input } from "@coss-sv/ui";
+import { MediaQuery } from "svelte/reactivity";
+
+const isMobile = new MediaQuery("(max-width: 799px)", false);
 </script>
 {#snippet fields()}
   <Field.Root
@@ -18,7 +21,7 @@ import { Button, Dialog, Drawer, Field, Form, Input, buttonVariants } from "@cos
     ><Field.Label>Username</Field.Label><Input value="@maggie.welsh" type="text" /></Field.Root
   >
 {/snippet}
-<div class="md:hidden">
+{#if isMobile.current}
   <Drawer.Root
     ><Drawer.Trigger class={buttonVariants({ variant: "outline" })}>Open</Drawer.Trigger
     ><Drawer.Popup showBar
@@ -37,8 +40,7 @@ import { Button, Dialog, Drawer, Field, Form, Input, buttonVariants } from "@cos
       ></Drawer.Popup
     ></Drawer.Root
   >
-</div>
-<div class="hidden md:block">
+{:else}
   <Dialog.Root
     ><Dialog.Trigger class={buttonVariants({ variant: "outline" })}>Open</Dialog.Trigger
     ><Dialog.Popup class="sm:max-w-sm"
@@ -57,4 +59,4 @@ import { Button, Dialog, Drawer, Field, Form, Input, buttonVariants } from "@cos
       ></Dialog.Popup
     ></Dialog.Root
   >
-</div>
+{/if}

@@ -9,7 +9,7 @@ export const meta = defineParticleMeta({
 });
 </script>
 <script lang="ts">
-import { Button, Field, Form, Input, Sheet, buttonVariants } from "@coss-sv/ui";
+import { Button, buttonVariants, Field, Form, Input, Sheet } from "@coss-sv/ui";
 </script>
 <Sheet.Root
   ><Sheet.Trigger class={buttonVariants({ variant: "outline" })}>Open Sheet</Sheet.Trigger

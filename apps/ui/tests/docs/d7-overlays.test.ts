@@ -217,4 +217,19 @@ describe("D7 overlay documentation", () => {
       expect(particle).toContain("strokeWidth={2}");
     }
   });
+
+  test("uses real tooltip trigger buttons and reactive responsive branches", () => {
+    for (const id of ["p-tooltip-2", "p-tooltip-3", "p-tooltip-4"]) {
+      const particle = source(`apps/ui/registry/default/particles/${id}.svelte`);
+      expect(particle).not.toMatch(/<Tooltip\.Trigger[^>]*\bas=["']span["']/);
+      expect(particle).not.toContain('class="contents"');
+    }
+
+    for (const id of ["p-drawer-12", "p-drawer-13"]) {
+      const particle = source(`apps/ui/registry/default/particles/${id}.svelte`);
+      expect(particle).toContain('new MediaQuery("(max-width: 799px)", false)');
+      expect(particle).toContain("{#if isMobile.current}");
+      expect(particle).not.toMatch(/class=["'][^"']*\bmd:(?:hidden|block)\b/);
+    }
+  });
 });

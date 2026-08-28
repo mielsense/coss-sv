@@ -11,6 +11,7 @@ export const meta = defineParticleMeta({
 </script>
 <script lang="ts">
 import { Button, Drawer } from "@coss-sv/ui";
+
 const links = ["Home", "Profile", "Settings", "Sign out"];
 </script>
 <div class="relative min-h-80 w-full overflow-hidden rounded-xl border">

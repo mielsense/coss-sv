@@ -9,7 +9,8 @@ export const meta = defineParticleMeta({
 });
 </script>
 <script lang="ts">
-import { Drawer, buttonVariants } from "@coss-sv/ui";
+import { buttonVariants, Drawer } from "@coss-sv/ui";
+
 const links = ["Home", "Profile", "Settings", "Sign out"];
 </script>
 <Drawer.Root position="left"

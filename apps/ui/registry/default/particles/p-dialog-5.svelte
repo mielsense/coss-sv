@@ -10,7 +10,8 @@ export const meta = defineParticleMeta({
 });
 </script>
 <script lang="ts">
-import { Button, Dialog, buttonVariants } from "@coss-sv/ui";
+import { Button, buttonVariants, Dialog } from "@coss-sv/ui";
+
 const sections = [
   [
     "Acceptance of Terms",

@@ -9,10 +9,11 @@ export const meta = defineParticleMeta({
 });
 </script>
 <script lang="ts">
+import { Avatar, Button, buttonVariants, Popover } from "@coss-sv/ui";
 import { Notification01Icon, UserIcon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/svelte";
-import { Avatar, Button, Popover, buttonVariants } from "@coss-sv/ui";
 import type { Snippet } from "svelte";
+
 const popoverHandle = Popover.PopoverCreateHandle<Snippet>();
 </script>
 {#snippet notificationsContent()}

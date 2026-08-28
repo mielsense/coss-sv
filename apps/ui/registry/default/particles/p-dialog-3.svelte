@@ -9,7 +9,7 @@ export const meta = defineParticleMeta({
 });
 </script>
 <script lang="ts">
-import { Button, Dialog, Field, Input, buttonVariants } from "@coss-sv/ui";
+import { Button, buttonVariants, Dialog, Field, Input } from "@coss-sv/ui";
 </script>
 
 <Dialog.Root>

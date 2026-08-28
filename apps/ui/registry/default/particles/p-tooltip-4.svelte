@@ -9,10 +9,11 @@ export const meta = defineParticleMeta({
 });
 </script>
 <script lang="ts">
+import { buttonVariants, Group, Tooltip } from "@coss-sv/ui";
 import { Link01Icon, Mail01Icon, Share08Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/svelte";
-import { Button, Group, Tooltip } from "@coss-sv/ui";
 import type { Snippet } from "svelte";
+
 const tooltipHandle = new Tooltip.Handle<Snippet>();
 const controls = [
   { label: "Copy link", icon: Link01Icon },
@@ -33,17 +34,11 @@ const controls = [
   ><Group.Root aria-label="Share options" orientation="vertical"
     >{#each controls as control, index}
       <Tooltip.Trigger
-        as="span"
-        class="contents"
+        aria-label={control.label}
+        class={buttonVariants({ size: "icon", variant: "outline" })}
         handle={tooltipHandle}
         payload={[linkContent, emailContent, socialContent][index]}
-        ><Button
-          aria-describedby="share-tooltip"
-          aria-label={control.label}
-          size="icon"
-          variant="outline"
-          ><HugeiconsIcon aria-hidden="true" icon={control.icon} strokeWidth={2} /></Button
-        ></Tooltip.Trigger
+        ><HugeiconsIcon aria-hidden="true" icon={control.icon} strokeWidth={2} /></Tooltip.Trigger
       >
       {#if index < controls.length - 1}
         <Group.Separator orientation="horizontal" />

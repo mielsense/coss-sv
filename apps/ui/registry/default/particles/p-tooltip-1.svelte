@@ -9,7 +9,7 @@ export const meta = defineParticleMeta({
 });
 </script>
 <script lang="ts">
-import { Tooltip, buttonVariants } from "@coss-sv/ui";
+import { buttonVariants, Tooltip } from "@coss-sv/ui";
 </script>
 <Tooltip.Provider
   ><Tooltip.Root

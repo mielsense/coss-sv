@@ -9,9 +9,9 @@ export const meta = defineParticleMeta({
 });
 </script>
 <script lang="ts">
+import { buttonVariants, PreviewCard } from "@coss-sv/ui";
 import { ArrowTurnBackwardIcon, StarIcon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/svelte";
-import { PreviewCard, buttonVariants } from "@coss-sv/ui";
 </script>
 <PreviewCard.Root
   ><PreviewCard.Trigger as="button" class={buttonVariants({ variant: "ghost" })}

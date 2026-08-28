@@ -9,7 +9,8 @@ export const meta = defineParticleMeta({
 });
 </script>
 <script lang="ts">
-import { AlertDialog, Button, Dialog, Field, Form, Textarea, buttonVariants } from "@coss-sv/ui";
+import { AlertDialog, Button, buttonVariants, Dialog, Field, Form, Textarea } from "@coss-sv/ui";
+
 let dialogOpen = $state(false);
 let confirmOpen = $state(false);
 let value = $state("");

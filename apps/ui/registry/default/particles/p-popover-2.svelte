@@ -9,9 +9,9 @@ export const meta = defineParticleMeta({
 });
 </script>
 <script lang="ts">
+import { buttonVariants, Popover } from "@coss-sv/ui";
 import { Cancel01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/svelte";
-import { Popover, buttonVariants } from "@coss-sv/ui";
 </script>
 <Popover.Root
   ><Popover.Trigger class={buttonVariants({ variant: "outline" })}>Open Popover</Popover.Trigger

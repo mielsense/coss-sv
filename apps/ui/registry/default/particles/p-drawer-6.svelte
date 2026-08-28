@@ -10,7 +10,8 @@ export const meta = defineParticleMeta({
 });
 </script>
 <script lang="ts">
-import { Drawer, buttonVariants } from "@coss-sv/ui";
+import { buttonVariants, Drawer } from "@coss-sv/ui";
+
 const boxes = Array.from({ length: 48 }, (_, index) => `box-${index}`);
 </script>
 <Drawer.Root

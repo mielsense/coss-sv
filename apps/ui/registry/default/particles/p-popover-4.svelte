@@ -9,9 +9,10 @@ export const meta = defineParticleMeta({
 });
 </script>
 <script lang="ts">
+import { Badge, Button, buttonVariants, CheckboxGroup, Group, Label, Popover } from "@coss-sv/ui";
 import { ArrowDown01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/svelte";
-import { Badge, Button, CheckboxGroup, Group, Label, Popover, buttonVariants } from "@coss-sv/ui";
+
 const occurrences = [
   { date: "Wed, Jul 15", id: "occurrence-1", time: "9:00 – 9:30am" },
   { date: "Wed, Jul 15", id: "occurrence-2", time: "10:00 – 10:30am" },

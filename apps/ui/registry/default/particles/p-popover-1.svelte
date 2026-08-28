@@ -9,7 +9,7 @@ export const meta = defineParticleMeta({
 });
 </script>
 <script lang="ts">
-import { Button, Field, Form, Popover, Textarea, buttonVariants } from "@coss-sv/ui";
+import { Button, buttonVariants, Field, Form, Popover, Textarea } from "@coss-sv/ui";
 </script>
 <Popover.Root
   ><Popover.Trigger class={buttonVariants({ variant: "outline" })}>Open Popover</Popover.Trigger
