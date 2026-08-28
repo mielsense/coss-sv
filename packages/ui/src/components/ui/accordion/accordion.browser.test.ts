@@ -54,6 +54,34 @@ describe("Accordion browser contract", () => {
     );
   });
 
+  test("keeps the built-in chevron decorative and tied to the open-state rotation selector", async () => {
+    render(AccordionFixture);
+    const trigger = page.getByRole("button", { name: "Single three" });
+    const element = Array.from(document.querySelectorAll<HTMLButtonElement>("button")).find(
+      (button) => button.textContent?.includes("Single three"),
+    );
+    const indicator = element?.querySelector<SVGElement>('[data-slot="accordion-indicator"]');
+
+    expect(indicator).not.toBeNull();
+    expect(indicator?.getAttribute("aria-hidden")).toBe("true");
+    expect(indicator?.childElementCount).toBeGreaterThan(0);
+    expect(
+      Array.from(indicator?.children ?? []).every(
+        (child) => child.getAttribute("stroke-width") === "2",
+      ),
+    ).toBe(true);
+    expect(indicator?.classList.contains("size-4")).toBe(true);
+    expect(indicator?.classList.contains("transition-transform")).toBe(true);
+    expect(element?.className).toContain(
+      "data-panel-open:*:data-[slot=accordion-indicator]:rotate-180",
+    );
+
+    await trigger.click();
+    await expect.element(trigger).toHaveAttribute("data-panel-open");
+    await trigger.click();
+    await expect.element(trigger).not.toHaveAttribute("data-panel-open");
+  });
+
   test("exposes exact height motion hooks and honors reduced-motion without adding overrides", async () => {
     render(AccordionFixture);
     const trigger = page.getByRole("button", { name: "Single one" });

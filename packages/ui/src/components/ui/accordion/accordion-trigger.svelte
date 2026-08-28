@@ -6,6 +6,8 @@ export type AccordionTriggerProps = ComponentProps<typeof ShardsAccordion.Trigge
 </script>
 
 <script lang="ts">
+import { ChevronDownIcon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/svelte";
 import { Accordion as AccordionPrimitive } from "@shardsui/svelte";
 import { cn } from "$lib/utils.js";
 
@@ -28,21 +30,12 @@ let {
 >
   {#snippet children(state)}
     {@render child?.(state)}
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      class="lucide lucide-chevron-down pointer-events-none size-4 shrink-0 translate-y-0.5 opacity-80 transition-transform duration-200 ease-in-out"
+    <HugeiconsIcon
       aria-hidden="true"
+      class="pointer-events-none size-4 shrink-0 translate-y-0.5 opacity-80 transition-transform duration-200 ease-in-out"
       data-slot="accordion-indicator"
-    >
-      <path d="m6 9 6 6 6-6"></path>
-    </svg>
+      icon={ChevronDownIcon}
+      strokeWidth={2}
+    />
   {/snippet}
 </AccordionPrimitive.Trigger>

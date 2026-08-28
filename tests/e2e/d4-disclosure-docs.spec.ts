@@ -118,9 +118,13 @@ test("D4 keyboard paths preserve disclosure, tabs, and Select behavior", async (
 
   let preview = await openReadyPreview(page, "p-accordion-1", theme, "desktop");
   const accordionTrigger = preview.ready.getByRole("button", { name: "What is Base UI?" });
+  const accordionIndicator = accordionTrigger.locator('[data-slot="accordion-indicator"]');
+  await expect(accordionIndicator).toHaveAttribute("aria-hidden", "true");
+  await expect(accordionIndicator).toHaveCSS("rotate", "none");
   await accordionTrigger.focus();
   await page.keyboard.press("Enter");
   await expect(accordionTrigger).toHaveAttribute("aria-expanded", "true");
+  await expect(accordionIndicator).toHaveCSS("rotate", "180deg");
 
   preview = await openReadyPreview(page, "p-collapsible-1", theme, "desktop");
   const collapsibleTrigger = preview.ready.getByRole("button", { name: "Show recovery keys" });

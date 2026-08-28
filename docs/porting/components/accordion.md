@@ -21,7 +21,7 @@ Shards owns selection state, disabled handling, trigger and panel IDs, ARIA rela
 
 - The Svelte API uses `Accordion.Root`, `Accordion.Item`, `Accordion.Header`, `Accordion.Trigger`, and `Accordion.Panel`.
 - `Accordion.Header` renders the COSS `flex` heading wrapper. Svelte examples must include it explicitly.
-- `Accordion.Trigger` keeps the COSS class string and component-owned chevron indicator. The wrapper does not add a nested heading.
+- `Accordion.Trigger` keeps the COSS class string and built-in Chevron Down indicator. The indicator uses the free Hugeicons package with `strokeWidth={2}`, remains hidden from assistive technology, and preserves the source size, offset, opacity, transition, and open-state rotation classes. The wrapper does not add a nested heading.
 - `Accordion.Panel` applies the motion classes to the Shards panel and applies the consumer class to the inner content `div`, matching COSS.
 - `defaultValue` initializes the bindable Shards `value` once. Later default prop changes do not replace uncontrolled state. `AccordionContent` remains an alias for `AccordionPanel`.
 - COSS does not define orientation behavior for Accordion. Orientation coverage in this lane belongs to Tabs.
@@ -32,4 +32,6 @@ The Svelte page preserves the four upstream previews in order. The four particle
 copy and cover the initial value, single selection, multiple selection, and controlled selection.
 `apps/ui/tests/docs/d4-disclosure.test.ts` locks their ownership, metadata, source syntax, and page
 order. `tests/e2e/d4-disclosure-docs.spec.ts` opens each route in the required themes and widths,
-rejects console and external-resource failures, and exercises the trigger with Enter.
+rejects console and external-resource failures, and exercises the trigger with Enter. The package
+source and browser tests reject copied Lucide or inline icon source, require a rendered Hugeicons
+path with two-pixel strokes, and check the decorative and open-state rotation contracts.
