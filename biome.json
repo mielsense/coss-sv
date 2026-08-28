@@ -72,6 +72,14 @@
       }
     }
   },
+  "overrides": [
+    {
+      "includes": ["**/*.svelte", "**/*.svx"],
+      "formatter": {
+        "enabled": false
+      }
+    }
+  ],
   "vcs": {
     "clientKind": "git",
     "defaultBranch": "main",
