@@ -16,12 +16,12 @@
   import { buttonVariants, Calendar, Popover } from "@coss-sv/ui";
   const today = new Date(2026, 7, 28, 12);
   let date = $state<Date | undefined>();
-  let open = $state(false);
+  let popoverOpen = $state(false);
   const format = (value: Date) =>
     new Intl.DateTimeFormat("en-US", { dateStyle: "long" }).format(value);
 </script>
 
-<Popover.Root bind:open
+<Popover.Root bind:open={popoverOpen}
   ><Popover.Trigger class={buttonVariants({ class: "w-full justify-start", variant: "outline" })}
     ><HugeiconsIcon icon={Calendar03Icon} aria-hidden="true" />{date
       ? format(date)
@@ -32,7 +32,7 @@
       selected={date}
       onSelect={(next) => {
         date = next;
-        open = false;
+        popoverOpen = false;
       }}
       {today}
     /></Popover.Popup

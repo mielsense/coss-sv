@@ -26,7 +26,7 @@
 
 {#snippet dayButton(props: CalendarDayButtonProps)}
   {const price = prices[key(props.day.date)]}
-  <button {...props}
+  <button {...props} type="button"
     ><span class="flex flex-col"
       >{@render props.children()}{#if price}<span
           class={cn(

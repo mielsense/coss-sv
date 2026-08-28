@@ -55,3 +55,20 @@ In dark mode, the exact COSS `not-peer-data-checked:text-muted-foreground/70` cl
 ## D5 documentation port
 
 The D5 lane re-read the complete Radio Group MDX page, particles `p-radio-group-1` through `p-radio-group-6`, the target Radio Group, and the complete local Shards Radio material. The page preserves the five documented preview IDs and order, restores the unchanged COSS guidance, and links to the actual Shards `/radio` API. The theme-card example restores the source ring-offset, disabled cursor, and disabled opacity selectors. Each System, Light, and Dark field label now has an explicit hydration-stable `for` relationship to its radio. The visible preview card and text label both activate the control, each radio has the exact visible name, and arrow keys keep Shards' roving focus behavior. Component-browser and production-preview tests cover all three activation paths. The form example prevents native navigation, captures its value before loading, and reports `Selected: next`; the same tests assert that the query does not change. The live page exposed 5 previews at 1440px; at 390px its h1 was x=16, y=88, 358×36 with no overflow. The theme-card illustration uses CSS surfaces instead of copying upstream illustrative SVG paths, consistent with the Hugeicons-only UI-icon rule. Shared metadata remains coordinator-owned.
+
+## D9 segmented-control particles
+
+D9 re-read the complete permitted segmented-control page, `p-radio-group-7.tsx` through
+`p-radio-group-9.tsx`, the COSS segmented-control helper, the local Svelte Radio Group wrappers, and
+the complete matching Shards Radio and Radio Group implementation, tests, fixtures, examples,
+documentation, and types. The three particles use the raw Shards group and radio namespaces exposed
+by `@coss-sv/ui`, so they retain radio-group semantics, native form participation, roving focus,
+arrow-key selection, disabled handling, and checked-state attributes without inheriting the styled
+Radio Group column layout.
+
+The upstream Base UI `defaultValue="monthly"` maps to Shards' initial `value="monthly"` contract.
+The item recipe comes from `@coss-sv/ui/lib/segmented-control`; `cn` adds the upstream `grow` class
+without duplicating the shared class recipe. The small, default, and large versions preserve the
+exact label, option order, values, and size selection. Focused SSR coverage renders all three and
+locks their dependency metadata and modern Svelte syntax. Manual browser comparison remains pending
+because the Codex in-app Browser was unavailable in this task; no Chrome substitute was used.

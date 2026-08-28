@@ -39,16 +39,6 @@ const expectedParticles = [
   ...Array.from({ length: 8 }, (_, index) => `p-table-${index + 1}`),
 ] as const;
 
-const pendingSegmentedParticles = new Set([
-  "p-navigation-1",
-  "p-navigation-2",
-  "p-navigation-3",
-  "p-radio-group-7",
-  "p-radio-group-8",
-  "p-radio-group-9",
-]);
-const implementedParticles = expectedParticles.filter((id) => !pendingSegmentedParticles.has(id));
-
 const expectedPagePreviews = {
   breadcrumb: ["p-breadcrumb-1", "p-breadcrumb-2"],
   calendar: [
@@ -75,6 +65,16 @@ const expectedPagePreviews = {
     "p-scroll-area-5",
     "p-scroll-area-3",
   ],
+  "segmented-control": [
+    "p-radio-group-8",
+    "p-radio-group-7",
+    "p-radio-group-8",
+    "p-radio-group-9",
+    "p-navigation-2",
+    "p-navigation-1",
+    "p-navigation-3",
+    "p-tabs-1",
+  ],
   table: ["p-table-1", "p-table-5", "p-table-7", "p-table-2", "p-table-6"],
 } as const;
 
@@ -93,7 +93,7 @@ describe("D9 date, navigation, and table documentation", () => {
     ).toEqual([...expectedParticles].sort());
   });
 
-  test.each(implementedParticles)("ports %s with exact metadata and modern Svelte", (id) => {
+  test.each(expectedParticles)("ports %s with exact metadata and modern Svelte", (id) => {
     const ownership = JSON.parse(source("docs/porting/docs-ownership.json")) as OwnershipFile;
     const record = ownership.ownership.find(({ particle }) => particle === id);
     expect(record).toBeDefined();
@@ -114,7 +114,7 @@ describe("D9 date, navigation, and table documentation", () => {
     );
   });
 
-  test.each(implementedParticles)("server-renders %s", (id) => {
+  test.each(expectedParticles)("server-renders %s", (id) => {
     const module = particleModules[`../../registry/default/particles/${id}.svelte`];
     expect(module).toBeDefined();
     expect(() => render(module?.default as Component)).not.toThrow();
@@ -151,9 +151,20 @@ describe("D9 date, navigation, and table documentation", () => {
     expect(() => compile(result.code, { filename, runes: true })).not.toThrow();
   });
 
-  test.todo(
-    "ports the segmented-control page and six particles after the shared style helper lands",
-  );
+  test("uses the shared segmented-control helper without duplicating its classes", () => {
+    for (const id of [
+      "p-navigation-1",
+      "p-navigation-2",
+      "p-navigation-3",
+      "p-radio-group-7",
+      "p-radio-group-8",
+      "p-radio-group-9",
+    ]) {
+      const particle = source(`apps/ui/registry/default/particles/${id}.svelte`);
+      expect(particle).toContain('from "@coss-sv/ui/lib/segmented-control"');
+      expect(particle).not.toContain("relative z-0 flex w-fit items-center");
+    }
+  });
 
   test("freezes date examples and preserves high-risk contracts", () => {
     for (const id of expectedParticles.filter(
@@ -168,7 +179,7 @@ describe("D9 date, navigation, and table documentation", () => {
       "numberOfMonths={3}",
     );
     expect(source("apps/ui/registry/default/particles/p-date-picker-6.svelte")).toContain(
-      "open = false",
+      "popoverOpen = false",
     );
     expect(source("apps/ui/registry/default/particles/p-pagination-1.svelte")).toContain(
       'aria-current="page"',
