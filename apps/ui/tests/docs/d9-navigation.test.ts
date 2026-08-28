@@ -107,7 +107,7 @@ describe("D9 date, navigation, and table documentation", () => {
       record?.componentImports,
     );
     expect(particle).not.toMatch(
-      /\b(?:export let|createEventDispatcher|className|onClick|useState|useEffect)\b|\bon:/,
+      /\b(?:export let|createEventDispatcher|onClick|useState|useEffect)\b|\bclassName=|\bon:/,
     );
     expect(particle).not.toMatch(
       /(?:lucide(?:-react|-svelte)?|<svg\b|@base-ui\/react|from\s+["']react)/i,
@@ -119,6 +119,20 @@ describe("D9 date, navigation, and table documentation", () => {
     expect(module).toBeDefined();
     expect(() => render(module?.default as Component)).not.toThrow();
   });
+
+  test.each(Array.from({ length: 7 }, (_, index) => `p-breadcrumb-${index + 1}`))(
+    "imports every rendered Breadcrumb component in %s",
+    (id) => {
+      const particle = source(`apps/ui/registry/default/particles/${id}.svelte`);
+      const packageImport = /import\s*\{([\s\S]*?)\}\s*from "@coss-sv\/ui";/.exec(particle)?.[1];
+      expect(packageImport).toBeDefined();
+      for (const [, component] of particle.matchAll(
+        /<(Breadcrumb(?:List|Item|Link|Page|Separator|Ellipsis)?)\b/g,
+      )) {
+        expect(packageImport).toMatch(new RegExp(`\\b${component}\\b`));
+      }
+    },
+  );
 
   test.each(Object.entries(expectedPagePreviews))(
     "ports the exact upstream %s page and preview order",
@@ -187,6 +201,71 @@ describe("D9 date, navigation, and table documentation", () => {
     expect(source("apps/ui/registry/default/particles/p-tabs-1.svelte")).toMatch(
       /<Tabs\.Root\s+defaultValue="tab-1"/,
     );
+  });
+
+  test("preserves exact date-fns display semantics and the complete editable-time algorithm", async () => {
+    const appointment = render(
+      particleModules["../../registry/default/particles/p-calendar-19.svelte"]
+        ?.default as Component,
+    ).body;
+    expect(appointment).toContain("Friday, 28");
+
+    const calendarModule = await import("../../registry/default/particles/p-calendar-25.svelte");
+    expect(calendarModule.formatTimeInput("615")).toBe("6:15");
+    expect(calendarModule.parseTime("615")).toBe("06:15");
+    expect(calendarModule.filterTime("06:15", "61")).toBe(true);
+    expect(calendarModule.filterTime("16:15", "61")).toBe(false);
+
+    for (const id of [
+      "p-date-picker-1",
+      "p-date-picker-3",
+      "p-date-picker-4",
+      "p-date-picker-6",
+      "p-date-picker-8",
+    ]) {
+      expect(source(`apps/ui/registry/default/particles/${id}.svelte`)).toContain("formatDatePpp(");
+    }
+  });
+
+  test("composes the select-style picker as one valid Popover trigger", () => {
+    const particle = source("apps/ui/registry/default/particles/p-date-picker-8.svelte");
+    expect(particle).toMatch(/<Popover\.Trigger\s+as="button"/);
+    expect(particle).not.toContain('<Popover.Trigger as="div"');
+    expect(particle).not.toContain("<Select.Button");
+  });
+
+  test("ports the complete upstream Table and Scroll Area documentation", () => {
+    const table = source("apps/ui/content/docs/components/table.svx");
+    for (const exactText of [
+      "That pairs well with a [Frame](/docs/components/frame)",
+      "### Table.Header",
+      "### Table.Body",
+      "### Table.Footer",
+      "### Table.Row",
+      "### Table.Head",
+      "### Table.Cell",
+      "### Table.Caption",
+      "The example below is static markup—no row selection or TanStack.",
+      "## Changelog",
+      "Apr 12, 2026",
+    ]) {
+      expect(table).toContain(exactText);
+    }
+
+    const scrollArea = source("apps/ui/content/docs/components/scroll-area.svx");
+    for (const exactText of [
+      "Just as suddenly as it had begun",
+      "### ScrollArea.Viewport",
+      "### ScrollArea.Scrollbar",
+      "### ScrollArea.Thumb",
+      "### ScrollArea.Corner",
+      "Leave `fill` at the default (`false`)",
+      "### Content min-width",
+      "July 31, 2026",
+      "May 29, 2026",
+    ]) {
+      expect(scrollArea).toContain(exactText);
+    }
   });
 
   test("preserves wide preview geometry", () => {

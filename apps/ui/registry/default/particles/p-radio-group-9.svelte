@@ -11,13 +11,17 @@
 </script>
 
 <script lang="ts">
-  import { RadioGroup, cn } from "@coss-sv/ui";
+  import { RadioGroup } from "@coss-sv/ui";
   import {
     segmentedControlItemVariants,
     segmentedControlRootClassName,
   } from "@coss-sv/ui/lib/segmented-control";
 
-  const itemClassName = cn(segmentedControlItemVariants({ size: "lg", state: "checked" }), "grow");
+  const itemClassName = segmentedControlItemVariants({
+    className: "grow",
+    size: "lg",
+    state: "checked",
+  });
 </script>
 
 <RadioGroup.RadioGroupPrimitive

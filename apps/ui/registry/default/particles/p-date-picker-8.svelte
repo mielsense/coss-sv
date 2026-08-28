@@ -11,18 +11,27 @@
 </script>
 
 <script lang="ts">
-  import { Calendar, Popover, Select } from "@coss-sv/ui";
+  import { UnfoldMoreIcon } from "@hugeicons/core-free-icons";
+  import { HugeiconsIcon } from "@hugeicons/svelte";
+  import { Calendar, cn, Popover, Select } from "@coss-sv/ui";
+  import { formatDatePpp } from "../lib/date-format.js";
   const today = new Date(2026, 7, 28, 12);
   let date = $state<Date | undefined>();
-  const format = (value: Date) =>
-    new Intl.DateTimeFormat("en-US", { dateStyle: "long" }).format(value);
 </script>
 
 <Popover.Root
-  ><Popover.Trigger as="div"
-    ><Select.Button data-placeholder={!date ? "" : undefined}
-      >{date ? format(date) : "Pick a date"}</Select.Button
-    ></Popover.Trigger
+  ><Popover.Trigger
+    as="button"
+    class={cn(Select.selectTriggerClass, "min-w-0")}
+    data-placeholder={!date ? "" : undefined}
+    ><span class="flex-1 truncate in-data-placeholder:text-muted-foreground/72"
+      >{date ? formatDatePpp(date) : "Pick a date"}</span
+    ><HugeiconsIcon
+      aria-hidden="true"
+      class={Select.selectTriggerIconClassName}
+      icon={UnfoldMoreIcon}
+      strokeWidth={2}
+    /></Popover.Trigger
   ><Popover.Popup
     ><Calendar defaultMonth={date} mode="single" bind:selected={date} {today} /></Popover.Popup
   ></Popover.Root

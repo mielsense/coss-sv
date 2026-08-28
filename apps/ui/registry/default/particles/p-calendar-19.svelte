@@ -35,7 +35,7 @@
     { available: true, time: "17:30" },
   ];
   const weekday = $derived(
-    new Intl.DateTimeFormat("en-US", { weekday: "long", day: "numeric" }).format(date),
+    `${new Intl.DateTimeFormat("en-US", { weekday: "long" }).format(date)}, ${date.getDate()}`,
   );
 </script>
 

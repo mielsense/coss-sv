@@ -1,7 +1,10 @@
+import { type ClassValue, clsx } from "clsx";
+
 export type SegmentedControlSize = "default" | "lg" | "sm";
 export type SegmentedControlState = "checked" | "current" | "pressed";
 
 export type SegmentedControlItemVariantOptions = {
+  className?: ClassValue;
   size?: SegmentedControlSize;
   state?: SegmentedControlState;
 };
@@ -31,15 +34,15 @@ const segmentedControlItemStateClassNames: Record<SegmentedControlState, string>
 };
 
 export function segmentedControlItemVariants({
+  className,
   size = "default",
   state,
 }: SegmentedControlItemVariantOptions = {}): string {
-  return [
+  return clsx(
     segmentedControlItemBaseClassName,
     segmentedControlItemLayoutClassName,
     segmentedControlItemSizeClassNames[size],
     state ? segmentedControlItemStateClassNames[state] : undefined,
-  ]
-    .filter((className): className is string => className !== undefined)
-    .join(" ");
+    className,
+  );
 }

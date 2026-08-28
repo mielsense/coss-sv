@@ -10,7 +10,14 @@
 </script>
 
 <script lang="ts">
-  import { Breadcrumb, Select } from "@coss-sv/ui";
+  import {
+    Breadcrumb,
+    BreadcrumbItem,
+    BreadcrumbLink,
+    BreadcrumbList,
+    BreadcrumbSeparator,
+    Select,
+  } from "@coss-sv/ui";
   import { Database01Icon } from "@hugeicons/core-free-icons";
   import { HugeiconsIcon } from "@hugeicons/svelte";
   const items = [

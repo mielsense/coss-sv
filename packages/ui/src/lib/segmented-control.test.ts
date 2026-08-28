@@ -51,4 +51,17 @@ describe("segmented control styling", () => {
     const options = { size: "sm", state } satisfies SegmentedControlItemVariantOptions;
     expect(segmentedControlItemVariants(options)).toContain(segmentedControlItemSizeClassNames.sm);
   });
+
+  test("accepts the exact cva-compatible className option contract", () => {
+    const className = segmentedControlItemVariants({
+      className: ["grow", { "justify-between": true }],
+      size: "lg",
+      state: "checked",
+    });
+
+    expect(className).toContain("grow");
+    expect(className).toContain("justify-between");
+    expect(className).toContain(segmentedControlItemSizeClassNames.lg);
+    expect(className).toContain("data-checked:bg-background");
+  });
 });

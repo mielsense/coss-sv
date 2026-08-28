@@ -49,3 +49,10 @@ The default separator and ellipsis now use `ChevronRightIcon` and `MoreHorizonta
 ## D9 documentation and particle pass
 
 The D9 lane re-read the complete permitted Breadcrumb component, MDX page, all seven particles, every permitted consumer, and the complete Shards Menu source, tests, fixtures, examples, documentation, and types before writing the registry examples. The Svelte page preserves the primary and custom-separator preview order. All seven particles use the package implementation and Hugeicons; the menu example keeps real Shards focus and keyboard behavior. Focused D9 source, SSR, and MDsveX tests cover the complete inventory. The Codex in-app Browser control was not exposed in this subagent session, so no Chrome substitute was used and manual visual comparison remains required during integration review.
+
+The repair pass reproduced the rejected build's server failure against the production preview: all
+seven Breadcrumb particles returned HTTP 500 because their markup referenced named Breadcrumb
+parts that the Svelte modules had not imported. Each particle now imports every part it renders from
+the package's actual public named-export API. A serial production-preview test opens all seven before
+continuing through the complete 64-particle D9 inventory and requires HTTP 200 plus the preview-ready
+marker for every route.

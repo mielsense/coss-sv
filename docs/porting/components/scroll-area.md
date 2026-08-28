@@ -66,3 +66,9 @@ None in component behavior or styling.
 ## D9 documentation and particle pass
 
 The D9 lane re-read the complete COSS page and five particle sources plus the complete matching Shards implementation, documentation, examples, fixtures, tests, and types. The page preserves the upstream preview order `1, 4, 2, 5, 3`; the particles retain the Alice copy, horizontal and two-axis sizing, fade, gutter, and overscroll options. Focused source, SSR, and MDsveX tests cover all five. The in-app Browser was unavailable in this subagent session, so Chrome was not used and manual visual comparison remains pending.
+
+The repair pass restored every permitted upstream documentation section: both installation paths,
+the complete Alice usage sample, the root option table, each public part heading and description,
+all five examples in source order, the fill and overscroll code samples, content minimum-width
+guidance, and both dated changelog entries. Only React syntax, Base UI names, package commands, and
+local documentation routes were translated to their Svelte and Shards equivalents.

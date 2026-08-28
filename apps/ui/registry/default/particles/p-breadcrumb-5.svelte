@@ -10,7 +10,14 @@
 </script>
 
 <script lang="ts">
-  import { Breadcrumb } from "@coss-sv/ui";
+  import {
+    Breadcrumb,
+    BreadcrumbItem,
+    BreadcrumbLink,
+    BreadcrumbList,
+    BreadcrumbPage,
+    BreadcrumbSeparator,
+  } from "@coss-sv/ui";
   import { Home01Icon, Layers01Icon } from "@hugeicons/core-free-icons";
   import { HugeiconsIcon } from "@hugeicons/svelte";
 </script>

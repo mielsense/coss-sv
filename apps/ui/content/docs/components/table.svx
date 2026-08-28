@@ -12,6 +12,18 @@ description: A simple table component for displaying tabular data.
   shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/table.json"
 />
 
+For a manual installation:
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="table" title="components/ui/table.svelte" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
 ## Usage
 
 ```svelte
@@ -21,8 +33,18 @@ description: A simple table component for displaying tabular data.
 
 <Table.Root>
   <Table.Caption>Caption</Table.Caption>
-  <Table.Header><Table.Row><Table.Head>Header</Table.Head></Table.Row></Table.Header>
-  <Table.Body><Table.Row><Table.Cell>Cell</Table.Cell></Table.Row></Table.Body>
+  <Table.Header>
+    <Table.Row>
+      <Table.Head>Header</Table.Head>
+      <Table.Head>Header</Table.Head>
+    </Table.Row>
+  </Table.Header>
+  <Table.Body>
+    <Table.Row>
+      <Table.Cell>Cell</Table.Cell>
+      <Table.Cell>Cell</Table.Cell>
+    </Table.Row>
+  </Table.Body>
 </Table.Root>
 ```
 
@@ -30,58 +52,151 @@ description: A simple table component for displaying tabular data.
 
 ### Table.Root
 
-The table container. Set `variant="card"` for separated borders, rounded corners, and card row surfaces.
+The main table container component. Set `variant="card"` for a card-style table: separated borders, rounded corners, and row surfaces that read as cards. That pairs well with a [Frame](/docs/components/frame) (page chrome) or [CardFrame](/docs/components/card) (card shell with optional header actions). The default variant is a simpler row layout with standard borders.
 
 | Prop      | Type                  | Default     |
 | --------- | --------------------- | ----------- |
 | `class`   | `string`              |             |
 | `variant` | `"default" \| "card"` | `"default"` |
 
+```svelte
+<Table.Root>
+  <Table.Header>...</Table.Header>
+  <Table.Body>...</Table.Body>
+</Table.Root>
+```
+
+```svelte
+<Table.Root variant="card">
+  <Table.Header>...</Table.Header>
+  <Table.Body>...</Table.Body>
+</Table.Root>
+```
+
 ### Table.Header
 
-Header section containing column headers.
+Header section of the table containing column headers.
+
+| Prop    | Type     | Default |
+| ------- | -------- | ------- |
+| `class` | `string` |         |
+
+```svelte
+<Table.Header>
+  <Table.Row>
+    <Table.Head>Header</Table.Head>
+  </Table.Row>
+</Table.Header>
+```
 
 ### Table.Body
 
-Body section containing table rows and cells.
+Body section of the table containing table rows and data.
+
+| Prop    | Type     | Default |
+| ------- | -------- | ------- |
+| `class` | `string` |         |
+
+```svelte
+<Table.Body>
+  <Table.Row>
+    <Table.Cell>Cell</Table.Cell>
+  </Table.Row>
+</Table.Body>
+```
 
 ### Table.Footer
 
-Footer section for totals and summary rows.
+Footer section of the table.
+
+| Prop    | Type     | Default |
+| ------- | -------- | ------- |
+| `class` | `string` |         |
+
+```svelte
+<Table.Footer>
+  <Table.Row>
+    <Table.Cell>Footer</Table.Cell>
+  </Table.Row>
+</Table.Footer>
+```
 
 ### Table.Row
 
-A table row.
+A row in the table.
+
+| Prop    | Type     | Default |
+| ------- | -------- | ------- |
+| `class` | `string` |         |
+
+```svelte
+<Table.Row>
+  <Table.Cell>Cell</Table.Cell>
+</Table.Row>
+```
 
 ### Table.Head
 
-A column header cell.
+A header cell in the table.
+
+| Prop    | Type     | Default |
+| ------- | -------- | ------- |
+| `class` | `string` |         |
+
+```svelte
+<Table.Head>Header</Table.Head>
+```
 
 ### Table.Cell
 
-A data cell.
+A data cell in the table.
+
+| Prop    | Type     | Default |
+| ------- | -------- | ------- |
+| `class` | `string` |         |
+
+```svelte
+<Table.Cell>Cell</Table.Cell>
+```
 
 ### Table.Caption
 
 A caption for the table.
 
+| Prop    | Type     | Default |
+| ------- | -------- | ------- |
+| `class` | `string` |         |
+
+```svelte
+<Table.Caption>Caption</Table.Caption>
+```
+
 ## Examples
 
 ### Card-style table
+
+Use `variant="card"` when the grid itself should look like a set of cards (for example dashboards or standalone tables without an outer frame).
 
 <ComponentPreview name="p-table-5" />
 
 ### Table in CardFrame
 
+Put the table in [CardFrame](/docs/components/card) so the grid sits inside the card shell (border, radius, clipping). Use `variant="card"` on `Table.Root`. The example below is static markup—no row selection or TanStack.
+
 <ComponentPreview name="p-table-7" />
 
 ### Table in Frame
+
+Wrap the table in a [Frame](/docs/components/frame) for bordered app-surface framing. Use `variant="card"` on `Table.Root` so rows keep the card-style treatment inside the frame.
 
 <ComponentPreview name="p-table-2" />
 
 ### Data table with TanStack
 
-Use [TanStack Table for Svelte](https://tanstack.com/table/latest/docs/framework/svelte/svelte-table)
-with `variant="card"` when you need column definitions and row selection over the same table primitives.
+Use [TanStack Table for Svelte](https://tanstack.com/table/latest/docs/framework/svelte/svelte-table) with `variant="card"` when you need column definitions, row selection, and `flexRender` over the same table primitives. Add `@tanstack/svelte-table` to your project for headless state (sorting, pagination, selection) beyond static markup.
 
 <ComponentPreview name="p-table-6" />
+
+## Changelog
+
+- [Apr 12, 2026](/docs/changelog#table) — `Table.Root` adds optional `variant` (`default` or `card`)

@@ -43,3 +43,9 @@ task; Chrome was not used.
 
 The coordinator-owned registry item for each of these six particles must include
 `local:segmented-control`. This lane does not edit the aggregate registry manifest.
+
+The package helper now accepts a cva-compatible `className?: ClassValue` option and merges it after
+the shared size and state recipes through `clsx`. The three Radio Group particles pass the source's
+`grow` class through that option instead of wrapping the helper with a second class merge. A focused
+unit test covers nested arrays and conditional class objects as well as the exact COSS size and state
+classes.

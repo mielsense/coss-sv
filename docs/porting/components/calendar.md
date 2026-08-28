@@ -154,3 +154,12 @@ Documentation pages, registry entries, and aggregate exports remain coordinator 
 ## D9 documentation and particle pass
 
 The D9 lane ported all 25 permitted COSS calendar particles and the six documented previews after re-reading their complete sources. Every example uses a frozen local-noon 28 August 2026 clock so SSR, hydration, disabled ranges, multi-month navigation, and price data are deterministic. Custom dropdowns use the package Select or Combobox, week numbers and priced days use typed Svelte snippets, and all visible icons use Hugeicons. The page retains the COSS preview order and adapts only React-specific syntax and installation commands. Focused tests compile, server-render, and source-audit each particle. The in-app Browser control was unavailable in this subagent session; Chrome was not used and visual comparison remains an integration-review requirement.
+
+The repair pass locks the source's `format(date, "EEEE, d")` output in particle 19 as `Friday, 28`.
+Particle 25 contains the complete source time-input algorithm: digit filtering, partial live
+formatting, exact time matching, edit-state filtering, focus selection, valid blur normalization,
+invalid-value restoration, and application of normalized hours and minutes to the selected date.
+Its controlled Autocomplete uses Svelte's function binding, `bind:value={() => time,
+handleTimeChange}`, which matches Shards' getter/setter contract and prevents its internal raw-input
+write from replacing the formatted value. The production browser test verifies full focus selection,
+`615` to `6:15` while typing, the `06:15` result option, keyboard movement, and `06:15` after blur.

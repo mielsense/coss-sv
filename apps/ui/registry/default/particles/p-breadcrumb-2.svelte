@@ -10,7 +10,14 @@
 </script>
 
 <script lang="ts">
-  import { Breadcrumb } from "@coss-sv/ui";
+  import {
+    Breadcrumb,
+    BreadcrumbItem,
+    BreadcrumbLink,
+    BreadcrumbList,
+    BreadcrumbPage,
+    BreadcrumbSeparator,
+  } from "@coss-sv/ui";
 </script>
 
 <Breadcrumb

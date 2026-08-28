@@ -14,6 +14,7 @@
   import { Calendar03Icon } from "@hugeicons/core-free-icons";
   import { HugeiconsIcon } from "@hugeicons/svelte";
   import { Button, buttonVariants, Calendar, Popover } from "@coss-sv/ui";
+  import { formatDatePpp } from "../lib/date-format.js";
   const today = new Date(2026, 7, 28, 12);
   const options = [
     { label: "Today", days: 0 },
@@ -23,15 +24,13 @@
   ];
   let month = $state(today);
   let date = $state<Date | undefined>(today);
-  const format = (value: Date) =>
-    new Intl.DateTimeFormat("en-US", { dateStyle: "long" }).format(value);
   const offset = (days: number) => new Date(2026, 7, 28 + days, 12);
 </script>
 
 <Popover.Root
   ><Popover.Trigger class={buttonVariants({ class: "w-full justify-start", variant: "outline" })}
     ><HugeiconsIcon icon={Calendar03Icon} aria-hidden="true" />{date
-      ? format(date)
+      ? formatDatePpp(date)
       : "Pick a date"}</Popover.Trigger
   ><Popover.Popup
     ><div class="flex max-sm:flex-col">

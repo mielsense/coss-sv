@@ -63,3 +63,9 @@ React's container `render` prop is replaced by typed native container props. Com
 The D9 lane re-read the complete permitted page and all eight particle sources. The four stateful examples use the official Svelte 5 adapter from `@tanstack/svelte-table@9.2.3`, with explicit row-selection, sizing, sorting, and pagination features rather than React or v8 compatibility APIs. The flight examples preserve the 30 upstream records, column widths, fixed table layout, status treatments, sortable time header, page ranges, and Frame/CardFrame surfaces. Lucide glyphs are replaced only by the corresponding Hugeicons arrows and takeoff icon.
 
 Each of `p-table-3`, `p-table-4`, `p-table-6`, and `p-table-8` needs an item-level `@tanstack/svelte-table` registry dependency when the coordinator generates registry items. The package is centrally approved and licensed; it must not become an undeclared transitive assumption. Focused tests source-audit and server-render all eight particles and compile the page. The in-app Browser was unavailable in this subagent session; Chrome was not used, and manual visual and keyboard comparison remains pending.
+
+The repair pass restored every permitted upstream documentation section: manual installation,
+complete usage, each public table-part heading, prop table, and code sample, all five examples and
+their source prose, the Svelte TanStack adapter guidance, and the dated changelog entry. The text is
+unchanged except for framework syntax, compound Svelte names, package commands, and local
+documentation routes.
