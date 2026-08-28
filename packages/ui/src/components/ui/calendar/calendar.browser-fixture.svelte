@@ -34,6 +34,8 @@ let dynamicSelection = $state<Date | undefined>();
 let dynamicSelectionControlled = $state(false);
 let dynamicSelectionCallback = $state("");
 let dynamicMonthControlled = $state(false);
+let dynamicMonth = $state(new Date(2026, 0, 1, 12));
+let dynamicMonthCallback = $state("");
 const selection = $derived(
   mode === "single" ? singleSelected : mode === "multiple" ? multipleSelected : rangeSelected,
 );
@@ -60,6 +62,10 @@ function selectionText(value: Date | Date[] | DateRange | undefined): string {
 
 function ignoreDynamicSelection(value: Date | undefined): void {
   dynamicSelectionCallback = value ? localDateKey(value) : "cleared";
+}
+
+function ignoreDynamicMonth(value: Date): void {
+  dynamicMonthCallback = localDateKey(value);
 }
 </script>
 
@@ -210,12 +216,7 @@ function ignoreDynamicSelection(value: Date | undefined): void {
 <output data-testid="bound-selection">{selectionText(boundSelection)}</output>
 
 <div data-testid="bound-month-calendar">
-  <Calendar
-    bind:month={boundMonth}
-    onMonthChange={(value) => {
-      boundMonth = value;
-    }}
-  />
+  <Calendar bind:month={boundMonth} />
 </div>
 <output data-testid="bound-month"> {boundMonth.getFullYear()}-{boundMonth.getMonth() + 1} </output>
 
@@ -263,10 +264,15 @@ function ignoreDynamicSelection(value: Date | undefined): void {
 </button>
 <div data-testid="dynamic-month-calendar">
   <Calendar
-    {...(dynamicMonthControlled ? { month: new Date(2026, 0, 1, 12) } : {})}
+    {...(dynamicMonthControlled ? { onMonthChange: ignoreDynamicMonth } : {})}
+    bind:month={dynamicMonth}
     defaultMonth={new Date(2026, 0, 1, 12)}
   />
 </div>
+<output data-testid="dynamic-month"
+  >{dynamicMonth.getFullYear()}-{dynamicMonth.getMonth() + 1}</output
+>
+<output data-testid="dynamic-month-callback">{dynamicMonthCallback}</output>
 
 <div data-testid="noon-single-calendar">
   <Calendar

@@ -87,13 +87,15 @@ month and the first displayed month. This keeps cross-year, multi-month, and
 `reverseMonths` changes anchored to the caption the user changed.
 
 Selection is controlled whenever `onSelect` is present, including when `selected` is
-undefined. Any supplied `month` is controlled whether or not `onMonthChange` is present.
-Callbacks report proposed values while ignored parent values remain rendered. Adding or
-removing either control input updates the mode without remounting. In the Svelte two-way
-form, values emitted through `bind:selected` or `bind:month` remain canonical calendar
-dates and are not converted through the IANA zone a second time. `defaultSelected` and
-`defaultMonth` remain internal state, including across hydration when their corresponding
-control input is absent.
+undefined. Month state is controlled whenever `onMonthChange` is present. The callback
+reports a proposed month while an ignored parent value remains rendered. Without the
+callback, `bind:month` updates both the parent and the visible month. Adding or removing
+the callback updates the control mode without remounting. This public callback marker is
+the approved Svelte adaptation recorded in `docs/porting/DEVIATIONS.md`; Svelte does not
+expose whether a `$bindable` prop has a binding. Values emitted through `bind:selected` or
+`bind:month` remain canonical calendar dates and are not converted through the IANA zone
+a second time. `defaultSelected` and `defaultMonth` remain internal state, including
+across hydration when their corresponding control input is absent.
 
 Roving focus only targets visible, enabled days. A disabled selected date falls back to the
 first enabled day. Month changes and externally controlled months recompute the target;
@@ -125,8 +127,8 @@ the architecture or dependency choice.
   and `rdp-*` classes, locale objects, and SSR output.
 - `calendar.browser.test.ts` checks all selection modes, callback data, disabled and
   unavailable dates, the full keyboard model, enabled roving focus, navigation exhaustion,
-  controlled and bound state, live control-mode transitions, controlled undefined
-  selection, month control without a callback, GMT-12 and GMT+14 noon-safe callback and
+  controlled and bound state, live callback-marker transitions, controlled undefined
+  selection, callback-free month binding, GMT-12 and GMT+14 noon-safe callback and
   bound values, externally controlled month bounds, native dropdowns, cross-year reversed
   months, replacement hosts, and Shards Popover focus restoration.
 - The browser suite hydrates actual Calendar SSR HTML under a frozen clock at a UTC to Los

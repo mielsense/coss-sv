@@ -173,9 +173,7 @@ let focusedDate = $state<Date | undefined>(
 let didAutoFocus = $state(false);
 
 const dateOptions = $derived<CalendarDateOptions>({ noonSafe, timeZone });
-const monthControlled = $derived(
-  month !== undefined && month.getTime() !== emittedMonth?.getTime(),
-);
+const monthControlled = $derived(onMonthChange !== undefined);
 const localeCode = $derived(locale.code ?? "en-US");
 const effectiveWeekStartsOn = $derived(weekStartsOn ?? locale.options?.weekStartsOn ?? 0);
 const currentToday = $derived(normalizeCalendarDate(todayProp ?? instanceNow, dateOptions));
@@ -277,6 +275,15 @@ const focusTargetDate = $derived.by(() => {
   return focusable[0]?.date;
 });
 
+$effect(() => {
+  if (monthControlled || !month) return;
+  const externalMonth =
+    emittedMonth?.getTime() === month.getTime()
+      ? emittedMonth
+      : normalizeCalendarDate(month, dateOptions);
+  uncontrolledMonth = startOfCalendarMonth(externalMonth, dateOptions);
+});
+
 function normalizeSelection(
   value: CalendarSelection,
   options: CalendarDateOptions,
@@ -325,8 +332,8 @@ function setMonth(next: Date): void {
     value = latestDisplayMonth;
   }
   emittedMonth = value;
-  uncontrolledMonth = value;
   if (!isControlled) {
+    uncontrolledMonth = value;
     month = value;
   }
   onMonthChange?.(value);

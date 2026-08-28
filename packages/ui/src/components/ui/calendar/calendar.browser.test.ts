@@ -225,10 +225,10 @@ describe("Calendar browser contract", () => {
       .toHaveTextContent("2026-01-15");
     expect(undefinedControlled.element().querySelectorAll("[data-selected=true]")).toHaveLength(0);
 
-    const monthWithoutCallback = page.getByTestId("month-without-callback-calendar");
-    await monthWithoutCallback.getByRole("button", { name: "Go to the Next Month" }).click();
+    const bareMonth = page.getByTestId("month-without-callback-calendar");
+    await bareMonth.getByRole("button", { name: "Go to the Next Month" }).click();
     await expect
-      .element(monthWithoutCallback.getByRole("grid", { name: "January 2026" }))
+      .element(bareMonth.getByRole("grid", { name: "February 2026" }))
       .toBeInTheDocument();
 
     const dynamicSelectionRoot = page.getByTestId("dynamic-selection-calendar");
@@ -251,19 +251,25 @@ describe("Calendar browser contract", () => {
     await expect
       .element(dynamicMonthRoot.getByRole("grid", { name: "February 2026" }))
       .toBeInTheDocument();
+    await expect.element(page.getByTestId("dynamic-month")).toHaveTextContent("2026-2");
     await page.getByTestId("toggle-dynamic-month-control").click();
     await expect
-      .element(dynamicMonthRoot.getByRole("grid", { name: "January 2026" }))
+      .element(dynamicMonthRoot.getByRole("grid", { name: "February 2026" }))
       .toBeInTheDocument();
     await dynamicMonthRoot.getByRole("button", { name: "Go to the Next Month" }).click();
     await expect
-      .element(dynamicMonthRoot.getByRole("grid", { name: "January 2026" }))
+      .element(page.getByTestId("dynamic-month-callback"))
+      .toHaveTextContent("2026-03-01");
+    await expect
+      .element(dynamicMonthRoot.getByRole("grid", { name: "February 2026" }))
       .toBeInTheDocument();
+    await expect.element(page.getByTestId("dynamic-month")).toHaveTextContent("2026-2");
     await page.getByTestId("toggle-dynamic-month-control").click();
     await dynamicMonthRoot.getByRole("button", { name: "Go to the Next Month" }).click();
     await expect
       .element(dynamicMonthRoot.getByRole("grid", { name: "March 2026" }))
       .toBeInTheDocument();
+    await expect.element(page.getByTestId("dynamic-month")).toHaveTextContent("2026-3");
   });
 
   test("returns noon-safe bound and callback values in every selection mode", async () => {
