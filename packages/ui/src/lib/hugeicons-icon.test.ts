@@ -2,7 +2,7 @@ import { AlertCircleIcon, Tick02Icon } from "@hugeicons/core-free-icons";
 import { createRawSnippet } from "svelte";
 import { render } from "svelte/server";
 import { describe, expect, test } from "vitest";
-import HugeiconsIcon from "./hugeicons-icon.svelte";
+import { HugeiconsIcon } from "../index.js";
 
 describe("SSR-safe Hugeicons renderer", () => {
   test("renders official path and circle data during SSR", () => {

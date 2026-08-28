@@ -755,6 +755,11 @@ export {
   type TooltipTriggerState,
 } from "./components/ui/tooltip/index.js";
 export {
+  default as HugeiconsIcon,
+  type HugeiconData,
+  type HugeiconsIconProps,
+} from "./lib/hugeicons-icon.svelte";
+export {
   type SegmentedControlItemVariantOptions,
   type SegmentedControlSize,
   type SegmentedControlState,
