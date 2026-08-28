@@ -6,6 +6,7 @@ describe("preview query contract", () => {
     const result = parsePreviewQuery(new URLSearchParams({ theme: "light", width: "desktop" }));
 
     expect(result).toEqual({
+      align: "center",
       direction: "ltr",
       locale: "en-US",
       network: "blocked",

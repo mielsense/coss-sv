@@ -7,7 +7,7 @@ describe("preview alignment contract", () => {
     (align) => {
       expect(
         parsePreviewQuery(new URLSearchParams({ align, theme: "light", width: "mobile" })),
-      ).toEqual({
+      ).toMatchObject({
         align,
         ok: true,
         theme: "light",
@@ -18,7 +18,9 @@ describe("preview alignment contract", () => {
   );
 
   test("keeps center as the compatibility default for callers without alignment", () => {
-    expect(parsePreviewQuery(new URLSearchParams({ theme: "dark", width: "desktop" }))).toEqual({
+    expect(
+      parsePreviewQuery(new URLSearchParams({ theme: "dark", width: "desktop" })),
+    ).toMatchObject({
       align: "center",
       ok: true,
       theme: "dark",

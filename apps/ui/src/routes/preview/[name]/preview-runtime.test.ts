@@ -2,6 +2,7 @@ import { describe, expect, test } from "vitest";
 import { createPreviewRuntime, createSeededRandom } from "./preview-runtime.js";
 
 const config = {
+  align: "center",
   direction: "ltr",
   locale: "en-US",
   network: "blocked",

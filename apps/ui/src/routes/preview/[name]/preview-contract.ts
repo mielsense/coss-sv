@@ -111,15 +111,21 @@ function parseSeed(value: string, errors: string[]): number | undefined {
 export function parsePreviewQuery(parameters: URLSearchParams): PreviewQuery {
   const errors: string[] = [];
   const values = Object.fromEntries(
-    [...allowedParameters].map((key) => [key, singleValue(parameters, key, errors)]),
+    [...allowedParameters]
+      .filter((key) => key !== "align")
+      .map((key) => [key, singleValue(parameters, key, errors)]),
   );
 
   for (const key of new Set(parameters.keys())) {
     if (!allowedParameters.has(key)) errors.push(`unexpected preview parameter: ${key}`);
   }
 
-  const align = values.align ?? defaults.align;
-  if (!isOneOf(align, previewAlignments)) errors.push("align must be start, center, or end");
+  const alignments = parameters.getAll("align");
+  const align =
+    alignments.length === 0 ? defaults.align : alignments.length === 1 ? alignments[0] : undefined;
+  if (!align || !isOneOf(align, previewAlignments)) {
+    errors.push("align must be start, center, or end");
+  }
 
   const theme = values.theme;
   if (!theme || !isOneOf(theme, previewThemes)) {
