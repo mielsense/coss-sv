@@ -1,11 +1,13 @@
 import { hydrate, unmount } from "svelte";
 import { afterEach, describe, expect, test, vi } from "vitest";
 import { page, userEvent } from "vitest/browser";
-import { render } from "vitest-browser-svelte";
+import { cleanup, render } from "vitest-browser-svelte";
 import Fixture from "./tooltip.browser-fixture.svelte";
 import SsrFixture from "./tooltip.ssr-fixture.svelte";
+import AttachmentFixture from "./tooltip-attachment.browser-fixture.svelte";
 
 afterEach(() => {
+  cleanup();
   document.body.innerHTML = "";
 });
 describe("Tooltip browser contract", () => {
@@ -67,6 +69,49 @@ describe("Tooltip browser contract", () => {
     expect(warning.mock.calls.flat().join("\n")).not.toContain("ownership_invalid_binding");
 
     warning.mockRestore();
+  });
+
+  test("attaches focus, hover, description, state, and Escape behavior to the target node", async () => {
+    render(AttachmentFixture);
+    const target = page.getByTestId("attached-focus");
+    target.element().focus();
+    const popup = page.getByRole("tooltip", { name: "Attached hint" });
+    await expect.element(popup).toBeInTheDocument();
+    await expect.element(target).toHaveAttribute("data-popup-open");
+    expect(target.element().getAttribute("aria-describedby")).toBe((await popup.element()).id);
+    await userEvent.keyboard("{Escape}");
+    await expect.element(popup).not.toBeInTheDocument();
+
+    await target.hover();
+    await expect.element(popup).toBeInTheDocument();
+  });
+
+  test("honors disabled and closeOnClick attachment options", async () => {
+    render(AttachmentFixture);
+    const disabled = page.getByTestId("attached-disabled");
+    await expect.element(disabled).toHaveAttribute("data-trigger-disabled");
+    disabled.element().focus();
+    await expect.element(page.getByText("Disabled hint")).not.toBeInTheDocument();
+
+    const persistent = page.getByTestId("attached-persistent");
+    persistent.element().focus();
+    await expect.element(page.getByText("Persistent hint")).toBeInTheDocument();
+    await persistent.click();
+    await expect.element(page.getByText("Persistent hint")).toBeInTheDocument();
+
+    const closing = page.getByTestId("attached-focus");
+    closing.element().focus();
+    await expect.element(page.getByText("Attached hint")).toBeInTheDocument();
+    await closing.click();
+    await expect.element(page.getByText("Attached hint")).not.toBeInTheDocument();
+  });
+
+  test("unregisters the target and its listeners when the attachment is destroyed", async () => {
+    render(AttachmentFixture);
+    await page.getByTestId("remove-attached-target").click();
+    await expect.element(page.getByTestId("attached-cleanup")).not.toBeInTheDocument();
+    await page.getByTestId("open-removed-target").click();
+    await expect.element(page.getByTestId("cleanup-result")).toHaveTextContent("missing");
   });
 
   test("hydrates the exact server-rendered tree without diagnostics", async () => {

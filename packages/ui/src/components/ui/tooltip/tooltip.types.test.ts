@@ -1,5 +1,7 @@
+import type { Attachment } from "svelte/attachments";
 import { expect, expectTypeOf, test } from "vitest";
 import {
+  createTriggerAttachment,
   TooltipCreateHandle,
   type TooltipPopupProps,
   type TooltipProviderProps,
@@ -32,6 +34,27 @@ test("types provider delays, root state, trigger behavior, portals, and placemen
   expect(root.trackCursorAxis).toBe("x");
   expect(trigger.closeOnClick).toBe(false);
   expect(popup.side).toBe("right");
+});
+
+test("types the reusable trigger attachment for real target elements", () => {
+  const handle = TooltipCreateHandle<string>();
+  const attachment = createTriggerAttachment(handle, () => ({
+    ariaDescribedBy: "format-description",
+    closeDelay: 20,
+    closeOnClick: false,
+    delay: 10,
+    disabled: false,
+    id: "format-trigger",
+    payload: "Format",
+  }));
+  expectTypeOf(attachment).toEqualTypeOf<Attachment<HTMLElement>>();
+  expect(attachment).toBeTypeOf("function");
+
+  createTriggerAttachment(handle, () => ({
+    id: "wrong-payload",
+    // @ts-expect-error a string handle rejects number payloads
+    payload: 42,
+  }));
 });
 
 test("preserves detached payload types across triggers and root children", () => {
