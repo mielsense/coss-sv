@@ -17,3 +17,9 @@ Shards supplies clamping, percentage formatting, label IDs, `role="meter"`, ARIA
 ## Rendered reference check
 
 At value 75, the first React docs preview measured 256px by 36px. Its track was 256px by 8px and its indicator was 192px by 8px with `width:75%`. The indicator transition was `all 500ms`. Browser tests cover label association, announcements, value formatting, bounds, custom ranges, updates, refs, exact inline width, SSR, types, and hydration. The Codex in-app Browser was unavailable, so manual light/dark and mobile comparison remains blocked without a Chrome substitute.
+
+## Documentation port evidence (D10)
+
+The D10 port freshly inspected the complete permitted COSS registry component, MDX page, every owned particle, and every local Shards source, documentation, test, example, and exported type available for this component. The Svelte page keeps the upstream preview order and visible copy. Each owned preview has a deterministic route and an exact ownership record in `docs/porting/docs-ownership.json`. UI icons use Hugeicons. No Lucide code or copied SVG path is present.
+
+The focused D10 tests cover the page and particle inventories, SSR compilation, modern Svelte syntax, icon authority, status semantics, async state changes, and reduced-motion-sensitive source. Accepted deviations: the install command uses the shadcn-svelte registry CLI, and API prose describes the Svelte wrapper and Shards parts rather than Base UI React.

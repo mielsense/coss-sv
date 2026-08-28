@@ -1,0 +1,51 @@
+---
+title: Alert
+description: A callout for displaying important information.
+---
+
+<ComponentPreview name="p-alert-1" />
+
+## Installation
+
+<InstallCommand
+  pnpm="pnpm add @coss-sv/ui @hugeicons/svelte @hugeicons/core-free-icons"
+  shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/alert.json"
+/>
+
+## Usage
+
+```svelte
+<script lang="ts">
+  import { Alert } from "@coss-sv/ui";
+</script>
+```
+
+## API Reference
+
+The Svelte port preserves the COSS styling and forwards native attributes to the rendered element.
+
+## Examples
+
+### With Icon
+
+<ComponentPreview name="p-alert-2" />
+
+### With Icon and Action Buttons
+
+<ComponentPreview name="p-alert-3" />
+
+### Info Alert
+
+<ComponentPreview name="p-alert-4" />
+
+### Success Alert
+
+<ComponentPreview name="p-alert-5" />
+
+### Warning Alert
+
+<ComponentPreview name="p-alert-6" />
+
+### Error Alert
+
+<ComponentPreview name="p-alert-7" />

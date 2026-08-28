@@ -39,3 +39,11 @@ The focused Playwright gate covers light and dark themes, both widths, exact DOM
 The Codex in-app Browser was requested for the manual comparison on 2026-08-27, but the runtime reported no available in-app Browser surface. No manual Browser claim is recorded; manual light/dark visual review remains an integration check.
 
 Accepted component deviations: none.
+
+## Documentation port evidence (D10)
+
+The D10 port freshly inspected the complete permitted COSS registry component, MDX page, every owned particle, and every local Shards source, documentation, test, example, and exported type available for this component. The Svelte page keeps the upstream preview order and visible copy. Each owned preview has a deterministic route and an exact ownership record in `docs/porting/docs-ownership.json`. UI icons use Hugeicons. No Lucide code or copied SVG path is present.
+
+The focused D10 tests cover the page and particle inventories, SSR compilation, modern Svelte syntax, icon authority, status semantics, async state changes, and reduced-motion-sensitive source. Accepted deviations: the install command uses the shadcn-svelte registry CLI, and API prose describes the Svelte wrapper and Shards parts rather than Base UI React.
+
+The Codex in-app Browser measured `p-alert-3` at 1200 by 68 pixels on the desktop preview. The root used a 14 pixel radius, 12 by 14 pixel padding, an 8 pixel column gap, and a 2 pixel row gap. At the mobile dark preview it measured 390 by 88 pixels with no horizontal overflow. The two actions remained keyboard buttons and moved to the responsive action row.

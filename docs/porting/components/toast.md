@@ -91,3 +91,11 @@ targets, root props, action native attributes, and every public alias.
 ## Hugeicons authority update
 
 Toast status glyphs now map error, info, loading, success, and warning to `AlertCircleIcon`, `InformationCircleIcon`, `Loading03Icon`, `CheckmarkCircle02Icon`, and `Alert02Icon` through `HugeiconsIcon`. The icon remains decorative; type-driven color, loading opacity, and spin classes stay unchanged. Promise transitions and mounted path rendering are covered in the browser suite, while the scoped source audit rejects copied paths and Lucide markers.
+
+## Documentation port evidence (D10)
+
+The D10 port freshly inspected the complete permitted COSS registry component, MDX page, every owned particle, and every local Shards source, documentation, test, example, and exported type available for this component. The Svelte page keeps the upstream preview order and visible copy. Each owned preview has a deterministic route and an exact ownership record in `docs/porting/docs-ownership.json`. UI icons use Hugeicons. No Lucide code or copied SVG path is present.
+
+The focused D10 tests cover the page and particle inventories, SSR compilation, modern Svelte syntax, icon authority, status semantics, async state changes, and reduced-motion-sensitive source. Accepted deviations: the install command uses the shadcn-svelte registry CLI, and API prose describes the Svelte wrapper and Shards parts rather than Base UI React.
+
+The Codex in-app Browser opened `p-toast-4` after hydration with keyboard activation. The viewport exposed the `Notifications` region, the toast exposed a dialog named `Action performed`, and the `Undo` action stayed enabled. The bottom-right toast measured 360 by 68 pixels inside a fixed viewport with no horizontal overflow.

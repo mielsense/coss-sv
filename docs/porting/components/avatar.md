@@ -22,3 +22,11 @@ The hydration test uses one fixture composed from `Avatar.Root`, `Avatar.Image`,
 ## Rendered reference check
 
 The first React docs preview rendered a 32px `span` root and 32px fallback. Its external Unsplash image failed in the isolated browser, so the fallback text `LT` was visible. Neither element had an animation. The Codex in-app Browser returned `Browser is not available: iab`; no external browser fallback was used. Headless browser checks remain the recorded visual and runtime evidence until an independent in-app review is available.
+
+## Documentation port evidence (D10)
+
+The D10 port freshly inspected the complete permitted COSS registry component, MDX page, every owned particle, and every local Shards source, documentation, test, example, and exported type available for this component. The Svelte page keeps the upstream preview order and visible copy. Each owned preview has a deterministic route and an exact ownership record in `docs/porting/docs-ownership.json`. UI icons use Hugeicons. No Lucide code or copied SVG path is present.
+
+The focused D10 tests cover the page and particle inventories, SSR compilation, modern Svelte syntax, icon authority, status semantics, async state changes, and reduced-motion-sensitive source. Accepted deviations: the install command uses the shadcn-svelte registry CLI, and API prose describes the Svelte wrapper and Shards parts rather than Base UI React.
+
+The Codex in-app Browser loaded the pinned `p-avatar-1` image and exposed the exact `Luke Tracy` alternative text. The root measured 32 by 32 pixels with a full circular radius and no horizontal overflow.

@@ -1,0 +1,46 @@
+---
+title: Avatar
+description: An image element with a fallback for representing the user.
+
+links:
+  doc: https://shardsui.com/svelte/avatar
+---
+
+<ComponentPreview name="p-avatar-1" />
+
+## Installation
+
+<InstallCommand
+  pnpm="pnpm add @coss-sv/ui @hugeicons/svelte @hugeicons/core-free-icons"
+  shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/avatar.json"
+/>
+
+## Usage
+
+```svelte
+<script lang="ts">
+  import { Avatar } from "@coss-sv/ui";
+</script>
+```
+
+## API Reference
+
+The Svelte port preserves the COSS styling and forwards native attributes to the rendered element. See the [Shards Avatar API](https://shardsui.com/svelte/avatar) for primitive behavior and part props.
+
+## Examples
+
+### Fallback Only
+
+<ComponentPreview name="p-avatar-2" />
+
+### Different Sizes
+
+<ComponentPreview name="p-avatar-3" />
+
+### Different Radius
+
+<ComponentPreview name="p-avatar-4" />
+
+### Group Avatars
+
+<ComponentPreview name="p-avatar-5" />

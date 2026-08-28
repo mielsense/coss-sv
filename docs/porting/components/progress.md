@@ -23,3 +23,9 @@ The exact `p-progress-1` source does not supply an accessible name. The port pre
 The live parity fixture retains the reference interval and random increment expression. Its Playwright check reads the root status, `aria-valuenow`, track rectangle, and indicator style in one page evaluation. A value from 20 through 99 must be progressing. A value of 100 must be complete. The indicator width must match the value from that same snapshot.
 
 Tests also cover clamped complete, indeterminate, announcements, dynamic updates, refs, SSR, types, and hydration. The Codex in-app Browser was unavailable during implementation, so manual theme and viewport comparison remains pending independent in-app review.
+
+## Documentation port evidence (D10)
+
+The D10 port freshly inspected the complete permitted COSS registry component, MDX page, every owned particle, and every local Shards source, documentation, test, example, and exported type available for this component. The Svelte page keeps the upstream preview order and visible copy. Each owned preview has a deterministic route and an exact ownership record in `docs/porting/docs-ownership.json`. UI icons use Hugeicons. No Lucide code or copied SVG path is present.
+
+The focused D10 tests cover the page and particle inventories, SSR compilation, modern Svelte syntax, icon authority, status semantics, async state changes, and reduced-motion-sensitive source. Accepted deviations: the install command uses the shadcn-svelte registry CLI, and API prose describes the Svelte wrapper and Shards parts rather than Base UI React.

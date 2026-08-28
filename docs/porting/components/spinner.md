@@ -20,3 +20,9 @@ The first React docs preview computed to a 24px SVG with `spin 1s linear infinit
 ## Hugeicons authority update
 
 Spinner now renders the free `Loading02Icon`, the closest partial-ring glyph, through the local SSR-safe Hugeicons renderer. The component preserves its SVG root, default `Loading` name, `status` role, native callbacks, bindable SVG ref, animation class, explicit dimensions, absolute-stroke calculation, and consumer `children` snippet. Native fill, stroke, line-cap, line-join, size, class, ref, and remaining SVG attributes reach the root; explicit drawing attributes also override the official glyph data consistently. The renderer emits only the four SVG node types present in the inspected free icon pack and never accepts HTML or copied glyph paths. Tests cover server paths, hydration, mounted paths, attribute precedence, child order, callbacks, refs, status semantics, types, and animation.
+
+## Documentation port evidence (D10)
+
+The D10 port freshly inspected the complete permitted COSS registry component, MDX page, every owned particle, and every local Shards source, documentation, test, example, and exported type available for this component. The Svelte page keeps the upstream preview order and visible copy. Each owned preview has a deterministic route and an exact ownership record in `docs/porting/docs-ownership.json`. UI icons use Hugeicons. No Lucide code or copied SVG path is present.
+
+The focused D10 tests cover the page and particle inventories, SSR compilation, modern Svelte syntax, icon authority, status semantics, async state changes, and reduced-motion-sensitive source. Accepted deviations: the install command uses the shadcn-svelte registry CLI, and API prose describes the Svelte wrapper and Shards parts rather than Base UI React.
