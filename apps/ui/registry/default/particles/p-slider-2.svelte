@@ -12,13 +12,13 @@ export const meta = defineParticleMeta({
 </script>
 
 <script lang="ts">
-import { Slider } from "@coss-sv/ui";
+import { Field, Slider } from "@coss-sv/ui";
 </script>
-<div class="w-full">
+<Field.Root class="w-full">
   <Slider.Root defaultValue={50}>
     <div class="mb-2 flex items-center justify-between gap-1">
-      <Slider.Label class="font-medium text-sm">Opacity</Slider.Label>
+      <Field.Label class="font-medium text-sm">Opacity</Field.Label>
       <Slider.Value />
     </div>
   </Slider.Root>
-</div>
+</Field.Root>

@@ -11,7 +11,7 @@ export const meta = defineParticleMeta({
 </script>
 
 <script lang="ts">
-import { Button, CheckboxGroup, Label } from "@coss-sv/ui";
+import { Button, CheckboxGroup, Field, Fieldset, Form } from "@coss-sv/ui";
 const frameworks = [
   { value: "next", label: "Next.js" },
   { value: "vite", label: "Vite" },
@@ -28,16 +28,16 @@ async function submit(event: SubmitEvent) {
 }
 </script>
 
-<form class="flex w-full max-w-[160px] flex-col gap-4" onsubmit={submit}>
-  <fieldset class="flex flex-col gap-3">
-    <legend class="font-medium text-sm">Frameworks</legend>
+<Form class="flex w-full max-w-[160px] flex-col gap-4" onsubmit={submit}>
+  <Field.Root as="fieldset" name="frameworks">
+    <Fieldset.Legend class="font-medium text-sm">Frameworks</Fieldset.Legend>
     <CheckboxGroup.Root defaultValue={["next"]}>
       {#each frameworks as framework (framework.value)}
-        <Label
-          ><CheckboxGroup.Item name="frameworks" value={framework.value} />{framework.label}</Label
-        >
+        <Field.Item>
+          <Field.Label><CheckboxGroup.Item value={framework.value} />{framework.label}</Field.Label>
+        </Field.Item>
       {/each}
     </CheckboxGroup.Root>
-  </fieldset>
+  </Field.Root>
   <Button {loading} type="submit">Submit</Button>
-</form>
+</Form>

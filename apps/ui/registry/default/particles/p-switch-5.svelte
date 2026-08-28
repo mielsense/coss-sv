@@ -11,7 +11,7 @@ export const meta = defineParticleMeta({
 </script>
 
 <script lang="ts">
-import { Button, Label, Switch } from "@coss-sv/ui";
+import { Button, Field, Form, Switch } from "@coss-sv/ui";
 let loading = $state(false);
 async function submit(event: SubmitEvent) {
   event.preventDefault();
@@ -24,10 +24,12 @@ async function submit(event: SubmitEvent) {
 }
 </script>
 
-<form class="flex flex-col gap-4" onsubmit={submit}>
-  <Label
-    ><Switch aria-label="Enable marketing emails" checked name="marketing" />
-    Enable marketing emails</Label
-  >
+<Form class="flex flex-col gap-4" onsubmit={submit}>
+  <Field.Root name="marketing">
+    <Field.Label
+      ><Switch checked name="marketing" />
+      Enable marketing emails</Field.Label
+    >
+  </Field.Root>
   <Button {loading} type="submit">Submit</Button>
-</form>
+</Form>

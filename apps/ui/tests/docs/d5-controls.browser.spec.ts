@@ -163,6 +163,15 @@ describe("D5 control examples", () => {
     const bookmarkView = mount(BookmarkToggleExample, { target: document.body });
     const bookmark = page.getByRole("button", { name: "Bookmark this" });
     bookmark.element().focus();
+    await expect.element(page.getByRole("tooltip", { name: "Bookmark this" })).toBeInTheDocument();
+    bookmark.element().blur();
+    await expect
+      .element(page.getByRole("tooltip", { name: "Bookmark this" }))
+      .not.toBeInTheDocument();
+    await bookmark.hover();
+    await expect.element(page.getByRole("tooltip", { name: "Bookmark this" })).toBeInTheDocument();
+    await userEvent.unhover(bookmark);
+    bookmark.element().focus();
     await userEvent.keyboard(" ");
     await expect
       .element(page.getByRole("button", { name: "Remove bookmark" }))
@@ -173,6 +182,13 @@ describe("D5 control examples", () => {
     const groupView = mount(ToggleGroupExample, { target: document.body });
     const bold = page.getByRole("button", { name: "Toggle bold" });
     await expect.element(bold).toHaveAttribute("aria-pressed", "true");
+    bold.element().focus();
+    await expect.element(page.getByRole("tooltip", { name: "Bold" })).toBeInTheDocument();
+    bold.element().blur();
+    await expect.element(page.getByRole("tooltip", { name: "Bold" })).not.toBeInTheDocument();
+    await bold.hover();
+    await expect.element(page.getByRole("tooltip", { name: "Bold" })).toBeInTheDocument();
+    await userEvent.unhover(bold);
     bold.element().focus();
     await userEvent.keyboard(" ");
     await expect.element(bold).toHaveAttribute("aria-pressed", "false");

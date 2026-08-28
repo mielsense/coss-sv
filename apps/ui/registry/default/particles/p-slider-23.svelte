@@ -11,7 +11,7 @@ export const meta = defineParticleMeta({
 </script>
 
 <script lang="ts">
-import { Button, Field, Fieldset, Slider } from "@coss-sv/ui";
+import { Button, Field, Fieldset, Form, Slider } from "@coss-sv/ui";
 let loading = $state(false);
 let value = $state<number | readonly number[]>([25, 75]);
 async function submit(event: SubmitEvent) {
@@ -24,15 +24,17 @@ async function submit(event: SubmitEvent) {
 }
 </script>
 
-<form class="flex w-full flex-col gap-4" onsubmit={submit}>
-  <Fieldset.Root class="flex w-full flex-col items-stretch gap-3"
-    ><Field.Root
-      ><Slider.Root name="volume" bind:value
-        ><div class="mb-2 flex items-center justify-between gap-1">
-          <Fieldset.Legend>Volume</Fieldset.Legend><Slider.Value />
-        </div></Slider.Root
-      ><Field.Description>Choose a value between 0 and 100</Field.Description></Field.Root
-    ></Fieldset.Root
-  >
+<Form class="flex w-full flex-col gap-4" onsubmit={submit}>
+  <Fieldset.Root class="flex w-full flex-col items-stretch gap-3">
+    <Field.Root>
+      <Slider.Root name="volume" bind:value>
+        <div class="mb-2 flex items-center justify-between gap-1">
+          <Fieldset.Legend>Volume</Fieldset.Legend>
+          <Slider.Value />
+        </div>
+      </Slider.Root>
+      <Field.Description>Choose a value between 0 and 100</Field.Description>
+    </Field.Root>
+  </Fieldset.Root>
   <Button {loading} type="submit">Submit</Button>
-</form>
+</Form>

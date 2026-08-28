@@ -26,8 +26,17 @@ links:
 
 ### Toggle
 
-`Toggle` wraps the Shards toggle and adds the COSS `default` and `outline` variants plus `sm`,
-`default`, and `lg` sizes. Use `pressed` for an initial value or `bind:pressed` for controlled state.
+Styled wrapper for the Shards toggle with variant and size options.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `variant` | `"default" \| "outline"` | `"default"` | Controls the toggle styling |
+| `size` | `"default" \| "sm" \| "lg"` | `"default"` | Controls the toggle size |
+| `pressed` | `boolean` | `false` | Current pressed state; supports `bind:pressed` |
+| `onPressedChange` | `(pressed: boolean) => void` | — | Runs when the pressed state changes |
+| `disabled` | `boolean` | `false` | Prevents focus and activation |
+| `value` | `string` | auto | Identifies the toggle inside a Toggle Group |
+| `as` | `keyof HTMLElementTagNameMap` | `"button"` | HTML element to render |
 
 See the [Shards Toggle API](https://shardsui.com/svelte/toggle) for state and keyboard props.
 

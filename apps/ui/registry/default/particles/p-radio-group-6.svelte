@@ -11,7 +11,7 @@ export const meta = defineParticleMeta({
 </script>
 
 <script lang="ts">
-import { Label, RadioGroup } from "@coss-sv/ui";
+import { Field, Fieldset, RadioGroup } from "@coss-sv/ui";
 
 const themes = [
   {
@@ -71,19 +71,21 @@ const themes = [
   {/if}
 {/snippet}
 
-<fieldset class="flex flex-col gap-4">
-  <legend class="font-medium text-sm">Choose a theme</legend>
+<Field.Root as="fieldset" class="gap-4" name="theme">
+  <Fieldset.Legend class="font-medium text-sm">Choose a theme</Fieldset.Legend>
   <RadioGroup.Root class="flex-row gap-4" defaultValue="system">
     {#each themes as theme (theme.value)}
-      <Label class="cursor-pointer flex-col">
-        <RadioGroup.Item class="peer sr-only absolute" value={theme.value} />
-        <span
-          class={["relative block h-[70px] w-[88px] overflow-hidden rounded-lg shadow-xs transition-shadow not-peer-data-checked:opacity-80 peer-data-checked:ring-2 peer-data-checked:ring-primary/48 peer-data-checked:ring-offset-1 peer-data-checked:ring-offset-background peer-data-disabled:cursor-not-allowed peer-data-disabled:opacity-64", theme.class]}
-        >
-          {@render preview(theme.value)}
-        </span>
-        <span class="not-peer-data-checked:text-muted-foreground/70">{theme.label}</span>
-      </Label>
+      <Field.Item>
+        <Field.Label class="cursor-pointer flex-col">
+          <RadioGroup.Item class="peer sr-only absolute" value={theme.value} />
+          <span
+            class={["relative block h-[70px] w-[88px] overflow-hidden rounded-lg shadow-xs transition-shadow not-peer-data-checked:opacity-80 peer-data-checked:ring-2 peer-data-checked:ring-primary/48 peer-data-checked:ring-offset-1 peer-data-checked:ring-offset-background peer-data-disabled:cursor-not-allowed peer-data-disabled:opacity-64", theme.class]}
+          >
+            {@render preview(theme.value)}
+          </span>
+          <span class="not-peer-data-checked:text-muted-foreground/70">{theme.label}</span>
+        </Field.Label>
+      </Field.Item>
     {/each}
   </RadioGroup.Root>
-</fieldset>
+</Field.Root>

@@ -1,4 +1,3 @@
-(eval):5: parse error near `end'
 <script module lang="ts">
 import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
 

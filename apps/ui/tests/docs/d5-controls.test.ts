@@ -1,6 +1,15 @@
 import { existsSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
+import { render as renderServer } from "svelte/server";
 import { describe, expect, test } from "vitest";
+import CheckboxFormExample from "../../registry/default/particles/p-checkbox-5.svelte";
+import CheckboxGroupFormExample from "../../registry/default/particles/p-checkbox-group-5.svelte";
+import RadioGroupFormExample from "../../registry/default/particles/p-radio-group-5.svelte";
+import SliderFieldExample from "../../registry/default/particles/p-slider-2.svelte";
+import SliderFormExample from "../../registry/default/particles/p-slider-23.svelte";
+import SwitchFormExample from "../../registry/default/particles/p-switch-5.svelte";
+import Availability8 from "../../registry/default/particles/p-switch-8.svelte";
+import Availability9 from "../../registry/default/particles/p-switch-9.svelte";
 
 const compiledParticles = import.meta.glob(
   [
@@ -182,6 +191,78 @@ describe("D5 control documentation inventory", () => {
       expect(particle).toContain("<CheckboxGroup.Item");
       expect(particle).not.toMatch(/<select\b|<Checkbox(?:\s|>)/);
     }
+  });
+
+  test("renders the scheduling editors without build-shell diagnostics", () => {
+    for (const Example of [Availability8, Availability9]) {
+      const { body } = renderServer(Example);
+
+      expect(body).toContain("Monday");
+      expect(body).not.toContain("parse error near");
+      expect(body).not.toContain("(eval):5");
+    }
+  });
+
+  test("renders package Form, Field, and Fieldset composition in the six form particles", () => {
+    const rendered = [
+      renderServer(CheckboxFormExample).body,
+      renderServer(CheckboxGroupFormExample).body,
+      renderServer(RadioGroupFormExample).body,
+      renderServer(SliderFieldExample).body,
+      renderServer(SliderFormExample).body,
+      renderServer(SwitchFormExample).body,
+    ];
+
+    expect(rendered[0]).toContain('data-slot="form"');
+    expect(rendered[0]).toContain('data-slot="field"');
+    expect(rendered[1]).toContain("<fieldset");
+    expect(rendered[1]).toContain('data-slot="fieldset-legend"');
+    expect(rendered[1]).toContain('data-slot="field"');
+    expect(rendered[1]).toContain('data-slot="field-item"');
+    expect(rendered[2]).toContain("<fieldset");
+    expect(rendered[2]).toContain('data-slot="fieldset-legend"');
+    expect(rendered[2]).toContain('data-slot="field"');
+    expect(rendered[2]).toContain('data-slot="field-item"');
+    expect(rendered[3]).toContain('data-slot="field"');
+    expect(rendered[3]).toContain('data-slot="field-label"');
+    expect(rendered[4]).toContain('data-slot="form"');
+    expect(rendered[4]).toContain('data-slot="fieldset"');
+    expect(rendered[4]).toContain('data-slot="fieldset-legend"');
+    expect(rendered[4]).toContain('data-slot="field"');
+    expect(rendered[4]).toContain('data-slot="field-description"');
+    expect(rendered[5]).toContain('data-slot="form"');
+    expect(rendered[5]).toContain('data-slot="field"');
+  });
+
+  test("documents exact Svelte control prop unions and defaults", () => {
+    const button = source("apps/ui/content/docs/components/button.svx");
+    const slider = source("apps/ui/content/docs/components/slider.svx");
+    const toggle = source("apps/ui/content/docs/components/toggle.svx");
+    const toggleGroup = source("apps/ui/content/docs/components/toggle-group.svx");
+
+    expect(button).toContain(
+      '`"default" \\| "destructive" \\| "destructive-outline" \\| "ghost" \\| "link" \\| "outline" \\| "secondary"`',
+    );
+    expect(button).toContain(
+      '`"default" \\| "icon" \\| "icon-lg" \\| "icon-sm" \\| "icon-xl" \\| "icon-xs" \\| "lg" \\| "sm" \\| "xl" \\| "xs"`',
+    );
+    expect(button).toContain('`data-slot="button-loading-indicator"`');
+    expect(button).toContain("keeps the child content mounted");
+
+    expect(slider).toContain("`number \\| readonly number[]`");
+    expect(slider).toContain('`"push" \\| "swap" \\| "none"`');
+    expect(slider).toContain('`"center" \\| "edge"`');
+    expect(slider).toContain("| `thumbAlignment`");
+
+    expect(toggle).toContain('`"default" \\| "outline"`');
+    expect(toggle).toContain('`"default" \\| "sm" \\| "lg"`');
+    expect(toggle).toContain("| `pressed`");
+    expect(toggle).toContain("| `onPressedChange`");
+
+    expect(toggleGroup).toContain('`"horizontal" \\| "vertical"`');
+    expect(toggleGroup).toContain("| `loopFocus`");
+    expect(toggleGroup).toContain("| `multiple`");
+    expect(toggleGroup).toContain("| `defaultValue`");
   });
 
   test("keeps the Hugeicons menu transition and reduced-motion contract", () => {

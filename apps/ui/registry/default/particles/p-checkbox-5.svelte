@@ -11,7 +11,7 @@ export const meta = defineParticleMeta({
 </script>
 
 <script lang="ts">
-import { Button, Checkbox, Label } from "@coss-sv/ui";
+import { Button, Checkbox, Field, Form } from "@coss-sv/ui";
 let loading = $state(false);
 async function submit(event: SubmitEvent) {
   event.preventDefault();
@@ -23,7 +23,9 @@ async function submit(event: SubmitEvent) {
 }
 </script>
 
-<form class="flex w-auto flex-col gap-4" onsubmit={submit}>
-  <Label><Checkbox checked name="terms" value="yes" />Accept terms and conditions</Label>
+<Form class="flex w-auto flex-col gap-4" onsubmit={submit}>
+  <Field.Root name="terms">
+    <Field.Label><Checkbox checked value="yes" />Accept terms and conditions</Field.Label>
+  </Field.Root>
   <Button {loading} type="submit">Submit</Button>
-</form>
+</Form>

@@ -34,11 +34,27 @@ Pass `href` to render a semantic link with the same styles.
 
 ### Button
 
-`Button` supports the COSS `variant`, `size`, and `loading` props. Native button attributes pass to
-the underlying element. When `loading` is true, the component keeps its width, adds
-`data-loading`, sets `aria-disabled`, and disables interaction while the loading indicator is shown.
-Use `href`, `target`, `rel`, and `download` for links. Use `as` only for non-link polymorphic button
-semantics.
+A button component with variant, size, and loading states. Native attributes pass to the rendered
+element.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `variant` | `"default" \| "destructive" \| "destructive-outline" \| "ghost" \| "link" \| "outline" \| "secondary"` | `"default"` | Controls the button styling |
+| `size` | `"default" \| "icon" \| "icon-lg" \| "icon-sm" \| "icon-xl" \| "icon-xs" \| "lg" \| "sm" \| "xl" \| "xs"` | `"default"` | Controls the button size |
+| `loading` | `boolean` | `false` | Shows a spinner and forces disabled button behavior while loading |
+| `href` | `string` | — | Renders a semantic link with the button styles |
+| `target` | `string` | — | Sets the link browsing context when `href` is present |
+| `rel` | `string` | — | Sets the link relationship when `href` is present |
+| `download` | `boolean \| string` | — | Downloads the linked resource when `href` is present |
+| `as` | `keyof HTMLElementTagNameMap` | `"button"` | Renders a different non-link element |
+
+When `loading` is `true`, the component:
+
+- Renders a spinner (`data-slot="button-loading-indicator"`)
+- Adds `data-loading` on the button root
+- Forces the native `disabled` attribute for buttons
+- Sets `aria-disabled="true"`
+- Preserves button width because it keeps the child content mounted and hides it visually
 
 See the [Shards Button API](https://shardsui.com/svelte/button) for keyboard and disabled behavior.
 
