@@ -2,6 +2,7 @@
 import type { Component, Snippet } from "svelte";
 import type { SvelteHTMLElements } from "svelte/elements";
 import type { TooltipPopupProps } from "../tooltip/tooltip-popup.svelte";
+import type { SidebarPolymorphicDiscriminator } from "./polymorphic.js";
 
 export type SidebarMenuButtonSize = "default" | "lg" | "sm";
 export type SidebarMenuButtonVariant = "default" | "outline";
@@ -10,16 +11,16 @@ export type SidebarMenuButtonTag = "a" | "button";
 export type SidebarMenuButtonProps<Tag extends SidebarMenuButtonTag = "button"> = Omit<
   SvelteHTMLElements[Tag],
   "children" | "class" | "ref" | "size"
-> & {
-  as?: Tag;
-  children?: Snippet;
-  class?: string;
-  isActive?: boolean;
-  ref?: HTMLElement | null;
-  size?: SidebarMenuButtonSize;
-  tooltip?: SidebarMenuButtonTooltip;
-  variant?: SidebarMenuButtonVariant;
-};
+> &
+  SidebarPolymorphicDiscriminator<SidebarMenuButtonTag, Tag, "button"> & {
+    children?: Snippet;
+    class?: string;
+    isActive?: boolean;
+    ref?: HTMLElement | null;
+    size?: SidebarMenuButtonSize;
+    tooltip?: SidebarMenuButtonTooltip;
+    variant?: SidebarMenuButtonVariant;
+  };
 type SidebarMenuButtonComponentProps =
   | SidebarMenuButtonProps<"a">
   | SidebarMenuButtonProps<"button">;

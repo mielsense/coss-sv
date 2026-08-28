@@ -1,17 +1,18 @@
 <script module lang="ts">
 import type { Snippet } from "svelte";
 import type { SvelteHTMLElements } from "svelte/elements";
+import type { SidebarPolymorphicDiscriminator } from "./polymorphic.js";
 
 export type SidebarGroupLabelTag = "div" | "label" | "span";
 export type SidebarGroupLabelProps<Tag extends SidebarGroupLabelTag = "div"> = Omit<
   SvelteHTMLElements[Tag],
   "children" | "class" | "ref"
-> & {
-  as?: Tag;
-  children?: Snippet;
-  class?: string;
-  ref?: HTMLElement | null;
-};
+> &
+  SidebarPolymorphicDiscriminator<SidebarGroupLabelTag, Tag, "div"> & {
+    children?: Snippet;
+    class?: string;
+    ref?: HTMLElement | null;
+  };
 type SidebarGroupLabelComponentProps =
   | SidebarGroupLabelProps<"div">
   | SidebarGroupLabelProps<"label">

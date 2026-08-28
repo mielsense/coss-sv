@@ -1,19 +1,20 @@
 <script module lang="ts">
 import type { Snippet } from "svelte";
 import type { SvelteHTMLElements } from "svelte/elements";
+import type { SidebarPolymorphicDiscriminator } from "./polymorphic.js";
 
 export type SidebarMenuSubButtonTag = "a" | "button";
 export type SidebarMenuSubButtonProps<Tag extends SidebarMenuSubButtonTag = "a"> = Omit<
   SvelteHTMLElements[Tag],
   "children" | "class" | "ref" | "size"
-> & {
-  as?: Tag;
-  children?: Snippet;
-  class?: string;
-  isActive?: boolean;
-  ref?: HTMLElement | null;
-  size?: "md" | "sm";
-};
+> &
+  SidebarPolymorphicDiscriminator<SidebarMenuSubButtonTag, Tag, "a"> & {
+    children?: Snippet;
+    class?: string;
+    isActive?: boolean;
+    ref?: HTMLElement | null;
+    size?: "md" | "sm";
+  };
 type SidebarMenuSubButtonComponentProps =
   | SidebarMenuSubButtonProps<"a">
   | SidebarMenuSubButtonProps<"button">;
