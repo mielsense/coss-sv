@@ -1,6 +1,9 @@
 import { existsSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
+import { compile } from "svelte/compiler";
+import { render } from "svelte/server";
 import { describe, expect, test } from "vitest";
+import EmptyDocumentation from "../../content/docs/components/empty.svx";
 
 const appRoot = resolve(import.meta.dirname, "../..");
 const repositoryRoot = resolve(appRoot, "../..");
@@ -104,7 +107,7 @@ const expectedPagePackages: Record<(typeof pages)[number], readonly string[]> = 
   accordion: ["@coss-sv/ui"],
   card: ["@coss-sv/ui", "@hugeicons/svelte", "@hugeicons/core-free-icons"],
   collapsible: ["@coss-sv/ui"],
-  empty: ["@coss-sv/ui"],
+  empty: ["@coss-sv/ui", "@hugeicons/svelte", "@hugeicons/core-free-icons"],
   frame: ["@coss-sv/ui"],
   separator: ["@coss-sv/ui"],
   skeleton: ["@coss-sv/ui"],
@@ -129,6 +132,19 @@ function barePackageName(specifier: string): string | undefined {
   if (!specifier || /^(?:\.|\/|\$|#|node:)/.test(specifier)) return undefined;
   const segments = specifier.split("/");
   return specifier.startsWith("@") ? segments.slice(0, 2).join("/") : segments[0];
+}
+
+function fencedSvelteBlocks(markdown: string): string[] {
+  return [...markdown.matchAll(/```svelte\s*\n([\s\S]*?)```/g)].map(([, code]) => code ?? "");
+}
+
+function levelThreeSections(markdown: string): Array<{ body: string; heading: string }> {
+  const headings = [...markdown.matchAll(/^### (.+)$/gm)];
+  return headings.map((match, index) => {
+    const start = (match.index ?? 0) + match[0].length;
+    const end = headings[index + 1]?.index ?? markdown.length;
+    return { body: markdown.slice(start, end), heading: match[1] ?? "" };
+  });
 }
 
 describe("D4 disclosure and surface documentation inventory", () => {
@@ -193,6 +209,92 @@ describe("D4 disclosure and surface documentation inventory", () => {
     expect(source("apps/ui/content/docs/components/separator.svx")).toContain(
       "https://shardsui.com/svelte/separator",
     );
+  });
+
+  test("keeps all seven upstream Empty API examples in their exact section order", () => {
+    const page = source("apps/ui/content/docs/components/empty.svx");
+    const [usage] = fencedSvelteBlocks(page);
+    const apiReference = page.slice(page.indexOf("## API Reference"));
+    const sections = levelThreeSections(apiReference);
+
+    expect(sections.map(({ heading }) => heading)).toEqual([
+      "Empty",
+      "EmptyHeader",
+      "EmptyMedia",
+      "EmptyTitle",
+      "EmptyDescription",
+      "EmptyContent",
+    ]);
+    expect(sections.map(({ body }) => fencedSvelteBlocks(body).length)).toEqual([1, 1, 2, 1, 1, 1]);
+
+    const examples = sections.flatMap(({ body }) => fencedSvelteBlocks(body));
+    expect(examples).toHaveLength(7);
+    expect(examples[0]).toContain("<Empty>");
+    expect(examples[0]).toContain("<EmptyHeader />");
+    expect(examples[0]).toContain("<EmptyContent />");
+    expect(examples[1]).toContain("<EmptyHeader>");
+    expect(examples[1]).toContain("<EmptyMedia />");
+    expect(examples[2]).toContain('<EmptyMedia variant="icon">');
+    expect(examples[2]).toContain("<HugeiconsIcon");
+    expect(examples[3]).toContain("<Avatar.Root>");
+    expect(examples[3]).toContain('<Avatar.Image src="..." />');
+    expect(examples[3]).toContain("<Avatar.Fallback>JD</Avatar.Fallback>");
+    expect(examples[4]).toContain("<EmptyTitle>No data</EmptyTitle>");
+    expect(examples[5]).toContain(
+      "<EmptyDescription>You do not have any notifications.</EmptyDescription>",
+    );
+    expect(examples[6]).toContain("<EmptyContent>");
+    expect(examples[6]).toContain("<Button>Add Project</Button>");
+    expect(examples.filter((example) => example.includes("<HugeiconsIcon"))).toEqual([examples[2]]);
+    expect(usage).toContain("Avatar,");
+    expect(page).toContain('from "@coss-sv/ui"');
+  });
+
+  test("compiles every displayed Empty Svelte source block", () => {
+    const page = source("apps/ui/content/docs/components/empty.svx");
+    const examples = fencedSvelteBlocks(page);
+
+    expect(examples).toHaveLength(8);
+    examples.forEach((example, index) => {
+      expect(() =>
+        compile(example, {
+          filename: `empty-displayed-example-${index + 1}.svelte`,
+          generate: "server",
+          runes: true,
+        }),
+      ).not.toThrow();
+    });
+  });
+
+  test("server-renders all Empty API sections and displayed examples", () => {
+    const body = render(EmptyDocumentation).body;
+    const apiReference = body.slice(body.indexOf('<h2 id="api-reference">'));
+
+    for (const id of [
+      "empty",
+      "emptyheader",
+      "emptymedia",
+      "emptytitle",
+      "emptydescription",
+      "emptycontent",
+    ]) {
+      expect(apiReference).toContain(`<h3 id="${id}">`);
+    }
+    expect(apiReference.match(/<pre class="shiki shiki-themes/g)).toHaveLength(7);
+    for (const component of [
+      "Empty",
+      "EmptyHeader",
+      "EmptyMedia",
+      "Avatar",
+      "EmptyTitle",
+      "EmptyDescription",
+      "EmptyContent",
+      "Button",
+    ]) {
+      expect(apiReference).toContain(`>${component}</span>`);
+    }
+    expect(apiReference).toContain("You do not have any notifications.");
+    expect(apiReference).toContain("Add Project");
   });
 
   test("uses Svelte and ShardsUI copy in every accordion particle", () => {

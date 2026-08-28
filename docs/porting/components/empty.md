@@ -38,6 +38,13 @@ Create meeting and View docs are 28px high desktop and 32px high mobile, with 10
 
 The focused Playwright gate covers light and dark themes, both widths, exact hierarchy and copy, icon layers, treatment classes, geometry, Tab order, console errors, and axe.
 
+The documentation API reference preserves all seven upstream code examples in order: `Empty`,
+`EmptyHeader`, both `EmptyMedia` variants, `EmptyTitle`, `EmptyDescription`, and `EmptyContent`.
+The Svelte translation uses the public `@coss-sv/ui` exports and the `Avatar.Root`, `Avatar.Image`,
+and `Avatar.Fallback` namespace. Only the upstream icon example renders a Hugeicons glyph. The D4
+test compiles every displayed Svelte fence and server-renders the authored page, then requires all
+six API headings and seven highlighted example blocks.
+
 ## D4 documentation coverage
 
 The page and `p-empty-1` preserve the upstream copy, action order, icon meaning, and layered media
