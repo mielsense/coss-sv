@@ -32,6 +32,7 @@ overrides:
   rolldown: 1.2.5
 
 allowBuilds:
+  '@hugeicons/svelte': false
   '@tailwindcss/oxide': true
   esbuild: true
 
