@@ -657,6 +657,7 @@ export {
   type TextareaProps,
   type TextareaSize,
 } from "./components/ui/textarea/index.js";
+export * as Toast from "./components/ui/toast/index.js";
 export {
   Toggle,
   TogglePrimitive,
