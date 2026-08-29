@@ -311,6 +311,7 @@ describe("D8 selection, command, and menu examples", () => {
     const firstToken = requests[0]?.body.sessionToken;
     expect(firstToken).toBeTruthy();
 
+    await vi.advanceTimersByTimeAsync(60 * 60 * 1_000);
     await input.fill("second");
     const firstRequest = requests[0];
     if (!firstRequest?.resolve) throw new Error("missing pending first Places request");
@@ -366,7 +367,7 @@ describe("D8 selection, command, and menu examples", () => {
   test("submits multiple combobox item values instead of their visible labels", async () => {
     const alert = vi.spyOn(window, "alert").mockImplementation(() => undefined);
     const view = mount(MultipleFormComboboxExample, { target: document.body });
-    const input = page.getByRole("combobox", { name: /Favorite items|Select a item/ });
+    const input = page.getByRole("combobox", { name: "Favorite items", exact: true });
 
     await input.fill("Apple");
     await page.getByRole("option", { name: "Apple", exact: true }).click();

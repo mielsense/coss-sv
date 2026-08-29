@@ -181,6 +181,6 @@ Popup for submenu content.
 
 ### With Switch
 
-`ContextMenu.CheckboxItem` keeps checkbox semantics while using the switch appearance.
+`ContextMenu.CheckboxItem` supports a `variant="switch"` prop that displays a decorative switch indicator instead of a checkmark. This is a purely visual variant — the component remains a checkbox item with the same functionality.
 
 <ComponentPreview name="p-context-menu-8" />

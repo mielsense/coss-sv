@@ -50,10 +50,7 @@
         {#each value as item (item.value)}<Combobox.Chip aria-label={item.label}
             >{item.label}</Combobox.Chip
           >{/each}
-        <Combobox.ChipsInput
-          {...value.length ? {} : { placeholder: "Select items…" }}
-          aria-label="Select a item"
-        />
+        <Combobox.ChipsInput {...value.length ? {} : { placeholder: "Select items…" }} />
       </Combobox.Chips>
       <Combobox.Popup
         ><Combobox.Empty>No items found.</Combobox.Empty><Combobox.List

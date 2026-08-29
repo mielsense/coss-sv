@@ -1,6 +1,7 @@
 import { existsSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import type { Component } from "svelte";
+import { compile } from "svelte/compiler";
 import { render } from "svelte/server";
 import { describe, expect, test } from "vitest";
 
@@ -176,6 +177,31 @@ describe("D8 selection, command, and menu documentation", () => {
     }
   });
 
+  test("ships a complete runnable Autocomplete usage example", () => {
+    const page = source("apps/ui/content/docs/components/autocomplete.svx");
+    const usage = /## Usage\s+```svelte\n([\s\S]*?)\n```/.exec(page)?.[1];
+    expect(usage).toBeDefined();
+    expect(usage).toContain(`const items = [
+    { value: "apple", label: "Apple" },
+    { value: "banana", label: "Banana" },
+    { value: "orange", label: "Orange" },
+    { value: "grape", label: "Grape" },
+  ];`);
+    expect(usage?.indexOf("const items = [")).toBeLessThan(
+      usage?.indexOf("<Autocomplete.Root {items}>") ?? -1,
+    );
+    expect(() =>
+      compile(usage ?? "", { filename: "autocomplete-usage.svelte", runes: true }),
+    ).not.toThrow();
+  });
+
+  test("preserves the complete Context Menu switch explanation", () => {
+    const page = source("apps/ui/content/docs/components/context-menu.svx");
+    expect(page).toContain(
+      '`ContextMenu.CheckboxItem` supports a `variant="switch"` prop that displays a decorative switch indicator instead of a checkmark. This is a purely visual variant — the component remains a checkbox item with the same functionality.',
+    );
+  });
+
   test("locks the rejected particle copy and deterministic async error contract", () => {
     const asyncAutocomplete = source("apps/ui/registry/default/particles/p-autocomplete-12.svelte");
     expect(asyncAutocomplete).toContain('value === "will_error"');
@@ -188,6 +214,12 @@ describe("D8 selection, command, and menu documentation", () => {
     expect(placesAutocomplete).toContain("import.meta.env.VITE_GOOGLE_MAPS_API_KEY");
     expect(placesAutocomplete).toContain("https://places.googleapis.com/v1/places:autocomplete");
     expect(placesAutocomplete).not.toMatch(/from\s+["']\$env/);
+
+    const autocompleteEvidence = source("docs/porting/components/autocomplete.md");
+    expect(autocompleteEvidence).toContain(
+      "session-scoped token, reused until selection or unmount",
+    );
+    expect(autocompleteEvidence).not.toContain("short-lived session token");
 
     expect(source("apps/ui/registry/default/particles/p-combobox-2.svelte")).toContain(
       'placeholder="Select an item…"',
@@ -210,6 +242,13 @@ describe("D8 selection, command, and menu documentation", () => {
     const inputId = body.match(/<input[^>]*id="([^"]+)"/)?.[1];
     expect(labelFor).toBeTruthy();
     expect(inputId).toBe(labelFor);
+  });
+
+  test("uses the visible Field label as the multiple Combobox accessible name", () => {
+    const module = particleModules["../../registry/default/particles/p-combobox-12.svelte"];
+    const body = render(module?.default as Component).body;
+    expect(body).toContain("Favorite items");
+    expect(body).not.toContain('aria-label="Select a item"');
   });
 
   test("keeps Command AI parity state, scrolling, focus hooks, and response footer", () => {

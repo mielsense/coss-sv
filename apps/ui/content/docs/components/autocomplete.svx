@@ -20,6 +20,13 @@ links:
 ```svelte
 <script lang="ts">
   import * as Autocomplete from "@coss-sv/ui/components/ui/autocomplete";
+
+  const items = [
+    { value: "apple", label: "Apple" },
+    { value: "banana", label: "Banana" },
+    { value: "orange", label: "Orange" },
+    { value: "grape", label: "Grape" },
+  ];
 </script>
 
 <Autocomplete.Root {items}>
