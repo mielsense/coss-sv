@@ -1,7 +1,8 @@
 <script lang="ts">
-import { Badge, Tabs } from "@coss-sv/ui";
+  import { Badge, Tabs } from "@coss-sv/ui";
+  import FixtureIcon from "./fixture-icon.svelte";
 
-let controlledValue = $state<Tabs.TabsValue>("review-1");
+  let controlledValue = $state<Tabs.TabsValue>("review-1");
 </script>
 
 <div class="tabs-fixture">
@@ -234,155 +235,69 @@ let controlledValue = $state<Tabs.TabsValue>("review-1");
 {/snippet}
 
 {#snippet houseIcon(className = "", size = 24)}
-  <svg
-    aria-hidden="true"
-    class={`lucide lucide-house ${className}`}
-    fill="none"
-    height={size}
-    stroke="currentColor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-    viewBox="0 0 24 24"
-    width={size}
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8" />
-    <path
-      d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"
-    />
-  </svg>
+  <FixtureIcon aria-hidden="true" class={className} name="home" {size} />
 {/snippet}
 
 {#snippet panelsIcon(className = "", size = 24)}
-  <svg
-    aria-hidden="true"
-    class={`lucide lucide-panels-top-left ${className}`}
-    fill="none"
-    height={size}
-    stroke="currentColor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-    viewBox="0 0 24 24"
-    width={size}
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <rect width="18" height="18" x="3" y="3" rx="2" />
-    <path d="M3 9h18" />
-    <path d="M9 21V9" />
-  </svg>
+  <FixtureIcon aria-hidden="true" class={className} name="panels" {size} />
 {/snippet}
 
 {#snippet settingsIcon(className = "", size = 24)}
-  <svg
-    aria-hidden="true"
-    class={`lucide lucide-settings ${className}`}
-    fill="none"
-    height={size}
-    stroke="currentColor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-    viewBox="0 0 24 24"
-    width={size}
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.38a2 2 0 0 0-.73-2.73l-.15-.09a2 2 0 0 1-1-1.74v-.51a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"
-    />
-    <circle cx="12" cy="12" r="3" />
-  </svg>
+  <FixtureIcon aria-hidden="true" class={className} name="settings" {size} />
 {/snippet}
 
 {#snippet boxIcon(className = "", size = 24)}
-  <svg
-    aria-hidden="true"
-    class={`lucide lucide-box ${className}`}
-    fill="none"
-    height={size}
-    stroke="currentColor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-    viewBox="0 0 24 24"
-    width={size}
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path d="m7.5 4.27 9 5.15" />
-    <path
-      d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"
-    />
-    <path d="m3.3 7 8.7 5 8.7-5" />
-    <path d="M12 22V12" />
-  </svg>
+  <FixtureIcon aria-hidden="true" class={className} name="package" {size} />
 {/snippet}
 
 {#snippet inboxIcon(className = "", size = 24)}
-  <svg
-    aria-hidden="true"
-    class={`lucide lucide-inbox ${className}`}
-    fill="none"
-    height={size}
-    stroke="currentColor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-    viewBox="0 0 24 24"
-    width={size}
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <polyline points="22 12 16 12 14 15 10 15 8 12 2 12" />
-    <path
-      d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"
-    />
-  </svg>
+  <FixtureIcon aria-hidden="true" class={className} name="inbox" {size} />
 {/snippet}
 
 <style>
-.tabs-fixture {
-  display: grid;
-  box-sizing: border-box;
-  width: 100%;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  align-items: center;
-  justify-items: center;
-  gap: 3rem 2rem;
-  padding: 2rem;
-}
-
-.tabs-fixture > section {
-  display: flex;
-  width: 100%;
-  min-width: 0;
-  align-items: center;
-  justify-content: center;
-}
-
-.tabs-fixture > .review-probes {
-  display: grid;
-  grid-column: 1 / -1;
-  gap: 1rem;
-  border-block-start: 1px solid var(--border);
-  padding-block-start: 2rem;
-}
-
-.review-actions {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-@media (max-width: 639px) {
   .tabs-fixture {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 2rem;
-    padding: 1.5rem;
+    display: grid;
+    box-sizing: border-box;
+    width: 100%;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: center;
+    justify-items: center;
+    gap: 3rem 2rem;
+    padding: 2rem;
+  }
+
+  .tabs-fixture > section {
+    display: flex;
+    width: 100%;
+    min-width: 0;
+    align-items: center;
+    justify-content: center;
   }
 
   .tabs-fixture > .review-probes {
-    grid-column: auto;
+    display: grid;
+    grid-column: 1 / -1;
+    gap: 1rem;
+    border-block-start: 1px solid var(--border);
+    padding-block-start: 2rem;
   }
-}
+
+  .review-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  @media (max-width: 639px) {
+    .tabs-fixture {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 2rem;
+      padding: 1.5rem;
+    }
+
+    .tabs-fixture > .review-probes {
+      grid-column: auto;
+    }
+  }
 </style>

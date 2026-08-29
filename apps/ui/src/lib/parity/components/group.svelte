@@ -1,5 +1,6 @@
 <script lang="ts">
-import { Button, Group, type GroupTextDelegateProps, Input, Label } from "@coss-sv/ui";
+  import { Button, Group, type GroupTextDelegateProps, Input, Label } from "@coss-sv/ui";
+  import FixtureIcon, { type FixtureIconName } from "./fixture-icon.svelte";
 </script>
 
 <div class="group-fixture">
@@ -97,50 +98,17 @@ import { Button, Group, type GroupTextDelegateProps, Input, Label } from "@coss-
   name: "arrow-left" | "arrow-right" | "plus" | "zoom-in" | "zoom-out",
   hidden = false,
 )}
-  <!-- biome-ignore lint/a11y/noSvgWithoutTitle: exact Lucide markup; every icon is inside a labelled button -->
-  <svg
-    aria-hidden={hidden ? "true" : undefined}
-    class={`lucide lucide-${name}`}
-    fill="none"
-    height="24"
-    stroke="currentColor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-    viewBox="0 0 24 24"
-    width="24"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    {#if name === "zoom-in"}
-      <circle cx="11" cy="11" r="8" />
-      <line x1="21" x2="16.65" y1="21" y2="16.65" />
-      <line x1="11" x2="11" y1="8" y2="14" />
-      <line x1="8" x2="14" y1="11" y2="11" />
-    {:else if name === "zoom-out"}
-      <circle cx="11" cy="11" r="8" />
-      <line x1="21" x2="16.65" y1="21" y2="16.65" />
-      <line x1="8" x2="14" y1="11" y2="11" />
-    {:else if name === "arrow-left"}
-      <path d="m12 19-7-7 7-7" />
-      <path d="M19 12H5" />
-    {:else if name === "arrow-right"}
-      <path d="M5 12h14" />
-      <path d="m12 5 7 7-7 7" />
-    {:else}
-      <path d="M5 12h14" />
-      <path d="M12 5v14" />
-    {/if}
-  </svg>
+  <FixtureIcon aria-hidden={hidden ? "true" : undefined} name={name as FixtureIconName} />
 {/snippet}
 
 <style>
-.group-fixture {
-  display: grid;
-  gap: 2rem;
-}
+  .group-fixture {
+    display: grid;
+    gap: 2rem;
+  }
 
-.group-fixture section {
-  display: flex;
-  justify-content: center;
-}
+  .group-fixture section {
+    display: flex;
+    justify-content: center;
+  }
 </style>

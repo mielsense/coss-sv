@@ -1,105 +1,106 @@
 <script lang="ts">
-import {
-  Button,
-  Field,
-  Fieldset,
-  Form,
-  Group,
-  InputGroup,
-  Label,
-  NumberField,
-  Slider,
-} from "@coss-sv/ui";
-import { Select } from "@shardsui/svelte/select";
-import { tick } from "svelte";
+  import {
+    Button,
+    Field,
+    Fieldset,
+    Form,
+    Group,
+    InputGroup,
+    Label,
+    NumberField,
+    Slider,
+  } from "@coss-sv/ui";
+  import { Select } from "@shardsui/svelte/select";
+  import { tick } from "svelte";
+  import FixtureIcon from "./fixture-icon.svelte";
 
-let controlled = $state<number | null>(25);
-let loading = $state(false);
-let sliderValue = $state(25);
-let rangeValues = $state([0, 20]);
-let verticalValue = $state(25);
-let objectValues = $state({ x: -2, y: 4, z: 2 });
-let priceValues = $state([200, 780]);
-const currencies = [
-  { label: "US Dollar", value: "$" },
-  { label: "Euro", value: "€" },
-  { label: "British Pound", value: "£" },
-];
-let currency = $state(currencies[0]);
-let currencyOpen = $state(false);
-let currencyTrigger = $state<HTMLElement | null>(null);
-let currencyPositioner = $state<HTMLElement | null>(null);
-let currencySideOffset = $state(4);
-let currencyAlignOffset = $state(0);
-function currencyValue(item: unknown): string {
-  return item && typeof item === "object" && "value" in item ? String(item.value) : "";
-}
-
-function nextAnimationFrame(): Promise<void> {
-  return new Promise((resolve) => requestAnimationFrame(() => resolve()));
-}
-
-async function alignCurrencyItem(signal: AbortSignal): Promise<void> {
-  await tick();
-  for (let attempt = 0; attempt < 4 && !signal.aborted; attempt += 1) {
-    await nextAnimationFrame();
-    if (signal.aborted || !currencyTrigger || !currencyPositioner) return;
-
-    const triggerValue = currencyTrigger.querySelector<HTMLElement>('[data-slot="select-value"]');
-    const selectedItem = currencyPositioner.querySelector<HTMLElement>(
-      '[data-slot="select-item"][aria-selected="true"]',
-    );
-    const selectedLabel = selectedItem?.querySelector<HTMLElement>(".col-start-2");
-    if (!triggerValue || !selectedItem || !selectedLabel) continue;
-
-    const triggerRect = currencyTrigger.getBoundingClientRect();
-    const selectedRect = selectedItem.getBoundingClientRect();
-    const labelDelta =
-      triggerValue.getBoundingClientRect().left - selectedLabel.getBoundingClientRect().left;
-    const centerDelta =
-      triggerRect.top + triggerRect.height / 2 - (selectedRect.top + selectedRect.height / 2);
-
-    if (Math.abs(labelDelta) <= 0.5 && Math.abs(centerDelta) <= 0.5) return;
-    currencyAlignOffset += labelDelta;
-    currencySideOffset += centerDelta;
-  }
-}
-
-$effect(() => {
-  void currency;
-  if (!currencyOpen || !currencyTrigger || !currencyPositioner) {
-    currencyAlignOffset = 0;
-    currencySideOffset = 4;
-    return;
+  let controlled = $state<number | null>(25);
+  let loading = $state(false);
+  let sliderValue = $state(25);
+  let rangeValues = $state([0, 20]);
+  let verticalValue = $state(25);
+  let objectValues = $state({ x: -2, y: 4, z: 2 });
+  let priceValues = $state([200, 780]);
+  const currencies = [
+    { label: "US Dollar", value: "$" },
+    { label: "Euro", value: "€" },
+    { label: "British Pound", value: "£" },
+  ];
+  let currency = $state(currencies[0]);
+  let currencyOpen = $state(false);
+  let currencyTrigger = $state<HTMLElement | null>(null);
+  let currencyPositioner = $state<HTMLElement | null>(null);
+  let currencySideOffset = $state(4);
+  let currencyAlignOffset = $state(0);
+  function currencyValue(item: unknown): string {
+    return item && typeof item === "object" && "value" in item ? String(item.value) : "";
   }
 
-  const controller = new AbortController();
-  void alignCurrencyItem(controller.signal);
-  return () => controller.abort();
-});
-const prices = [
-  80, 95, 110, 125, 130, 140, 145, 150, 155, 165, 175, 185, 195, 205, 215, 225, 235, 245, 255, 260,
-  265, 270, 275, 280, 285, 290, 290, 295, 295, 295, 298, 299, 300, 305, 310, 315, 320, 325, 330,
-  335, 340, 345, 350, 355, 360, 365, 365, 375, 380, 385, 390, 395, 400, 405, 410, 415, 420, 425,
-  430, 435, 440, 445, 450, 455, 460, 465, 470, 475, 480, 485, 490, 495, 495, 498, 499, 500, 500,
-  500, 515, 530, 545, 560, 575, 590, 605, 620, 635, 650, 655, 660, 665, 670, 675, 680, 685, 690,
-  695, 700, 700, 700, 700, 700, 700, 725, 750, 775, 800, 815, 830, 845, 845, 845, 870, 875, 880,
-  885, 890, 895, 898, 900,
-];
-const priceMin = Math.min(...prices);
-const priceMax = Math.max(...prices);
-const priceStep = (priceMax - priceMin) / 40;
-const itemCounts = Array.from({ length: 40 }, (_, tick) => {
-  const rangeMin = priceMin + tick * priceStep;
-  const rangeMax = priceMin + (tick + 1) * priceStep;
-  return prices.filter((price) => price >= rangeMin && price < rangeMax).length;
-});
-const maxCount = Math.max(...itemCounts);
-const priceCount = $derived(
-  prices.filter(
-    (price) => price >= (priceValues[0] ?? priceMin) && price <= (priceValues[1] ?? priceMax),
-  ).length,
-);
+  function nextAnimationFrame(): Promise<void> {
+    return new Promise((resolve) => requestAnimationFrame(() => resolve()));
+  }
+
+  async function alignCurrencyItem(signal: AbortSignal): Promise<void> {
+    await tick();
+    for (let attempt = 0; attempt < 4 && !signal.aborted; attempt += 1) {
+      await nextAnimationFrame();
+      if (signal.aborted || !currencyTrigger || !currencyPositioner) return;
+
+      const triggerValue = currencyTrigger.querySelector<HTMLElement>('[data-slot="select-value"]');
+      const selectedItem = currencyPositioner.querySelector<HTMLElement>(
+        '[data-slot="select-item"][aria-selected="true"]',
+      );
+      const selectedLabel = selectedItem?.querySelector<HTMLElement>(".col-start-2");
+      if (!triggerValue || !selectedItem || !selectedLabel) continue;
+
+      const triggerRect = currencyTrigger.getBoundingClientRect();
+      const selectedRect = selectedItem.getBoundingClientRect();
+      const labelDelta =
+        triggerValue.getBoundingClientRect().left - selectedLabel.getBoundingClientRect().left;
+      const centerDelta =
+        triggerRect.top + triggerRect.height / 2 - (selectedRect.top + selectedRect.height / 2);
+
+      if (Math.abs(labelDelta) <= 0.5 && Math.abs(centerDelta) <= 0.5) return;
+      currencyAlignOffset += labelDelta;
+      currencySideOffset += centerDelta;
+    }
+  }
+
+  $effect(() => {
+    void currency;
+    if (!currencyOpen || !currencyTrigger || !currencyPositioner) {
+      currencyAlignOffset = 0;
+      currencySideOffset = 4;
+      return;
+    }
+
+    const controller = new AbortController();
+    void alignCurrencyItem(controller.signal);
+    return () => controller.abort();
+  });
+  const prices = [
+    80, 95, 110, 125, 130, 140, 145, 150, 155, 165, 175, 185, 195, 205, 215, 225, 235, 245, 255,
+    260, 265, 270, 275, 280, 285, 290, 290, 295, 295, 295, 298, 299, 300, 305, 310, 315, 320, 325,
+    330, 335, 340, 345, 350, 355, 360, 365, 365, 375, 380, 385, 390, 395, 400, 405, 410, 415, 420,
+    425, 430, 435, 440, 445, 450, 455, 460, 465, 470, 475, 480, 485, 490, 495, 495, 498, 499, 500,
+    500, 500, 515, 530, 545, 560, 575, 590, 605, 620, 635, 650, 655, 660, 665, 670, 675, 680, 685,
+    690, 695, 700, 700, 700, 700, 700, 700, 725, 750, 775, 800, 815, 830, 845, 845, 845, 870, 875,
+    880, 885, 890, 895, 898, 900,
+  ];
+  const priceMin = Math.min(...prices);
+  const priceMax = Math.max(...prices);
+  const priceStep = (priceMax - priceMin) / 40;
+  const itemCounts = Array.from({ length: 40 }, (_, tick) => {
+    const rangeMin = priceMin + tick * priceStep;
+    const rangeMax = priceMin + (tick + 1) * priceStep;
+    return prices.filter((price) => price >= rangeMin && price < rangeMax).length;
+  });
+  const maxCount = Math.max(...itemCounts);
+  const priceCount = $derived(
+    prices.filter(
+      (price) => price >= (priceValues[0] ?? priceMin) && price <= (priceValues[1] ?? priceMax),
+    ).length,
+  );
 </script>
 
 {#snippet numberGroup(props: NumberField.NumberFieldGroupProps)}
@@ -277,20 +278,11 @@ const priceCount = $derived(
               {/snippet}
             </Select.Value>
             <Select.Icon data-slot="select-icon">
-              <svg
+              <FixtureIcon
                 aria-hidden="true"
                 class="-me-1 size-4.5 opacity-80 sm:size-4"
-                fill="none"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="m7 15 5 5 5-5M7 9l5-5 5 5"
-                  stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                />
-              </svg>
+                name="unfold-more"
+              />
             </Select.Icon>
           </Select.Trigger>
           <Select.Portal>
@@ -315,20 +307,11 @@ const priceCount = $derived(
                   class="top-0 z-50 flex h-6 w-full cursor-default items-center justify-center before:pointer-events-none before:absolute before:inset-x-px before:top-px before:h-[200%] before:rounded-t-[calc(var(--radius-lg)-1px)] before:bg-linear-to-b before:from-50% before:from-popover"
                   data-slot="select-scroll-up-arrow"
                 >
-                  <svg
+                  <FixtureIcon
                     aria-hidden="true"
                     class="relative size-4.5 sm:size-4"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="m18 15-6-6-6 6"
-                      stroke="currentColor"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                    />
-                  </svg>
+                    name="arrow-up"
+                  />
                 </Select.ScrollUpArrow>
                 <div
                   class="relative h-full min-w-(--anchor-width) rounded-lg border bg-popover not-dark:bg-clip-padding shadow-lg/5 before:pointer-events-none before:absolute before:inset-0 before:rounded-[calc(var(--radius-lg)-1px)] before:shadow-[0_1px_--theme(--color-black/4%)] dark:before:shadow-[0_-1px_--theme(--color-white/6%)]"
@@ -344,15 +327,7 @@ const priceCount = $derived(
                         value={item}
                       >
                         <Select.ItemIndicator class="col-start-1">
-                          <svg aria-hidden="true" fill="none" viewBox="0 0 24 24">
-                            <path
-                              d="M5.252 12.7 10.2 18.63 18.748 5.37"
-                              stroke="currentColor"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              stroke-width="2"
-                            />
-                          </svg>
+                          <FixtureIcon aria-hidden="true" name="check" />
                         </Select.ItemIndicator>
                         <span class="col-start-2 min-w-0"
                           >{item.value} <span class="ms-1">{item.label}</span></span
@@ -365,20 +340,11 @@ const priceCount = $derived(
                   class="bottom-0 z-50 flex h-6 w-full cursor-default items-center justify-center before:pointer-events-none before:absolute before:inset-x-px before:bottom-px before:h-[200%] before:rounded-b-[calc(var(--radius-lg)-1px)] before:bg-linear-to-t before:from-50% before:from-popover"
                   data-slot="select-scroll-down-arrow"
                 >
-                  <svg
+                  <FixtureIcon
                     aria-hidden="true"
                     class="relative size-4.5 sm:size-4"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="m6 9 6 6 6-6"
-                      stroke="currentColor"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                    />
-                  </svg>
+                    name="arrow-down"
+                  />
                 </Select.ScrollDownArrow>
               </Select.Popup>
             </Select.Positioner>
@@ -396,15 +362,7 @@ const priceCount = $derived(
       </Group.Root>
       <Group.Root aria-label="Submit">
         <Button aria-label="Send" size="icon" variant="outline">
-          <svg aria-hidden="true" fill="none" viewBox="0 0 24 24">
-            <path
-              d="M5 12h14m-6-6 6 6-6 6"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-            />
-          </svg>
+          <FixtureIcon aria-hidden="true" name="arrow-right" />
         </Button>
       </Group.Root>
     </Group.Root>
@@ -453,8 +411,7 @@ const priceCount = $derived(
         min={0}
         onValueChange={(value: number | null) => (sliderValue = value ?? 0)}
         size="sm"
-        value={sliderValue}
-        ><NumberField.Input /></NumberField.Root
+        value={sliderValue}><NumberField.Input /></NumberField.Root
       >
     </div>
   </section>
@@ -467,10 +424,10 @@ const priceCount = $derived(
         delegate={numberGroup}
         max={rangeValues[1] as number}
         min={0}
-        onValueChange={(value: number | null) => (rangeValues = [Math.min(value ?? 0, rangeValues[1] ?? 50), rangeValues[1] ?? 50])}
+        onValueChange={(value: number | null) =>
+          (rangeValues = [Math.min(value ?? 0, rangeValues[1] ?? 50), rangeValues[1] ?? 50])}
         size="sm"
-        value={rangeValues[0] as number}
-        ><NumberField.Input /></NumberField.Root
+        value={rangeValues[0] as number}><NumberField.Input /></NumberField.Root
       >
       <Slider.Root
         aria-label="Dual range slider"
@@ -486,10 +443,10 @@ const priceCount = $derived(
         delegate={numberGroup}
         max={50}
         min={rangeValues[0] as number}
-        onValueChange={(value: number | null) => (rangeValues = [rangeValues[0] ?? 0, Math.max(value ?? 0, rangeValues[0] ?? 0)])}
+        onValueChange={(value: number | null) =>
+          (rangeValues = [rangeValues[0] ?? 0, Math.max(value ?? 0, rangeValues[0] ?? 0)])}
         size="sm"
-        value={rangeValues[1] as number}
-        ><NumberField.Input /></NumberField.Root
+        value={rangeValues[1] as number}><NumberField.Input /></NumberField.Root
       >
     </div>
   </section>
@@ -512,8 +469,7 @@ const priceCount = $derived(
         min={0}
         onValueChange={(value: number | null) => (verticalValue = value ?? 0)}
         size="sm"
-        value={verticalValue}
-        ><NumberField.Input /></NumberField.Root
+        value={verticalValue}><NumberField.Input /></NumberField.Root
       >
     </div>
   </section>
@@ -531,7 +487,10 @@ const priceCount = $derived(
               max={10}
               min={-10}
               onValueChange={(value) =>
-                (objectValues = { ...objectValues, [axis]: Array.isArray(value) ? (value[0] ?? 0) : value })}
+                (objectValues = {
+                  ...objectValues,
+                  [axis]: Array.isArray(value) ? (value[0] ?? 0) : value,
+                })}
               value={objectValues[axis as keyof typeof objectValues]}
             />
             <NumberField.Root
@@ -540,7 +499,8 @@ const priceCount = $derived(
               delegate={numberGroup}
               max={10}
               min={-10}
-              onValueChange={(value: number | null) => (objectValues = { ...objectValues, [axis]: value ?? 0 })}
+              onValueChange={(value: number | null) =>
+                (objectValues = { ...objectValues, [axis]: value ?? 0 })}
               size="sm"
               value={objectValues[axis as keyof typeof objectValues]}
               ><NumberField.Input /></NumberField.Root
@@ -553,15 +513,7 @@ const priceCount = $derived(
         onclick={() => (objectValues = { x: 0, y: 0, z: 0 })}
         variant="outline"
       >
-        <svg aria-hidden="true" class="-ms-1 opacity-60" fill="none" viewBox="0 0 24 24">
-          <path
-            d="M3 12a9 9 0 1 0 3-6.7L3 8m0-5v5h5"
-            stroke="currentColor"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-          />
-        </svg>
+        <FixtureIcon aria-hidden="true" class="-ms-1 opacity-60" name="reset" />
         Reset
       </Button>
     </Fieldset.Root>
@@ -575,7 +527,9 @@ const priceCount = $derived(
             <div class="flex flex-1 justify-center" style:height={`${(count / maxCount) * 100}%`}>
               <span
                 class="mx-px size-full bg-primary/20 data-[selected=true]:bg-primary/50"
-                data-selected={priceCount > 0 && priceMin + index * priceStep <= (priceValues[1] ?? priceMax) && priceMin + (index + 1) * priceStep >= (priceValues[0] ?? priceMin)}
+                data-selected={priceCount > 0 &&
+                  priceMin + index * priceStep <= (priceValues[1] ?? priceMax) &&
+                  priceMin + (index + 1) * priceStep >= (priceValues[0] ?? priceMin)}
               ></span>
             </div>
           {/each}
@@ -595,7 +549,11 @@ const priceCount = $derived(
             aria-label="Minimum price"
             max={priceValues[1] as number}
             min={priceMin}
-            onValueChange={(value: number | null) => (priceValues = [Math.min(value ?? priceMin, priceValues[1] ?? priceMax), priceValues[1] ?? priceMax])}
+            onValueChange={(value: number | null) =>
+              (priceValues = [
+                Math.min(value ?? priceMin, priceValues[1] ?? priceMax),
+                priceValues[1] ?? priceMax,
+              ])}
             value={priceValues[0] as number}
             ><NumberField.Input class="text-left" /></NumberField.Root
           >
@@ -606,7 +564,11 @@ const priceCount = $derived(
             aria-label="Maximum price"
             max={priceMax}
             min={priceValues[0] as number}
-            onValueChange={(value: number | null) => (priceValues = [priceValues[0] ?? priceMin, Math.max(value ?? priceMin, priceValues[0] ?? priceMin)])}
+            onValueChange={(value: number | null) =>
+              (priceValues = [
+                priceValues[0] ?? priceMin,
+                Math.max(value ?? priceMin, priceValues[0] ?? priceMin),
+              ])}
             value={priceValues[1] as number}
             ><NumberField.Input class="text-left" /></NumberField.Root
           >
@@ -630,30 +592,30 @@ const priceCount = $derived(
 </div>
 
 <style>
-.fixture {
-  display: grid;
-  width: 100%;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  align-items: center;
-  gap: 3rem 2rem;
-  padding: 2rem;
-}
-.fixture section {
-  display: flex;
-  width: min(16rem, 100%);
-  min-width: 0;
-  align-items: center;
-  justify-content: center;
-}
-[data-review-probes="number-field"] {
-  flex-direction: column;
-  gap: 0.5rem;
-}
-@media (max-width: 639px) {
   .fixture {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 2rem;
-    padding: 1.5rem;
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: center;
+    gap: 3rem 2rem;
+    padding: 2rem;
   }
-}
+  .fixture section {
+    display: flex;
+    width: min(16rem, 100%);
+    min-width: 0;
+    align-items: center;
+    justify-content: center;
+  }
+  [data-review-probes="number-field"] {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  @media (max-width: 639px) {
+    .fixture {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 2rem;
+      padding: 1.5rem;
+    }
+  }
 </style>

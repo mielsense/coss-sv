@@ -1,5 +1,15 @@
 <script lang="ts">
-import { Button, Checkbox, Field, Input, InputGroup, Slider, Switch, Textarea } from "@coss-sv/ui";
+  import {
+    Button,
+    Checkbox,
+    Field,
+    Input,
+    InputGroup,
+    Slider,
+    Switch,
+    Textarea,
+  } from "@coss-sv/ui";
+  import FixtureIcon from "./fixture-icon.svelte";
 </script>
 
 <div class="parity-stack">
@@ -47,8 +57,11 @@ import { Button, Checkbox, Field, Input, InputGroup, Slider, Switch, Textarea } 
             {/if}
             <div class="w-full rounded-md bg-muted p-2">
               <pre
-                class="max-h-60 overflow-y-auto font-mono text-xs [scrollbar-width:none]"
-              >{JSON.stringify(validity, null, 2)}</pre>
+                class="max-h-60 overflow-y-auto font-mono text-xs [scrollbar-width:none]">{JSON.stringify(
+                  validity,
+                  null,
+                  2,
+                )}</pre>
             </div>
           </div>
         {/snippet}
@@ -107,29 +120,14 @@ import { Button, Checkbox, Field, Input, InputGroup, Slider, Switch, Textarea } 
 </div>
 
 {#snippet arrowRightIcon()}
-  <svg
-    aria-hidden="true"
-    class="lucide lucide-arrow-right"
-    fill="none"
-    height="24"
-    stroke="currentColor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-    viewBox="0 0 24 24"
-    width="24"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path d="M5 12h14" />
-    <path d="m12 5 7 7-7 7" />
-  </svg>
+  <FixtureIcon aria-hidden="true" name="arrow-right" />
 {/snippet}
 
 <style>
-.parity-stack {
-  display: grid;
-  width: 100%;
-  gap: 2rem;
-  place-items: center;
-}
+  .parity-stack {
+    display: grid;
+    width: 100%;
+    gap: 2rem;
+    place-items: center;
+  }
 </style>

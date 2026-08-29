@@ -1,94 +1,94 @@
 <script lang="ts">
-import { Avatar, Badge, Button, Field, Form, Label } from "@coss-sv/ui";
-import { Cancel01Icon, Search01Icon, UnfoldMoreIcon } from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/svelte";
-import * as Combobox from "../../../../../../packages/ui/dist/components/ui/combobox/index.js";
+  import { Avatar, Badge, Button, Field, Form, Label } from "@coss-sv/ui";
+  import { Cancel01Icon, Search01Icon, UnfoldMoreIcon } from "@hugeicons/core-free-icons";
+  import { HugeiconsIcon } from "@coss-sv/ui";
+  import * as Combobox from "../../../../../../packages/ui/dist/components/ui/combobox/index.js";
 
-type Item = { label: string; value: string };
-type Tag = { group: string; id: string; label: string };
-type Group = { value: string; items: Tag[] };
-type Person = Item & { email: string; initials: string; role: string };
+  type Item = { label: string; value: string };
+  type Tag = { group: string; id: string; label: string };
+  type Group = { value: string; items: Tag[] };
+  type Person = Item & { email: string; initials: string; role: string };
 
-const items: Item[] = [
-  { label: "Apple", value: "apple" },
-  { label: "Banana", value: "banana" },
-  { label: "Orange", value: "orange" },
-  { label: "Grape", value: "grape" },
-  { label: "Strawberry", value: "strawberry" },
-  { label: "Mango", value: "mango" },
-  { label: "Pineapple", value: "pineapple" },
-  { label: "Kiwi", value: "kiwi" },
-  { label: "Peach", value: "peach" },
-  { label: "Pear", value: "pear" },
-];
-const tags: Tag[] = [
-  { group: "Status", id: "s-open", label: "Open" },
-  { group: "Status", id: "s-progress", label: "In progress" },
-  { group: "Status", id: "s-blocked", label: "Blocked" },
-  { group: "Priority", id: "p-low", label: "Low" },
-  { group: "Priority", id: "p-medium", label: "Medium" },
-  { group: "Priority", id: "p-high", label: "High" },
-  { group: "Team", id: "t-design", label: "Design" },
-  { group: "Team", id: "t-frontend", label: "Frontend" },
-  { group: "Team", id: "t-backend", label: "Backend" },
-];
-const groupedTags: Group[] = ["Status", "Priority", "Team"].map((value) => ({
-  value,
-  items: tags.filter((tag) => tag.group === value),
-}));
-const countries = [
-  { code: "GB", label: "United Kingdom", value: "united-kingdom" },
-  { code: "US", label: "United States", value: "united-states" },
-  { code: "CA", label: "Canada", value: "canada" },
-  { code: "FR", label: "France", value: "france" },
-  { code: "DE", label: "Germany", value: "germany" },
-  { code: "JP", label: "Japan", value: "japan" },
-];
-const timezones = [
-  { label: "(GMT-08:00) Pacific Time", value: "America/Los_Angeles" },
-  { label: "(GMT-05:00) Eastern Time", value: "America/New_York" },
-  { label: "(GMT+00:00) London", value: "Europe/London" },
-  { label: "(GMT+01:00) Paris", value: "Europe/Paris" },
-  { label: "(GMT+09:00) Tokyo", value: "Asia/Tokyo" },
-];
-const people: Person[] = [
-  {
-    email: "olivia@example.com",
-    initials: "OM",
-    label: "Olivia Martin",
-    role: "Owner",
-    value: "olivia",
-  },
-  {
-    email: "jackson@example.com",
-    initials: "JL",
-    label: "Jackson Lee",
-    role: "Member",
-    value: "jackson",
-  },
-  {
-    email: "isabella@example.com",
-    initials: "IN",
-    label: "Isabella Nguyen",
-    role: "Member",
-    value: "isabella",
-  },
-  {
-    email: "william@example.com",
-    initials: "WK",
-    label: "William Kim",
-    role: "Member",
-    value: "william",
-  },
-];
+  const items: Item[] = [
+    { label: "Apple", value: "apple" },
+    { label: "Banana", value: "banana" },
+    { label: "Orange", value: "orange" },
+    { label: "Grape", value: "grape" },
+    { label: "Strawberry", value: "strawberry" },
+    { label: "Mango", value: "mango" },
+    { label: "Pineapple", value: "pineapple" },
+    { label: "Kiwi", value: "kiwi" },
+    { label: "Peach", value: "peach" },
+    { label: "Pear", value: "pear" },
+  ];
+  const tags: Tag[] = [
+    { group: "Status", id: "s-open", label: "Open" },
+    { group: "Status", id: "s-progress", label: "In progress" },
+    { group: "Status", id: "s-blocked", label: "Blocked" },
+    { group: "Priority", id: "p-low", label: "Low" },
+    { group: "Priority", id: "p-medium", label: "Medium" },
+    { group: "Priority", id: "p-high", label: "High" },
+    { group: "Team", id: "t-design", label: "Design" },
+    { group: "Team", id: "t-frontend", label: "Frontend" },
+    { group: "Team", id: "t-backend", label: "Backend" },
+  ];
+  const groupedTags: Group[] = ["Status", "Priority", "Team"].map((value) => ({
+    value,
+    items: tags.filter((tag) => tag.group === value),
+  }));
+  const countries = [
+    { code: "GB", label: "United Kingdom", value: "united-kingdom" },
+    { code: "US", label: "United States", value: "united-states" },
+    { code: "CA", label: "Canada", value: "canada" },
+    { code: "FR", label: "France", value: "france" },
+    { code: "DE", label: "Germany", value: "germany" },
+    { code: "JP", label: "Japan", value: "japan" },
+  ];
+  const timezones = [
+    { label: "(GMT-08:00) Pacific Time", value: "America/Los_Angeles" },
+    { label: "(GMT-05:00) Eastern Time", value: "America/New_York" },
+    { label: "(GMT+00:00) London", value: "Europe/London" },
+    { label: "(GMT+01:00) Paris", value: "Europe/Paris" },
+    { label: "(GMT+09:00) Tokyo", value: "Asia/Tokyo" },
+  ];
+  const people: Person[] = [
+    {
+      email: "olivia@example.com",
+      initials: "OM",
+      label: "Olivia Martin",
+      role: "Owner",
+      value: "olivia",
+    },
+    {
+      email: "jackson@example.com",
+      initials: "JL",
+      label: "Jackson Lee",
+      role: "Member",
+      value: "jackson",
+    },
+    {
+      email: "isabella@example.com",
+      initials: "IN",
+      label: "Isabella Nguyen",
+      role: "Member",
+      value: "isabella",
+    },
+    {
+      email: "william@example.com",
+      initials: "WK",
+      label: "William Kim",
+      role: "Member",
+      value: "william",
+    },
+  ];
 
-let chips = $state<Item[]>([items[0] as Item, items[4] as Item]);
-let searchChips = $state<Item[]>([items[0] as Item, items[3] as Item]);
-let selectedTeam = $state<Person[]>([people[0] as Person, people[2] as Person]);
+  let chips = $state<Item[]>([items[0] as Item, items[4] as Item]);
+  let searchChips = $state<Item[]>([items[0] as Item, items[3] as Item]);
+  let selectedTeam = $state<Person[]>([people[0] as Person, people[2] as Person]);
 
-function removeMember(member: Person): void {
-  selectedTeam = selectedTeam.filter((item) => item !== member);
-}
+  function removeMember(member: Person): void {
+    selectedTeam = selectedTeam.filter((item) => item !== member);
+  }
 </script>
 
 {#snippet itemPopup(empty = "No items found.")}
@@ -116,8 +116,7 @@ function removeMember(member: Person): void {
         placeholder="Add team members…"
         startAddon={searchIcon}
       /><Combobox.Popup
-        ><Combobox.Empty>No team members found.</Combobox.Empty
-        ><Combobox.List
+        ><Combobox.Empty>No team members found.</Combobox.Empty><Combobox.List
           ><Combobox.Collection
             >{#snippet children(person: Person)}
               <Combobox.Item value={person}>{person.label}</Combobox.Item>
@@ -129,11 +128,12 @@ function removeMember(member: Person): void {
     <ul class={particle === "p-combobox-19" ? "flex flex-col gap-2" : "divide-y rounded-lg border"}>
       {#each selectedTeam as member (member.value)}
         <li
-          class={particle === "p-combobox-19" ? "flex items-center gap-2 rounded-lg border border-input p-1 ps-2 text-base sm:text-sm" : "flex items-center gap-2 p-1 ps-2 text-base sm:text-sm"}
+          class={particle === "p-combobox-19"
+            ? "flex items-center gap-2 rounded-lg border border-input p-1 ps-2 text-base sm:text-sm"
+            : "flex items-center gap-2 p-1 ps-2 text-base sm:text-sm"}
         >
           <Avatar.Root class="size-5"
-            ><Avatar.Fallback class="text-[.625rem]"
-              >{member.initials}</Avatar.Fallback
+            ><Avatar.Fallback class="text-[.625rem]">{member.initials}</Avatar.Fallback
             ></Avatar.Root
           ><span class="truncate font-medium">{member.label}</span>
           {#if particle === "p-combobox-20"}
@@ -141,8 +141,7 @@ function removeMember(member: Person): void {
           {:else}
             <Badge class="ms-auto" variant="outline">{member.role}</Badge>
           {/if}
-          <span class="text-muted-foreground text-xs tabular-nums">{member.email}</span
-          ><Button
+          <span class="text-muted-foreground text-xs tabular-nums">{member.email}</span><Button
             aria-label={`Remove ${member.label}`}
             onclick={() => removeMember(member)}
             size="icon-sm"
@@ -209,13 +208,11 @@ function removeMember(member: Person): void {
     <Combobox.Root items={groupedTags}>
       <Combobox.Input aria-label="Search tags" placeholder="e.g. feature" />
       <Combobox.Popup
-        ><Combobox.Empty>No tags found.</Combobox.Empty
-        ><Combobox.List
+        ><Combobox.Empty>No tags found.</Combobox.Empty><Combobox.List
           ><Combobox.Collection>
             {#snippet children(group: Group)}
               <Combobox.Group items={group.items}
-                ><Combobox.GroupLabel>{group.value}</Combobox.GroupLabel
-                ><Combobox.Collection>
+                ><Combobox.GroupLabel>{group.value}</Combobox.GroupLabel><Combobox.Collection>
                   {#snippet children(tag: Tag)}
                     <Combobox.Item value={tag}>{tag.label}</Combobox.Item>
                   {/snippet}
@@ -263,8 +260,7 @@ function removeMember(member: Person): void {
             startAddon={searchIcon}
           />
         </div>
-        <Combobox.Empty>No countries found.</Combobox.Empty
-        ><Combobox.List
+        <Combobox.Empty>No countries found.</Combobox.Empty><Combobox.List
           ><Combobox.Collection
             >{#snippet children(country: (typeof countries)[number])}
               <Combobox.Item value={country}>{country.label}</Combobox.Item>
@@ -279,8 +275,7 @@ function removeMember(member: Person): void {
       class="flex w-full max-w-64 flex-col gap-4"
       onsubmit={(event: SubmitEvent) => event.preventDefault()}
       ><Field.Root name="item"
-        ><Field.Label>Favorite item</Field.Label
-        ><Combobox.Root {items} required
+        ><Field.Label>Favorite item</Field.Label><Combobox.Root {items} required
           ><Combobox.Input placeholder="Select an item..." />
           {@render itemPopup("No results found.")}</Combobox.Root
         ><Field.Error>Please select a item.</Field.Error></Field.Root
@@ -292,8 +287,11 @@ function removeMember(member: Person): void {
       class="flex w-full max-w-64 flex-col gap-4"
       onsubmit={(event: SubmitEvent) => event.preventDefault()}
       ><Field.Root name="items"
-        ><Field.Label>Favorite items</Field.Label
-        ><Combobox.Root bind:value={chips} {items} multiple required
+        ><Field.Label>Favorite items</Field.Label><Combobox.Root
+          bind:value={chips}
+          {items}
+          multiple
+          required
           ><Combobox.Chips>
             {#each chips as item (item.value)}
               <Combobox.Chip>{item.label}</Combobox.Chip>
@@ -344,8 +342,7 @@ function removeMember(member: Person): void {
     <Combobox.Root items={timezones} value={timezones[3]}
       ><Combobox.Input aria-label="Select timezone" placeholder="Select timezone..." />
       <Combobox.Popup
-        ><Combobox.Empty>No timezones found.</Combobox.Empty
-        ><Combobox.List
+        ><Combobox.Empty>No timezones found.</Combobox.Empty><Combobox.List
           ><Combobox.Collection
             >{#snippet children(item: (typeof timezones)[number])}
               <Combobox.Item value={item}>{item.label}</Combobox.Item>
@@ -374,8 +371,7 @@ function removeMember(member: Person): void {
             startAddon={searchIcon}
           />
         </div>
-        <Combobox.Empty>No timezones found.</Combobox.Empty
-        ><Combobox.List
+        <Combobox.Empty>No timezones found.</Combobox.Empty><Combobox.List
           ><Combobox.Collection
             >{#snippet children(item: (typeof timezones)[number])}
               <Combobox.Item value={item}>{item.label}</Combobox.Item>
@@ -420,35 +416,35 @@ function removeMember(member: Person): void {
 </div>
 
 <style>
-.fixture {
-  display: grid;
-  width: 100%;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 3rem 2rem;
-  padding: 2rem;
-}
-.fixture section {
-  display: flex;
-  width: 100%;
-  max-width: 16rem;
-  min-width: 0;
-  align-items: center;
-  justify-self: center;
-  justify-content: center;
-}
-.fixture section > :global(*) {
-  width: 100%;
-  max-width: 16rem;
-}
-.fixture :global([data-slot="combobox-input-group"]),
-.fixture :global([data-slot="combobox-trigger"]) {
-  max-width: 16rem;
-}
-@media (max-width: 639px) {
   .fixture {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 2rem;
-    padding: 1.5rem;
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 3rem 2rem;
+    padding: 2rem;
   }
-}
+  .fixture section {
+    display: flex;
+    width: 100%;
+    max-width: 16rem;
+    min-width: 0;
+    align-items: center;
+    justify-self: center;
+    justify-content: center;
+  }
+  .fixture section > :global(*) {
+    width: 100%;
+    max-width: 16rem;
+  }
+  .fixture :global([data-slot="combobox-input-group"]),
+  .fixture :global([data-slot="combobox-trigger"]) {
+    max-width: 16rem;
+  }
+  @media (max-width: 639px) {
+    .fixture {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 2rem;
+      padding: 1.5rem;
+    }
+  }
 </style>

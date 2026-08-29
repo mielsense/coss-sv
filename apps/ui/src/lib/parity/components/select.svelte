@@ -1,69 +1,75 @@
 <script lang="ts">
-import { Avatar, Button, Field, Form } from "@coss-sv/ui";
-import { CableIcon, CodeXmlIcon, GlobeIcon, LayersIcon, ZapIcon } from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/svelte";
-import * as Select from "../../../../../../packages/ui/dist/components/ui/select/index.js";
+  import { Avatar, Button, Field, Form } from "@coss-sv/ui";
+  import {
+    CableIcon,
+    CodeXmlIcon,
+    GlobeIcon,
+    LayersIcon,
+    ZapIcon,
+  } from "@hugeicons/core-free-icons";
+  import { HugeiconsIcon } from "@coss-sv/ui";
+  import * as Select from "../../../../../../packages/ui/dist/components/ui/select/index.js";
 
-const frameworks = [
-  { label: "Next.js", value: "next" },
-  { label: "Vite", value: "vite" },
-  { label: "Astro", value: "astro" },
-  { label: "Remix", value: "remix" },
-];
-const frontend = ["React", "Vue", "Svelte", "Angular"];
-const backend = ["Node.js", "Django", "Laravel", "Spring"];
-const languages = ["JavaScript", "TypeScript", "Python", "Java", "C#", "C++", "Go", "Rust"];
-const categories = [
-  { icon: LayersIcon, label: "Components", value: "components" },
-  { icon: ZapIcon, label: "Performance", value: "performance" },
-  { icon: GlobeIcon, label: "Network", value: "network" },
-  { icon: CodeXmlIcon, label: "Development", value: "development" },
-];
-const commands = [
-  { description: "npx create-next-app", label: "Next.js", value: "next" },
-  { description: "npm create vite@latest", label: "Vite", value: "vite" },
-  { description: "npm create astro@latest", label: "Astro", value: "astro" },
-  { description: "npx create-remix", label: "Remix", value: "remix" },
-];
-const timezones = [
-  { label: "(GMT-08:00) Pacific Time", value: "America/Los_Angeles" },
-  { label: "(GMT-05:00) Eastern Time", value: "America/New_York" },
-  { label: "(GMT+00:00) London", value: "Europe/London" },
-  { label: "(GMT+01:00) Paris", value: "Europe/Paris" },
-];
-const statuses = [
-  { color: "bg-slate-400", label: "Backlog", value: "backlog" },
-  { color: "bg-blue-500", label: "In progress", value: "in-progress" },
-  { color: "bg-amber-500", label: "In review", value: "in-review" },
-  { color: "bg-emerald-500", label: "Done", value: "done" },
-];
-const countries = [
-  { continent: "North America", flag: "🇨🇦", label: "Canada", value: "ca" },
-  { continent: "North America", flag: "🇺🇸", label: "United States", value: "us" },
-  { continent: "Europe", flag: "🇫🇷", label: "France", value: "fr" },
-  { continent: "Europe", flag: "🇩🇪", label: "Germany", value: "de" },
-  { continent: "Asia", flag: "🇯🇵", label: "Japan", value: "jp" },
-];
-const countryGroups = ["North America", "Europe", "Asia"].map((continent) => ({
-  continent,
-  items: countries.filter((country) => country.continent === continent),
-}));
-const plans = [
-  { description: "Ideal for individuals", label: "Basic Plan", value: "basic" },
-  { description: "For professional users", label: "Pro Plan", value: "pro" },
-  { description: "Built for large teams", label: "Enterprise Plan", value: "enterprise" },
-];
-const users = [
-  { email: "olivia@example.com", initials: "OM", label: "Olivia Martin", value: "olivia" },
-  { email: "jackson@example.com", initials: "JL", label: "Jackson Lee", value: "jackson" },
-  { email: "isabella@example.com", initials: "IN", label: "Isabella Nguyen", value: "isabella" },
-];
-const fruits = [
-  { label: "Apple", value: "apple" },
-  { label: "Banana", value: "banana" },
-  { label: "Orange", value: "orange" },
-];
-let selectedLanguages = $state(["javascript", "typescript"]);
+  const frameworks = [
+    { label: "Next.js", value: "next" },
+    { label: "Vite", value: "vite" },
+    { label: "Astro", value: "astro" },
+    { label: "Remix", value: "remix" },
+  ];
+  const frontend = ["React", "Vue", "Svelte", "Angular"];
+  const backend = ["Node.js", "Django", "Laravel", "Spring"];
+  const languages = ["JavaScript", "TypeScript", "Python", "Java", "C#", "C++", "Go", "Rust"];
+  const categories = [
+    { icon: LayersIcon, label: "Components", value: "components" },
+    { icon: ZapIcon, label: "Performance", value: "performance" },
+    { icon: GlobeIcon, label: "Network", value: "network" },
+    { icon: CodeXmlIcon, label: "Development", value: "development" },
+  ];
+  const commands = [
+    { description: "npx create-next-app", label: "Next.js", value: "next" },
+    { description: "npm create vite@latest", label: "Vite", value: "vite" },
+    { description: "npm create astro@latest", label: "Astro", value: "astro" },
+    { description: "npx create-remix", label: "Remix", value: "remix" },
+  ];
+  const timezones = [
+    { label: "(GMT-08:00) Pacific Time", value: "America/Los_Angeles" },
+    { label: "(GMT-05:00) Eastern Time", value: "America/New_York" },
+    { label: "(GMT+00:00) London", value: "Europe/London" },
+    { label: "(GMT+01:00) Paris", value: "Europe/Paris" },
+  ];
+  const statuses = [
+    { color: "bg-slate-400", label: "Backlog", value: "backlog" },
+    { color: "bg-blue-500", label: "In progress", value: "in-progress" },
+    { color: "bg-amber-500", label: "In review", value: "in-review" },
+    { color: "bg-emerald-500", label: "Done", value: "done" },
+  ];
+  const countries = [
+    { continent: "North America", flag: "🇨🇦", label: "Canada", value: "ca" },
+    { continent: "North America", flag: "🇺🇸", label: "United States", value: "us" },
+    { continent: "Europe", flag: "🇫🇷", label: "France", value: "fr" },
+    { continent: "Europe", flag: "🇩🇪", label: "Germany", value: "de" },
+    { continent: "Asia", flag: "🇯🇵", label: "Japan", value: "jp" },
+  ];
+  const countryGroups = ["North America", "Europe", "Asia"].map((continent) => ({
+    continent,
+    items: countries.filter((country) => country.continent === continent),
+  }));
+  const plans = [
+    { description: "Ideal for individuals", label: "Basic Plan", value: "basic" },
+    { description: "For professional users", label: "Pro Plan", value: "pro" },
+    { description: "Built for large teams", label: "Enterprise Plan", value: "enterprise" },
+  ];
+  const users = [
+    { email: "olivia@example.com", initials: "OM", label: "Olivia Martin", value: "olivia" },
+    { email: "jackson@example.com", initials: "JL", label: "Jackson Lee", value: "jackson" },
+    { email: "isabella@example.com", initials: "IN", label: "Isabella Nguyen", value: "isabella" },
+  ];
+  const fruits = [
+    { label: "Apple", value: "apple" },
+    { label: "Banana", value: "banana" },
+    { label: "Orange", value: "orange" },
+  ];
+  let selectedLanguages = $state(["javascript", "typescript"]);
 </script>
 
 {#snippet frameworkItems(disabledValue = "")}
@@ -74,7 +80,11 @@ let selectedLanguages = $state(["javascript", "typescript"]);
   {/each}
 {/snippet}
 
-{#snippet frameworkSelect(size: "sm" | "lg" | "default" = "default", disabled = false, align = true)}
+{#snippet frameworkSelect(
+  size: "sm" | "lg" | "default" = "default",
+  disabled = false,
+  align = true,
+)}
   <Select.Root aria-label="Select framework" items={frameworks}>
     <Select.Trigger {disabled} {size}
       ><Select.Value placeholder="Select framework" /></Select.Trigger
@@ -86,8 +96,9 @@ let selectedLanguages = $state(["javascript", "typescript"]);
 <div class="fixture">
   <section data-particle="p-select-1">
     <Select.Root aria-label="Select framework" items={frameworks} value="next"
-      ><Select.Trigger><Select.Value /></Select.Trigger
-      ><Select.Popup>{@render frameworkItems()}</Select.Popup></Select.Root
+      ><Select.Trigger><Select.Value /></Select.Trigger><Select.Popup
+        >{@render frameworkItems()}</Select.Popup
+      ></Select.Root
     >
   </section>
   <section data-particle="p-select-2">{@render frameworkSelect("sm")}</section>
@@ -96,8 +107,7 @@ let selectedLanguages = $state(["javascript", "typescript"]);
   <section data-particle="p-select-5">{@render frameworkSelect("default", false, false)}</section>
   <section data-particle="p-select-6">
     <Select.Root aria-label="Select framework" items={[...frontend, ...backend]}
-      ><Select.Trigger><Select.Value placeholder="Select framework" /></Select.Trigger
-      ><Select.Popup
+      ><Select.Trigger><Select.Value placeholder="Select framework" /></Select.Trigger><Select.Popup
         ><Select.Group
           ><Select.GroupLabel>Frontend</Select.GroupLabel>
           {#each frontend as value}
@@ -121,7 +131,9 @@ let selectedLanguages = $state(["javascript", "typescript"]);
       multiple
       ><Select.Trigger
         ><Select.Value
-          >{selectedLanguages.length ? `${selectedLanguages.length} selected` : "Select languages"}</Select.Value
+          >{selectedLanguages.length
+            ? `${selectedLanguages.length} selected`
+            : "Select languages"}</Select.Value
         ></Select.Trigger
       ><Select.Popup alignItemWithTrigger={false}
         >{#each languages as label}
@@ -135,8 +147,7 @@ let selectedLanguages = $state(["javascript", "typescript"]);
       ><Select.Trigger
         ><HugeiconsIcon aria-hidden="true" icon={CableIcon} strokeWidth={2} />
         <Select.Value /></Select.Trigger
-      ><Select.Popup alignItemWithTrigger={false}
-        >{@render frameworkItems()}</Select.Popup
+      ><Select.Popup alignItemWithTrigger={false}>{@render frameworkItems()}</Select.Popup
       ></Select.Root
     >
   </section>
@@ -172,9 +183,8 @@ let selectedLanguages = $state(["javascript", "typescript"]);
           >{#snippet children(item: (typeof commands)[number] | null)}
             {#if item}
               <span class="flex flex-col"
-                ><span class="truncate">{item.label}</span
-                ><span class="truncate text-muted-foreground text-xs"
-                  >{item.description}</span
+                ><span class="truncate">{item.label}</span><span
+                  class="truncate text-muted-foreground text-xs">{item.description}</span
                 ></span
               >
             {/if}
@@ -184,8 +194,9 @@ let selectedLanguages = $state(["javascript", "typescript"]);
         >{#each commands as item (item.value)}
           <Select.Item value={item}
             ><span class="flex flex-col"
-              ><span>{item.label}</span
-              ><span class="text-muted-foreground text-xs">{item.description}</span></span
+              ><span>{item.label}</span><span class="text-muted-foreground text-xs"
+                >{item.description}</span
+              ></span
             ></Select.Item
           >
         {/each}</Select.Popup
@@ -197,19 +208,23 @@ let selectedLanguages = $state(["javascript", "typescript"]);
       class="flex w-full max-w-64 flex-col gap-4"
       onsubmit={(event: SubmitEvent) => event.preventDefault()}
       ><Field.Root
-        ><Field.Label>Framework</Field.Label
-        ><Select.Root aria-label="Select framework" items={frameworks} required
+        ><Field.Label>Framework</Field.Label><Select.Root
+          aria-label="Select framework"
+          items={frameworks}
+          required
           ><Select.Trigger><Select.Value placeholder="Select a framework" /></Select.Trigger
           ><Select.Popup>{@render frameworkItems()}</Select.Popup></Select.Root
-        ><Field.Description>Pick your favorite.</Field.Description
-        ><Field.Error>Please select a value.</Field.Error></Field.Root
+        ><Field.Description>Pick your favorite.</Field.Description><Field.Error
+          >Please select a value.</Field.Error
+        ></Field.Root
       ><Button type="submit">Submit</Button></Form
     >
   </section>
   <section data-particle="p-select-12">
     <Select.Root aria-label="Select framework" items={frameworks} value="next"
-      ><Select.Trigger><Select.Value /></Select.Trigger
-      ><Select.Popup>{@render frameworkItems("astro")}</Select.Popup></Select.Root
+      ><Select.Trigger><Select.Value /></Select.Trigger><Select.Popup
+        >{@render frameworkItems("astro")}</Select.Popup
+      ></Select.Root
     >
   </section>
   <section data-particle="p-select-13">
@@ -236,8 +251,8 @@ let selectedLanguages = $state(["javascript", "typescript"]);
           >{#snippet children(item: (typeof statuses)[number] | null)}
             {#if item}
               <span class="flex items-center gap-2"
-                ><span class={`size-2 rounded-full ${item.color}`}></span
-                ><span>{item.label}</span></span
+                ><span class={`size-2 rounded-full ${item.color}`}></span><span>{item.label}</span
+                ></span
               >
             {/if}
           {/snippet}</Select.Value
@@ -246,8 +261,8 @@ let selectedLanguages = $state(["javascript", "typescript"]);
         >{#each statuses as item (item.value)}
           <Select.Item value={item}
             ><span class="flex items-center gap-2"
-              ><span class={`size-2 rounded-full ${item.color}`}></span
-              ><span>{item.label}</span></span
+              ><span class={`size-2 rounded-full ${item.color}`}></span><span>{item.label}</span
+              ></span
             ></Select.Item
           >
         {/each}</Select.Popup
@@ -291,8 +306,8 @@ let selectedLanguages = $state(["javascript", "typescript"]);
           >{#snippet children(item: (typeof countries)[number] | null)}
             {#if item}
               <span class="flex items-center gap-2"
-                ><span class="text-base leading-none">{item.flag}</span
-                ><span>{item.label}</span></span
+                ><span class="text-base leading-none">{item.flag}</span><span>{item.label}</span
+                ></span
               >
             {/if}
           {/snippet}</Select.Value
@@ -307,8 +322,8 @@ let selectedLanguages = $state(["javascript", "typescript"]);
             {#each group.items as item (item.value)}
               <Select.Item value={item}
                 ><span class="flex items-center gap-2"
-                  ><span class="text-base leading-none">{item.flag}</span
-                  ><span>{item.label}</span></span
+                  ><span class="text-base leading-none">{item.flag}</span><span>{item.label}</span
+                  ></span
                 ></Select.Item
               >
             {/each}</Select.Group
@@ -331,8 +346,9 @@ let selectedLanguages = $state(["javascript", "typescript"]);
         >{#each plans as item (item.value)}
           <Select.Item value={item}
             ><span class="flex flex-col"
-              ><span>{item.label}</span
-              ><span class="text-muted-foreground text-xs">{item.description}</span></span
+              ><span>{item.label}</span><span class="text-muted-foreground text-xs"
+                >{item.description}</span
+              ></span
             ></Select.Item
           >
         {/each}</Select.Popup
@@ -347,8 +363,7 @@ let selectedLanguages = $state(["javascript", "typescript"]);
             {#if item}
               <span class="flex items-center gap-2"
                 ><Avatar.Root class="size-5"
-                  ><Avatar.Fallback class="text-[.625rem]"
-                    >{item.initials}</Avatar.Fallback
+                  ><Avatar.Fallback class="text-[.625rem]">{item.initials}</Avatar.Fallback
                   ></Avatar.Root
                 ><span>{item.label}</span></span
               >
@@ -362,8 +377,7 @@ let selectedLanguages = $state(["javascript", "typescript"]);
             <Select.Item value={item}
               ><span class="flex items-center gap-2"
                 ><Avatar.Root class="size-5"
-                  ><Avatar.Fallback class="text-[10px]"
-                    >{item.initials}</Avatar.Fallback
+                  ><Avatar.Fallback class="text-[10px]">{item.initials}</Avatar.Fallback
                   ></Avatar.Root
                 ><span>{item.label}</span></span
               ></Select.Item
@@ -383,8 +397,9 @@ let selectedLanguages = $state(["javascript", "typescript"]);
                 ><Avatar.Root class="size-8"
                   ><Avatar.Fallback>{item.initials}</Avatar.Fallback></Avatar.Root
                 ><span class="flex flex-col text-left"
-                  ><span class="truncate font-medium">{item.label}</span
-                  ><span class="truncate text-muted-foreground text-xs">{item.email}</span></span
+                  ><span class="truncate font-medium">{item.label}</span><span
+                    class="truncate text-muted-foreground text-xs">{item.email}</span
+                  ></span
                 ></span
               >
             {/if}
@@ -397,8 +412,9 @@ let selectedLanguages = $state(["javascript", "typescript"]);
               ><Avatar.Root class="size-8"
                 ><Avatar.Fallback>{item.initials}</Avatar.Fallback></Avatar.Root
               ><span class="flex flex-col"
-                ><span class="font-medium">{item.label}</span
-                ><span class="text-muted-foreground text-xs">{item.email}</span></span
+                ><span class="font-medium">{item.label}</span><span
+                  class="text-muted-foreground text-xs">{item.email}</span
+                ></span
               ></span
             ></Select.Item
           >
@@ -408,8 +424,9 @@ let selectedLanguages = $state(["javascript", "typescript"]);
   </section>
   <section data-particle="p-select-21">
     <Select.Root aria-label="Select framework" items={frameworks} value="next"
-      ><Select.Trigger class="w-fit"><Select.Value /></Select.Trigger
-      ><Select.Popup>{@render frameworkItems()}</Select.Popup></Select.Root
+      ><Select.Trigger class="w-fit"><Select.Value /></Select.Trigger><Select.Popup
+        >{@render frameworkItems()}</Select.Popup
+      ></Select.Root
     >
   </section>
   <section data-particle="p-select-22">
@@ -432,34 +449,34 @@ let selectedLanguages = $state(["javascript", "typescript"]);
 </div>
 
 <style>
-.fixture {
-  display: grid;
-  width: 100%;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 3rem 2rem;
-  padding: 2rem;
-}
-.fixture section {
-  display: flex;
-  width: 100%;
-  max-width: 16rem;
-  min-width: 0;
-  align-items: center;
-  justify-self: center;
-  justify-content: center;
-}
-.fixture section > :global(*) {
-  width: 100%;
-  max-width: 16rem;
-}
-.fixture :global([data-slot="select-trigger"]) {
-  max-width: 16rem;
-}
-@media (max-width: 639px) {
   .fixture {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 2rem;
-    padding: 1.5rem;
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 3rem 2rem;
+    padding: 2rem;
   }
-}
+  .fixture section {
+    display: flex;
+    width: 100%;
+    max-width: 16rem;
+    min-width: 0;
+    align-items: center;
+    justify-self: center;
+    justify-content: center;
+  }
+  .fixture section > :global(*) {
+    width: 100%;
+    max-width: 16rem;
+  }
+  .fixture :global([data-slot="select-trigger"]) {
+    max-width: 16rem;
+  }
+  @media (max-width: 639px) {
+    .fixture {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 2rem;
+      padding: 1.5rem;
+    }
+  }
 </style>

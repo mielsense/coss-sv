@@ -1,13 +1,14 @@
 <!-- biome-ignore-all lint/a11y/useValidAnchor: The COSS particles intentionally use hash-only placeholder links. -->
 <script lang="ts">
-import { Button, buttonVariants, Dialog, Drawer, Field, Form, Input, Menu } from "@coss-sv/ui";
-import { MediaQuery } from "svelte/reactivity";
+  import { Button, buttonVariants, Dialog, Drawer, Field, Form, Input, Menu } from "@coss-sv/ui";
+  import { MediaQuery } from "svelte/reactivity";
+  import FixtureIcon from "./fixture-icon.svelte";
 
-const positions = ["right", "left", "top", "bottom"] as const;
-const footerVariants = ["default", "bare"] as const;
-const boxes = Array.from({ length: 48 }, (_, index) => index);
-const isMobile = new MediaQuery("(max-width: 768px)", false);
-let snapPoint = $state<string | number | null>("300px");
+  const positions = ["right", "left", "top", "bottom"] as const;
+  const footerVariants = ["default", "bare"] as const;
+  const boxes = Array.from({ length: 48 }, (_, index) => index);
+  const isMobile = new MediaQuery("(max-width: 768px)", false);
+  let snapPoint = $state<string | number | null>("300px");
 </script>
 
 <div class="fixture">
@@ -17,13 +18,11 @@ let snapPoint = $state<string | number | null>("300px");
         ><Drawer.Trigger class={buttonVariants({ variant: "outline" })}>Open drawer</Drawer.Trigger
         ><Drawer.Popup {showBar}
           ><Drawer.Header class="text-center"
-            ><Drawer.Title>Notifications</Drawer.Title
-            ><Drawer.Description
+            ><Drawer.Title>Notifications</Drawer.Title><Drawer.Description
               >This is the description of the drawer.</Drawer.Description
             ></Drawer.Header
           ><Drawer.Footer class="justify-center sm:justify-center" variant="bare"
-            ><Drawer.Close class={buttonVariants({ variant: "outline" })}
-              >Close</Drawer.Close
+            ><Drawer.Close class={buttonVariants({ variant: "outline" })}>Close</Drawer.Close
             ></Drawer.Footer
           ></Drawer.Popup
         ></Drawer.Root
@@ -36,8 +35,7 @@ let snapPoint = $state<string | number | null>("300px");
       ><Drawer.Trigger class={buttonVariants({ variant: "outline" })}>Open drawer</Drawer.Trigger
       ><Drawer.Popup showCloseButton variant="straight"
         ><Drawer.Header
-          ><Drawer.Title>Notifications</Drawer.Title
-          ><Drawer.Description
+          ><Drawer.Title>Notifications</Drawer.Title><Drawer.Description
             >This is the description of the drawer.</Drawer.Description
           ></Drawer.Header
         ><Drawer.Panel
@@ -60,8 +58,7 @@ let snapPoint = $state<string | number | null>("300px");
               >{position[0]?.toUpperCase()}{position.slice(1)}</Drawer.Trigger
             ><Drawer.Popup variant={variant as "inset" | "straight"}
               ><Drawer.Header
-                ><Drawer.Title
-                  >{position[0]?.toUpperCase()}{position.slice(1)}</Drawer.Title
+                ><Drawer.Title>{position[0]?.toUpperCase()}{position.slice(1)}</Drawer.Title
                 ></Drawer.Header
               ><Drawer.Panel
                 ><p class="text-muted-foreground text-sm">
@@ -80,16 +77,14 @@ let snapPoint = $state<string | number | null>("300px");
       ><Drawer.Trigger class={buttonVariants({ variant: "outline" })}
         >Scrollable content</Drawer.Trigger
       ><Drawer.Popup showBar
-        ><Drawer.Header><Drawer.Title>Scrollable content</Drawer.Title></Drawer.Header
-        ><Drawer.Panel
+        ><Drawer.Header><Drawer.Title>Scrollable content</Drawer.Title></Drawer.Header><Drawer.Panel
           ><div class="flex flex-col gap-2">
             {#each boxes as _box}
               <div class="h-12 shrink-0 rounded-xl border bg-muted"></div>
             {/each}
           </div></Drawer.Panel
         ><Drawer.Footer
-          ><Drawer.Close class={buttonVariants({ variant: "outline" })}
-            >Close</Drawer.Close
+          ><Drawer.Close class={buttonVariants({ variant: "outline" })}>Close</Drawer.Close
           ></Drawer.Footer
         ></Drawer.Popup
       ></Drawer.Root
@@ -101,10 +96,8 @@ let snapPoint = $state<string | number | null>("300px");
       ><Drawer.Trigger class={buttonVariants({ variant: "outline" })}>Nested drawers</Drawer.Trigger
       ><Drawer.Popup showBar
         ><Drawer.Header class="text-center"
-          ><Drawer.Title>First step</Drawer.Title
-          ><Drawer.Description
-            >This is the first step. Tap the button below to continue to the next
-            screen.</Drawer.Description
+          ><Drawer.Title>First step</Drawer.Title><Drawer.Description
+            >This is the first step. Tap the button below to continue to the next screen.</Drawer.Description
           ></Drawer.Header
         ><Drawer.Footer class="justify-center sm:justify-center" variant="bare"
           ><Drawer.Close class={buttonVariants({ variant: "ghost" })}>Cancel</Drawer.Close
@@ -112,8 +105,7 @@ let snapPoint = $state<string | number | null>("300px");
             ><Drawer.Trigger class={buttonVariants({ variant: "outline" })}>Continue</Drawer.Trigger
             ><Drawer.Popup showBar
               ><Drawer.Header class="text-center"
-                ><Drawer.Title>Second step</Drawer.Title
-                ><Drawer.Description
+                ><Drawer.Title>Second step</Drawer.Title><Drawer.Description
                   >You've reached the second step. Tap the button below to continue to the next
                   screen.</Drawer.Description
                 ></Drawer.Header
@@ -128,10 +120,8 @@ let snapPoint = $state<string | number | null>("300px");
                     >Continue</Drawer.Trigger
                   ><Drawer.Popup showBar
                     ><Drawer.Header class="text-center"
-                      ><Drawer.Title>Third step</Drawer.Title
-                      ><Drawer.Description
-                        >You've reached the final step. You can close this drawer or go
-                        back.</Drawer.Description
+                      ><Drawer.Title>Third step</Drawer.Title><Drawer.Description
+                        >You've reached the final step. You can close this drawer or go back.</Drawer.Description
                       ></Drawer.Header
                     ><Drawer.Panel
                       ><div class="flex justify-center">
@@ -154,8 +144,7 @@ let snapPoint = $state<string | number | null>("300px");
         >Nested inset drawers</Drawer.Trigger
       ><Drawer.Popup variant="inset"
         ><Drawer.Header
-          ><Drawer.Title>Manage team member</Drawer.Title
-          ><Drawer.Description
+          ><Drawer.Title>Manage team member</Drawer.Title><Drawer.Description
             >View and manage a user in your team.</Drawer.Description
           ></Drawer.Header
         ><Drawer.Panel class="grid gap-4"
@@ -174,8 +163,7 @@ let snapPoint = $state<string | number | null>("300px");
             ><Drawer.Popup variant="inset"
               >{const nestedMember = $state({ email: "bora@example.com", name: "Bora Baloglu" })}
               <Drawer.Header
-                ><Drawer.Title>Edit details</Drawer.Title
-                ><Drawer.Description
+                ><Drawer.Title>Edit details</Drawer.Title><Drawer.Description
                   >Make changes to the member's information.</Drawer.Description
                 ></Drawer.Header
               ><Drawer.Panel class="grid gap-4"
@@ -211,10 +199,8 @@ let snapPoint = $state<string | number | null>("300px");
         >With snap points</Drawer.Trigger
       ><Drawer.Popup showBar
         ><Drawer.Header
-          ><Drawer.Title>Snap Points</Drawer.Title
-          ><Drawer.Description
-            >Drag the drawer to snap between a compact peek and full-height
-            view.</Drawer.Description
+          ><Drawer.Title>Snap Points</Drawer.Title><Drawer.Description
+            >Drag the drawer to snap between a compact peek and full-height view.</Drawer.Description
           ></Drawer.Header
         ><Drawer.Panel
           ><div class="flex flex-col gap-2">
@@ -236,8 +222,7 @@ let snapPoint = $state<string | number | null>("300px");
           ><Drawer.Popup variant="inset"
             >{const profile = $state({ name: "Margaret Welsh", username: "@maggie.welsh" })}
             <Drawer.Header
-              ><Drawer.Title>Edit profile</Drawer.Title
-              ><Drawer.Description
+              ><Drawer.Title>Edit profile</Drawer.Title><Drawer.Description
                 >Make changes to your profile here. Click save when you're done.</Drawer.Description
               ></Drawer.Header
             >
@@ -265,15 +250,13 @@ let snapPoint = $state<string | number | null>("300px");
     <Drawer.Root position="left"
       ><Drawer.Trigger class={buttonVariants({ variant: "outline" })}>Open menu</Drawer.Trigger
       ><Drawer.Popup showCloseButton variant="straight"
-        ><Drawer.Header><Drawer.Title>Menu</Drawer.Title></Drawer.Header
-        ><Drawer.Panel
+        ><Drawer.Header><Drawer.Title>Menu</Drawer.Title></Drawer.Header><Drawer.Panel
           ><nav class="-mx-[calc(--spacing(3)-1px)] flex flex-col gap-0.5">
             {#each ["Home", "Profile", "Settings", "Sign out"] as item}
               <Drawer.Close
                 as="a"
                 class={buttonVariants({ class: "justify-start", variant: "ghost" })}
-                href="#"
-                >{item}</Drawer.Close
+                href="#">{item}</Drawer.Close
               >
             {/each}
           </nav></Drawer.Panel
@@ -292,8 +275,7 @@ let snapPoint = $state<string | number | null>("300px");
             username: "@maggie.welsh",
           })}
           <Drawer.Header
-            ><Drawer.Title>Edit profile</Drawer.Title
-            ><Drawer.Description
+            ><Drawer.Title>Edit profile</Drawer.Title><Drawer.Description
               >Make changes to your profile here. Click save when you're done.</Drawer.Description
             ></Drawer.Header
           >
@@ -322,8 +304,7 @@ let snapPoint = $state<string | number | null>("300px");
             username: "@maggie.welsh",
           })}
           <Dialog.Header
-            ><Dialog.Title>Edit profile</Dialog.Title
-            ><Dialog.Description
+            ><Dialog.Title>Edit profile</Dialog.Title><Dialog.Description
               >Make changes to your profile here. Click save when you're done.</Dialog.Description
             ></Dialog.Header
           >
@@ -353,23 +334,7 @@ let snapPoint = $state<string | number | null>("300px");
           aria-label="Open menu"
           class={buttonVariants({ size: "icon", variant: "outline" })}
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="lucide lucide-ellipsis"
-            aria-hidden="true"
-          >
-            <circle cx="12" cy="12" r="1"></circle>
-            <circle cx="19" cy="12" r="1"></circle>
-            <circle cx="5" cy="12" r="1"></circle>
-          </svg>
+          <FixtureIcon aria-hidden="true" name="more" />
         </Drawer.Trigger>
         <Drawer.Popup showBar>
           <Drawer.Panel>
@@ -380,70 +345,19 @@ let snapPoint = $state<string | number | null>("300px");
                   class={Drawer.drawerMenuItemVariants()}
                   data-slot="drawer-menu-item"
                   data-variant="default"
-                  ><svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    class="lucide lucide-pencil"
-                    aria-hidden="true"
-                  >
-                    <path
-                      d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"
-                    ></path>
-                    <path d="m15 5 4 4"></path>
-                  </svg
-                  >Edit</Drawer.Close
+                  ><FixtureIcon aria-hidden="true" name="pencil" />Edit</Drawer.Close
                 >
                 <Drawer.Close
                   class={Drawer.drawerMenuItemVariants()}
                   data-slot="drawer-menu-item"
                   data-variant="default"
-                  ><svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    class="lucide lucide-copy"
-                    aria-hidden="true"
-                  >
-                    <rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect>
-                    <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path>
-                  </svg
-                  >Duplicate</Drawer.Close
+                  ><FixtureIcon aria-hidden="true" name="copy" />Duplicate</Drawer.Close
                 >
                 <Drawer.Close
                   class={Drawer.drawerMenuItemVariants()}
                   data-slot="drawer-menu-item"
                   data-variant="default"
-                  ><svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    class="lucide lucide-share"
-                    aria-hidden="true"
-                  >
-                    <path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"></path>
-                    <path d="M12 16V2"></path>
-                    <path d="m7 7 5-5 5 5"></path>
-                  </svg
-                  >Share</Drawer.Close
+                  ><FixtureIcon aria-hidden="true" name="share-2" />Share</Drawer.Close
                 >
               </Drawer.MenuGroup>
               <Drawer.MenuSeparator />
@@ -456,8 +370,7 @@ let snapPoint = $state<string | number | null>("300px");
                 <Drawer.MenuRadioGroup defaultValue="artist"
                   ><Drawer.MenuRadioItem value="artist">Artist</Drawer.MenuRadioItem
                   ><Drawer.MenuRadioItem value="album">Album</Drawer.MenuRadioItem
-                  ><Drawer.MenuRadioItem value="title"
-                    >Title</Drawer.MenuRadioItem
+                  ><Drawer.MenuRadioItem value="title">Title</Drawer.MenuRadioItem
                   ></Drawer.MenuRadioGroup
                 >
               </Drawer.MenuGroup>
@@ -470,69 +383,56 @@ let snapPoint = $state<string | number | null>("300px");
                   ><Drawer.Panel
                     ><Drawer.Menu
                       ><Drawer.MenuGroup
-                        ><Drawer.MenuGroupLabel
-                          >Add to Playlist</Drawer.MenuGroupLabel
+                        ><Drawer.MenuGroupLabel>Add to Playlist</Drawer.MenuGroupLabel
                         ></Drawer.MenuGroup
                       ><Drawer.Close
                         class={Drawer.drawerMenuItemVariants()}
                         data-slot="drawer-menu-item"
-                        data-variant="default"
-                        >Jazz</Drawer.Close
+                        data-variant="default">Jazz</Drawer.Close
                       ><Drawer.Root
-                        ><Drawer.MenuTrigger>Rock</Drawer.MenuTrigger
-                        ><Drawer.Popup showBar
+                        ><Drawer.MenuTrigger>Rock</Drawer.MenuTrigger><Drawer.Popup showBar
                           ><Drawer.Panel
                             ><Drawer.Menu
                               ><Drawer.MenuGroup
-                                ><Drawer.MenuGroupLabel
-                                  >Rock</Drawer.MenuGroupLabel
+                                ><Drawer.MenuGroupLabel>Rock</Drawer.MenuGroupLabel
                                 ></Drawer.MenuGroup
                               ><Drawer.Close
                                 class={Drawer.drawerMenuItemVariants()}
                                 data-slot="drawer-menu-item"
-                                data-variant="default"
-                                >Hard Rock</Drawer.Close
+                                data-variant="default">Hard Rock</Drawer.Close
                               ><Drawer.Close
                                 class={Drawer.drawerMenuItemVariants()}
                                 data-slot="drawer-menu-item"
-                                data-variant="default"
-                                >Soft Rock</Drawer.Close
+                                data-variant="default">Soft Rock</Drawer.Close
                               ><Drawer.Close
                                 class={Drawer.drawerMenuItemVariants()}
                                 data-slot="drawer-menu-item"
-                                data-variant="default"
-                                >Classic Rock</Drawer.Close
+                                data-variant="default">Classic Rock</Drawer.Close
                               ><Drawer.MenuSeparator />
                               <Drawer.Close
                                 class={Drawer.drawerMenuItemVariants()}
                                 data-slot="drawer-menu-item"
-                                data-variant="default"
-                                >Metal</Drawer.Close
+                                data-variant="default">Metal</Drawer.Close
                               ><Drawer.Close
                                 class={Drawer.drawerMenuItemVariants()}
                                 data-slot="drawer-menu-item"
-                                data-variant="default"
-                                >Punk</Drawer.Close
+                                data-variant="default">Punk</Drawer.Close
                               ><Drawer.Close
                                 class={Drawer.drawerMenuItemVariants()}
                                 data-slot="drawer-menu-item"
-                                data-variant="default"
-                                >Grunge</Drawer.Close
+                                data-variant="default">Grunge</Drawer.Close
                               ><Drawer.Close
                                 class={Drawer.drawerMenuItemVariants()}
                                 data-slot="drawer-menu-item"
-                                data-variant="default"
-                                >Alternative</Drawer.Close
+                                data-variant="default">Alternative</Drawer.Close
                               ><Drawer.Close
                                 class={Drawer.drawerMenuItemVariants()}
                                 data-slot="drawer-menu-item"
-                                data-variant="default"
-                                >Indie</Drawer.Close
+                                data-variant="default">Indie</Drawer.Close
                               ><Drawer.Close
                                 class={Drawer.drawerMenuItemVariants()}
                                 data-slot="drawer-menu-item"
-                                data-variant="default"
-                                >Electronic</Drawer.Close
+                                data-variant="default">Electronic</Drawer.Close
                               ></Drawer.Menu
                             ></Drawer.Panel
                           ></Drawer.Popup
@@ -540,8 +440,7 @@ let snapPoint = $state<string | number | null>("300px");
                       ><Drawer.Close
                         class={Drawer.drawerMenuItemVariants()}
                         data-slot="drawer-menu-item"
-                        data-variant="default"
-                        >Pop</Drawer.Close
+                        data-variant="default">Pop</Drawer.Close
                       ></Drawer.Menu
                     ></Drawer.Panel
                   ></Drawer.Popup
@@ -554,24 +453,7 @@ let snapPoint = $state<string | number | null>("300px");
                   class={Drawer.drawerMenuItemVariants()}
                   data-slot="drawer-menu-item"
                   data-variant="destructive"
-                  ><svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    class="lucide lucide-trash"
-                    aria-hidden="true"
-                  >
-                    <path d="M3 6h18"></path>
-                    <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
-                    <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
-                  </svg
-                  >Delete</Drawer.Close
+                  ><FixtureIcon aria-hidden="true" name="trash" />Delete</Drawer.Close
                 >
               </Drawer.MenuGroup>
             </Drawer.Menu>
@@ -583,109 +465,36 @@ let snapPoint = $state<string | number | null>("300px");
         <Menu.Trigger
           aria-label="Open menu"
           class={buttonVariants({ size: "icon", variant: "outline" })}
-          ><svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="lucide lucide-ellipsis"
-            aria-hidden="true"
-          >
-            <circle cx="12" cy="12" r="1"></circle>
-            <circle cx="19" cy="12" r="1"></circle>
-            <circle cx="5" cy="12" r="1"></circle>
-          </svg></Menu.Trigger
+          ><FixtureIcon aria-hidden="true" name="more" /></Menu.Trigger
         >
         <Menu.Popup>
           <Menu.Group
-            ><Menu.GroupLabel>Actions</Menu.GroupLabel
-            ><Menu.Item
-              ><svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="lucide lucide-pencil"
-                aria-hidden="true"
-              >
-                <path
-                  d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"
-                ></path>
-                <path d="m15 5 4 4"></path>
-              </svg
-              >Edit</Menu.Item
-            ><Menu.Item
-              ><svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="lucide lucide-copy"
-                aria-hidden="true"
-              >
-                <rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect>
-                <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path>
-              </svg
-              >Duplicate</Menu.Item
-            ><Menu.Item
-              ><svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="lucide lucide-share"
-                aria-hidden="true"
-              >
-                <path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"></path>
-                <path d="M12 16V2"></path>
-                <path d="m7 7 5-5 5 5"></path>
-              </svg
-              >Share</Menu.Item
+            ><Menu.GroupLabel>Actions</Menu.GroupLabel><Menu.Item
+              ><FixtureIcon aria-hidden="true" name="pencil" />Edit</Menu.Item
+            ><Menu.Item><FixtureIcon aria-hidden="true" name="copy" />Duplicate</Menu.Item
+            ><Menu.Item><FixtureIcon aria-hidden="true" name="share-2" />Share</Menu.Item
             ></Menu.Group
           >
-          <Menu.Separator /><Menu.CheckboxItem>Shuffle</Menu.CheckboxItem
-          ><Menu.CheckboxItem>Repeat</Menu.CheckboxItem
+          <Menu.Separator /><Menu.CheckboxItem>Shuffle</Menu.CheckboxItem><Menu.CheckboxItem
+            >Repeat</Menu.CheckboxItem
           ><Menu.CheckboxItem disabled>Enhanced Audio</Menu.CheckboxItem><Menu.Separator />
           <Menu.Group
-            ><Menu.GroupLabel>Sort by</Menu.GroupLabel
-            ><Menu.RadioGroup defaultValue="artist"
-              ><Menu.RadioItem value="artist">Artist</Menu.RadioItem
-              ><Menu.RadioItem value="album">Album</Menu.RadioItem
+            ><Menu.GroupLabel>Sort by</Menu.GroupLabel><Menu.RadioGroup defaultValue="artist"
+              ><Menu.RadioItem value="artist">Artist</Menu.RadioItem><Menu.RadioItem value="album"
+                >Album</Menu.RadioItem
               ><Menu.RadioItem value="title">Title</Menu.RadioItem></Menu.RadioGroup
             ></Menu.Group
           ><Menu.Separator /><Menu.CheckboxItem variant="switch">Auto save</Menu.CheckboxItem>
           <Menu.Separator />
           <Menu.Sub
-            ><Menu.SubTrigger>Add to Playlist</Menu.SubTrigger
-            ><Menu.SubPopup
-              ><Menu.Item>Jazz</Menu.Item
-              ><Menu.Sub
-                ><Menu.SubTrigger>Rock</Menu.SubTrigger
-                ><Menu.SubPopup
-                  ><Menu.Item>Hard Rock</Menu.Item><Menu.Item>Soft Rock</Menu.Item
-                  ><Menu.Item>Classic Rock</Menu.Item><Menu.Separator /><Menu.Item>Metal</Menu.Item
-                  ><Menu.Item>Punk</Menu.Item><Menu.Item>Grunge</Menu.Item
-                  ><Menu.Item>Alternative</Menu.Item><Menu.Item>Indie</Menu.Item
+            ><Menu.SubTrigger>Add to Playlist</Menu.SubTrigger><Menu.SubPopup
+              ><Menu.Item>Jazz</Menu.Item><Menu.Sub
+                ><Menu.SubTrigger>Rock</Menu.SubTrigger><Menu.SubPopup
+                  ><Menu.Item>Hard Rock</Menu.Item><Menu.Item>Soft Rock</Menu.Item><Menu.Item
+                    >Classic Rock</Menu.Item
+                  ><Menu.Separator /><Menu.Item>Metal</Menu.Item><Menu.Item>Punk</Menu.Item
+                  ><Menu.Item>Grunge</Menu.Item><Menu.Item>Alternative</Menu.Item><Menu.Item
+                    >Indie</Menu.Item
                   ><Menu.Item>Electronic</Menu.Item></Menu.SubPopup
                 ></Menu.Sub
               ><Menu.Item>Pop</Menu.Item></Menu.SubPopup
@@ -693,26 +502,8 @@ let snapPoint = $state<string | number | null>("300px");
           >
           <Menu.Separator />
           <Menu.Group
-            ><Menu.GroupLabel>Danger zone</Menu.GroupLabel
-            ><Menu.Item variant="destructive"
-              ><svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="lucide lucide-trash"
-                aria-hidden="true"
-              >
-                <path d="M3 6h18"></path>
-                <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
-                <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
-              </svg
-              >Delete</Menu.Item
+            ><Menu.GroupLabel>Danger zone</Menu.GroupLabel><Menu.Item variant="destructive"
+              ><FixtureIcon aria-hidden="true" name="trash" />Delete</Menu.Item
             ></Menu.Group
           >
         </Menu.Popup>
@@ -735,8 +526,7 @@ let snapPoint = $state<string | number | null>("300px");
           </p>
         </div>
         <Drawer.Popup position="left" showCloseButton variant="straight"
-          ><Drawer.Header><Drawer.Title>Menu</Drawer.Title></Drawer.Header
-          ><Drawer.Panel
+          ><Drawer.Header><Drawer.Title>Menu</Drawer.Title></Drawer.Header><Drawer.Panel
             ><nav class="-mx-[calc(--spacing(3)-1px)] flex flex-col gap-0.5">
               {#each ["Home", "Profile", "Settings", "Sign out"] as item}
                 <!-- svelte-ignore a11y_invalid_attribute -->
@@ -751,17 +541,17 @@ let snapPoint = $state<string | number | null>("300px");
 </div>
 
 <style>
-.fixture {
-  display: grid;
-  width: 100%;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
-  gap: 3rem;
-  padding: 2rem;
-}
-.fixture > section {
-  display: flex;
-  min-height: 12rem;
-  align-items: center;
-  justify-content: center;
-}
+  .fixture {
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
+    gap: 3rem;
+    padding: 2rem;
+  }
+  .fixture > section {
+    display: flex;
+    min-height: 12rem;
+    align-items: center;
+    justify-content: center;
+  }
 </style>

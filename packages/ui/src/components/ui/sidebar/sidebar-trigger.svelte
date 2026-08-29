@@ -1,30 +1,30 @@
 <script module lang="ts">
-import type { ComponentProps } from "svelte";
+  import type { ComponentProps } from "svelte";
 
-type ButtonComponent = typeof import("../button/button.svelte").default;
-export type SidebarTriggerProps = ComponentProps<ButtonComponent>;
+  type ButtonComponent = typeof import("../button/button.svelte").default;
+  export type SidebarTriggerProps = ComponentProps<ButtonComponent>;
 </script>
 
 <script lang="ts">
-import SidebarLeftIcon from "@hugeicons/core-free-icons/SidebarLeftIcon";
-import { HugeiconsIcon } from "@hugeicons/svelte";
-import { cn } from "$lib/utils.js";
-import Button from "../button/button.svelte";
-import { useSidebar } from "./context.js";
+  import SidebarLeftIcon from "@hugeicons/core-free-icons/SidebarLeftIcon";
+  import HugeiconsIcon from "$lib/hugeicons-icon.svelte";
+  import { cn } from "$lib/utils.js";
+  import Button from "../button/button.svelte";
+  import { useSidebar } from "./context.js";
 
-let {
-  children,
-  class: className,
-  onclick,
-  ref = $bindable(null),
-  ...props
-}: SidebarTriggerProps = $props();
-const sidebar = useSidebar();
+  let {
+    children,
+    class: className,
+    onclick,
+    ref = $bindable(null),
+    ...props
+  }: SidebarTriggerProps = $props();
+  const sidebar = useSidebar();
 
-function handleClick(event: MouseEvent): void {
-  onclick?.(event);
-  sidebar.toggleSidebar();
-}
+  function handleClick(event: MouseEvent): void {
+    onclick?.(event);
+    sidebar.toggleSidebar();
+  }
 </script>
 
 <Button

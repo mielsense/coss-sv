@@ -1,8 +1,9 @@
 <script lang="ts">
-import { Button, Collapsible, Frame, FrameHeader, FramePanel } from "@coss-sv/ui";
+  import { Button, Collapsible, Frame, FrameHeader, FramePanel } from "@coss-sv/ui";
+  import FixtureIcon from "./fixture-icon.svelte";
 
-let isOpen = $state(false);
-let keepMountedOpen = $state(false);
+  let isOpen = $state(false);
+  let keepMountedOpen = $state(false);
 </script>
 
 <div class="collapsible-fixture">
@@ -13,21 +14,7 @@ let keepMountedOpen = $state(false);
         data-testid="collapsible-particle-trigger"
       >
         Show recovery keys
-        <svg
-          aria-hidden="true"
-          class="lucide lucide-chevron-down size-4"
-          fill="none"
-          height="24"
-          stroke="currentColor"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          viewBox="0 0 24 24"
-          width="24"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path d="m6 9 6 6 6-6" />
-        </svg>
+        <FixtureIcon aria-hidden="true" class="size-4" name="chevron-down" />
       </Collapsible.Trigger>
       <Collapsible.Panel data-testid="collapsible-particle-panel">
         <ul class="flex flex-col gap-1 py-2 text-muted-foreground text-sm">
@@ -45,21 +32,7 @@ let keepMountedOpen = $state(false);
         <FrameHeader class="flex-row items-center justify-between px-2 py-2">
           <Collapsible.Trigger class="data-panel-open:[&_svg]:rotate-180">
             {#snippet children()}
-              <svg
-                aria-hidden="true"
-                class="lucide lucide-chevron-down size-4"
-                fill="none"
-                height="24"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                viewBox="0 0 24 24"
-                width="24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path d="m6 9 6 6 6-6" />
-              </svg>
+              <FixtureIcon aria-hidden="true" class="size-4" name="chevron-down" />
               Section header
             {/snippet}
             {#snippet delegate({ props, ref })}
@@ -67,25 +40,7 @@ let keepMountedOpen = $state(false);
             {/snippet}
           </Collapsible.Trigger>
           <Button aria-label="Delete" size="icon" variant="ghost">
-            <svg
-              aria-hidden="true"
-              class="lucide lucide-trash"
-              fill="none"
-              height="24"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              viewBox="0 0 24 24"
-              width="24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path d="M3 6h18" />
-              <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />
-              <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
-              <path d="M10 11v6" />
-              <path d="M14 11v6" />
-            </svg>
+            <FixtureIcon aria-hidden="true" name="trash" />
           </Button>
         </FrameHeader>
         <Collapsible.Panel>
@@ -121,28 +76,28 @@ let keepMountedOpen = $state(false);
 </div>
 
 <style>
-.collapsible-fixture {
-  display: grid;
-  box-sizing: border-box;
-  width: 100%;
-  min-height: 24rem;
-  gap: 3rem;
-  place-items: center;
-  padding: 2rem;
-}
+  .collapsible-fixture {
+    display: grid;
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 24rem;
+    gap: 3rem;
+    place-items: center;
+    padding: 2rem;
+  }
 
-.review-probes {
-  display: grid;
-  width: min(100%, 28rem);
-  gap: 1rem;
-  border-block-start: 1px solid var(--border);
-  padding-block-start: 2rem;
-}
+  .review-probes {
+    display: grid;
+    width: min(100%, 28rem);
+    gap: 1rem;
+    border-block-start: 1px solid var(--border);
+    padding-block-start: 2rem;
+  }
 
-.review-actions {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.75rem;
-}
+  .review-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+  }
 </style>

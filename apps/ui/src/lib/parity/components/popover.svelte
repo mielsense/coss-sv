@@ -1,24 +1,25 @@
 <script lang="ts">
-import {
-  Avatar,
-  Badge,
-  Button,
-  buttonVariants,
-  CheckboxGroup,
-  Form,
-  Group,
-  Label,
-  Popover,
-  Textarea,
-} from "@coss-sv/ui";
+  import {
+    Avatar,
+    Badge,
+    Button,
+    buttonVariants,
+    CheckboxGroup,
+    Form,
+    Group,
+    Label,
+    Popover,
+    Textarea,
+  } from "@coss-sv/ui";
+  import FixtureIcon from "./fixture-icon.svelte";
 
-const animated = Popover.PopoverCreateHandle<"notifications" | "profile">();
-const occurrences = [
-  { date: "Wed, Jul 15", id: "occurrence-1", time: "9:00 – 9:30am" },
-  { date: "Wed, Jul 15", id: "occurrence-2", time: "10:00 – 10:30am" },
-  { date: "Wed, Jul 15", id: "occurrence-3", time: "11:00 – 11:30am" },
-];
-let selected = $state(occurrences.map((item) => item.id));
+  const animated = Popover.PopoverCreateHandle<"notifications" | "profile">();
+  const occurrences = [
+    { date: "Wed, Jul 15", id: "occurrence-1", time: "9:00 – 9:30am" },
+    { date: "Wed, Jul 15", id: "occurrence-2", time: "10:00 – 10:30am" },
+    { date: "Wed, Jul 15", id: "occurrence-3", time: "11:00 – 11:30am" },
+  ];
+  let selected = $state(occurrences.map((item) => item.id));
 </script>
 
 <div class="fixture">
@@ -61,15 +62,13 @@ let selected = $state(occurrences.map((item) => item.id));
       aria-label="Notifications"
       class={buttonVariants({ size: "icon", variant: "outline" })}
       handle={animated}
-      payload="notifications"
-      >{@render bellIcon()}</Popover.Trigger
+      payload="notifications">{@render bellIcon()}</Popover.Trigger
     >
     <Popover.Trigger
       aria-label="Profile"
       class={buttonVariants({ size: "icon", variant: "outline" })}
       handle={animated}
-      payload="profile"
-      >{@render userIcon()}</Popover.Trigger
+      payload="profile">{@render userIcon()}</Popover.Trigger
     >
     <Popover.Root handle={animated}>
       {#snippet children({ payload }: { payload: "notifications" | "profile" | undefined })}
@@ -107,13 +106,12 @@ let selected = $state(occurrences.map((item) => item.id));
       <Popover.Root>
         <Popover.Trigger
           aria-label="Choose occurrences to confirm"
-          class={buttonVariants({ size: "icon-xs" })}
-          >{@render chevronDownIcon()}</Popover.Trigger
+          class={buttonVariants({ size: "icon-xs" })}>{@render chevronDownIcon()}</Popover.Trigger
         >
         <Popover.Popup align="end" class="w-84">
           <div class="mb-3">
-            <Popover.Title class="text-sm">Confirm occurrences</Popover.Title
-            ><Popover.Description class="text-xs"
+            <Popover.Title class="text-sm">Confirm occurrences</Popover.Title><Popover.Description
+              class="text-xs"
               >{occurrences.length}
               pending for this booking</Popover.Description
             >
@@ -126,9 +124,8 @@ let selected = $state(occurrences.map((item) => item.id));
             {#each occurrences as occurrence (occurrence.id)}
               <Label class="flex w-full gap-2 py-1.5"
                 ><CheckboxGroup.Item value={occurrence.id} />
-                <span class="tabular-nums">{occurrence.time}</span
-                ><span class="ms-auto font-normal text-muted-foreground"
-                  >{occurrence.date}</span
+                <span class="tabular-nums">{occurrence.time}</span><span
+                  class="ms-auto font-normal text-muted-foreground">{occurrence.date}</span
                 ></Label
               >
             {/each}
@@ -136,13 +133,11 @@ let selected = $state(occurrences.map((item) => item.id));
           <div class="mt-3 flex justify-end gap-2">
             <Popover.Close
               class={buttonVariants({ size: "xs", variant: "ghost" })}
-              disabled={selected.length === 0}
-              >Reject selected</Popover.Close
+              disabled={selected.length === 0}>Reject selected</Popover.Close
             >
             <Popover.Close class={buttonVariants({ size: "xs" })} disabled={selected.length === 0}
               >Confirm selected
-              <Badge class="-me-1 text-primary-foreground/60"
-                >{selected.length}</Badge
+              <Badge class="-me-1 text-primary-foreground/60">{selected.length}</Badge
               ></Popover.Close
             >
           </div>
@@ -152,61 +147,31 @@ let selected = $state(occurrences.map((item) => item.id));
   </section>
 </div>
 
-{#snippet icon(paths: import("svelte").Snippet)}
-  <svg
-    aria-hidden="true"
-    fill="none"
-    stroke="currentColor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-    viewBox="0 0 24 24"
-  >
-    {@render paths()}
-  </svg>
-{/snippet}
 {#snippet xIcon()}
-  {@render icon(xPaths)}
-{/snippet}
-{#snippet xPaths()}
-  <path d="M18 6 6 18" />
-  <path d="m6 6 12 12" />
+  <FixtureIcon aria-hidden="true" name="cancel" />
 {/snippet}
 {#snippet bellIcon()}
-  {@render icon(bellPaths)}
-{/snippet}
-{#snippet bellPaths()}
-  <path d="M10.268 21a2 2 0 0 0 3.464 0" />
-  <path
-    d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"
-  />
+  <FixtureIcon aria-hidden="true" name="bell" />
 {/snippet}
 {#snippet userIcon()}
-  {@render icon(userPaths)}
-{/snippet}
-{#snippet userPaths()}
-  <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
-  <circle cx="12" cy="7" r="4" />
+  <FixtureIcon aria-hidden="true" name="user" />
 {/snippet}
 {#snippet chevronDownIcon()}
-  {@render icon(chevronDownPaths)}
-{/snippet}
-{#snippet chevronDownPaths()}
-  <path d="m6 9 6 6 6-6" />
+  <FixtureIcon aria-hidden="true" name="arrow-down" />
 {/snippet}
 
 <style>
-.fixture {
-  display: grid;
-  width: 100%;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
-  gap: 3rem;
-  padding: 2rem;
-}
-.fixture > section {
-  display: flex;
-  min-height: 12rem;
-  align-items: center;
-  justify-content: center;
-}
+  .fixture {
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
+    gap: 3rem;
+    padding: 2rem;
+  }
+  .fixture > section {
+    display: flex;
+    min-height: 12rem;
+    align-items: center;
+    justify-content: center;
+  }
 </style>

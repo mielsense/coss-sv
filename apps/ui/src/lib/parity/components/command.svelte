@@ -1,157 +1,157 @@
 <script lang="ts">
-import {
-  Button,
-  buttonVariants,
-  EmptyMedia,
-  Input,
-  Kbd,
-  KbdGroup,
-  ScrollArea,
-  Skeleton,
-  Spinner,
-} from "@coss-sv/ui";
-import {
-  ArrowDown02Icon,
-  ArrowLeft02Icon,
-  ArrowUp02Icon,
-  CircleQuestionMarkIcon,
-  CornerDownLeftIcon,
-  Search01Icon,
-  SparklesIcon,
-} from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/svelte";
-import * as Command from "../../../../../../packages/ui/dist/components/ui/command/index.js";
+  import {
+    Button,
+    buttonVariants,
+    EmptyMedia,
+    Input,
+    Kbd,
+    KbdGroup,
+    ScrollArea,
+    Skeleton,
+    Spinner,
+  } from "@coss-sv/ui";
+  import {
+    ArrowDown02Icon,
+    ArrowLeft02Icon,
+    ArrowUp02Icon,
+    CircleQuestionMarkIcon,
+    CornerDownLeftIcon,
+    Search01Icon,
+    SparklesIcon,
+  } from "@hugeicons/core-free-icons";
+  import { HugeiconsIcon } from "@coss-sv/ui";
+  import * as Command from "../../../../../../packages/ui/dist/components/ui/command/index.js";
 
-type Item = { keywords?: string[]; label: string; shortcut?: string; value: string };
-type Group = { items: Item[]; value: string };
+  type Item = { keywords?: string[]; label: string; shortcut?: string; value: string };
+  type Group = { items: Item[]; value: string };
 
-const groupedItems: Group[] = [
-  {
-    items: [
-      { label: "Linear", shortcut: "⌘L", value: "linear" },
-      { label: "Figma", shortcut: "⌘F", value: "figma" },
-      { label: "Slack", shortcut: "⌘S", value: "slack" },
-      { label: "YouTube", shortcut: "⌘Y", value: "youtube" },
-      { label: "Raycast", shortcut: "⌘R", value: "raycast" },
-    ],
-    value: "Suggestions",
-  },
-  {
-    items: [
-      { label: "Clipboard History", shortcut: "⌘⇧C", value: "clipboard-history" },
-      { label: "Import Extension", shortcut: "⌘I", value: "import-extension" },
-      { label: "Create Snippet", shortcut: "⌘N", value: "create-snippet" },
-      { label: "System Preferences", shortcut: "⌘,", value: "system-preferences" },
-      { label: "Window Management", shortcut: "⌘⇧W", value: "window-management" },
-    ],
-    value: "Commands",
-  },
-];
-const commandGroups: Group[] = [
-  {
-    items: [
-      { keywords: ["dash"], label: "Dashboard", shortcut: "d", value: "dashboard" },
-      { keywords: ["proj"], label: "Projects", shortcut: "p", value: "projects" },
-      { keywords: ["team"], label: "Team", shortcut: "t", value: "team" },
-    ],
-    value: "Pages",
-  },
-  {
-    items: [
-      { keywords: ["prof"], label: "Profile", shortcut: "p s", value: "profile" },
-      { keywords: ["acc"], label: "Account", shortcut: "a s", value: "account" },
-      { keywords: ["pref"], label: "Preferences", shortcut: "p r", value: "preferences" },
-    ],
-    value: "Settings",
-  },
-  {
-    items: [
-      { keywords: ["docs"], label: "Documentation", shortcut: "d o", value: "docs" },
-      { keywords: ["sup"], label: "Support", shortcut: "s u", value: "support" },
-      { keywords: ["feed"], label: "Feedback", shortcut: "f b", value: "feedback" },
-    ],
-    value: "Help",
-  },
-];
-const response = `To create a new project, navigate to the Projects page and click the "New Project" button in the top right corner. You'll be prompted to enter a project name and description.
+  const groupedItems: Group[] = [
+    {
+      items: [
+        { label: "Linear", shortcut: "⌘L", value: "linear" },
+        { label: "Figma", shortcut: "⌘F", value: "figma" },
+        { label: "Slack", shortcut: "⌘S", value: "slack" },
+        { label: "YouTube", shortcut: "⌘Y", value: "youtube" },
+        { label: "Raycast", shortcut: "⌘R", value: "raycast" },
+      ],
+      value: "Suggestions",
+    },
+    {
+      items: [
+        { label: "Clipboard History", shortcut: "⌘⇧C", value: "clipboard-history" },
+        { label: "Import Extension", shortcut: "⌘I", value: "import-extension" },
+        { label: "Create Snippet", shortcut: "⌘N", value: "create-snippet" },
+        { label: "System Preferences", shortcut: "⌘,", value: "system-preferences" },
+        { label: "Window Management", shortcut: "⌘⇧W", value: "window-management" },
+      ],
+      value: "Commands",
+    },
+  ];
+  const commandGroups: Group[] = [
+    {
+      items: [
+        { keywords: ["dash"], label: "Dashboard", shortcut: "d", value: "dashboard" },
+        { keywords: ["proj"], label: "Projects", shortcut: "p", value: "projects" },
+        { keywords: ["team"], label: "Team", shortcut: "t", value: "team" },
+      ],
+      value: "Pages",
+    },
+    {
+      items: [
+        { keywords: ["prof"], label: "Profile", shortcut: "p s", value: "profile" },
+        { keywords: ["acc"], label: "Account", shortcut: "a s", value: "account" },
+        { keywords: ["pref"], label: "Preferences", shortcut: "p r", value: "preferences" },
+      ],
+      value: "Settings",
+    },
+    {
+      items: [
+        { keywords: ["docs"], label: "Documentation", shortcut: "d o", value: "docs" },
+        { keywords: ["sup"], label: "Support", shortcut: "s u", value: "support" },
+        { keywords: ["feed"], label: "Feedback", shortcut: "f b", value: "feedback" },
+      ],
+      value: "Help",
+    },
+  ];
+  const response = `To create a new project, navigate to the Projects page and click the "New Project" button in the top right corner. You'll be prompted to enter a project name and description.
 
 Once created, you can invite team members by clicking the "Share" button and entering their email addresses. Team members will receive an invitation link via email or you can add them manually by clicking the "Add Team Member" button in the project settings.
 
 You can customize project settings at any time by clicking the settings icon in the project header. For more information, see the Project Settings documentation.`;
-const references = [
-  { href: "/docs/projects/create", label: "Creating Projects" },
-  { href: "/docs/team/collaborate", label: "Team Collaboration" },
-  { href: "/docs/projects/settings", label: "Project Settings" },
-];
+  const references = [
+    { href: "/docs/projects/create", label: "Creating Projects" },
+    { href: "/docs/team/collaborate", label: "Team Collaboration" },
+    { href: "/docs/projects/settings", label: "Project Settings" },
+  ];
 
-let paletteOpen = $state(false);
-let aiOpen = $state(false);
-let aiMode = $state(false);
-let searchQuery = $state("");
-let aiQuery = $state("");
-let submittedQuery = $state("");
-let generatedResponse = $state("");
-let generating = $state(false);
+  let paletteOpen = $state(false);
+  let aiOpen = $state(false);
+  let aiMode = $state(false);
+  let searchQuery = $state("");
+  let aiQuery = $state("");
+  let submittedQuery = $state("");
+  let generatedResponse = $state("");
+  let generating = $state(false);
 
-const hasResults = $derived(
-  !searchQuery.trim() ||
-    commandGroups.some((group) =>
-      group.items.some((item) =>
-        [item.label, item.value, ...(item.keywords ?? [])].some((text) =>
-          text.toLowerCase().includes(searchQuery.toLowerCase()),
+  const hasResults = $derived(
+    !searchQuery.trim() ||
+      commandGroups.some((group) =>
+        group.items.some((item) =>
+          [item.label, item.value, ...(item.keywords ?? [])].some((text) =>
+            text.toLowerCase().includes(searchQuery.toLowerCase()),
+          ),
         ),
       ),
-    ),
-);
-
-function filterItem(itemValue: unknown, query: string): boolean {
-  if (typeof itemValue !== "object" || itemValue === null) return false;
-  const item = itemValue as Item;
-  return [item.label, item.value, ...(item.keywords ?? [])].some((text) =>
-    text.toLowerCase().includes(query.toLowerCase()),
   );
-}
 
-function resetAI(): void {
-  aiMode = false;
-  aiQuery = "";
-  submittedQuery = "";
-  generatedResponse = "";
-  generating = false;
-}
+  function filterItem(itemValue: unknown, query: string): boolean {
+    if (typeof itemValue !== "object" || itemValue === null) return false;
+    const item = itemValue as Item;
+    return [item.label, item.value, ...(item.keywords ?? [])].some((text) =>
+      text.toLowerCase().includes(query.toLowerCase()),
+    );
+  }
 
-async function askAI(query = searchQuery): Promise<void> {
-  if (!query.trim()) {
+  function resetAI(): void {
+    aiMode = false;
+    aiQuery = "";
+    submittedQuery = "";
+    generatedResponse = "";
+    generating = false;
+  }
+
+  async function askAI(query = searchQuery): Promise<void> {
+    if (!query.trim()) {
+      aiMode = true;
+      return;
+    }
     aiMode = true;
-    return;
+    searchQuery = "";
+    submittedQuery = query;
+    aiQuery = "";
+    generatedResponse = "";
+    generating = true;
+    await new Promise((resolve) => setTimeout(resolve, 1500));
+    generatedResponse = response;
+    generating = false;
   }
-  aiMode = true;
-  searchQuery = "";
-  submittedQuery = query;
-  aiQuery = "";
-  generatedResponse = "";
-  generating = true;
-  await new Promise((resolve) => setTimeout(resolve, 1500));
-  generatedResponse = response;
-  generating = false;
-}
 
-function closeAI(): void {
-  aiOpen = false;
-  searchQuery = "";
-  resetAI();
-}
-
-function onWindowKeydown(event: KeyboardEvent): void {
-  if (event.key.toLowerCase() === "j" && (event.metaKey || event.ctrlKey)) {
-    event.preventDefault();
-    paletteOpen = !paletteOpen;
-  }
-  if (aiOpen && aiMode && event.key === "Escape") {
-    event.preventDefault();
+  function closeAI(): void {
+    aiOpen = false;
+    searchQuery = "";
     resetAI();
   }
-}
+
+  function onWindowKeydown(event: KeyboardEvent): void {
+    if (event.key.toLowerCase() === "j" && (event.metaKey || event.ctrlKey)) {
+      event.preventDefault();
+      paletteOpen = !paletteOpen;
+    }
+    if (aiOpen && aiMode && event.key === "Escape") {
+      event.preventDefault();
+      resetAI();
+    }
+  }
 </script>
 
 <svelte:window onkeydown={onWindowKeydown} />
@@ -186,8 +186,7 @@ function onWindowKeydown(event: KeyboardEvent): void {
         <div class="flex items-center gap-2">
           <KbdGroup
             ><Kbd><HugeiconsIcon aria-hidden="true" icon={ArrowUp02Icon} strokeWidth={2} /></Kbd
-            ><Kbd
-              ><HugeiconsIcon aria-hidden="true" icon={ArrowDown02Icon} strokeWidth={2} /></Kbd
+            ><Kbd><HugeiconsIcon aria-hidden="true" icon={ArrowDown02Icon} strokeWidth={2} /></Kbd
             ></KbdGroup
           ><span>Navigate</span>
         </div>
@@ -229,8 +228,17 @@ function onWindowKeydown(event: KeyboardEvent): void {
           <Command.Root filter={filterItem} items={commandGroups}>
             <div class="relative flex items-center *:first:flex-1">
               <Command.Input
-                oninput={(event: Event & { currentTarget: HTMLInputElement }) => (searchQuery = event.currentTarget.value)}
-                onkeydown={(event: KeyboardEvent) => { if (event.key === "Tab" || (event.key === "Enter" && !hasResults && searchQuery.trim())) { event.preventDefault(); askAI(); } }}
+                oninput={(event: Event & { currentTarget: HTMLInputElement }) =>
+                  (searchQuery = event.currentTarget.value)}
+                onkeydown={(event: KeyboardEvent) => {
+                  if (
+                    event.key === "Tab" ||
+                    (event.key === "Enter" && !hasResults && searchQuery.trim())
+                  ) {
+                    event.preventDefault();
+                    askAI();
+                  }
+                }}
                 placeholder="Type a command or search..."
                 value={searchQuery}
               />
@@ -260,7 +268,7 @@ function onWindowKeydown(event: KeyboardEvent): void {
                     >
                     <p>No results found.</p>
                     <p>
-                      Press <Kbd>Enter</Kbd> to ask AI about:<br>
+                      Press <Kbd>Enter</Kbd> to ask AI about:<br />
                       <strong class="font-medium text-foreground">{searchQuery}</strong>
                     </p>
                   </div>
@@ -287,7 +295,13 @@ function onWindowKeydown(event: KeyboardEvent): void {
                     bind:value={aiQuery}
                     class="border-transparent! bg-transparent! shadow-none before:hidden has-focus-visible:ring-0 *:data-[slot=input]:ps-[calc(--spacing(8.5)-1px)] sm:*:data-[slot=input]:ps-[calc(--spacing(8)-1px)]"
                     disabled={generating}
-                    onkeydown={(event: KeyboardEvent) => { if (event.key === "Enter" && !generating) askAI(aiQuery); if (event.key === "Escape") { event.preventDefault(); resetAI(); } }}
+                    onkeydown={(event: KeyboardEvent) => {
+                      if (event.key === "Enter" && !generating) askAI(aiQuery);
+                      if (event.key === "Escape") {
+                        event.preventDefault();
+                        resetAI();
+                      }
+                    }}
                     placeholder="Ask AI anything…"
                     size="lg"
                   />
@@ -320,7 +334,11 @@ function onWindowKeydown(event: KeyboardEvent): void {
                     <div class="flex flex-col gap-4">
                       {#each ["full", "full", "full", "half", "full", "full", "three"] as width}
                         <Skeleton
-                          class={width === "half" ? "h-4 w-1/2" : width === "three" ? "h-4 w-3/4" : "h-4 w-full"}
+                          class={width === "half"
+                            ? "h-4 w-1/2"
+                            : width === "three"
+                              ? "h-4 w-3/4"
+                              : "h-4 w-full"}
                         />
                       {/each}
                     </div>
@@ -335,8 +353,7 @@ function onWindowKeydown(event: KeyboardEvent): void {
                       {#each references as reference}
                         <a
                           class={buttonVariants({ size: "sm", variant: "secondary" })}
-                          href={reference.href}
-                          >{reference.label}</a
+                          href={reference.href}>{reference.label}</a
                         >
                       {/each}
                     </div>
@@ -359,7 +376,7 @@ function onWindowKeydown(event: KeyboardEvent): void {
                       strokeWidth={2}
                     />
                   </div>
-                  You asked: <span>"{submittedQuery}"</span>
+                  You asked:<span>"{submittedQuery}"</span>
                 </div>
               {:else}
                 <div class="flex items-center gap-2">
@@ -381,27 +398,27 @@ function onWindowKeydown(event: KeyboardEvent): void {
 </div>
 
 <style>
-.fixture {
-  display: grid;
-  width: 100%;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 3rem 2rem;
-  padding: 2rem;
-}
-.fixture section {
-  display: flex;
-  width: 100%;
-  max-width: 16rem;
-  min-width: 0;
-  align-items: center;
-  justify-self: center;
-  justify-content: center;
-}
-@media (max-width: 639px) {
   .fixture {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 2rem;
-    padding: 1.5rem;
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 3rem 2rem;
+    padding: 2rem;
   }
-}
+  .fixture section {
+    display: flex;
+    width: 100%;
+    max-width: 16rem;
+    min-width: 0;
+    align-items: center;
+    justify-self: center;
+    justify-content: center;
+  }
+  @media (max-width: 639px) {
+    .fixture {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 2rem;
+      padding: 1.5rem;
+    }
+  }
 </style>

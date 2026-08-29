@@ -1,44 +1,45 @@
 <script lang="ts">
-import { Button, Field, Fieldset, Form, Slider } from "@coss-sv/ui";
+  import { Button, Field, Fieldset, Form, Slider } from "@coss-sv/ui";
+  import FixtureIcon from "./fixture-icon.svelte";
 
-const ticks = Array.from({ length: 13 }, (_, index) => index);
-const ratingLabels = ["Awful", "Poor", "Okay", "Good", "Amazing"] as const;
-const bands = [
-  { label: "60 Hz", value: 2 },
-  { label: "250 Hz", value: 1 },
-  { label: "1k", value: -1 },
-  { label: "4k", value: -3 },
-  { label: "16k", value: 2 },
-] as const;
+  const ticks = Array.from({ length: 13 }, (_, index) => index);
+  const ratingLabels = ["Awful", "Poor", "Okay", "Good", "Amazing"] as const;
+  const bands = [
+    { label: "60 Hz", value: 2 },
+    { label: "250 Hz", value: 1 },
+    { label: "1k", value: -1 },
+    { label: "4k", value: -3 },
+    { label: "16k", value: 2 },
+  ] as const;
 
-let volume = $state<number | readonly number[]>(25);
-let credits = $state(100);
-let prices = $state<readonly number[]>([5, 1240]);
-let rating = $state<number | readonly number[]>(3);
-let formLoading = $state(false);
-let formValue = $state<number | readonly number[]>([25, 75]);
+  let volume = $state<number | readonly number[]>(25);
+  let credits = $state(100);
+  let prices = $state<readonly number[]>([5, 1240]);
+  let rating = $state<number | readonly number[]>(3);
+  let formLoading = $state(false);
+  let formValue = $state<number | readonly number[]>([25, 75]);
 
-const currentRating = $derived(Array.isArray(rating) ? (rating[0] ?? 1) : rating);
+  const currentRating = $derived(Array.isArray(rating) ? (rating[0] ?? 1) : rating);
 
-function scalar(value: number | readonly number[]): number {
-  return typeof value === "number" ? value : (value[0] ?? 0);
-}
+  function scalar(value: number | readonly number[]): number {
+    return typeof value === "number" ? value : (value[0] ?? 0);
+  }
 
-function formatPrice(price: number): string {
-  const formatted = `$${price.toLocaleString()}`;
-  return price === 1240 ? `${formatted}+` : formatted;
-}
+  function formatPrice(price: number): string {
+    const formatted = `$${price.toLocaleString()}`;
+    return price === 1240 ? `${formatted}+` : formatted;
+  }
 
-async function handleSubmit(event: SubmitEvent) {
-  event.preventDefault();
-  const form = event.currentTarget as HTMLFormElement;
-  const formData = new FormData(form);
-  formLoading = true;
-  await new Promise((resolve) => setTimeout(resolve, 800));
-  formLoading = false;
-  const volumes = formData.getAll("volume");
-  window.alert(`Volume: ${volumes.join(", ")}`);
-}
+  async function handleSubmit(event: SubmitEvent) {
+    event.preventDefault();
+    const form = event.currentTarget as HTMLFormElement;
+    const formData = new FormData(form);
+    formLoading = true;
+    await new Promise((resolve) => setTimeout(resolve, 800));
+    formLoading = false;
+    const volumes = formData.getAll("volume");
+    window.alert(`Volume: ${volumes.join(", ")}`);
+  }
 </script>
 
 <div class="slider-fixture">
@@ -148,40 +149,12 @@ async function handleSubmit(event: SubmitEvent) {
           <Field.Label>Volume</Field.Label>
           <Slider.Value />
         </div>
-        <svg
+        <FixtureIcon aria-hidden="true" class="size-4 shrink-0 opacity-80" name="volume-mute" />
+        <FixtureIcon
           aria-hidden="true"
-          class="lucide lucide-volume-x size-4 shrink-0 opacity-80"
-          fill="none"
-          height="24"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          stroke-width="2"
-          width="24"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path d="M11 5 6 9H2v6h4l5 4V5z"></path>
-          <path d="m22 9-6 6"></path>
-          <path d="m16 9 6 6"></path>
-        </svg>
-        <svg
-          aria-hidden="true"
-          class="lucide lucide-volume-2 order-1 size-4 shrink-0 opacity-80"
-          fill="none"
-          height="24"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          stroke-width="2"
-          width="24"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path d="M11 5 6 9H2v6h4l5 4V5z"></path>
-          <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
-          <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
-        </svg>
+          class="order-1 size-4 shrink-0 opacity-80"
+          name="volume-high"
+        />
       </Slider.Root>
     </Field.Root>
   </section>
@@ -197,21 +170,7 @@ async function handleSubmit(event: SubmitEvent) {
           size="icon"
           variant="outline"
         >
-          <svg
-            aria-hidden="true"
-            class="lucide lucide-minus"
-            fill="none"
-            height="24"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            width="24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path d="M5 12h14"></path>
-          </svg>
+          <FixtureIcon aria-hidden="true" name="minus" />
         </Button>
         <Slider.Root
           aria-label="Credits slider"
@@ -229,22 +188,7 @@ async function handleSubmit(event: SubmitEvent) {
           size="icon"
           variant="outline"
         >
-          <svg
-            aria-hidden="true"
-            class="lucide lucide-plus"
-            fill="none"
-            height="24"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            width="24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path d="M5 12h14"></path>
-            <path d="M12 5v14"></path>
-          </svg>
+          <FixtureIcon aria-hidden="true" name="plus-sign" />
         </Button>
       </div>
     </Field.Root>
@@ -333,24 +277,24 @@ async function handleSubmit(event: SubmitEvent) {
 </div>
 
 <style>
-.slider-fixture {
-  display: grid;
-  box-sizing: border-box;
-  width: 100%;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
-  gap: 3rem;
-  padding: 2rem;
-}
+  .slider-fixture {
+    display: grid;
+    box-sizing: border-box;
+    width: 100%;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
+    gap: 3rem;
+    padding: 2rem;
+  }
 
-.slider-fixture > section {
-  width: 100%;
-  min-width: 0;
-}
+  .slider-fixture > section {
+    width: 100%;
+    min-width: 0;
+  }
 
-.vertical-particle {
-  display: flex;
-  height: 11rem;
-  align-items: center;
-  justify-content: center;
-}
+  .vertical-particle {
+    display: flex;
+    height: 11rem;
+    align-items: center;
+    justify-content: center;
+  }
 </style>

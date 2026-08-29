@@ -1,42 +1,43 @@
 <script lang="ts">
-import { Badge, Button, InputGroup, Kbd, Label, Spinner, Toggle } from "@coss-sv/ui";
+  import { Badge, Button, InputGroup, Kbd, Label, Spinner, Toggle } from "@coss-sv/ui";
+  import FixtureIcon from "./fixture-icon.svelte";
 
-const requirements = [
-  { regex: /.{8,}/, text: "At least 8 characters" },
-  { regex: /[0-9]/, text: "At least 1 number" },
-  { regex: /[a-z]/, text: "At least 1 lowercase letter" },
-  { regex: /[A-Z]/, text: "At least 1 uppercase letter" },
-];
+  const requirements = [
+    { regex: /.{8,}/, text: "At least 8 characters" },
+    { regex: /[0-9]/, text: "At least 1 number" },
+    { regex: /[a-z]/, text: "At least 1 lowercase letter" },
+    { regex: /[A-Z]/, text: "At least 1 uppercase letter" },
+  ];
 
-const passwordId = $props.id();
+  const passwordId = $props.id();
 
-let clearValue = $state("Clear me");
-let isPasswordVisible = $state(false);
-let password = $state("");
-let username = $state("");
+  let clearValue = $state("Clear me");
+  let isPasswordVisible = $state(false);
+  let password = $state("");
+  let username = $state("");
 
-const strength = $derived(
-  requirements.map((requirement) => ({
-    met: requirement.regex.test(password),
-    text: requirement.text,
-  })),
-);
-const strengthScore = $derived(strength.filter((requirement) => requirement.met).length);
+  const strength = $derived(
+    requirements.map((requirement) => ({
+      met: requirement.regex.test(password),
+      text: requirement.text,
+    })),
+  );
+  const strengthScore = $derived(strength.filter((requirement) => requirement.met).length);
 
-function strengthColor(score: number) {
-  if (score === 0) return "bg-border";
-  if (score <= 1) return "bg-red-500";
-  if (score <= 2) return "bg-orange-500";
-  if (score === 3) return "bg-amber-500";
-  return "bg-emerald-500";
-}
+  function strengthColor(score: number) {
+    if (score === 0) return "bg-border";
+    if (score <= 1) return "bg-red-500";
+    if (score <= 2) return "bg-orange-500";
+    if (score === 3) return "bg-amber-500";
+    return "bg-emerald-500";
+  }
 
-function strengthText(score: number) {
-  if (score === 0) return "Enter a password";
-  if (score <= 2) return "Weak password";
-  if (score === 3) return "Medium password";
-  return "Strong password";
-}
+  function strengthText(score: number) {
+    if (score === 0) return "Enter a password";
+    if (score <= 2) return "Weak password";
+    if (score === 3) return "Medium password";
+    return "Strong password";
+  }
 </script>
 
 <div class="parity-stack">
@@ -263,7 +264,11 @@ function strengthText(score: number) {
       <ul aria-label="Password requirements" class="flex flex-col gap-1.5">
         {#each strength as requirement (requirement.text)}
           <li class="flex items-center gap-2">
-            {@render icon(requirement.met ? "check" : "x", true, requirement.met ? "size-4 text-emerald-500" : "size-4 text-muted-foreground/80")}
+            {@render icon(
+              requirement.met ? "check" : "x",
+              true,
+              requirement.met ? "size-4 text-emerald-500" : "size-4 text-muted-foreground/80",
+            )}
             <span
               class={requirement.met ? "text-emerald-600 text-xs" : "text-muted-foreground text-xs"}
             >
@@ -294,66 +299,18 @@ function strengthText(score: number) {
   hidden = false,
   className?: string,
 )}
-  <!-- biome-ignore lint/a11y/noSvgWithoutTitle: exact Lucide markup; these decorative icons receive aria-hidden -->
-  <svg
+  <FixtureIcon
     aria-hidden={hidden ? "true" : undefined}
-    class={[`lucide lucide-${name}`, className]}
-    fill="none"
-    height="24"
-    stroke="currentColor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-    viewBox="0 0 24 24"
-    width="24"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    {#if name === "search"}
-      <path d="m21 21-4.34-4.34" />
-      <circle cx="11" cy="11" r="8" />
-    {:else if name === "mail"}
-      <path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7" />
-      <rect height="16" rx="2" width="20" x="2" y="4" />
-    {:else if name === "arrow-right"}
-      <path d="M5 12h14" />
-      <path d="m12 5 7 7-7 7" />
-    {:else if name === "bold"}
-      <path d="M6 12h9a4 4 0 0 1 0 8H7a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h7a4 4 0 0 1 0 8" />
-    {:else if name === "italic"}
-      <line x1="19" x2="10" y1="4" y2="4" />
-      <line x1="14" x2="5" y1="20" y2="20" />
-      <line x1="15" x2="9" y1="4" y2="20" />
-    {:else if name === "link"}
-      <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
-      <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
-    {:else if name === "eye"}
-      <path
-        d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"
-      />
-      <circle cx="12" cy="12" r="3" />
-    {:else if name === "eye-off"}
-      <path
-        d="M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49"
-      />
-      <path d="M14.084 14.158a3 3 0 0 1-4.242-4.242" />
-      <path
-        d="M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143"
-      />
-      <path d="m2 2 20 20" />
-    {:else if name === "check"}
-      <path d="M20 6 9 17l-5-5" />
-    {:else}
-      <path d="M18 6 6 18" />
-      <path d="m6 6 12 12" />
-    {/if}
-  </svg>
+    class={className}
+    name={name === "x" ? "cancel" : name}
+  />
 {/snippet}
 
 <style>
-.parity-stack {
-  display: grid;
-  width: 100%;
-  gap: 2rem;
-  place-items: center;
-}
+  .parity-stack {
+    display: grid;
+    width: 100%;
+    gap: 2rem;
+    place-items: center;
+  }
 </style>

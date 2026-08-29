@@ -1,122 +1,123 @@
 <script lang="ts">
-import { Button, Field, Form, Label, Spinner } from "@coss-sv/ui";
-import { MapPinIcon, Search01Icon } from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/svelte";
-import * as Autocomplete from "../../../../../../packages/ui/dist/components/ui/autocomplete/index.js";
+  import { Button, Field, Form, Label, Spinner } from "@coss-sv/ui";
+  import { MapPinIcon, Search01Icon } from "@hugeicons/core-free-icons";
+  import { HugeiconsIcon } from "@coss-sv/ui";
+  import * as Autocomplete from "../../../../../../packages/ui/dist/components/ui/autocomplete/index.js";
 
-type Item = { label: string; value: string };
-type Tag = { id: string; label: string; group: "Status" | "Priority" | "Team" };
-type TagGroup = { value: string; items: Tag[] };
-type Movie = { id: string; title: string; year: number };
+  type Item = { label: string; value: string };
+  type Tag = { id: string; label: string; group: "Status" | "Priority" | "Team" };
+  type TagGroup = { value: string; items: Tag[] };
+  type Movie = { id: string; title: string; year: number };
 
-const items: Item[] = [
-  { label: "Apple", value: "apple" },
-  { label: "Banana", value: "banana" },
-  { label: "Orange", value: "orange" },
-  { label: "Grape", value: "grape" },
-  { label: "Strawberry", value: "strawberry" },
-  { label: "Mango", value: "mango" },
-  { label: "Pineapple", value: "pineapple" },
-  { label: "Kiwi", value: "kiwi" },
-  { label: "Peach", value: "peach" },
-  { label: "Pear", value: "pear" },
-];
-const tags: Tag[] = [
-  { group: "Status", id: "s-open", label: "Open" },
-  { group: "Status", id: "s-in-progress", label: "In progress" },
-  { group: "Status", id: "s-blocked", label: "Blocked" },
-  { group: "Status", id: "s-resolved", label: "Resolved" },
-  { group: "Status", id: "s-closed", label: "Closed" },
-  { group: "Priority", id: "p-low", label: "Low" },
-  { group: "Priority", id: "p-medium", label: "Medium" },
-  { group: "Priority", id: "p-high", label: "High" },
-  { group: "Priority", id: "p-urgent", label: "Urgent" },
-  { group: "Team", id: "t-design", label: "Design" },
-  { group: "Team", id: "t-frontend", label: "Frontend" },
-  { group: "Team", id: "t-backend", label: "Backend" },
-  { group: "Team", id: "t-devops", label: "DevOps" },
-  { group: "Team", id: "t-qa", label: "QA" },
-  { group: "Team", id: "t-mobile", label: "Mobile" },
-  { group: "Team", id: "t-data", label: "Data" },
-  { group: "Team", id: "t-security", label: "Security" },
-  { group: "Team", id: "t-platform", label: "Platform" },
-  { group: "Team", id: "t-infra", label: "Infrastructure" },
-  { group: "Team", id: "t-product", label: "Product" },
-];
-const groupedTags: TagGroup[] = ["Status", "Priority", "Team"].map((value) => ({
-  value,
-  items: tags.filter((tag) => tag.group === value),
-})) as TagGroup[];
-const languages = [
-  "JavaScript",
-  "TypeScript",
-  "Python",
-  "Java",
-  "C#",
-  "C++",
-  "C",
-  "Go",
-  "Rust",
-  "Ruby",
-  "PHP",
-  "Swift",
-  "Kotlin",
-  "Scala",
-  "Elixir",
-  "Haskell",
-  "Dart",
-];
-const movies: Movie[] = [
-  { id: "1", title: "The Shawshank Redemption", year: 1994 },
-  { id: "2", title: "The Godfather", year: 1972 },
-  { id: "3", title: "The Dark Knight", year: 2008 },
-  { id: "4", title: "The Godfather Part II", year: 1974 },
-  { id: "5", title: "12 Angry Men", year: 1957 },
-  { id: "8", title: "Pulp Fiction", year: 1994 },
-  { id: "11", title: "Forrest Gump", year: 1994 },
-  { id: "14", title: "Inception", year: 2010 },
-];
+  const items: Item[] = [
+    { label: "Apple", value: "apple" },
+    { label: "Banana", value: "banana" },
+    { label: "Orange", value: "orange" },
+    { label: "Grape", value: "grape" },
+    { label: "Strawberry", value: "strawberry" },
+    { label: "Mango", value: "mango" },
+    { label: "Pineapple", value: "pineapple" },
+    { label: "Kiwi", value: "kiwi" },
+    { label: "Peach", value: "peach" },
+    { label: "Pear", value: "pear" },
+  ];
+  const tags: Tag[] = [
+    { group: "Status", id: "s-open", label: "Open" },
+    { group: "Status", id: "s-in-progress", label: "In progress" },
+    { group: "Status", id: "s-blocked", label: "Blocked" },
+    { group: "Status", id: "s-resolved", label: "Resolved" },
+    { group: "Status", id: "s-closed", label: "Closed" },
+    { group: "Priority", id: "p-low", label: "Low" },
+    { group: "Priority", id: "p-medium", label: "Medium" },
+    { group: "Priority", id: "p-high", label: "High" },
+    { group: "Priority", id: "p-urgent", label: "Urgent" },
+    { group: "Team", id: "t-design", label: "Design" },
+    { group: "Team", id: "t-frontend", label: "Frontend" },
+    { group: "Team", id: "t-backend", label: "Backend" },
+    { group: "Team", id: "t-devops", label: "DevOps" },
+    { group: "Team", id: "t-qa", label: "QA" },
+    { group: "Team", id: "t-mobile", label: "Mobile" },
+    { group: "Team", id: "t-data", label: "Data" },
+    { group: "Team", id: "t-security", label: "Security" },
+    { group: "Team", id: "t-platform", label: "Platform" },
+    { group: "Team", id: "t-infra", label: "Infrastructure" },
+    { group: "Team", id: "t-product", label: "Product" },
+  ];
+  const groupedTags: TagGroup[] = ["Status", "Priority", "Team"].map((value) => ({
+    value,
+    items: tags.filter((tag) => tag.group === value),
+  })) as TagGroup[];
+  const languages = [
+    "JavaScript",
+    "TypeScript",
+    "Python",
+    "Java",
+    "C#",
+    "C++",
+    "C",
+    "Go",
+    "Rust",
+    "Ruby",
+    "PHP",
+    "Swift",
+    "Kotlin",
+    "Scala",
+    "Elixir",
+    "Haskell",
+    "Dart",
+  ];
+  const movies: Movie[] = [
+    { id: "1", title: "The Shawshank Redemption", year: 1994 },
+    { id: "2", title: "The Godfather", year: 1972 },
+    { id: "3", title: "The Dark Knight", year: 2008 },
+    { id: "4", title: "The Godfather Part II", year: 1974 },
+    { id: "5", title: "12 Angry Men", year: 1957 },
+    { id: "8", title: "Pulp Fiction", year: 1994 },
+    { id: "11", title: "Forrest Gump", year: 1994 },
+    { id: "14", title: "Inception", year: 2010 },
+  ];
 
-let limitedValue = $state("");
-let movieQuery = $state("");
-let movieResults = $state<Movie[]>([]);
-let movieLoading = $state(false);
-let controlledValue = $state("");
-let addressQuery = $state("");
-let addresses = $state<string[]>([]);
-let addressLoading = $state(false);
-let request = 0;
+  let limitedValue = $state("");
+  let movieQuery = $state("");
+  let movieResults = $state<Movie[]>([]);
+  let movieLoading = $state(false);
+  let controlledValue = $state("");
+  let addressQuery = $state("");
+  let addresses = $state<string[]>([]);
+  let addressLoading = $state(false);
+  let request = 0;
 
-async function searchMovies(query: string): Promise<void> {
-  const id = ++request;
-  movieQuery = query;
-  movieLoading = query.length > 0;
-  if (!query) {
-    movieResults = [];
-    return;
+  async function searchMovies(query: string): Promise<void> {
+    const id = ++request;
+    movieQuery = query;
+    movieLoading = query.length > 0;
+    if (!query) {
+      movieResults = [];
+      return;
+    }
+    await new Promise((resolve) => setTimeout(resolve, 300));
+    if (id !== request) return;
+    const normalized = query.toLowerCase();
+    movieResults = movies.filter(
+      (movie) =>
+        movie.title.toLowerCase().includes(normalized) || String(movie.year).includes(query),
+    );
+    movieLoading = false;
   }
-  await new Promise((resolve) => setTimeout(resolve, 300));
-  if (id !== request) return;
-  const normalized = query.toLowerCase();
-  movieResults = movies.filter(
-    (movie) => movie.title.toLowerCase().includes(normalized) || String(movie.year).includes(query),
-  );
-  movieLoading = false;
-}
 
-async function searchAddresses(query: string): Promise<void> {
-  addressQuery = query;
-  addressLoading = query.length > 0;
-  addresses = [];
-  if (!query) return;
-  await new Promise((resolve) => setTimeout(resolve, 300));
-  addresses = [
-    "1600 Amphitheatre Parkway, Mountain View, CA",
-    "1 Apple Park Way, Cupertino, CA",
-    "350 Fifth Avenue, New York, NY",
-  ].filter((address) => address.toLowerCase().includes(query.toLowerCase()));
-  addressLoading = false;
-}
+  async function searchAddresses(query: string): Promise<void> {
+    addressQuery = query;
+    addressLoading = query.length > 0;
+    addresses = [];
+    if (!query) return;
+    await new Promise((resolve) => setTimeout(resolve, 300));
+    addresses = [
+      "1600 Amphitheatre Parkway, Mountain View, CA",
+      "1 Apple Park Way, Cupertino, CA",
+      "350 Fifth Avenue, New York, NY",
+    ].filter((address) => address.toLowerCase().includes(query.toLowerCase()));
+    addressLoading = false;
+  }
 </script>
 
 {#snippet itemList()}
@@ -339,7 +340,9 @@ async function searchAddresses(query: string): Promise<void> {
       {#if addressQuery}
         <Autocomplete.Popup aria-busy={addressLoading || undefined}>
           <Autocomplete.Status class="text-muted-foreground"
-            >{addressLoading ? "Searching addresses..." : `${addresses.length} results found`}</Autocomplete.Status
+            >{addressLoading
+              ? "Searching addresses..."
+              : `${addresses.length} results found`}</Autocomplete.Status
           >
           <Autocomplete.List>
             <Autocomplete.Collection>
@@ -355,30 +358,30 @@ async function searchAddresses(query: string): Promise<void> {
 </div>
 
 <style>
-.fixture {
-  display: grid;
-  width: 100%;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 3rem 2rem;
-  padding: 2rem;
-}
-.fixture section {
-  display: flex;
-  width: 100%;
-  max-width: 16rem;
-  min-width: 0;
-  align-items: center;
-  justify-self: center;
-  justify-content: center;
-}
-.fixture :global([data-slot="autocomplete-input-group"]) {
-  max-width: 16rem;
-}
-@media (max-width: 639px) {
   .fixture {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 2rem;
-    padding: 1.5rem;
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 3rem 2rem;
+    padding: 2rem;
   }
-}
+  .fixture section {
+    display: flex;
+    width: 100%;
+    max-width: 16rem;
+    min-width: 0;
+    align-items: center;
+    justify-self: center;
+    justify-content: center;
+  }
+  .fixture :global([data-slot="autocomplete-input-group"]) {
+    max-width: 16rem;
+  }
+  @media (max-width: 639px) {
+    .fixture {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 2rem;
+      padding: 1.5rem;
+    }
+  }
 </style>
