@@ -31,10 +31,14 @@
   async function submit(event: SubmitEvent): Promise<void> {
     event.preventDefault();
     const selected = new FormData(event.currentTarget as HTMLFormElement).getAll("items");
+    const selectedValues = selected.map(
+      (selectedItem) =>
+        items.find((item) => item.label === selectedItem)?.value ?? String(selectedItem),
+    );
     loading = true;
     await new Promise((resolve) => setTimeout(resolve, 800));
     loading = false;
-    alert(`Favorite items: ${selected.join(", ")}`);
+    alert(`Favorite items: ${selectedValues.join(", ") || ""}`);
   }
 </script>
 
@@ -47,8 +51,8 @@
             >{item.label}</Combobox.Chip
           >{/each}
         <Combobox.ChipsInput
+          {...value.length ? {} : { placeholder: "Select items…" }}
           aria-label="Select a item"
-          placeholder={value.length ? undefined : "Select items…"}
         />
       </Combobox.Chips>
       <Combobox.Popup

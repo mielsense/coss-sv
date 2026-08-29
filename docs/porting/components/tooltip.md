@@ -38,7 +38,7 @@ The root adds `defaultOpen` only as a read-once initial state. `open` and `trigg
 
 The COSS formatting particles compose Base UI triggers with toggle-group items through React's `render` prop. The Svelte port keeps the Toolbar, Toggle Group, or Select control as the only interactive element. `Tooltip.createTriggerAttachment()` registers that existing element with a public Shards tooltip handle, applies focus, hover, cursor tracking, payload, click dismissal, provider timing, state attributes, and cleanup, and leaves the owning component's keyboard behavior intact.
 
-Attached triggers use a local safe-polygon guard derived from the complete pinned Shards implementation and tests. The guard keeps the tooltip open through the gap between trigger and popup, rejects movement outside the directional corridor, applies the same 40 ms landing grace, and releases document listeners when the pointer lands, the tooltip closes, or the target unmounts. `disableHoverablePopup` and two-axis cursor tracking skip the guard and close on trigger leave. The wrapper imports no private Shards module.
+Attached triggers use a local safe-polygon guard derived from the complete pinned Shards implementation and tests. The guard keeps the tooltip open through the gap between trigger and popup, rejects movement outside the directional corridor, applies the same 40 ms landing grace, and releases document listeners when the pointer lands, the tooltip closes, or the target unmounts. Outside or reverse movement removes the document capture listener before the provider applies its close delay. `disableHoverablePopup` and two-axis cursor tracking skip the guard and close on trigger leave. The wrapper imports no private Shards module.
 
 ## Gates
 

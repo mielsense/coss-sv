@@ -12,6 +12,7 @@
 
 <script lang="ts">
   import { Autocomplete, Spinner } from "@coss-sv/ui";
+  import { onDestroy } from "svelte";
 
   type Movie = { id: string; title: string; year: number };
   const movies: Movie[] = [
@@ -29,17 +30,39 @@
   let results = $state<Movie[]>([]);
   let error = $state<string | null>(null);
   let request = 0;
-  async function searchMovies(value: string): Promise<Movie[]> {
-    await new Promise((resolve) => setTimeout(resolve, 400));
-    if (value === "will_error") throw new Error("Network error");
+  let debounceTimer: ReturnType<typeof setTimeout> | undefined;
+  let requestController: AbortController | undefined;
+
+  function waitForRequest(delay: number, signal: AbortSignal): Promise<void> {
+    return new Promise((resolve, reject) => {
+      const timer = setTimeout(() => {
+        signal.removeEventListener("abort", abort);
+        resolve();
+      }, delay);
+      const abort = (): void => {
+        clearTimeout(timer);
+        reject(new DOMException("The request was aborted.", "AbortError"));
+      };
+      signal.addEventListener("abort", abort, { once: true });
+    });
+  }
+
+  async function searchMovies(value: string, signal: AbortSignal): Promise<Movie[]> {
+    await waitForRequest(Math.random() * 500 + 100, signal);
+    if (Math.random() < 0.01 || value === "will_error") throw new Error("Network error");
     const query = value.toLowerCase();
     return movies.filter(
       (movie) => movie.title.toLowerCase().includes(query) || String(movie.year).includes(query),
     );
   }
-  async function search(value: string): Promise<void> {
+
+  function search(value: string): void {
     searchValue = value;
     const current = ++request;
+    clearTimeout(debounceTimer);
+    requestController?.abort();
+    requestController = undefined;
+
     if (!value) {
       results = [];
       loading = false;
@@ -48,18 +71,30 @@
     }
     loading = true;
     error = null;
-    try {
-      const nextResults = await searchMovies(value);
-      if (current !== request) return;
-      results = nextResults;
-    } catch {
-      if (current !== request) return;
-      error = "Failed to fetch movies. Please try again.";
-      results = [];
-    } finally {
-      if (current === request) loading = false;
-    }
+    debounceTimer = setTimeout(async () => {
+      debounceTimer = undefined;
+      const controller = new AbortController();
+      requestController = controller;
+      try {
+        const nextResults = await searchMovies(value, controller.signal);
+        if (current !== request || controller.signal.aborted) return;
+        results = nextResults;
+      } catch {
+        if (current !== request || controller.signal.aborted) return;
+        error = "Failed to fetch movies. Please try again.";
+        results = [];
+      } finally {
+        if (current === request && !controller.signal.aborted) loading = false;
+        if (requestController === controller) requestController = undefined;
+      }
+    }, 300);
   }
+
+  onDestroy(() => {
+    request += 1;
+    clearTimeout(debounceTimer);
+    requestController?.abort();
+  });
 </script>
 
 <Autocomplete.Root

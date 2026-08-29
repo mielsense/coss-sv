@@ -13,52 +13,175 @@
 <script lang="ts">
   import { Autocomplete, HugeiconsIcon, Spinner } from "@coss-sv/ui";
   import { Location01Icon } from "@hugeicons/core-free-icons";
+  import { onDestroy } from "svelte";
 
-  type Address = { placeId: string; text: string; mainText: string; secondaryText: string };
-  const addresses: Address[] = [
-    ["1600 Amphitheatre Parkway", "Mountain View, CA 94043, USA"],
-    ["1600 Pennsylvania Avenue NW", "Washington, DC 20500, USA"],
-    ["350 Fifth Avenue", "New York, NY 10118, USA"],
-    ["221B Baker Street", "London NW1 6XE, United Kingdom"],
-    ["Champ de Mars, 5 Avenue Anatole France", "75007 Paris, France"],
-    ["Piazza del Colosseo, 1", "00184 Roma RM, Italy"],
-    ["Platz der Republik 1", "11011 Berlin, Germany"],
-    ["1 Macquarie Street", "Sydney NSW 2000, Australia"],
-  ].map(([mainText, secondaryText], index) => ({
+  type AddressSuggestion = {
+    placeId: string;
+    text: string;
+    mainText: string;
+    secondaryText: string;
+  };
+  const sampleAddresses: AddressSuggestion[] = [
+    { mainText: "1600 Amphitheatre Parkway", secondaryText: "Mountain View, CA 94043, USA" },
+    { mainText: "1600 Pennsylvania Avenue NW", secondaryText: "Washington, DC 20500, USA" },
+    { mainText: "350 Fifth Avenue", secondaryText: "New York, NY 10118, USA" },
+    { mainText: "221B Baker Street", secondaryText: "London NW1 6XE, United Kingdom" },
+    {
+      mainText: "Champ de Mars, 5 Avenue Anatole France",
+      secondaryText: "75007 Paris, France",
+    },
+    { mainText: "Piazza del Colosseo, 1", secondaryText: "00184 Roma RM, Italy" },
+    { mainText: "Platz der Republik 1", secondaryText: "11011 Berlin, Germany" },
+    { mainText: "1 Macquarie Street", secondaryText: "Sydney NSW 2000, Australia" },
+  ].map((address, index) => ({
+    ...address,
     placeId: `sample-${index + 1}`,
-    mainText,
-    secondaryText,
-    text: `${mainText}, ${secondaryText}`,
+    text: `${address.mainText}, ${address.secondaryText}`,
   }));
-  let value = $state("");
+
+  type PlacesAutocompleteResponse = {
+    suggestions?: {
+      placePrediction?: {
+        placeId?: string;
+        text?: { text?: string };
+        structuredFormat?: {
+          mainText?: { text?: string };
+          secondaryText?: { text?: string };
+        };
+      };
+    }[];
+  };
+
+  let searchValue = $state("");
   let loading = $state(false);
-  let suggestions = $state<Address[]>([]);
+  let suggestions = $state<AddressSuggestion[]>([]);
+  let error = $state<string | null>(null);
   let request = 0;
-  async function search(next: string): Promise<void> {
-    value = next;
+  let debounceTimer: ReturnType<typeof setTimeout> | undefined;
+  let requestController: AbortController | undefined;
+  let sessionToken: string | null = null;
+
+  function getGoogleMapsApiKey(): string {
+    return import.meta.env.VITE_GOOGLE_MAPS_API_KEY ?? "";
+  }
+
+  function newSessionToken(): string {
+    if (typeof crypto !== "undefined" && "randomUUID" in crypto) return crypto.randomUUID();
+    return Math.random().toString(36).slice(2);
+  }
+
+  function waitForRequest(delay: number, signal: AbortSignal): Promise<void> {
+    return new Promise((resolve, reject) => {
+      const timer = setTimeout(() => {
+        signal.removeEventListener("abort", abort);
+        resolve();
+      }, delay);
+      const abort = (): void => {
+        clearTimeout(timer);
+        reject(new DOMException("The request was aborted.", "AbortError"));
+      };
+      signal.addEventListener("abort", abort, { once: true });
+    });
+  }
+
+  async function fetchAddressSuggestions(
+    query: string,
+    token: string,
+    signal: AbortSignal,
+  ): Promise<AddressSuggestion[]> {
+    const response = await fetch("https://places.googleapis.com/v1/places:autocomplete", {
+      body: JSON.stringify({ input: query, sessionToken: token }),
+      headers: {
+        "Content-Type": "application/json",
+        "X-Goog-Api-Key": getGoogleMapsApiKey(),
+      },
+      method: "POST",
+      signal,
+    });
+    if (!response.ok) throw new Error("Places API request failed");
+
+    const data = (await response.json()) as PlacesAutocompleteResponse;
+    const results: AddressSuggestion[] = [];
+    for (const suggestion of data.suggestions ?? []) {
+      const prediction = suggestion.placePrediction;
+      if (!prediction?.placeId) continue;
+      const text = prediction.text?.text ?? "";
+      results.push({
+        mainText: prediction.structuredFormat?.mainText?.text ?? text,
+        placeId: prediction.placeId,
+        secondaryText: prediction.structuredFormat?.secondaryText?.text ?? "",
+        text,
+      });
+    }
+    return results;
+  }
+
+  async function searchSampleAddresses(
+    query: string,
+    signal: AbortSignal,
+  ): Promise<AddressSuggestion[]> {
+    await waitForRequest(Math.random() * 500 + 100, signal);
+    const lowerQuery = query.toLowerCase();
+    return sampleAddresses.filter((address) => address.text.toLowerCase().includes(lowerQuery));
+  }
+
+  function resetSession(): void {
+    sessionToken = null;
+  }
+
+  function search(next: string): void {
+    searchValue = next;
+    const query = next.trim();
     const current = ++request;
-    if (!next.trim()) {
+    clearTimeout(debounceTimer);
+    requestController?.abort();
+    requestController = undefined;
+
+    if (!query) {
       suggestions = [];
       loading = false;
+      error = null;
       return;
     }
     loading = true;
-    await new Promise((resolve) => setTimeout(resolve, 400));
-    if (current !== request) return;
-    suggestions = addresses.filter((address) =>
-      address.text.toLowerCase().includes(next.toLowerCase()),
-    );
-    loading = false;
+    error = null;
+    debounceTimer = setTimeout(async () => {
+      debounceTimer = undefined;
+      const controller = new AbortController();
+      requestController = controller;
+      try {
+        sessionToken ??= newSessionToken();
+        const results = getGoogleMapsApiKey()
+          ? await fetchAddressSuggestions(query, sessionToken, controller.signal)
+          : await searchSampleAddresses(query, controller.signal);
+        if (current !== request || controller.signal.aborted) return;
+        suggestions = results;
+      } catch {
+        if (current !== request || controller.signal.aborted) return;
+        error = "Could not load address suggestions. Please try again.";
+        suggestions = [];
+      } finally {
+        if (current === request && !controller.signal.aborted) loading = false;
+        if (requestController === controller) requestController = undefined;
+      }
+    }, 300);
   }
+
+  onDestroy(() => {
+    request += 1;
+    clearTimeout(debounceTimer);
+    requestController?.abort();
+    sessionToken = null;
+  });
 </script>
 
 <Autocomplete.Root
   autoHighlight
   filter={null}
   items={suggestions}
-  itemToStringValue={(item: Address) => item.text}
+  itemToStringValue={(item: AddressSuggestion) => item.text}
   onValueChange={search}
-  {value}
+  value={searchValue}
 >
   <Autocomplete.Input
     aria-label="Address"
@@ -72,21 +195,22 @@
         strokeWidth={2}
       />{/snippet}
   </Autocomplete.Input>
-  {#if value.trim()}
+  {#if searchValue.trim()}
     <Autocomplete.Popup aria-busy={loading || undefined} class="max-w-(--anchor-width) *:min-w-0">
       <Autocomplete.Status class="text-muted-foreground">
         {#if loading}<span class="flex items-center justify-between gap-2"
             >Searching addresses... <Spinner class="size-4.5 sm:size-4" /></span
           >
-        {:else if suggestions.length === 0}<span class="font-normal text-sm"
-            >No addresses found for "{value}"</span
+        {:else if error}<span class="font-normal text-destructive text-sm">{error}</span>
+        {:else if suggestions.length === 0}<span class="font-normal text-muted-foreground text-sm"
+            >No addresses found for "{searchValue}"</span
           >
         {:else}{suggestions.length} suggestion{suggestions.length === 1 ? "" : "s"} found{/if}
       </Autocomplete.Status>
       <Autocomplete.List
         ><Autocomplete.Collection>
-          {#snippet children(suggestion: Address)}
-            <Autocomplete.Item value={suggestion}
+          {#snippet children(suggestion: AddressSuggestion)}
+            <Autocomplete.Item onclick={resetSession} value={suggestion}
               ><span class="flex w-full min-w-0 flex-col"
                 ><span class="truncate font-medium">{suggestion.mainText}</span><span
                   class="truncate text-muted-foreground text-xs">{suggestion.secondaryText}</span

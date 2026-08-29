@@ -182,6 +182,13 @@ describe("D8 selection, command, and menu documentation", () => {
     expect(asyncAutocomplete).toContain('throw new Error("Network error")');
     expect(asyncAutocomplete).toContain("Failed to fetch movies. Please try again.");
 
+    const placesAutocomplete = source(
+      "apps/ui/registry/default/particles/p-autocomplete-16.svelte",
+    );
+    expect(placesAutocomplete).toContain("import.meta.env.VITE_GOOGLE_MAPS_API_KEY");
+    expect(placesAutocomplete).toContain("https://places.googleapis.com/v1/places:autocomplete");
+    expect(placesAutocomplete).not.toMatch(/from\s+["']\$env/);
+
     expect(source("apps/ui/registry/default/particles/p-combobox-2.svelte")).toContain(
       'placeholder="Select an item…"',
     );

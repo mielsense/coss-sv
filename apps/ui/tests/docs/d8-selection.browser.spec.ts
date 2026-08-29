@@ -1,12 +1,14 @@
 import "../../src/tailwind.css";
 import "../../src/app.css";
-import { mount, unmount } from "svelte";
-import { afterEach, describe, expect, test } from "vitest";
+import { mount, tick, unmount } from "svelte";
+import { afterEach, describe, expect, test, vi } from "vitest";
 import { page, userEvent } from "vitest/browser";
 import AutocompleteExample from "../../registry/default/particles/p-autocomplete-1.svelte";
 import AsyncAutocompleteExample from "../../registry/default/particles/p-autocomplete-12.svelte";
+import PlacesAutocompleteExample from "../../registry/default/particles/p-autocomplete-16.svelte";
 import LabelledComboboxExample from "../../registry/default/particles/p-combobox-5.svelte";
 import ComboboxExample from "../../registry/default/particles/p-combobox-9.svelte";
+import MultipleFormComboboxExample from "../../registry/default/particles/p-combobox-12.svelte";
 import CommandExample from "../../registry/default/particles/p-command-1.svelte";
 import CommandAiExample from "../../registry/default/particles/p-command-2.svelte";
 import ContextMenuExample from "../../registry/default/particles/p-context-menu-1.svelte";
@@ -15,6 +17,10 @@ import SelectExample from "../../registry/default/particles/p-select-7.svelte";
 import ToolbarExample from "../../registry/default/particles/p-toolbar-1.svelte";
 
 afterEach(() => {
+  vi.useRealTimers();
+  vi.restoreAllMocks();
+  vi.unstubAllEnvs();
+  vi.unstubAllGlobals();
   document.body.innerHTML = "";
 });
 
@@ -217,6 +223,160 @@ describe("D8 selection, command, and menu examples", () => {
       )
       .toBe(true);
     await expect.element(page.getByText("Failed to fetch movies. Please try again.")).toBeVisible();
+    await unmount(view);
+  });
+
+  test("debounces async movies for 300ms, honors the simulated request delay, and cancels teardown", async () => {
+    vi.useFakeTimers();
+    vi.spyOn(Math, "random").mockReturnValue(0.5);
+    const view = mount(AsyncAutocompleteExample, { target: document.body });
+    const input = page.getByRole("combobox");
+
+    await input.fill("pulp");
+    expect(document.body.textContent).toContain("Searching...");
+    await vi.advanceTimersByTimeAsync(649);
+    expect(document.querySelector('[role="option"]')).toBeNull();
+    await vi.advanceTimersByTimeAsync(1);
+    expect(document.body.textContent).toContain("Pulp Fiction");
+
+    await input.fill("god");
+    await vi.advanceTimersByTimeAsync(300);
+    await input.fill("inception");
+    await vi.advanceTimersByTimeAsync(649);
+    expect(document.body.textContent).not.toContain("The Godfather");
+    await vi.advanceTimersByTimeAsync(1);
+    expect(document.body.textContent).toContain("Inception");
+
+    await input.fill("pending");
+    await unmount(view);
+    await vi.advanceTimersByTimeAsync(1_000);
+    expect(document.body.textContent).not.toContain("pending");
+  });
+
+  test("uses the public Vite Places key, aborts stale requests, and resets the session token", async () => {
+    vi.useFakeTimers();
+    vi.stubEnv("VITE_GOOGLE_MAPS_API_KEY", "maps-test-key");
+    const requests: Array<{
+      body: { input: string; sessionToken: string };
+      resolve?: () => void;
+      signal: AbortSignal;
+    }> = [];
+    const fetchMock = vi.fn((_url: string | URL | Request, init?: RequestInit) => {
+      const body = JSON.parse(String(init?.body)) as { input: string; sessionToken: string };
+      const response = {
+        json: async () => ({
+          suggestions: [
+            {
+              placePrediction: {
+                placeId: `place-${body.input}`,
+                structuredFormat: {
+                  mainText: { text: `${body.input} main` },
+                  secondaryText: { text: `${body.input} secondary` },
+                },
+                text: { text: `${body.input} result` },
+              },
+            },
+          ],
+        }),
+        ok: true,
+      } as Response;
+      if (body.input === "second") {
+        requests.push({ body, signal: init?.signal as AbortSignal });
+        return Promise.resolve(response);
+      }
+      return new Promise<Response>((resolve) => {
+        requests.push({
+          body,
+          resolve: () => resolve(response),
+          signal: init?.signal as AbortSignal,
+        });
+      });
+    });
+    vi.stubGlobal("fetch", fetchMock);
+    const view = mount(PlacesAutocompleteExample, { target: document.body });
+    const input = page.getByRole("combobox", { name: "Address" });
+
+    await input.fill("first");
+    await vi.advanceTimersByTimeAsync(300);
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    expect(fetchMock.mock.calls[0]?.[0]).toBe(
+      "https://places.googleapis.com/v1/places:autocomplete",
+    );
+    const firstFetchInit = fetchMock.mock.calls[0]?.[1];
+    if (!firstFetchInit) throw new Error("missing first Places request init");
+    expect((firstFetchInit.headers as Record<string, string>)["X-Goog-Api-Key"]).toBe(
+      "maps-test-key",
+    );
+    expect(requests[0]?.body.input).toBe("first");
+    const firstToken = requests[0]?.body.sessionToken;
+    expect(firstToken).toBeTruthy();
+
+    await input.fill("second");
+    const firstRequest = requests[0];
+    if (!firstRequest?.resolve) throw new Error("missing pending first Places request");
+    expect(firstRequest.signal.aborted).toBe(true);
+    firstRequest.resolve();
+    await Promise.resolve();
+    await vi.advanceTimersByTimeAsync(300);
+    expect(requests[1]?.body.sessionToken).toBe(firstToken);
+    await tick();
+    (
+      page.getByRole("option", { name: "second main second secondary" }).element() as HTMLElement
+    ).click();
+    await tick();
+
+    await input.fill("third");
+    await vi.advanceTimersByTimeAsync(300);
+    expect(requests[2]?.body.sessionToken).not.toBe(firstToken);
+    await unmount(view);
+    expect(requests[2]?.signal.aborted).toBe(true);
+  });
+
+  test("falls back to sample Places data without a key and renders request errors", async () => {
+    vi.useFakeTimers();
+    vi.spyOn(Math, "random").mockReturnValue(0.5);
+    vi.stubEnv("VITE_GOOGLE_MAPS_API_KEY", "");
+    const fetchMock = vi.fn();
+    vi.stubGlobal("fetch", fetchMock);
+    const fallbackView = mount(PlacesAutocompleteExample, { target: document.body });
+    const fallbackInput = page.getByRole("combobox", { name: "Address" });
+
+    await fallbackInput.fill("Amphitheatre");
+    await vi.advanceTimersByTimeAsync(649);
+    expect(document.querySelector('[role="option"]')).toBeNull();
+    await vi.advanceTimersByTimeAsync(1);
+    await expect
+      .element(page.getByRole("option", { name: /1600 Amphitheatre Parkway/ }))
+      .toBeVisible();
+    expect(fetchMock).not.toHaveBeenCalled();
+    await unmount(fallbackView);
+
+    vi.stubEnv("VITE_GOOGLE_MAPS_API_KEY", "maps-test-key");
+    fetchMock.mockRejectedValueOnce(new Error("network unavailable"));
+    const errorView = mount(PlacesAutocompleteExample, { target: document.body });
+    await page.getByRole("combobox", { name: "Address" }).fill("unavailable");
+    await vi.advanceTimersByTimeAsync(300);
+    await tick();
+    await expect
+      .element(page.getByText("Could not load address suggestions. Please try again."))
+      .toBeVisible();
+    await unmount(errorView);
+  });
+
+  test("submits multiple combobox item values instead of their visible labels", async () => {
+    const alert = vi.spyOn(window, "alert").mockImplementation(() => undefined);
+    const view = mount(MultipleFormComboboxExample, { target: document.body });
+    const input = page.getByRole("combobox", { name: /Favorite items|Select a item/ });
+
+    await input.fill("Apple");
+    await page.getByRole("option", { name: "Apple", exact: true }).click();
+    await input.fill("Banana");
+    await page.getByRole("option", { name: "Banana", exact: true }).click();
+    await page.getByRole("button", { name: "Submit" }).click();
+
+    await expect
+      .poll(() => alert.mock.calls[0]?.[0], { timeout: 1_200 })
+      .toBe("Favorite items: apple, banana");
     await unmount(view);
   });
 });
