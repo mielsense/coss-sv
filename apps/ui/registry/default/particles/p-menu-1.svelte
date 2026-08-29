@@ -10,7 +10,7 @@
 </script>
 
 <script lang="ts">
-  import { buttonVariants, Menu } from "@coss-sv/ui";
+  import { buttonVariants, HugeiconsIcon, Menu } from "@coss-sv/ui";
   import {
     Delete02Icon,
     NextIcon,
@@ -18,7 +18,6 @@
     PlayIcon,
     PreviousIcon,
   } from "@hugeicons/core-free-icons";
-  import { HugeiconsIcon } from "@hugeicons/svelte";
 </script>
 
 <Menu.Root

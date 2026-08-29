@@ -19,11 +19,11 @@
     Tooltip,
   } from "@coss-sv/ui";
   import {
-    AlignHorizontalCenterIcon,
-    AlignLeftIcon,
-    AlignRightIcon,
     DollarSignIcon,
     PercentIcon,
+    TextAlignCenterIcon,
+    TextAlignLeftIcon,
+    TextAlignRightIcon,
   } from "@hugeicons/core-free-icons";
 
   const fonts = [
@@ -64,7 +64,7 @@
           id={`${uid}-left`}
           value="left"
         >
-          <HugeiconsIcon aria-hidden="true" icon={AlignLeftIcon} strokeWidth={2} />
+          <HugeiconsIcon aria-hidden="true" icon={TextAlignLeftIcon} strokeWidth={2} />
         </ToggleGroup.Item>
         <Tooltip.Popup id={tooltipIds.left} sideOffset={8}>Align left</Tooltip.Popup>
       </Tooltip.Root>
@@ -79,7 +79,7 @@
           id={`${uid}-center`}
           value="center"
         >
-          <HugeiconsIcon aria-hidden="true" icon={AlignHorizontalCenterIcon} strokeWidth={2} />
+          <HugeiconsIcon aria-hidden="true" icon={TextAlignCenterIcon} strokeWidth={2} />
         </ToggleGroup.Item>
         <Tooltip.Popup id={tooltipIds.center} sideOffset={8}>Align center</Tooltip.Popup>
       </Tooltip.Root>
@@ -94,7 +94,7 @@
           id={`${uid}-right`}
           value="right"
         >
-          <HugeiconsIcon aria-hidden="true" icon={AlignRightIcon} strokeWidth={2} />
+          <HugeiconsIcon aria-hidden="true" icon={TextAlignRightIcon} strokeWidth={2} />
         </ToggleGroup.Item>
         <Tooltip.Popup id={tooltipIds.right} sideOffset={8}>Align right</Tooltip.Popup>
       </Tooltip.Root>

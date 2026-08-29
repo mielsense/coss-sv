@@ -11,9 +11,8 @@
 </script>
 
 <script lang="ts">
-  import { ContextMenu } from "@coss-sv/ui";
+  import { ContextMenu, HugeiconsIcon } from "@coss-sv/ui";
   import { Copy01Icon, Delete02Icon, PencilIcon, Share08Icon } from "@hugeicons/core-free-icons";
-  import { HugeiconsIcon } from "@hugeicons/svelte";
 </script>
 
 <ContextMenu.Root

@@ -11,9 +11,8 @@
 </script>
 
 <script lang="ts">
-  import { buttonVariants, Combobox } from "@coss-sv/ui";
+  import { buttonVariants, Combobox, HugeiconsIcon } from "@coss-sv/ui";
   import { Search01Icon, UnfoldMoreIcon } from "@hugeicons/core-free-icons";
-  import { HugeiconsIcon } from "@hugeicons/svelte";
 
   interface Country {
     code: string;

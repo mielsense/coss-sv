@@ -225,6 +225,64 @@ describe("D8 selection, command, and menu documentation", () => {
     expect(toolbar).not.toContain('from "@hugeicons/svelte"');
   });
 
+  test("server-renders D8 UI icons through the shared Hugeicons renderer", () => {
+    const iconParticles = [
+      "p-autocomplete-14",
+      "p-autocomplete-16",
+      "p-combobox-10",
+      "p-combobox-13",
+      "p-combobox-14",
+      "p-combobox-17",
+      "p-combobox-18",
+      "p-combobox-19",
+      "p-combobox-20",
+      "p-command-1",
+      "p-context-menu-6",
+      "p-menu-1",
+      "p-select-8",
+      "p-select-9",
+    ] as const;
+
+    for (const id of iconParticles) {
+      const path = `apps/ui/registry/default/particles/${id}.svelte`;
+      const particle = source(path);
+      expect(particle, path).toMatch(
+        /import\s+\{[\s\S]*HugeiconsIcon[\s\S]*\}\s+from\s+"@coss-sv\/ui"/,
+      );
+      expect(particle, path).not.toMatch(
+        /@hugeicons\/svelte|lucide(?:-react|-svelte)?|<svg\b|<path\b/i,
+      );
+      expect(particle, path).toContain("strokeWidth={2}");
+    }
+
+    const serverVisibleIconParticles = iconParticles.filter(
+      (id) =>
+        !["p-combobox-17", "p-combobox-18", "p-command-1", "p-context-menu-6", "p-menu-1"].includes(
+          id,
+        ),
+    );
+    for (const id of serverVisibleIconParticles) {
+      const module = particleModules[`../../registry/default/particles/${id}.svelte`];
+      const body = render(module?.default as Component).body;
+      expect(body, `${id} SSR icon markup`).toContain("<svg");
+      expect(body, `${id} SSR stroke width`).toContain('stroke-width="2"');
+    }
+  });
+
+  test("uses official Hugeicons text-alignment data in the toolbar", () => {
+    const toolbar = source("apps/ui/registry/default/particles/p-toolbar-1.svelte");
+    expect(toolbar).toContain("TextAlignLeftIcon");
+    expect(toolbar).toContain("TextAlignCenterIcon");
+    expect(toolbar).toContain("TextAlignRightIcon");
+    expect(toolbar).not.toMatch(/AlignHorizontalCenterIcon|\bAlignLeftIcon\b|\bAlignRightIcon\b/);
+    expect(toolbar).not.toMatch(/@hugeicons\/svelte|lucide(?:-react|-svelte)?|<svg\b|<path\b/i);
+
+    const module = particleModules["../../registry/default/particles/p-toolbar-1.svelte"];
+    const body = render(module?.default as Component).body;
+    expect(body.match(/<svg/g)).toHaveLength(6);
+    expect(body.match(/stroke-width="2"/g)?.length).toBeGreaterThanOrEqual(5);
+  });
+
   test("uses Svelte 5 declaration tags in the multiple Select particle", () => {
     const particle = source("apps/ui/registry/default/particles/p-select-7.svelte");
     expect(particle).not.toContain("{@const");

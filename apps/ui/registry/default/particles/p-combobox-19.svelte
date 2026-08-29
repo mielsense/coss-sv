@@ -11,9 +11,8 @@
 </script>
 
 <script lang="ts">
-  import { Avatar, Badge, Button, Combobox } from "@coss-sv/ui";
+  import { Avatar, Badge, Button, Combobox, HugeiconsIcon } from "@coss-sv/ui";
   import { Cancel01Icon, Search01Icon } from "@hugeicons/core-free-icons";
-  import { HugeiconsIcon } from "@hugeicons/svelte";
 
   type TeamMember = {
     avatar: string;

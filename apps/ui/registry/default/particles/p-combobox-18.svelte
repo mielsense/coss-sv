@@ -11,9 +11,8 @@
 </script>
 
 <script lang="ts">
-  import { Combobox, Select } from "@coss-sv/ui";
+  import { Combobox, HugeiconsIcon, Select } from "@coss-sv/ui";
   import { Search01Icon } from "@hugeicons/core-free-icons";
-  import { HugeiconsIcon } from "@hugeicons/svelte";
 
   const items = [
     { label: "Apple", value: "apple" },

@@ -11,9 +11,8 @@
 </script>
 
 <script lang="ts">
-  import { Select } from "@coss-sv/ui";
+  import { HugeiconsIcon, Select } from "@coss-sv/ui";
   import { CodeIcon, GlobeIcon, Layers01Icon, ZapIcon } from "@hugeicons/core-free-icons";
-  import { HugeiconsIcon } from "@hugeicons/svelte";
 
   const items = [
     { icon: Layers01Icon, label: "Components", value: "components" },

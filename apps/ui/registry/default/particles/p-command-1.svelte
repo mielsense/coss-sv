@@ -10,9 +10,8 @@
 </script>
 
 <script lang="ts">
-  import { buttonVariants, Command, Kbd, KbdGroup } from "@coss-sv/ui";
+  import { buttonVariants, Command, HugeiconsIcon, Kbd, KbdGroup } from "@coss-sv/ui";
   import { ArrowDown01Icon, ArrowUp01Icon, CornerDownLeftIcon } from "@hugeicons/core-free-icons";
-  import { HugeiconsIcon } from "@hugeicons/svelte";
 
   type Item = { value: string; label: string; shortcut?: string };
   type Group = { value: string; items: Item[] };

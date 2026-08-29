@@ -11,9 +11,8 @@
 </script>
 
 <script lang="ts">
-  import { Autocomplete, Spinner } from "@coss-sv/ui";
+  import { Autocomplete, HugeiconsIcon, Spinner } from "@coss-sv/ui";
   import { Location01Icon } from "@hugeicons/core-free-icons";
-  import { HugeiconsIcon } from "@hugeicons/svelte";
 
   type Address = { placeId: string; text: string; mainText: string; secondaryText: string };
   const addresses: Address[] = [

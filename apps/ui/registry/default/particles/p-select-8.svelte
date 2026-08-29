@@ -11,9 +11,8 @@
 </script>
 
 <script lang="ts">
-  import { Select } from "@coss-sv/ui";
+  import { HugeiconsIcon, Select } from "@coss-sv/ui";
   import { CableIcon } from "@hugeicons/core-free-icons";
-  import { HugeiconsIcon } from "@hugeicons/svelte";
 
   const items = [
     { label: "Next.js", value: "next" },
