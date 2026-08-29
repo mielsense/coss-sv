@@ -120,6 +120,35 @@ async function inspectFieldValidityPreview() {
   }
 }
 
+async function inspectInputGroupDefaultValue() {
+  const browser = await chromium.launch({ headless: true });
+  try {
+    const page = await browser.newPage({ viewport: { height: 900, width: 1440 } });
+    await page.goto(`${baseUrl}/preview/p-input-group-18?theme=light&width=desktop&timers=real`, {
+      waitUntil: "networkidle",
+    });
+
+    const input = page.getByPlaceholder("Enter email");
+    await input.waitFor({ state: "visible" });
+    assert.equal(
+      await input.inputValue(),
+      "hello@coss.com",
+      "the input should hydrate with its COSS default",
+    );
+
+    await input.fill("edited@coss.com");
+    await page.getByRole("button", { name: "Open menu" }).click();
+    await page.getByRole("menuitem", { name: "Delete" }).waitFor({ state: "visible" });
+    assert.equal(
+      await input.inputValue(),
+      "edited@coss.com",
+      "opening the adjacent menu must not reset an uncontrolled edit",
+    );
+  } finally {
+    await browser.close();
+  }
+}
+
 try {
   await Promise.race([
     waitForPreview(),
@@ -139,6 +168,7 @@ try {
     await openParticle(id);
   }
   await inspectFieldValidityPreview();
+  await inspectInputGroupDefaultValue();
 } finally {
   preview.kill("SIGTERM");
 }

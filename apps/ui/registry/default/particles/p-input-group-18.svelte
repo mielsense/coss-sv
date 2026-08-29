@@ -16,7 +16,7 @@
 </script>
 
 <InputGroup.Root>
-  <InputGroup.Input value="hello@coss.com" placeholder="Enter email" type="email" />
+  <InputGroup.Input defaultValue="hello@coss.com" placeholder="Enter email" type="email" />
   <InputGroup.Addon align="inline-end">
     <Badge variant="info">Primary</Badge>
     <Menu.Root>

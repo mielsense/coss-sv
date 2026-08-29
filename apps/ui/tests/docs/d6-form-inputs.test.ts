@@ -325,6 +325,13 @@ describe("D6 form and input documentation inventory", () => {
     );
   });
 
+  test("preserves the editable default value in the badge and menu Input Group", () => {
+    const particle = source("apps/ui/registry/default/particles/p-input-group-18.svelte");
+
+    expect(particle).toContain('defaultValue="hello@coss.com"');
+    expect(particle).not.toContain('value="hello@coss.com"');
+  });
+
   test("preserves Group nested and separator API examples", () => {
     const page = source("apps/ui/content/docs/components/group.svx");
     expect(page).toContain("Nest multiple groups to create complex layouts with spacing.");

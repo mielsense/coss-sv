@@ -71,6 +71,19 @@ describe("D6 form and input browser parity", () => {
     await expect.element(page.getByRole("button", { name: "Clear input" })).not.toBeInTheDocument();
   });
 
+  test("keeps the badge and menu Input Group default editable", async () => {
+    render(component("p-input-group-18"));
+
+    const input = page.getByPlaceholder("Enter email");
+    await expect.element(input).toHaveValue("hello@coss.com");
+    await input.fill("edited@coss.com");
+    await expect.element(input).toHaveValue("edited@coss.com");
+
+    await page.getByRole("button", { name: "Open menu" }).click();
+    await expect.element(page.getByRole("menuitem", { name: "Delete" })).toBeInTheDocument();
+    await expect.element(input).toHaveValue("edited@coss.com");
+  });
+
   test("composes the textarea menu and tooltip onto one button", async () => {
     render(component("p-input-group-17"));
 
