@@ -398,12 +398,14 @@ const registryUiItems = defineRegistryItems([
     dependencies: ["@shardsui/svelte@0.1.0-beta.0"],
     registryDependencies: ["local:fieldset"],
     files: uiFiles("field", [
+      "field-control.svelte",
       "field-root.svelte",
       "field-label.svelte",
       "field-item.svelte",
       "field-description.svelte",
       "field-error.svelte",
       "field-relationship-provider.svelte",
+      "reconcile-aria-relationship.ts",
       "relationship-context.svelte.ts",
       "index.ts",
     ]),
@@ -448,7 +450,7 @@ const registryUiItems = defineRegistryItems([
     type: "registry:ui",
     description: "Collects a single line of user input.",
     dependencies: ["@shardsui/svelte@0.1.0-beta.0"],
-    registryDependencies: [],
+    registryDependencies: ["local:field"],
     files: uiFiles("input", ["input.svelte", "index.ts"]),
   },
   {
@@ -529,7 +531,7 @@ const registryUiItems = defineRegistryItems([
     type: "registry:ui",
     description: "Collects and adjusts a locale-aware numeric value.",
     dependencies: ["@hugeicons/core-free-icons@4.3.0", "@shardsui/svelte@0.1.0-beta.0"],
-    registryDependencies: ["local:hugeicons-icon", "local:label"],
+    registryDependencies: ["local:field", "local:hugeicons-icon", "local:label"],
     files: uiFiles("number-field", [
       "context.ts",
       "cursor-grow-icon.svelte",
@@ -901,7 +903,10 @@ const registryUiItems = defineRegistryItems([
     registryDependencies: [],
     files: uiFiles("tooltip", [
       "context.ts",
+      "create-trigger-attachment.svelte.ts",
       "handle.svelte.ts",
+      "provider-context.svelte.ts",
+      "safe-polygon.ts",
       "tooltip-popup.svelte",
       "tooltip-provider.svelte",
       "tooltip-root.svelte",

@@ -294,7 +294,9 @@
 		"dependencies": [
 			"@shardsui/svelte@0.1.0-beta.0"
 		],
-		"registryDependencies": [],
+		"registryDependencies": [
+			"local:field"
+		],
 		"relativeUrl": "input.json"
 	},
 	{
@@ -356,6 +358,7 @@
 			"@shardsui/svelte@0.1.0-beta.0"
 		],
 		"registryDependencies": [
+			"local:field",
 			"local:hugeicons-icon",
 			"local:label"
 		],

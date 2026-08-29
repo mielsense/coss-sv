@@ -1026,6 +1026,10 @@
       ],
       "files": [
         {
+          "path": "../../packages/ui/src/components/ui/field/field-control.svelte",
+          "type": "registry:ui"
+        },
+        {
           "path": "../../packages/ui/src/components/ui/field/field-root.svelte",
           "type": "registry:ui"
         },
@@ -1047,6 +1051,10 @@
         },
         {
           "path": "../../packages/ui/src/components/ui/field/field-relationship-provider.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/field/reconcile-aria-relationship.ts",
           "type": "registry:ui"
         },
         {
@@ -1195,7 +1203,9 @@
       "dependencies": [
         "@shardsui/svelte@0.1.0-beta.0"
       ],
-      "registryDependencies": [],
+      "registryDependencies": [
+        "local:field"
+      ],
       "files": [
         {
           "path": "../../packages/ui/src/components/ui/input/input.svelte",
@@ -1411,6 +1421,7 @@
         "@shardsui/svelte@0.1.0-beta.0"
       ],
       "registryDependencies": [
+        "local:field",
         "local:hugeicons-icon",
         "local:label"
       ],
@@ -9293,7 +9304,19 @@
           "type": "registry:ui"
         },
         {
+          "path": "../../packages/ui/src/components/ui/tooltip/create-trigger-attachment.svelte.ts",
+          "type": "registry:ui"
+        },
+        {
           "path": "../../packages/ui/src/components/ui/tooltip/handle.svelte.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/tooltip/provider-context.svelte.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/tooltip/safe-polygon.ts",
           "type": "registry:ui"
         },
         {
