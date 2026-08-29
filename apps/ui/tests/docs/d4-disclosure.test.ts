@@ -427,17 +427,17 @@ describe("D4 disclosure and surface documentation inventory", () => {
     expect(apiReference).toContain("Add Project");
   });
 
-  test("uses Svelte and ShardsUI copy in every accordion particle", () => {
+  test("preserves the exact COSS visible copy in every accordion particle", () => {
     for (const id of ["p-accordion-1", "p-accordion-2", "p-accordion-3", "p-accordion-4"]) {
       const particle = source(`apps/ui/registry/default/particles/${id}.svelte`);
       const visibleCopy = particle.replace(/\s+/g, " ");
 
-      expect(visibleCopy).toContain("What is ShardsUI?");
+      expect(visibleCopy).toContain("What is Base UI?");
       expect(visibleCopy).toContain(
-        "ShardsUI is a library of headless, accessible Svelte 5 components for design systems and web apps.",
+        "Base UI is a library of high-quality unstyled React components for design systems and web apps.",
       );
-      expect(visibleCopy).toContain("Of course! ShardsUI is free and open source.");
-      expect(visibleCopy).not.toMatch(/Base UI|React components/);
+      expect(visibleCopy).toContain("Of course! Base UI is free and open source.");
+      expect(visibleCopy).not.toMatch(/ShardsUI|headless, accessible Svelte 5 components/);
     }
   });
 

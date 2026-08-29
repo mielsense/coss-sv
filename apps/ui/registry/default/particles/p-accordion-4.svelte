@@ -1,28 +1,28 @@
 <script module lang="ts">
-import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
 
-export const meta = defineParticleMeta({
-  components: ["accordion", "button"],
-  containerClass: "**:data-[slot=preview]:w-full sm:**:data-[slot=preview]:max-w-[80%]",
-  id: "p-accordion-4",
-  interactive: true,
-  responsive: true,
-  title: "Controlled accordion",
-});
+  export const meta = defineParticleMeta({
+    components: ["accordion", "button"],
+    containerClass: "**:data-[slot=preview]:w-full sm:**:data-[slot=preview]:max-w-[80%]",
+    id: "p-accordion-4",
+    interactive: true,
+    responsive: true,
+    title: "Controlled accordion",
+  });
 </script>
 
 <script lang="ts">
-import { Accordion, Button } from "@coss-sv/ui";
+  import { Accordion, Button } from "@coss-sv/ui";
 
-let value = $state<string[]>([]);
+  let value = $state<string[]>([]);
 </script>
 
 <div class="flex w-full flex-col gap-4">
   <Accordion.Root bind:value class="w-full">
     <Accordion.Item value="item-1">
-      <Accordion.Header><Accordion.Trigger>What is ShardsUI?</Accordion.Trigger></Accordion.Header>
+      <Accordion.Header><Accordion.Trigger>What is Base UI?</Accordion.Trigger></Accordion.Header>
       <Accordion.Panel>
-        ShardsUI is a library of headless, accessible Svelte 5 components for design systems and web
+        Base UI is a library of high-quality unstyled React components for design systems and web
         apps.
       </Accordion.Panel>
     </Accordion.Item>
@@ -39,14 +39,12 @@ let value = $state<string[]>([]);
       <Accordion.Header
         ><Accordion.Trigger>Can I use it for my project?</Accordion.Trigger></Accordion.Header
       >
-      <Accordion.Panel>Of course! ShardsUI is free and open source.</Accordion.Panel>
+      <Accordion.Panel>Of course! Base UI is free and open source.</Accordion.Panel>
     </Accordion.Item>
   </Accordion.Root>
 
   <div class="flex flex-col items-start gap-4">
-    <Button onclick={() => (value = ["item-1", "item-2"])} variant="outline">
-      Open First Two
-    </Button>
+    <Button onclick={() => (value = ["item-1", "item-2"])} variant="outline">Open First Two</Button>
     <p class="text-muted-foreground text-sm">
       Open items: {value.length > 0 ? value.join(", ") : "None"}
     </p>

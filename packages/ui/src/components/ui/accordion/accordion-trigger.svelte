@@ -1,22 +1,22 @@
 <script module lang="ts">
-import type { Accordion as ShardsAccordion } from "@shardsui/svelte";
-import type { ComponentProps } from "svelte";
+  import type { Accordion as ShardsAccordion } from "@shardsui/svelte";
+  import type { ComponentProps } from "svelte";
 
-export type AccordionTriggerProps = ComponentProps<typeof ShardsAccordion.Trigger>;
+  export type AccordionTriggerProps = ComponentProps<typeof ShardsAccordion.Trigger>;
 </script>
 
 <script lang="ts">
-import { ArrowDown01Icon } from "@hugeicons/core-free-icons";
-import { Accordion as AccordionPrimitive } from "@shardsui/svelte";
-import HugeiconsIcon from "$lib/hugeicons-icon.svelte";
-import { cn } from "$lib/utils.js";
+  import { ChevronDownIcon } from "@hugeicons/core-free-icons";
+  import { Accordion as AccordionPrimitive } from "@shardsui/svelte";
+  import HugeiconsIcon from "$lib/hugeicons-icon.svelte";
+  import { cn } from "$lib/utils.js";
 
-let {
-  children: child,
-  class: className,
-  ref = $bindable(null),
-  ...props
-}: AccordionTriggerProps = $props();
+  let {
+    children: child,
+    class: className,
+    ref = $bindable(null),
+    ...props
+  }: AccordionTriggerProps = $props();
 </script>
 
 <AccordionPrimitive.Trigger
@@ -34,7 +34,7 @@ let {
       aria-hidden="true"
       class="pointer-events-none size-4 shrink-0 translate-y-0.5 opacity-80 transition-transform duration-200 ease-in-out"
       data-slot="accordion-indicator"
-      icon={ArrowDown01Icon}
+      icon={ChevronDownIcon}
       strokeWidth={2}
     />
   {/snippet}

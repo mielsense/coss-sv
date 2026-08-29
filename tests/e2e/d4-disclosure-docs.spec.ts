@@ -117,7 +117,7 @@ test("D4 keyboard paths preserve disclosure, tabs, and Select behavior", async (
   const theme = testInfo.project.name === "dark" ? "dark" : "light";
 
   let preview = await openReadyPreview(page, "p-accordion-1", theme, "desktop");
-  const accordionTrigger = preview.ready.getByRole("button", { name: "What is ShardsUI?" });
+  const accordionTrigger = preview.ready.getByRole("button", { name: "What is Base UI?" });
   const accordionIndicator = accordionTrigger.locator('[data-slot="accordion-indicator"]');
   await expect(accordionIndicator).toHaveAttribute("aria-hidden", "true");
   await expect(accordionIndicator).toHaveCSS("rotate", "none");
@@ -126,9 +126,11 @@ test("D4 keyboard paths preserve disclosure, tabs, and Select behavior", async (
   await expect(accordionTrigger).toHaveAttribute("aria-expanded", "true");
   await expect(accordionIndicator).toHaveCSS("rotate", "180deg");
   await expect(preview.ready).toContainText(
-    "ShardsUI is a library of headless, accessible Svelte 5 components for design systems and web apps.",
+    "Base UI is a library of high-quality unstyled React components for design systems and web apps.",
   );
-  await expect(preview.ready).not.toContainText(/Base UI|React components/);
+  await expect(preview.ready).not.toContainText(
+    /ShardsUI|headless, accessible Svelte 5 components/,
+  );
 
   preview = await openReadyPreview(page, "p-collapsible-1", theme, "desktop");
   const collapsibleTrigger = preview.ready.getByRole("button", { name: "Show recovery keys" });
@@ -155,6 +157,97 @@ test("D4 keyboard paths preserve disclosure, tabs, and Select behavior", async (
   await expect(page.getByRole("option", { name: "Vite" })).toBeFocused();
   await page.keyboard.press("Enter");
   await expect(framework).toContainText("Vite");
+});
+
+test("all four Accordion examples preserve the exact COSS interactions and motion", async ({
+  page,
+}, testInfo) => {
+  const theme = testInfo.project.name === "dark" ? "dark" : "light";
+  const reducedMotion = testInfo.project.name === "motion" ? "no-preference" : "reduce";
+
+  await page.setViewportSize({ height: 800, width: 1200 });
+  const externalRequests = await prepareDeterministicPage(page);
+  const response = await page.goto(
+    `/preview/p-accordion-1?theme=${theme}&width=desktop&timers=real&align=start&reducedMotion=${reducedMotion}`,
+    { waitUntil: "networkidle" },
+  );
+  expect(response?.ok()).toBe(true);
+  let ready = page.locator('[data-preview-ready="true"]');
+  await ready.waitFor({ state: "visible" });
+  externalRequests.assertNoExternalRequests();
+
+  const firstTrigger = ready.getByRole("button", { name: "What is Base UI?" });
+  const initialTrigger = ready.getByRole("button", { name: "Can I use it for my project?" });
+  await expect(initialTrigger).toHaveAttribute("aria-expanded", "true");
+
+  if (reducedMotion === "no-preference") {
+    const startingStyle = page.evaluate(
+      () =>
+        new Promise<{ duration: string; height: number; starting: boolean }>((resolve) => {
+          const observer = new MutationObserver(() => {
+            const panel = document.querySelector<HTMLElement>(
+              '[data-slot="accordion-panel"][data-starting-style]',
+            );
+            if (!panel) return;
+            const style = getComputedStyle(panel);
+            observer.disconnect();
+            resolve({
+              duration: style.transitionDuration,
+              height: panel.getBoundingClientRect().height,
+              starting: panel.hasAttribute("data-starting-style"),
+            });
+          });
+          observer.observe(document.body, { attributes: true, childList: true, subtree: true });
+        }),
+    );
+    await firstTrigger.click();
+    const starting = await startingStyle;
+    expect(starting.starting).toBe(true);
+    expect(starting.height).toBe(0);
+    expect(starting.duration).toBe("0.2s");
+  } else {
+    await firstTrigger.click();
+    const openedPanel = ready.locator('[data-slot="accordion-panel"]').filter({
+      hasText:
+        "Base UI is a library of high-quality unstyled React components for design systems and web apps.",
+    });
+    await expect(openedPanel).toBeVisible();
+    expect(await openedPanel.evaluate((panel) => getComputedStyle(panel).transitionDuration)).toBe(
+      "0s",
+    );
+  }
+  await expect(firstTrigger).toHaveAttribute("aria-expanded", "true");
+  await expect(initialTrigger).toHaveAttribute("aria-expanded", "false");
+  await expect(ready).toContainText(
+    "Base UI is a library of high-quality unstyled React components for design systems and web apps.",
+  );
+
+  ({ ready } = await openReadyPreview(page, "p-accordion-2", theme, "desktop", "real", "start"));
+  const singleTrigger = ready.getByRole("button", { name: "What is Base UI?" });
+  await singleTrigger.click();
+  await expect(singleTrigger).toHaveAttribute("aria-expanded", "true");
+  await singleTrigger.click();
+  await expect(singleTrigger).toHaveAttribute("aria-expanded", "false");
+
+  ({ ready } = await openReadyPreview(page, "p-accordion-3", theme, "desktop", "real", "start"));
+  const multipleFirst = ready.getByRole("button", { name: "What is Base UI?" });
+  const multipleSecond = ready.getByRole("button", { name: "How do I get started?" });
+  await multipleFirst.click();
+  await multipleSecond.click();
+  await expect(multipleFirst).toHaveAttribute("aria-expanded", "true");
+  await expect(multipleSecond).toHaveAttribute("aria-expanded", "true");
+
+  ({ ready } = await openReadyPreview(page, "p-accordion-4", theme, "desktop", "real", "start"));
+  await ready.getByRole("button", { name: "Open First Two" }).click();
+  await expect(ready.getByText("Open items: item-1, item-2")).toBeVisible();
+  await expect(ready.getByRole("button", { name: "What is Base UI?" })).toHaveAttribute(
+    "aria-expanded",
+    "true",
+  );
+  await expect(ready.getByRole("button", { name: "How do I get started?" })).toHaveAttribute(
+    "aria-expanded",
+    "true",
+  );
 });
 
 test("p-tabs-13 keeps tab geometry and tooltip behavior through the approved wrapper", async ({
