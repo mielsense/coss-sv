@@ -1,7 +1,7 @@
 import { render } from "svelte/server";
 import { describe, expect, test } from "vitest";
-import FieldsetAssociationSsrFixture from "./fieldset-association.ssr-fixture.svelte";
 import FieldsetSsrFixture from "./fieldset.ssr-fixture.svelte";
+import FieldsetAssociationSsrFixture from "./fieldset-association.ssr-fixture.svelte";
 import * as Fieldset from "./index.js";
 
 describe("Fieldset SSR contract", () => {
