@@ -20,7 +20,7 @@
     Label,
     Popover,
   } from "@coss-sv/ui";
-  import { ArrowDown01Icon } from "@hugeicons/core-free-icons";
+  import { ChevronDownIcon } from "@hugeicons/core-free-icons";
 
   const occurrences = [
     { date: "Wed, Jul 15", id: "occurrence-1", time: "9:00 – 9:30am" },
@@ -38,7 +38,7 @@
         aria-label="Choose occurrences to confirm"
         class={buttonVariants({ size: "icon-xs" })}
       >
-        <HugeiconsIcon aria-hidden="true" icon={ArrowDown01Icon} strokeWidth={2} />
+        <HugeiconsIcon aria-hidden="true" icon={ChevronDownIcon} strokeWidth={2} />
       </Popover.Trigger><Popover.Popup align="end" class="w-84">
         <div class="mb-3">
           <Popover.Title class="text-sm">Confirm occurrences</Popover.Title><Popover.Description

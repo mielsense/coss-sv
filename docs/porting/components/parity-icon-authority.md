@@ -47,8 +47,8 @@ its closed body and clapper. COSS arrow-left and arrow-right glyphs map to the f
 The Preview Card fork count maps COSS `CornerUpLeftIcon` to Hugeicons `CornerUpLeftIcon`. The
 Slider reset maps `RotateCcwIcon` to the identically named Hugeicons dataset, and the Slider add
 button shares `Add01Icon` with the other COSS `PlusIcon` sites. Select's scroll controls use
-`ChevronUpIcon` and `ChevronDownIcon`; their geometry happens to match the current Hugeicons
-`ArrowUp01Icon` and `ArrowDown01Icon` data, but the implementation keeps the COSS icon identities.
+`ChevronUpIcon` and `ChevronDownIcon`, preserving the COSS semantic icon identities. The occurrence
+Popover uses `ChevronDownIcon` for the same reason.
 The same rule covers the copied Select markup in the Card, Number Field, and Toolbar parity
 fixtures.
 

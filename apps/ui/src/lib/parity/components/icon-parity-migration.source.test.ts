@@ -792,6 +792,17 @@ function assertOfficialGeometry(body: string, icon: IconData, label: string): vo
 }
 
 describe("parity fixture icon migration", () => {
+  it("keeps the occurrence Popover chevron identity", () => {
+    const source = readFileSync(
+      resolve(fixtureRoot, "../../../../registry/default/particles/p-popover-4.svelte"),
+      "utf8",
+    );
+
+    expect(source).toContain('import { ChevronDownIcon } from "@hugeicons/core-free-icons";');
+    expect(source).toContain("icon={ChevronDownIcon}");
+    expect(source).not.toContain("ArrowDown01Icon");
+  });
+
   it("enumerates every fixture and keeps copied SVG markup only for theme illustrations", () => {
     const fixtureNames = Object.keys(fixtureModules)
       .map((path) => path.slice(2))
