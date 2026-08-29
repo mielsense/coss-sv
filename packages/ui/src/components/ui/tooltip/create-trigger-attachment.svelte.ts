@@ -41,7 +41,12 @@ export type TooltipTriggerAttachmentOptions<Payload = unknown> = {
   payload?: Payload;
 };
 
-type ManagedAttribute = "aria-describedby" | "data-popup-open" | "data-trigger-disabled" | "id";
+type ManagedAttribute =
+  | "aria-describedby"
+  | "data-popup-open"
+  | "data-tooltip-trigger"
+  | "data-trigger-disabled"
+  | "id";
 
 function restoreAttribute(
   node: HTMLElement,
@@ -70,9 +75,11 @@ export function createTriggerAttachment<Payload = unknown>(
     const previous = {
       "aria-describedby": node.getAttribute("aria-describedby"),
       "data-popup-open": node.getAttribute("data-popup-open"),
+      "data-tooltip-trigger": node.getAttribute("data-tooltip-trigger"),
       "data-trigger-disabled": node.getAttribute("data-trigger-disabled"),
       id: node.getAttribute("id"),
     } satisfies Record<ManagedAttribute, string | null>;
+    node.setAttribute("data-tooltip-trigger", "");
 
     let openTimer: ReturnType<typeof setTimeout> | undefined;
     let closeTimer: ReturnType<typeof setTimeout> | undefined;
@@ -215,6 +222,7 @@ export function createTriggerAttachment<Payload = unknown>(
       restoreAttribute(node, "id", previous.id);
       restoreAttribute(node, "aria-describedby", previous["aria-describedby"]);
       restoreAttribute(node, "data-popup-open", previous["data-popup-open"]);
+      restoreAttribute(node, "data-tooltip-trigger", previous["data-tooltip-trigger"]);
       restoreAttribute(node, "data-trigger-disabled", previous["data-trigger-disabled"]);
     };
   };

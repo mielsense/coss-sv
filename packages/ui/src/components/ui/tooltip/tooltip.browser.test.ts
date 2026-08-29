@@ -78,6 +78,7 @@ describe("Tooltip browser contract", () => {
     const popup = page.getByRole("tooltip", { name: "Attached hint" });
     await expect.element(popup).toBeInTheDocument();
     await expect.element(target).toHaveAttribute("data-popup-open");
+    await expect.element(target).toHaveAttribute("data-tooltip-trigger");
     expect(target.element().getAttribute("aria-describedby")).toBe((await popup.element()).id);
     await userEvent.keyboard("{Escape}");
     await expect.element(popup).not.toBeInTheDocument();
@@ -112,6 +113,15 @@ describe("Tooltip browser contract", () => {
     await expect.element(page.getByTestId("attached-cleanup")).not.toBeInTheDocument();
     await page.getByTestId("open-removed-target").click();
     await expect.element(page.getByTestId("cleanup-result")).toHaveTextContent("missing");
+  });
+
+  test("forwards the attachment through the registered Toolbar and Toggle target", async () => {
+    render(AttachmentFixture);
+    const target = page.getByRole("button", { name: "Composed toggle" });
+    await expect.element(target).toHaveAttribute("data-slot", "toggle");
+    target.element().focus();
+    await expect.element(page.getByRole("tooltip", { name: "Composed hint" })).toBeInTheDocument();
+    await expect.element(target).toHaveAttribute("data-popup-open");
   });
 
   test("hydrates the exact server-rendered tree without diagnostics", async () => {

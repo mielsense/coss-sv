@@ -1,10 +1,13 @@
 <script lang="ts">
   import * as Tooltip from "./index.js";
+  import * as ToggleGroup from "../toggle-group/index.js";
+  import * as Toolbar from "../toolbar/index.js";
 
   const focusHandle = Tooltip.TooltipCreateHandle<string>();
   const persistentHandle = Tooltip.TooltipCreateHandle();
   const disabledHandle = Tooltip.TooltipCreateHandle();
   const cleanupHandle = Tooltip.TooltipCreateHandle();
+  const composedHandle = Tooltip.TooltipCreateHandle();
   const uid = $props.id();
   const focusId = `${uid}-focus`;
   const focusPopupId = `${uid}-focus-popup`;
@@ -14,6 +17,8 @@
   const disabledPopupId = `${uid}-disabled-popup`;
   const cleanupId = `${uid}-cleanup`;
   const cleanupPopupId = `${uid}-cleanup-popup`;
+  const composedId = `${uid}-composed`;
+  const composedPopupId = `${uid}-composed-popup`;
   let showCleanupTarget = $state(true);
   let cleanupResult = $state("idle");
 
@@ -111,3 +116,25 @@
   Open removed target
 </button>
 <output data-testid="cleanup-result">{cleanupResult}</output>
+
+<Toolbar.Root aria-label="Attached toolbar">
+  <ToggleGroup.Root>
+    <Tooltip.Root handle={composedHandle}>
+      <ToggleGroup.Item
+        {@attach Tooltip.createTriggerAttachment(composedHandle, () => ({
+          ariaDescribedBy: composedPopupId,
+          delay: 0,
+          id: composedId,
+        }))}
+        aria-describedby={composedPopupId}
+        aria-label="Composed toggle"
+        data-testid="attached-composed"
+        id={composedId}
+        value="composed"
+      >
+        Composed
+      </ToggleGroup.Item>
+      <Tooltip.Popup id={composedPopupId}>Composed hint</Tooltip.Popup>
+    </Tooltip.Root>
+  </ToggleGroup.Root>
+</Toolbar.Root>
