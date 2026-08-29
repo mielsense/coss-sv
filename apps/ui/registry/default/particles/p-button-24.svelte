@@ -1,31 +1,30 @@
 <script module lang="ts">
-import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
 
-export const meta = defineParticleMeta({
-  components: ["button"],
-  id: "p-button-24",
-  interactive: true,
-  responsive: true,
-  title: "Social login icon buttons",
-});
+  export const meta = defineParticleMeta({
+    components: ["button"],
+    id: "p-button-24",
+    interactive: true,
+    responsive: true,
+    title: "Social login icon buttons",
+  });
 </script>
 
 <script lang="ts">
-import { Button } from "@coss-sv/ui";
-import {
-  Facebook01Icon,
-  Github01Icon,
-  GoogleIcon,
-  NewTwitterIcon,
-} from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/svelte";
+  import { Button, HugeiconsIcon } from "@coss-sv/ui";
+  import {
+    Facebook01Icon,
+    Github01Icon,
+    GoogleIcon,
+    NewTwitterIcon,
+  } from "@hugeicons/core-free-icons";
 
-const providers = [
-  { icon: GoogleIcon, label: "Google" },
-  { icon: Facebook01Icon, label: "Facebook" },
-  { icon: NewTwitterIcon, label: "X" },
-  { icon: Github01Icon, label: "GitHub" },
-];
+  const providers = [
+    { icon: GoogleIcon, label: "Google" },
+    { icon: Facebook01Icon, label: "Facebook" },
+    { icon: NewTwitterIcon, label: "X" },
+    { icon: Github01Icon, label: "GitHub" },
+  ];
 </script>
 
 <div class="inline-flex flex-wrap gap-2">

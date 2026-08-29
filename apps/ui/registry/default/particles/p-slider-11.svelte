@@ -1,21 +1,20 @@
 <script module lang="ts">
-import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
-export const meta = defineParticleMeta({
-  components: ["field", "slider"],
-  id: "p-slider-11",
-  interactive: true,
-  responsive: true,
-  title: "Volume slider",
-  containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64",
-});
+  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  export const meta = defineParticleMeta({
+    components: ["field", "slider"],
+    id: "p-slider-11",
+    interactive: true,
+    responsive: true,
+    title: "Volume slider",
+    containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64",
+  });
 </script>
 
 <script lang="ts">
-import { Field, Slider } from "@coss-sv/ui";
-import { VolumeHighIcon, VolumeMute02Icon } from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/svelte";
+  import { Field, Slider, HugeiconsIcon } from "@coss-sv/ui";
+  import { VolumeHighIcon, VolumeMute02Icon } from "@hugeicons/core-free-icons";
 
-let value = $state<number | readonly number[]>(25);
+  let value = $state<number | readonly number[]>(25);
 </script>
 
 <Field.Root class="*:grid *:grid-cols-[auto_1fr_auto] *:items-center *:gap-x-2">

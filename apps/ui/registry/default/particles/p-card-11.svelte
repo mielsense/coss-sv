@@ -1,35 +1,35 @@
 <script module lang="ts">
-import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
 
-export const meta = defineParticleMeta({
-  components: ["button", "card", "empty"],
-  containerClass:
-    "**:data-[slot=preview]:w-full **:data-[slot=preview]:flex **:data-[slot=preview]:justify-center",
-  id: "p-card-11",
-  interactive: true,
-  responsive: true,
-  title: "CardFrame with header action",
-});
+  export const meta = defineParticleMeta({
+    components: ["button", "card", "empty"],
+    containerClass:
+      "**:data-[slot=preview]:w-full **:data-[slot=preview]:flex **:data-[slot=preview]:justify-center",
+    id: "p-card-11",
+    interactive: true,
+    responsive: true,
+    title: "CardFrame with header action",
+  });
 </script>
 
 <script lang="ts">
-import {
-  Button,
-  Card,
-  CardFrame,
-  CardFrameAction,
-  CardFrameDescription,
-  CardFrameHeader,
-  CardFrameTitle,
-  CardPanel,
-  Empty,
-  EmptyDescription,
-  EmptyHeader,
-  EmptyMedia,
-  EmptyTitle,
-} from "@coss-sv/ui";
-import { Add01Icon, Folder01Icon } from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/svelte";
+  import {
+    HugeiconsIcon,
+    Button,
+    Card,
+    CardFrame,
+    CardFrameAction,
+    CardFrameDescription,
+    CardFrameHeader,
+    CardFrameTitle,
+    CardPanel,
+    Empty,
+    EmptyDescription,
+    EmptyHeader,
+    EmptyMedia,
+    EmptyTitle,
+  } from "@coss-sv/ui";
+  import { Add01Icon, Folder01Icon } from "@hugeicons/core-free-icons";
 </script>
 
 <CardFrame class="w-full">

@@ -1,32 +1,32 @@
 <script module lang="ts">
-import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
 
-export const meta = defineParticleMeta({
-  components: ["button", "card", "field", "form", "input"],
-  containerClass:
-    "**:data-[slot=preview]:w-full **:data-[slot=preview]:flex **:data-[slot=preview]:justify-center",
-  id: "p-card-3",
-  interactive: true,
-  responsive: true,
-  title: "Authentication card with separators",
-});
+  export const meta = defineParticleMeta({
+    components: ["button", "card", "field", "form", "input"],
+    containerClass:
+      "**:data-[slot=preview]:w-full **:data-[slot=preview]:flex **:data-[slot=preview]:justify-center",
+    id: "p-card-3",
+    interactive: true,
+    responsive: true,
+    title: "Authentication card with separators",
+  });
 </script>
 
 <script lang="ts">
-import {
-  Button,
-  Card,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardPanel,
-  CardTitle,
-  Field,
-  Form,
-  Input,
-} from "@coss-sv/ui";
-import { ShieldAlertIcon } from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/svelte";
+  import {
+    HugeiconsIcon,
+    Button,
+    Card,
+    CardDescription,
+    CardFooter,
+    CardHeader,
+    CardPanel,
+    CardTitle,
+    Field,
+    Form,
+    Input,
+  } from "@coss-sv/ui";
+  import { ShieldAlertIcon } from "@hugeicons/core-free-icons";
 </script>
 
 <Card class="w-full max-w-xs">

@@ -45,3 +45,7 @@ growth, themes, and responsive layout.
 ## D9 primary particle
 
 D9 re-read `p-tabs-1.tsx`, the complete permitted Tabs component and page, every Tabs particle consumer, and the complete local Shards Tabs source, tests, fixtures, examples, documentation, and types. `p-tabs-1.svelte` supplies the missing default Tabs preview with the exact three triggers, panels, default value, and visible copy. This unblocks the D4 Tabs page without changing its coordinator-owned particles or aggregates. The focused D9 test server-renders the particle and rejects React, Lucide, copied SVG, and legacy Svelte syntax.
+
+## Central Hugeicons renderer migration
+
+The p-tabs-6, p-tabs-7, p-tabs-8, p-tabs-9, p-tabs-11, p-tabs-12, and p-tabs-13 registry sources keep their audited Hugeicons core glyph data, two-pixel strokes, classes, and ARIA attributes. They now render that data with the public SSR-safe HugeiconsIcon exported by @coss-sv/ui. The focused ownership test enumerates each migrated particle, rejects the framework-specific renderer, checks every icon invocation, and verifies server-rendered SVG geometry.

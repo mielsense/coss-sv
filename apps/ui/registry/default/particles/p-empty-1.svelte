@@ -1,27 +1,27 @@
 <script module lang="ts">
-import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
 
-export const meta = defineParticleMeta({
-  components: ["button", "empty"],
-  id: "p-empty-1",
-  interactive: true,
-  responsive: true,
-  title: "Empty state with icon and actions",
-});
+  export const meta = defineParticleMeta({
+    components: ["button", "empty"],
+    id: "p-empty-1",
+    interactive: true,
+    responsive: true,
+    title: "Empty state with icon and actions",
+  });
 </script>
 
 <script lang="ts">
-import {
-  Button,
-  Empty,
-  EmptyContent,
-  EmptyDescription,
-  EmptyHeader,
-  EmptyMedia,
-  EmptyTitle,
-} from "@coss-sv/ui";
-import { BookOpen01Icon, Route01Icon } from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/svelte";
+  import {
+    HugeiconsIcon,
+    Button,
+    Empty,
+    EmptyContent,
+    EmptyDescription,
+    EmptyHeader,
+    EmptyMedia,
+    EmptyTitle,
+  } from "@coss-sv/ui";
+  import { BookOpen01Icon, Route01Icon } from "@hugeicons/core-free-icons";
 </script>
 
 <Empty>

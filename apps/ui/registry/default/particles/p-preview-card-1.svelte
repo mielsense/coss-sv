@@ -10,9 +10,8 @@
 </script>
 
 <script lang="ts">
-  import { buttonVariants, PreviewCard } from "@coss-sv/ui";
+  import { buttonVariants, PreviewCard, HugeiconsIcon } from "@coss-sv/ui";
   import { ArrowTurnBackwardIcon, StarIcon } from "@hugeicons/core-free-icons";
-  import { HugeiconsIcon } from "@hugeicons/svelte";
 </script>
 
 <PreviewCard.Root>

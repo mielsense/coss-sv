@@ -44,3 +44,7 @@ Manual visual comparison is pending because the Codex in-app Browser was unavail
 - Preserved the exact trigger, repository copy, TypeScript marker, `58.2k` stars, `5.1k` forks, popup geometry, and hover/focus behavior. The trigger explicitly renders as a button to retain the upstream ghost Button contract.
 - Hugeicons replace upstream star and fork icons with two-pixel strokes. D7 tests cover inventory, SSR, compilation, exact data, and production-browser hover opening.
 - The Codex in-app Browser runtime was unavailable in this worktree. Chrome was not used; headless production-browser coverage passed, and independent parity review must repeat manual inspection after integration.
+
+## Central Hugeicons renderer migration
+
+The p-preview-card-1 registry sources keep their audited Hugeicons core glyph data, two-pixel strokes, classes, and ARIA attributes. They now render that data with the public SSR-safe HugeiconsIcon exported by @coss-sv/ui. The focused ownership test enumerates each migrated particle, rejects the framework-specific renderer, checks every icon invocation, and verifies server-rendered SVG geometry.

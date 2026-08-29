@@ -10,7 +10,7 @@
 </script>
 
 <script lang="ts">
-  import { buttonVariants, Drawer, drawerMenuItemVariants, Menu } from "@coss-sv/ui";
+  import { buttonVariants, Drawer, drawerMenuItemVariants, Menu, HugeiconsIcon } from "@coss-sv/ui";
   import {
     CopyIcon,
     Delete02Icon,
@@ -18,7 +18,6 @@
     PencilIcon,
     Share08Icon,
   } from "@hugeicons/core-free-icons";
-  import { HugeiconsIcon } from "@hugeicons/svelte";
   import { MediaQuery } from "svelte/reactivity";
 
   const isMobile = new MediaQuery("(max-width: 799px)", false);

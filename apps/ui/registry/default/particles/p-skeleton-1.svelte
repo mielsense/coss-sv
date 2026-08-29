@@ -1,65 +1,64 @@
 <script module lang="ts">
-import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
 
-export const meta = defineParticleMeta({
-  components: ["avatar", "button", "skeleton"],
-  containerClass:
-    "**:data-[slot=preview]:w-full **:data-[slot=preview]:flex **:data-[slot=preview]:justify-center",
-  id: "p-skeleton-1",
-  interactive: true,
-  responsive: true,
-  title: "Basic skeleton",
-});
+  export const meta = defineParticleMeta({
+    components: ["avatar", "button", "skeleton"],
+    containerClass:
+      "**:data-[slot=preview]:w-full **:data-[slot=preview]:flex **:data-[slot=preview]:justify-center",
+    id: "p-skeleton-1",
+    interactive: true,
+    responsive: true,
+    title: "Basic skeleton",
+  });
 </script>
 
 <script lang="ts">
-import { Avatar, Button, Skeleton } from "@coss-sv/ui";
-import { UserRoundPlusIcon, UsersRoundIcon } from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/svelte";
+  import { Avatar, Button, Skeleton, HugeiconsIcon } from "@coss-sv/ui";
+  import { UserRoundPlusIcon, UsersRoundIcon } from "@hugeicons/core-free-icons";
 
-const users = [
-  {
-    delay: 3000,
-    fallback: "SJ",
-    followers: "15k",
-    image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&h=80&dpr=2&q=80",
-    name: "Sarah Johnson",
-    role: "Design Engineer",
-  },
-  {
-    delay: 4000,
-    fallback: "MA",
-    followers: "8k",
-    image: "https://images.unsplash.com/photo-1543610892-0b1f7e6d8ac1?w=80&h=80&dpr=2&q=80",
-    name: "Mark Bennett Andersson",
-    role: "Product Designer",
-  },
-  {
-    delay: 3400,
-    fallback: "AR",
-    followers: "12k",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&dpr=2&q=80",
-    name: "Alex Rivera",
-    role: "UI/UX Designer",
-  },
-] as const;
+  const users = [
+    {
+      delay: 3000,
+      fallback: "SJ",
+      followers: "15k",
+      image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&h=80&dpr=2&q=80",
+      name: "Sarah Johnson",
+      role: "Design Engineer",
+    },
+    {
+      delay: 4000,
+      fallback: "MA",
+      followers: "8k",
+      image: "https://images.unsplash.com/photo-1543610892-0b1f7e6d8ac1?w=80&h=80&dpr=2&q=80",
+      name: "Mark Bennett Andersson",
+      role: "Product Designer",
+    },
+    {
+      delay: 3400,
+      fallback: "AR",
+      followers: "12k",
+      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&dpr=2&q=80",
+      name: "Alex Rivera",
+      role: "UI/UX Designer",
+    },
+  ] as const;
 
-let loaded = $state(new Set<string>());
+  let loaded = $state(new Set<string>());
 
-$effect(() => {
-  let timers: number[] = [];
-  const frame = window.requestAnimationFrame(() => {
-    timers = users.map((user) =>
-      window.setTimeout(() => {
-        loaded = new Set([...loaded, user.fallback]);
-      }, user.delay),
-    );
+  $effect(() => {
+    let timers: number[] = [];
+    const frame = window.requestAnimationFrame(() => {
+      timers = users.map((user) =>
+        window.setTimeout(() => {
+          loaded = new Set([...loaded, user.fallback]);
+        }, user.delay),
+      );
+    });
+    return () => {
+      window.cancelAnimationFrame(frame);
+      timers.forEach(window.clearTimeout);
+    };
   });
-  return () => {
-    window.cancelAnimationFrame(frame);
-    timers.forEach(window.clearTimeout);
-  };
-});
 </script>
 
 <div class="flex w-full max-w-92 flex-col gap-6">

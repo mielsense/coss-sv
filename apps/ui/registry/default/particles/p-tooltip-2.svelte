@@ -10,9 +10,8 @@
 </script>
 
 <script lang="ts">
-  import { ToggleGroup, Tooltip, toggleVariants } from "@coss-sv/ui";
+  import { ToggleGroup, Tooltip, toggleVariants, HugeiconsIcon } from "@coss-sv/ui";
   import { BoldIcon, ItalicIcon, UnderlineIcon } from "@hugeicons/core-free-icons";
-  import { HugeiconsIcon } from "@hugeicons/svelte";
 
   const controls = [
     { label: "Bold", value: "bold", icon: BoldIcon },

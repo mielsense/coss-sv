@@ -1,19 +1,18 @@
 <script module lang="ts">
-import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
 
-export const meta = defineParticleMeta({
-  components: ["tabs"],
-  id: "p-tabs-6",
-  interactive: true,
-  responsive: false,
-  title: "Tabs with icon before name",
-});
+  export const meta = defineParticleMeta({
+    components: ["tabs"],
+    id: "p-tabs-6",
+    interactive: true,
+    responsive: false,
+    title: "Tabs with icon before name",
+  });
 </script>
 
 <script lang="ts">
-import { Tabs } from "@coss-sv/ui";
-import { House01Icon, PanelsTopLeftIcon, Settings01Icon } from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/svelte";
+  import { Tabs, HugeiconsIcon } from "@coss-sv/ui";
+  import { House01Icon, PanelsTopLeftIcon, Settings01Icon } from "@hugeicons/core-free-icons";
 </script>
 
 <Tabs.Root defaultValue="tab-1">

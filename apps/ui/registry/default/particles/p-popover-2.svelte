@@ -10,9 +10,8 @@
 </script>
 
 <script lang="ts">
-  import { buttonVariants, Popover } from "@coss-sv/ui";
+  import { buttonVariants, Popover, HugeiconsIcon } from "@coss-sv/ui";
   import { Cancel01Icon } from "@hugeicons/core-free-icons";
-  import { HugeiconsIcon } from "@hugeicons/svelte";
 </script>
 
 <Popover.Root>

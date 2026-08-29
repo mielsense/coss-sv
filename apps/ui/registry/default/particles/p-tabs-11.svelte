@@ -1,20 +1,19 @@
 <script module lang="ts">
-import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
 
-export const meta = defineParticleMeta({
-  components: ["tabs"],
-  containerClass: "**:data-[slot=preview]:w-full sm:**:data-[slot=preview]:max-w-80",
-  id: "p-tabs-11",
-  interactive: true,
-  responsive: true,
-  title: "Vertical tabs with underline and icon before name",
-});
+  export const meta = defineParticleMeta({
+    components: ["tabs"],
+    containerClass: "**:data-[slot=preview]:w-full sm:**:data-[slot=preview]:max-w-80",
+    id: "p-tabs-11",
+    interactive: true,
+    responsive: true,
+    title: "Vertical tabs with underline and icon before name",
+  });
 </script>
 
 <script lang="ts">
-import { Tabs } from "@coss-sv/ui";
-import { House01Icon, PanelsTopLeftIcon, Settings01Icon } from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/svelte";
+  import { Tabs, HugeiconsIcon } from "@coss-sv/ui";
+  import { House01Icon, PanelsTopLeftIcon, Settings01Icon } from "@hugeicons/core-free-icons";
 </script>
 
 <Tabs.Root class="w-full flex-row" defaultValue="tab-1" orientation="vertical">

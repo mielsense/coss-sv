@@ -103,3 +103,7 @@ fixture keeps one explicit anchor per included COSS particle for visual review.
 ## D5 documentation port
 
 The D5 lane re-read the Slider MDX page, all 23 particles, the target Slider, and the complete matching local Shards implementation, tests, docs, and examples. All 23 particles now have Svelte registry sources, including the formerly dependency-gated Number Field examples. The documentation page intentionally follows the pinned source order, including its authored heading/example mismatch: the Range Slider heading renders disabled `p-slider-3`, Vertical renders storage `p-slider-4`, and Form renders ticks `p-slider-5`. In the Codex in-app Browser at 1440×900, the live values were 50, 50, 50 disabled, 15 in the 5–35 range, and 5 in the 0–12 range. Focused browser coverage verifies step-button and ArrowRight synchronization. The form example prevents native navigation, captures both range values before loading, and reports `Volume: 25, 75`; the production-preview test also asserts that the query stays unchanged. Shared page metadata remains coordinator-owned.
+
+## Central Hugeicons renderer migration
+
+The p-slider-11, p-slider-14, and p-slider-21 registry sources keep their audited Hugeicons core glyph data, two-pixel strokes, classes, and ARIA attributes. They now render that data with the public SSR-safe HugeiconsIcon exported by @coss-sv/ui. The focused ownership test enumerates each migrated particle, rejects the framework-specific renderer, checks every icon invocation, and verifies server-rendered SVG geometry.

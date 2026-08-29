@@ -1,23 +1,22 @@
 <script module lang="ts">
-import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
 
-export const meta = defineParticleMeta({
-  components: ["tabs", "tooltip"],
-  id: "p-tabs-13",
-  interactive: true,
-  responsive: false,
-  title: "Tabs with icon only and grouped tooltips",
-});
+  export const meta = defineParticleMeta({
+    components: ["tabs", "tooltip"],
+    id: "p-tabs-13",
+    interactive: true,
+    responsive: false,
+    title: "Tabs with icon only and grouped tooltips",
+  });
 </script>
 
 <script lang="ts">
-import { Tabs, Tooltip } from "@coss-sv/ui";
-import { House01Icon, PanelsTopLeftIcon, Settings01Icon } from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/svelte";
+  import { Tabs, Tooltip, HugeiconsIcon } from "@coss-sv/ui";
+  import { House01Icon, PanelsTopLeftIcon, Settings01Icon } from "@hugeicons/core-free-icons";
 
-const overviewTooltip = Tooltip.TooltipCreateHandle();
-const projectsTooltip = Tooltip.TooltipCreateHandle();
-const settingsTooltip = Tooltip.TooltipCreateHandle();
+  const overviewTooltip = Tooltip.TooltipCreateHandle();
+  const projectsTooltip = Tooltip.TooltipCreateHandle();
+  const settingsTooltip = Tooltip.TooltipCreateHandle();
 </script>
 
 <Tooltip.Provider>

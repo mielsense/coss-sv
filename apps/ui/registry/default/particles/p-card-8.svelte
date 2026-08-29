@@ -1,42 +1,42 @@
 <script module lang="ts">
-import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
 
-export const meta = defineParticleMeta({
-  components: ["button", "card", "field", "form", "frame", "input", "select"],
-  containerClass:
-    "**:data-[slot=preview]:w-full **:data-[slot=preview]:flex **:data-[slot=preview]:justify-center",
-  id: "p-card-8",
-  interactive: true,
-  responsive: true,
-  title: "Card within a frame and footer",
-});
+  export const meta = defineParticleMeta({
+    components: ["button", "card", "field", "form", "frame", "input", "select"],
+    containerClass:
+      "**:data-[slot=preview]:w-full **:data-[slot=preview]:flex **:data-[slot=preview]:justify-center",
+    id: "p-card-8",
+    interactive: true,
+    responsive: true,
+    title: "Card within a frame and footer",
+  });
 </script>
 
 <script lang="ts">
-import {
-  Button,
-  Card,
-  CardDescription,
-  CardHeader,
-  CardPanel,
-  CardTitle,
-  Field,
-  Form,
-  Frame,
-  FrameFooter,
-  Input,
-  Select,
-} from "@coss-sv/ui";
-import { AlertCircleIcon } from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/svelte";
+  import {
+    HugeiconsIcon,
+    Button,
+    Card,
+    CardDescription,
+    CardHeader,
+    CardPanel,
+    CardTitle,
+    Field,
+    Form,
+    Frame,
+    FrameFooter,
+    Input,
+    Select,
+  } from "@coss-sv/ui";
+  import { AlertCircleIcon } from "@hugeicons/core-free-icons";
 
-const frameworkOptions = [
-  { label: "Next.js", value: "next" },
-  { label: "Vite", value: "vite" },
-  { label: "Remix", value: "remix" },
-  { label: "Astro", value: "astro" },
-];
-let framework = $state("next");
+  const frameworkOptions = [
+    { label: "Next.js", value: "next" },
+    { label: "Vite", value: "vite" },
+    { label: "Remix", value: "remix" },
+    { label: "Astro", value: "astro" },
+  ];
+  let framework = $state("next");
 </script>
 
 <Frame class="w-full max-w-xs">
