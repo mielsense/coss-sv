@@ -14,7 +14,7 @@ The Date Picker is built using a composition of the `Calendar` and `Popover` com
 The Date Picker is a composition pattern, not a standalone component. Install the required components:
 
 <InstallCommand
-  pnpm="pnpm add @coss-sv/ui"
+  pnpm="pnpm add @coss-sv/ui @hugeicons/core-free-icons"
   shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/calendar.json https://coss-sv.vercel.app/r/popover.json https://coss-sv.vercel.app/r/button.json"
 />
 
@@ -22,9 +22,8 @@ The Date Picker is a composition pattern, not a standalone component. Install th
 
 ```svelte
 <script lang="ts">
-  import { buttonVariants, Calendar, Popover } from "@coss-sv/ui";
+  import { buttonVariants, Calendar, HugeiconsIcon, Popover } from "@coss-sv/ui";
   import { Calendar03Icon } from "@hugeicons/core-free-icons";
-  import { HugeiconsIcon } from "@hugeicons/svelte";
 
   let date = $state<Date>();
 </script>

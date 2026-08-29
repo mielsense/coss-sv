@@ -140,6 +140,25 @@ describe("D9 date, navigation, and table documentation", () => {
     }
   });
 
+  test("compiles the Date Picker usage fence with its complete direct install surface", () => {
+    const page = source("apps/ui/content/docs/components/date-picker.svx");
+    const usage = /## Usage\s+```svelte\n([\s\S]*?)\n```/.exec(page)?.[1];
+    expect(usage).toBeDefined();
+    expect(() => compile(usage ?? "", { generate: "server", runes: true })).not.toThrow();
+
+    expect(page).toContain('pnpm="pnpm add @coss-sv/ui @hugeicons/core-free-icons"');
+    expect(usage).toContain(
+      'import { buttonVariants, Calendar, HugeiconsIcon, Popover } from "@coss-sv/ui";',
+    );
+    expect(usage).toContain('import { Calendar03Icon } from "@hugeicons/core-free-icons";');
+    expect(page).not.toContain('from "@hugeicons/svelte"');
+
+    const packageIndex = source("packages/ui/src/index.ts");
+    for (const exportedName of ["buttonVariants", "Calendar", "HugeiconsIcon", "Popover"]) {
+      expect(packageIndex).toMatch(new RegExp(`(?:export[\\s\\S]*?)\\b${exportedName}\\b`));
+    }
+  });
+
   test.each(Array.from({ length: 7 }, (_, index) => `p-breadcrumb-${index + 1}`))(
     "imports every rendered Breadcrumb component in %s",
     (id) => {
