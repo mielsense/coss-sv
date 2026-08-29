@@ -63,7 +63,22 @@ The root visually groups related controls with consistent connected styling.
 </Group.Root>
 ```
 
-Nest multiple groups to create layouts with spacing. See the [nested groups](#nested-groups) example.
+Nest multiple groups to create complex layouts with spacing. See the [nested groups](#nested-groups) example for more details.
+
+```svelte
+<Group.Root>
+  <Group.Root>
+    <Button>1</Button>
+    <Group.Separator />
+    <Button>2</Button>
+  </Group.Root>
+  <Group.Root>
+    <Button>Previous</Button>
+    <Group.Separator />
+    <Button>Next</Button>
+  </Group.Root>
+</Group.Root>
+```
 
 ### Group.Separator
 
@@ -72,6 +87,14 @@ The separator visually divides controls within a group.
 | Prop          | Type                         | Default      |
 | ------------- | ---------------------------- | ------------ |
 | `orientation` | `"horizontal" \| "vertical"` | `"vertical"` |
+
+```svelte
+<Group.Root>
+  <Button>Button 1</Button>
+  <Group.Separator />
+  <Button>Button 2</Button>
+</Group.Root>
+```
 
 Unlike shadcn's ButtonGroup, `Group.Separator` is required between all controls, including outline buttons. It preserves the intended hierarchy and focus states.
 

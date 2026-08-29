@@ -270,4 +270,43 @@ describe("D6 form and input documentation inventory", () => {
       expect(particle).toContain("<NumberField.Group {...props} />");
     }
   });
+
+  test("preserves the Input Group focus-order alert with the central Hugeicons renderer", () => {
+    const page = source("apps/ui/content/docs/components/input-group.svx");
+    expect(page).toMatch(
+      /import\s*{\s*Alert,\s*AlertDescription,\s*HugeiconsIcon\s*}\s*from\s*"@coss-sv\/ui"/,
+    );
+    expect(page).toMatch(
+      /import\s*{\s*InformationCircleIcon\s*}\s*from\s*"@hugeicons\/core-free-icons"/,
+    );
+    expect(page).toContain('<Alert class="bg-muted/24">');
+    expect(page).toContain(
+      '<HugeiconsIcon aria-hidden="true" icon={InformationCircleIcon} strokeWidth={2} />',
+    );
+    expect(page).toMatch(
+      /For proper focus navigation, the `InputGroup\.Addon` component should be placed after the input\s+in the DOM order\./,
+    );
+  });
+
+  test("preserves Group nested and separator API examples", () => {
+    const page = source("apps/ui/content/docs/components/group.svx");
+    expect(page).toContain("Nest multiple groups to create complex layouts with spacing.");
+    expect(page).toContain("<Group.Root>\n  <Group.Root>");
+    expect(page.match(/<Group\.Separator \/>/g)?.length).toBeGreaterThanOrEqual(8);
+    expect(page).toContain("### Group.Separator");
+    expect(page).toMatch(
+      /### Group\.Separator[\s\S]*?```svelte[\s\S]*?<Group\.Root>[\s\S]*?<Group\.Separator \/>[\s\S]*?<\/Group\.Root>[\s\S]*?```/,
+    );
+  });
+
+  test("keeps standalone form controls first in the cold production traversal", () => {
+    const regression = source("apps/ui/tests/docs/d6-form-inputs.production.browser.mjs");
+    expect(regression).toContain("const coldStartParticles = [");
+    expect(regression).toContain(
+      '["p-input-1", "p-group-1", "p-input-group-1", "p-number-field-1", "p-otp-field-1"]',
+    );
+    expect(regression).toMatch(/assert\.doesNotMatch\(\s*html,\s*\/missing_context\/i/);
+    expect(regression).toContain('implementationLane === "D6"');
+    expect(regression).toContain('await openParticle("p-field-1")');
+  });
 });
