@@ -1,5 +1,7 @@
 <script lang="ts">
-import { page } from "$app/state";
+  import { ArrowLeft02Icon } from "@hugeicons/core-free-icons";
+  import { HugeiconsIcon } from "@coss-sv/ui";
+  import { page } from "$app/state";
 </script>
 
 <svelte:head>
@@ -14,9 +16,7 @@ import { page } from "$app/state";
       : "The page could not be loaded."}
   </p>
   <a class="site-button" data-primary="true" href="/">
-    <svg aria-hidden="true" viewBox="0 0 24 24">
-      <path d="M7.828 11 13.192 5.636 11.778 4.222 4 12l7.778 7.778 1.414-1.414L7.828 13H20v-2z" />
-    </svg>
+    <HugeiconsIcon aria-hidden="true" icon={ArrowLeft02Icon} size={16} strokeWidth={2} />
     Back to Home
   </a>
 </section>

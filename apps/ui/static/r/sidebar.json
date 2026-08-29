@@ -5,12 +5,12 @@
 	"description": "Builds responsive application navigation with collapsible desktop and mobile modes.",
 	"dependencies": [
 		"@hugeicons/core-free-icons@4.3.0",
-		"@hugeicons/svelte@1.1.5",
 		"@shardsui/svelte@0.1.0-beta.0"
 	],
 	"registryDependencies": [
 		"./button.json",
 		"./drawer.json",
+		"./hugeicons-icon.json",
 		"./input.json",
 		"./scroll-area.json",
 		"./separator.json",
@@ -144,7 +144,7 @@
 			"target": "sidebar/sidebar-separator.svelte"
 		},
 		{
-			"content": "<script module lang=\"ts\">\nimport type { ComponentProps } from \"svelte\";\n\ntype ButtonComponent = typeof import(\"../button/button.svelte\").default;\nexport type SidebarTriggerProps = ComponentProps<ButtonComponent>;\n</script>\n\n<script lang=\"ts\">\nimport SidebarLeftIcon from \"@hugeicons/core-free-icons/SidebarLeftIcon\";\nimport { HugeiconsIcon } from \"@hugeicons/svelte\";\nimport { cn } from \"$UTILS$.js\";\nimport Button from \"../button/button.svelte\";\nimport { useSidebar } from \"./context.js\";\n\nlet {\n  children,\n  class: className,\n  onclick,\n  ref = $bindable(null),\n  ...props\n}: SidebarTriggerProps = $props();\nconst sidebar = useSidebar();\n\nfunction handleClick(event: MouseEvent): void {\n  onclick?.(event);\n  sidebar.toggleSidebar();\n}\n</script>\n\n<Button\n  bind:ref\n  class={cn(\"size-7\", className)}\n  data-sidebar=\"trigger\"\n  data-slot=\"sidebar-trigger\"\n  onclick={handleClick}\n  size=\"icon\"\n  variant=\"ghost\"\n  {...props}\n>\n  {#if children}\n    {@render children()}\n  {:else}\n    <HugeiconsIcon aria-hidden=\"true\" icon={SidebarLeftIcon} strokeWidth={2} />\n    <span class=\"sr-only\">Toggle Sidebar</span>\n  {/if}\n</Button>\n",
+			"content": "<script module lang=\"ts\">\n  import type { ComponentProps } from \"svelte\";\n\n  type ButtonComponent = typeof import(\"../button/button.svelte\").default;\n  export type SidebarTriggerProps = ComponentProps<ButtonComponent>;\n</script>\n\n<script lang=\"ts\">\n  import SidebarLeftIcon from \"@hugeicons/core-free-icons/SidebarLeftIcon\";\n  import HugeiconsIcon from \"$LIB$/hugeicons-icon.svelte\";\n  import { cn } from \"$UTILS$.js\";\n  import Button from \"../button/button.svelte\";\n  import { useSidebar } from \"./context.js\";\n\n  let {\n    children,\n    class: className,\n    onclick,\n    ref = $bindable(null),\n    ...props\n  }: SidebarTriggerProps = $props();\n  const sidebar = useSidebar();\n\n  function handleClick(event: MouseEvent): void {\n    onclick?.(event);\n    sidebar.toggleSidebar();\n  }\n</script>\n\n<Button\n  bind:ref\n  class={cn(\"size-7\", className)}\n  data-sidebar=\"trigger\"\n  data-slot=\"sidebar-trigger\"\n  onclick={handleClick}\n  size=\"icon\"\n  variant=\"ghost\"\n  {...props}\n>\n  {#if children}\n    {@render children()}\n  {:else}\n    <HugeiconsIcon aria-hidden=\"true\" icon={SidebarLeftIcon} strokeWidth={2} />\n    <span class=\"sr-only\">Toggle Sidebar</span>\n  {/if}\n</Button>\n",
 			"type": "registry:ui",
 			"target": "sidebar/sidebar-trigger.svelte"
 		}

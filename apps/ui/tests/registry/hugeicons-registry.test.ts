@@ -18,6 +18,7 @@ const adapterConsumers = [
   "pagination",
   "select",
   "sheet",
+  "sidebar",
   "spinner",
   "toast",
 ] as const;

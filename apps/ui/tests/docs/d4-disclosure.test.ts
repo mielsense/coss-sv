@@ -105,9 +105,9 @@ const expectedPagePreviews: Record<(typeof pages)[number], readonly string[]> = 
 
 const expectedPagePackages: Record<(typeof pages)[number], readonly string[]> = {
   accordion: ["@coss-sv/ui"],
-  card: ["@coss-sv/ui", "@hugeicons/svelte", "@hugeicons/core-free-icons"],
+  card: ["@coss-sv/ui", "@hugeicons/core-free-icons"],
   collapsible: ["@coss-sv/ui"],
-  empty: ["@coss-sv/ui", "@hugeicons/svelte", "@hugeicons/core-free-icons"],
+  empty: ["@coss-sv/ui", "@hugeicons/core-free-icons"],
   frame: ["@coss-sv/ui"],
   separator: ["@coss-sv/ui"],
   skeleton: ["@coss-sv/ui"],

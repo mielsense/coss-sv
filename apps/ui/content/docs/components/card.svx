@@ -7,7 +7,10 @@ description: A content container for grouping related information.
 
 ## Installation
 
-<InstallCommand pnpm="pnpm add @coss-sv/ui @hugeicons/svelte @hugeicons/core-free-icons" shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/card.json" />
+<InstallCommand
+  pnpm="pnpm add @coss-sv/ui @hugeicons/core-free-icons"
+  shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/card.json"
+/>
 
 ## Usage
 
@@ -41,7 +44,7 @@ Use `CardFrame` when you need a framed layout with an action button in the heade
 ```svelte
 <script lang="ts">
   import { Add01Icon } from "@hugeicons/core-free-icons";
-  import { HugeiconsIcon } from "@hugeicons/svelte";
+  import { HugeiconsIcon } from "@coss-sv/ui";
   import { Button } from "@coss-sv/ui/components/ui/button";
   import {
     Card,
@@ -85,8 +88,8 @@ This is a custom component using a polymorphic Svelte `as` prop, not a direct Sh
 
 Root container for the card. Supports the `as` prop.
 
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
+| Prop | Type                          | Default | Description                   |
+| ---- | ----------------------------- | ------- | ----------------------------- |
 | `as` | `keyof HTMLElementTagNameMap` | `"div"` | Render as a different element |
 
 ### CardHeader

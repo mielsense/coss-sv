@@ -1,4 +1,12 @@
 <script lang="ts">
+  import {
+    ComputerIcon,
+    FullScreenIcon,
+    MinimizeScreenIcon,
+    SmartPhone01Icon,
+    Tablet01Icon,
+  } from "@hugeicons/core-free-icons";
+  import { HugeiconsIcon } from "@coss-sv/ui";
   import type { HTMLAttributes } from "svelte/elements";
   import {
     type PreviewReducedMotion,
@@ -90,20 +98,16 @@
           onclick={() => (width = preset as PreviewWidth)}
         >
           {#if preset === "mobile"}
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <rect x="7" y="2" width="10" height="20" rx="2"></rect>
-              <path d="M11 18h2"></path>
-            </svg>
+            <HugeiconsIcon
+              aria-hidden="true"
+              icon={SmartPhone01Icon}
+              size={16}
+              strokeWidth={1.75}
+            />
           {:else if preset === "tablet"}
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <rect x="4" y="2" width="16" height="20" rx="2"></rect>
-              <path d="M11 18h2"></path>
-            </svg>
+            <HugeiconsIcon aria-hidden="true" icon={Tablet01Icon} size={16} strokeWidth={1.75} />
           {:else}
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <rect x="2" y="3" width="20" height="14" rx="2"></rect>
-              <path d="M8 21h8M12 17v4"></path>
-            </svg>
+            <HugeiconsIcon aria-hidden="true" icon={ComputerIcon} size={16} strokeWidth={1.75} />
           {/if}
         </button>
       {/each}
@@ -117,13 +121,9 @@
       onclick={toggleFullscreen}
     >
       {#if fullscreen}
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M8 3v5H3M16 3v5h5M8 21v-5H3M16 21v-5h5"></path>
-        </svg>
+        <HugeiconsIcon aria-hidden="true" icon={MinimizeScreenIcon} size={16} strokeWidth={1.75} />
       {:else}
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M8 3H3v5M16 3h5v5M8 21H3v-5M16 21h5v-5"></path>
-        </svg>
+        <HugeiconsIcon aria-hidden="true" icon={FullScreenIcon} size={16} strokeWidth={1.75} />
       {/if}
     </button>
   </div>
@@ -196,16 +196,6 @@
   .preview-presentation button:focus-visible {
     outline: 2px solid var(--site-primary);
     outline-offset: 2px;
-  }
-
-  .preview-presentation svg {
-    width: 1rem;
-    height: 1rem;
-    fill: none;
-    stroke: currentColor;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    stroke-width: 1.75;
   }
 
   .preview-presentation .preview-fullscreen-control {
