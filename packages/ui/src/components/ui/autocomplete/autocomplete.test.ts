@@ -11,6 +11,8 @@ describe("Autocomplete SSR and export contract", () => {
     expect(body).toContain('data-slot="autocomplete-input"');
     expect(body).toContain('data-slot="autocomplete-trigger"');
     expect(body).toContain('data-slot="autocomplete-clear"');
+    expect(body.match(/<svg/g)).toHaveLength(2);
+    expect(body.match(/stroke-width="2"/g)?.length).toBeGreaterThanOrEqual(2);
   });
 
   test("keeps addon and end-adornment selectors on the input control", () => {

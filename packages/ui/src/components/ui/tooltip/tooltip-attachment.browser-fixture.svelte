@@ -11,6 +11,8 @@
   const groupedFirstHandle = Tooltip.TooltipCreateHandle();
   const groupedSecondHandle = Tooltip.TooltipCreateHandle();
   const isolatedHandle = Tooltip.TooltipCreateHandle();
+  const transitHandle = Tooltip.TooltipCreateHandle();
+  const nonHoverableTransitHandle = Tooltip.TooltipCreateHandle();
   const uid = $props.id();
   const focusId = `${uid}-focus`;
   const focusPopupId = `${uid}-focus-popup`;
@@ -28,6 +30,10 @@
   const groupedSecondPopupId = `${uid}-grouped-second-popup`;
   const isolatedId = `${uid}-isolated`;
   const isolatedPopupId = `${uid}-isolated-popup`;
+  const transitId = `${uid}-transit`;
+  const transitPopupId = `${uid}-transit-popup`;
+  const nonHoverableTransitId = `${uid}-non-hoverable-transit`;
+  const nonHoverableTransitPopupId = `${uid}-non-hoverable-transit-popup`;
   let showCleanupTarget = $state(true);
   let showGroupedFirst = $state(true);
   let cleanupResult = $state("idle");
@@ -190,6 +196,42 @@
     Remove grouped first
   </button>
 </Tooltip.Provider>
+
+<Tooltip.Root handle={transitHandle}>
+  <button
+    {@attach Tooltip.createTriggerAttachment(transitHandle, () => ({
+      ariaDescribedBy: transitPopupId,
+      delay: 0,
+      id: transitId,
+    }))}
+    aria-describedby={transitPopupId}
+    data-testid="attached-transit"
+    id={transitId}
+    type="button"
+  >
+    Hoverable transit
+  </button>
+  <Tooltip.Popup id={transitPopupId} side="bottom" sideOffset={24}>Transit hint</Tooltip.Popup>
+</Tooltip.Root>
+
+<Tooltip.Root disableHoverablePopup handle={nonHoverableTransitHandle}>
+  <button
+    {@attach Tooltip.createTriggerAttachment(nonHoverableTransitHandle, () => ({
+      ariaDescribedBy: nonHoverableTransitPopupId,
+      delay: 0,
+      id: nonHoverableTransitId,
+    }))}
+    aria-describedby={nonHoverableTransitPopupId}
+    data-testid="attached-non-hoverable-transit"
+    id={nonHoverableTransitId}
+    type="button"
+  >
+    Non-hoverable transit
+  </button>
+  <Tooltip.Popup id={nonHoverableTransitPopupId} side="bottom" sideOffset={24}
+    >Non-hoverable transit hint</Tooltip.Popup
+  >
+</Tooltip.Root>
 
 <Tooltip.Provider delay={250} timeout={500}>
   <Tooltip.Root handle={isolatedHandle}>

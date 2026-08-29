@@ -1,24 +1,29 @@
 <script module lang="ts">
-import type { Combobox as ShardsCombobox } from "@shardsui/svelte";
-import type { ComponentProps } from "svelte";
-export type ComboboxItemProps = ComponentProps<typeof ShardsCombobox.Item>;
+  import type { Combobox as ShardsCombobox } from "@shardsui/svelte";
+  import type { ComponentProps } from "svelte";
+  export type ComboboxItemProps = ComponentProps<typeof ShardsCombobox.Item>;
 </script>
-<script lang="ts">
-import { Tick02Icon } from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/svelte";
-import { Combobox as C } from "@shardsui/svelte";
-import { cn } from "$lib/utils.js";
 
-let {
-  children: child,
-  class: className,
-  ref = $bindable(null),
-  ...props
-}: ComboboxItemProps = $props();
+<script lang="ts">
+  import { Tick02Icon } from "@hugeicons/core-free-icons";
+  import { Combobox as C } from "@shardsui/svelte";
+  import HugeiconsIcon from "$lib/hugeicons-icon.svelte";
+  import { cn } from "$lib/utils.js";
+
+  let {
+    children: child,
+    class: className,
+    ref = $bindable(null),
+    ...props
+  }: ComboboxItemProps = $props();
 </script>
+
 <C.Item
   bind:ref
-  class={cn("grid min-h-8 in-data-[side=none]:min-w-[calc(var(--anchor-width)+1.25rem)] cursor-default grid-cols-[1rem_1fr] items-center gap-2 rounded-sm py-1 ps-2 pe-4 text-base outline-none data-disabled:pointer-events-none data-highlighted:bg-accent data-highlighted:text-accent-foreground data-disabled:opacity-64 sm:min-h-7 sm:text-sm [&_svg:not([class*='size-'])]:size-4.5 sm:[&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:shrink-0", className)}
+  class={cn(
+    "grid min-h-8 in-data-[side=none]:min-w-[calc(var(--anchor-width)+1.25rem)] cursor-default grid-cols-[1rem_1fr] items-center gap-2 rounded-sm py-1 ps-2 pe-4 text-base outline-none data-disabled:pointer-events-none data-highlighted:bg-accent data-highlighted:text-accent-foreground data-disabled:opacity-64 sm:min-h-7 sm:text-sm [&_svg:not([class*='size-'])]:size-4.5 sm:[&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:shrink-0",
+    className,
+  )}
   data-slot="combobox-item"
   {...props}
   >{#snippet children(state)}

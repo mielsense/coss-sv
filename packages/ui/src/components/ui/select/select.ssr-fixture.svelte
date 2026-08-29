@@ -1,16 +1,19 @@
 <script lang="ts">
-import * as Select from "./index.js";
+  import * as Select from "./index.js";
 
-const items = [{ label: "Next.js", value: "next" }];
-const people = [
-  { id: "ada", name: "Ada Lovelace" },
-  { id: "grace", name: "Grace Hopper" },
-];
+  const items = [{ label: "Next.js", value: "next" }];
+  const people = [
+    { id: "ada", name: "Ada Lovelace" },
+    { id: "grace", name: "Grace Hopper" },
+  ];
 </script>
+
 <Select.Root {items} value="next"
-  ><Select.Label>Framework</Select.Label
-  ><Select.Trigger><Select.Value /></Select.Trigger></Select.Root
+  ><Select.Label>Framework</Select.Label><Select.Trigger><Select.Value /></Select.Trigger
+  ></Select.Root
 >
+
+<Select.Button data-testid="select-button">Framework</Select.Button>
 
 <Select.Root items={["literal"]} value="literal">
   <Select.Trigger aria-label="Literal value">

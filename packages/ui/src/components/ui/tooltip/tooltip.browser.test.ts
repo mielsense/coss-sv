@@ -155,6 +155,65 @@ describe("Tooltip browser contract", () => {
     await expect.element(page.getByText("Isolated hint")).toBeInTheDocument();
   });
 
+  test("keeps an attached tooltip open across the real trigger-to-popup gap", async () => {
+    render(AttachmentFixture);
+    const trigger = page.getByTestId("attached-transit");
+    await trigger.hover();
+    const popup = page.getByRole("tooltip", { name: "Transit hint" });
+    await expect.element(popup).toBeInTheDocument();
+
+    const triggerRect = trigger.element().getBoundingClientRect();
+    const popupElement = await popup.element();
+    const popupRect = popupElement.getBoundingClientRect();
+    const gap = popupRect.top - triggerRect.bottom;
+    expect(gap).toBeGreaterThanOrEqual(20);
+
+    const x = Math.max(triggerRect.left, popupRect.left) + 8;
+    const leaveY = triggerRect.bottom - 1;
+    const gapY = triggerRect.bottom + gap / 2;
+    trigger.element().dispatchEvent(
+      new PointerEvent("pointerleave", {
+        bubbles: false,
+        clientX: x,
+        clientY: leaveY,
+        pointerType: "mouse",
+      }),
+    );
+    (document.elementFromPoint(x, gapY) ?? document.body).dispatchEvent(
+      new PointerEvent("pointermove", {
+        bubbles: true,
+        clientX: x,
+        clientY: gapY,
+        pointerType: "mouse",
+      }),
+    );
+
+    await new Promise((resolve) => setTimeout(resolve, 20));
+    await expect.element(popup).toBeInTheDocument();
+    await popup.hover();
+    await expect.element(popup).toBeInTheDocument();
+  });
+
+  test("closes on trigger leave when an attached root disables hoverable popups", async () => {
+    render(AttachmentFixture);
+    const trigger = page.getByTestId("attached-non-hoverable-transit");
+    await trigger.hover();
+    const popup = page.getByRole("tooltip", { name: "Non-hoverable transit hint" });
+    await expect.element(popup).toBeInTheDocument();
+
+    const rect = trigger.element().getBoundingClientRect();
+    trigger.element().dispatchEvent(
+      new PointerEvent("pointerleave", {
+        bubbles: false,
+        clientX: rect.left + rect.width / 2,
+        clientY: rect.bottom - 1,
+        pointerType: "mouse",
+      }),
+    );
+
+    await expect.element(popup).not.toBeInTheDocument();
+  });
+
   test("hydrates the exact server-rendered tree without diagnostics", async () => {
     const warning = vi.spyOn(console, "warn").mockImplementation(() => undefined);
     const error = vi.spyOn(console, "error").mockImplementation(() => undefined);

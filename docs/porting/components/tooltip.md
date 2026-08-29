@@ -11,7 +11,7 @@
 - Shards docs and demos: `shardsui/docs/src/content/tooltip.md` and every demo under `shardsui/docs/src/lib/components/content/demos/tooltip/`.
 - Shards behavior evidence: every test and fixture under `shardsui/packages/shardsui/tests/tooltip/`, including delay groups, focus and hover opening, interactive boundaries, disabled state, cursor tracking, detached handles, portal targets, positioning, lifecycle, and viewport transitions.
 
-Context7 returned `Monthly quota reached`. Manual inspection at `http://localhost:4000/docs/components/tooltip` was attempted only through the Codex in-app Browser. No in-app Browser instance was available, and Chrome was not used.
+Context7 confirmed the current Svelte attachment lifecycle: setup runs only in the browser, a returned function owns cleanup, and attachments passed to wrapper components reach the target element through prop spreading. Manual inspection uses only the Codex in-app Browser. Chrome is not used.
 
 ## Upstream contract
 
@@ -36,12 +36,15 @@ COSS does not include an explicit reduced-motion variant. Tests preserve and doc
 
 The root adds `defaultOpen` only as a read-once initial state. `open` and `triggerId` remain bindable. Provider delay, close delay, and timeout pass through. Trigger `as`, ref, native attributes, disabled state, delays, close-on-click, payload, and state snippets pass through without a second interactive node. Button styling is applied to the Shards trigger element with `buttonVariants()`.
 
-The COSS formatting particles compose Base UI triggers with toggle-group items through React's `render` prop. Shards deliberately makes the tooltip trigger own its element and does not expose an equivalent render-prop or attachment surface. The Svelte particles therefore render the one Shards trigger element inside the toggle-group container and apply the exact COSS toggle classes and pressed state to that same element. This preserves the visible DOM, tooltip focus/hover contract, and avoids nested buttons; it does not invent a second wrapper node.
+The COSS formatting particles compose Base UI triggers with toggle-group items through React's `render` prop. The Svelte port keeps the Toolbar, Toggle Group, or Select control as the only interactive element. `Tooltip.createTriggerAttachment()` registers that existing element with a public Shards tooltip handle, applies focus, hover, cursor tracking, payload, click dismissal, provider timing, state attributes, and cleanup, and leaves the owning component's keyboard behavior intact.
+
+Attached triggers use a local safe-polygon guard derived from the complete pinned Shards implementation and tests. The guard keeps the tooltip open through the gap between trigger and popup, rejects movement outside the directional corridor, applies the same 40 ms landing grace, and releases document listeners when the pointer lands, the tooltip closes, or the target unmounts. `disableHoverablePopup` and two-axis cursor tracking skip the guard and close on trigger leave. The wrapper imports no private Shards module.
 
 ## Gates
 
 - SSR of the populated provider/root shell and real hydration from the exact generated marker tree, followed by hover opening and accessible-description verification without diagnostics.
 - Hover rest, focus, blur, Escape, click cancellation, touch non-hover behavior, provider instant handoff, interactive and non-interactive boundaries, disabled state, custom portals/anchors, placement variables, detached payloads, and controlled state.
+- Attached-trigger transit over a measured 24-pixel popup gap, movement into hoverable content, `disableHoverablePopup` closure, provider instant-window timeout, provider isolation, target removal, and provider cleanup.
 - Accessible description relationships, exact classes and slots, viewport morphing state, and reduced-motion/instant-state behavior.
 
 Manual visual comparison is pending because the Codex in-app Browser was unavailable. No implementation or styling deviation is accepted.

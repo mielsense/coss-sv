@@ -16,6 +16,7 @@ describe("Combobox SSR and export contract", () => {
       /<button[^>]*data-testid="composed-clear"[^>]*>(.*?)<\/button>/s,
     );
     expect(composedClear?.[1]).toContain("<svg");
+    expect(composedClear?.[1]).toContain('stroke-width="2"');
     const bareClear = body.match(/<button[^>]*data-testid="bare-clear"[^>]*>(.*?)<\/button>/s);
     expect(bareClear).not.toBeNull();
     expect(bareClear?.[0]).not.toContain("aria-label");

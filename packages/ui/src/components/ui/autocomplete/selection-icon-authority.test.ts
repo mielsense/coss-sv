@@ -18,13 +18,18 @@ const iconContracts = {
 } as const;
 
 describe("selection component icon authority", () => {
-  it("uses Hugeicons for every C13 UI icon", () => {
+  it("uses the shared SSR-safe Hugeicons renderer for every C13 UI icon", () => {
     for (const [relativePath, icons] of Object.entries(iconContracts)) {
       const source = readFileSync(resolve(sourceRoot, relativePath), "utf8");
 
-      expect(source, relativePath).toContain('from "@hugeicons/svelte"');
+      expect(source, relativePath).toContain(
+        'import HugeiconsIcon from "$lib/hugeicons-icon.svelte"',
+      );
       expect(source, relativePath).toContain('from "@hugeicons/core-free-icons"');
-      expect(source, relativePath).not.toMatch(/<svg|<path|lucide/i);
+      expect(source, relativePath).not.toMatch(
+        /@hugeicons\/svelte|lucide(?:-react|-svelte)?|<svg\b|<path\b/i,
+      );
+      expect(source, relativePath).toContain("strokeWidth={2}");
 
       for (const icon of icons) {
         expect(source, `${relativePath}: ${icon}`).toContain(icon);

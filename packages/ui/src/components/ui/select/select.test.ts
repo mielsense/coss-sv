@@ -10,6 +10,9 @@ describe("Select SSR and export contract", () => {
     expect(body).toContain('data-slot="select-label"');
     expect(body).toContain('data-slot="select-trigger"');
     expect(body).toContain('data-slot="select-value"');
+    expect(body).toContain('data-slot="select-button"');
+    expect(body.match(/<svg/g)?.length).toBeGreaterThanOrEqual(4);
+    expect(body.match(/stroke-width="2"/g)?.length).toBeGreaterThanOrEqual(4);
     expect(body).toContain("relative inline-flex min-h-9");
     expect(body).toContain(
       "not-in-data-[slot=field]:mb-2 inline-flex cursor-default items-center gap-2 font-medium text-base/4.5 text-foreground sm:text-sm/4",

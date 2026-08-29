@@ -11,6 +11,8 @@ describe("Command SSR and export contract", () => {
     expect(body).toContain('data-slot="command-list"');
     expect(body).toContain('data-slot="command-footer"');
     expect(body).toContain('data-slot="command-shortcut"');
+    expect(body).toContain("<svg");
+    expect(body).toContain('stroke-width="2"');
   });
   test("merges consumer classes without replacing command group and label styling", () => {
     const { body } = render(Fixture);

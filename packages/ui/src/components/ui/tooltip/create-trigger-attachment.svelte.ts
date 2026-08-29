@@ -2,6 +2,7 @@ import type { Attachment } from "svelte/attachments";
 import { on } from "svelte/events";
 import type { TooltipHandle } from "./handle.svelte.js";
 import type { TooltipAttachmentProviderMember } from "./provider-context.svelte.js";
+import { createTooltipSafePolygon, type TooltipSafePolygonSide } from "./safe-polygon.js";
 
 const DEFAULT_OPEN_DELAY = 600;
 
@@ -20,10 +21,12 @@ type TooltipState<Payload> = {
   activeTriggerId: string | null;
   applyTriggerBindings(bindings: TriggerBindings<Payload>): void;
   closeOnClick: boolean;
+  disableHoverablePopup: boolean;
   disabled: boolean;
   isInstantPhase: boolean;
   open: boolean;
   popupElement: HTMLElement | null;
+  positionerElement: HTMLElement | null;
   setCursorPosition(x: number, y: number): void;
   setOpen(open: boolean, reason?: string, event?: Event, trigger?: HTMLElement | null): boolean;
   trackCursorAxis: "none" | "x" | "y" | "both";
@@ -64,9 +67,9 @@ function restoreAttribute(
  * The target stays owned by its Toolbar, Toggle, Select, or other behavioral primitive.
  *
  * This mirrors Shards Trigger registration, payload, focus, hover, cursor tracking, disabled,
- * click-dismissal, provider delay grouping, and state-attribute behavior through its public
- * handle. Shards does not expose its safe-polygon internals as a public attachment, so attached
- * triggers use a popup-hover boundary for noninteractive pointer transit.
+ * click-dismissal, provider delay grouping, safe pointer transit, and state-attribute behavior
+ * through its public handle. The local safe-polygon guard mirrors Shards behavior without importing
+ * a private Shards module.
  */
 export function createTriggerAttachment<Payload = unknown>(
   handle: TooltipHandle<Payload>,
@@ -86,6 +89,7 @@ export function createTriggerAttachment<Payload = unknown>(
 
     let openTimer: ReturnType<typeof setTimeout> | undefined;
     let closeTimer: ReturnType<typeof setTimeout> | undefined;
+    let safeTransitCleanup: (() => void) | undefined;
     let pointerType = "mouse";
     let pointerFocus = false;
     const providerMember: TooltipAttachmentProviderMember = {
@@ -104,6 +108,10 @@ export function createTriggerAttachment<Payload = unknown>(
     const clearCloseTimer = (): void => {
       if (closeTimer !== undefined) clearTimeout(closeTimer);
       closeTimer = undefined;
+    };
+    const clearSafeTransit = (): void => {
+      safeTransitCleanup?.();
+      safeTransitCleanup = undefined;
     };
     const current = (): Required<
       Pick<TooltipTriggerAttachmentOptions<Payload>, "closeDelay" | "closeOnClick" | "delay">
@@ -128,6 +136,7 @@ export function createTriggerAttachment<Payload = unknown>(
     const open = (reason: "trigger-focus" | "trigger-hover", event: Event): void => {
       if (isDisabled()) return;
       clearCloseTimer();
+      clearSafeTransit();
       applyBindings();
       state.setOpen(true, reason, event, node);
     };
@@ -137,6 +146,31 @@ export function createTriggerAttachment<Payload = unknown>(
     ): void => {
       if (!isActive()) return;
       state.setOpen(false, reason, event, node);
+    };
+    const scheduleClose = (reason: "trigger-focus" | "trigger-hover", event?: Event): void => {
+      clearCloseTimer();
+      const delay = provider?.getCloseDelay(options().closeDelay) ?? current().closeDelay;
+      if (delay === 0) close(reason, event);
+      else closeTimer = setTimeout(() => close(reason, event), delay);
+    };
+
+    const getPopupSide = (popup: HTMLElement): TooltipSafePolygonSide => {
+      const positioner = state.positionerElement ?? popup.closest<HTMLElement>("[data-side]");
+      const side = positioner?.dataset.side;
+      if (side === "bottom" || side === "left" || side === "right" || side === "top") return side;
+
+      const referenceRect = node.getBoundingClientRect();
+      const popupRect = popup.getBoundingClientRect();
+      const horizontalDistance = Math.abs(
+        popupRect.left + popupRect.width / 2 - (referenceRect.left + referenceRect.width / 2),
+      );
+      const verticalDistance = Math.abs(
+        popupRect.top + popupRect.height / 2 - (referenceRect.top + referenceRect.height / 2),
+      );
+      if (horizontalDistance > verticalDistance) {
+        return popupRect.left >= referenceRect.right ? "right" : "left";
+      }
+      return popupRect.top >= referenceRect.bottom ? "bottom" : "top";
     };
 
     const onFocus = (event: FocusEvent): void => {
@@ -167,6 +201,7 @@ export function createTriggerAttachment<Payload = unknown>(
       if (pointerType === "touch" || isDisabled()) return;
       clearOpenTimer();
       clearCloseTimer();
+      clearSafeTransit();
       const delay = state.open ? 0 : (provider?.getOpenDelay(options().delay) ?? current().delay);
       if (delay === 0) open("trigger-hover", event);
       else openTimer = setTimeout(() => open("trigger-hover", event), delay);
@@ -179,11 +214,33 @@ export function createTriggerAttachment<Payload = unknown>(
       clearOpenTimer();
       if (!isActive() || pointerType === "touch") return;
       clearCloseTimer();
-      closeTimer = setTimeout(() => {
-        if (state.popupElement?.matches(":hover")) return;
-        if (node.ownerDocument.activeElement === node) return;
-        close("trigger-hover", event);
-      }, provider?.getCloseDelay(options().closeDelay) ?? current().closeDelay);
+      clearSafeTransit();
+
+      const popup = state.popupElement;
+      if (popup && event.relatedTarget instanceof Node && popup.contains(event.relatedTarget)) {
+        return;
+      }
+      if (state.disableHoverablePopup || state.trackCursorAxis === "both" || !popup) {
+        scheduleClose("trigger-hover", event);
+        return;
+      }
+
+      const polygon = createTooltipSafePolygon({
+        floating: popup,
+        leaveX: event.clientX,
+        leaveY: event.clientY,
+        onClose: () => scheduleClose("trigger-hover", event),
+        onLanding: clearSafeTransit,
+        reference: node,
+        side: getPopupSide(popup),
+      });
+      const removePointerMove = on(node.ownerDocument, "pointermove", polygon.pointermove, {
+        capture: true,
+      });
+      safeTransitCleanup = () => {
+        removePointerMove();
+        polygon.destroy();
+      };
     };
     const onClick = (event: MouseEvent): void => {
       clearOpenTimer();
@@ -206,7 +263,10 @@ export function createTriggerAttachment<Payload = unknown>(
       $effect(() => {
         const activeOpen = state.open && state.activeTriggerId === current().id;
         if (activeOpen) provider?.claim(providerMember);
-        else provider?.release(providerMember);
+        else {
+          clearSafeTransit();
+          provider?.release(providerMember);
+        }
       });
 
       $effect(() => {
@@ -232,6 +292,7 @@ export function createTriggerAttachment<Payload = unknown>(
     return () => {
       clearOpenTimer();
       clearCloseTimer();
+      clearSafeTransit();
       cleanups.forEach((cleanup) => {
         cleanup();
       });
