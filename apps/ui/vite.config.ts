@@ -42,6 +42,11 @@ export default defineConfig({
     expect: {
       requireAssertions: true,
     },
-    include: ["src/**/*.test.ts", "tests/content/**/*.test.ts", "tests/docs/**/*.test.ts"],
+    include: [
+      "src/**/*.test.ts",
+      "tests/content/**/*.test.ts",
+      "tests/docs/**/*.test.ts",
+      "tests/particles/**/*.test.ts",
+    ],
   },
 });
