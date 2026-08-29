@@ -49,6 +49,8 @@ Slider reset maps `RotateCcwIcon` to the identically named Hugeicons dataset, an
 button shares `Add01Icon` with the other COSS `PlusIcon` sites. Select's scroll controls use
 `ChevronUpIcon` and `ChevronDownIcon`; their geometry happens to match the current Hugeicons
 `ArrowUp01Icon` and `ArrowDown01Icon` data, but the implementation keeps the COSS icon identities.
+The same rule covers the copied Select markup in the Card, Number Field, and Toolbar parity
+fixtures.
 
 No source under `reference/packages/ui/**` was read or used.
 
@@ -79,4 +81,5 @@ A separate high-risk authority table records each permitted COSS source site, it
 icon name, the chosen Hugeicons export, the target source fragments, and a SHA-256 hash of the
 official icon data. This table covers the distinct share glyphs, eye-off, address pin, bell,
 full-shaft horizontal arrows, Preview Card fork, Slider reset and add, Select scroll controls, and
-the Sidebar trigger. It does not derive expectations from the semantic fixture map.
+the Sidebar trigger. The Select entries count the canonical package popup and all three copied
+fixture implementations. The table does not derive expectations from the semantic fixture map.

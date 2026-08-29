@@ -111,7 +111,7 @@
   <FixtureIcon
     aria-hidden="true"
     class="relative size-4.5 sm:size-4"
-    name={direction === "up" ? "arrow-up" : "arrow-down"}
+    name={direction === "up" ? "chevron-up" : "chevron-down"}
   />
 {/snippet}
 

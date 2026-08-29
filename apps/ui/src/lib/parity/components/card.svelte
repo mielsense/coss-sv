@@ -93,7 +93,7 @@
                       <FixtureIcon
                         aria-hidden="true"
                         class="relative size-4.5 sm:size-4"
-                        name="arrow-up"
+                        name="chevron-up"
                       />
                     </Select.ScrollUpArrow>
                     <div
@@ -122,7 +122,7 @@
                       <FixtureIcon
                         aria-hidden="true"
                         class="relative size-4.5 sm:size-4"
-                        name="arrow-down"
+                        name="chevron-down"
                       />
                     </Select.ScrollDownArrow>
                   </Select.Popup>

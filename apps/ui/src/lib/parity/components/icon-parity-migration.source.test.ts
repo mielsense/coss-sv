@@ -224,9 +224,9 @@ const fixtureIconContracts = {
   ],
   "card.svelte": [
     site('component:FixtureIcon:name="unfold-more"', 1, "unfold-more"),
-    site('component:FixtureIcon:name="arrow-up"', 1, "arrow-up"),
+    site('component:FixtureIcon:name="chevron-up"', 1, "chevron-up"),
     site('component:FixtureIcon:name="check"', 1, "check"),
-    site('component:FixtureIcon:name="arrow-down"', 1, "arrow-down"),
+    site('component:FixtureIcon:name="chevron-down"', 1, "chevron-down"),
     site('component:FixtureIcon:name="alert-circle"', 1, "alert-circle"),
     site('component:FixtureIcon:name="plus"', 1, "plus"),
     site('component:FixtureIcon:name="folder"', 1, "folder"),
@@ -436,10 +436,10 @@ const fixtureIconContracts = {
     site('component:FixtureIcon:name="unfold-more"', 1, "unfold-more"),
     site('component:FixtureIcon:name="check"', 1, "check"),
     site(
-      'component:FixtureIcon:name={direction === "up" ? "arrow-up" : "arrow-down"}',
+      'component:FixtureIcon:name={direction === "up" ? "chevron-up" : "chevron-down"}',
       1,
-      "arrow-up",
-      "arrow-down",
+      "chevron-up",
+      "chevron-down",
     ),
     site('render:lineIcon("align-left")', 1, "align-left"),
     site('render:lineIcon("align-center")', 1, "align-center"),
@@ -447,9 +447,9 @@ const fixtureIconContracts = {
     site('render:lineIcon("currency")', 1, "currency"),
     site('render:lineIcon("percent")', 1, "percent"),
     site("render:chevronsIcon()", 1, "unfold-more"),
-    site('render:chevronIcon("up")', 1, "arrow-up"),
+    site('render:chevronIcon("up")', 1, "chevron-up"),
     site("render:checkIcon()", 1, "check"),
-    site('render:chevronIcon("down")', 1, "arrow-down"),
+    site('render:chevronIcon("down")', 1, "chevron-down"),
   ],
   "tooltip.svelte": [
     site("render:boldIcon()", 2, "bold"),
@@ -654,6 +654,8 @@ const cossIconAuthority: readonly CossIconAuthorityContract[] = [
     targets: [
       packageTarget("components/ui/select/select-popup.svelte", "icon={ChevronUpIcon}"),
       fixtureTarget("number-field.svelte", 'name="chevron-up"'),
+      fixtureTarget("card.svelte", 'name="chevron-up"'),
+      fixtureTarget("toolbar.svelte", 'direction === "up" ? "chevron-up" : "chevron-down"'),
     ],
   },
   {
@@ -666,6 +668,8 @@ const cossIconAuthority: readonly CossIconAuthorityContract[] = [
     targets: [
       packageTarget("components/ui/select/select-popup.svelte", "icon={ChevronDownIcon}"),
       fixtureTarget("number-field.svelte", 'name="chevron-down"'),
+      fixtureTarget("card.svelte", 'name="chevron-down"'),
+      fixtureTarget("toolbar.svelte", 'direction === "up" ? "chevron-up" : "chevron-down"'),
     ],
   },
   {
