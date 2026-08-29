@@ -1,22 +1,22 @@
 <script module lang="ts">
-import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
 
-export const meta = defineParticleMeta({
-  components: ["label", "radio-group"],
-  id: "p-radio-group-4",
-  interactive: true,
-  responsive: true,
-  title: "Card radio group",
-});
+  export const meta = defineParticleMeta({
+    components: ["label", "radio-group"],
+    id: "p-radio-group-4",
+    interactive: true,
+    responsive: true,
+    title: "Card radio group",
+  });
 </script>
 
 <script lang="ts">
-import { Label, RadioGroup } from "@coss-sv/ui";
+  import { Label, RadioGroup } from "@coss-sv/ui";
 
-const methods = [
-  { value: "r-1", title: "Email", description: "Receive notifications via email." },
-  { value: "r-2", title: "SMS", description: "Receive notifications via text message." },
-];
+  const methods = [
+    { value: "r-1", title: "Email", description: "Receive notifications via email." },
+    { value: "r-2", title: "SMS", description: "Receive notifications via text message." },
+  ];
 </script>
 
 <RadioGroup.Root defaultValue="r-1">

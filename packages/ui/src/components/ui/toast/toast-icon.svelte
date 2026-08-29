@@ -1,25 +1,25 @@
 <script lang="ts">
-import {
-  Alert02Icon,
-  AlertCircleIcon,
-  CheckmarkCircle02Icon,
-  InformationCircleIcon,
-  Loading02Icon,
-} from "@hugeicons/core-free-icons";
-import HugeiconsIcon from "$lib/hugeicons-icon.svelte";
+  import {
+    Alert02Icon,
+    AlertCircleIcon,
+    CheckmarkCircle02Icon,
+    InformationCircleIcon,
+    Loading02Icon,
+  } from "@hugeicons/core-free-icons";
+  import HugeiconsIcon from "$lib/hugeicons-icon.svelte";
 
-let { type }: { type: string } = $props();
-const icon = $derived(
-  type === "error"
-    ? AlertCircleIcon
-    : type === "info"
-      ? InformationCircleIcon
-      : type === "loading"
-        ? Loading02Icon
-        : type === "success"
-          ? CheckmarkCircle02Icon
-          : Alert02Icon,
-);
+  let { type }: { type: string } = $props();
+  const icon = $derived(
+    type === "error"
+      ? AlertCircleIcon
+      : type === "info"
+        ? InformationCircleIcon
+        : type === "loading"
+          ? Loading02Icon
+          : type === "success"
+            ? CheckmarkCircle02Icon
+            : Alert02Icon,
+  );
 </script>
 
 <HugeiconsIcon

@@ -1,11 +1,11 @@
 <script lang="ts">
-import Button from "./thumbnail/ThumbnailButton.svelte";
-import Card from "./thumbnail/ThumbnailCard.svelte";
-import Icon from "./thumbnail/ThumbnailIcon.svelte";
-import Panel from "./thumbnail/ThumbnailPanel.svelte";
-import Text from "./thumbnail/ThumbnailText.svelte";
+  import Button from "./thumbnail/ThumbnailButton.svelte";
+  import Card from "./thumbnail/ThumbnailCard.svelte";
+  import Icon from "./thumbnail/ThumbnailIcon.svelte";
+  import Panel from "./thumbnail/ThumbnailPanel.svelte";
+  import Text from "./thumbnail/ThumbnailText.svelte";
 
-let { slug }: { slug: string } = $props();
+  let { slug }: { slug: string } = $props();
 </script>
 
 {#snippet checkboxItem(checked = false, className = "")}
@@ -309,8 +309,7 @@ let { slug }: { slug: string } = $props();
         {@render formField()}
         <Card
           class="border-none bg-linear-to-b from-(--btn-from) to-(--btn-to) [--radius-2xl:10px]"
-          withGradient={false}
-          ><Panel class="py-3.5" /></Card
+          withGradient={false}><Panel class="py-3.5" /></Card
         >
       </div>
     {:else if slug === "frame"}
@@ -576,8 +575,8 @@ let { slug }: { slug: string } = $props();
       >
     {:else if slug === "toast"}
       <div class="relative flex flex-1 justify-center">
-        <Card class="absolute -top-6 scale-80"><Panel class="p-3" /></Card
-        ><Card class="absolute -top-3 scale-90"><Panel class="p-3" /></Card
+        <Card class="absolute -top-6 scale-80"><Panel class="p-3" /></Card><Card
+          class="absolute -top-3 scale-90"><Panel class="p-3" /></Card
         ><Card
           ><Panel class="flex items-start gap-2 p-3"
             ><Icon name="alert" />
@@ -600,8 +599,8 @@ let { slug }: { slug: string } = $props();
       </div>
     {:else if slug === "toggle-group"}
       <Card class="w-auto flex-row divide-x [--radius-2xl:14px]"
-        ><Panel class="bg-clip-padding p-4"><Text class="w-4" /></Panel
-        ><Panel class="bg-muted-foreground/8 bg-clip-padding p-4"
+        ><Panel class="bg-clip-padding p-4"><Text class="w-4" /></Panel><Panel
+          class="bg-muted-foreground/8 bg-clip-padding p-4"
           ><Text class="w-4 bg-foreground" /></Panel
         ><Panel class="bg-clip-padding p-4"><Text class="w-4" /></Panel></Card
       >
@@ -615,9 +614,9 @@ let { slug }: { slug: string } = $props();
       </div>
     {:else if slug === "tooltip"}
       <div class="flex max-w-32 flex-1 flex-col items-center gap-2">
-        <Card class="[--radius-2xl:10px]"
-          ><Panel class="p-4"><Text /></Panel></Card
-        ><Icon name="info" />
+        <Card class="[--radius-2xl:10px]"><Panel class="p-4"><Text /></Panel></Card><Icon
+          name="info"
+        />
       </div>
     {/if}
   </div>

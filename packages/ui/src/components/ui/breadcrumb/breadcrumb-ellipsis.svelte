@@ -1,18 +1,18 @@
 <script module lang="ts">
-import type { Snippet } from "svelte";
-import type { HTMLAttributes } from "svelte/elements";
+  import type { Snippet } from "svelte";
+  import type { HTMLAttributes } from "svelte/elements";
 
-export type BreadcrumbEllipsisProps = HTMLAttributes<HTMLSpanElement> & {
-  children?: Snippet;
-  ref?: HTMLSpanElement | null;
-};
+  export type BreadcrumbEllipsisProps = HTMLAttributes<HTMLSpanElement> & {
+    children?: Snippet;
+    ref?: HTMLSpanElement | null;
+  };
 </script>
 
 <script lang="ts">
-import { MoreHorizontalIcon } from "@hugeicons/core-free-icons";
-import HugeiconsIcon from "$lib/hugeicons-icon.svelte";
+  import { MoreHorizontalIcon } from "@hugeicons/core-free-icons";
+  import HugeiconsIcon from "$lib/hugeicons-icon.svelte";
 
-let { children: _children, ref = $bindable(null), ...props }: BreadcrumbEllipsisProps = $props();
+  let { children: _children, ref = $bindable(null), ...props }: BreadcrumbEllipsisProps = $props();
 </script>
 
 <span

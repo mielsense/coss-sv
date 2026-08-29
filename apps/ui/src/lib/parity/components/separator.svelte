@@ -1,5 +1,5 @@
 <script lang="ts">
-import { Separator } from "@coss-sv/ui";
+  import { Separator } from "@coss-sv/ui";
 </script>
 
 <div class="separator-example">
@@ -20,53 +20,53 @@ import { Separator } from "@coss-sv/ui";
 </div>
 
 <style>
-.separator-example {
-  width: 100%;
-  max-width: 18rem;
-}
+  .separator-example {
+    width: 100%;
+    max-width: 18rem;
+  }
 
-.separator-copy {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-}
+  .separator-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
 
-.separator-copy h4,
-.separator-copy p {
-  margin: 0;
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-}
+  .separator-copy h4,
+  .separator-copy p {
+    margin: 0;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+  }
 
-.separator-copy h4 {
-  font-weight: 500;
-}
+  .separator-copy h4 {
+    font-weight: 500;
+  }
 
-.separator-copy p {
-  color: var(--muted-foreground);
-}
+  .separator-copy p {
+    color: var(--muted-foreground);
+  }
 
-.separator-links {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-}
+  .separator-links {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+  }
 
-.separator-example :global([data-slot="separator"]) {
-  flex-shrink: 0;
-  background: var(--border);
-}
+  .separator-example :global([data-slot="separator"]) {
+    flex-shrink: 0;
+    background: var(--border);
+  }
 
-.separator-example > :global([data-orientation="horizontal"]) {
-  width: 100%;
-  height: 1px;
-  margin-block: 1rem;
-}
+  .separator-example > :global([data-orientation="horizontal"]) {
+    width: 100%;
+    height: 1px;
+    margin-block: 1rem;
+  }
 
-.separator-links :global([data-orientation="vertical"]) {
-  align-self: stretch;
-  width: 1px;
-}
+  .separator-links :global([data-orientation="vertical"]) {
+    align-self: stretch;
+    width: 1px;
+  }
 </style>

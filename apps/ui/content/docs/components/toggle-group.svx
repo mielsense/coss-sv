@@ -10,7 +10,10 @@ links:
 
 ## Installation
 
-<InstallCommand pnpm="pnpm add @coss-sv/ui" shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/toggle-group.json" />
+<InstallCommand
+  pnpm="pnpm add @coss-sv/ui"
+  shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/toggle-group.json"
+/>
 
 ## Usage
 
@@ -32,18 +35,18 @@ links:
 
 The root owns the selection and shares its styling and interaction state with the child toggles.
 
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `value` | `readonly string[]` | `[]` | Current selection; supports `bind:value` |
-| `defaultValue` | `readonly string[]` | `[]` | Initial selection for uncontrolled use |
-| `multiple` | `boolean` | `false` | Allows more than one pressed item |
-| `orientation` | `"horizontal" \| "vertical"` | `"horizontal"` | Sets the group axis and arrow-key direction |
-| `disabled` | `boolean` | `false` | Disables every item in the group |
-| `loopFocus` | `boolean` | `true` | Wraps arrow-key focus at the ends of the group |
-| `onValueChange` | `(value: string[]) => void` | — | Runs when the selection changes |
-| `variant` | `"default" \| "outline"` | `"default"` | Controls the styling of all child toggles |
-| `size` | `"default" \| "sm" \| "lg"` | `"default"` | Controls the size of all child toggles |
-| `as` | `keyof HTMLElementTagNameMap` | `"div"` | HTML element to render |
+| Prop            | Type                          | Default        | Description                                    |
+| --------------- | ----------------------------- | -------------- | ---------------------------------------------- |
+| `value`         | `readonly string[]`           | `[]`           | Current selection; supports `bind:value`       |
+| `defaultValue`  | `readonly string[]`           | `[]`           | Initial selection for uncontrolled use         |
+| `multiple`      | `boolean`                     | `false`        | Allows more than one pressed item              |
+| `orientation`   | `"horizontal" \| "vertical"`  | `"horizontal"` | Sets the group axis and arrow-key direction    |
+| `disabled`      | `boolean`                     | `false`        | Disables every item in the group               |
+| `loopFocus`     | `boolean`                     | `true`         | Wraps arrow-key focus at the ends of the group |
+| `onValueChange` | `(value: string[]) => void`   | —              | Runs when the selection changes                |
+| `variant`       | `"default" \| "outline"`      | `"default"`    | Controls the styling of all child toggles      |
+| `size`          | `"default" \| "sm" \| "lg"`   | `"default"`    | Controls the size of all child toggles         |
+| `as`            | `keyof HTMLElementTagNameMap` | `"div"`        | HTML element to render                         |
 
 ### ToggleGroup.Item
 

@@ -1,9 +1,9 @@
 <script lang="ts">
-import Checkbox from "./checkbox.svelte";
+  import Checkbox from "./checkbox.svelte";
 
-let checked = $state(false);
-let callbackValue = $state("none");
-let checkboxRef = $state<HTMLElement | null>(null);
+  let checked = $state(false);
+  let callbackValue = $state("none");
+  let checkboxRef = $state<HTMLElement | null>(null);
 </script>
 
 <form data-testid="checkbox-form" onsubmit={(event) => event.preventDefault()}>

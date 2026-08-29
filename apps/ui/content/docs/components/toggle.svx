@@ -10,7 +10,10 @@ links:
 
 ## Installation
 
-<InstallCommand pnpm="pnpm add @coss-sv/ui" shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/toggle.json" />
+<InstallCommand
+  pnpm="pnpm add @coss-sv/ui"
+  shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/toggle.json"
+/>
 
 ## Usage
 
@@ -28,15 +31,15 @@ links:
 
 Styled wrapper for the Shards toggle with variant and size options.
 
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `variant` | `"default" \| "outline"` | `"default"` | Controls the toggle styling |
-| `size` | `"default" \| "sm" \| "lg"` | `"default"` | Controls the toggle size |
-| `pressed` | `boolean` | `false` | Current pressed state; supports `bind:pressed` |
-| `onPressedChange` | `(pressed: boolean) => void` | — | Runs when the pressed state changes |
-| `disabled` | `boolean` | `false` | Prevents focus and activation |
-| `value` | `string` | auto | Identifies the toggle inside a Toggle Group |
-| `as` | `keyof HTMLElementTagNameMap` | `"button"` | HTML element to render |
+| Prop              | Type                          | Default     | Description                                    |
+| ----------------- | ----------------------------- | ----------- | ---------------------------------------------- |
+| `variant`         | `"default" \| "outline"`      | `"default"` | Controls the toggle styling                    |
+| `size`            | `"default" \| "sm" \| "lg"`   | `"default"` | Controls the toggle size                       |
+| `pressed`         | `boolean`                     | `false`     | Current pressed state; supports `bind:pressed` |
+| `onPressedChange` | `(pressed: boolean) => void`  | —           | Runs when the pressed state changes            |
+| `disabled`        | `boolean`                     | `false`     | Prevents focus and activation                  |
+| `value`           | `string`                      | auto        | Identifies the toggle inside a Toggle Group    |
+| `as`              | `keyof HTMLElementTagNameMap` | `"button"`  | HTML element to render                         |
 
 See the [Shards Toggle API](https://shardsui.com/svelte/toggle) for state and keyboard props.
 

@@ -1,10 +1,10 @@
 <script lang="ts">
-import { cn } from "@coss-sv/ui";
+  import { cn } from "@coss-sv/ui";
 
-let {
-  class: className = "",
-  variant = "main",
-}: { class?: string; variant?: "main" | "secondary" } = $props();
+  let {
+    class: className = "",
+    variant = "main",
+  }: { class?: string; variant?: "main" | "secondary" } = $props();
 </script>
 
 <div

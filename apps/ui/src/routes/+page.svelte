@@ -1,6 +1,6 @@
 <script lang="ts">
-import CategoryThumbnail from "$lib/site/CategoryThumbnail.svelte";
-import { componentCategories } from "$lib/site/categories.js";
+  import CategoryThumbnail from "$lib/site/CategoryThumbnail.svelte";
+  import { componentCategories } from "$lib/site/categories.js";
 </script>
 
 <svelte:head>
@@ -8,7 +8,7 @@ import { componentCategories } from "$lib/site/categories.js";
   <meta
     name="description"
     content="COSS for Svelte is a modern Svelte 5 component library built on top of Shards UI."
-  >
+  />
 </svelte:head>
 
 <section class="hero-section">

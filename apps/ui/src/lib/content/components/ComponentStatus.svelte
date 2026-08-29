@@ -1,9 +1,9 @@
 <script lang="ts">
-type Props = {
-  status: "experimental" | "ported" | "reviewed";
-};
+  type Props = {
+    status: "experimental" | "ported" | "reviewed";
+  };
 
-let { status }: Props = $props();
+  let { status }: Props = $props();
 </script>
 
 <span

@@ -10,7 +10,10 @@ links:
 
 ## Installation
 
-<InstallCommand pnpm="pnpm add @coss-sv/ui" shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/accordion.json" />
+<InstallCommand
+  pnpm="pnpm add @coss-sv/ui"
+  shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/accordion.json"
+/>
 
 ## Usage
 
@@ -24,9 +27,7 @@ links:
     <Accordion.Header>
       <Accordion.Trigger>Is it accessible?</Accordion.Trigger>
     </Accordion.Header>
-    <Accordion.Panel>
-      Yes. It adheres to the WAI-ARIA design pattern.
-    </Accordion.Panel>
+    <Accordion.Panel>Yes. It adheres to the WAI-ARIA design pattern.</Accordion.Panel>
   </Accordion.Item>
 </Accordion.Root>
 ```

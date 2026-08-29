@@ -1,10 +1,10 @@
 <!-- biome-ignore-all lint/a11y/noHeaderScope: Table.Head renders a native th element. -->
 <script lang="ts">
-import * as Table from "./index.js";
+  import * as Table from "./index.js";
 
-let clicks = $state(0);
-let tableRef = $state<HTMLTableElement | null>(null);
-let rowRef = $state<HTMLTableRowElement | null>(null);
+  let clicks = $state(0);
+  let tableRef = $state<HTMLTableElement | null>(null);
+  let rowRef = $state<HTMLTableRowElement | null>(null);
 </script>
 
 <div class="narrow">
@@ -44,12 +44,12 @@ let rowRef = $state<HTMLTableRowElement | null>(null);
 >
 
 <style>
-.narrow {
-  width: 180px;
-}
+  .narrow {
+    width: 180px;
+  }
 
-:global(.narrow [data-slot="table-container"]) {
-  width: 100%;
-  overflow-x: auto;
-}
+  :global(.narrow [data-slot="table-container"]) {
+    width: 100%;
+    overflow-x: auto;
+  }
 </style>

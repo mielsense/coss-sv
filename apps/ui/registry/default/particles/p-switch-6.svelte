@@ -1,17 +1,17 @@
 <script module lang="ts">
-import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
 
-export const meta = defineParticleMeta({
-  components: ["switch"],
-  id: "p-switch-6",
-  interactive: true,
-  responsive: false,
-  title: "Custom switch size",
-});
+  export const meta = defineParticleMeta({
+    components: ["switch"],
+    id: "p-switch-6",
+    interactive: true,
+    responsive: false,
+    title: "Custom switch size",
+  });
 </script>
 
 <script lang="ts">
-import { Switch } from "@coss-sv/ui";
+  import { Switch } from "@coss-sv/ui";
 </script>
 
 <Switch

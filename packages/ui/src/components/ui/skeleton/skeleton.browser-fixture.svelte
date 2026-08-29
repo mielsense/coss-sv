@@ -1,8 +1,8 @@
 <script lang="ts">
-import { Skeleton } from "./index.js";
+  import { Skeleton } from "./index.js";
 
-let clicks = $state(0);
-let ref = $state<HTMLDivElement | null>(null);
+  let clicks = $state(0);
+  let ref = $state<HTMLDivElement | null>(null);
 </script>
 
 <Skeleton bind:ref data-testid="skeleton" onclick={() => (clicks += 1)}>

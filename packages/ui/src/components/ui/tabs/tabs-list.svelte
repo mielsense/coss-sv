@@ -1,37 +1,37 @@
 <script module lang="ts">
-import type { Tabs as ShardsTabs } from "@shardsui/svelte";
-import type { ComponentProps } from "svelte";
-import type { TabsSize, TabsVariant } from "./tabs-styles.js";
+  import type { Tabs as ShardsTabs } from "@shardsui/svelte";
+  import type { ComponentProps } from "svelte";
+  import type { TabsSize, TabsVariant } from "./tabs-styles.js";
 
-export type TabsListProps = ComponentProps<typeof ShardsTabs.List> & {
-  size?: TabsSize;
-  variant?: TabsVariant;
-};
+  export type TabsListProps = ComponentProps<typeof ShardsTabs.List> & {
+    size?: TabsSize;
+    variant?: TabsVariant;
+  };
 </script>
 
 <script lang="ts">
-import { Tabs as TabsPrimitive } from "@shardsui/svelte";
-import { cn } from "$lib/utils.js";
-import { setTabsListStyleContext } from "./context.js";
-import TabsIndicator from "./tabs-indicator.svelte";
+  import { Tabs as TabsPrimitive } from "@shardsui/svelte";
+  import { cn } from "$lib/utils.js";
+  import { setTabsListStyleContext } from "./context.js";
+  import TabsIndicator from "./tabs-indicator.svelte";
 
-let {
-  children: child,
-  class: className,
-  ref = $bindable(null),
-  size = "default",
-  variant = "default",
-  ...props
-}: TabsListProps = $props();
+  let {
+    children: child,
+    class: className,
+    ref = $bindable(null),
+    size = "default",
+    variant = "default",
+    ...props
+  }: TabsListProps = $props();
 
-setTabsListStyleContext({
-  get size() {
-    return size;
-  },
-  get variant() {
-    return variant;
-  },
-});
+  setTabsListStyleContext({
+    get size() {
+      return size;
+    },
+    get variant() {
+      return variant;
+    },
+  });
 </script>
 
 <TabsPrimitive.List

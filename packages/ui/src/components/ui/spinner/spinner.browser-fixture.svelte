@@ -1,9 +1,10 @@
 <script lang="ts">
-import Spinner from "./spinner.svelte";
+  import Spinner from "./spinner.svelte";
 
-let clicks = $state(0);
-let ref = $state<SVGSVGElement | null>(null);
+  let clicks = $state(0);
+  let ref = $state<SVGSVGElement | null>(null);
 </script>
+
 <Spinner bind:ref data-testid="spinner" onclick={() => (clicks += 1)} />
 <Spinner aria-label="Saving" data-testid="custom-spinner" height={18} role="img" width={18} />
 <Spinner

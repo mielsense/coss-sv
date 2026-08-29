@@ -10,7 +10,7 @@
 	],
 	"files": [
 		{
-			"content": "<script module lang=\"ts\">\nimport { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\nexport const meta = defineParticleMeta({\n  components: [\"button\", \"spinner\"],\n  id: \"p-button-18\",\n  interactive: true,\n  responsive: false,\n  title: \"Custom loading button\",\n});\n</script>\n\n<script lang=\"ts\">\nimport { Button } from \"$COMPONENTS$/ui/button/index.js\";\nimport { Spinner } from \"$COMPONENTS$/ui/spinner/index.js\";\n</script>\n\n<Button disabled><Spinner />Loading...</Button>\n",
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\n  export const meta = defineParticleMeta({\n    components: [\"button\", \"spinner\"],\n    id: \"p-button-18\",\n    interactive: true,\n    responsive: false,\n    title: \"Custom loading button\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { Button } from \"$COMPONENTS$/ui/button/index.js\";\n  import { Spinner } from \"$COMPONENTS$/ui/spinner/index.js\";\n</script>\n\n<Button disabled><Spinner />Loading...</Button>\n",
 			"type": "registry:block",
 			"target": "p-button-18.svelte"
 		}

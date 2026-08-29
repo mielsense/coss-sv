@@ -1,28 +1,29 @@
 <script lang="ts">
-import {
-  AlertDialog,
-  Button,
-  Dialog,
-  Field,
-  Form,
-  Input,
-  Menu,
-  Textarea,
-  buttonVariants,
-} from "@coss-sv/ui";
-let settingsOpen = $state(false);
-let composeOpen = $state(false);
-let confirmOpen = $state(false);
-let message = $state("");
-function requestCompose(next: boolean) {
-  if (!next && message) confirmOpen = true;
-  else composeOpen = next;
-}
-function submitCompose(event: SubmitEvent) {
-  event.preventDefault();
-  composeOpen = false;
-}
+  import {
+    AlertDialog,
+    Button,
+    Dialog,
+    Field,
+    Form,
+    Input,
+    Menu,
+    Textarea,
+    buttonVariants,
+  } from "@coss-sv/ui";
+  let settingsOpen = $state(false);
+  let composeOpen = $state(false);
+  let confirmOpen = $state(false);
+  let message = $state("");
+  function requestCompose(next: boolean) {
+    if (!next && message) confirmOpen = true;
+    else composeOpen = next;
+  }
+  function submitCompose(event: SubmitEvent) {
+    event.preventDefault();
+    composeOpen = false;
+  }
 </script>
+
 <div class="fixture">
   <section data-particle="p-dialog-1">
     <Dialog.Root
@@ -30,8 +31,7 @@ function submitCompose(event: SubmitEvent) {
       ><Dialog.Popup class="sm:max-w-sm"
         >{const firstProfile = $state({ name: "Margaret Welsh", username: "@maggie.welsh" })}
         <Dialog.Header
-          ><Dialog.Title>Edit profile</Dialog.Title
-          ><Dialog.Description
+          ><Dialog.Title>Edit profile</Dialog.Title><Dialog.Description
             >Make changes to your profile here. Click save when you're done.</Dialog.Description
           ></Dialog.Header
         >
@@ -45,8 +45,9 @@ function submitCompose(event: SubmitEvent) {
               <Input bind:value={firstProfile.username} type="text" /></Field.Root
             ></Dialog.Panel
           ><Dialog.Footer
-            ><Dialog.Close class={buttonVariants({ variant: "ghost" })}>Cancel</Dialog.Close
-            ><Button type="submit">Save</Button></Dialog.Footer
+            ><Dialog.Close class={buttonVariants({ variant: "ghost" })}>Cancel</Dialog.Close><Button
+              type="submit">Save</Button
+            ></Dialog.Footer
           ></Form
         ></Dialog.Popup
       ></Dialog.Root
@@ -61,11 +62,11 @@ function submitCompose(event: SubmitEvent) {
     ><Dialog.Root bind:open={settingsOpen}
       ><Dialog.Popup
         ><Dialog.Header
-          ><Dialog.Title>Settings</Dialog.Title
-          ><Dialog.Description>Change your preferences</Dialog.Description></Dialog.Header
+          ><Dialog.Title>Settings</Dialog.Title><Dialog.Description
+            >Change your preferences</Dialog.Description
+          ></Dialog.Header
         ><Dialog.Footer
-          ><Dialog.Close class={buttonVariants({ variant: "ghost" })}
-            >Close</Dialog.Close
+          ><Dialog.Close class={buttonVariants({ variant: "ghost" })}>Close</Dialog.Close
           ></Dialog.Footer
         ></Dialog.Popup
       ></Dialog.Root
@@ -76,8 +77,7 @@ function submitCompose(event: SubmitEvent) {
       ><Dialog.Trigger class={buttonVariants({ variant: "outline" })}>Open parent</Dialog.Trigger
       ><Dialog.Popup showCloseButton={false}
         ><Dialog.Header
-          ><Dialog.Title>Manage team member</Dialog.Title
-          ><Dialog.Description
+          ><Dialog.Title>Manage team member</Dialog.Title><Dialog.Description
             >View and manage a user in your team.</Dialog.Description
           ></Dialog.Header
         ><Dialog.Panel class="grid gap-4"
@@ -96,8 +96,7 @@ function submitCompose(event: SubmitEvent) {
             ><Dialog.Popup showCloseButton={false}
               >{const member = $state({ email: "bora@example.com", name: "Bora Baloglu" })}
               <Dialog.Header
-                ><Dialog.Title>Edit details</Dialog.Title
-                ><Dialog.Description
+                ><Dialog.Title>Edit details</Dialog.Title><Dialog.Description
                   >Make changes to the member's information.</Dialog.Description
                 ></Dialog.Header
               ><Dialog.Panel class="grid gap-4"
@@ -123,30 +122,36 @@ function submitCompose(event: SubmitEvent) {
       ><Dialog.Trigger class={buttonVariants({ variant: "outline" })}>Compose</Dialog.Trigger
       ><Dialog.Popup showCloseButton={false}
         ><Dialog.Header
-          ><Dialog.Title>New message</Dialog.Title
-          ><Dialog.Description>Type something and try closing.</Dialog.Description></Dialog.Header
+          ><Dialog.Title>New message</Dialog.Title><Dialog.Description
+            >Type something and try closing.</Dialog.Description
+          ></Dialog.Header
         >
         <Form class="contents" onsubmit={submitCompose}
           ><Dialog.Panel><Field.Root><Textarea bind:value={message} /></Field.Root></Dialog.Panel
           ><Dialog.Footer
-            ><Dialog.Close class={buttonVariants({ variant: "ghost" })}>Cancel</Dialog.Close
-            ><Button onclick={() => { message = ""; composeOpen = false; }}
-              >Send</Button
+            ><Dialog.Close class={buttonVariants({ variant: "ghost" })}>Cancel</Dialog.Close><Button
+              onclick={() => {
+                message = "";
+                composeOpen = false;
+              }}>Send</Button
             ></Dialog.Footer
           ></Form
         ></Dialog.Popup
       ><AlertDialog.Root bind:open={confirmOpen}
         ><AlertDialog.Popup
           ><AlertDialog.Header
-            ><AlertDialog.Title>Discard changes?</AlertDialog.Title
-            ><AlertDialog.Description
+            ><AlertDialog.Title>Discard changes?</AlertDialog.Title><AlertDialog.Description
               >Your message will be lost.</AlertDialog.Description
             ></AlertDialog.Header
           ><AlertDialog.Footer
             ><AlertDialog.Close class={buttonVariants({ variant: "ghost" })}
               >Go back</AlertDialog.Close
-            ><Button onclick={() => { confirmOpen = false; message = ""; composeOpen = false; }}
-              >Discard</Button
+            ><Button
+              onclick={() => {
+                confirmOpen = false;
+                message = "";
+                composeOpen = false;
+              }}>Discard</Button
             ></AlertDialog.Footer
           ></AlertDialog.Popup
         ></AlertDialog.Root
@@ -230,8 +235,9 @@ function submitCompose(event: SubmitEvent) {
             </div>
           </div></Dialog.Panel
         ><Dialog.Footer
-          ><Dialog.Close class={buttonVariants({ variant: "ghost" })}>Cancel</Dialog.Close
-          ><Button type="button">I agree</Button></Dialog.Footer
+          ><Dialog.Close class={buttonVariants({ variant: "ghost" })}>Cancel</Dialog.Close><Button
+            type="button">I agree</Button
+          ></Dialog.Footer
         ></Dialog.Popup
       ></Dialog.Root
     >
@@ -242,8 +248,7 @@ function submitCompose(event: SubmitEvent) {
       ><Dialog.Popup class="sm:max-w-sm"
         >{const bareProfile = $state({ name: "Margaret Welsh", username: "@maggie.welsh" })}
         <Dialog.Header
-          ><Dialog.Title>Edit profile</Dialog.Title
-          ><Dialog.Description
+          ><Dialog.Title>Edit profile</Dialog.Title><Dialog.Description
             >Make changes to your profile here. Click save when you're done.</Dialog.Description
           ></Dialog.Header
         >
@@ -257,26 +262,28 @@ function submitCompose(event: SubmitEvent) {
               <Input bind:value={bareProfile.username} type="text" /></Field.Root
             ></Dialog.Panel
           ><Dialog.Footer variant="bare"
-            ><Dialog.Close class={buttonVariants({ variant: "ghost" })}>Cancel</Dialog.Close
-            ><Button type="submit">Save</Button></Dialog.Footer
+            ><Dialog.Close class={buttonVariants({ variant: "ghost" })}>Cancel</Dialog.Close><Button
+              type="submit">Save</Button
+            ></Dialog.Footer
           ></Form
         ></Dialog.Popup
       ></Dialog.Root
     >
   </section>
 </div>
+
 <style>
-.fixture {
-  display: grid;
-  width: 100%;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
-  gap: 3rem;
-  padding: 2rem;
-}
-.fixture > section {
-  display: flex;
-  min-height: 12rem;
-  align-items: center;
-  justify-content: center;
-}
+  .fixture {
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
+    gap: 3rem;
+    padding: 2rem;
+  }
+  .fixture > section {
+    display: flex;
+    min-height: 12rem;
+    align-items: center;
+    justify-content: center;
+  }
 </style>

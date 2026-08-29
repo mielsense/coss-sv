@@ -1,11 +1,11 @@
 <script lang="ts">
-import * as Combobox from "./index.js";
+  import * as Combobox from "./index.js";
 
-const items = ["Apple", "Banana"];
-const people = [
-  { id: "ada", name: "Ada Lovelace" },
-  { id: "grace", name: "Grace Hopper" },
-];
+  const items = ["Apple", "Banana"];
+  const people = [
+    { id: "ada", name: "Ada Lovelace" },
+    { id: "grace", name: "Grace Hopper" },
+  ];
 </script>
 
 {#snippet searchAddon()}

@@ -1,7 +1,7 @@
 <script lang="ts">
-const instanceId = $props.id();
-const headingId = `${instanceId}-heading`;
-let count = $state(0);
+  const instanceId = $props.id();
+  const headingId = `${instanceId}-heading`;
+  let count = $state(0);
 </script>
 
 <section
@@ -20,66 +20,66 @@ let count = $state(0);
 </section>
 
 <style>
-.fixture {
-  width: min(32rem, 100%);
-  padding: 1.5rem;
-  border: 1px solid var(--border);
-  border-radius: 0.75rem;
-  background-color: var(--card);
-  color: var(--foreground);
-  font-family: ui-sans-serif, system-ui, sans-serif;
-}
+  .fixture {
+    width: min(32rem, 100%);
+    padding: 1.5rem;
+    border: 1px solid var(--border);
+    border-radius: 0.75rem;
+    background-color: var(--card);
+    color: var(--foreground);
+    font-family: ui-sans-serif, system-ui, sans-serif;
+  }
 
-h1,
-p {
-  margin: 0;
-}
+  h1,
+  p {
+    margin: 0;
+  }
 
-p {
-  margin-top: 0.5rem;
-  color: color-mix(in srgb, currentColor 70%, transparent);
-}
+  p {
+    margin-top: 0.5rem;
+    color: color-mix(in srgb, currentColor 70%, transparent);
+  }
 
-.controls {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin-top: 1rem;
-}
+  .controls {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
 
-button {
-  min-height: 2.75rem;
-  padding: 0.5rem 0.75rem;
-  border: 1px solid var(--border);
-  border-radius: 0.5rem;
-  background: var(--primary);
-  color: var(--primary-foreground);
-  font: inherit;
-}
+  button {
+    min-height: 2.75rem;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    background: var(--primary);
+    color: var(--primary-foreground);
+    font: inherit;
+  }
 
-button:focus-visible {
-  outline: 2px solid var(--ring);
-  outline-offset: 2px;
-}
+  button:focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
 
-.motion-probe {
-  width: 0.5rem;
-  height: 0.5rem;
-  margin-top: 1rem;
-  border-radius: 999px;
-  background: currentColor;
-  animation: preview-fixture-motion 2s linear infinite;
-}
-
-@media (prefers-reduced-motion: reduce) {
   .motion-probe {
-    animation: none;
+    width: 0.5rem;
+    height: 0.5rem;
+    margin-top: 1rem;
+    border-radius: 999px;
+    background: currentColor;
+    animation: preview-fixture-motion 2s linear infinite;
   }
-}
 
-@keyframes preview-fixture-motion {
-  to {
-    transform: translateX(2rem);
+  @media (prefers-reduced-motion: reduce) {
+    .motion-probe {
+      animation: none;
+    }
   }
-}
+
+  @keyframes preview-fixture-motion {
+    to {
+      transform: translateX(2rem);
+    }
+  }
 </style>

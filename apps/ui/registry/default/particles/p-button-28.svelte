@@ -1,17 +1,17 @@
 <script module lang="ts">
-import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
 
-export const meta = defineParticleMeta({
-  components: ["avatar", "button"],
-  id: "p-button-28",
-  interactive: true,
-  responsive: false,
-  title: "Button with avatar",
-});
+  export const meta = defineParticleMeta({
+    components: ["avatar", "button"],
+    id: "p-button-28",
+    interactive: true,
+    responsive: false,
+    title: "Button with avatar",
+  });
 </script>
 
 <script lang="ts">
-import { Avatar, Button } from "@coss-sv/ui";
+  import { Avatar, Button } from "@coss-sv/ui";
 </script>
 
 <Button class="rounded-full ps-1">

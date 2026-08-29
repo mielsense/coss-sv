@@ -1,5 +1,5 @@
 <script lang="ts">
-import * as Menu from "./index.js";
+  import * as Menu from "./index.js";
 </script>
 
 <Menu.Root>

@@ -1,6 +1,6 @@
 <script lang="ts">
-import * as Sidebar from "./index.js";
-import SidebarContextProbe from "./sidebar-context-probe.svelte";
+  import * as Sidebar from "./index.js";
+  import SidebarContextProbe from "./sidebar-context-probe.svelte";
 </script>
 
 <Sidebar.Provider class="consumer-provider" data-consumer="provider" defaultOpen={false}>
@@ -18,8 +18,7 @@ import SidebarContextProbe from "./sidebar-context-probe.svelte";
           download="new.txt"
           href="/new"
           rel="noreferrer"
-          target="_blank"
-          >+</Sidebar.GroupAction
+          target="_blank">+</Sidebar.GroupAction
         >
         <Sidebar.GroupContent>
           <Sidebar.Menu>
@@ -42,8 +41,7 @@ import SidebarContextProbe from "./sidebar-context-probe.svelte";
                 href="/more"
                 rel="noreferrer"
                 showOnHover
-                target="_blank"
-                >...</Sidebar.MenuAction
+                target="_blank">...</Sidebar.MenuAction
               >
               <Sidebar.MenuBadge>12</Sidebar.MenuBadge>
               <Sidebar.MenuSub>
@@ -52,8 +50,7 @@ import SidebarContextProbe from "./sidebar-context-probe.svelte";
                     download="reports.txt"
                     href="/reports"
                     rel="noreferrer"
-                    target="_blank"
-                    >Reports</Sidebar.MenuSubButton
+                    target="_blank">Reports</Sidebar.MenuSubButton
                   >
                 </Sidebar.MenuSubItem>
               </Sidebar.MenuSub>

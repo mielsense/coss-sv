@@ -1,19 +1,20 @@
 <script module lang="ts">
-import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
 
-export const meta = defineParticleMeta({
-  components: ["slider"],
-  id: "p-slider-4",
-  interactive: true,
-  responsive: true,
-  title: "Storage slider",
-  containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64",
-});
+  export const meta = defineParticleMeta({
+    components: ["slider"],
+    id: "p-slider-4",
+    interactive: true,
+    responsive: true,
+    title: "Storage slider",
+    containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64",
+  });
 </script>
 
 <script lang="ts">
-import { Slider } from "@coss-sv/ui";
+  import { Slider } from "@coss-sv/ui";
 </script>
+
 <div>
   <Slider.Root aria-label="Storage size in GB" defaultValue={15} max={35} min={5} />
   <fieldset

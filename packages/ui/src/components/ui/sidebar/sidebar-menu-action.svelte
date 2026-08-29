@@ -1,40 +1,42 @@
 <script module lang="ts">
-import type { Snippet } from "svelte";
-import type { SvelteHTMLElements } from "svelte/elements";
-import type { SidebarPolymorphicDiscriminator } from "./polymorphic.js";
+  import type { Snippet } from "svelte";
+  import type { SvelteHTMLElements } from "svelte/elements";
+  import type { SidebarPolymorphicDiscriminator } from "./polymorphic.js";
 
-export type SidebarMenuActionTag = "a" | "button";
-export type SidebarMenuActionProps<Tag extends SidebarMenuActionTag = "button"> = Omit<
-  SvelteHTMLElements[Tag],
-  "children" | "class" | "ref"
-> &
-  SidebarPolymorphicDiscriminator<SidebarMenuActionTag, Tag, "button"> & {
-    children?: Snippet;
-    class?: string;
-    ref?: HTMLElement | null;
-    showOnHover?: boolean;
-  };
-type SidebarMenuActionComponentProps =
-  | SidebarMenuActionProps<"a">
-  | SidebarMenuActionProps<"button">;
+  export type SidebarMenuActionTag = "a" | "button";
+  export type SidebarMenuActionProps<Tag extends SidebarMenuActionTag = "button"> = Omit<
+    SvelteHTMLElements[Tag],
+    "children" | "class" | "ref"
+  > &
+    SidebarPolymorphicDiscriminator<SidebarMenuActionTag, Tag, "button"> & {
+      children?: Snippet;
+      class?: string;
+      ref?: HTMLElement | null;
+      showOnHover?: boolean;
+    };
+  type SidebarMenuActionComponentProps =
+    | SidebarMenuActionProps<"a">
+    | SidebarMenuActionProps<"button">;
 </script>
+
 <script lang="ts">
-import { cn } from "$lib/utils.js";
+  import { cn } from "$lib/utils.js";
 
-let {
-  as = "button",
-  children,
-  class: className,
-  ref = $bindable(null),
-  showOnHover = false,
-  ...props
-}: SidebarMenuActionComponentProps = $props();
+  let {
+    as = "button",
+    children,
+    class: className,
+    ref = $bindable(null),
+    showOnHover = false,
+    ...props
+  }: SidebarMenuActionComponentProps = $props();
 
-const forwardedProps = $derived({
-  ...(as === "button" ? { type: "button" } : {}),
-  ...props,
-} as Record<string, unknown>);
+  const forwardedProps = $derived({
+    ...(as === "button" ? { type: "button" } : {}),
+    ...props,
+  } as Record<string, unknown>);
 </script>
+
 <svelte:element
   this={as}
   bind:this={ref}
@@ -45,11 +47,11 @@ const forwardedProps = $derived({
     "peer-data-[size=default]/menu-button:top-1.5",
     "peer-data-[size=lg]/menu-button:top-2.5",
     "group-data-[collapsible=icon]:hidden",
-    showOnHover && "group-focus-within/menu-item:opacity-100 group-hover/menu-item:opacity-100 data-[state=open]:opacity-100 peer-data-[active=true]/menu-button:text-sidebar-accent-foreground md:opacity-0",
+    showOnHover &&
+      "group-focus-within/menu-item:opacity-100 group-hover/menu-item:opacity-100 data-[state=open]:opacity-100 peer-data-[active=true]/menu-button:text-sidebar-accent-foreground md:opacity-0",
     className,
   )}
   data-sidebar="menu-action"
   data-slot="sidebar-menu-action"
-  {...forwardedProps}
-  >{@render children?.()}</svelte:element
+  {...forwardedProps}>{@render children?.()}</svelte:element
 >

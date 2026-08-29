@@ -1,5 +1,5 @@
 <script lang="ts">
-import * as ContextMenu from "./index.js";
+  import * as ContextMenu from "./index.js";
 </script>
 
 <ContextMenu.Root defaultOpen>

@@ -1,6 +1,6 @@
 <script lang="ts">
-import { Label } from "../label/index.js";
-import * as CheckboxGroup from "./index.js";
+  import { Label } from "../label/index.js";
+  import * as CheckboxGroup from "./index.js";
 </script>
 
 <CheckboxGroup.Root

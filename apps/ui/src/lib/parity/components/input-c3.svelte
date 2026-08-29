@@ -1,5 +1,5 @@
 <script lang="ts">
-import { Input } from "@coss-sv/ui";
+  import { Input } from "@coss-sv/ui";
 </script>
 
 <div class="docs-preview-width" data-particle="p-input-1">
@@ -11,7 +11,7 @@ import { Input } from "@coss-sv/ui";
 </div>
 
 <style>
-.docs-preview-width {
-  width: min(16rem, 100%);
-}
+  .docs-preview-width {
+    width: min(16rem, 100%);
+  }
 </style>

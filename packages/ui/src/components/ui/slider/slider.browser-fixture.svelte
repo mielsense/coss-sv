@@ -1,36 +1,36 @@
 <script lang="ts">
-import { DirectionProvider } from "@shardsui/svelte";
-import * as Slider from "./index.js";
+  import { DirectionProvider } from "@shardsui/svelte";
+  import * as Slider from "./index.js";
 
-let bound = $state(20);
-let vertical = $state(40);
-let rtl = $state(20);
-let range = $state<readonly number[]>([20, 80]);
-let changed = $state("");
-let committed = $state("");
-let rootRef = $state<HTMLElement | null>(null);
-let fallbackMin = $state(10);
-let accepted = $state<number | readonly number[]>(30);
-let attempted = $state("");
-let collisionNone = $state<readonly number[]>([20, 40]);
-let collisionSwap = $state<readonly number[]>([20, 40]);
+  let bound = $state(20);
+  let vertical = $state(40);
+  let rtl = $state(20);
+  let range = $state<readonly number[]>([20, 80]);
+  let changed = $state("");
+  let committed = $state("");
+  let rootRef = $state<HTMLElement | null>(null);
+  let fallbackMin = $state(10);
+  let accepted = $state<number | readonly number[]>(30);
+  let attempted = $state("");
+  let collisionNone = $state<readonly number[]>([20, 40]);
+  let collisionSwap = $state<readonly number[]>([20, 40]);
 
-function recordChanged(value: number | readonly number[]) {
-  changed = Array.isArray(value) ? value.join(",") : String(value);
-}
+  function recordChanged(value: number | readonly number[]) {
+    changed = Array.isArray(value) ? value.join(",") : String(value);
+  }
 
-function recordCommitted(value: number | readonly number[]) {
-  committed = Array.isArray(value) ? value.join(",") : String(value);
-}
+  function recordCommitted(value: number | readonly number[]) {
+    committed = Array.isArray(value) ? value.join(",") : String(value);
+  }
 
-function getAccepted() {
-  return accepted;
-}
+  function getAccepted() {
+    return accepted;
+  }
 
-function setAccepted(next: number | readonly number[]) {
-  attempted = Array.isArray(next) ? next.join(",") : String(next);
-  if (typeof next === "number" && next <= 50) accepted = next;
-}
+  function setAccepted(next: number | readonly number[]) {
+    attempted = Array.isArray(next) ? next.join(",") : String(next);
+    if (typeof next === "number" && next <= 50) accepted = next;
+  }
 </script>
 
 <Slider.Root

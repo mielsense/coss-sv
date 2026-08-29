@@ -1,7 +1,7 @@
 <script lang="ts">
-import { useSidebar } from "./context.js";
+  import { useSidebar } from "./context.js";
 
-const sidebar = useSidebar();
+  const sidebar = useSidebar();
 </script>
 
 <output data-testid="context-state">

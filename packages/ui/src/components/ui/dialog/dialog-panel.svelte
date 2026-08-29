@@ -1,12 +1,14 @@
 <script module lang="ts">
-import type { DialogPartProps } from "./dialog-part.svelte";
-export type DialogPanelProps = DialogPartProps & { scrollFade?: boolean };
+  import type { DialogPartProps } from "./dialog-part.svelte";
+  export type DialogPanelProps = DialogPartProps & { scrollFade?: boolean };
 </script>
+
 <script lang="ts">
-import ScrollArea from "../scroll-area/scroll-area.svelte";
-import DialogPart from "./dialog-part.svelte";
-let { ref = $bindable(null), scrollFade = true, ...props }: DialogPanelProps = $props();
+  import ScrollArea from "../scroll-area/scroll-area.svelte";
+  import DialogPart from "./dialog-part.svelte";
+  let { ref = $bindable(null), scrollFade = true, ...props }: DialogPanelProps = $props();
 </script>
+
 <ScrollArea overscrollContain {scrollFade}>
   <DialogPart
     bind:ref

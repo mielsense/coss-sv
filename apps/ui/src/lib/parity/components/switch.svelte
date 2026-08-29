@@ -1,14 +1,14 @@
 <script lang="ts">
-import { Label, Switch } from "@coss-sv/ui";
+  import { Label, Switch } from "@coss-sv/ui";
 
-let formValue = $state("not submitted");
-let controlled = $state(false);
+  let formValue = $state("not submitted");
+  let controlled = $state(false);
 
-function submitProbe(event: SubmitEvent) {
-  event.preventDefault();
-  const formData = new FormData(event.currentTarget as HTMLFormElement);
-  formValue = String(formData.get("marketing"));
-}
+  function submitProbe(event: SubmitEvent) {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget as HTMLFormElement);
+    formValue = String(formData.get("marketing"));
+  }
 </script>
 
 <div data-particle="p-switch-1">
@@ -74,16 +74,16 @@ function submitProbe(event: SubmitEvent) {
 </div>
 
 <style>
-.review-probes {
-  display: grid;
-  gap: 1rem;
-  margin-top: 2rem;
-}
+  .review-probes {
+    display: grid;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
 
-.review-probes form,
-.review-probes label {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
+  .review-probes form,
+  .review-probes label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
 </style>

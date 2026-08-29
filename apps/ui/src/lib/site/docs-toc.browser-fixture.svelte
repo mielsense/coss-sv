@@ -1,7 +1,7 @@
 <script lang="ts">
-import DocsToc from "./DocsToc.svelte";
+  import DocsToc from "./DocsToc.svelte";
 
-let replacement = $state(false);
+  let replacement = $state(false);
 </script>
 
 <button type="button" onclick={() => (replacement = !replacement)}>Replace content</button>

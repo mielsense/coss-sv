@@ -1,5 +1,5 @@
 <script lang="ts">
-import { Kbd, KbdGroup } from "../../../../../../packages/ui/dist/components/ui/kbd/index.js";
+  import { Kbd, KbdGroup } from "../../../../../../packages/ui/dist/components/ui/kbd/index.js";
 </script>
 
 <div class="kbd-review-shell">
@@ -25,12 +25,12 @@ import { Kbd, KbdGroup } from "../../../../../../packages/ui/dist/components/ui/
 </div>
 
 <style>
-.kbd-review-shell {
-  display: flex;
-  box-sizing: border-box;
-  width: 100%;
-  min-height: 24rem;
-  align-items: center;
-  justify-content: center;
-}
+  .kbd-review-shell {
+    display: flex;
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 24rem;
+    align-items: center;
+    justify-content: center;
+  }
 </style>

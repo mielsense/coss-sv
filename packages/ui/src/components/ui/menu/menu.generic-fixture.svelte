@@ -1,12 +1,12 @@
 <script lang="ts">
-import * as Menu from "./index.js";
+  import * as Menu from "./index.js";
 
-type ProjectPayload = {
-  id: number;
-  label: string;
-};
+  type ProjectPayload = {
+    id: number;
+    label: string;
+  };
 
-const handle = new Menu.Handle<ProjectPayload>();
+  const handle = new Menu.Handle<ProjectPayload>();
 </script>
 
 <Menu.Trigger {handle} payload={{ id: 7, label: "COSS" }}>Open project</Menu.Trigger>

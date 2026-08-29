@@ -1,31 +1,31 @@
 <script module lang="ts">
-import type { Snippet } from "svelte";
-import type { HTMLButtonAttributes } from "svelte/elements";
+  import type { Snippet } from "svelte";
+  import type { HTMLButtonAttributes } from "svelte/elements";
 
-export type SidebarRailProps = Omit<HTMLButtonAttributes, "children" | "class"> & {
-  children?: Snippet;
-  class?: string;
-  ref?: HTMLButtonElement | null;
-};
+  export type SidebarRailProps = Omit<HTMLButtonAttributes, "children" | "class"> & {
+    children?: Snippet;
+    class?: string;
+    ref?: HTMLButtonElement | null;
+  };
 </script>
 
 <script lang="ts">
-import { cn } from "$lib/utils.js";
-import { useSidebar } from "./context.js";
+  import { cn } from "$lib/utils.js";
+  import { useSidebar } from "./context.js";
 
-let {
-  children,
-  class: className,
-  onclick,
-  ref = $bindable(null),
-  ...props
-}: SidebarRailProps = $props();
-const sidebar = useSidebar();
+  let {
+    children,
+    class: className,
+    onclick,
+    ref = $bindable(null),
+    ...props
+  }: SidebarRailProps = $props();
+  const sidebar = useSidebar();
 
-function handleClick(event: MouseEvent): void {
-  onclick?.(event as MouseEvent & { currentTarget: EventTarget & HTMLButtonElement });
-  sidebar.toggleSidebar();
-}
+  function handleClick(event: MouseEvent): void {
+    onclick?.(event as MouseEvent & { currentTarget: EventTarget & HTMLButtonElement });
+    sidebar.toggleSidebar();
+  }
 </script>
 
 <button

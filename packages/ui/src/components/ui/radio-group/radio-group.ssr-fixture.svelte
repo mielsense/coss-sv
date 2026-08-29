@@ -1,5 +1,5 @@
 <script lang="ts">
-import * as RadioGroup from "./index.js";
+  import * as RadioGroup from "./index.js";
 </script>
 
 <RadioGroup.Root aria-label="Framework" class="custom-group" defaultValue="vite" name="framework">

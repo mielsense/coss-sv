@@ -10,7 +10,10 @@ links:
 
 ## Installation
 
-<InstallCommand pnpm="pnpm add @coss-sv/ui" shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/slider.json" />
+<InstallCommand
+  pnpm="pnpm add @coss-sv/ui"
+  shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/slider.json"
+/>
 
 ## Usage
 
@@ -29,23 +32,23 @@ links:
 The root accepts a number or an array for range sliders. Use `defaultValue` for the initial value or
 `bind:value` for controlled state.
 
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `value` | `number \| readonly number[]` | `min` | Current value; an array creates a range slider |
-| `defaultValue` | `number \| readonly number[]` | `min` | Initial value for uncontrolled use |
-| `min` | `number` | `0` | Minimum allowed value |
-| `max` | `number` | `100` | Maximum allowed value |
-| `step` | `number` | `1` | Granularity the value changes by |
-| `largeStep` | `number` | `10` | Granularity for Page Up, Page Down, and Shift + Arrow |
-| `orientation` | `"horizontal" \| "vertical"` | `"horizontal"` | Axis the slider runs along |
-| `disabled` | `boolean` | `false` | Disables the thumb inputs and pointer interaction |
-| `minStepsBetweenValues` | `number` | `0` | Minimum steps between neighboring thumbs |
-| `thumbCollisionBehavior` | `"push" \| "swap" \| "none"` | `"push"` | Controls what happens when one thumb reaches another |
-| `thumbAlignment` | `"center" \| "edge"` | `"edge"` | Aligns thumbs to the track; the COSS wrapper defaults to edge alignment |
-| `name` | `string` | — | Name submitted with the form |
-| `form` | `string` | — | ID of the owning form when the slider is outside it |
-| `onValueChange` | `(value: number \| readonly number[]) => void` | — | Runs whenever the value changes |
-| `onValueCommitted` | `(value: number \| number[]) => void` | — | Runs after pointer or keyboard input settles |
+| Prop                     | Type                                           | Default        | Description                                                             |
+| ------------------------ | ---------------------------------------------- | -------------- | ----------------------------------------------------------------------- |
+| `value`                  | `number \| readonly number[]`                  | `min`          | Current value; an array creates a range slider                          |
+| `defaultValue`           | `number \| readonly number[]`                  | `min`          | Initial value for uncontrolled use                                      |
+| `min`                    | `number`                                       | `0`            | Minimum allowed value                                                   |
+| `max`                    | `number`                                       | `100`          | Maximum allowed value                                                   |
+| `step`                   | `number`                                       | `1`            | Granularity the value changes by                                        |
+| `largeStep`              | `number`                                       | `10`           | Granularity for Page Up, Page Down, and Shift + Arrow                   |
+| `orientation`            | `"horizontal" \| "vertical"`                   | `"horizontal"` | Axis the slider runs along                                              |
+| `disabled`               | `boolean`                                      | `false`        | Disables the thumb inputs and pointer interaction                       |
+| `minStepsBetweenValues`  | `number`                                       | `0`            | Minimum steps between neighboring thumbs                                |
+| `thumbCollisionBehavior` | `"push" \| "swap" \| "none"`                   | `"push"`       | Controls what happens when one thumb reaches another                    |
+| `thumbAlignment`         | `"center" \| "edge"`                           | `"edge"`       | Aligns thumbs to the track; the COSS wrapper defaults to edge alignment |
+| `name`                   | `string`                                       | —              | Name submitted with the form                                            |
+| `form`                   | `string`                                       | —              | ID of the owning form when the slider is outside it                     |
+| `onValueChange`          | `(value: number \| readonly number[]) => void` | —              | Runs whenever the value changes                                         |
+| `onValueCommitted`       | `(value: number \| number[]) => void`          | —              | Runs after pointer or keyboard input settles                            |
 
 ### Slider.Value
 

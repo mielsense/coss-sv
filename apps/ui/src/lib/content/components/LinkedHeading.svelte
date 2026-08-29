@@ -1,13 +1,13 @@
 <script lang="ts">
-import type { Snippet } from "svelte";
+  import type { Snippet } from "svelte";
 
-type Props = {
-  children: Snippet;
-  id: string;
-  level?: 2 | 3 | 4;
-};
+  type Props = {
+    children: Snippet;
+    id: string;
+    level?: 2 | 3 | 4;
+  };
 
-let { children, id, level = 2 }: Props = $props();
+  let { children, id, level = 2 }: Props = $props();
 </script>
 
 {#if level === 2}

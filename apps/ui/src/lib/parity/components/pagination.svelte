@@ -1,9 +1,9 @@
 <script lang="ts">
-import { Button } from "../../../../../../packages/ui/dist/components/ui/button/index.js";
-import * as Pagination from "../../../../../../packages/ui/dist/components/ui/pagination/index.js";
+  import { Button } from "../../../../../../packages/ui/dist/components/ui/button/index.js";
+  import * as Pagination from "../../../../../../packages/ui/dist/components/ui/pagination/index.js";
 
-const currentPage: number = 1;
-const totalPages: number = 3;
+  const currentPage: number = 1;
+  const totalPages: number = 3;
 </script>
 
 <div data-particle="p-pagination-1">

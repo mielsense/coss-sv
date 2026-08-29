@@ -1,9 +1,9 @@
 <script lang="ts">
-import * as Popover from "./index.js";
+  import * as Popover from "./index.js";
 
-const handle = Popover.PopoverCreateHandle<{ label: string }>();
-let isOpen = $state(false);
-let triggerId = $state<string | null>(null);
+  const handle = Popover.PopoverCreateHandle<{ label: string }>();
+  let isOpen = $state(false);
+  let triggerId = $state<string | null>(null);
 </script>
 
 <Popover.Trigger {handle} payload={{ label: "Account" }}>Open account</Popover.Trigger>

@@ -1,12 +1,12 @@
 <script lang="ts">
-import { cn } from "@coss-sv/ui";
-import type { Snippet } from "svelte";
+  import { cn } from "@coss-sv/ui";
+  import type { Snippet } from "svelte";
 
-let {
-  children,
-  class: className = "",
-  withGradient = true,
-}: { children: Snippet; class?: string; withGradient?: boolean } = $props();
+  let {
+    children,
+    class: className = "",
+    withGradient = true,
+  }: { children: Snippet; class?: string; withGradient?: boolean } = $props();
 </script>
 
 <div

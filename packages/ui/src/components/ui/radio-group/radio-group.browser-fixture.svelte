@@ -1,21 +1,21 @@
 <script lang="ts">
-import * as RadioGroup from "./index.js";
+  import * as RadioGroup from "./index.js";
 
-let selected = $state("next");
-let frameworkDefault = $state("vite");
-let changes = $state<string[]>([]);
-let groupRef = $state<HTMLElement | null>(null);
-let itemRef = $state<HTMLElement | null>(null);
-let submitted = $state("none");
-let preventedClicks = $state(0);
-let rejectedValue = $state("email");
-let rejectedWrites = $state(0);
+  let selected = $state("next");
+  let frameworkDefault = $state("vite");
+  let changes = $state<string[]>([]);
+  let groupRef = $state<HTMLElement | null>(null);
+  let itemRef = $state<HTMLElement | null>(null);
+  let submitted = $state("none");
+  let preventedClicks = $state(0);
+  let rejectedValue = $state("email");
+  let rejectedWrites = $state(0);
 
-function submit(event: SubmitEvent) {
-  event.preventDefault();
-  const data = new FormData(event.currentTarget as HTMLFormElement);
-  submitted = String(data.get("contact"));
-}
+  function submit(event: SubmitEvent) {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget as HTMLFormElement);
+    submitted = String(data.get("contact"));
+  }
 </script>
 
 <RadioGroup.Root

@@ -1,5 +1,5 @@
 <script lang="ts">
-import * as Toast from "./index.js";
+  import * as Toast from "./index.js";
 </script>
 
 <Toast.Provider position="top-center">

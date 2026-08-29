@@ -1,33 +1,33 @@
 <script lang="ts">
-import { Button, Field, Form, Input } from "@coss-sv/ui";
+  import { Button, Field, Form, Input } from "@coss-sv/ui";
 
-type Errors = Record<string, string | string[]>;
+  type Errors = Record<string, string | string[]>;
 
-let errors = $state<Errors>({});
-let loading = $state(false);
+  let errors = $state<Errors>({});
+  let loading = $state(false);
 
-async function submitValidatedForm(event: SubmitEvent) {
-  event.preventDefault();
-  const form = event.currentTarget as HTMLFormElement;
-  const formData = new FormData(form);
-  const name = String(formData.get("name") ?? "");
-  const ageValue = String(formData.get("age") ?? "");
-  const age = Number(ageValue);
-  const nextErrors: Errors = {};
+  async function submitValidatedForm(event: SubmitEvent) {
+    event.preventDefault();
+    const form = event.currentTarget as HTMLFormElement;
+    const formData = new FormData(form);
+    const name = String(formData.get("name") ?? "");
+    const ageValue = String(formData.get("age") ?? "");
+    const age = Number(ageValue);
+    const nextErrors: Errors = {};
 
-  if (name.length < 1) nextErrors.name = ["Please enter a name."];
-  if (Number.isNaN(age)) nextErrors.age = ["Please enter a number."];
-  else if (age <= 0) nextErrors.age = ["Number must be positive."];
+    if (name.length < 1) nextErrors.name = ["Please enter a name."];
+    if (Number.isNaN(age)) nextErrors.age = ["Please enter a number."];
+    else if (age <= 0) nextErrors.age = ["Number must be positive."];
 
-  loading = true;
-  await new Promise((resolve) => setTimeout(resolve, 800));
-  errors = nextErrors;
-  loading = false;
+    loading = true;
+    await new Promise((resolve) => setTimeout(resolve, 800));
+    errors = nextErrors;
+    loading = false;
 
-  if (Object.keys(nextErrors).length === 0) {
-    alert(`Name: ${name}\nAge: ${ageValue}`);
+    if (Object.keys(nextErrors).length === 0) {
+      alert(`Name: ${name}\nAge: ${ageValue}`);
+    }
   }
-}
 </script>
 
 <div class="parity-stack">
@@ -60,10 +60,10 @@ async function submitValidatedForm(event: SubmitEvent) {
 </div>
 
 <style>
-.parity-stack {
-  display: grid;
-  width: 100%;
-  gap: 2rem;
-  place-items: center;
-}
+  .parity-stack {
+    display: grid;
+    width: 100%;
+    gap: 2rem;
+    place-items: center;
+  }
 </style>

@@ -1,28 +1,28 @@
 <script lang="ts">
-import { page } from "$app/state";
-import { componentCategories } from "./categories.js";
-import { hooksNavigation, overviewNavigation, resourcesNavigation } from "./site.js";
+  import { page } from "$app/state";
+  import { componentCategories } from "./categories.js";
+  import { hooksNavigation, overviewNavigation, resourcesNavigation } from "./site.js";
 
-type NavigationItem = {
-  href: string;
-  label: string;
-  isNew?: boolean | undefined;
-};
+  type NavigationItem = {
+    href: string;
+    label: string;
+    isNew?: boolean | undefined;
+  };
 
-const componentNavigation: NavigationItem[] = componentCategories.map(
-  ({ docsName, isNew, name, slug }) => ({
-    href: `/docs/components/${slug}`,
-    label: docsName ?? name,
-    isNew,
-  }),
-);
+  const componentNavigation: NavigationItem[] = componentCategories.map(
+    ({ docsName, isNew, name, slug }) => ({
+      href: `/docs/components/${slug}`,
+      label: docsName ?? name,
+      isNew,
+    }),
+  );
 
-const groups: { label: string; items: readonly NavigationItem[] }[] = [
-  { label: "Overview", items: overviewNavigation },
-  { label: "Components", items: componentNavigation },
-  { label: "Hooks", items: hooksNavigation },
-  { label: "Resources", items: resourcesNavigation },
-];
+  const groups: { label: string; items: readonly NavigationItem[] }[] = [
+    { label: "Overview", items: overviewNavigation },
+    { label: "Components", items: componentNavigation },
+    { label: "Hooks", items: hooksNavigation },
+    { label: "Resources", items: resourcesNavigation },
+  ];
 </script>
 
 <aside class="docs-sidebar" aria-label="Documentation navigation">

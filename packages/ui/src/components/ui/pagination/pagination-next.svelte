@@ -1,23 +1,23 @@
 <script module lang="ts">
-import type { PaginationLinkProps } from "./pagination-link.svelte";
+  import type { PaginationLinkProps } from "./pagination-link.svelte";
 
-export type PaginationNextProps = PaginationLinkProps;
+  export type PaginationNextProps = PaginationLinkProps;
 </script>
 
 <script lang="ts">
-import { ChevronRightIcon } from "@hugeicons/core-free-icons";
-import HugeiconsIcon from "$lib/hugeicons-icon.svelte";
-import { cn } from "$lib/utils.js";
-import PaginationLink from "./pagination-link.svelte";
+  import { ChevronRightIcon } from "@hugeicons/core-free-icons";
+  import HugeiconsIcon from "$lib/hugeicons-icon.svelte";
+  import { cn } from "$lib/utils.js";
+  import PaginationLink from "./pagination-link.svelte";
 
-let {
-  "aria-label": ariaLabel = "Go to next page",
-  children: _children,
-  class: className,
-  ref = $bindable(null),
-  size = "default",
-  ...props
-}: PaginationNextProps = $props();
+  let {
+    "aria-label": ariaLabel = "Go to next page",
+    children: _children,
+    class: className,
+    ref = $bindable(null),
+    size = "default",
+    ...props
+  }: PaginationNextProps = $props();
 </script>
 
 <PaginationLink

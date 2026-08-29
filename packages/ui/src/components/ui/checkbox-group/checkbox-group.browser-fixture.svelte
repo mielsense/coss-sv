@@ -1,83 +1,85 @@
 <script lang="ts">
-import { Label } from "../label/index.js";
-import * as CheckboxGroup from "./index.js";
+  import { Label } from "../label/index.js";
+  import * as CheckboxGroup from "./index.js";
 
-let basicValue = $state<string[]>(["next"]);
-let basicChanges = $state<string[][]>([]);
-let basicRef = $state<HTMLElement | null>(null);
-let parentValue = $state<string[]>(["view"]);
-let outerValue = $state<string[]>([]);
-let innerValue = $state<string[]>([]);
-let submitted = $state<string[]>([]);
-let fixedValue = $state<string[]>(["next"]);
-let declinedWrites = $state(0);
-let disabledSelectValue = $state<string[]>(["view"]);
-let disabledClearValue = $state<string[]>(["view", "edit", "delete"]);
-let canceledValue = $state<string[]>(["next"]);
-let canceledWrites = $state(0);
-let canceledDetails = $state<string[]>([]);
-let rejectedParentValue = $state<string[]>(["view"]);
-let rejectedParentAttempts = $state<string[][]>([]);
+  let basicValue = $state<string[]>(["next"]);
+  let basicChanges = $state<string[][]>([]);
+  let basicRef = $state<HTMLElement | null>(null);
+  let parentValue = $state<string[]>(["view"]);
+  let outerValue = $state<string[]>([]);
+  let innerValue = $state<string[]>([]);
+  let submitted = $state<string[]>([]);
+  let fixedValue = $state<string[]>(["next"]);
+  let declinedWrites = $state(0);
+  let disabledSelectValue = $state<string[]>(["view"]);
+  let disabledClearValue = $state<string[]>(["view", "edit", "delete"]);
+  let canceledValue = $state<string[]>(["next"]);
+  let canceledWrites = $state(0);
+  let canceledDetails = $state<string[]>([]);
+  let rejectedParentValue = $state<string[]>(["view"]);
+  let rejectedParentAttempts = $state<string[][]>([]);
 
-type ChangeDetailsProbe = {
-  allowPropagation: () => void;
-  cancel: () => void;
-  readonly event: Event;
-  readonly isCanceled: boolean;
-  readonly isPropagationAllowed: boolean;
-  readonly reason: string;
-  readonly trigger: Element | undefined;
-};
+  type ChangeDetailsProbe = {
+    allowPropagation: () => void;
+    cancel: () => void;
+    readonly event: Event;
+    readonly isCanceled: boolean;
+    readonly isPropagationAllowed: boolean;
+    readonly reason: string;
+    readonly trigger: Element | undefined;
+  };
 
-const outerValues = ["view", "manage"];
-const innerValues = ["create", "edit"];
+  const outerValues = ["view", "manage"];
+  const innerValues = ["create", "edit"];
 
-function updateOuter(value: string[]) {
-  outerValue = value;
-  if (value.includes("manage")) {
-    innerValue = [...innerValues];
-  } else if (innerValue.length === innerValues.length) {
-    innerValue = [];
-  }
-}
-
-function updateInner(value: string[]) {
-  innerValue = value;
-  if (value.length === innerValues.length) {
-    outerValue = Array.from(new Set([...outerValue, "manage"]));
-  } else {
-    outerValue = outerValue.filter((item) => item !== "manage");
-  }
-}
-
-function submitForm(event: SubmitEvent) {
-  event.preventDefault();
-  submitted = new FormData(event.currentTarget as HTMLFormElement).getAll("frameworks").map(String);
-}
-
-function cancelChange(value: string[], details?: ChangeDetailsProbe) {
-  if (!details) {
-    canceledDetails.push("missing");
-    return;
+  function updateOuter(value: string[]) {
+    outerValue = value;
+    if (value.includes("manage")) {
+      innerValue = [...innerValues];
+    } else if (innerValue.length === innerValues.length) {
+      innerValue = [];
+    }
   }
 
-  details.allowPropagation();
-  details.cancel();
-  canceledDetails.push(
-    [
-      value.join("+"),
-      details.reason,
-      details.event.type,
-      details.trigger?.getAttribute("role") ?? "missing",
-      String(details.isCanceled),
-      String(details.isPropagationAllowed),
-    ].join(":"),
-  );
-}
+  function updateInner(value: string[]) {
+    innerValue = value;
+    if (value.length === innerValues.length) {
+      outerValue = Array.from(new Set([...outerValue, "manage"]));
+    } else {
+      outerValue = outerValue.filter((item) => item !== "manage");
+    }
+  }
 
-function rejectParentValue(next: string[]) {
-  rejectedParentAttempts = [...rejectedParentAttempts, [...next]];
-}
+  function submitForm(event: SubmitEvent) {
+    event.preventDefault();
+    submitted = new FormData(event.currentTarget as HTMLFormElement)
+      .getAll("frameworks")
+      .map(String);
+  }
+
+  function cancelChange(value: string[], details?: ChangeDetailsProbe) {
+    if (!details) {
+      canceledDetails.push("missing");
+      return;
+    }
+
+    details.allowPropagation();
+    details.cancel();
+    canceledDetails.push(
+      [
+        value.join("+"),
+        details.reason,
+        details.event.type,
+        details.trigger?.getAttribute("role") ?? "missing",
+        String(details.isCanceled),
+        String(details.isPropagationAllowed),
+      ].join(":"),
+    );
+  }
+
+  function rejectParentValue(next: string[]) {
+    rejectedParentAttempts = [...rejectedParentAttempts, [...next]];
+  }
 </script>
 
 <CheckboxGroup.Root
@@ -148,7 +150,7 @@ function rejectParentValue(next: string[]) {
   aria-labelledby="permissions-label"
   bind:value={parentValue}
 >
-  <Label id="permissions-label"> <CheckboxGroup.Item parent />Permissions </Label>
+  <Label id="permissions-label"><CheckboxGroup.Item parent />Permissions</Label>
   <Label><CheckboxGroup.Item value="view" />View</Label>
   <Label><CheckboxGroup.Item value="edit" />Edit</Label>
   <Label><CheckboxGroup.Item value="delete" />Delete</Label>
@@ -196,8 +198,7 @@ function rejectParentValue(next: string[]) {
 </form>
 
 <output data-testid="basic-value">{basicValue.join(",")}</output>
-<output data-testid="basic-changes"
-  >{basicChanges.map((value) => value.join("+")).join(",")}</output
+<output data-testid="basic-changes">{basicChanges.map((value) => value.join("+")).join(",")}</output
 >
 <output data-testid="basic-ref">{basicRef?.tagName ?? "missing"}</output>
 <output data-testid="parent-value">{parentValue.join(",")}</output>

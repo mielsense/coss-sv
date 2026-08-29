@@ -1,17 +1,17 @@
 <script module lang="ts">
-import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
 
-export const meta = defineParticleMeta({
-  components: ["button"],
-  id: "p-button-3",
-  interactive: true,
-  responsive: false,
-  title: "Secondary button",
-});
+  export const meta = defineParticleMeta({
+    components: ["button"],
+    id: "p-button-3",
+    interactive: true,
+    responsive: false,
+    title: "Secondary button",
+  });
 </script>
 
 <script lang="ts">
-import { Button } from "@coss-sv/ui";
+  import { Button } from "@coss-sv/ui";
 </script>
 
 <Button variant="secondary">Secondary</Button>

@@ -10,7 +10,7 @@
 	],
 	"files": [
 		{
-			"content": "<script module lang=\"ts\">\nimport { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\nexport const meta = defineParticleMeta({\n  components: [\"checkbox\", \"label\"],\n  id: \"p-checkbox-2\",\n  interactive: true,\n  responsive: false,\n  title: \"Disabled checkbox\",\n});\n</script>\n\n<script lang=\"ts\">\nimport { Checkbox } from \"$COMPONENTS$/ui/checkbox/index.js\";\nimport { Label } from \"$COMPONENTS$/ui/label/index.js\";\n</script>\n\n<Label><Checkbox checked disabled />Accept terms and conditions</Label>\n",
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\n  export const meta = defineParticleMeta({\n    components: [\"checkbox\", \"label\"],\n    id: \"p-checkbox-2\",\n    interactive: true,\n    responsive: false,\n    title: \"Disabled checkbox\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { Checkbox } from \"$COMPONENTS$/ui/checkbox/index.js\";\n  import { Label } from \"$COMPONENTS$/ui/label/index.js\";\n</script>\n\n<Label><Checkbox checked disabled />Accept terms and conditions</Label>\n",
 			"type": "registry:block",
 			"target": "p-checkbox-2.svelte"
 		}

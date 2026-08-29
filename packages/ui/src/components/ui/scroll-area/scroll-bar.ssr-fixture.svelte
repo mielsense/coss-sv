@@ -1,6 +1,6 @@
 <script lang="ts">
-import { ScrollArea as ScrollAreaPrimitive } from "@shardsui/svelte";
-import ScrollBar from "./scroll-bar.svelte";
+  import { ScrollArea as ScrollAreaPrimitive } from "@shardsui/svelte";
+  import ScrollBar from "./scroll-bar.svelte";
 </script>
 
 <ScrollAreaPrimitive.Root>

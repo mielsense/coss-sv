@@ -1,24 +1,24 @@
 <script module lang="ts">
-import type { Snippet } from "svelte";
-import type { SvelteHTMLElements } from "svelte/elements";
+  import type { Snippet } from "svelte";
+  import type { SvelteHTMLElements } from "svelte/elements";
 
-export type PaginationProps = Omit<SvelteHTMLElements["nav"], "children" | "class"> & {
-  children?: Snippet;
-  class?: string;
-  ref?: HTMLElement | null;
-};
+  export type PaginationProps = Omit<SvelteHTMLElements["nav"], "children" | "class"> & {
+    children?: Snippet;
+    class?: string;
+    ref?: HTMLElement | null;
+  };
 </script>
 
 <script lang="ts">
-import { cn } from "$lib/utils.js";
+  import { cn } from "$lib/utils.js";
 
-let {
-  "aria-label": ariaLabel = "pagination",
-  children,
-  class: className,
-  ref = $bindable(null),
-  ...props
-}: PaginationProps = $props();
+  let {
+    "aria-label": ariaLabel = "pagination",
+    children,
+    class: className,
+    ref = $bindable(null),
+    ...props
+  }: PaginationProps = $props();
 </script>
 
 <nav

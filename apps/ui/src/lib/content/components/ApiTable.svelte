@@ -1,11 +1,11 @@
 <script lang="ts">
-import type { ApiProperty } from "../compiler.js";
+  import type { ApiProperty } from "../compiler.js";
 
-type Props = {
-  properties: readonly ApiProperty[];
-};
+  type Props = {
+    properties: readonly ApiProperty[];
+  };
 
-let { properties }: Props = $props();
+  let { properties }: Props = $props();
 </script>
 
 <div class="my-6 max-w-full overflow-x-auto rounded-xl border">

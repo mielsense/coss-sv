@@ -1,23 +1,23 @@
 <script module lang="ts">
-import type { Snippet } from "svelte";
-import type { SvelteHTMLElements } from "svelte/elements";
+  import type { Snippet } from "svelte";
+  import type { SvelteHTMLElements } from "svelte/elements";
 
-export type PaginationContentProps = Omit<SvelteHTMLElements["ul"], "children" | "class"> & {
-  children?: Snippet;
-  class?: string;
-  ref?: HTMLUListElement | null;
-};
+  export type PaginationContentProps = Omit<SvelteHTMLElements["ul"], "children" | "class"> & {
+    children?: Snippet;
+    class?: string;
+    ref?: HTMLUListElement | null;
+  };
 </script>
 
 <script lang="ts">
-import { cn } from "$lib/utils.js";
+  import { cn } from "$lib/utils.js";
 
-let {
-  children,
-  class: className,
-  ref = $bindable(null),
-  ...props
-}: PaginationContentProps = $props();
+  let {
+    children,
+    class: className,
+    ref = $bindable(null),
+    ...props
+  }: PaginationContentProps = $props();
 </script>
 
 <ul

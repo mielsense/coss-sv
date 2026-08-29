@@ -1,27 +1,27 @@
 <script module lang="ts">
-import type { Snippet } from "svelte";
-import type { SvelteHTMLElements } from "svelte/elements";
+  import type { Snippet } from "svelte";
+  import type { SvelteHTMLElements } from "svelte/elements";
 
-export type CardProps = Omit<SvelteHTMLElements["div"], "children"> & {
-  as?: keyof HTMLElementTagNameMap;
-  children?: Snippet;
-  ref?: HTMLElement | null;
-};
+  export type CardProps = Omit<SvelteHTMLElements["div"], "children"> & {
+    as?: keyof HTMLElementTagNameMap;
+    children?: Snippet;
+    ref?: HTMLElement | null;
+  };
 </script>
 
 <script lang="ts">
-import { cn } from "$lib/utils.js";
+  import { cn } from "$lib/utils.js";
 
-type Props = CardProps & { baseClass: string; dataSlot: string };
-let {
-  as = "div",
-  baseClass,
-  children,
-  class: className,
-  dataSlot,
-  ref = $bindable(null),
-  ...props
-}: Props = $props();
+  type Props = CardProps & { baseClass: string; dataSlot: string };
+  let {
+    as = "div",
+    baseClass,
+    children,
+    class: className,
+    dataSlot,
+    ref = $bindable(null),
+    ...props
+  }: Props = $props();
 </script>
 
 <svelte:element

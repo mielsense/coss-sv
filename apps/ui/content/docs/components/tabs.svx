@@ -10,7 +10,10 @@ links:
 
 ## Installation
 
-<InstallCommand pnpm="pnpm add @coss-sv/ui" shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/tabs.json" />
+<InstallCommand
+  pnpm="pnpm add @coss-sv/ui"
+  shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/tabs.json"
+/>
 
 The registry installs the shared segmented-control styling automatically.
 
@@ -45,10 +48,10 @@ Use `value` and `bind:value` for controlled state, or `defaultValue` for the ini
 The container for tab triggers. It inserts the styled active indicator and provides the shared
 `size` and `variant` values.
 
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `size` | `"sm" \| "default" \| "lg"` | `"default"` | Controls the size of all tab items. |
-| `variant` | `"default" \| "underline"` | `"default"` | Controls the tab styling. |
+| Prop      | Type                        | Default     | Description                         |
+| --------- | --------------------------- | ----------- | ----------------------------------- |
+| `size`    | `"sm" \| "default" \| "lg"` | `"default"` | Controls the size of all tab items. |
+| `variant` | `"default" \| "underline"`  | `"default"` | Controls the tab styling.           |
 
 ### Tabs.Tab
 

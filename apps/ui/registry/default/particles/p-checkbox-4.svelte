@@ -1,17 +1,17 @@
 <script module lang="ts">
-import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
 
-export const meta = defineParticleMeta({
-  components: ["checkbox", "label"],
-  id: "p-checkbox-4",
-  interactive: true,
-  responsive: true,
-  title: "Card checkbox",
-});
+  export const meta = defineParticleMeta({
+    components: ["checkbox", "label"],
+    id: "p-checkbox-4",
+    interactive: true,
+    responsive: true,
+    title: "Card checkbox",
+  });
 </script>
 
 <script lang="ts">
-import { Checkbox, Label } from "@coss-sv/ui";
+  import { Checkbox, Label } from "@coss-sv/ui";
 </script>
 
 <Label

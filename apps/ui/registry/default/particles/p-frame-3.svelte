@@ -1,18 +1,18 @@
 <script module lang="ts">
-import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
 
-export const meta = defineParticleMeta({
-  components: ["frame"],
-  containerClass: "**:data-[slot=preview]:w-full",
-  id: "p-frame-3",
-  interactive: false,
-  responsive: true,
-  title: "Frame with multiple separated panels",
-});
+  export const meta = defineParticleMeta({
+    components: ["frame"],
+    containerClass: "**:data-[slot=preview]:w-full",
+    id: "p-frame-3",
+    interactive: false,
+    responsive: true,
+    title: "Frame with multiple separated panels",
+  });
 </script>
 
 <script lang="ts">
-import { Frame, FrameDescription, FrameHeader, FramePanel, FrameTitle } from "@coss-sv/ui";
+  import { Frame, FrameDescription, FrameHeader, FramePanel, FrameTitle } from "@coss-sv/ui";
 </script>
 
 <Frame class="w-full">

@@ -1,5 +1,5 @@
 <script lang="ts">
-import * as Toolbar from "./index.js";
+  import * as Toolbar from "./index.js";
 </script>
 
 <Toolbar.Root aria-label="Formatting" class="custom-toolbar">

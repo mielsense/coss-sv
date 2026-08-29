@@ -1,128 +1,128 @@
 <script lang="ts">
-import * as Toast from "./index.js";
+  import * as Toast from "./index.js";
 
-let {
-  anchoredPortalRef,
-  onPortalClick,
-  portalTarget,
-  position = "bottom-right",
-  standardPortalRef,
-  useContainerRefs = false,
-}: {
-  anchoredPortalRef?: Toast.ToastPortalRef;
-  onPortalClick?: (event: MouseEvent) => void;
-  portalTarget?: HTMLElement | ShadowRoot;
-  position?: Toast.ToastPosition;
-  standardPortalRef?: Toast.ToastPortalRef;
-  useContainerRefs?: boolean;
-} = $props();
-const manager = new Toast.Manager<{ source?: string }>();
-const anchoredManager = new Toast.Manager<Toast.ToastData>();
-let anchor = $state<HTMLButtonElement | null>(null);
-let resolvePromise: ((value: string) => void) | undefined;
-let rejectPromise: ((reason: Error) => void) | undefined;
-let actionCount = $state(0);
-let resolveReport: (() => void) | undefined;
-let rejectReport: ((reason: Error) => void) | undefined;
-let standardContainerTarget = $state<HTMLDivElement | null>(null);
-let anchoredContainerHost = $state<HTMLDivElement | null>(null);
-const standardContainerRef = $state<Toast.ToastPortalContainerRef>({ current: null });
-const anchoredContainerRef = $state<Toast.ToastPortalContainerRef>({ current: null });
+  let {
+    anchoredPortalRef,
+    onPortalClick,
+    portalTarget,
+    position = "bottom-right",
+    standardPortalRef,
+    useContainerRefs = false,
+  }: {
+    anchoredPortalRef?: Toast.ToastPortalRef;
+    onPortalClick?: (event: MouseEvent) => void;
+    portalTarget?: HTMLElement | ShadowRoot;
+    position?: Toast.ToastPosition;
+    standardPortalRef?: Toast.ToastPortalRef;
+    useContainerRefs?: boolean;
+  } = $props();
+  const manager = new Toast.Manager<{ source?: string }>();
+  const anchoredManager = new Toast.Manager<Toast.ToastData>();
+  let anchor = $state<HTMLButtonElement | null>(null);
+  let resolvePromise: ((value: string) => void) | undefined;
+  let rejectPromise: ((reason: Error) => void) | undefined;
+  let actionCount = $state(0);
+  let resolveReport: (() => void) | undefined;
+  let rejectReport: ((reason: Error) => void) | undefined;
+  let standardContainerTarget = $state<HTMLDivElement | null>(null);
+  let anchoredContainerHost = $state<HTMLDivElement | null>(null);
+  const standardContainerRef = $state<Toast.ToastPortalContainerRef>({ current: null });
+  const anchoredContainerRef = $state<Toast.ToastPortalContainerRef>({ current: null });
 
-function setContainerRefs(): void {
-  standardContainerRef.current = standardContainerTarget;
-  anchoredContainerRef.current =
-    anchoredContainerHost?.shadowRoot ??
-    anchoredContainerHost?.attachShadow({ mode: "open" }) ??
-    null;
-}
+  function setContainerRefs(): void {
+    standardContainerRef.current = standardContainerTarget;
+    anchoredContainerRef.current =
+      anchoredContainerHost?.shadowRoot ??
+      anchoredContainerHost?.attachShadow({ mode: "open" }) ??
+      null;
+  }
 
-function clearContainerRefs(): void {
-  standardContainerRef.current = null;
-  anchoredContainerRef.current = null;
-}
+  function clearContainerRefs(): void {
+    standardContainerRef.current = null;
+    anchoredContainerRef.current = null;
+  }
 
-function addDefault(): void {
-  manager.add({
-    description: "Monday, January 3rd at 6:00pm",
-    title: "Event has been created",
-    timeout: 0,
-  });
-}
-
-function addAction(): void {
-  manager.add({
-    actionProps: {
-      children: "Undo",
-      onclick: () => (actionCount += 1),
-    },
-    description: "You can undo this action.",
-    title: "Action performed",
-    timeout: 0,
-    type: "success",
-  });
-}
-
-function addTimed(): void {
-  manager.add({ title: "Timed", timeout: 80 });
-}
-
-function addHighPriority(): void {
-  manager.add({ priority: "high", title: "Payment failed", timeout: 0, type: "error" });
-}
-
-function startReport(): void {
-  const controller = new AbortController();
-  const promise = new Promise<void>((resolve, reject) => {
-    resolveReport = resolve;
-    rejectReport = reject;
-    controller.signal.addEventListener("abort", () => reject(controller.signal.reason), {
-      once: true,
+  function addDefault(): void {
+    manager.add({
+      description: "Monday, January 3rd at 6:00pm",
+      title: "Event has been created",
+      timeout: 0,
     });
-  });
+  }
 
-  manager
-    .promise(promise, {
-      error: (error) => ({
-        actionProps: undefined,
-        description: error instanceof Error ? error.message : "Unknown error",
-        title:
-          error instanceof DOMException && error.name === "AbortError" ? "Cancelled" : "Failed",
-        type: error instanceof DOMException && error.name === "AbortError" ? "info" : "error",
-      }),
-      loading: {
-        actionProps: { children: "Cancel", onclick: () => controller.abort() },
-        title: "Generating report…",
+  function addAction(): void {
+    manager.add({
+      actionProps: {
+        children: "Undo",
+        onclick: () => (actionCount += 1),
       },
-      success: { actionProps: undefined, title: "Report generated", type: "success" },
-    })
-    .catch(() => undefined);
-}
+      description: "You can undo this action.",
+      title: "Action performed",
+      timeout: 0,
+      type: "success",
+    });
+  }
 
-function startPromise(): void {
-  const promise = new Promise<string>((resolve, reject) => {
-    resolvePromise = resolve;
-    rejectPromise = reject;
-  });
-  manager
-    .promise(promise, {
-      error: (error) => ({ description: String(error), title: "Failed", type: "error" }),
-      loading: { description: "Waiting", title: "Loading…" },
-      success: (value) => ({ description: value, title: "Saved", type: "success" }),
-    })
-    .catch(() => undefined);
-}
+  function addTimed(): void {
+    manager.add({ title: "Timed", timeout: 80 });
+  }
 
-function addAnchored(tooltipStyle = false): void {
-  if (!anchor) return;
-  anchoredManager.add({
-    data: { tooltipStyle },
-    positionerProps: { anchor },
-    title: tooltipStyle ? "Copied!" : "Anchored",
-    timeout: 0,
-    ...(tooltipStyle ? {} : { type: "info" }),
-  });
-}
+  function addHighPriority(): void {
+    manager.add({ priority: "high", title: "Payment failed", timeout: 0, type: "error" });
+  }
+
+  function startReport(): void {
+    const controller = new AbortController();
+    const promise = new Promise<void>((resolve, reject) => {
+      resolveReport = resolve;
+      rejectReport = reject;
+      controller.signal.addEventListener("abort", () => reject(controller.signal.reason), {
+        once: true,
+      });
+    });
+
+    manager
+      .promise(promise, {
+        error: (error) => ({
+          actionProps: undefined,
+          description: error instanceof Error ? error.message : "Unknown error",
+          title:
+            error instanceof DOMException && error.name === "AbortError" ? "Cancelled" : "Failed",
+          type: error instanceof DOMException && error.name === "AbortError" ? "info" : "error",
+        }),
+        loading: {
+          actionProps: { children: "Cancel", onclick: () => controller.abort() },
+          title: "Generating report…",
+        },
+        success: { actionProps: undefined, title: "Report generated", type: "success" },
+      })
+      .catch(() => undefined);
+  }
+
+  function startPromise(): void {
+    const promise = new Promise<string>((resolve, reject) => {
+      resolvePromise = resolve;
+      rejectPromise = reject;
+    });
+    manager
+      .promise(promise, {
+        error: (error) => ({ description: String(error), title: "Failed", type: "error" }),
+        loading: { description: "Waiting", title: "Loading…" },
+        success: (value) => ({ description: value, title: "Saved", type: "success" }),
+      })
+      .catch(() => undefined);
+  }
+
+  function addAnchored(tooltipStyle = false): void {
+    if (!anchor) return;
+    anchoredManager.add({
+      data: { tooltipStyle },
+      positionerProps: { anchor },
+      title: tooltipStyle ? "Copied!" : "Anchored",
+      timeout: 0,
+      ...(tooltipStyle ? {} : { type: "info" }),
+    });
+  }
 </script>
 
 <Toast.Provider
@@ -171,7 +171,8 @@ function addAnchored(tooltipStyle = false): void {
   </button>
   <button
     data-testid="upsert-error"
-    onclick={() => manager.add({ id: "stable-error", title: "Stable error", timeout: 0, type: "error" })}
+    onclick={() =>
+      manager.add({ id: "stable-error", title: "Stable error", timeout: 0, type: "error" })}
     type="button"
   >
     Upsert error

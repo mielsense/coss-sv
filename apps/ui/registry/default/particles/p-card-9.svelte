@@ -1,39 +1,39 @@
 <script module lang="ts">
-import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
 
-export const meta = defineParticleMeta({
-  components: ["button", "card", "field", "form", "frame", "input", "select"],
-  containerClass:
-    "**:data-[slot=preview]:w-full **:data-[slot=preview]:flex **:data-[slot=preview]:justify-center",
-  id: "p-card-9",
-  interactive: true,
-  responsive: true,
-  title: "Card within a frame and footer",
-});
+  export const meta = defineParticleMeta({
+    components: ["button", "card", "field", "form", "frame", "input", "select"],
+    containerClass:
+      "**:data-[slot=preview]:w-full **:data-[slot=preview]:flex **:data-[slot=preview]:justify-center",
+    id: "p-card-9",
+    interactive: true,
+    responsive: true,
+    title: "Card within a frame and footer",
+  });
 </script>
 
 <script lang="ts">
-import {
-  Button,
-  Card,
-  CardPanel,
-  Field,
-  Form,
-  Frame,
-  FrameDescription,
-  FrameHeader,
-  FrameTitle,
-  Input,
-  Select,
-} from "@coss-sv/ui";
+  import {
+    Button,
+    Card,
+    CardPanel,
+    Field,
+    Form,
+    Frame,
+    FrameDescription,
+    FrameHeader,
+    FrameTitle,
+    Input,
+    Select,
+  } from "@coss-sv/ui";
 
-const frameworkOptions = [
-  { label: "Next.js", value: "next" },
-  { label: "Vite", value: "vite" },
-  { label: "Remix", value: "remix" },
-  { label: "Astro", value: "astro" },
-];
-let framework = $state("next");
+  const frameworkOptions = [
+    { label: "Next.js", value: "next" },
+    { label: "Vite", value: "vite" },
+    { label: "Remix", value: "remix" },
+    { label: "Astro", value: "astro" },
+  ];
+  let framework = $state("next");
 </script>
 
 <Frame class="w-full max-w-xs">

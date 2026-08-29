@@ -1,11 +1,11 @@
 <script lang="ts">
-import * as Command from "./index.js";
-const groups = [
-  { value: "Suggestions", items: ["Linear", "Figma", "Slack"] },
-  { value: "Commands", items: ["Clipboard History", "Create Snippet"] },
-];
-let dialogOpen = $state(false);
-let chosen = $state("");
+  import * as Command from "./index.js";
+  const groups = [
+    { value: "Suggestions", items: ["Linear", "Figma", "Slack"] },
+    { value: "Commands", items: ["Clipboard History", "Create Snippet"] },
+  ];
+  let dialogOpen = $state(false);
+  let chosen = $state("");
 </script>
 
 <Command.DialogRoot bind:open={dialogOpen}>
@@ -24,9 +24,11 @@ let chosen = $state("");
                   {#snippet children(item: string)}
                     <Command.Item
                       class=""
-                      onclick={() => { chosen = item; dialogOpen = false; }}
-                      value={item}
-                      >{item}</Command.Item
+                      onclick={() => {
+                        chosen = item;
+                        dialogOpen = false;
+                      }}
+                      value={item}>{item}</Command.Item
                     >
                   {/snippet}
                 </Command.Collection>

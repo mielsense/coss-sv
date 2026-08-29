@@ -1,5 +1,5 @@
 <script lang="ts">
-import { Skeleton } from "../../../../../../packages/ui/dist/components/ui/skeleton/index.js";
+  import { Skeleton } from "../../../../../../packages/ui/dist/components/ui/skeleton/index.js";
 </script>
 
 <div class="skeleton-review-shell">
@@ -17,19 +17,19 @@ import { Skeleton } from "../../../../../../packages/ui/dist/components/ui/skele
 </div>
 
 <style>
-.skeleton-review-shell {
-  display: flex;
-  box-sizing: border-box;
-  width: 100%;
-  min-height: 24rem;
-  align-items: center;
-  justify-content: center;
-  padding-inline: 1rem;
-}
-
-@media (width < 40rem) {
   .skeleton-review-shell {
-    padding-inline: 2.5625rem;
+    display: flex;
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 24rem;
+    align-items: center;
+    justify-content: center;
+    padding-inline: 1rem;
   }
-}
+
+  @media (width < 40rem) {
+    .skeleton-review-shell {
+      padding-inline: 2.5625rem;
+    }
+  }
 </style>

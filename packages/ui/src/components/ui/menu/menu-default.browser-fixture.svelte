@@ -1,7 +1,7 @@
 <script lang="ts">
-import * as Menu from "./index.js";
+  import * as Menu from "./index.js";
 
-let { defaultOpen = false }: { defaultOpen?: boolean } = $props();
+  let { defaultOpen = false }: { defaultOpen?: boolean } = $props();
 </script>
 
 <Menu.Root {defaultOpen}>

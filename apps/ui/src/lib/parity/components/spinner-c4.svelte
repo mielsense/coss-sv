@@ -1,5 +1,5 @@
 <script lang="ts">
-import { Spinner } from "@coss-sv/ui";
+  import { Spinner } from "@coss-sv/ui";
 </script>
 
 <div data-particle="p-spinner-1">

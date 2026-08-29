@@ -1,9 +1,9 @@
 <script lang="ts">
-import * as PreviewCard from "./index.js";
+  import * as PreviewCard from "./index.js";
 
-const handle = PreviewCard.PreviewCardCreateHandle<{ label: string }>();
-let isOpen = $state(false);
-let triggerId = $state<string | null>(null);
+  const handle = PreviewCard.PreviewCardCreateHandle<{ label: string }>();
+  let isOpen = $state(false);
+  let triggerId = $state<string | null>(null);
 </script>
 
 <PreviewCard.Trigger {handle} payload={{ label: "COSS" }}>Preview COSS</PreviewCard.Trigger>

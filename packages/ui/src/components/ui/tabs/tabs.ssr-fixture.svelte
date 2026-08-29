@@ -1,5 +1,5 @@
 <script lang="ts">
-import * as Tabs from "./index.js";
+  import * as Tabs from "./index.js";
 </script>
 
 <Tabs.Root aria-label="Account" value="overview">

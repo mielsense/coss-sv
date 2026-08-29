@@ -1,17 +1,22 @@
 <script module lang="ts">
-import type { Snippet } from "svelte";
-import type { HTMLLiAttributes } from "svelte/elements";
+  import type { Snippet } from "svelte";
+  import type { HTMLLiAttributes } from "svelte/elements";
 
-export type BreadcrumbItemProps = HTMLLiAttributes & {
-  children?: Snippet;
-  ref?: HTMLLIElement | null;
-};
+  export type BreadcrumbItemProps = HTMLLiAttributes & {
+    children?: Snippet;
+    ref?: HTMLLIElement | null;
+  };
 </script>
 
 <script lang="ts">
-import { cn } from "$lib/utils.js";
+  import { cn } from "$lib/utils.js";
 
-let { children, class: className, ref = $bindable(null), ...props }: BreadcrumbItemProps = $props();
+  let {
+    children,
+    class: className,
+    ref = $bindable(null),
+    ...props
+  }: BreadcrumbItemProps = $props();
 </script>
 
 <li

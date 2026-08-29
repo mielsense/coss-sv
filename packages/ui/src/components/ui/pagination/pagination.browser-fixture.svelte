@@ -1,12 +1,12 @@
 <script lang="ts">
-import Button from "../button/button.svelte";
-import * as Pagination from "./index.js";
+  import Button from "../button/button.svelte";
+  import * as Pagination from "./index.js";
 
-let clicks = $state(0);
-let delegatedClicks = $state(0);
-let delegatedRef = $state<HTMLElement | null>(null);
-let linkRef = $state<HTMLElement | null>(null);
-let showDelegated = $state(true);
+  let clicks = $state(0);
+  let delegatedClicks = $state(0);
+  let delegatedRef = $state<HTMLElement | null>(null);
+  let linkRef = $state<HTMLElement | null>(null);
+  let showDelegated = $state(true);
 </script>
 
 <Pagination.Root data-testid="root">
@@ -26,8 +26,7 @@ let showDelegated = $state(true);
         onclick={(event) => {
           event.preventDefault();
           clicks += 1;
-        }}
-        >2</Pagination.Link
+        }}>2</Pagination.Link
       >
     </Pagination.Item>
     <Pagination.Item>
@@ -74,5 +73,6 @@ let showDelegated = $state(true);
   Toggle delegated link
 </button>
 <output data-testid="state"
-  >{clicks}:{linkRef?.tagName ?? "missing"}:{delegatedClicks}:{delegatedRef?.tagName ?? "missing"}</output
+  >{clicks}:{linkRef?.tagName ?? "missing"}:{delegatedClicks}:{delegatedRef?.tagName ??
+    "missing"}</output
 >

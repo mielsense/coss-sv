@@ -1,9 +1,9 @@
 <script lang="ts">
-import * as Meter from "./index.js";
+  import * as Meter from "./index.js";
 
-let value = $state(75);
-let rootRef = $state<HTMLElement | null>(null);
-let indicatorRef = $state<HTMLElement | null>(null);
+  let value = $state(75);
+  let rootRef = $state<HTMLElement | null>(null);
+  let indicatorRef = $state<HTMLElement | null>(null);
 </script>
 
 <Meter.Root bind:ref={rootRef} {value} data-testid="meter">

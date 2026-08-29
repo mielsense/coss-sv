@@ -8,32 +8,32 @@
 	],
 	"files": [
 		{
-			"content": "<script lang=\"ts\">\nimport { Toolbar as P } from \"@shardsui/svelte\";\nimport type { ToolbarButtonProps } from \"./toolbar.types.js\";\n\nlet { ref = $bindable(null), ...props }: ToolbarButtonProps = $props();\n</script>\n<P.Button bind:ref data-slot=\"toolbar-button\" {...props} />\n",
+			"content": "<script lang=\"ts\">\n  import { Toolbar as P } from \"@shardsui/svelte\";\n  import type { ToolbarButtonProps } from \"./toolbar.types.js\";\n\n  let { ref = $bindable(null), ...props }: ToolbarButtonProps = $props();\n</script>\n\n<P.Button bind:ref data-slot=\"toolbar-button\" {...props} />\n",
 			"type": "registry:ui",
 			"target": "toolbar/toolbar-button.svelte"
 		},
 		{
-			"content": "<script lang=\"ts\">\nimport { Toolbar as P } from \"@shardsui/svelte\";\nimport { cn } from \"$UTILS$.js\";\nimport type { ToolbarGroupProps } from \"./toolbar.types.js\";\n\nlet { class: className, ref = $bindable(null), ...props }: ToolbarGroupProps = $props();\n</script>\n<P.Group\n  bind:ref\n  class={cn(\"flex items-center gap-1\", className)}\n  data-slot=\"toolbar-group\"\n  {...props}\n/>\n",
+			"content": "<script lang=\"ts\">\n  import { Toolbar as P } from \"@shardsui/svelte\";\n  import { cn } from \"$UTILS$.js\";\n  import type { ToolbarGroupProps } from \"./toolbar.types.js\";\n\n  let { class: className, ref = $bindable(null), ...props }: ToolbarGroupProps = $props();\n</script>\n\n<P.Group\n  bind:ref\n  class={cn(\"flex items-center gap-1\", className)}\n  data-slot=\"toolbar-group\"\n  {...props}\n/>\n",
 			"type": "registry:ui",
 			"target": "toolbar/toolbar-group.svelte"
 		},
 		{
-			"content": "<script module lang=\"ts\">\nimport type { Toolbar as ShardsToolbar } from \"@shardsui/svelte\";\nimport type { ComponentProps } from \"svelte\";\nexport type ToolbarInputProps = ComponentProps<typeof ShardsToolbar.Input>;\n</script>\n<script lang=\"ts\">\nimport { Toolbar as P } from \"@shardsui/svelte\";\n\nlet { ref = $bindable(null), ...props }: ToolbarInputProps = $props();\n</script>\n<P.Input bind:ref data-slot=\"toolbar-input\" {...props} />\n",
+			"content": "<script module lang=\"ts\">\n  import type { Toolbar as ShardsToolbar } from \"@shardsui/svelte\";\n  import type { ComponentProps } from \"svelte\";\n  export type ToolbarInputProps = ComponentProps<typeof ShardsToolbar.Input>;\n</script>\n\n<script lang=\"ts\">\n  import { Toolbar as P } from \"@shardsui/svelte\";\n\n  let { ref = $bindable(null), ...props }: ToolbarInputProps = $props();\n</script>\n\n<P.Input bind:ref data-slot=\"toolbar-input\" {...props} />\n",
 			"type": "registry:ui",
 			"target": "toolbar/toolbar-input.svelte"
 		},
 		{
-			"content": "<script lang=\"ts\">\nimport { Toolbar as P } from \"@shardsui/svelte\";\nimport type { ToolbarLinkProps } from \"./toolbar.types.js\";\n\nlet { ref = $bindable(null), ...props }: ToolbarLinkProps = $props();\n</script>\n<P.Link bind:ref data-slot=\"toolbar-link\" {...props} />\n",
+			"content": "<script lang=\"ts\">\n  import { Toolbar as P } from \"@shardsui/svelte\";\n  import type { ToolbarLinkProps } from \"./toolbar.types.js\";\n\n  let { ref = $bindable(null), ...props }: ToolbarLinkProps = $props();\n</script>\n\n<P.Link bind:ref data-slot=\"toolbar-link\" {...props} />\n",
 			"type": "registry:ui",
 			"target": "toolbar/toolbar-link.svelte"
 		},
 		{
-			"content": "<script lang=\"ts\">\nimport { Toolbar as ToolbarPrimitive } from \"@shardsui/svelte\";\nimport { cn } from \"$UTILS$.js\";\nimport type { ToolbarRootProps } from \"./toolbar.types.js\";\n\nlet { class: className, ref = $bindable(null), ...props }: ToolbarRootProps = $props();\n</script>\n\n<ToolbarPrimitive.Root\n  bind:ref\n  class={cn(\"relative flex gap-2 rounded-xl border bg-card not-dark:bg-clip-padding p-1 text-card-foreground\", className)}\n  data-slot=\"toolbar\"\n  {...props}\n/>\n",
+			"content": "<script lang=\"ts\">\n  import { Toolbar as ToolbarPrimitive } from \"@shardsui/svelte\";\n  import { cn } from \"$UTILS$.js\";\n  import type { ToolbarRootProps } from \"./toolbar.types.js\";\n\n  let { class: className, ref = $bindable(null), ...props }: ToolbarRootProps = $props();\n</script>\n\n<ToolbarPrimitive.Root\n  bind:ref\n  class={cn(\n    \"relative flex gap-2 rounded-xl border bg-card not-dark:bg-clip-padding p-1 text-card-foreground\",\n    className,\n  )}\n  data-slot=\"toolbar\"\n  {...props}\n/>\n",
 			"type": "registry:ui",
 			"target": "toolbar/toolbar-root.svelte"
 		},
 		{
-			"content": "<script lang=\"ts\">\nimport { Toolbar as P } from \"@shardsui/svelte\";\nimport { cn } from \"$UTILS$.js\";\nimport type { ToolbarSeparatorProps } from \"./toolbar.types.js\";\n\nlet { class: className, ref = $bindable(null), ...props }: ToolbarSeparatorProps = $props();\n</script>\n<P.Separator\n  bind:ref\n  class={cn(\"shrink-0 bg-border data-[orientation=horizontal]:my-0.5 data-[orientation=vertical]:my-1.5 data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full data-[orientation=vertical]:w-px data-[orientation=vertical]:not-[[class^='h-']]:not-[[class*='_h-']]:self-stretch\", className)}\n  data-slot=\"toolbar-separator\"\n  {...props}\n/>\n",
+			"content": "<script lang=\"ts\">\n  import { Toolbar as P } from \"@shardsui/svelte\";\n  import { cn } from \"$UTILS$.js\";\n  import type { ToolbarSeparatorProps } from \"./toolbar.types.js\";\n\n  let { class: className, ref = $bindable(null), ...props }: ToolbarSeparatorProps = $props();\n</script>\n\n<P.Separator\n  bind:ref\n  class={cn(\n    \"shrink-0 bg-border data-[orientation=horizontal]:my-0.5 data-[orientation=vertical]:my-1.5 data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full data-[orientation=vertical]:w-px data-[orientation=vertical]:not-[[class^='h-']]:not-[[class*='_h-']]:self-stretch\",\n    className,\n  )}\n  data-slot=\"toolbar-separator\"\n  {...props}\n/>\n",
 			"type": "registry:ui",
 			"target": "toolbar/toolbar-separator.svelte"
 		},

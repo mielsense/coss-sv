@@ -1,19 +1,20 @@
 <script lang="ts">
-import * as Sheet from "./index.js";
-import type { SheetSide } from "./index.js";
-import Input from "../input/input.svelte";
-let open = $state(false);
-let side = $state<SheetSide>("right");
-const initialValues = ["Margaret Welsh", "@maggie.welsh", "Margaret Welsh", "@maggie.welsh"];
-const detached = Sheet.createHandle<{ label: string }>();
-function show(next: SheetSide) {
-  side = next;
-  open = true;
-}
-function setOpen(next: boolean) {
-  open = next;
-}
+  import * as Sheet from "./index.js";
+  import type { SheetSide } from "./index.js";
+  import Input from "../input/input.svelte";
+  let open = $state(false);
+  let side = $state<SheetSide>("right");
+  const initialValues = ["Margaret Welsh", "@maggie.welsh", "Margaret Welsh", "@maggie.welsh"];
+  const detached = Sheet.createHandle<{ label: string }>();
+  function show(next: SheetSide) {
+    side = next;
+    open = true;
+  }
+  function setOpen(next: boolean) {
+    open = next;
+  }
 </script>
+
 {#each ["right", "left", "top", "bottom"] as item}
   <button type="button" onclick={() => show(item as SheetSide)}>Open {item}</button>
 {/each}
@@ -21,8 +22,8 @@ function setOpen(next: boolean) {
   ><Sheet.Popup {side} variant="inset" data-testid="sheet-popup"
     >{const values = $state([...initialValues])}
     <Sheet.Header
-      ><Sheet.Title>{side} sheet</Sheet.Title
-      ><Sheet.Description>Sheet content.</Sheet.Description></Sheet.Header
+      ><Sheet.Title>{side} sheet</Sheet.Title><Sheet.Description>Sheet content.</Sheet.Description
+      ></Sheet.Header
     ><Sheet.Panel
       >{#each values as value, index}
         <Input aria-label={`Sheet seed ${index + 1}`} bind:value={values[index]} />
@@ -44,9 +45,10 @@ function setOpen(next: boolean) {
     </Sheet.Popup>
   {/snippet}
 </Sheet.Root>
+
 <style>
-:global([data-slot="sheet-backdrop"]),
-:global([data-slot="sheet-viewport"]) {
-  z-index: 50;
-}
+  :global([data-slot="sheet-backdrop"]),
+  :global([data-slot="sheet-viewport"]) {
+    z-index: 50;
+  }
 </style>

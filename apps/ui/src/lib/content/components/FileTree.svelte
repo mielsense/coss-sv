@@ -1,12 +1,12 @@
 <script lang="ts">
-import type { FileTreeNode } from "./types.js";
+  import type { FileTreeNode } from "./types.js";
 
-type Props = {
-  nodes: readonly FileTreeNode[];
-  depth?: number;
-};
+  type Props = {
+    nodes: readonly FileTreeNode[];
+    depth?: number;
+  };
 
-let { nodes, depth = 0 }: Props = $props();
+  let { nodes, depth = 0 }: Props = $props();
 </script>
 
 {#snippet renderNodes(entries: readonly FileTreeNode[], currentDepth: number)}

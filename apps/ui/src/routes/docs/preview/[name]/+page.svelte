@@ -1,8 +1,8 @@
 <script lang="ts">
-import { page } from "$app/state";
-import { PreviewPresentation } from "$lib/site/index.js";
+  import { page } from "$app/state";
+  import { PreviewPresentation } from "$lib/site/index.js";
 
-let name = $derived(page.params.name ?? "");
+  let name = $derived(page.params.name ?? "");
 </script>
 
 <svelte:head>

@@ -1,8 +1,8 @@
 <script lang="ts">
-import type { TabsValue } from "@shardsui/svelte";
-import * as Tabs from "./index.js";
+  import type { TabsValue } from "@shardsui/svelte";
+  import * as Tabs from "./index.js";
 
-let { defaultValue = "one" }: { defaultValue?: TabsValue } = $props();
+  let { defaultValue = "one" }: { defaultValue?: TabsValue } = $props();
 </script>
 
 <Tabs.Root {defaultValue}>

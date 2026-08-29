@@ -1,5 +1,5 @@
 <script lang="ts">
-import * as Sidebar from "./index.js";
+  import * as Sidebar from "./index.js";
 </script>
 
 <Sidebar.Provider defaultOpen={false}>

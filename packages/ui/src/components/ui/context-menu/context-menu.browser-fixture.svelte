@@ -1,8 +1,8 @@
 <script lang="ts">
-import * as ContextMenu from "./index.js";
+  import * as ContextMenu from "./index.js";
 
-let open = $state(false);
-let portalTarget = $state<HTMLElement | null>(null);
+  let open = $state(false);
+  let portalTarget = $state<HTMLElement | null>(null);
 </script>
 
 <button data-testid="before" type="button">Before</button>

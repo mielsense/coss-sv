@@ -1,45 +1,45 @@
 <script lang="ts">
-import * as Autocomplete from "./index.js";
-import * as Combobox from "../combobox/index.js";
-import * as Select from "../select/index.js";
+  import * as Autocomplete from "./index.js";
+  import * as Combobox from "../combobox/index.js";
+  import * as Select from "../select/index.js";
 
-let mounted = $state(true);
+  let mounted = $state(true);
 
-let autocompleteEmptyRef = $state<HTMLElement | null>(null);
-let autocompleteGroupRef = $state<HTMLElement | null>(null);
-let autocompleteGroupLabelRef = $state<HTMLElement | null>(null);
-let autocompleteRowRef = $state<HTMLElement | null>(null);
-let autocompleteSeparatorRef = $state<HTMLElement | null>(null);
-let autocompleteStatusRef = $state<HTMLElement | null>(null);
+  let autocompleteEmptyRef = $state<HTMLElement | null>(null);
+  let autocompleteGroupRef = $state<HTMLElement | null>(null);
+  let autocompleteGroupLabelRef = $state<HTMLElement | null>(null);
+  let autocompleteRowRef = $state<HTMLElement | null>(null);
+  let autocompleteSeparatorRef = $state<HTMLElement | null>(null);
+  let autocompleteStatusRef = $state<HTMLElement | null>(null);
 
-let comboboxEmptyRef = $state<HTMLElement | null>(null);
-let comboboxGroupRef = $state<HTMLElement | null>(null);
-let comboboxGroupLabelRef = $state<HTMLElement | null>(null);
-let comboboxRowRef = $state<HTMLElement | null>(null);
-let comboboxSeparatorRef = $state<HTMLElement | null>(null);
-let comboboxStatusRef = $state<HTMLElement | null>(null);
+  let comboboxEmptyRef = $state<HTMLElement | null>(null);
+  let comboboxGroupRef = $state<HTMLElement | null>(null);
+  let comboboxGroupLabelRef = $state<HTMLElement | null>(null);
+  let comboboxRowRef = $state<HTMLElement | null>(null);
+  let comboboxSeparatorRef = $state<HTMLElement | null>(null);
+  let comboboxStatusRef = $state<HTMLElement | null>(null);
 
-let selectGroupRef = $state<HTMLElement | null>(null);
-let selectGroupLabelRef = $state<HTMLElement | null>(null);
-let selectSeparatorRef = $state<HTMLElement | null>(null);
+  let selectGroupRef = $state<HTMLElement | null>(null);
+  let selectGroupLabelRef = $state<HTMLElement | null>(null);
+  let selectSeparatorRef = $state<HTMLElement | null>(null);
 
-const refs = $derived([
-  autocompleteEmptyRef,
-  autocompleteGroupRef,
-  autocompleteGroupLabelRef,
-  autocompleteRowRef,
-  autocompleteSeparatorRef,
-  autocompleteStatusRef,
-  comboboxEmptyRef,
-  comboboxGroupRef,
-  comboboxGroupLabelRef,
-  comboboxRowRef,
-  comboboxSeparatorRef,
-  comboboxStatusRef,
-  selectGroupRef,
-  selectGroupLabelRef,
-  selectSeparatorRef,
-]);
+  const refs = $derived([
+    autocompleteEmptyRef,
+    autocompleteGroupRef,
+    autocompleteGroupLabelRef,
+    autocompleteRowRef,
+    autocompleteSeparatorRef,
+    autocompleteStatusRef,
+    comboboxEmptyRef,
+    comboboxGroupRef,
+    comboboxGroupLabelRef,
+    comboboxRowRef,
+    comboboxSeparatorRef,
+    comboboxStatusRef,
+    selectGroupRef,
+    selectGroupLabelRef,
+    selectSeparatorRef,
+  ]);
 </script>
 
 <div hidden>

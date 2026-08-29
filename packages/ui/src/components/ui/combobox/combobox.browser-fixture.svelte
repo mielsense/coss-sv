@@ -1,20 +1,20 @@
 <script lang="ts">
-import * as Combobox from "./index.js";
+  import * as Combobox from "./index.js";
 
-const items = ["Apple", "Banana", "Orange", "Grape"];
-const people = [
-  { id: "ada", name: "Ada Lovelace" },
-  { id: "grace", name: "Grace Hopper" },
-];
-const frameworks = [
-  { label: "Next.js", value: "next" },
-  { label: "Vite", value: "vite" },
-];
-let single = $state<string | null>(null);
-let multiple = $state<string[]>(["Apple", "Grape"]);
-let inputValue = $state("");
-let person = $state<(typeof people)[number] | null>(null);
-let personIdentity = $state("different");
+  const items = ["Apple", "Banana", "Orange", "Grape"];
+  const people = [
+    { id: "ada", name: "Ada Lovelace" },
+    { id: "grace", name: "Grace Hopper" },
+  ];
+  const frameworks = [
+    { label: "Next.js", value: "next" },
+    { label: "Vite", value: "vite" },
+  ];
+  let single = $state<string | null>(null);
+  let multiple = $state<string[]>(["Apple", "Grape"]);
+  let inputValue = $state("");
+  let person = $state<(typeof people)[number] | null>(null);
+  let personIdentity = $state("different");
 </script>
 
 <form data-testid="combobox-form">

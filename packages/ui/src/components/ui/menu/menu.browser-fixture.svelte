@@ -1,11 +1,11 @@
 <script lang="ts">
-import * as Menu from "./index.js";
+  import * as Menu from "./index.js";
 
-let open = $state(false);
-let checked = $state(false);
-let value = $state("system");
-let changes = $state<string[]>([]);
-let vetoedOpen = $state(false);
+  let open = $state(false);
+  let checked = $state(false);
+  let value = $state("system");
+  let changes = $state<string[]>([]);
+  let vetoedOpen = $state(false);
 </script>
 
 <button data-testid="before" type="button">Before</button>

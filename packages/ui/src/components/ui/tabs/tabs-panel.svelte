@@ -1,15 +1,15 @@
 <script module lang="ts">
-import type { Tabs as ShardsTabs } from "@shardsui/svelte";
-import type { ComponentProps } from "svelte";
+  import type { Tabs as ShardsTabs } from "@shardsui/svelte";
+  import type { ComponentProps } from "svelte";
 
-export type TabsPanelProps = ComponentProps<typeof ShardsTabs.Panel>;
+  export type TabsPanelProps = ComponentProps<typeof ShardsTabs.Panel>;
 </script>
 
 <script lang="ts">
-import { Tabs as TabsPrimitive } from "@shardsui/svelte";
-import { cn } from "$lib/utils.js";
+  import { Tabs as TabsPrimitive } from "@shardsui/svelte";
+  import { cn } from "$lib/utils.js";
 
-let { class: className, ref = $bindable(null), ...props }: TabsPanelProps = $props();
+  let { class: className, ref = $bindable(null), ...props }: TabsPanelProps = $props();
 </script>
 
 <TabsPrimitive.Panel

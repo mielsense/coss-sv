@@ -1,12 +1,12 @@
 <script lang="ts">
-import {
-  Frame,
-  FrameDescription,
-  FrameFooter,
-  FrameHeader,
-  FramePanel,
-  FrameTitle,
-} from "../../../../../../packages/ui/dist/components/ui/frame/index.js";
+  import {
+    Frame,
+    FrameDescription,
+    FrameFooter,
+    FrameHeader,
+    FramePanel,
+    FrameTitle,
+  } from "../../../../../../packages/ui/dist/components/ui/frame/index.js";
 </script>
 
 <div class="frame-review-shell">
@@ -26,23 +26,23 @@ import {
 </div>
 
 <style>
-.frame-review-shell {
-  display: flex;
-  box-sizing: border-box;
-  width: 100%;
-  min-height: 24rem;
-  align-items: center;
-  justify-content: center;
-}
-
-.frame-particle-shell {
-  width: 42.875rem;
-  max-width: 100%;
-}
-
-@media (width < 40rem) {
-  .frame-particle-shell {
-    width: 19.25rem;
+  .frame-review-shell {
+    display: flex;
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 24rem;
+    align-items: center;
+    justify-content: center;
   }
-}
+
+  .frame-particle-shell {
+    width: 42.875rem;
+    max-width: 100%;
+  }
+
+  @media (width < 40rem) {
+    .frame-particle-shell {
+      width: 19.25rem;
+    }
+  }
 </style>

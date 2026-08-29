@@ -1,9 +1,10 @@
 <script lang="ts">
-import * as Progress from "./index.js";
+  import * as Progress from "./index.js";
 
-let value = $state<number | null>(20);
-let rootRef = $state<HTMLElement | null>(null);
+  let value = $state<number | null>(20);
+  let rootRef = $state<HTMLElement | null>(null);
 </script>
+
 <Progress.Root bind:ref={rootRef} {value} data-testid="progress">
   <Progress.Label data-testid="progress-label">Upload</Progress.Label>
   <Progress.Value data-testid="progress-value" />

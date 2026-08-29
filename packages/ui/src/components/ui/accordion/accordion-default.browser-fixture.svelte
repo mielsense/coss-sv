@@ -1,7 +1,7 @@
 <script lang="ts">
-import * as Accordion from "./index.js";
+  import * as Accordion from "./index.js";
 
-let { defaultValue = ["one"] }: { defaultValue?: string[] } = $props();
+  let { defaultValue = ["one"] }: { defaultValue?: string[] } = $props();
 </script>
 
 <Accordion.Root {defaultValue}>

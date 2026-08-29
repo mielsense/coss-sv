@@ -1,23 +1,28 @@
 <script module lang="ts">
-import type { Tabs as ShardsTabs } from "@shardsui/svelte";
-import type { ComponentProps } from "svelte";
-import type { TabsSize } from "./tabs-styles.js";
+  import type { Tabs as ShardsTabs } from "@shardsui/svelte";
+  import type { ComponentProps } from "svelte";
+  import type { TabsSize } from "./tabs-styles.js";
 
-export type TabsTabProps = ComponentProps<typeof ShardsTabs.Tab> & {
-  size?: TabsSize;
-};
+  export type TabsTabProps = ComponentProps<typeof ShardsTabs.Tab> & {
+    size?: TabsSize;
+  };
 </script>
 
 <script lang="ts">
-import { Tabs as TabsPrimitive } from "@shardsui/svelte";
-import { cn } from "$lib/utils.js";
-import { getTabsListStyleContext } from "./context.js";
-import { tabsItemLayoutClassName, tabsItemSizeClassNames } from "./tabs-styles.js";
+  import { Tabs as TabsPrimitive } from "@shardsui/svelte";
+  import { cn } from "$lib/utils.js";
+  import { getTabsListStyleContext } from "./context.js";
+  import { tabsItemLayoutClassName, tabsItemSizeClassNames } from "./tabs-styles.js";
 
-let { class: className, ref = $bindable(null), size: sizeProp, ...props }: TabsTabProps = $props();
+  let {
+    class: className,
+    ref = $bindable(null),
+    size: sizeProp,
+    ...props
+  }: TabsTabProps = $props();
 
-const context = getTabsListStyleContext();
-const size = $derived(sizeProp ?? context.size);
+  const context = getTabsListStyleContext();
+  const size = $derived(sizeProp ?? context.size);
 </script>
 
 <TabsPrimitive.Tab

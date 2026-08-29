@@ -1,29 +1,29 @@
 <script module lang="ts">
-import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
 
-export const meta = defineParticleMeta({
-  components: ["field", "fieldset", "radio-group"],
-  containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-[320px]",
-  id: "p-radio-group-6",
-  interactive: true,
-  responsive: true,
-  title: "Theme radio group",
-});
+  export const meta = defineParticleMeta({
+    components: ["field", "fieldset", "radio-group"],
+    containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-[320px]",
+    id: "p-radio-group-6",
+    interactive: true,
+    responsive: true,
+    title: "Theme radio group",
+  });
 </script>
 
 <script lang="ts">
-import { Field, Fieldset, RadioGroup } from "@coss-sv/ui";
+  import { Field, Fieldset, RadioGroup } from "@coss-sv/ui";
 
-const uid = $props.id();
-const themes = [
-  {
-    value: "system",
-    label: "System",
-    class: "bg-[linear-gradient(90deg,#e5e5e5_50%,#171717_50%)]",
-  },
-  { value: "light", label: "Light", class: "bg-neutral-200" },
-  { value: "dark", label: "Dark", class: "bg-neutral-900" },
-];
+  const uid = $props.id();
+  const themes = [
+    {
+      value: "system",
+      label: "System",
+      class: "bg-[linear-gradient(90deg,#e5e5e5_50%,#171717_50%)]",
+    },
+    { value: "light", label: "Light", class: "bg-neutral-200" },
+    { value: "dark", label: "Dark", class: "bg-neutral-900" },
+  ];
 </script>
 
 {#snippet preview(value: string)}
@@ -33,16 +33,14 @@ const themes = [
     <span class="absolute top-2 bottom-0 left-2.5 w-[34px] rounded-ss bg-white shadow-sm">
       <span class="absolute left-2.5 top-2.5 size-4 rounded-full bg-neutral-300"></span>
       <span class="absolute bottom-6 left-2.5 right-0 h-1 rounded-s-full bg-neutral-200"></span>
-      <span
-        class="absolute bottom-[17px] left-2.5 right-0 h-1 rounded-s-full bg-neutral-200"
+      <span class="absolute bottom-[17px] left-2.5 right-0 h-1 rounded-s-full bg-neutral-200"
       ></span>
       <span class="absolute bottom-2.5 left-2.5 right-0 h-1 rounded-s-full bg-neutral-200"></span>
     </span>
     <span class="absolute top-2 right-0 bottom-0 left-[54px] rounded-ss bg-neutral-800 shadow-sm">
       <span class="absolute left-2.5 top-2.5 size-4 rounded-full bg-neutral-600"></span>
       <span class="absolute bottom-6 left-2.5 right-0 h-1 rounded-s-full bg-neutral-700"></span>
-      <span
-        class="absolute bottom-[17px] left-2.5 right-0 h-1 rounded-s-full bg-neutral-700"
+      <span class="absolute bottom-[17px] left-2.5 right-0 h-1 rounded-s-full bg-neutral-700"
       ></span>
       <span class="absolute bottom-2.5 left-2.5 right-0 h-1 rounded-s-full bg-neutral-700"></span>
     </span>
@@ -86,7 +84,10 @@ const themes = [
           />
           <span
             aria-hidden="true"
-            class={["relative block h-[70px] w-[88px] overflow-hidden rounded-lg shadow-xs transition-shadow not-peer-data-checked:opacity-80 peer-data-checked:ring-2 peer-data-checked:ring-primary/48 peer-data-checked:ring-offset-1 peer-data-checked:ring-offset-background peer-data-disabled:cursor-not-allowed peer-data-disabled:opacity-64", theme.class]}
+            class={[
+              "relative block h-[70px] w-[88px] overflow-hidden rounded-lg shadow-xs transition-shadow not-peer-data-checked:opacity-80 peer-data-checked:ring-2 peer-data-checked:ring-primary/48 peer-data-checked:ring-offset-1 peer-data-checked:ring-offset-background peer-data-disabled:cursor-not-allowed peer-data-disabled:opacity-64",
+              theme.class,
+            ]}
           >
             {@render preview(theme.value)}
           </span>

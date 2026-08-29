@@ -1,30 +1,30 @@
 <script module lang="ts">
-import type { Collapsible as ShardsCollapsible } from "@shardsui/svelte";
-import type { ComponentProps } from "svelte";
+  import type { Collapsible as ShardsCollapsible } from "@shardsui/svelte";
+  import type { ComponentProps } from "svelte";
 
-export type CollapsiblePanelProps = ComponentProps<typeof ShardsCollapsible.Panel>;
+  export type CollapsiblePanelProps = ComponentProps<typeof ShardsCollapsible.Panel>;
 </script>
 
 <script lang="ts">
-import { Collapsible as CollapsiblePrimitive } from "@shardsui/svelte";
-import type { Attachment } from "svelte/attachments";
-import { createAttachmentKey } from "svelte/attachments";
-import { cn } from "$lib/utils.js";
-import { getCollapsibleDelegateContext } from "./context.js";
+  import { Collapsible as CollapsiblePrimitive } from "@shardsui/svelte";
+  import type { Attachment } from "svelte/attachments";
+  import { createAttachmentKey } from "svelte/attachments";
+  import { cn } from "$lib/utils.js";
+  import { getCollapsibleDelegateContext } from "./context.js";
 
-const uid = $props.id();
+  const uid = $props.id();
 
-let {
-  class: className,
-  id = uid,
-  ref = $bindable(null),
-  ...props
-}: CollapsiblePanelProps = $props();
+  let {
+    class: className,
+    id = uid,
+    ref = $bindable(null),
+    ...props
+  }: CollapsiblePanelProps = $props();
 
-const context = getCollapsibleDelegateContext();
-const registrationKey = createAttachmentKey();
-const registerPanelId: Attachment<HTMLElement> = () => context.registerPanelId(id);
-const registrationProps = $derived({ [registrationKey]: registerPanelId });
+  const context = getCollapsibleDelegateContext();
+  const registrationKey = createAttachmentKey();
+  const registerPanelId: Attachment<HTMLElement> = () => context.registerPanelId(id);
+  const registrationProps = $derived({ [registrationKey]: registerPanelId });
 </script>
 
 <CollapsiblePrimitive.Panel

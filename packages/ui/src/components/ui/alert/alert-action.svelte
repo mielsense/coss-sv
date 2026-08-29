@@ -1,14 +1,14 @@
 <script lang="ts">
-import type { Snippet } from "svelte";
-import type { HTMLAttributes } from "svelte/elements";
-import { cn } from "$lib/utils.js";
+  import type { Snippet } from "svelte";
+  import type { HTMLAttributes } from "svelte/elements";
+  import { cn } from "$lib/utils.js";
 
-type Props = Omit<HTMLAttributes<HTMLDivElement>, "children"> & {
-  children?: Snippet;
-  ref?: HTMLDivElement | null;
-};
+  type Props = Omit<HTMLAttributes<HTMLDivElement>, "children"> & {
+    children?: Snippet;
+    ref?: HTMLDivElement | null;
+  };
 
-let { children, class: className, ref = $bindable(null), ...props }: Props = $props();
+  let { children, class: className, ref = $bindable(null), ...props }: Props = $props();
 </script>
 
 <div

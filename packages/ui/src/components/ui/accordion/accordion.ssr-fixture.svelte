@@ -1,5 +1,5 @@
 <script lang="ts">
-import * as Accordion from "./index.js";
+  import * as Accordion from "./index.js";
 </script>
 
 <Accordion.Root aria-label="Questions" value={["one"]}>

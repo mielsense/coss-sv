@@ -9,7 +9,7 @@
 	],
 	"files": [
 		{
-			"content": "<script module lang=\"ts\">\nimport { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\nexport const meta = defineParticleMeta({\n  components: [\"button\"],\n  id: \"p-button-41\",\n  interactive: true,\n  responsive: false,\n  title: \"Built-in loading button\",\n});\n</script>\n\n<script lang=\"ts\">\nimport { Button } from \"$COMPONENTS$/ui/button/index.js\";\n\nlet loading = $state(false);\n\nfunction submit() {\n  loading = true;\n  window.setTimeout(() => (loading = false), 1000);\n}\n</script>\n\n<Button {loading} onclick={submit}>Submit</Button>\n",
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\n  export const meta = defineParticleMeta({\n    components: [\"button\"],\n    id: \"p-button-41\",\n    interactive: true,\n    responsive: false,\n    title: \"Built-in loading button\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { Button } from \"$COMPONENTS$/ui/button/index.js\";\n\n  let loading = $state(false);\n\n  function submit() {\n    loading = true;\n    window.setTimeout(() => (loading = false), 1000);\n  }\n</script>\n\n<Button {loading} onclick={submit}>Submit</Button>\n",
 			"type": "registry:block",
 			"target": "p-button-41.svelte"
 		}

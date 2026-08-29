@@ -1,16 +1,16 @@
 <script lang="ts">
-import {
-  Frame,
-  FrameDescription,
-  FrameFooter,
-  FrameHeader,
-  FramePanel,
-  FrameTitle,
-} from "./index.js";
+  import {
+    Frame,
+    FrameDescription,
+    FrameFooter,
+    FrameHeader,
+    FramePanel,
+    FrameTitle,
+  } from "./index.js";
 
-let clicks = $state(0);
-let frameRef = $state<HTMLDivElement | null>(null);
-let panelRef = $state<HTMLDivElement | null>(null);
+  let clicks = $state(0);
+  let frameRef = $state<HTMLDivElement | null>(null);
+  let panelRef = $state<HTMLDivElement | null>(null);
 </script>
 
 <Frame bind:ref={frameRef} data-testid="frame">

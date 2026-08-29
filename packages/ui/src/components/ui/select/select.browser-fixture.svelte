@@ -1,21 +1,21 @@
 <script lang="ts">
-import { DirectionProvider } from "@shardsui/svelte";
-import * as Select from "./index.js";
+  import { DirectionProvider } from "@shardsui/svelte";
+  import * as Select from "./index.js";
 
-const frameworks = [
-  { label: "Next.js", value: "next" },
-  { label: "Vite", value: "vite" },
-  { label: "Astro", value: "astro" },
-];
-let framework = $state("next");
-let languages = $state<string[]>(["JavaScript"]);
-const people = [
-  { id: "ada", name: "Ada Lovelace" },
-  { id: "grace", name: "Grace Hopper" },
-];
-let person = $state<(typeof people)[number] | null>(null);
-let personIdentity = $state("different");
-let rtlContainer = $state<HTMLElement | null>(null);
+  const frameworks = [
+    { label: "Next.js", value: "next" },
+    { label: "Vite", value: "vite" },
+    { label: "Astro", value: "astro" },
+  ];
+  let framework = $state("next");
+  let languages = $state<string[]>(["JavaScript"]);
+  const people = [
+    { id: "ada", name: "Ada Lovelace" },
+    { id: "grace", name: "Grace Hopper" },
+  ];
+  let person = $state<(typeof people)[number] | null>(null);
+  let personIdentity = $state("different");
+  let rtlContainer = $state<HTMLElement | null>(null);
 </script>
 
 <form data-testid="select-form">
@@ -89,20 +89,20 @@ let rtlContainer = $state<HTMLElement | null>(null);
 </div>
 
 <style>
-:global([dir="rtl"] [data-testid="rtl-trigger"]) {
-  display: flex;
-  width: 144px;
-  padding-inline: 12px;
-}
+  :global([dir="rtl"] [data-testid="rtl-trigger"]) {
+    display: flex;
+    width: 144px;
+    padding-inline: 12px;
+  }
 
-:global([dir="rtl"] [data-slot="select-popup"]) {
-  min-width: 164px;
-}
+  :global([dir="rtl"] [data-slot="select-popup"]) {
+    min-width: 164px;
+  }
 
-:global([dir="rtl"] [data-slot="select-item"]) {
-  display: grid;
-  grid-template-columns: 16px 1fr;
-  gap: 8px;
-  padding-inline: 8px 16px;
-}
+  :global([dir="rtl"] [data-slot="select-item"]) {
+    display: grid;
+    grid-template-columns: 16px 1fr;
+    gap: 8px;
+    padding-inline: 8px 16px;
+  }
 </style>

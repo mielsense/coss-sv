@@ -1,48 +1,48 @@
 <script module lang="ts">
-import type { Popover as ShardsPopover } from "@shardsui/svelte";
-import type { ComponentProps, Snippet } from "svelte";
+  import type { Popover as ShardsPopover } from "@shardsui/svelte";
+  import type { ComponentProps, Snippet } from "svelte";
 
-type PopupProps = ComponentProps<typeof ShardsPopover.Popup>;
-type PositionerProps = ComponentProps<typeof ShardsPopover.Positioner>;
-export type PopoverPortalProps = ComponentProps<typeof ShardsPopover.Portal>;
+  type PopupProps = ComponentProps<typeof ShardsPopover.Popup>;
+  type PositionerProps = ComponentProps<typeof ShardsPopover.Positioner>;
+  export type PopoverPortalProps = ComponentProps<typeof ShardsPopover.Portal>;
 
-export type PopoverPopupProps = Omit<PopupProps, "children"> & {
-  align?: PositionerProps["align"];
-  alignOffset?: PositionerProps["alignOffset"];
-  anchor?: PositionerProps["anchor"];
-  children?: Snippet;
-  portalProps?: PopoverPortalProps;
-  side?: PositionerProps["side"];
-  sideOffset?: PositionerProps["sideOffset"];
-  tooltipStyle?: boolean;
-};
+  export type PopoverPopupProps = Omit<PopupProps, "children"> & {
+    align?: PositionerProps["align"];
+    alignOffset?: PositionerProps["alignOffset"];
+    anchor?: PositionerProps["anchor"];
+    children?: Snippet;
+    portalProps?: PopoverPortalProps;
+    side?: PositionerProps["side"];
+    sideOffset?: PositionerProps["sideOffset"];
+    tooltipStyle?: boolean;
+  };
 </script>
 
 <script lang="ts">
-import { Popover as PopoverPrimitive } from "@shardsui/svelte";
-import { cn } from "$lib/utils.js";
+  import { Popover as PopoverPrimitive } from "@shardsui/svelte";
+  import { cn } from "$lib/utils.js";
 
-let {
-  align = "center",
-  alignOffset = 0,
-  anchor,
-  children: child,
-  class: className,
-  portalProps,
-  ref = $bindable(null),
-  side = "bottom",
-  sideOffset = 4,
-  tooltipStyle = false,
-  ...props
-}: PopoverPopupProps = $props();
+  let {
+    align = "center",
+    alignOffset = 0,
+    anchor,
+    children: child,
+    class: className,
+    portalProps,
+    ref = $bindable(null),
+    side = "bottom",
+    sideOffset = 4,
+    tooltipStyle = false,
+    ...props
+  }: PopoverPopupProps = $props();
 
-const positionerProps = $derived({
-  align,
-  alignOffset,
-  ...(anchor === undefined ? {} : { anchor }),
-  side,
-  sideOffset,
-});
+  const positionerProps = $derived({
+    align,
+    alignOffset,
+    ...(anchor === undefined ? {} : { anchor }),
+    side,
+    sideOffset,
+  });
 </script>
 
 <PopoverPrimitive.Portal {...portalProps}>

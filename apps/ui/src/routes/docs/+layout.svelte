@@ -1,8 +1,8 @@
 <script lang="ts">
-import type { Snippet } from "svelte";
-import { DocsSidebar, DocsToc, SiteFooter } from "$lib/site/index.js";
+  import type { Snippet } from "svelte";
+  import { DocsSidebar, DocsToc, SiteFooter } from "$lib/site/index.js";
 
-let { children }: { children: Snippet } = $props();
+  let { children }: { children: Snippet } = $props();
 </script>
 
 <div class="docs-layout">

@@ -1,5 +1,5 @@
 <script lang="ts">
-import * as Tooltip from "./index.js";
+  import * as Tooltip from "./index.js";
 </script>
 
 <Tooltip.Provider delay={0}>

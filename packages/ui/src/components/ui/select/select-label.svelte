@@ -1,13 +1,15 @@
 <script module lang="ts">
-import type { Select as ShardsSelect } from "@shardsui/svelte";
-import type { ComponentProps } from "svelte";
-export type SelectLabelProps = ComponentProps<typeof ShardsSelect.Label>;
+  import type { Select as ShardsSelect } from "@shardsui/svelte";
+  import type { ComponentProps } from "svelte";
+  export type SelectLabelProps = ComponentProps<typeof ShardsSelect.Label>;
 </script>
+
 <script lang="ts">
-import { Select as P } from "@shardsui/svelte";
-import { cn } from "$lib/utils.js";
-let { class: className, ref = $bindable(null), ...props }: SelectLabelProps = $props();
+  import { Select as P } from "@shardsui/svelte";
+  import { cn } from "$lib/utils.js";
+  let { class: className, ref = $bindable(null), ...props }: SelectLabelProps = $props();
 </script>
+
 <P.Label
   bind:ref
   class={cn(

@@ -1,5 +1,5 @@
 <script lang="ts">
-import * as Collapsible from "./index.js";
+  import * as Collapsible from "./index.js";
 </script>
 
 <Collapsible.Root data-hydration="collapsible-delegate" open>

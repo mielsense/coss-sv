@@ -1,17 +1,17 @@
 <script module lang="ts">
-import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
 
-export const meta = defineParticleMeta({
-  components: ["separator"],
-  id: "p-separator-1",
-  interactive: false,
-  responsive: false,
-  title: "Separator with horizontal and vertical orientations",
-});
+  export const meta = defineParticleMeta({
+    components: ["separator"],
+    id: "p-separator-1",
+    interactive: false,
+    responsive: false,
+    title: "Separator with horizontal and vertical orientations",
+  });
 </script>
 
 <script lang="ts">
-import { Separator } from "@coss-sv/ui";
+  import { Separator } from "@coss-sv/ui";
 </script>
 
 <div class="max-w-72">

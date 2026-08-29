@@ -1,8 +1,8 @@
 <script lang="ts">
-import { Alert, AlertDescription, AlertTitle } from "./index.js";
+  import { Alert, AlertDescription, AlertTitle } from "./index.js";
 
-let clicks = $state(0);
-let ref = $state<HTMLDivElement | null>(null);
+  let clicks = $state(0);
+  let ref = $state<HTMLDivElement | null>(null);
 </script>
 
 <Alert bind:ref data-testid="alert" onclick={() => (clicks += 1)} variant="error">

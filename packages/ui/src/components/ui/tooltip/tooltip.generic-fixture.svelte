@@ -1,9 +1,9 @@
 <script lang="ts">
-import * as Tooltip from "./index.js";
+  import * as Tooltip from "./index.js";
 
-const handle = Tooltip.TooltipCreateHandle<{ label: string }>();
-let isOpen = $state(false);
-let triggerId = $state<string | null>(null);
+  const handle = Tooltip.TooltipCreateHandle<{ label: string }>();
+  let isOpen = $state(false);
+  let triggerId = $state<string | null>(null);
 </script>
 
 <Tooltip.Trigger {handle} payload={{ label: "Save" }}>Save</Tooltip.Trigger>

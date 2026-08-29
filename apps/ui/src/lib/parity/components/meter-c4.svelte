@@ -1,7 +1,7 @@
 <script lang="ts">
-import { Meter } from "@coss-sv/ui";
+  import { Meter } from "@coss-sv/ui";
 
-let probeValue = $state(25);
+  let probeValue = $state(25);
 </script>
 
 <div class="docs-preview-width" data-particle="p-meter-1">
@@ -27,10 +27,10 @@ let probeValue = $state(25);
 </div>
 
 <style>
-.docs-preview-width {
-  width: min(16rem, 100%);
-}
-.review-probes {
-  margin-top: 2rem;
-}
+  .docs-preview-width {
+    width: min(16rem, 100%);
+  }
+  .review-probes {
+    margin-top: 2rem;
+  }
 </style>

@@ -1,15 +1,15 @@
 <script lang="ts">
-type PageLink = {
-  href: string;
-  title: string;
-};
+  type PageLink = {
+    href: string;
+    title: string;
+  };
 
-type Props = {
-  next?: PageLink;
-  previous?: PageLink;
-};
+  type Props = {
+    next?: PageLink;
+    previous?: PageLink;
+  };
 
-let { next, previous }: Props = $props();
+  let { next, previous }: Props = $props();
 </script>
 
 <nav class="mt-16 grid gap-3 border-t pt-6 sm:grid-cols-2" aria-label="Documentation pages">

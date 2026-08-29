@@ -1,5 +1,5 @@
 <script lang="ts">
-import { page } from "$app/state";
+  import { page } from "$app/state";
 </script>
 
 <svelte:head>
@@ -13,22 +13,22 @@ import { page } from "$app/state";
 </section>
 
 <style>
-.preview-error {
-  width: min(100%, 32rem);
-  padding: 1.5rem;
-  border: 1px solid var(--border);
-  border-radius: 0.75rem;
-  background: var(--background);
-  color: var(--foreground);
-}
+  .preview-error {
+    width: min(100%, 32rem);
+    padding: 1.5rem;
+    border: 1px solid var(--border);
+    border-radius: 0.75rem;
+    background: var(--background);
+    color: var(--foreground);
+  }
 
-p,
-h1 {
-  margin: 0;
-}
+  p,
+  h1 {
+    margin: 0;
+  }
 
-h1,
-.message {
-  margin-top: 0.5rem;
-}
+  h1,
+  .message {
+    margin-top: 0.5rem;
+  }
 </style>

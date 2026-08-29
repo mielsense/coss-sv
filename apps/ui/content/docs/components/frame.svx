@@ -7,7 +7,10 @@ description: A framed container for grouping related information.
 
 ## Installation
 
-<InstallCommand pnpm="pnpm add @coss-sv/ui" shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/frame.json" />
+<InstallCommand
+  pnpm="pnpm add @coss-sv/ui"
+  shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/frame.json"
+/>
 
 ## Usage
 
@@ -39,17 +42,17 @@ description: A framed container for grouping related information.
 
 The main container component for grouping related information.
 
-| Prop | Type | Default |
-| --- | --- | --- |
-| `class` | `string` | |
+| Prop    | Type     | Default |
+| ------- | -------- | ------- |
+| `class` | `string` |         |
 
 ### FramePanel
 
 A panel container for frame content.
 
-| Prop | Type | Default |
-| --- | --- | --- |
-| `class` | `string` | |
+| Prop    | Type     | Default |
+| ------- | -------- | ------- |
+| `class` | `string` |         |
 
 ```svelte
 <FramePanel>Content</FramePanel>
@@ -59,9 +62,9 @@ A panel container for frame content.
 
 Header section for the frame.
 
-| Prop | Type | Default |
-| --- | --- | --- |
-| `class` | `string` | |
+| Prop    | Type     | Default |
+| ------- | -------- | ------- |
+| `class` | `string` |         |
 
 ```svelte
 <FrameHeader>
@@ -74,9 +77,9 @@ Header section for the frame.
 
 Title text for the frame header.
 
-| Prop | Type | Default |
-| --- | --- | --- |
-| `class` | `string` | |
+| Prop    | Type     | Default |
+| ------- | -------- | ------- |
+| `class` | `string` |         |
 
 ```svelte
 <FrameTitle>Title</FrameTitle>
@@ -86,9 +89,9 @@ Title text for the frame header.
 
 Description text for the frame header.
 
-| Prop | Type | Default |
-| --- | --- | --- |
-| `class` | `string` | |
+| Prop    | Type     | Default |
+| ------- | -------- | ------- |
+| `class` | `string` |         |
 
 ```svelte
 <FrameDescription>Description</FrameDescription>
@@ -98,9 +101,9 @@ Description text for the frame header.
 
 Footer section for the frame.
 
-| Prop | Type | Default |
-| --- | --- | --- |
-| `class` | `string` | |
+| Prop    | Type     | Default |
+| ------- | -------- | ------- |
+| `class` | `string` |         |
 
 ```svelte
 <FrameFooter>Footer</FrameFooter>

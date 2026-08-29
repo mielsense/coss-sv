@@ -9,7 +9,7 @@
 	],
 	"files": [
 		{
-			"content": "<script module lang=\"ts\">\nimport { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\nexport const meta = defineParticleMeta({\n  components: [\"slider\"],\n  id: \"p-slider-8\",\n  interactive: true,\n  responsive: true,\n  title: \"Three-thumb slider\",\n  containerClass: \"**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64\",\n});\n</script>\n\n<script lang=\"ts\">\nimport * as Slider from \"$COMPONENTS$/ui/slider/index.js\";\n</script>\n<Slider.Root aria-label=\"Three values\" defaultValue={[20, 50, 80]} />\n",
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\n  export const meta = defineParticleMeta({\n    components: [\"slider\"],\n    id: \"p-slider-8\",\n    interactive: true,\n    responsive: true,\n    title: \"Three-thumb slider\",\n    containerClass: \"**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import * as Slider from \"$COMPONENTS$/ui/slider/index.js\";\n</script>\n\n<Slider.Root aria-label=\"Three values\" defaultValue={[20, 50, 80]} />\n",
 			"type": "registry:block",
 			"target": "p-slider-8.svelte"
 		}

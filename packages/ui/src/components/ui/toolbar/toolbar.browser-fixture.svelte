@@ -1,17 +1,17 @@
 <script lang="ts">
-import { Select } from "@shardsui/svelte";
-import * as ToggleGroup from "../toggle-group/index.js";
-import * as Tooltip from "../tooltip/index.js";
-import * as Toolbar from "./index.js";
+  import { Select } from "@shardsui/svelte";
+  import * as ToggleGroup from "../toggle-group/index.js";
+  import * as Tooltip from "../tooltip/index.js";
+  import * as Toolbar from "./index.js";
 
-const fonts = [
-  { label: "Helvetica", value: "helvetica" },
-  { label: "Arial", value: "arial" },
-];
-let font = $state("helvetica");
-let alignment = $state<readonly string[]>([]);
-let tooltipOpen = $state(false);
-let toggleAnchor = $state<HTMLElement | null>(null);
+  const fonts = [
+    { label: "Helvetica", value: "helvetica" },
+    { label: "Arial", value: "arial" },
+  ];
+  let font = $state("helvetica");
+  let alignment = $state<readonly string[]>([]);
+  let tooltipOpen = $state(false);
+  let toggleAnchor = $state<HTMLElement | null>(null);
 </script>
 
 <Toolbar.Root aria-label="Horizontal toolbar">
@@ -49,8 +49,7 @@ let toggleAnchor = $state<HTMLElement | null>(null);
             aria-label="Toggle bold"
             bind:ref={toggleAnchor}
             data-testid="toggle"
-            value="bold"
-            >Bold</ToggleGroup.Item
+            value="bold">Bold</ToggleGroup.Item
           >
         </Tooltip.Trigger>
         <Tooltip.Popup anchor={toggleAnchor ?? undefined} id="toggle-tooltip"

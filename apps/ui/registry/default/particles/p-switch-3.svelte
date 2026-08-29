@@ -1,20 +1,20 @@
 <script module lang="ts">
-import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
 
-export const meta = defineParticleMeta({
-  components: ["label", "switch"],
-  id: "p-switch-3",
-  interactive: true,
-  responsive: false,
-  title: "Switch with description",
-});
+  export const meta = defineParticleMeta({
+    components: ["label", "switch"],
+    id: "p-switch-3",
+    interactive: true,
+    responsive: false,
+    title: "Switch with description",
+  });
 </script>
 
 <script lang="ts">
-import { Label, Switch } from "@coss-sv/ui";
+  import { Label, Switch } from "@coss-sv/ui";
 
-const id = $props.id();
-const labelId = `${id}-label`;
+  const id = $props.id();
+  const labelId = `${id}-label`;
 </script>
 
 <div class="flex items-start gap-2">

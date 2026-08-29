@@ -1,21 +1,22 @@
 <script module lang="ts">
-import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
 
-export const meta = defineParticleMeta({
-  components: ["slider"],
-  id: "p-slider-5",
-  interactive: true,
-  responsive: true,
-  title: "Slider with ticks",
-  containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64",
-});
+  export const meta = defineParticleMeta({
+    components: ["slider"],
+    id: "p-slider-5",
+    interactive: true,
+    responsive: true,
+    title: "Slider with ticks",
+    containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64",
+  });
 </script>
 
 <script lang="ts">
-import { Slider } from "@coss-sv/ui";
+  import { Slider } from "@coss-sv/ui";
 
-const ticks = Array.from({ length: 13 }, (_, index) => index);
+  const ticks = Array.from({ length: 13 }, (_, index) => index);
 </script>
+
 <div>
   <Slider.Root aria-label="Value selector" defaultValue={5} max={12} />
   <fieldset

@@ -1,13 +1,13 @@
 <script lang="ts">
-import type { Snippet } from "svelte";
+  import type { Snippet } from "svelte";
 
-type Props = {
-  children: Snippet;
-  title?: string;
-  variant?: "info" | "warning";
-};
+  type Props = {
+    children: Snippet;
+    title?: string;
+    variant?: "info" | "warning";
+  };
 
-let { children, title, variant = "info" }: Props = $props();
+  let { children, title, variant = "info" }: Props = $props();
 </script>
 
 <aside

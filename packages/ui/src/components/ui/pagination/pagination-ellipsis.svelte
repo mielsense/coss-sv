@@ -1,25 +1,25 @@
 <script module lang="ts">
-import type { Snippet } from "svelte";
-import type { SvelteHTMLElements } from "svelte/elements";
+  import type { Snippet } from "svelte";
+  import type { SvelteHTMLElements } from "svelte/elements";
 
-export type PaginationEllipsisProps = Omit<SvelteHTMLElements["span"], "children" | "class"> & {
-  children?: Snippet;
-  class?: string;
-  ref?: HTMLSpanElement | null;
-};
+  export type PaginationEllipsisProps = Omit<SvelteHTMLElements["span"], "children" | "class"> & {
+    children?: Snippet;
+    class?: string;
+    ref?: HTMLSpanElement | null;
+  };
 </script>
 
 <script lang="ts">
-import { MoreHorizontalIcon } from "@hugeicons/core-free-icons";
-import HugeiconsIcon from "$lib/hugeicons-icon.svelte";
-import { cn } from "$lib/utils.js";
+  import { MoreHorizontalIcon } from "@hugeicons/core-free-icons";
+  import HugeiconsIcon from "$lib/hugeicons-icon.svelte";
+  import { cn } from "$lib/utils.js";
 
-let {
-  children: _children,
-  class: className,
-  ref = $bindable(null),
-  ...props
-}: PaginationEllipsisProps = $props();
+  let {
+    children: _children,
+    class: className,
+    ref = $bindable(null),
+    ...props
+  }: PaginationEllipsisProps = $props();
 </script>
 
 <span

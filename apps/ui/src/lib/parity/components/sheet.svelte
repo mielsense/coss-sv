@@ -1,8 +1,9 @@
 <script lang="ts">
-import { Button, Field, Form, Input, Sheet, buttonVariants } from "@coss-sv/ui";
-const sides = ["right", "left", "top", "bottom"] as const;
-const variants = ["default", "inset"] as const;
+  import { Button, Field, Form, Input, Sheet, buttonVariants } from "@coss-sv/ui";
+  const sides = ["right", "left", "top", "bottom"] as const;
+  const variants = ["default", "inset"] as const;
 </script>
+
 <div class="fixture">
   {#each variants as variant, index}
     <section data-particle={`p-sheet-${index + 1}`}>
@@ -11,8 +12,7 @@ const variants = ["default", "inset"] as const;
         ><Sheet.Popup {variant}
           >{const profile = $state({ name: "Margaret Welsh", username: "@maggie.welsh" })}
           <Sheet.Header
-            ><Sheet.Title>Edit profile</Sheet.Title
-            ><Sheet.Description
+            ><Sheet.Title>Edit profile</Sheet.Title><Sheet.Description
               >Make changes to your profile here. Click save when you're done.</Sheet.Description
             ></Sheet.Header
           >
@@ -26,8 +26,9 @@ const variants = ["default", "inset"] as const;
                 <Input bind:value={profile.username} type="text" /></Field.Root
               ></Sheet.Panel
             ><Sheet.Footer
-              ><Sheet.Close class={buttonVariants({ variant: "ghost" })}>Cancel</Sheet.Close
-              ><Button type="submit">Save</Button></Sheet.Footer
+              ><Sheet.Close class={buttonVariants({ variant: "ghost" })}>Cancel</Sheet.Close><Button
+                type="submit">Save</Button
+              ></Sheet.Footer
             ></Form
           ></Sheet.Popup
         ></Sheet.Root
@@ -42,9 +43,10 @@ const variants = ["default", "inset"] as const;
             >Open {side[0]?.toUpperCase()}{side.slice(1)}</Sheet.Trigger
           ><Sheet.Popup {side} showCloseButton={false}
             ><Sheet.Header
-              ><Sheet.Title>{side[0]?.toUpperCase()}{side.slice(1)}</Sheet.Title
-              ><Sheet.Description
-                >{side === "right" || side === "left" ? `${side[0]?.toUpperCase()}${side.slice(1)} side of the screen.` : `${side[0]?.toUpperCase()}${side.slice(1)} of the screen.`}</Sheet.Description
+              ><Sheet.Title>{side[0]?.toUpperCase()}{side.slice(1)}</Sheet.Title><Sheet.Description
+                >{side === "right" || side === "left"
+                  ? `${side[0]?.toUpperCase()}${side.slice(1)} side of the screen.`
+                  : `${side[0]?.toUpperCase()}${side.slice(1)} of the screen.`}</Sheet.Description
               ></Sheet.Header
             ><Sheet.Panel
               ><p>
@@ -62,18 +64,19 @@ const variants = ["default", "inset"] as const;
     </div>
   </section>
 </div>
+
 <style>
-.fixture {
-  display: grid;
-  width: 100%;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
-  gap: 3rem;
-  padding: 2rem;
-}
-.fixture > section {
-  display: flex;
-  min-height: 12rem;
-  align-items: center;
-  justify-content: center;
-}
+  .fixture {
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
+    gap: 3rem;
+    padding: 2rem;
+  }
+  .fixture > section {
+    display: flex;
+    min-height: 12rem;
+    align-items: center;
+    justify-content: center;
+  }
 </style>

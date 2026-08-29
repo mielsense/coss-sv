@@ -1,8 +1,8 @@
 <script lang="ts">
-import * as Drawer from "./index.js";
-import { Drawer as NamedRoot, DrawerHandle, DrawerTrigger } from "./index.js";
-const handle = Drawer.createHandle<{ id: number }>();
-const namedHandle = new DrawerHandle<{ id: number }>();
+  import * as Drawer from "./index.js";
+  import { Drawer as NamedRoot, DrawerHandle, DrawerTrigger } from "./index.js";
+  const handle = Drawer.createHandle<{ id: number }>();
+  const namedHandle = new DrawerHandle<{ id: number }>();
 </script>
 
 <Drawer.Trigger {handle} payload={{ id: 1 }}>Open typed drawer</Drawer.Trigger>

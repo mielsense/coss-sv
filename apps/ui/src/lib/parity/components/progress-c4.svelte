@@ -1,15 +1,15 @@
 <script lang="ts">
-import { Progress } from "@coss-sv/ui";
+  import { Progress } from "@coss-sv/ui";
 
-let value = $state(20);
-let probeValue = $state<number | null>(60);
+  let value = $state(20);
+  let probeValue = $state<number | null>(60);
 
-$effect(() => {
-  const interval = setInterval(() => {
-    value = Math.min(100, Math.round(value + Math.random() * 25));
-  }, 1000);
-  return () => clearInterval(interval);
-});
+  $effect(() => {
+    const interval = setInterval(() => {
+      value = Math.min(100, Math.round(value + Math.random() * 25));
+    }, 1000);
+    return () => clearInterval(interval);
+  });
 </script>
 
 <div class="docs-preview-width" data-particle="p-progress-1">
@@ -33,10 +33,10 @@ $effect(() => {
 </div>
 
 <style>
-.docs-preview-width {
-  width: min(16rem, 100%);
-}
-.review-probes {
-  margin-top: 2rem;
-}
+  .docs-preview-width {
+    width: min(16rem, 100%);
+  }
+  .review-probes {
+    margin-top: 2rem;
+  }
 </style>

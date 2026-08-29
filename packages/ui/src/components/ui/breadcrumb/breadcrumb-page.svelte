@@ -1,17 +1,22 @@
 <script module lang="ts">
-import type { Snippet } from "svelte";
-import type { HTMLAttributes } from "svelte/elements";
+  import type { Snippet } from "svelte";
+  import type { HTMLAttributes } from "svelte/elements";
 
-export type BreadcrumbPageProps = HTMLAttributes<HTMLSpanElement> & {
-  children?: Snippet;
-  ref?: HTMLSpanElement | null;
-};
+  export type BreadcrumbPageProps = HTMLAttributes<HTMLSpanElement> & {
+    children?: Snippet;
+    ref?: HTMLSpanElement | null;
+  };
 </script>
 
 <script lang="ts">
-import { cn } from "$lib/utils.js";
+  import { cn } from "$lib/utils.js";
 
-let { children, class: className, ref = $bindable(null), ...props }: BreadcrumbPageProps = $props();
+  let {
+    children,
+    class: className,
+    ref = $bindable(null),
+    ...props
+  }: BreadcrumbPageProps = $props();
 </script>
 
 <span

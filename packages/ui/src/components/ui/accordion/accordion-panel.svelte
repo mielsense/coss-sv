@@ -1,20 +1,20 @@
 <script module lang="ts">
-import type { Accordion as ShardsAccordion } from "@shardsui/svelte";
-import type { ComponentProps } from "svelte";
+  import type { Accordion as ShardsAccordion } from "@shardsui/svelte";
+  import type { ComponentProps } from "svelte";
 
-export type AccordionPanelProps = ComponentProps<typeof ShardsAccordion.Panel>;
+  export type AccordionPanelProps = ComponentProps<typeof ShardsAccordion.Panel>;
 </script>
 
 <script lang="ts">
-import { Accordion as AccordionPrimitive } from "@shardsui/svelte";
-import { cn } from "$lib/utils.js";
+  import { Accordion as AccordionPrimitive } from "@shardsui/svelte";
+  import { cn } from "$lib/utils.js";
 
-let {
-  children: child,
-  class: className,
-  ref = $bindable(null),
-  ...props
-}: AccordionPanelProps = $props();
+  let {
+    children: child,
+    class: className,
+    ref = $bindable(null),
+    ...props
+  }: AccordionPanelProps = $props();
 </script>
 
 <AccordionPrimitive.Panel

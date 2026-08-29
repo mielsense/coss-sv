@@ -1,38 +1,40 @@
 <script module lang="ts">
-import type { Snippet } from "svelte";
-import type { SvelteHTMLElements } from "svelte/elements";
-import type { SidebarPolymorphicDiscriminator } from "./polymorphic.js";
+  import type { Snippet } from "svelte";
+  import type { SvelteHTMLElements } from "svelte/elements";
+  import type { SidebarPolymorphicDiscriminator } from "./polymorphic.js";
 
-export type SidebarGroupActionTag = "a" | "button";
-export type SidebarGroupActionProps<Tag extends SidebarGroupActionTag = "button"> = Omit<
-  SvelteHTMLElements[Tag],
-  "children" | "class" | "ref"
-> &
-  SidebarPolymorphicDiscriminator<SidebarGroupActionTag, Tag, "button"> & {
-    children?: Snippet;
-    class?: string;
-    ref?: HTMLElement | null;
-  };
-type SidebarGroupActionComponentProps =
-  | SidebarGroupActionProps<"a">
-  | SidebarGroupActionProps<"button">;
+  export type SidebarGroupActionTag = "a" | "button";
+  export type SidebarGroupActionProps<Tag extends SidebarGroupActionTag = "button"> = Omit<
+    SvelteHTMLElements[Tag],
+    "children" | "class" | "ref"
+  > &
+    SidebarPolymorphicDiscriminator<SidebarGroupActionTag, Tag, "button"> & {
+      children?: Snippet;
+      class?: string;
+      ref?: HTMLElement | null;
+    };
+  type SidebarGroupActionComponentProps =
+    | SidebarGroupActionProps<"a">
+    | SidebarGroupActionProps<"button">;
 </script>
+
 <script lang="ts">
-import { cn } from "$lib/utils.js";
+  import { cn } from "$lib/utils.js";
 
-let {
-  as = "button",
-  children,
-  class: className,
-  ref = $bindable(null),
-  ...props
-}: SidebarGroupActionComponentProps = $props();
+  let {
+    as = "button",
+    children,
+    class: className,
+    ref = $bindable(null),
+    ...props
+  }: SidebarGroupActionComponentProps = $props();
 
-const forwardedProps = $derived({
-  ...(as === "button" ? { type: "button" } : {}),
-  ...props,
-} as Record<string, unknown>);
+  const forwardedProps = $derived({
+    ...(as === "button" ? { type: "button" } : {}),
+    ...props,
+  } as Record<string, unknown>);
 </script>
+
 <svelte:element
   this={as}
   bind:this={ref}
@@ -44,6 +46,5 @@ const forwardedProps = $derived({
   )}
   data-sidebar="group-action"
   data-slot="sidebar-group-action"
-  {...forwardedProps}
-  >{@render children?.()}</svelte:element
+  {...forwardedProps}>{@render children?.()}</svelte:element
 >

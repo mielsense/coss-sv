@@ -1,10 +1,10 @@
 <script lang="ts">
-import * as Accordion from "./index.js";
+  import * as Accordion from "./index.js";
 
-let singleValue = $state<string[]>(["one"]);
-let multipleValue = $state<string[]>([]);
-let changes = $state<string[][]>([]);
-let deferredValue = $state<string[] | undefined>();
+  let singleValue = $state<string[]>(["one"]);
+  let multipleValue = $state<string[]>([]);
+  let changes = $state<string[][]>([]);
+  let deferredValue = $state<string[] | undefined>();
 </script>
 
 <Accordion.Root

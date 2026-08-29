@@ -1,24 +1,24 @@
 <script module lang="ts">
-import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
 
-export const meta = defineParticleMeta({
-  components: ["checkbox", "checkbox-group", "label"],
-  id: "p-checkbox-group-3",
-  interactive: true,
-  responsive: false,
-  title: "Checkbox group with parent",
-});
+  export const meta = defineParticleMeta({
+    components: ["checkbox", "checkbox-group", "label"],
+    id: "p-checkbox-group-3",
+    interactive: true,
+    responsive: false,
+    title: "Checkbox group with parent",
+  });
 </script>
 
 <script lang="ts">
-import { CheckboxGroup, Label } from "@coss-sv/ui";
+  import { CheckboxGroup, Label } from "@coss-sv/ui";
 
-const frameworks = [
-  { value: "next", label: "Next.js" },
-  { value: "vite", label: "Vite" },
-  { value: "astro", label: "Astro" },
-];
-let value = $state<string[]>([]);
+  const frameworks = [
+    { value: "next", label: "Next.js" },
+    { value: "vite", label: "Vite" },
+    { value: "astro", label: "Astro" },
+  ];
+  let value = $state<string[]>([]);
 </script>
 
 <CheckboxGroup.Root

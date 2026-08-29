@@ -1,63 +1,63 @@
 <script lang="ts">
-import { Button, CheckboxGroup, Field, FieldsetLegend, Form, Label } from "@coss-sv/ui";
+  import { Button, CheckboxGroup, Field, FieldsetLegend, Form, Label } from "@coss-sv/ui";
 
-const frameworks = [
-  { id: "next", name: "Next.js" },
-  { id: "vite", name: "Vite" },
-  { id: "astro", name: "Astro" },
-];
+  const frameworks = [
+    { id: "next", name: "Next.js" },
+    { id: "vite", name: "Vite" },
+    { id: "astro", name: "Astro" },
+  ];
 
-const mainPermissions = [
-  { id: "view-dashboard", name: "View Dashboard" },
-  { id: "manage-users", name: "Manage Users" },
-  { id: "access-reports", name: "Access Reports" },
-];
+  const mainPermissions = [
+    { id: "view-dashboard", name: "View Dashboard" },
+    { id: "manage-users", name: "Manage Users" },
+    { id: "access-reports", name: "Access Reports" },
+  ];
 
-const userManagementPermissions = [
-  { id: "create-user", name: "Create User" },
-  { id: "edit-user", name: "Edit User" },
-  { id: "delete-user", name: "Delete User" },
-  { id: "assign-roles", name: "Assign Roles" },
-];
+  const userManagementPermissions = [
+    { id: "create-user", name: "Create User" },
+    { id: "edit-user", name: "Edit User" },
+    { id: "delete-user", name: "Delete User" },
+    { id: "assign-roles", name: "Assign Roles" },
+  ];
 
-let frameworkValue = $state<string[]>([]);
-let mainValue = $state<string[]>([]);
-let managementValue = $state<string[]>([]);
-let loading = $state(false);
-const fixtureId = $props.id();
-const frameworksLegendId = `${fixtureId}-frameworks-legend`;
+  let frameworkValue = $state<string[]>([]);
+  let mainValue = $state<string[]>([]);
+  let managementValue = $state<string[]>([]);
+  let loading = $state(false);
+  const fixtureId = $props.id();
+  const frameworksLegendId = `${fixtureId}-frameworks-legend`;
 
-const managementIsPartial = $derived(
-  managementValue.length > 0 && managementValue.length !== userManagementPermissions.length,
-);
+  const managementIsPartial = $derived(
+    managementValue.length > 0 && managementValue.length !== userManagementPermissions.length,
+  );
 
-function updateMain(value: string[]) {
-  if (value.includes("manage-users")) {
-    managementValue = userManagementPermissions.map((permission) => permission.id);
-  } else if (managementValue.length === userManagementPermissions.length) {
-    managementValue = [];
+  function updateMain(value: string[]) {
+    if (value.includes("manage-users")) {
+      managementValue = userManagementPermissions.map((permission) => permission.id);
+    } else if (managementValue.length === userManagementPermissions.length) {
+      managementValue = [];
+    }
+    mainValue = value;
   }
-  mainValue = value;
-}
 
-function updateManagement(value: string[]) {
-  if (value.length === userManagementPermissions.length) {
-    mainValue = Array.from(new Set([...mainValue, "manage-users"]));
-  } else {
-    mainValue = mainValue.filter((item) => item !== "manage-users");
+  function updateManagement(value: string[]) {
+    if (value.length === userManagementPermissions.length) {
+      mainValue = Array.from(new Set([...mainValue, "manage-users"]));
+    } else {
+      mainValue = mainValue.filter((item) => item !== "manage-users");
+    }
+    managementValue = value;
   }
-  managementValue = value;
-}
 
-async function submitFrameworks(event: SubmitEvent) {
-  event.preventDefault();
-  const formData = new FormData(event.currentTarget as HTMLFormElement);
-  loading = true;
-  await new Promise((resolve) => setTimeout(resolve, 800));
-  loading = false;
-  const selectedFrameworks = formData.getAll("frameworks");
-  alert(`Selected: ${selectedFrameworks.join(", ") || "none"}`);
-}
+  async function submitFrameworks(event: SubmitEvent) {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget as HTMLFormElement);
+    loading = true;
+    await new Promise((resolve) => setTimeout(resolve, 800));
+    loading = false;
+    const selectedFrameworks = formData.getAll("frameworks");
+    alert(`Selected: ${selectedFrameworks.join(", ") || "none"}`);
+  }
 </script>
 
 <div class="checkbox-group-fixture">
@@ -161,19 +161,19 @@ async function submitFrameworks(event: SubmitEvent) {
 </div>
 
 <style>
-.checkbox-group-fixture {
-  display: grid;
-  box-sizing: border-box;
-  width: 100%;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
-  gap: 3rem;
-  padding: 2rem;
-}
+  .checkbox-group-fixture {
+    display: grid;
+    box-sizing: border-box;
+    width: 100%;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+    gap: 3rem;
+    padding: 2rem;
+  }
 
-.checkbox-group-fixture > section {
-  display: flex;
-  min-width: 0;
-  align-items: center;
-  justify-content: center;
-}
+  .checkbox-group-fixture > section {
+    display: flex;
+    min-width: 0;
+    align-items: center;
+    justify-content: center;
+  }
 </style>

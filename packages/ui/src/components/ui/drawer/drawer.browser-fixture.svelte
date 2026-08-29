@@ -1,12 +1,13 @@
 <script lang="ts">
-import DrawerCase from "./drawer-browser-case.svelte";
-import * as Drawer from "./index.js";
-import Button from "../button/button.svelte";
-import * as Field from "../field/index.js";
-import Input from "../input/input.svelte";
-const positions = ["bottom", "top", "left", "right"] as const;
-const detached = Drawer.createHandle<{ label: string }>();
+  import DrawerCase from "./drawer-browser-case.svelte";
+  import * as Drawer from "./index.js";
+  import Button from "../button/button.svelte";
+  import * as Field from "../field/index.js";
+  import Input from "../input/input.svelte";
+  const positions = ["bottom", "top", "left", "right"] as const;
+  const detached = Drawer.createHandle<{ label: string }>();
 </script>
+
 {#each positions as position}
   <DrawerCase {position} />
 {/each}
@@ -14,8 +15,9 @@ const detached = Drawer.createHandle<{ label: string }>();
   ><Drawer.SwipeArea data-testid="edge-swipe" />
   <Drawer.Popup
     ><Drawer.Header
-      ><Drawer.Title>Edge drawer</Drawer.Title
-      ><Drawer.Description>Non-modal drawer.</Drawer.Description></Drawer.Header
+      ><Drawer.Title>Edge drawer</Drawer.Title><Drawer.Description
+        >Non-modal drawer.</Drawer.Description
+      ></Drawer.Header
     ></Drawer.Popup
   ></Drawer.Root
 >
@@ -80,27 +82,28 @@ const detached = Drawer.createHandle<{ label: string }>();
     </Drawer.Popup>
   {/snippet}
 </Drawer.Root>
+
 <style>
-:global([data-slot="drawer-backdrop"]),
-:global([data-slot="drawer-viewport"]) {
-  position: fixed;
-  inset: 0;
-  z-index: 50;
-}
-:global([data-slot="drawer-popup"]) {
-  position: relative;
-  z-index: 1;
-}
-:global([data-testid="bottom-drawer"][data-nested-drawer-open]) {
-  transform: scale(
-    clamp(
-      0,
-      calc(
-        max(0, 1 - (var(--nested-drawers) * 0.05)) +
-        (0.05 * clamp(0, var(--drawer-swipe-progress, 0), 1))
-      ),
-      1
-    )
-  );
-}
+  :global([data-slot="drawer-backdrop"]),
+  :global([data-slot="drawer-viewport"]) {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+  }
+  :global([data-slot="drawer-popup"]) {
+    position: relative;
+    z-index: 1;
+  }
+  :global([data-testid="bottom-drawer"][data-nested-drawer-open]) {
+    transform: scale(
+      clamp(
+        0,
+        calc(
+          max(0, 1 - (var(--nested-drawers) * 0.05)) +
+            (0.05 * clamp(0, var(--drawer-swipe-progress, 0), 1))
+        ),
+        1
+      )
+    );
+  }
 </style>

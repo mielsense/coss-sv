@@ -1,12 +1,12 @@
 <script lang="ts">
-import { Toast as ToastPrimitive } from "@shardsui/svelte";
-import { buttonVariants } from "../button/index.js";
-import { getToastReplayClass, type ToastData, type ToastPortalProps } from "./toast.types.js";
-import ToastIcon from "./toast-icon.svelte";
-import ToastPortal from "./toast-portal.svelte";
+  import { Toast as ToastPrimitive } from "@shardsui/svelte";
+  import { buttonVariants } from "../button/index.js";
+  import { getToastReplayClass, type ToastData, type ToastPortalProps } from "./toast.types.js";
+  import ToastIcon from "./toast-icon.svelte";
+  import ToastPortal from "./toast-portal.svelte";
 
-let { portalProps }: { portalProps?: ToastPortalProps | undefined } = $props();
-const manager = ToastPrimitive.getToastManager();
+  let { portalProps }: { portalProps?: ToastPortalProps | undefined } = $props();
+  const manager = ToastPrimitive.getToastManager();
 </script>
 
 <ToastPortal {...portalProps} dataSlot="toast-portal-anchored">
@@ -74,70 +74,70 @@ const manager = ToastPrimitive.getToastManager();
 </ToastPortal>
 
 <style>
-:global(.animate-toast-success-odd) {
-  animation: toast-success-odd 0.32s cubic-bezier(0.5, 1, 0.89, 1);
-}
-:global(.animate-toast-success-even) {
-  animation: toast-success-even 0.32s cubic-bezier(0.5, 1, 0.89, 1);
-}
-:global(.animate-toast-error-odd) {
-  animation: toast-error-odd 0.28s cubic-bezier(0.5, 1, 0.89, 1);
-}
-:global(.animate-toast-error-even) {
-  animation: toast-error-even 0.28s cubic-bezier(0.5, 1, 0.89, 1);
-}
-@keyframes toast-success-odd {
-  0% {
-    scale: 1;
+  :global(.animate-toast-success-odd) {
+    animation: toast-success-odd 0.32s cubic-bezier(0.5, 1, 0.89, 1);
   }
-  30% {
-    scale: 1.025;
+  :global(.animate-toast-success-even) {
+    animation: toast-success-even 0.32s cubic-bezier(0.5, 1, 0.89, 1);
   }
-  60% {
-    scale: 0.99;
+  :global(.animate-toast-error-odd) {
+    animation: toast-error-odd 0.28s cubic-bezier(0.5, 1, 0.89, 1);
   }
-  100% {
-    scale: 1;
+  :global(.animate-toast-error-even) {
+    animation: toast-error-even 0.28s cubic-bezier(0.5, 1, 0.89, 1);
   }
-}
-@keyframes toast-success-even {
-  0% {
-    scale: 1;
+  @keyframes toast-success-odd {
+    0% {
+      scale: 1;
+    }
+    30% {
+      scale: 1.025;
+    }
+    60% {
+      scale: 0.99;
+    }
+    100% {
+      scale: 1;
+    }
   }
-  30% {
-    scale: 1.025;
+  @keyframes toast-success-even {
+    0% {
+      scale: 1;
+    }
+    30% {
+      scale: 1.025;
+    }
+    60% {
+      scale: 0.99;
+    }
+    100% {
+      scale: 1;
+    }
   }
-  60% {
-    scale: 0.99;
+  @keyframes toast-error-odd {
+    0%,
+    100% {
+      translate: 0 0;
+    }
+    25%,
+    75% {
+      translate: -3px 0;
+    }
+    50% {
+      translate: 3px 0;
+    }
   }
-  100% {
-    scale: 1;
+  @keyframes toast-error-even {
+    0%,
+    100% {
+      translate: 0 0;
+    }
+    25%,
+    75% {
+      translate: -3px 0;
+    }
+    50% {
+      translate: 3px 0;
+    }
   }
-}
-@keyframes toast-error-odd {
-  0%,
-  100% {
-    translate: 0 0;
-  }
-  25%,
-  75% {
-    translate: -3px 0;
-  }
-  50% {
-    translate: 3px 0;
-  }
-}
-@keyframes toast-error-even {
-  0%,
-  100% {
-    translate: 0 0;
-  }
-  25%,
-  75% {
-    translate: -3px 0;
-  }
-  50% {
-    translate: 3px 0;
-  }
-}
 </style>

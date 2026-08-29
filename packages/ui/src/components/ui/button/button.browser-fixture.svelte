@@ -1,10 +1,10 @@
 <script lang="ts">
-import Button from "./button.svelte";
+  import Button from "./button.svelte";
 
-let clicks = $state(0);
-let loading = $state(false);
-let buttonRef = $state<HTMLElement | null>(null);
-let linkRef = $state<HTMLElement | null>(null);
+  let clicks = $state(0);
+  let loading = $state(false);
+  let buttonRef = $state<HTMLElement | null>(null);
+  let linkRef = $state<HTMLElement | null>(null);
 </script>
 
 <form data-testid="button-form" onsubmit={(event) => event.preventDefault()}>

@@ -1,7 +1,7 @@
 <script lang="ts">
-import { ScrollArea } from "../../../../../../packages/ui/dist/components/ui/scroll-area/index.js";
+  import { ScrollArea } from "../../../../../../packages/ui/dist/components/ui/scroll-area/index.js";
 
-const tags = Array.from({ length: 50 }, (_, index) => `v1.0.0-alpha.${index}`);
+  const tags = Array.from({ length: 50 }, (_, index) => `v1.0.0-alpha.${index}`);
 </script>
 
 <div class="w-full max-w-64" data-particle="p-scroll-area-1">

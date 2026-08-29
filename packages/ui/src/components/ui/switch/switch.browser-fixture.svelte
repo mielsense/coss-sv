@@ -1,9 +1,9 @@
 <script lang="ts">
-import Switch from "./switch.svelte";
+  import Switch from "./switch.svelte";
 
-let checked = $state(false);
-let callbackValue = $state("none");
-let switchRef = $state<HTMLElement | null>(null);
+  let checked = $state(false);
+  let callbackValue = $state("none");
+  let switchRef = $state<HTMLElement | null>(null);
 </script>
 
 <form data-testid="switch-form" onsubmit={(event) => event.preventDefault()}>

@@ -1,30 +1,30 @@
 <script lang="ts">
-import { Field, OTPField } from "@coss-sv/ui";
-import { onDestroy } from "svelte";
+  import { Field, OTPField } from "@coss-sv/ui";
+  import { onDestroy } from "svelte";
 
-let controlled = $state("");
-let completed = $state("");
-let focusedIndex = $state(0);
-let invalidPulse = $state(0);
-let statusMessage = $state("");
-let invalidTimeout: ReturnType<typeof setTimeout> | undefined;
-let validatedValue = $state("");
-let validationInvalid = $state(false);
-const validationValid = $derived(validatedValue.length === 6 && validatedValue === "123456");
+  let controlled = $state("");
+  let completed = $state("");
+  let focusedIndex = $state(0);
+  let invalidPulse = $state(0);
+  let statusMessage = $state("");
+  let invalidTimeout: ReturnType<typeof setTimeout> | undefined;
+  let validatedValue = $state("");
+  let validationInvalid = $state(false);
+  const validationValid = $derived(validatedValue.length === 6 && validatedValue === "123456");
 
-onDestroy(() => {
-  if (invalidTimeout) clearTimeout(invalidTimeout);
-});
+  onDestroy(() => {
+    if (invalidTimeout) clearTimeout(invalidTimeout);
+  });
 
-function handleTierInvalid(value: string) {
-  invalidPulse += 1;
-  statusMessage = `Unsupported characters were ignored from ${value}.`;
-  if (invalidTimeout) clearTimeout(invalidTimeout);
-  invalidTimeout = setTimeout(() => {
-    invalidTimeout = undefined;
-    invalidPulse = 0;
-  }, 400);
-}
+  function handleTierInvalid(value: string) {
+    invalidPulse += 1;
+    statusMessage = `Unsupported characters were ignored from ${value}.`;
+    if (invalidTimeout) clearTimeout(invalidTimeout);
+    invalidTimeout = setTimeout(() => {
+      invalidTimeout = undefined;
+      invalidPulse = 0;
+    }, 400);
+  }
 </script>
 
 <div class="fixture">
@@ -159,8 +159,7 @@ function handleTierInvalid(value: string) {
         {/each}
       </OTPField.Root>
       <Field.Description>
-        Use <code class="font-mono text-foreground">mask</code> to obscure the code on shared
-        screens.
+        Use <code class="font-mono text-foreground">mask</code> to obscure the code on shared screens.
       </Field.Description>
     </Field.Root>
   </section>
@@ -181,35 +180,35 @@ function handleTierInvalid(value: string) {
 </div>
 
 <style>
-.fixture {
-  display: grid;
-  width: 100%;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  align-items: center;
-  gap: 3rem 2rem;
-  padding: 2rem;
-}
-.fixture section {
-  display: flex;
-  min-width: 0;
-  align-items: center;
-  justify-content: center;
-}
-[data-review-probes="otp-field"] {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
-}
-output {
-  color: var(--muted-foreground);
-  font-size: 0.75rem;
-}
-@media (max-width: 639px) {
   .fixture {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 2rem;
-    padding: 1.5rem;
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: center;
+    gap: 3rem 2rem;
+    padding: 2rem;
   }
-}
+  .fixture section {
+    display: flex;
+    min-width: 0;
+    align-items: center;
+    justify-content: center;
+  }
+  [data-review-probes="otp-field"] {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  output {
+    color: var(--muted-foreground);
+    font-size: 0.75rem;
+  }
+  @media (max-width: 639px) {
+    .fixture {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 2rem;
+      padding: 1.5rem;
+    }
+  }
 </style>

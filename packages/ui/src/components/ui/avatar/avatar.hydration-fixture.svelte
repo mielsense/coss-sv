@@ -1,7 +1,7 @@
 <script lang="ts">
-import * as Avatar from "./index.js";
+  import * as Avatar from "./index.js";
 
-let currentSrc = $state("avatar-success.png");
+  let currentSrc = $state("avatar-success.png");
 </script>
 
 <Avatar.Root data-testid="hydration-avatar">

@@ -1,9 +1,9 @@
 <script lang="ts">
-import { Kbd, KbdGroup } from "./index.js";
+  import { Kbd, KbdGroup } from "./index.js";
 
-let clicks = $state(0);
-let groupRef = $state<HTMLElement | null>(null);
-let keyRef = $state<HTMLElement | null>(null);
+  let clicks = $state(0);
+  let groupRef = $state<HTMLElement | null>(null);
+  let keyRef = $state<HTMLElement | null>(null);
 </script>
 
 <KbdGroup bind:ref={groupRef} data-testid="kbd-group" onclick={() => (clicks += 1)}>

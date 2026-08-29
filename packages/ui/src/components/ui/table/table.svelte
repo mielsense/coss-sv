@@ -1,44 +1,44 @@
 <script module lang="ts">
-import type { Snippet } from "svelte";
-import type { SvelteHTMLElements } from "svelte/elements";
+  import type { Snippet } from "svelte";
+  import type { SvelteHTMLElements } from "svelte/elements";
 
-export type TableVariant = "default" | "card";
+  export type TableVariant = "default" | "card";
 
-export type TableProps = Omit<SvelteHTMLElements["table"], "children" | "class"> & {
-  children?: Snippet;
-  class?: string;
-  containerAs?: keyof HTMLElementTagNameMap;
-  containerClass?: string;
-  containerId?: string;
-  containerRef?: HTMLElement | null;
-  containerStyle?: string;
-  ref?: HTMLTableElement | null;
-  variant?: TableVariant;
-};
+  export type TableProps = Omit<SvelteHTMLElements["table"], "children" | "class"> & {
+    children?: Snippet;
+    class?: string;
+    containerAs?: keyof HTMLElementTagNameMap;
+    containerClass?: string;
+    containerId?: string;
+    containerRef?: HTMLElement | null;
+    containerStyle?: string;
+    ref?: HTMLTableElement | null;
+    variant?: TableVariant;
+  };
 </script>
 
 <script lang="ts">
-import { cn } from "$lib/utils.js";
+  import { cn } from "$lib/utils.js";
 
-let {
-  children,
-  class: className,
-  containerAs = "div",
-  containerClass,
-  containerId,
-  containerRef = $bindable(null),
-  containerStyle,
-  ref = $bindable(null),
-  variant = "default",
-  ...props
-}: TableProps = $props();
+  let {
+    children,
+    class: className,
+    containerAs = "div",
+    containerClass,
+    containerId,
+    containerRef = $bindable(null),
+    containerStyle,
+    ref = $bindable(null),
+    variant = "default",
+    ...props
+  }: TableProps = $props();
 
-const tableClass = $derived(
-  cn(
-    "w-full caption-bottom in-data-[variant=card]:border-separate in-data-[variant=card]:border-spacing-0 text-sm",
-    className,
-  ),
-);
+  const tableClass = $derived(
+    cn(
+      "w-full caption-bottom in-data-[variant=card]:border-separate in-data-[variant=card]:border-spacing-0 text-sm",
+      className,
+    ),
+  );
 </script>
 
 <svelte:element

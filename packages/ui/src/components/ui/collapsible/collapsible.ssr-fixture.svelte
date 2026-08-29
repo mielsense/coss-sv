@@ -1,6 +1,6 @@
 <script lang="ts">
-import Button from "../button/button.svelte";
-import * as Collapsible from "./index.js";
+  import Button from "../button/button.svelte";
+  import * as Collapsible from "./index.js";
 </script>
 
 <Collapsible.Root aria-label="Recovery keys" open>

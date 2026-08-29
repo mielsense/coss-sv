@@ -1,10 +1,10 @@
 <script lang="ts">
-import Separator from "./separator.svelte";
+  import Separator from "./separator.svelte";
 
-let clicks = $state(0);
-let separatorRef = $state<HTMLElement | null>(null);
-let shardsClicks = $state(0);
-let shardsRef = $state<HTMLElement | null>(null);
+  let clicks = $state(0);
+  let separatorRef = $state<HTMLElement | null>(null);
+  let shardsClicks = $state(0);
+  let shardsRef = $state<HTMLElement | null>(null);
 </script>
 
 <Separator

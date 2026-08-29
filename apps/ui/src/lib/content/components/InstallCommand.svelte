@@ -1,29 +1,29 @@
 <script lang="ts">
-import CopyButton from "./CopyButton.svelte";
+  import CopyButton from "./CopyButton.svelte";
 
-type Props = {
-  pnpm: string;
-  shadcnSvelte: string;
-};
+  type Props = {
+    pnpm: string;
+    shadcnSvelte: string;
+  };
 
-let { pnpm, shadcnSvelte }: Props = $props();
-let selected = $state<"pnpm" | "shadcn-svelte">("shadcn-svelte");
-let command = $derived(selected === "pnpm" ? pnpm : shadcnSvelte);
-const id = $props.id();
-const panelId = `${id}-panel`;
-const pnpmTabId = `${id}-pnpm-tab`;
-const shadcnTabId = `${id}-shadcn-svelte-tab`;
+  let { pnpm, shadcnSvelte }: Props = $props();
+  let selected = $state<"pnpm" | "shadcn-svelte">("shadcn-svelte");
+  let command = $derived(selected === "pnpm" ? pnpm : shadcnSvelte);
+  const id = $props.id();
+  const panelId = `${id}-panel`;
+  const pnpmTabId = `${id}-pnpm-tab`;
+  const shadcnTabId = `${id}-shadcn-svelte-tab`;
 
-function selectTab(next: "pnpm" | "shadcn-svelte", focus = false): void {
-  selected = next;
-  if (focus) document.getElementById(next === "pnpm" ? pnpmTabId : shadcnTabId)?.focus();
-}
+  function selectTab(next: "pnpm" | "shadcn-svelte", focus = false): void {
+    selected = next;
+    if (focus) document.getElementById(next === "pnpm" ? pnpmTabId : shadcnTabId)?.focus();
+  }
 
-function navigateTabs(event: KeyboardEvent): void {
-  if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
-  event.preventDefault();
-  selectTab(selected === "pnpm" ? "shadcn-svelte" : "pnpm", true);
-}
+  function navigateTabs(event: KeyboardEvent): void {
+    if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+    event.preventDefault();
+    selectTab(selected === "pnpm" ? "shadcn-svelte" : "pnpm", true);
+  }
 </script>
 
 <div class="relative my-6 overflow-hidden rounded-xl border bg-code text-code-foreground">

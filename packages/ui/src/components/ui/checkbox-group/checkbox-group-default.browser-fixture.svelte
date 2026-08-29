@@ -1,8 +1,8 @@
 <script lang="ts">
-import { Label } from "../label/index.js";
-import * as CheckboxGroup from "./index.js";
+  import { Label } from "../label/index.js";
+  import * as CheckboxGroup from "./index.js";
 
-let { defaultValue = [] }: { defaultValue?: string[] } = $props();
+  let { defaultValue = [] }: { defaultValue?: string[] } = $props();
 </script>
 
 <CheckboxGroup.Root aria-label="Default group" {defaultValue}>

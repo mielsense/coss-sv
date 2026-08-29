@@ -1,8 +1,8 @@
 <script lang="ts">
-import * as Dialog from "./index.js";
-import { Dialog as NamedRoot, DialogHandle, DialogTrigger } from "./index.js";
-const handle = Dialog.createHandle<{ id: number }>();
-const namedHandle = new DialogHandle<{ id: number }>();
+  import * as Dialog from "./index.js";
+  import { Dialog as NamedRoot, DialogHandle, DialogTrigger } from "./index.js";
+  const handle = Dialog.createHandle<{ id: number }>();
+  const namedHandle = new DialogHandle<{ id: number }>();
 </script>
 
 <Dialog.Trigger {handle} payload={{ id: 1 }}>Open typed dialog</Dialog.Trigger>

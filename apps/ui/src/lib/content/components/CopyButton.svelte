@@ -1,28 +1,28 @@
 <script lang="ts">
-import type { HTMLButtonAttributes } from "svelte/elements";
+  import type { HTMLButtonAttributes } from "svelte/elements";
 
-type Props = HTMLButtonAttributes & {
-  value: string;
-};
-
-let { value, class: className, ...rest }: Props = $props();
-let copied = $state(false);
-let resetTimer: number | undefined;
-
-async function copy(): Promise<void> {
-  await navigator.clipboard.writeText(value);
-  copied = true;
-  if (resetTimer) window.clearTimeout(resetTimer);
-  resetTimer = window.setTimeout(() => {
-    copied = false;
-  }, 1500);
-}
-
-$effect(() => {
-  return () => {
-    if (resetTimer) window.clearTimeout(resetTimer);
+  type Props = HTMLButtonAttributes & {
+    value: string;
   };
-});
+
+  let { value, class: className, ...rest }: Props = $props();
+  let copied = $state(false);
+  let resetTimer: number | undefined;
+
+  async function copy(): Promise<void> {
+    await navigator.clipboard.writeText(value);
+    copied = true;
+    if (resetTimer) window.clearTimeout(resetTimer);
+    resetTimer = window.setTimeout(() => {
+      copied = false;
+    }, 1500);
+  }
+
+  $effect(() => {
+    return () => {
+      if (resetTimer) window.clearTimeout(resetTimer);
+    };
+  });
 </script>
 
 <button

@@ -1,5 +1,5 @@
 <script lang="ts">
-import { Field, Fieldset, Input } from "@coss-sv/ui";
+  import { Field, Fieldset, Input } from "@coss-sv/ui";
 </script>
 
 <div class="docs-preview-width" data-particle="p-fieldset-1" id="p-fieldset-1">
@@ -20,7 +20,7 @@ import { Field, Fieldset, Input } from "@coss-sv/ui";
 </div>
 
 <style>
-.docs-preview-width {
-  width: min(16rem, 100%);
-}
+  .docs-preview-width {
+    width: min(16rem, 100%);
+  }
 </style>

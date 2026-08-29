@@ -1,9 +1,9 @@
 <script lang="ts">
-import * as Tabs from "./index.js";
+  import * as Tabs from "./index.js";
 
-let value = $state<Tabs.TabsValue>("one");
-let changes = $state<Tabs.TabsValue[]>([]);
-let deferredValue = $state<Tabs.TabsValue | undefined>();
+  let value = $state<Tabs.TabsValue>("one");
+  let changes = $state<Tabs.TabsValue[]>([]);
+  let deferredValue = $state<Tabs.TabsValue | undefined>();
 </script>
 
 <Tabs.Root bind:value data-testid="controlled-root" onValueChange={(next) => changes.push(next)}>

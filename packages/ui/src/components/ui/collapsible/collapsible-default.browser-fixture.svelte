@@ -1,7 +1,7 @@
 <script lang="ts">
-import * as Collapsible from "./index.js";
+  import * as Collapsible from "./index.js";
 
-let { defaultOpen = false }: { defaultOpen?: boolean } = $props();
+  let { defaultOpen = false }: { defaultOpen?: boolean } = $props();
 </script>
 
 <Collapsible.Root {defaultOpen}>

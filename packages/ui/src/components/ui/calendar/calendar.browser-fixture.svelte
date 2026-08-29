@@ -1,74 +1,74 @@
 <script lang="ts">
-import Calendar from "./calendar.svelte";
-import type {
-  CalendarDayButtonProps,
-  CalendarDropdownContext,
-  CalendarWeekNumberProps,
-  DateRange,
-} from "./calendar.types.js";
-import * as Popover from "../popover/index.js";
+  import Calendar from "./calendar.svelte";
+  import type {
+    CalendarDayButtonProps,
+    CalendarDropdownContext,
+    CalendarWeekNumberProps,
+    DateRange,
+  } from "./calendar.types.js";
+  import * as Popover from "../popover/index.js";
 
-const unavailable = new Date(2026, 0, 20, 12);
-let mode = $state<"single" | "multiple" | "range">("single");
-let month = $state(new Date(2026, 0, 1, 12));
-let singleSelected = $state<Date | undefined>(new Date(2026, 0, 15, 12));
-let multipleSelected = $state<Date[] | undefined>();
-let rangeSelected = $state<DateRange | undefined>({ from: new Date(2026, 0, 15, 12) });
-let changes = $state(0);
-let datePickerOpen = $state(false);
-let callbackEvidence = $state("");
-let overrideEvidence = $state("");
-let controlledSelectionCallback = $state("");
-let controlledMonthCallback = $state("");
-let boundSelection = $state<Date | undefined>(new Date(2026, 0, 15, 12));
-let boundMonth = $state(new Date(2026, 0, 1, 12));
-let noonSingle = $state<Date | undefined>();
-let noonMultiple = $state<Date[] | undefined>();
-let noonRange = $state<DateRange | undefined>();
-let noonEvidence = $state("");
-let oppositeSingle = $state<Date | undefined>();
-let oppositeMultiple = $state<Date[] | undefined>();
-let oppositeRange = $state<DateRange | undefined>();
-let oppositeEvidence = $state("");
-let undefinedControlledCallback = $state("");
-let dynamicSelection = $state<Date | undefined>();
-let dynamicSelectionControlled = $state(false);
-let dynamicSelectionCallback = $state("");
-let dynamicMonthControlled = $state(false);
-let dynamicMonth = $state(new Date(2026, 0, 1, 12));
-let dynamicMonthCallback = $state("");
-let ancestorKeyCount = $state(0);
-const selection = $derived(
-  mode === "single" ? singleSelected : mode === "multiple" ? multipleSelected : rangeSelected,
-);
+  const unavailable = new Date(2026, 0, 20, 12);
+  let mode = $state<"single" | "multiple" | "range">("single");
+  let month = $state(new Date(2026, 0, 1, 12));
+  let singleSelected = $state<Date | undefined>(new Date(2026, 0, 15, 12));
+  let multipleSelected = $state<Date[] | undefined>();
+  let rangeSelected = $state<DateRange | undefined>({ from: new Date(2026, 0, 15, 12) });
+  let changes = $state(0);
+  let datePickerOpen = $state(false);
+  let callbackEvidence = $state("");
+  let overrideEvidence = $state("");
+  let controlledSelectionCallback = $state("");
+  let controlledMonthCallback = $state("");
+  let boundSelection = $state<Date | undefined>(new Date(2026, 0, 15, 12));
+  let boundMonth = $state(new Date(2026, 0, 1, 12));
+  let noonSingle = $state<Date | undefined>();
+  let noonMultiple = $state<Date[] | undefined>();
+  let noonRange = $state<DateRange | undefined>();
+  let noonEvidence = $state("");
+  let oppositeSingle = $state<Date | undefined>();
+  let oppositeMultiple = $state<Date[] | undefined>();
+  let oppositeRange = $state<DateRange | undefined>();
+  let oppositeEvidence = $state("");
+  let undefinedControlledCallback = $state("");
+  let dynamicSelection = $state<Date | undefined>();
+  let dynamicSelectionControlled = $state(false);
+  let dynamicSelectionCallback = $state("");
+  let dynamicMonthControlled = $state(false);
+  let dynamicMonth = $state(new Date(2026, 0, 1, 12));
+  let dynamicMonthCallback = $state("");
+  let ancestorKeyCount = $state(0);
+  const selection = $derived(
+    mode === "single" ? singleSelected : mode === "multiple" ? multipleSelected : rangeSelected,
+  );
 
-function setMode(next: "single" | "multiple" | "range") {
-  mode = next;
-  if (next === "single") singleSelected = undefined;
-  if (next === "multiple") multipleSelected = undefined;
-  if (next === "range") rangeSelected = { from: new Date(2026, 0, 15, 12) };
-}
+  function setMode(next: "single" | "multiple" | "range") {
+    mode = next;
+    if (next === "single") singleSelected = undefined;
+    if (next === "multiple") multipleSelected = undefined;
+    if (next === "range") rangeSelected = { from: new Date(2026, 0, 15, 12) };
+  }
 
-function localDateKey(date: Date): string {
-  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
-}
+  function localDateKey(date: Date): string {
+    return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
+  }
 
-function selectionText(value: Date | Date[] | DateRange | undefined): string {
-  if (value instanceof Date) return localDateKey(value);
-  if (Array.isArray(value)) return value.map(localDateKey).join(",");
-  if (!value) return "";
-  return [value.from && localDateKey(value.from), value.to && localDateKey(value.to)]
-    .filter(Boolean)
-    .join("–");
-}
+  function selectionText(value: Date | Date[] | DateRange | undefined): string {
+    if (value instanceof Date) return localDateKey(value);
+    if (Array.isArray(value)) return value.map(localDateKey).join(",");
+    if (!value) return "";
+    return [value.from && localDateKey(value.from), value.to && localDateKey(value.to)]
+      .filter(Boolean)
+      .join("–");
+  }
 
-function ignoreDynamicSelection(value: Date | undefined): void {
-  dynamicSelectionCallback = value ? localDateKey(value) : "cleared";
-}
+  function ignoreDynamicSelection(value: Date | undefined): void {
+    dynamicSelectionCallback = value ? localDateKey(value) : "cleared";
+  }
 
-function ignoreDynamicMonth(value: Date): void {
-  dynamicMonthCallback = localDateKey(value);
-}
+  function ignoreDynamicMonth(value: Date): void {
+    dynamicMonthCallback = localDateKey(value);
+  }
 </script>
 
 {#snippet customDayButton(props: CalendarDayButtonProps)}
@@ -252,7 +252,7 @@ function ignoreDynamicMonth(value: Date): void {
 </button>
 <div data-testid="dynamic-selection-calendar">
   <Calendar
-    {...(dynamicSelectionControlled ? { onSelect: ignoreDynamicSelection } : {})}
+    {...dynamicSelectionControlled ? { onSelect: ignoreDynamicSelection } : {}}
     bind:selected={dynamicSelection}
     defaultMonth={new Date(2026, 0, 1, 12)}
     mode="single"
@@ -270,7 +270,7 @@ function ignoreDynamicMonth(value: Date): void {
 </button>
 <div data-testid="dynamic-month-calendar">
   <Calendar
-    {...(dynamicMonthControlled ? { onMonthChange: ignoreDynamicMonth } : {})}
+    {...dynamicMonthControlled ? { onMonthChange: ignoreDynamicMonth } : {}}
     bind:month={dynamicMonth}
     defaultMonth={new Date(2026, 0, 1, 12)}
   />

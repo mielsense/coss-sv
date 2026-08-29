@@ -1,5 +1,5 @@
 <script lang="ts">
-import * as ToggleGroup from "./index.js";
+  import * as ToggleGroup from "./index.js";
 </script>
 
 <ToggleGroup.Root aria-label="Text formatting" defaultValue={["bold"]} size="sm" variant="outline">

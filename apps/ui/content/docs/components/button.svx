@@ -10,7 +10,10 @@ links:
 
 ## Installation
 
-<InstallCommand pnpm="pnpm add @coss-sv/ui" shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/button.json" />
+<InstallCommand
+  pnpm="pnpm add @coss-sv/ui"
+  shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/button.json"
+/>
 
 ## Usage
 
@@ -37,16 +40,16 @@ Pass `href` to render a semantic link with the same styles.
 A button component with variant, size, and loading states. Native attributes pass to the rendered
 element.
 
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `variant` | `"default" \| "destructive" \| "destructive-outline" \| "ghost" \| "link" \| "outline" \| "secondary"` | `"default"` | Controls the button styling |
-| `size` | `"default" \| "icon" \| "icon-lg" \| "icon-sm" \| "icon-xl" \| "icon-xs" \| "lg" \| "sm" \| "xl" \| "xs"` | `"default"` | Controls the button size |
-| `loading` | `boolean` | `false` | Shows a spinner and forces disabled button behavior while loading |
-| `href` | `string` | — | Renders a semantic link with the button styles |
-| `target` | `string` | — | Sets the link browsing context when `href` is present |
-| `rel` | `string` | — | Sets the link relationship when `href` is present |
-| `download` | `boolean \| string` | — | Downloads the linked resource when `href` is present |
-| `as` | `keyof HTMLElementTagNameMap` | `"button"` | Renders a different non-link element |
+| Prop       | Type                                                                                                      | Default     | Description                                                       |
+| ---------- | --------------------------------------------------------------------------------------------------------- | ----------- | ----------------------------------------------------------------- |
+| `variant`  | `"default" \| "destructive" \| "destructive-outline" \| "ghost" \| "link" \| "outline" \| "secondary"`    | `"default"` | Controls the button styling                                       |
+| `size`     | `"default" \| "icon" \| "icon-lg" \| "icon-sm" \| "icon-xl" \| "icon-xs" \| "lg" \| "sm" \| "xl" \| "xs"` | `"default"` | Controls the button size                                          |
+| `loading`  | `boolean`                                                                                                 | `false`     | Shows a spinner and forces disabled button behavior while loading |
+| `href`     | `string`                                                                                                  | —           | Renders a semantic link with the button styles                    |
+| `target`   | `string`                                                                                                  | —           | Sets the link browsing context when `href` is present             |
+| `rel`      | `string`                                                                                                  | —           | Sets the link relationship when `href` is present                 |
+| `download` | `boolean \| string`                                                                                       | —           | Downloads the linked resource when `href` is present              |
+| `as`       | `keyof HTMLElementTagNameMap`                                                                             | `"button"`  | Renders a different non-link element                              |
 
 When `loading` is `true`, the component:
 

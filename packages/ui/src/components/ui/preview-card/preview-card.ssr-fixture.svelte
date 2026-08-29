@@ -1,5 +1,5 @@
 <script lang="ts">
-import * as PreviewCard from "./index.js";
+  import * as PreviewCard from "./index.js";
 </script>
 
 <PreviewCard.Root>

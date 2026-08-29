@@ -1,67 +1,67 @@
 <script module lang="ts">
-import type { Snippet } from "svelte";
-import type { HTMLAttributes } from "svelte/elements";
+  import type { Snippet } from "svelte";
+  import type { HTMLAttributes } from "svelte/elements";
 
-export type SidebarCollapsible = "icon" | "none" | "offcanvas";
-export type SidebarSide = "left" | "right";
-export type SidebarVariant = "floating" | "inset" | "sidebar";
-export type SidebarRootProps = Omit<HTMLAttributes<HTMLDivElement>, "children" | "class"> & {
-  children?: Snippet;
-  class?: string;
-  collapsible?: SidebarCollapsible;
-  ref?: HTMLDivElement | null;
-  side?: SidebarSide;
-  variant?: SidebarVariant;
-};
+  export type SidebarCollapsible = "icon" | "none" | "offcanvas";
+  export type SidebarSide = "left" | "right";
+  export type SidebarVariant = "floating" | "inset" | "sidebar";
+  export type SidebarRootProps = Omit<HTMLAttributes<HTMLDivElement>, "children" | "class"> & {
+    children?: Snippet;
+    class?: string;
+    collapsible?: SidebarCollapsible;
+    ref?: HTMLDivElement | null;
+    side?: SidebarSide;
+    variant?: SidebarVariant;
+  };
 </script>
 
 <script lang="ts">
-import { cn } from "$lib/utils.js";
-import * as Drawer from "../drawer/index.js";
-import { useSidebar } from "./context.js";
+  import { cn } from "$lib/utils.js";
+  import * as Drawer from "../drawer/index.js";
+  import { useSidebar } from "./context.js";
 
-const SIDEBAR_WIDTH_MOBILE = "18rem";
+  const SIDEBAR_WIDTH_MOBILE = "18rem";
 
-let {
-  children,
-  class: className,
-  collapsible = "offcanvas",
-  ref = $bindable(null),
-  side = "left",
-  style,
-  variant = "sidebar",
-  ...props
-}: SidebarRootProps = $props();
+  let {
+    children,
+    class: className,
+    collapsible = "offcanvas",
+    ref = $bindable(null),
+    side = "left",
+    style,
+    variant = "sidebar",
+    ...props
+  }: SidebarRootProps = $props();
 
-const sidebar = useSidebar();
-const getOpenMobile = (): boolean => sidebar.openMobile;
-const setDrawerOpen = (next: boolean): void => sidebar.setOpenMobile(next);
-const mobileStyle = $derived(
-  `--sidebar-width: ${SIDEBAR_WIDTH_MOBILE};${typeof style === "string" && style ? ` ${style}` : ""}`,
-);
-const mobileProps = $derived(props as Record<string, unknown>);
-const gapClass = $derived(
-  cn(
-    "relative w-(--sidebar-width) bg-transparent transition-[width] duration-200 ease-linear",
-    "group-data-[collapsible=offcanvas]:w-0",
-    "group-data-[side=right]:rotate-180",
-    variant === "floating" || variant === "inset"
-      ? "group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)+(--spacing(4)))]"
-      : "group-data-[collapsible=icon]:w-(--sidebar-width-icon)",
-  ),
-);
-const containerClass = $derived(
-  cn(
-    "fixed inset-y-0 z-10 hidden h-svh w-(--sidebar-width) transition-[left,right,width] duration-200 ease-linear md:flex",
-    side === "left"
-      ? "left-0 group-data-[collapsible=offcanvas]:left-[calc(var(--sidebar-width)*-1)]"
-      : "right-0 group-data-[collapsible=offcanvas]:right-[calc(var(--sidebar-width)*-1)]",
-    variant === "floating" || variant === "inset"
-      ? "p-2 group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)+(--spacing(4))+2px)]"
-      : "group-data-[collapsible=icon]:w-(--sidebar-width-icon) group-data-[side=left]:border-r group-data-[side=right]:border-l",
-    className,
-  ),
-);
+  const sidebar = useSidebar();
+  const getOpenMobile = (): boolean => sidebar.openMobile;
+  const setDrawerOpen = (next: boolean): void => sidebar.setOpenMobile(next);
+  const mobileStyle = $derived(
+    `--sidebar-width: ${SIDEBAR_WIDTH_MOBILE};${typeof style === "string" && style ? ` ${style}` : ""}`,
+  );
+  const mobileProps = $derived(props as Record<string, unknown>);
+  const gapClass = $derived(
+    cn(
+      "relative w-(--sidebar-width) bg-transparent transition-[width] duration-200 ease-linear",
+      "group-data-[collapsible=offcanvas]:w-0",
+      "group-data-[side=right]:rotate-180",
+      variant === "floating" || variant === "inset"
+        ? "group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)+(--spacing(4)))]"
+        : "group-data-[collapsible=icon]:w-(--sidebar-width-icon)",
+    ),
+  );
+  const containerClass = $derived(
+    cn(
+      "fixed inset-y-0 z-10 hidden h-svh w-(--sidebar-width) transition-[left,right,width] duration-200 ease-linear md:flex",
+      side === "left"
+        ? "left-0 group-data-[collapsible=offcanvas]:left-[calc(var(--sidebar-width)*-1)]"
+        : "right-0 group-data-[collapsible=offcanvas]:right-[calc(var(--sidebar-width)*-1)]",
+      variant === "floating" || variant === "inset"
+        ? "p-2 group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)+(--spacing(4))+2px)]"
+        : "group-data-[collapsible=icon]:w-(--sidebar-width-icon) group-data-[side=left]:border-r group-data-[side=right]:border-l",
+      className,
+    ),
+  );
 </script>
 
 {#if collapsible === "none"}

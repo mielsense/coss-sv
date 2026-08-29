@@ -1,20 +1,20 @@
 <script module lang="ts">
-import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
-export const meta = defineParticleMeta({
-  components: ["number-field", "slider"],
-  id: "p-slider-19",
-  interactive: true,
-  responsive: true,
-  title: "Vertical slider with input",
-});
+  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  export const meta = defineParticleMeta({
+    components: ["number-field", "slider"],
+    id: "p-slider-19",
+    interactive: true,
+    responsive: true,
+    title: "Vertical slider with input",
+  });
 </script>
 
 <script lang="ts">
-import { NumberField, Slider } from "@coss-sv/ui";
+  import { NumberField, Slider } from "@coss-sv/ui";
 
-const min = 0;
-const max = 100;
-let value = $state(25);
+  const min = 0;
+  const max = 100;
+  let value = $state(25);
 </script>
 
 <div class="flex flex-col items-center justify-center gap-4">

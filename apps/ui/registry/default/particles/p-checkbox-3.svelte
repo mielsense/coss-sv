@@ -1,19 +1,19 @@
 <script module lang="ts">
-import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
 
-export const meta = defineParticleMeta({
-  components: ["checkbox", "label"],
-  id: "p-checkbox-3",
-  interactive: true,
-  responsive: false,
-  title: "Checkbox with description",
-});
+  export const meta = defineParticleMeta({
+    components: ["checkbox", "label"],
+    id: "p-checkbox-3",
+    interactive: true,
+    responsive: false,
+    title: "Checkbox with description",
+  });
 </script>
 
 <script lang="ts">
-import { Checkbox, Label } from "@coss-sv/ui";
+  import { Checkbox, Label } from "@coss-sv/ui";
 
-const id = $props.id();
+  const id = $props.id();
 </script>
 
 <div class="flex items-start gap-2">

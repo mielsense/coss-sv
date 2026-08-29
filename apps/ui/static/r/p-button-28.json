@@ -10,7 +10,7 @@
 	],
 	"files": [
 		{
-			"content": "<script module lang=\"ts\">\nimport { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\nexport const meta = defineParticleMeta({\n  components: [\"avatar\", \"button\"],\n  id: \"p-button-28\",\n  interactive: true,\n  responsive: false,\n  title: \"Button with avatar\",\n});\n</script>\n\n<script lang=\"ts\">\nimport * as Avatar from \"$COMPONENTS$/ui/avatar/index.js\";\nimport { Button } from \"$COMPONENTS$/ui/button/index.js\";\n</script>\n\n<Button class=\"rounded-full ps-1\">\n  <Avatar.Root class=\"size-6\">\n    <Avatar.Image\n      alt=\"Luke Tracy\"\n      src=\"https://images.unsplash.com/photo-1628157588553-5eeea00af15c?w=128&h=128&dpr=2&q=80\"\n    />\n    <Avatar.Fallback>LT</Avatar.Fallback>\n  </Avatar.Root>\n  @georgelucas\n</Button>\n",
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\n  export const meta = defineParticleMeta({\n    components: [\"avatar\", \"button\"],\n    id: \"p-button-28\",\n    interactive: true,\n    responsive: false,\n    title: \"Button with avatar\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import * as Avatar from \"$COMPONENTS$/ui/avatar/index.js\";\n  import { Button } from \"$COMPONENTS$/ui/button/index.js\";\n</script>\n\n<Button class=\"rounded-full ps-1\">\n  <Avatar.Root class=\"size-6\">\n    <Avatar.Image\n      alt=\"Luke Tracy\"\n      src=\"https://images.unsplash.com/photo-1628157588553-5eeea00af15c?w=128&h=128&dpr=2&q=80\"\n    />\n    <Avatar.Fallback>LT</Avatar.Fallback>\n  </Avatar.Root>\n  @georgelucas\n</Button>\n",
 			"type": "registry:block",
 			"target": "p-button-28.svelte"
 		}

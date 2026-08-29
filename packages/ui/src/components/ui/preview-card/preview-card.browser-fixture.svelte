@@ -1,8 +1,9 @@
 <script lang="ts">
-import * as PreviewCard from "./index.js";
+  import * as PreviewCard from "./index.js";
 
-let portalTarget = $state<HTMLElement | null>(null);
+  let portalTarget = $state<HTMLElement | null>(null);
 </script>
+
 <div bind:this={portalTarget} data-testid="preview-portal"></div>
 <PreviewCard.Root>
   <PreviewCard.Trigger as="button" data-testid="preview-trigger" delay={0}

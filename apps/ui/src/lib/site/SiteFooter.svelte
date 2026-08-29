@@ -1,7 +1,7 @@
 <script lang="ts">
-import { authorUrl } from "./site.js";
+  import { authorUrl } from "./site.js";
 
-let { embedded = false }: { embedded?: boolean } = $props();
+  let { embedded = false }: { embedded?: boolean } = $props();
 </script>
 
 <footer class="site-footer" data-embedded={embedded || undefined}>

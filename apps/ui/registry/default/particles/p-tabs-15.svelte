@@ -1,21 +1,23 @@
 <script module lang="ts">
-import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
-export const meta = defineParticleMeta({
-  components: ["tabs"],
-  id: "p-tabs-15",
-  interactive: true,
-  responsive: false,
-  title: "Large segmented control built with tabs",
-});
+  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  export const meta = defineParticleMeta({
+    components: ["tabs"],
+    id: "p-tabs-15",
+    interactive: true,
+    responsive: false,
+    title: "Large segmented control built with tabs",
+  });
 </script>
+
 <script lang="ts">
-import { Tabs } from "@coss-sv/ui";
+  import { Tabs } from "@coss-sv/ui";
 </script>
 
 <Tabs.Root defaultValue="tab-1">
   <Tabs.List size="lg"
-    ><Tabs.Tab value="tab-1">Tab 1</Tabs.Tab><Tabs.Tab value="tab-2">Tab 2</Tabs.Tab
-    ><Tabs.Tab value="tab-3">Tab 3</Tabs.Tab></Tabs.List
+    ><Tabs.Tab value="tab-1">Tab 1</Tabs.Tab><Tabs.Tab value="tab-2">Tab 2</Tabs.Tab><Tabs.Tab
+      value="tab-3">Tab 3</Tabs.Tab
+    ></Tabs.List
   >
   <Tabs.Panel value="tab-1"
     ><p class="p-4 text-center text-muted-foreground text-xs">Tab 1 content</p></Tabs.Panel

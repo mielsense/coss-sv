@@ -1,35 +1,35 @@
 <script module lang="ts">
-import type { Tabs as ShardsTabs, TabsValue } from "@shardsui/svelte";
-import type { ComponentProps } from "svelte";
+  import type { Tabs as ShardsTabs, TabsValue } from "@shardsui/svelte";
+  import type { ComponentProps } from "svelte";
 
-export type TabsRootProps = Omit<ComponentProps<typeof ShardsTabs.Root>, "value"> & {
-  defaultValue?: TabsValue;
-  value?: TabsValue | undefined;
-};
+  export type TabsRootProps = Omit<ComponentProps<typeof ShardsTabs.Root>, "value"> & {
+    defaultValue?: TabsValue;
+    value?: TabsValue | undefined;
+  };
 </script>
 
 <script lang="ts">
-import { Tabs as TabsPrimitive } from "@shardsui/svelte";
-import { untrack } from "svelte";
-import { cn } from "$lib/utils.js";
+  import { Tabs as TabsPrimitive } from "@shardsui/svelte";
+  import { untrack } from "svelte";
+  import { cn } from "$lib/utils.js";
 
-let {
-  class: className,
-  defaultValue,
-  ref = $bindable(null),
-  value = $bindable(),
-  ...props
-}: TabsRootProps = $props();
+  let {
+    class: className,
+    defaultValue,
+    ref = $bindable(null),
+    value = $bindable(),
+    ...props
+  }: TabsRootProps = $props();
 
-const initialValue = untrack(() => defaultValue);
+  const initialValue = untrack(() => defaultValue);
 
-function getValue(): TabsValue {
-  return (value === undefined ? initialValue : value) as TabsValue;
-}
+  function getValue(): TabsValue {
+    return (value === undefined ? initialValue : value) as TabsValue;
+  }
 
-function setValue(next: TabsValue): void {
-  value = next;
-}
+  function setValue(next: TabsValue): void {
+    value = next;
+  }
 </script>
 
 <TabsPrimitive.Root

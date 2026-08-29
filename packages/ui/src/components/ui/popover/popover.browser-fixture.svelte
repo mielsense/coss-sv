@@ -1,10 +1,10 @@
 <script lang="ts">
-import * as Popover from "./index.js";
+  import * as Popover from "./index.js";
 
-let open = $state(false);
-let changes = $state(0);
-let portalTarget = $state<HTMLElement | null>(null);
-let anchor = $state<HTMLElement | null>(null);
+  let open = $state(false);
+  let changes = $state(0);
+  let portalTarget = $state<HTMLElement | null>(null);
+  let anchor = $state<HTMLElement | null>(null);
 </script>
 
 <div bind:this={portalTarget} data-testid="portal-target"></div>
@@ -14,7 +14,7 @@ let anchor = $state<HTMLElement | null>(null);
   <Popover.Popup {anchor} portalProps={{ container: portalTarget }}>
     <Popover.Title>Account details</Popover.Title>
     <Popover.Description>Update your profile.</Popover.Description>
-    <input aria-label="Name">
+    <input aria-label="Name" />
     <Popover.Close>Done</Popover.Close>
   </Popover.Popup>
 </Popover.Root>

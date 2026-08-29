@@ -1,7 +1,7 @@
 <script lang="ts">
-import { Input, Label } from "@coss-sv/ui";
+  import { Input, Label } from "@coss-sv/ui";
 
-const id = $props.id();
+  const id = $props.id();
 </script>
 
 <div class="docs-preview-width" data-particle="p-input-6">
@@ -12,7 +12,7 @@ const id = $props.id();
 </div>
 
 <style>
-.docs-preview-width {
-  width: min(16rem, 100%);
-}
+  .docs-preview-width {
+    width: min(16rem, 100%);
+  }
 </style>

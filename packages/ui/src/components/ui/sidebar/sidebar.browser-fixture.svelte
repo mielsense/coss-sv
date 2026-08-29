@@ -1,14 +1,14 @@
 <script lang="ts">
-import * as Sidebar from "./index.js";
-import SidebarContextProbe from "./sidebar-context-probe.svelte";
+  import * as Sidebar from "./index.js";
+  import SidebarContextProbe from "./sidebar-context-probe.svelte";
 
-let open = $state(true);
-let changes = $state<boolean[]>([]);
-let lockedOpen = $state(true);
-let lockedAttempts = $state(0);
-let triggerRef = $state<HTMLElement | null>(null);
-let disabledClicks = $state(0);
-let mobileClicks = $state(0);
+  let open = $state(true);
+  let changes = $state<boolean[]>([]);
+  let lockedOpen = $state(true);
+  let lockedAttempts = $state(0);
+  let triggerRef = $state<HTMLElement | null>(null);
+  let disabledClicks = $state(0);
+  let mobileClicks = $state(0);
 </script>
 
 <Sidebar.Provider bind:open onOpenChange={(next) => changes.push(next)}>

@@ -1,23 +1,23 @@
 <script lang="ts">
-import Button from "../button/button.svelte";
-import * as Collapsible from "./index.js";
+  import Button from "../button/button.svelte";
+  import * as Collapsible from "./index.js";
 
-let open = $state(false);
-let changes = $state<boolean[]>([]);
-let cancelledClicks = $state(0);
-let cancelledOpen = $state(false);
-let customOpen = $state(true);
-let delegatedClicks = $state(0);
-let delegatedRef = $state<HTMLElement | null>(null);
-let disabledClicks = $state(0);
-let deferredOpen = $state<boolean | undefined>();
-let showCustomPanel = $state(true);
-let showDelegated = $state(true);
+  let open = $state(false);
+  let changes = $state<boolean[]>([]);
+  let cancelledClicks = $state(0);
+  let cancelledOpen = $state(false);
+  let customOpen = $state(true);
+  let delegatedClicks = $state(0);
+  let delegatedRef = $state<HTMLElement | null>(null);
+  let disabledClicks = $state(0);
+  let deferredOpen = $state<boolean | undefined>();
+  let showCustomPanel = $state(true);
+  let showDelegated = $state(true);
 
-function cancelToggle(event: MouseEvent & { preventShardsUIHandler?: () => void }): void {
-  cancelledClicks += 1;
-  event.preventShardsUIHandler?.();
-}
+  function cancelToggle(event: MouseEvent & { preventShardsUIHandler?: () => void }): void {
+    cancelledClicks += 1;
+    event.preventShardsUIHandler?.();
+  }
 </script>
 
 <Collapsible.Root aria-label="Recovery keys" bind:open onOpenChange={(next) => changes.push(next)}>
@@ -120,8 +120,7 @@ function cancelToggle(event: MouseEvent & { preventShardsUIHandler?: () => void 
 <output data-testid="open-state">{open ? "open" : "closed"}</output>
 <output data-testid="changes">{changes.join(",")}</output>
 <output data-testid="deferred-open">{deferredOpen == null ? "unset" : deferredOpen}</output>
-<output data-testid="delegated-state"
-  >{delegatedClicks}:{delegatedRef?.tagName ?? "missing"}</output
+<output data-testid="delegated-state">{delegatedClicks}:{delegatedRef?.tagName ?? "missing"}</output
 >
 <output data-testid="delegated-disabled-clicks">{disabledClicks}</output>
 <output data-testid="delegated-cancelled-state">{cancelledClicks}:{cancelledOpen}</output>

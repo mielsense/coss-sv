@@ -1,10 +1,10 @@
 <script lang="ts">
-import { Avatar } from "@coss-sv/ui";
+  import { Avatar } from "@coss-sv/ui";
 
-const referenceImage =
-  "https://images.unsplash.com/photo-1543610892-0b1f7e6d8ac1?w=128&h=128&dpr=2&q=80";
-let statuses = $state<string[]>([]);
-let showDelayed = $state(false);
+  const referenceImage =
+    "https://images.unsplash.com/photo-1543610892-0b1f7e6d8ac1?w=128&h=128&dpr=2&q=80";
+  let statuses = $state<string[]>([]);
+  let showDelayed = $state(false);
 </script>
 
 <div data-particle="p-avatar-1">
@@ -45,10 +45,10 @@ let showDelayed = $state(false);
 </div>
 
 <style>
-.review-probes {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin-top: 2rem;
-}
+  .review-probes {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
 </style>

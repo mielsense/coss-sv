@@ -1,8 +1,8 @@
 <script lang="ts">
-import * as Sheet from "./index.js";
-import { Sheet as NamedRoot, SheetHandle, SheetTrigger } from "./index.js";
-const handle = Sheet.createHandle<{ id: number }>();
-const namedHandle = new SheetHandle<{ id: number }>();
+  import * as Sheet from "./index.js";
+  import { Sheet as NamedRoot, SheetHandle, SheetTrigger } from "./index.js";
+  const handle = Sheet.createHandle<{ id: number }>();
+  const namedHandle = new SheetHandle<{ id: number }>();
 </script>
 
 <Sheet.Trigger {handle} payload={{ id: 1 }}>Open typed sheet</Sheet.Trigger>

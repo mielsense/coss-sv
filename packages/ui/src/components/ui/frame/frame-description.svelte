@@ -1,22 +1,22 @@
 <script module lang="ts">
-import type { Snippet } from "svelte";
-import type { HTMLAttributes } from "svelte/elements";
+  import type { Snippet } from "svelte";
+  import type { HTMLAttributes } from "svelte/elements";
 
-export type FrameDescriptionProps = HTMLAttributes<HTMLDivElement> & {
-  children?: Snippet;
-  ref?: HTMLDivElement | null;
-};
+  export type FrameDescriptionProps = HTMLAttributes<HTMLDivElement> & {
+    children?: Snippet;
+    ref?: HTMLDivElement | null;
+  };
 </script>
 
 <script lang="ts">
-import { cn } from "$lib/utils.js";
+  import { cn } from "$lib/utils.js";
 
-let {
-  children,
-  class: className,
-  ref = $bindable(null),
-  ...props
-}: FrameDescriptionProps = $props();
+  let {
+    children,
+    class: className,
+    ref = $bindable(null),
+    ...props
+  }: FrameDescriptionProps = $props();
 </script>
 
 <div

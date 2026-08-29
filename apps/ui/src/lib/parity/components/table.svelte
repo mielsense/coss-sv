@@ -1,18 +1,18 @@
 <!-- biome-ignore-all lint/a11y/noHeaderScope: Table.Head renders a native th element. -->
 <script lang="ts">
-import { Badge } from "../../../../../../packages/ui/dist/components/ui/badge/index.js";
-import { CardFrame } from "../../../../../../packages/ui/dist/components/ui/card/index.js";
-import { Frame } from "../../../../../../packages/ui/dist/components/ui/frame/index.js";
-import * as Table from "../../../../../../packages/ui/dist/components/ui/table/index.js";
+  import { Badge } from "../../../../../../packages/ui/dist/components/ui/badge/index.js";
+  import { CardFrame } from "../../../../../../packages/ui/dist/components/ui/card/index.js";
+  import { Frame } from "../../../../../../packages/ui/dist/components/ui/frame/index.js";
+  import * as Table from "../../../../../../packages/ui/dist/components/ui/table/index.js";
 
-const projects = [
-  ["Website Redesign", "Paid", "bg-emerald-500", "Frontend Team", "$12,500"],
-  ["Mobile App", "Unpaid", "bg-muted-foreground/64", "Mobile Team", "$8,750"],
-  ["API Integration", "Pending", "bg-amber-500", "Backend Team", "$5,200"],
-  ["Database Migration", "Paid", "bg-emerald-500", "DevOps Team", "$3,800"],
-  ["User Dashboard", "Paid", "bg-emerald-500", "UX Team", "$7,200"],
-  ["Security Audit", "Failed", "bg-red-500", "Security Team", "$2,100"],
-] as const;
+  const projects = [
+    ["Website Redesign", "Paid", "bg-emerald-500", "Frontend Team", "$12,500"],
+    ["Mobile App", "Unpaid", "bg-muted-foreground/64", "Mobile Team", "$8,750"],
+    ["API Integration", "Pending", "bg-amber-500", "Backend Team", "$5,200"],
+    ["Database Migration", "Paid", "bg-emerald-500", "DevOps Team", "$3,800"],
+    ["User Dashboard", "Paid", "bg-emerald-500", "UX Team", "$7,200"],
+    ["Security Audit", "Failed", "bg-red-500", "Security Team", "$2,100"],
+  ] as const;
 </script>
 
 {#snippet projectTable()}

@@ -1,8 +1,8 @@
 <script lang="ts">
-import * as AlertDialog from "./index.js";
-import { AlertDialog as NamedRoot, AlertDialogHandle, AlertDialogTrigger } from "./index.js";
-const handle = AlertDialog.createHandle<{ id: number }>();
-const namedHandle = new AlertDialogHandle<{ id: number }>();
+  import * as AlertDialog from "./index.js";
+  import { AlertDialog as NamedRoot, AlertDialogHandle, AlertDialogTrigger } from "./index.js";
+  const handle = AlertDialog.createHandle<{ id: number }>();
+  const namedHandle = new AlertDialogHandle<{ id: number }>();
 </script>
 
 <AlertDialog.Trigger {handle} payload={{ id: 1 }}>Open typed alert</AlertDialog.Trigger>

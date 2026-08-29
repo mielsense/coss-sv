@@ -1,14 +1,14 @@
 <script lang="ts">
-import * as Dialog from "./index.js";
+  import * as Dialog from "./index.js";
 
-const detached = Dialog.createHandle<{ label: string }>();
-let vetoOpen = $state(false);
-let allowClose = $state(false);
-let focusOpen = $state(false);
-let modalOpen = $state(false);
-let nonModalOpen = $state(false);
-let initialFocus = $state<HTMLInputElement | null>(null);
-let finalFocus = $state<HTMLButtonElement | null>(null);
+  const detached = Dialog.createHandle<{ label: string }>();
+  let vetoOpen = $state(false);
+  let allowClose = $state(false);
+  let focusOpen = $state(false);
+  let modalOpen = $state(false);
+  let nonModalOpen = $state(false);
+  let initialFocus = $state<HTMLInputElement | null>(null);
+  let finalFocus = $state<HTMLButtonElement | null>(null);
 </script>
 
 <Dialog.Trigger handle={detached} payload={{ label: "Detached payload" }}>
@@ -28,8 +28,8 @@ let finalFocus = $state<HTMLButtonElement | null>(null);
   bind:open={
     () => vetoOpen,
     (next) => {
-    if (next || allowClose) vetoOpen = next;
-  }
+      if (next || allowClose) vetoOpen = next;
+    }
   }
 >
   <Dialog.Trigger>Open veto dialog</Dialog.Trigger>
@@ -49,7 +49,7 @@ let finalFocus = $state<HTMLButtonElement | null>(null);
   <Dialog.Popup initialFocus={() => initialFocus} finalFocus={() => finalFocus}>
     <Dialog.Title>Focus dialog</Dialog.Title>
     <Dialog.Description>Custom focus targets.</Dialog.Description>
-    <input bind:this={initialFocus} aria-label="Custom initial focus">
+    <input bind:this={initialFocus} aria-label="Custom initial focus" />
     <Dialog.Close>Close focus dialog</Dialog.Close>
   </Dialog.Popup>
 </Dialog.Root>

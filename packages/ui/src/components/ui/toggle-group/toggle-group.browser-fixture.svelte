@@ -1,11 +1,11 @@
 <script lang="ts">
-import * as ToggleGroup from "./index.js";
+  import * as ToggleGroup from "./index.js";
 
-let multipleValue = $state<readonly string[]>(["bold"]);
-let singleChanges = $state<string[][]>([]);
-let groupRef = $state<HTMLElement | null>(null);
-let fixedValue = $state<readonly string[]>(["bold"]);
-let declinedWrites = $state(0);
+  let multipleValue = $state<readonly string[]>(["bold"]);
+  let singleChanges = $state<string[][]>([]);
+  let groupRef = $state<HTMLElement | null>(null);
+  let fixedValue = $state<readonly string[]>(["bold"]);
+  let declinedWrites = $state(0);
 </script>
 
 <ToggleGroup.Root

@@ -1,13 +1,13 @@
 <script lang="ts">
-import * as Menu from "./index.js";
+  import * as Menu from "./index.js";
 
-type Payload = { label: string };
+  type Payload = { label: string };
 
-const detached = new Menu.Handle<Payload>();
-const orphan = new Menu.Handle<Payload>();
-let detachedOpen = $state(false);
-let attachedOpen = $state(false);
-let portalTarget = $state<HTMLElement | null>(null);
+  const detached = new Menu.Handle<Payload>();
+  const orphan = new Menu.Handle<Payload>();
+  let detachedOpen = $state(false);
+  let attachedOpen = $state(false);
+  let portalTarget = $state<HTMLElement | null>(null);
 </script>
 
 <Menu.Trigger data-testid="orphan-trigger" handle={orphan} payload={{ label: "Orphan" }}>

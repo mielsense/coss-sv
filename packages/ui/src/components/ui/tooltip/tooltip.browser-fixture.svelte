@@ -1,10 +1,11 @@
 <script lang="ts">
-import * as ToggleGroup from "../toggle-group/index.js";
-import * as Tooltip from "./index.js";
+  import * as ToggleGroup from "../toggle-group/index.js";
+  import * as Tooltip from "./index.js";
 
-let portalTarget = $state<HTMLElement | null>(null);
-let grouped = $state<readonly string[]>(["bold"]);
+  let portalTarget = $state<HTMLElement | null>(null);
+  let grouped = $state<readonly string[]>(["bold"]);
 </script>
+
 <div bind:this={portalTarget} data-testid="tooltip-portal"></div>
 <Tooltip.Provider delay={0} timeout={400}>
   <Tooltip.Root>
@@ -35,8 +36,7 @@ let grouped = $state<readonly string[]>(["bold"]);
       onclick={() =>
         (grouped = grouped.includes("bold")
           ? grouped.filter((value) => value !== "bold")
-          : [...grouped, "bold"])}
-      >Bold</Tooltip.Trigger
+          : [...grouped, "bold"])}>Bold</Tooltip.Trigger
     >
     <Tooltip.Popup>Toggle bold</Tooltip.Popup>
   </Tooltip.Root>

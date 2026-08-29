@@ -1,35 +1,35 @@
 <script lang="ts">
-import { Button, Field, FieldsetLegend, Form, Label, RadioGroup } from "@coss-sv/ui";
+  import { Button, Field, FieldsetLegend, Form, Label, RadioGroup } from "@coss-sv/ui";
 
-const items = [
-  { label: "System", value: "system" },
-  { label: "Light", value: "light" },
-  { label: "Dark", value: "dark" },
-] as const;
+  const items = [
+    { label: "System", value: "system" },
+    { label: "Light", value: "light" },
+    { label: "Dark", value: "dark" },
+  ] as const;
 
-const segmentedControlRootClassName =
-  "relative z-0 flex w-fit items-center justify-center gap-0.5 rounded-lg bg-muted p-0.5";
-const segmentedControlItemBaseClassName =
-  "relative inline-flex shrink-0 cursor-pointer select-none items-center justify-center whitespace-nowrap rounded-md border border-transparent font-medium text-base text-muted-foreground/72 outline-2 outline-transparent transition-[outline-color] hover:bg-transparent hover:text-muted-foreground focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-64 data-disabled:pointer-events-none data-disabled:opacity-64 sm:text-sm gap-1.5 [&_svg:not([class*='opacity-'])]:opacity-80 [&_svg:not([class*='size-'])]:size-4.5 sm:[&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:-mx-0.5 [&_svg]:shrink-0 data-checked:bg-background data-checked:text-foreground data-checked:shadow-sm/5 dark:data-checked:bg-input grow";
-const segmentedControlItemSizes = {
-  default: "h-8.5 px-[calc(--spacing(2.5)-1px)] sm:h-7.5",
-  lg: "h-9.5 px-[calc(--spacing(3)-1px)] sm:h-8.5",
-  sm: "h-7.5 px-[calc(--spacing(2)-1px)] sm:h-6.5",
-} as const;
+  const segmentedControlRootClassName =
+    "relative z-0 flex w-fit items-center justify-center gap-0.5 rounded-lg bg-muted p-0.5";
+  const segmentedControlItemBaseClassName =
+    "relative inline-flex shrink-0 cursor-pointer select-none items-center justify-center whitespace-nowrap rounded-md border border-transparent font-medium text-base text-muted-foreground/72 outline-2 outline-transparent transition-[outline-color] hover:bg-transparent hover:text-muted-foreground focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-64 data-disabled:pointer-events-none data-disabled:opacity-64 sm:text-sm gap-1.5 [&_svg:not([class*='opacity-'])]:opacity-80 [&_svg:not([class*='size-'])]:size-4.5 sm:[&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:-mx-0.5 [&_svg]:shrink-0 data-checked:bg-background data-checked:text-foreground data-checked:shadow-sm/5 dark:data-checked:bg-input grow";
+  const segmentedControlItemSizes = {
+    default: "h-8.5 px-[calc(--spacing(2.5)-1px)] sm:h-7.5",
+    lg: "h-9.5 px-[calc(--spacing(3)-1px)] sm:h-8.5",
+    sm: "h-7.5 px-[calc(--spacing(2)-1px)] sm:h-6.5",
+  } as const;
 
-let loading = $state(false);
-const fixtureId = $props.id();
-const frameworksLegendId = `${fixtureId}-frameworks-legend`;
-const themeLegendId = `${fixtureId}-theme-legend`;
+  let loading = $state(false);
+  const fixtureId = $props.id();
+  const frameworksLegendId = `${fixtureId}-frameworks-legend`;
+  const themeLegendId = `${fixtureId}-theme-legend`;
 
-async function submitFrameworks(event: SubmitEvent) {
-  event.preventDefault();
-  const formData = new FormData(event.currentTarget as HTMLFormElement);
-  loading = true;
-  await new Promise((resolve) => setTimeout(resolve, 800));
-  loading = false;
-  alert(`Selected: ${formData.get("frameworks")}`);
-}
+  async function submitFrameworks(event: SubmitEvent) {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget as HTMLFormElement);
+    loading = true;
+    await new Promise((resolve) => setTimeout(resolve, 800));
+    loading = false;
+    alert(`Selected: ${formData.get("frameworks")}`);
+  }
 </script>
 
 {#snippet themePreview(theme: (typeof items)[number]["value"])}
@@ -150,8 +150,7 @@ async function submitFrameworks(event: SubmitEvent) {
 <div data-particle="p-radio-group-5">
   <Form class="flex w-full max-w-[160px] flex-col gap-4" onsubmit={submitFrameworks}>
     <Field.Root aria-labelledby={frameworksLegendId} as="fieldset" class="gap-2" name="frameworks">
-      <FieldsetLegend id={frameworksLegendId} class="font-medium text-sm"
-        >Frameworks</FieldsetLegend
+      <FieldsetLegend id={frameworksLegendId} class="font-medium text-sm">Frameworks</FieldsetLegend
       >
       <RadioGroup.Root aria-labelledby={frameworksLegendId} defaultValue="next" name="frameworks">
         <Field.Item><Field.Label><RadioGroup.Item value="next" /> Next.js</Field.Label></Field.Item>
@@ -189,11 +188,7 @@ async function submitFrameworks(event: SubmitEvent) {
   </Field.Root>
 </div>
 
-{#each [
-  { particle: "p-radio-group-7", size: "sm" },
-  { particle: "p-radio-group-8", size: "default" },
-  { particle: "p-radio-group-9", size: "lg" },
-] as example (example.particle)}
+{#each [{ particle: "p-radio-group-7", size: "sm" }, { particle: "p-radio-group-8", size: "default" }, { particle: "p-radio-group-9", size: "lg" }] as example (example.particle)}
   <div data-particle={example.particle}>
     <RadioGroup.RadioGroupPrimitive
       aria-label="Billing period"
@@ -202,13 +197,11 @@ async function submitFrameworks(event: SubmitEvent) {
     >
       <RadioGroup.RadioPrimitive.Root
         class={`${segmentedControlItemBaseClassName} ${segmentedControlItemSizes[example.size as keyof typeof segmentedControlItemSizes]}`}
-        value="monthly"
-        >Monthly</RadioGroup.RadioPrimitive.Root
+        value="monthly">Monthly</RadioGroup.RadioPrimitive.Root
       >
       <RadioGroup.RadioPrimitive.Root
         class={`${segmentedControlItemBaseClassName} ${segmentedControlItemSizes[example.size as keyof typeof segmentedControlItemSizes]}`}
-        value="yearly"
-        >Yearly</RadioGroup.RadioPrimitive.Root
+        value="yearly">Yearly</RadioGroup.RadioPrimitive.Root
       >
     </RadioGroup.RadioGroupPrimitive>
   </div>

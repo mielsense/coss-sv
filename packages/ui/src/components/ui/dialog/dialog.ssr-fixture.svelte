@@ -1,7 +1,7 @@
 <script lang="ts">
-import type { Snippet } from "svelte";
-import * as Dialog from "./index.js";
-let { children }: { children?: Snippet } = $props();
+  import type { Snippet } from "svelte";
+  import * as Dialog from "./index.js";
+  let { children }: { children?: Snippet } = $props();
 </script>
 
 <Dialog.Root open>

@@ -1,7 +1,7 @@
 <script lang="ts">
-import * as Autocomplete from "./index.js";
+  import * as Autocomplete from "./index.js";
 
-const items = ["Apple", "Banana"];
+  const items = ["Apple", "Banana"];
 </script>
 
 {#snippet searchAddon()}

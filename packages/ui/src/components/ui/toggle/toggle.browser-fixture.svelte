@@ -1,12 +1,12 @@
 <script lang="ts">
-import Toggle from "./toggle.svelte";
+  import Toggle from "./toggle.svelte";
 
-let callbackValues = $state<boolean[]>([]);
-let controlled = $state(false);
-let controlledWrites = $state(0);
-let disabledChanges = $state(0);
-let pressed = $state(false);
-let toggleRef = $state<HTMLElement | null>(null);
+  let callbackValues = $state<boolean[]>([]);
+  let controlled = $state(false);
+  let controlledWrites = $state(0);
+  let disabledChanges = $state(0);
+  let pressed = $state(false);
+  let toggleRef = $state<HTMLElement | null>(null);
 </script>
 
 <Toggle
