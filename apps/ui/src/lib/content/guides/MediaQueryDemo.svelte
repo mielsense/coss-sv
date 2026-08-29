@@ -100,7 +100,7 @@
           query: new MediaQuery("(prefers-reduced-motion: reduce)", false),
         },
       ],
-      title: "Device and preferences",
+      title: "Device & preferences",
     },
   ];
 </script>

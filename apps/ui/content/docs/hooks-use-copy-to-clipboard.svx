@@ -80,14 +80,23 @@ Use the shared SSR-safe renderer with Hugeicons data.
 <script lang="ts">
   import { Copy01Icon, Tick01Icon } from "@hugeicons/core-free-icons";
   import { Button, HugeiconsIcon } from "@coss-sv/ui";
+  import { onDestroy } from "svelte";
 
   let copied = $state(false);
+  let timer: ReturnType<typeof setTimeout> | undefined;
 
   async function copy(value: string): Promise<void> {
     if (!value || !navigator.clipboard?.writeText) return;
     await navigator.clipboard.writeText(value);
+    clearTimeout(timer);
     copied = true;
+    timer = setTimeout(() => {
+      copied = false;
+      timer = undefined;
+    }, 2_000);
   }
+
+  onDestroy(() => clearTimeout(timer));
 </script>
 
 <Button
@@ -96,7 +105,7 @@ Use the shared SSR-safe renderer with Hugeicons data.
   size="icon"
   variant="outline"
 >
-  <HugeiconsIcon icon={copied ? Tick01Icon : Copy01Icon} strokeWidth={2} />
+  <HugeiconsIcon aria-hidden="true" icon={copied ? Tick01Icon : Copy01Icon} strokeWidth={2} />
 </Button>
 ```
 

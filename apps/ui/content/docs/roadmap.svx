@@ -1,50 +1,53 @@
 ---
 title: Roadmap
-description: Current state of COSS for Svelte and where the upstream COSS project is headed next.
+description: Current state of coss ui and where we’re headed next.
 ---
 
 # Roadmap
 
-Current state of COSS for Svelte and where the upstream COSS project is headed next.
+Current state of coss ui and where we’re headed next.
 
 <CopyMarkdownButton url="/docs/roadmap.md" />
 
-**COSS UI** is the evolution of **Origin UI**, an open-source collection of React and Tailwind
-components created by Pasquale Vitiello and Davide Pacilio. It was acquired by Cal.com and developed
-into a broader ecosystem, with Pasquale contributing directly to the new UI.
+## Upstream COSS roadmap
 
-The upstream goal is to **bring together the best parts of Origin UI** with a stronger behavioral
-foundation, so developers get a layered system of **primitives**, **particles**, and **atoms**. COSS
-for Svelte preserves that design while using Shards UI for the component behavior.
+**coss ui** is the evolution of **Origin UI**, an open-source collection of React and Tailwind
+components created by Pasquale Vitiello and Davide Pacilio. It was recently **acquired by Cal.com**
+and grown into a broader, more ambitious ecosystem, with Pasquale contributing directly to the
+development of the new UI.
+
+Our goal is to **bring together the best parts of Origin UI** with a stronger foundation—Base UI
+primitives—so developers get not just components, but a layered system of **primitives**,
+**particles**, and **atoms**.
 
 ## Origin UI
 
-Origin UI offered more than 600 ready-to-use UI components. With the **transition to COSS UI**:
+Origin UI offered a large collection of 600+ ready-to-use UI components. With the **transition to
+coss ui**:
 
-- Existing **Origin UI components** evolve into **particles**, higher-level interface patterns
-  composed from COSS primitives.
-- The original Origin UI collection remains available on the upstream
-  [Origin UI page](https://coss.com/origin) during the transition.
-
-This repository does not copy or redistribute the legacy Origin UI source. Its permitted source
-boundary is the MIT-designated COSS `reference/apps/ui` subtree.
+- The existing **Origin UI components** will evolve into **particles**—higher-level UI patterns
+  composed of Base UI primitives.
+- The original Origin UI collection remains available on [this page](https://coss.com/origin), so
+  developers can continue to access it during the transition.
 
 ## Current Status
 
-- The upstream COSS project has more than 50 UI primitives, with more on the way.
-- Its particle catalog continues to expand toward the breadth of the Origin UI collection.
-- COSS for Svelte ports the primitives, particles, documentation, and registry items from the pinned
-  COSS reference one lane at a time.
-- Each Svelte implementation requires separate parity/accessibility and Svelte-quality review before
-  integration.
+- **50+ UI primitives** already available, with more on the way.
+- A **growing set of particles**, progressively expanding to match and surpass the current Origin UI
+  collection.
 
-## What's Next
+## What’s Next
 
-- Complete the Svelte counterparts for the pinned primitive and particle catalog.
-- Compare light, dark, desktop, mobile, pointer, keyboard, focus, and reduced-motion states against
-  the COSS reference.
-- Finish the shadcn-svelte registry installation workflow and agent-readable Markdown documentation.
-- Let the upstream project continue expanding **particles** and introducing **atoms**, API-enhanced
-  components with external integrations.
+- Expand the **primitives set**, ensuring full coverage of common UI needs.
+- Add more **particles**, aligning with and eventually replacing the original Origin UI collection.
+- Introduce **atoms**, API-enhanced components that bring external integrations out of the box.
 
-Atoms and the legacy Origin application are not part of the first COSS for Svelte release.
+## Svelte port status
+
+COSS for Svelte ports the primitives, particles, documentation, and registry items from the pinned
+COSS reference. Each implementation receives separate parity, accessibility, and Svelte-quality
+review before integration.
+
+The first release targets the pinned primitive and particle catalog, the shadcn-svelte registry, and
+agent-readable Markdown routes. It does not include atoms or the legacy Origin application. This
+repository adapts source only from the MIT-designated COSS `reference/apps/ui` subtree.

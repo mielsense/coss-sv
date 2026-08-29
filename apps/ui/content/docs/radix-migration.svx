@@ -317,8 +317,24 @@ trigger part directly instead of wrapping a second button.
 ### Command
 
 The Command API is data driven. Pass an `items` array to the root and render collections inside their
-groups. Use `Command.Dialog`, `DialogTrigger`, and `DialogPopup` for dialog mode instead of composing a
-separate Dialog.
+groups. Use `Command.DialogRoot`, `Command.DialogTrigger`, and `Command.DialogPopup` for dialog mode.
+The named root alias is `CommandDialog` when you do not use the namespace import.
+
+```svelte
+<script lang="ts">
+  import { Command } from "@coss-sv/ui";
+</script>
+
+<Command.DialogRoot>
+  <Command.DialogTrigger>Open command menu</Command.DialogTrigger>
+  <Command.DialogPopup>
+    <Command.Root {items}>
+      <Command.Input placeholder="Search…" />
+      <Command.List>...</Command.List>
+    </Command.Root>
+  </Command.DialogPopup>
+</Command.DialogRoot>
+```
 
 - The Svelte port has no `cmdk` dependency.
 - `Command.GroupLabel` is a child, not a `heading` prop.

@@ -95,13 +95,53 @@ try {
 
   await page.goto(`${baseUrl}/docs/get-started`);
   const copyMarkdown = page.getByRole("button", { name: "Copy Markdown", exact: true });
+  const iconPaths = () =>
+    copyMarkdown
+      .locator("svg path")
+      .evaluateAll((paths) => paths.map((path) => path.getAttribute("d")));
+  const initialIcon = await iconPaths();
   await copyMarkdown.click();
-  await page.getByRole("button", { name: "Copied", exact: true }).waitFor();
+  assert.equal(await copyMarkdown.innerText(), "Copy Markdown");
+  const copiedIcon = await iconPaths();
+  assert.notDeepEqual(copiedIcon, initialIcon, "successful copy should swap only the icon");
   assert.match(await page.evaluate(() => navigator.clipboard.readText()), /^# Get Started/m);
+  await page.waitForTimeout(1_200);
+  await copyMarkdown.click();
+  await page.waitForTimeout(1_000);
+  assert.deepEqual(
+    await iconPaths(),
+    copiedIcon,
+    "a repeated copy should restart the two-second feedback timer",
+  );
+  await page.waitForTimeout(1_100);
+  assert.deepEqual(await iconPaths(), initialIcon);
+
+  await copyMarkdown.click();
+  await page.goto(`${baseUrl}/docs/styling`);
+  await page.waitForTimeout(2_100);
+  assert.equal(await page.getByRole("button", { name: "Copy Markdown", exact: true }).count(), 1);
+
+  await page.goto(`${baseUrl}/docs/changelog`);
+  assert.equal(await page.getByText("Agent migration prompt:", { exact: true }).count(), 9);
+  assert.equal(
+    await page.locator("pre").filter({ hasText: "Update the local coss Tabs component" }).count(),
+    1,
+  );
+  assert.equal(
+    await page.getByRole("heading", { level: 2, name: "Svelte port status", exact: true }).count(),
+    1,
+  );
+
+  await page.goto(`${baseUrl}/docs/roadmap`);
+  await page
+    .getByRole("heading", { level: 2, name: "Upstream COSS roadmap", exact: true })
+    .waitFor();
+  await page.getByRole("heading", { level: 2, name: "Svelte port status", exact: true }).waitFor();
 
   await page.goto(`${baseUrl}/docs/hooks/use-media-query`);
   const demo = page.locator("[data-testid='media-query-demo']");
   await demo.waitFor();
+  await demo.getByRole("heading", { name: "Device & preferences", exact: true }).waitFor();
   assert.equal((await demo.getByText("true", { exact: true }).count()) > 0, true);
   await page.setViewportSize({ height: 844, width: 390 });
   await page.waitForFunction(() => document.documentElement.clientWidth === 390);
