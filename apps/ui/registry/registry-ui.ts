@@ -7,7 +7,7 @@ function uiFiles(component: string, files: string[]) {
   }));
 }
 
-export const registryUi = defineRegistryItems([
+const registryUiItems = defineRegistryItems([
   {
     name: "accordion",
     type: "registry:ui",
@@ -910,4 +910,16 @@ export const registryUi = defineRegistryItems([
       "index.ts",
     ]),
   },
+]);
+
+export const registryUi = defineRegistryItems([
+  {
+    name: "ui",
+    type: "registry:ui",
+    description: "Installs the complete COSS for Svelte component library.",
+    dependencies: [],
+    registryDependencies: registryUiItems.map(({ name }) => `local:${name}`),
+    files: [],
+  },
+  ...registryUiItems,
 ]);

@@ -19,6 +19,7 @@ import {
   type RegistryItem,
   validateRegistry,
 } from "../../registry/registry.js";
+import { registryUi } from "../../registry/registry-ui.js";
 import { buildValidatedRegistry, withStagedRegistry } from "../../scripts/registry/build.mjs";
 import { appRoot, findPrivateSmokeArtifacts, runLocalShadcn } from "../../scripts/registry/lib.mjs";
 
@@ -86,6 +87,20 @@ afterEach(async () => {
 });
 
 describe("registry validation", () => {
+  test("publishes one complete UI bundle over the 54 component items", () => {
+    const bundle = registryUi.find(({ name }) => name === "ui");
+    const componentNames = registryUi.filter(({ name }) => name !== "ui").map(({ name }) => name);
+
+    expect(componentNames).toHaveLength(54);
+    expect(bundle).toEqual(
+      expect.objectContaining({
+        files: [],
+        registryDependencies: componentNames.map((name) => `local:${name}`),
+        type: "registry:ui",
+      }),
+    );
+  });
+
   test.each([
     "../escape",
     "..\\escape",
