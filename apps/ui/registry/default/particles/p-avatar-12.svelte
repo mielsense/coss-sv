@@ -11,9 +11,8 @@
 </script>
 
 <script lang="ts">
-  import { Avatar } from "@coss-sv/ui";
+  import { Avatar, HugeiconsIcon } from "@coss-sv/ui";
   import { CheckmarkBadge01Icon } from "@hugeicons/core-free-icons";
-  import { HugeiconsIcon } from "@hugeicons/svelte";
 </script>
 
 <div class="relative">

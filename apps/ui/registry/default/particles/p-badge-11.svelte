@@ -11,9 +11,8 @@
 </script>
 
 <script lang="ts">
-  import { Badge } from "@coss-sv/ui";
+  import { Badge, HugeiconsIcon } from "@coss-sv/ui";
   import { Tick01Icon } from "@hugeicons/core-free-icons";
-  import { HugeiconsIcon } from "@hugeicons/svelte";
 </script>
 
 <Badge variant="outline"

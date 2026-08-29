@@ -1,0 +1,18 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "p-toast-5",
+	"type": "registry:block",
+	"description": "COSS toast example.",
+	"registryDependencies": [
+		"./particle-metadata.json",
+		"./button.json",
+		"./toast.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\n  export const meta = defineParticleMeta({\n    components: [\"button\", \"toast\"],\n    id: \"p-toast-5\",\n    interactive: true,\n    responsive: false,\n    title: \"Promise toast\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { Button } from \"$COMPONENTS$/ui/button/index.js\";\n  import * as Toast from \"$COMPONENTS$/ui/toast/index.js\";\n\n  function run() {\n    void Toast.toastManager\n      .promise(\n        new Promise((resolve, reject) =>\n          setTimeout(\n            () =>\n              Math.random() > 0.3\n                ? resolve(\"Data loaded successfully\")\n                : reject(new Error(\"Failed to load data\")),\n            2000,\n          ),\n        ),\n        {\n          loading: { description: \"The promise is loading.\", title: \"Loading…\" },\n          success: (data) => ({\n            description: `Success: ${data}`,\n            title: \"This is a success toast!\",\n          }),\n          error: { description: \"Please try again.\", title: \"Something went wrong\" },\n        },\n      )\n      .catch(() => undefined);\n  }\n</script>\n\n<Toast.Provider><Button onclick={run} variant=\"outline\">Run Promise</Button></Toast.Provider>\n",
+			"type": "registry:block",
+			"target": "p-toast-5.svelte"
+		}
+	]
+}

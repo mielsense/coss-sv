@@ -1,0 +1,17 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "p-progress-2",
+	"type": "registry:block",
+	"description": "COSS progress example.",
+	"registryDependencies": [
+		"./particle-metadata.json",
+		"./progress.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\n  export const meta = defineParticleMeta({\n    components: [\"progress\"],\n    id: \"p-progress-2\",\n    interactive: false,\n    responsive: false,\n    title: \"Progress with label and value\",\n    containerClass: \"**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import * as Progress from \"$COMPONENTS$/ui/progress/index.js\";\n</script>\n\n<Progress.Root value={60}\n  ><div class=\"flex items-center justify-between gap-2\">\n    <Progress.Label>Export data</Progress.Label><Progress.Value />\n  </div>\n  <Progress.Track><Progress.Indicator /></Progress.Track></Progress.Root\n>\n",
+			"type": "registry:block",
+			"target": "p-progress-2.svelte"
+		}
+	]
+}

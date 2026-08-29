@@ -11,9 +11,8 @@
 </script>
 
 <script lang="ts">
-  import { Alert, AlertDescription, AlertTitle } from "@coss-sv/ui";
+  import { Alert, AlertDescription, AlertTitle, HugeiconsIcon } from "@coss-sv/ui";
   import { InformationCircleIcon } from "@hugeicons/core-free-icons";
-  import { HugeiconsIcon } from "@hugeicons/svelte";
 </script>
 
 <Alert variant="info"

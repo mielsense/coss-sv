@@ -1,0 +1,18 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "p-toast-3",
+	"type": "registry:block",
+	"description": "COSS toast example.",
+	"registryDependencies": [
+		"./particle-metadata.json",
+		"./button.json",
+		"./toast.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\n  export const meta = defineParticleMeta({\n    components: [\"button\", \"toast\"],\n    id: \"p-toast-3\",\n    interactive: true,\n    responsive: false,\n    title: \"Loading toast\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { Button } from \"$COMPONENTS$/ui/button/index.js\";\n  import * as Toast from \"$COMPONENTS$/ui/toast/index.js\";\n</script>\n\n<Toast.Provider\n  ><Button\n    onclick={() =>\n      Toast.toastManager.add({\n        description: \"Please wait while we process your request.\",\n        title: \"Loading…\",\n        type: \"loading\",\n      })}\n    variant=\"outline\">Loading Toast</Button\n  ></Toast.Provider\n>\n",
+			"type": "registry:block",
+			"target": "p-toast-3.svelte"
+		}
+	]
+}

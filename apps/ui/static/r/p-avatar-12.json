@@ -1,0 +1,21 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "p-avatar-12",
+	"type": "registry:block",
+	"description": "COSS avatar example.",
+	"dependencies": [
+		"@hugeicons/core-free-icons@4.3.0"
+	],
+	"registryDependencies": [
+		"./particle-metadata.json",
+		"./avatar.json",
+		"./hugeicons-icon.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\n  export const meta = defineParticleMeta({\n    components: [\"avatar\"],\n    id: \"p-avatar-12\",\n    interactive: false,\n    responsive: false,\n    title: \"Verified avatar\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import * as Avatar from \"$COMPONENTS$/ui/avatar/index.js\";\n  import HugeiconsIcon from \"$LIB$/hugeicons-icon.svelte\";\n  import { CheckmarkBadge01Icon } from \"@hugeicons/core-free-icons\";\n</script>\n\n<div class=\"relative\">\n  <Avatar.Root\n    ><Avatar.Image\n      alt=\"User\"\n      src=\"https://images.unsplash.com/photo-1543610892-0b1f7e6d8ac1?w=128&h=128&dpr=2&q=80\"\n    /><Avatar.Fallback>LT</Avatar.Fallback></Avatar.Root\n  ><span class=\"absolute -end-1.5 -top-1.5\"\n    ><span class=\"sr-only\">Verified</span><HugeiconsIcon\n      aria-hidden=\"true\"\n      class=\"size-5 fill-primary text-background\"\n      icon={CheckmarkBadge01Icon}\n      strokeWidth={2}\n    /></span\n  >\n</div>\n",
+			"type": "registry:block",
+			"target": "p-avatar-12.svelte"
+		}
+	]
+}

@@ -13,14 +13,16 @@
 
 <script lang="ts">
   import { Progress } from "@coss-sv/ui";
-  import { onDestroy } from "svelte";
+  import { onMount } from "svelte";
 
   let value = $state(20);
-  const interval = setInterval(
-    () => (value = Math.min(100, Math.round(value + Math.random() * 25))),
-    1000,
-  );
-  onDestroy(() => clearInterval(interval));
+  onMount(() => {
+    const interval = setInterval(
+      () => (value = Math.min(100, Math.round(value + Math.random() * 25))),
+      1000,
+    );
+    return () => clearInterval(interval);
+  });
 </script>
 
 <Progress.Root {value} />

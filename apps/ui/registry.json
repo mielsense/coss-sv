@@ -1600,6 +1600,158 @@
     },
     {
       "categories": [
+        "alert"
+      ],
+      "dependencies": [],
+      "description": "COSS alert example.",
+      "files": [
+        {
+          "path": "registry/default/particles/p-alert-1.svelte",
+          "type": "registry:block"
+        }
+      ],
+      "name": "p-alert-1",
+      "registryDependencies": [
+        "local:particle-metadata",
+        "local:alert"
+      ],
+      "type": "registry:block"
+    },
+    {
+      "categories": [
+        "alert"
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons@4.3.0"
+      ],
+      "description": "COSS alert example.",
+      "files": [
+        {
+          "path": "registry/default/particles/p-alert-2.svelte",
+          "type": "registry:block"
+        }
+      ],
+      "name": "p-alert-2",
+      "registryDependencies": [
+        "local:particle-metadata",
+        "local:alert",
+        "local:hugeicons-icon"
+      ],
+      "type": "registry:block"
+    },
+    {
+      "categories": [
+        "alert"
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons@4.3.0"
+      ],
+      "description": "COSS alert example.",
+      "files": [
+        {
+          "path": "registry/default/particles/p-alert-3.svelte",
+          "type": "registry:block"
+        }
+      ],
+      "name": "p-alert-3",
+      "registryDependencies": [
+        "local:particle-metadata",
+        "local:alert",
+        "local:button",
+        "local:hugeicons-icon"
+      ],
+      "type": "registry:block"
+    },
+    {
+      "categories": [
+        "alert"
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons@4.3.0"
+      ],
+      "description": "COSS alert example.",
+      "files": [
+        {
+          "path": "registry/default/particles/p-alert-4.svelte",
+          "type": "registry:block"
+        }
+      ],
+      "name": "p-alert-4",
+      "registryDependencies": [
+        "local:particle-metadata",
+        "local:alert",
+        "local:hugeicons-icon"
+      ],
+      "type": "registry:block"
+    },
+    {
+      "categories": [
+        "alert"
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons@4.3.0"
+      ],
+      "description": "COSS alert example.",
+      "files": [
+        {
+          "path": "registry/default/particles/p-alert-5.svelte",
+          "type": "registry:block"
+        }
+      ],
+      "name": "p-alert-5",
+      "registryDependencies": [
+        "local:particle-metadata",
+        "local:alert",
+        "local:hugeicons-icon"
+      ],
+      "type": "registry:block"
+    },
+    {
+      "categories": [
+        "alert"
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons@4.3.0"
+      ],
+      "description": "COSS alert example.",
+      "files": [
+        {
+          "path": "registry/default/particles/p-alert-6.svelte",
+          "type": "registry:block"
+        }
+      ],
+      "name": "p-alert-6",
+      "registryDependencies": [
+        "local:particle-metadata",
+        "local:alert",
+        "local:hugeicons-icon"
+      ],
+      "type": "registry:block"
+    },
+    {
+      "categories": [
+        "alert"
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons@4.3.0"
+      ],
+      "description": "COSS alert example.",
+      "files": [
+        {
+          "path": "registry/default/particles/p-alert-7.svelte",
+          "type": "registry:block"
+        }
+      ],
+      "name": "p-alert-7",
+      "registryDependencies": [
+        "local:particle-metadata",
+        "local:alert",
+        "local:hugeicons-icon"
+      ],
+      "type": "registry:block"
+    },
+    {
+      "categories": [
         "alert-dialog"
       ],
       "dependencies": [],
@@ -1951,6 +2103,670 @@
       "registryDependencies": [
         "local:particle-metadata",
         "local:autocomplete"
+      ],
+      "type": "registry:block"
+    },
+    {
+      "categories": [
+        "avatar"
+      ],
+      "dependencies": [],
+      "description": "COSS avatar example.",
+      "files": [
+        {
+          "path": "registry/default/particles/p-avatar-1.svelte",
+          "type": "registry:block"
+        }
+      ],
+      "name": "p-avatar-1",
+      "registryDependencies": [
+        "local:particle-metadata",
+        "local:avatar"
+      ],
+      "type": "registry:block"
+    },
+    {
+      "categories": [
+        "avatar"
+      ],
+      "dependencies": [],
+      "description": "COSS avatar example.",
+      "files": [
+        {
+          "path": "registry/default/particles/p-avatar-10.svelte",
+          "type": "registry:block"
+        }
+      ],
+      "name": "p-avatar-10",
+      "registryDependencies": [
+        "local:particle-metadata",
+        "local:avatar",
+        "local:badge"
+      ],
+      "type": "registry:block"
+    },
+    {
+      "categories": [
+        "avatar"
+      ],
+      "dependencies": [],
+      "description": "COSS avatar example.",
+      "files": [
+        {
+          "path": "registry/default/particles/p-avatar-11.svelte",
+          "type": "registry:block"
+        }
+      ],
+      "name": "p-avatar-11",
+      "registryDependencies": [
+        "local:particle-metadata",
+        "local:avatar",
+        "local:badge"
+      ],
+      "type": "registry:block"
+    },
+    {
+      "categories": [
+        "avatar"
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons@4.3.0"
+      ],
+      "description": "COSS avatar example.",
+      "files": [
+        {
+          "path": "registry/default/particles/p-avatar-12.svelte",
+          "type": "registry:block"
+        }
+      ],
+      "name": "p-avatar-12",
+      "registryDependencies": [
+        "local:particle-metadata",
+        "local:avatar",
+        "local:hugeicons-icon"
+      ],
+      "type": "registry:block"
+    },
+    {
+      "categories": [
+        "avatar"
+      ],
+      "dependencies": [],
+      "description": "COSS avatar example.",
+      "files": [
+        {
+          "path": "registry/default/particles/p-avatar-13.svelte",
+          "type": "registry:block"
+        }
+      ],
+      "name": "p-avatar-13",
+      "registryDependencies": [
+        "local:particle-metadata",
+        "local:avatar"
+      ],
+      "type": "registry:block"
+    },
+    {
+      "categories": [
+        "avatar"
+      ],
+      "dependencies": [],
+      "description": "COSS avatar example.",
+      "files": [
+        {
+          "path": "registry/default/particles/p-avatar-14.svelte",
+          "type": "registry:block"
+        }
+      ],
+      "name": "p-avatar-14",
+      "registryDependencies": [
+        "local:particle-metadata",
+        "local:avatar"
+      ],
+      "type": "registry:block"
+    },
+    {
+      "categories": [
+        "avatar"
+      ],
+      "dependencies": [],
+      "description": "COSS avatar example.",
+      "files": [
+        {
+          "path": "registry/default/particles/p-avatar-2.svelte",
+          "type": "registry:block"
+        }
+      ],
+      "name": "p-avatar-2",
+      "registryDependencies": [
+        "local:particle-metadata",
+        "local:avatar"
+      ],
+      "type": "registry:block"
+    },
+    {
+      "categories": [
+        "avatar"
+      ],
+      "dependencies": [],
+      "description": "COSS avatar example.",
+      "files": [
+        {
+          "path": "registry/default/particles/p-avatar-3.svelte",
+          "type": "registry:block"
+        }
+      ],
+      "name": "p-avatar-3",
+      "registryDependencies": [
+        "local:particle-metadata",
+        "local:avatar"
+      ],
+      "type": "registry:block"
+    },
+    {
+      "categories": [
+        "avatar"
+      ],
+      "dependencies": [],
+      "description": "COSS avatar example.",
+      "files": [
+        {
+          "path": "registry/default/particles/p-avatar-4.svelte",
+          "type": "registry:block"
+        }
+      ],
+      "name": "p-avatar-4",
+      "registryDependencies": [
+        "local:particle-metadata",
+        "local:avatar"
+      ],
+      "type": "registry:block"
+    },
+    {
+      "categories": [
+        "avatar"
+      ],
+      "dependencies": [],
+      "description": "COSS avatar example.",
+      "files": [
+        {
+          "path": "registry/default/particles/p-avatar-5.svelte",
+          "type": "registry:block"
+        }
+      ],
+      "name": "p-avatar-5",
+      "registryDependencies": [
+        "local:particle-metadata",
+        "local:avatar"
+      ],
+      "type": "registry:block"
+    },
+    {
+      "categories": [
+        "avatar"
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons@4.3.0"
+      ],
+      "description": "COSS avatar example.",
+      "files": [
+        {
+          "path": "registry/default/particles/p-avatar-6.svelte",
+          "type": "registry:block"
+        }
+      ],
+      "name": "p-avatar-6",
+      "registryDependencies": [
+        "local:particle-metadata",
+        "local:avatar",
+        "local:hugeicons-icon"
+      ],
+      "type": "registry:block"
+    },
+    {
+      "categories": [
+        "avatar"
+      ],
+      "dependencies": [],
+      "description": "COSS avatar example.",
+      "files": [
+        {
+          "path": "registry/default/particles/p-avatar-7.svelte",
+          "type": "registry:block"
+        }
+      ],
+      "name": "p-avatar-7",
+      "registryDependencies": [
+        "local:particle-metadata",
+        "local:avatar"
+      ],
+      "type": "registry:block"
+    },
+    {
+      "categories": [
+        "avatar"
+      ],
+      "dependencies": [],
+      "description": "COSS avatar example.",
+      "files": [
+        {
+          "path": "registry/default/particles/p-avatar-8.svelte",
+          "type": "registry:block"
+        }
+      ],
+      "name": "p-avatar-8",
+      "registryDependencies": [
+        "local:particle-metadata",
+        "local:avatar"
+      ],
+      "type": "registry:block"
+    },
+    {
+      "categories": [
+        "avatar"
+      ],
+      "dependencies": [],
+      "description": "COSS avatar example.",
+      "files": [
+        {
+          "path": "registry/default/particles/p-avatar-9.svelte",
+          "type": "registry:block"
+        }
+      ],
+      "name": "p-avatar-9",
+      "registryDependencies": [
+        "local:particle-metadata",
+        "local:avatar"
+      ],
+      "type": "registry:block"
+    },
+    {
+      "categories": [
+        "badge"
+      ],
+      "dependencies": [],
+      "description": "COSS badge example.",
+      "files": [
+        {
+          "path": "registry/default/particles/p-badge-1.svelte",
+          "type": "registry:block"
+        }
+      ],
+      "name": "p-badge-1",
+      "registryDependencies": [
+        "local:particle-metadata",
+        "local:badge"
+      ],
+      "type": "registry:block"
+    },
+    {
+      "categories": [
+        "badge"
+      ],
+      "dependencies": [],
+      "description": "COSS badge example.",
+      "files": [
+        {
+          "path": "registry/default/particles/p-badge-10.svelte",
+          "type": "registry:block"
+        }
+      ],
+      "name": "p-badge-10",
+      "registryDependencies": [
+        "local:particle-metadata",
+        "local:badge"
+      ],
+      "type": "registry:block"
+    },
+    {
+      "categories": [
+        "badge"
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons@4.3.0"
+      ],
+      "description": "COSS badge example.",
+      "files": [
+        {
+          "path": "registry/default/particles/p-badge-11.svelte",
+          "type": "registry:block"
+        }
+      ],
+      "name": "p-badge-11",
+      "registryDependencies": [
+        "local:particle-metadata",
+        "local:badge",
+        "local:hugeicons-icon"
+      ],
+      "type": "registry:block"
+    },
+    {
+      "categories": [
+        "badge"
+      ],
+      "dependencies": [],
+      "description": "COSS badge example.",
+      "files": [
+        {
+          "path": "registry/default/particles/p-badge-12.svelte",
+          "type": "registry:block"
+        }
+      ],
+      "name": "p-badge-12",
+      "registryDependencies": [
+        "local:particle-metadata",
+        "local:badge"
+      ],
+      "type": "registry:block"
+    },
+    {
+      "categories": [
+        "badge"
+      ],
+      "dependencies": [],
+      "description": "COSS badge example.",
+      "files": [
+        {
+          "path": "registry/default/particles/p-badge-13.svelte",
+          "type": "registry:block"
+        }
+      ],
+      "name": "p-badge-13",
+      "registryDependencies": [
+        "local:particle-metadata",
+        "local:badge"
+      ],
+      "type": "registry:block"
+    },
+    {
+      "categories": [
+        "badge"
+      ],
+      "dependencies": [],
+      "description": "COSS badge example.",
+      "files": [
+        {
+          "path": "registry/default/particles/p-badge-14.svelte",
+          "type": "registry:block"
+        }
+      ],
+      "name": "p-badge-14",
+      "registryDependencies": [
+        "local:particle-metadata",
+        "local:badge"
+      ],
+      "type": "registry:block"
+    },
+    {
+      "categories": [
+        "badge"
+      ],
+      "dependencies": [],
+      "description": "COSS badge example.",
+      "files": [
+        {
+          "path": "registry/default/particles/p-badge-15.svelte",
+          "type": "registry:block"
+        }
+      ],
+      "name": "p-badge-15",
+      "registryDependencies": [
+        "local:particle-metadata",
+        "local:badge"
+      ],
+      "type": "registry:block"
+    },
+    {
+      "categories": [
+        "badge"
+      ],
+      "dependencies": [],
+      "description": "COSS badge example.",
+      "files": [
+        {
+          "path": "registry/default/particles/p-badge-16.svelte",
+          "type": "registry:block"
+        }
+      ],
+      "name": "p-badge-16",
+      "registryDependencies": [
+        "local:particle-metadata",
+        "local:badge"
+      ],
+      "type": "registry:block"
+    },
+    {
+      "categories": [
+        "badge"
+      ],
+      "dependencies": [],
+      "description": "COSS badge example.",
+      "files": [
+        {
+          "path": "registry/default/particles/p-badge-17.svelte",
+          "type": "registry:block"
+        }
+      ],
+      "name": "p-badge-17",
+      "registryDependencies": [
+        "local:particle-metadata",
+        "local:badge"
+      ],
+      "type": "registry:block"
+    },
+    {
+      "categories": [
+        "badge"
+      ],
+      "dependencies": [],
+      "description": "COSS badge example.",
+      "files": [
+        {
+          "path": "registry/default/particles/p-badge-18.svelte",
+          "type": "registry:block"
+        }
+      ],
+      "name": "p-badge-18",
+      "registryDependencies": [
+        "local:particle-metadata",
+        "local:badge"
+      ],
+      "type": "registry:block"
+    },
+    {
+      "categories": [
+        "badge"
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons@4.3.0"
+      ],
+      "description": "COSS badge example.",
+      "files": [
+        {
+          "path": "registry/default/particles/p-badge-19.svelte",
+          "type": "registry:block"
+        }
+      ],
+      "name": "p-badge-19",
+      "registryDependencies": [
+        "local:particle-metadata",
+        "local:badge",
+        "local:checkbox",
+        "local:hugeicons-icon"
+      ],
+      "type": "registry:block"
+    },
+    {
+      "categories": [
+        "badge"
+      ],
+      "dependencies": [],
+      "description": "COSS badge example.",
+      "files": [
+        {
+          "path": "registry/default/particles/p-badge-2.svelte",
+          "type": "registry:block"
+        }
+      ],
+      "name": "p-badge-2",
+      "registryDependencies": [
+        "local:particle-metadata",
+        "local:badge"
+      ],
+      "type": "registry:block"
+    },
+    {
+      "categories": [
+        "badge"
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons@4.3.0"
+      ],
+      "description": "COSS badge example.",
+      "files": [
+        {
+          "path": "registry/default/particles/p-badge-20.svelte",
+          "type": "registry:block"
+        }
+      ],
+      "name": "p-badge-20",
+      "registryDependencies": [
+        "local:particle-metadata",
+        "local:badge",
+        "local:hugeicons-icon"
+      ],
+      "type": "registry:block"
+    },
+    {
+      "categories": [
+        "badge"
+      ],
+      "dependencies": [],
+      "description": "COSS badge example.",
+      "files": [
+        {
+          "path": "registry/default/particles/p-badge-3.svelte",
+          "type": "registry:block"
+        }
+      ],
+      "name": "p-badge-3",
+      "registryDependencies": [
+        "local:particle-metadata",
+        "local:badge"
+      ],
+      "type": "registry:block"
+    },
+    {
+      "categories": [
+        "badge"
+      ],
+      "dependencies": [],
+      "description": "COSS badge example.",
+      "files": [
+        {
+          "path": "registry/default/particles/p-badge-4.svelte",
+          "type": "registry:block"
+        }
+      ],
+      "name": "p-badge-4",
+      "registryDependencies": [
+        "local:particle-metadata",
+        "local:badge"
+      ],
+      "type": "registry:block"
+    },
+    {
+      "categories": [
+        "badge"
+      ],
+      "dependencies": [],
+      "description": "COSS badge example.",
+      "files": [
+        {
+          "path": "registry/default/particles/p-badge-5.svelte",
+          "type": "registry:block"
+        }
+      ],
+      "name": "p-badge-5",
+      "registryDependencies": [
+        "local:particle-metadata",
+        "local:badge"
+      ],
+      "type": "registry:block"
+    },
+    {
+      "categories": [
+        "badge"
+      ],
+      "dependencies": [],
+      "description": "COSS badge example.",
+      "files": [
+        {
+          "path": "registry/default/particles/p-badge-6.svelte",
+          "type": "registry:block"
+        }
+      ],
+      "name": "p-badge-6",
+      "registryDependencies": [
+        "local:particle-metadata",
+        "local:badge"
+      ],
+      "type": "registry:block"
+    },
+    {
+      "categories": [
+        "badge"
+      ],
+      "dependencies": [],
+      "description": "COSS badge example.",
+      "files": [
+        {
+          "path": "registry/default/particles/p-badge-7.svelte",
+          "type": "registry:block"
+        }
+      ],
+      "name": "p-badge-7",
+      "registryDependencies": [
+        "local:particle-metadata",
+        "local:badge"
+      ],
+      "type": "registry:block"
+    },
+    {
+      "categories": [
+        "badge"
+      ],
+      "dependencies": [],
+      "description": "COSS badge example.",
+      "files": [
+        {
+          "path": "registry/default/particles/p-badge-8.svelte",
+          "type": "registry:block"
+        }
+      ],
+      "name": "p-badge-8",
+      "registryDependencies": [
+        "local:particle-metadata",
+        "local:badge"
+      ],
+      "type": "registry:block"
+    },
+    {
+      "categories": [
+        "badge"
+      ],
+      "dependencies": [],
+      "description": "COSS badge example.",
+      "files": [
+        {
+          "path": "registry/default/particles/p-badge-9.svelte",
+          "type": "registry:block"
+        }
+      ],
+      "name": "p-badge-9",
+      "registryDependencies": [
+        "local:particle-metadata",
+        "local:badge"
       ],
       "type": "registry:block"
     },
@@ -6356,6 +7172,26 @@
       "description": "COSS input example.",
       "files": [
         {
+          "path": "registry/default/particles/p-input-12.svelte",
+          "type": "registry:block"
+        }
+      ],
+      "name": "p-input-12",
+      "registryDependencies": [
+        "local:particle-metadata",
+        "local:input-group",
+        "local:spinner"
+      ],
+      "type": "registry:block"
+    },
+    {
+      "categories": [
+        "input"
+      ],
+      "dependencies": [],
+      "description": "COSS input example.",
+      "files": [
+        {
           "path": "registry/default/particles/p-input-13.svelte",
           "type": "registry:block"
         }
@@ -7276,6 +8112,25 @@
     },
     {
       "categories": [
+        "kbd"
+      ],
+      "dependencies": [],
+      "description": "COSS kbd example.",
+      "files": [
+        {
+          "path": "registry/default/particles/p-kbd-1.svelte",
+          "type": "registry:block"
+        }
+      ],
+      "name": "p-kbd-1",
+      "registryDependencies": [
+        "local:particle-metadata",
+        "local:kbd"
+      ],
+      "type": "registry:block"
+    },
+    {
+      "categories": [
         "menu"
       ],
       "dependencies": [
@@ -7454,6 +8309,82 @@
         "local:particle-metadata",
         "local:button",
         "local:menu"
+      ],
+      "type": "registry:block"
+    },
+    {
+      "categories": [
+        "meter"
+      ],
+      "dependencies": [],
+      "description": "COSS meter example.",
+      "files": [
+        {
+          "path": "registry/default/particles/p-meter-1.svelte",
+          "type": "registry:block"
+        }
+      ],
+      "name": "p-meter-1",
+      "registryDependencies": [
+        "local:particle-metadata",
+        "local:meter"
+      ],
+      "type": "registry:block"
+    },
+    {
+      "categories": [
+        "meter"
+      ],
+      "dependencies": [],
+      "description": "COSS meter example.",
+      "files": [
+        {
+          "path": "registry/default/particles/p-meter-2.svelte",
+          "type": "registry:block"
+        }
+      ],
+      "name": "p-meter-2",
+      "registryDependencies": [
+        "local:particle-metadata",
+        "local:meter"
+      ],
+      "type": "registry:block"
+    },
+    {
+      "categories": [
+        "meter"
+      ],
+      "dependencies": [],
+      "description": "COSS meter example.",
+      "files": [
+        {
+          "path": "registry/default/particles/p-meter-3.svelte",
+          "type": "registry:block"
+        }
+      ],
+      "name": "p-meter-3",
+      "registryDependencies": [
+        "local:particle-metadata",
+        "local:meter"
+      ],
+      "type": "registry:block"
+    },
+    {
+      "categories": [
+        "meter"
+      ],
+      "dependencies": [],
+      "description": "COSS meter example.",
+      "files": [
+        {
+          "path": "registry/default/particles/p-meter-4.svelte",
+          "type": "registry:block"
+        }
+      ],
+      "name": "p-meter-4",
+      "registryDependencies": [
+        "local:particle-metadata",
+        "local:meter"
       ],
       "type": "registry:block"
     },
@@ -8082,6 +9013,63 @@
         "local:button",
         "local:preview-card",
         "local:hugeicons-icon"
+      ],
+      "type": "registry:block"
+    },
+    {
+      "categories": [
+        "progress"
+      ],
+      "dependencies": [],
+      "description": "COSS progress example.",
+      "files": [
+        {
+          "path": "registry/default/particles/p-progress-1.svelte",
+          "type": "registry:block"
+        }
+      ],
+      "name": "p-progress-1",
+      "registryDependencies": [
+        "local:particle-metadata",
+        "local:progress"
+      ],
+      "type": "registry:block"
+    },
+    {
+      "categories": [
+        "progress"
+      ],
+      "dependencies": [],
+      "description": "COSS progress example.",
+      "files": [
+        {
+          "path": "registry/default/particles/p-progress-2.svelte",
+          "type": "registry:block"
+        }
+      ],
+      "name": "p-progress-2",
+      "registryDependencies": [
+        "local:particle-metadata",
+        "local:progress"
+      ],
+      "type": "registry:block"
+    },
+    {
+      "categories": [
+        "progress"
+      ],
+      "dependencies": [],
+      "description": "COSS progress example.",
+      "files": [
+        {
+          "path": "registry/default/particles/p-progress-3.svelte",
+          "type": "registry:block"
+        }
+      ],
+      "name": "p-progress-3",
+      "registryDependencies": [
+        "local:particle-metadata",
+        "local:progress"
       ],
       "type": "registry:block"
     },
@@ -9408,6 +10396,25 @@
     },
     {
       "categories": [
+        "spinner"
+      ],
+      "dependencies": [],
+      "description": "COSS spinner example.",
+      "files": [
+        {
+          "path": "registry/default/particles/p-spinner-1.svelte",
+          "type": "registry:block"
+        }
+      ],
+      "name": "p-spinner-1",
+      "registryDependencies": [
+        "local:particle-metadata",
+        "local:spinner"
+      ],
+      "type": "registry:block"
+    },
+    {
+      "categories": [
         "switch"
       ],
       "dependencies": [],
@@ -10406,6 +11413,282 @@
       "registryDependencies": [
         "local:particle-metadata",
         "local:textarea"
+      ],
+      "type": "registry:block"
+    },
+    {
+      "categories": [
+        "toast"
+      ],
+      "dependencies": [],
+      "description": "COSS toast example.",
+      "files": [
+        {
+          "path": "registry/default/particles/p-toast-1.svelte",
+          "type": "registry:block"
+        }
+      ],
+      "name": "p-toast-1",
+      "registryDependencies": [
+        "local:particle-metadata",
+        "local:button",
+        "local:toast"
+      ],
+      "type": "registry:block"
+    },
+    {
+      "categories": [
+        "toast"
+      ],
+      "dependencies": [],
+      "description": "COSS toast example.",
+      "files": [
+        {
+          "path": "registry/default/particles/p-toast-10.svelte",
+          "type": "registry:block"
+        }
+      ],
+      "name": "p-toast-10",
+      "registryDependencies": [
+        "local:particle-metadata",
+        "local:button",
+        "local:toast"
+      ],
+      "type": "registry:block"
+    },
+    {
+      "categories": [
+        "toast"
+      ],
+      "dependencies": [],
+      "description": "COSS toast example.",
+      "files": [
+        {
+          "path": "registry/default/particles/p-toast-11.svelte",
+          "type": "registry:block"
+        }
+      ],
+      "name": "p-toast-11",
+      "registryDependencies": [
+        "local:particle-metadata",
+        "local:button",
+        "local:toast"
+      ],
+      "type": "registry:block"
+    },
+    {
+      "categories": [
+        "toast"
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons@4.3.0"
+      ],
+      "description": "COSS toast example.",
+      "files": [
+        {
+          "path": "registry/default/particles/p-toast-12.svelte",
+          "type": "registry:block"
+        }
+      ],
+      "name": "p-toast-12",
+      "registryDependencies": [
+        "local:particle-metadata",
+        "local:button",
+        "local:toast",
+        "local:tooltip",
+        "local:hugeicons-icon"
+      ],
+      "type": "registry:block"
+    },
+    {
+      "categories": [
+        "toast"
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons@4.3.0"
+      ],
+      "description": "COSS toast example.",
+      "files": [
+        {
+          "path": "registry/default/particles/p-toast-13.svelte",
+          "type": "registry:block"
+        }
+      ],
+      "name": "p-toast-13",
+      "registryDependencies": [
+        "local:particle-metadata",
+        "local:button",
+        "local:toast",
+        "local:tooltip",
+        "local:hugeicons-icon"
+      ],
+      "type": "registry:block"
+    },
+    {
+      "categories": [
+        "toast"
+      ],
+      "dependencies": [],
+      "description": "COSS toast example.",
+      "files": [
+        {
+          "path": "registry/default/particles/p-toast-2.svelte",
+          "type": "registry:block"
+        }
+      ],
+      "name": "p-toast-2",
+      "registryDependencies": [
+        "local:particle-metadata",
+        "local:button",
+        "local:toast"
+      ],
+      "type": "registry:block"
+    },
+    {
+      "categories": [
+        "toast"
+      ],
+      "dependencies": [],
+      "description": "COSS toast example.",
+      "files": [
+        {
+          "path": "registry/default/particles/p-toast-3.svelte",
+          "type": "registry:block"
+        }
+      ],
+      "name": "p-toast-3",
+      "registryDependencies": [
+        "local:particle-metadata",
+        "local:button",
+        "local:toast"
+      ],
+      "type": "registry:block"
+    },
+    {
+      "categories": [
+        "toast"
+      ],
+      "dependencies": [],
+      "description": "COSS toast example.",
+      "files": [
+        {
+          "path": "registry/default/particles/p-toast-4.svelte",
+          "type": "registry:block"
+        }
+      ],
+      "name": "p-toast-4",
+      "registryDependencies": [
+        "local:particle-metadata",
+        "local:button",
+        "local:toast"
+      ],
+      "type": "registry:block"
+    },
+    {
+      "categories": [
+        "toast"
+      ],
+      "dependencies": [],
+      "description": "COSS toast example.",
+      "files": [
+        {
+          "path": "registry/default/particles/p-toast-5.svelte",
+          "type": "registry:block"
+        }
+      ],
+      "name": "p-toast-5",
+      "registryDependencies": [
+        "local:particle-metadata",
+        "local:button",
+        "local:toast"
+      ],
+      "type": "registry:block"
+    },
+    {
+      "categories": [
+        "toast"
+      ],
+      "dependencies": [],
+      "description": "COSS toast example.",
+      "files": [
+        {
+          "path": "registry/default/particles/p-toast-6.svelte",
+          "type": "registry:block"
+        }
+      ],
+      "name": "p-toast-6",
+      "registryDependencies": [
+        "local:particle-metadata",
+        "local:button",
+        "local:toast"
+      ],
+      "type": "registry:block"
+    },
+    {
+      "categories": [
+        "toast"
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons@4.3.0"
+      ],
+      "description": "COSS toast example.",
+      "files": [
+        {
+          "path": "registry/default/particles/p-toast-7.svelte",
+          "type": "registry:block"
+        }
+      ],
+      "name": "p-toast-7",
+      "registryDependencies": [
+        "local:particle-metadata",
+        "local:button",
+        "local:toast",
+        "local:tooltip",
+        "local:hugeicons-icon"
+      ],
+      "type": "registry:block"
+    },
+    {
+      "categories": [
+        "toast"
+      ],
+      "dependencies": [],
+      "description": "COSS toast example.",
+      "files": [
+        {
+          "path": "registry/default/particles/p-toast-8.svelte",
+          "type": "registry:block"
+        }
+      ],
+      "name": "p-toast-8",
+      "registryDependencies": [
+        "local:particle-metadata",
+        "local:button",
+        "local:spinner",
+        "local:toast"
+      ],
+      "type": "registry:block"
+    },
+    {
+      "categories": [
+        "toast"
+      ],
+      "dependencies": [
+        "@hugeicons/core-free-icons@4.3.0"
+      ],
+      "description": "COSS toast example.",
+      "files": [
+        {
+          "path": "registry/default/particles/p-toast-9.svelte",
+          "type": "registry:block"
+        }
+      ],
+      "name": "p-toast-9",
+      "registryDependencies": [
+        "local:particle-metadata",
+        "local:button",
+        "local:toast",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },

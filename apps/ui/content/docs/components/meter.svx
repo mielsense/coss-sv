@@ -11,7 +11,7 @@ links:
 ## Installation
 
 <InstallCommand
-  pnpm="pnpm add @coss-sv/ui @hugeicons/svelte @hugeicons/core-free-icons"
+  pnpm="pnpm add @coss-sv/ui"
   shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/meter.json"
 />
 
@@ -19,13 +19,41 @@ links:
 
 ```svelte
 <script lang="ts">
-  import { Meter } from "@coss-sv/ui";
+  import * as Meter from "@coss-sv/ui/components/ui/meter";
 </script>
+
+<Meter.Root value={40}>
+  <Meter.Label>Progress</Meter.Label>
+  <Meter.Value />
+  <Meter.Track>
+    <Meter.Indicator />
+  </Meter.Track>
+</Meter.Root>
 ```
 
 ## API Reference
 
-The Svelte port preserves the COSS styling and forwards native attributes to the rendered element. See the [Shards Meter API](https://shardsui.com/svelte/meter) for primitive behavior and part props.
+### Meter.Root
+
+Root component. Styled wrapper for `Meter.Root` from Shards UI with a flex column layout.
+
+### Meter.Track
+
+Track container for the meter indicator. Styled wrapper for `Meter.Track` from Shards UI.
+
+### Meter.Indicator
+
+Visual indicator showing the current value. Styled wrapper for `Meter.Indicator` from Shards UI.
+
+### Meter.Label
+
+Label text for the meter. Styled wrapper for `Meter.Label` from Shards UI.
+
+### Meter.Value
+
+Displays the current value. Styled wrapper for `Meter.Value` from Shards UI.
+
+See the [Shards Meter API](https://shardsui.com/svelte/meter) for range, formatting, and primitive props.
 
 ## Examples
 

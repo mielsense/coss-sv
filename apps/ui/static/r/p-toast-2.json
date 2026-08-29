@@ -1,0 +1,18 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "p-toast-2",
+	"type": "registry:block",
+	"description": "COSS toast example.",
+	"registryDependencies": [
+		"./particle-metadata.json",
+		"./button.json",
+		"./toast.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\n  export const meta = defineParticleMeta({\n    components: [\"button\", \"toast\"],\n    id: \"p-toast-2\",\n    interactive: true,\n    responsive: true,\n    title: \"Status toasts\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { Button } from \"$COMPONENTS$/ui/button/index.js\";\n  import * as Toast from \"$COMPONENTS$/ui/toast/index.js\";\n\n  const statuses = [\n    {\n      label: \"Success Toast\",\n      title: \"Success!\",\n      description: \"Your changes have been saved.\",\n      type: \"success\",\n    },\n    {\n      label: \"Error Toast\",\n      title: \"Uh oh! Something went wrong.\",\n      description: \"There was a problem with your request.\",\n      type: \"error\",\n    },\n    {\n      label: \"Info Toast\",\n      title: \"Heads up!\",\n      description: \"You can add components to your app using the cli.\",\n      type: \"info\",\n    },\n    {\n      label: \"Warning Toast\",\n      title: \"Warning!\",\n      description: \"Your session is about to expire.\",\n      type: \"warning\",\n    },\n  ] as const;\n</script>\n\n<Toast.Provider\n  ><div class=\"flex flex-wrap gap-2\">\n    {#each statuses as status (status.type)}<Button\n        onclick={() => Toast.toastManager.add(status)}\n        variant=\"outline\">{status.label}</Button\n      >{/each}\n  </div></Toast.Provider\n>\n",
+			"type": "registry:block",
+			"target": "p-toast-2.svelte"
+		}
+	]
+}

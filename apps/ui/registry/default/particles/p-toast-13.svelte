@@ -11,9 +11,8 @@
 </script>
 
 <script lang="ts">
-  import { buttonVariants, Toast, Tooltip } from "@coss-sv/ui";
+  import { buttonVariants, HugeiconsIcon, Toast, Tooltip } from "@coss-sv/ui";
   import { FloppyDiskIcon } from "@hugeicons/core-free-icons";
-  import { HugeiconsIcon } from "@hugeicons/svelte";
 
   let button = $state<HTMLButtonElement | null>(null);
   function save() {
@@ -30,13 +29,15 @@
 </script>
 
 <Toast.AnchoredProvider
-  ><Tooltip.Provider delay={0}
+  ><Tooltip.Provider
     ><Tooltip.Root
       ><Tooltip.Trigger
         aria-label="Save"
         bind:ref={button}
         class={buttonVariants({ size: "icon", variant: "outline" })}
+        delay={0}
         onclick={save}
+        type="button"
         ><HugeiconsIcon aria-hidden="true" icon={FloppyDiskIcon} strokeWidth={2} /></Tooltip.Trigger
       ><Tooltip.Popup><p>Save</p></Tooltip.Popup></Tooltip.Root
     ></Tooltip.Provider

@@ -1,0 +1,21 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "p-alert-5",
+	"type": "registry:block",
+	"description": "COSS alert example.",
+	"dependencies": [
+		"@hugeicons/core-free-icons@4.3.0"
+	],
+	"registryDependencies": [
+		"./particle-metadata.json",
+		"./alert.json",
+		"./hugeicons-icon.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\n  export const meta = defineParticleMeta({\n    components: [\"alert\"],\n    id: \"p-alert-5\",\n    interactive: false,\n    responsive: true,\n    title: \"Alert example 5\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { Alert, AlertDescription, AlertTitle } from \"$COMPONENTS$/ui/alert/index.js\";\n  import HugeiconsIcon from \"$LIB$/hugeicons-icon.svelte\";\n  import { CheckmarkCircle02Icon } from \"@hugeicons/core-free-icons\";\n</script>\n\n<Alert variant=\"success\"\n  ><HugeiconsIcon aria-hidden=\"true\" icon={CheckmarkCircle02Icon} strokeWidth={2} /><AlertTitle\n    >Heads up!</AlertTitle\n  ><AlertDescription>Describe what can be done about it here.</AlertDescription></Alert\n>\n",
+			"type": "registry:block",
+			"target": "p-alert-5.svelte"
+		}
+	]
+}

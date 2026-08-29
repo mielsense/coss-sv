@@ -79,13 +79,13 @@ describe("documentation particle registry", () => {
     );
   });
 
-  test("publishes the approved D4 through D9 inventory with its metadata support file", async () => {
+  test("publishes the approved D4 through D10 inventory with its metadata support file", async () => {
     const ownership = JSON.parse(
       await readFile(resolve(appRoot, "../../docs/porting/docs-ownership.json"), "utf8"),
     ) as OwnershipFile;
     const expectedIds = ownership.ownership
       .filter(({ implementationLane }) =>
-        ["D4", "D5", "D6", "D7", "D8", "D9"].includes(implementationLane),
+        ["D4", "D5", "D6", "D7", "D8", "D9", "D10"].includes(implementationLane),
       )
       .map(({ particle }) => particle)
       .sort();
@@ -105,7 +105,7 @@ describe("documentation particle registry", () => {
         type: "registry:file",
       }),
     );
-    expect(particles).toHaveLength(444);
+    expect(particles).toHaveLength(508);
     expect(particles.map(({ name }) => name).sort()).toEqual(expectedIds);
     for (const particle of particles) {
       expect(particle.files, particle.name).toEqual([

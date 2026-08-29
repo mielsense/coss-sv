@@ -1,0 +1,17 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "p-badge-14",
+	"type": "registry:block",
+	"description": "COSS badge example.",
+	"registryDependencies": [
+		"./particle-metadata.json",
+		"./badge.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\n  export const meta = defineParticleMeta({\n    components: [\"badge\"],\n    id: \"p-badge-14\",\n    interactive: false,\n    responsive: false,\n    title: \"Rounded badge\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { Badge } from \"$COMPONENTS$/ui/badge/index.js\";\n</script>\n\n<Badge class=\"rounded-full\">Badge</Badge>\n",
+			"type": "registry:block",
+			"target": "p-badge-14.svelte"
+		}
+	]
+}

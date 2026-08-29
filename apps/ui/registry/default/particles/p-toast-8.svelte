@@ -12,16 +12,24 @@
 
 <script lang="ts">
   import { Button, Spinner, Toast } from "@coss-sv/ui";
+  import { onDestroy } from "svelte";
 
   let button = $state<HTMLButtonElement | null>(null);
   let submitting = $state(false);
+  let toastId: string | null = null;
+  let submitTimer: ReturnType<typeof setTimeout> | undefined;
+
   function submit() {
     if (!button || submitting) return;
+    if (toastId) {
+      Toast.anchoredToastManager.close(toastId);
+      toastId = null;
+    }
     submitting = true;
-    setTimeout(() => {
+    submitTimer = setTimeout(() => {
       submitting = false;
       if (button)
-        Toast.anchoredToastManager.add({
+        toastId = Toast.anchoredToastManager.add({
           description: "The server is not responding. Please try again later.",
           positionerProps: { anchor: button, sideOffset: 4 },
           title: "Error submitting form",
@@ -29,6 +37,10 @@
         });
     }, 2000);
   }
+
+  onDestroy(() => {
+    if (submitTimer) clearTimeout(submitTimer);
+  });
 </script>
 
 <Toast.AnchoredProvider

@@ -1,0 +1,17 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "p-meter-3",
+	"type": "registry:block",
+	"description": "COSS meter example.",
+	"registryDependencies": [
+		"./particle-metadata.json",
+		"./meter.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\n  export const meta = defineParticleMeta({\n    components: [\"meter\"],\n    id: \"p-meter-3\",\n    interactive: false,\n    responsive: false,\n    title: \"Formatted rating meter\",\n    containerClass: \"**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import * as Meter from \"$COMPONENTS$/ui/meter/index.js\";\n</script>\n\n<Meter.Root max={5} value={3}\n  ><div class=\"flex items-center justify-between gap-2\">\n    <Meter.Label>Rating</Meter.Label><Meter.Value\n      >{#snippet children(_formatted, value)}{value} / 5{/snippet}</Meter.Value\n    >\n  </div>\n  <Meter.Track><Meter.Indicator /></Meter.Track></Meter.Root\n>\n",
+			"type": "registry:block",
+			"target": "p-meter-3.svelte"
+		}
+	]
+}

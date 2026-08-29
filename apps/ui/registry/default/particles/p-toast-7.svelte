@@ -11,17 +11,21 @@
 </script>
 
 <script lang="ts">
-  import { buttonVariants, Toast, Tooltip } from "@coss-sv/ui";
+  import { buttonVariants, HugeiconsIcon, Toast, Tooltip } from "@coss-sv/ui";
   import { Copy01Icon, Tick01Icon } from "@hugeicons/core-free-icons";
-  import { HugeiconsIcon } from "@hugeicons/svelte";
+  import { onDestroy } from "svelte";
 
   let button = $state<HTMLButtonElement | null>(null);
   let copied = $state(false);
+  let resetTimer: ReturnType<typeof setTimeout> | undefined;
+
   async function copy() {
-    if (!button) return;
+    if (!button || !navigator.clipboard?.writeText) return;
     try {
       await navigator.clipboard.writeText("https://coss.com");
-    } catch {}
+    } catch {
+      return;
+    }
     copied = true;
     Toast.anchoredToastManager.add({
       data: { tooltipStyle: true },
@@ -29,12 +33,17 @@
       timeout: 2000,
       title: "Copied!",
     });
-    setTimeout(() => (copied = false), 2000);
+    if (resetTimer) clearTimeout(resetTimer);
+    resetTimer = setTimeout(() => (copied = false), 2000);
   }
+
+  onDestroy(() => {
+    if (resetTimer) clearTimeout(resetTimer);
+  });
 </script>
 
 <Toast.AnchoredProvider
-  ><Tooltip.Provider delay={0}
+  ><Tooltip.Provider
     ><Tooltip.Root
       ><Tooltip.Trigger
         aria-label="Copy link"
@@ -42,6 +51,7 @@
         class={buttonVariants({ size: "icon", variant: "outline" })}
         disabled={copied}
         onclick={copy}
+        type="button"
         ><HugeiconsIcon
           aria-hidden="true"
           class="size-4"

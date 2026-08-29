@@ -12,11 +12,11 @@
 </script>
 
 <script lang="ts">
-  import { InputGroup, InputGroupAddon, InputGroupInput, Spinner } from "@coss-sv/ui";
+  import { InputGroup, Spinner } from "@coss-sv/ui";
 </script>
 
-<InputGroup
-  ><InputGroupInput disabled placeholder="Processing…" type="search" /><InputGroupAddon
-    ><Spinner /></InputGroupAddon
-  ></InputGroup
+<InputGroup.Root
+  ><InputGroup.Input disabled placeholder="Processing…" type="search" /><InputGroup.Addon
+    ><Spinner /></InputGroup.Addon
+  ></InputGroup.Root
 >

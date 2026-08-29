@@ -1,0 +1,18 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "p-toast-6",
+	"type": "registry:block",
+	"description": "COSS toast example.",
+	"registryDependencies": [
+		"./particle-metadata.json",
+		"./button.json",
+		"./toast.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\n  export const meta = defineParticleMeta({\n    components: [\"button\", \"toast\"],\n    id: \"p-toast-6\",\n    interactive: true,\n    responsive: true,\n    title: \"Varying height toasts\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { Button } from \"$COMPONENTS$/ui/button/index.js\";\n  import * as Toast from \"$COMPONENTS$/ui/toast/index.js\";\n\n  const texts = [\n    \"Short message.\",\n    \"A bit longer message that spans two lines.\",\n    \"This is a longer description that intentionally takes more vertical space to demonstrate stacking with varying heights.\",\n    \"An even longer description that should span multiple lines so we can verify the clamped collapsed height and smooth expansion animation when hovering or focusing the viewport.\",\n  ];\n  let count = $state(0);\n  function create() {\n    count += 1;\n    Toast.toastManager.add({\n      description: texts[Math.floor(Math.random() * texts.length)],\n      title: `Toast ${count} created`,\n    });\n  }\n</script>\n\n<Toast.Provider\n  ><Button onclick={create} variant=\"outline\">With Varying Heights</Button></Toast.Provider\n>\n",
+			"type": "registry:block",
+			"target": "p-toast-6.svelte"
+		}
+	]
+}

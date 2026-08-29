@@ -11,9 +11,8 @@
 </script>
 
 <script lang="ts">
-  import { Badge, Checkbox } from "@coss-sv/ui";
+  import { Badge, Checkbox, HugeiconsIcon } from "@coss-sv/ui";
   import { Tick01Icon } from "@hugeicons/core-free-icons";
-  import { HugeiconsIcon } from "@hugeicons/svelte";
 
   const uid = $props.id();
   let checked = $state(true);

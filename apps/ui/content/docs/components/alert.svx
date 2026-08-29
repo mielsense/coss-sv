@@ -8,7 +8,7 @@ description: A callout for displaying important information.
 ## Installation
 
 <InstallCommand
-  pnpm="pnpm add @coss-sv/ui @hugeicons/svelte @hugeicons/core-free-icons"
+  pnpm="pnpm add @coss-sv/ui"
   shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/alert.json"
 />
 
@@ -16,13 +16,40 @@ description: A callout for displaying important information.
 
 ```svelte
 <script lang="ts">
-  import { Alert } from "@coss-sv/ui";
+  import { Alert, AlertDescription, AlertTitle } from "@coss-sv/ui/components/ui/alert";
 </script>
+
+<Alert>
+  <AlertTitle>Heads up!</AlertTitle>
+  <AlertDescription>
+    You can add components and dependencies to your app using the CLI.
+  </AlertDescription>
+</Alert>
 ```
 
 ## API Reference
 
-The Svelte port preserves the COSS styling and forwards native attributes to the rendered element.
+This is a custom component, not a Shards UI wrapper.
+
+### Alert
+
+Root container for the alert. Native `div` attributes pass to the rendered element.
+
+| Prop      | Type                                                       | Default     | Description                                 |
+| --------- | ---------------------------------------------------------- | ----------- | ------------------------------------------- |
+| `variant` | `"default" \| "error" \| "info" \| "success" \| "warning"` | `"default"` | Controls the alert styling and color scheme |
+
+### AlertTitle
+
+Title text for the alert. Renders as a styled `div`.
+
+### AlertDescription
+
+Description text for the alert. Renders as a styled `div` with muted foreground color.
+
+### AlertAction
+
+Container for action buttons. Automatically positions to the right on larger screens.
 
 ## Examples
 

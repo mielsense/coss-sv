@@ -12,6 +12,7 @@ const compiledParticles = import.meta.glob(
     "../../registry/default/particles/p-form-*.svelte",
     "../../registry/default/particles/p-group-*.svelte",
     "../../registry/default/particles/p-input-*.svelte",
+    "!../../registry/default/particles/p-input-12.svelte",
     "../../registry/default/particles/p-input-group-*.svelte",
     "../../registry/default/particles/p-number-field-*.svelte",
     "../../registry/default/particles/p-otp-field-*.svelte",

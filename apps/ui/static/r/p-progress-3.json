@@ -1,0 +1,17 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "p-progress-3",
+	"type": "registry:block",
+	"description": "COSS progress example.",
+	"registryDependencies": [
+		"./particle-metadata.json",
+		"./progress.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\n  export const meta = defineParticleMeta({\n    components: [\"progress\"],\n    id: \"p-progress-3\",\n    interactive: false,\n    responsive: false,\n    title: \"Formatted upload progress\",\n    containerClass: \"**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import * as Progress from \"$COMPONENTS$/ui/progress/index.js\";\n</script>\n\n<Progress.Root max={512} value={502}\n  ><div class=\"flex items-center justify-between gap-2\">\n    <Progress.Label>Upload</Progress.Label><Progress.Value\n      >{#snippet children(_formatted, value)}{value} / 512{/snippet}</Progress.Value\n    >\n  </div>\n  <Progress.Track><Progress.Indicator /></Progress.Track></Progress.Root\n>\n",
+			"type": "registry:block",
+			"target": "p-progress-3.svelte"
+		}
+	]
+}

@@ -1,0 +1,19 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "p-toast-8",
+	"type": "registry:block",
+	"description": "COSS toast example.",
+	"registryDependencies": [
+		"./particle-metadata.json",
+		"./button.json",
+		"./spinner.json",
+		"./toast.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\n  export const meta = defineParticleMeta({\n    components: [\"button\", \"spinner\", \"toast\"],\n    id: \"p-toast-8\",\n    interactive: true,\n    responsive: false,\n    title: \"Submit error toast\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { Button } from \"$COMPONENTS$/ui/button/index.js\";\n  import { Spinner } from \"$COMPONENTS$/ui/spinner/index.js\";\n  import * as Toast from \"$COMPONENTS$/ui/toast/index.js\";\n  import { onDestroy } from \"svelte\";\n\n  let button = $state<HTMLButtonElement | null>(null);\n  let submitting = $state(false);\n  let toastId: string | null = null;\n  let submitTimer: ReturnType<typeof setTimeout> | undefined;\n\n  function submit() {\n    if (!button || submitting) return;\n    if (toastId) {\n      Toast.anchoredToastManager.close(toastId);\n      toastId = null;\n    }\n    submitting = true;\n    submitTimer = setTimeout(() => {\n      submitting = false;\n      if (button)\n        toastId = Toast.anchoredToastManager.add({\n          description: \"The server is not responding. Please try again later.\",\n          positionerProps: { anchor: button, sideOffset: 4 },\n          title: \"Error submitting form\",\n          type: \"error\",\n        });\n    }, 2000);\n  }\n\n  onDestroy(() => {\n    if (submitTimer) clearTimeout(submitTimer);\n  });\n</script>\n\n<Toast.AnchoredProvider\n  ><Button bind:ref={button} disabled={submitting} onclick={submit} variant=\"outline\"\n    >{#if submitting}<Spinner />Submitting…{:else}Submit{/if}</Button\n  ></Toast.AnchoredProvider\n>\n",
+			"type": "registry:block",
+			"target": "p-toast-8.svelte"
+		}
+	]
+}

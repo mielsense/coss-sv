@@ -8,7 +8,7 @@ description: A badge or a component that looks like a badge.
 ## Installation
 
 <InstallCommand
-  pnpm="pnpm add @coss-sv/ui @hugeicons/svelte @hugeicons/core-free-icons"
+  pnpm="pnpm add @coss-sv/ui"
   shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/badge.json"
 />
 
@@ -16,13 +16,35 @@ description: A badge or a component that looks like a badge.
 
 ```svelte
 <script lang="ts">
-  import { Badge } from "@coss-sv/ui";
+  import { Badge } from "@coss-sv/ui/components/ui/badge";
 </script>
+
+<Badge>Badge</Badge>
+```
+
+## Link
+
+Use the `as` prop to render another element with the badge styles. Here is a link that looks like a badge.
+
+```svelte
+<script lang="ts">
+  import { Badge } from "@coss-sv/ui/components/ui/badge";
+</script>
+
+<Badge as="a" href="/pricing">New</Badge>
 ```
 
 ## API Reference
 
-The Svelte port preserves the COSS styling and forwards native attributes to the rendered element.
+### Badge
+
+A badge component with variant and size options. Native attributes for the selected element pass through.
+
+| Prop      | Type                                                                                                    | Default     | Description                                 |
+| --------- | ------------------------------------------------------------------------------------------------------- | ----------- | ------------------------------------------- |
+| `variant` | `"default" \| "destructive" \| "error" \| "info" \| "outline" \| "secondary" \| "success" \| "warning"` | `"default"` | Controls the badge styling and color scheme |
+| `size`    | `"default" \| "sm" \| "lg"`                                                                             | `"default"` | Controls the badge size                     |
+| `as`      | `keyof SvelteHTMLElements`                                                                              | `"span"`    | Selects the rendered HTML element           |
 
 ## Examples
 

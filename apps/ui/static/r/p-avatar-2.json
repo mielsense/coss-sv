@@ -1,0 +1,17 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "p-avatar-2",
+	"type": "registry:block",
+	"description": "COSS avatar example.",
+	"registryDependencies": [
+		"./particle-metadata.json",
+		"./avatar.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\n  export const meta = defineParticleMeta({\n    components: [\"avatar\"],\n    id: \"p-avatar-2\",\n    interactive: false,\n    responsive: false,\n    title: \"Avatar fallback only\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import * as Avatar from \"$COMPONENTS$/ui/avatar/index.js\";\n</script>\n\n<Avatar.Root><Avatar.Fallback>LT</Avatar.Fallback></Avatar.Root>\n",
+			"type": "registry:block",
+			"target": "p-avatar-2.svelte"
+		}
+	]
+}

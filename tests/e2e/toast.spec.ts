@@ -210,7 +210,8 @@ test("matches p7 through p9 tooltip, spinner, anchored error, and cancellation b
   await expect(cancelledToast).toContainText("Cancelled");
   await expect(cancelledToast).toHaveAttribute("data-type", "info");
   const infoIcon = cancelledToast.locator('[data-slot="toast-icon"] svg');
-  await expect(infoIcon).toHaveClass(/lucide-info/);
+  await expect(infoIcon).toHaveAttribute("aria-hidden", "true");
+  await expect(infoIcon).not.toHaveClass(/lucide-/);
   await expect(infoIcon).toHaveClass(/text-info/);
   const [iconColor, infoColor] = await infoIcon.evaluate((element) => {
     const probe = document.createElement("span");
@@ -239,9 +240,10 @@ test("matches p7 through p9 tooltip, spinner, anchored error, and cancellation b
   const failedToast = standardToasts(page).first();
   await expect(failedToast).toContainText("Failed to generate report");
   await expect(failedToast).toHaveAttribute("data-type", "error");
-  await expect(failedToast.locator('[data-slot="toast-icon"] svg')).toHaveClass(
-    /lucide-circle-alert/,
-  );
+  const errorIcon = failedToast.locator('[data-slot="toast-icon"] svg');
+  await expect(errorIcon).toHaveAttribute("aria-hidden", "true");
+  await expect(errorIcon).toHaveClass(/text-destructive/);
+  await expect(errorIcon).not.toHaveClass(/lucide-/);
   await expect(failedToast.getByRole("button", { name: "Cancel" })).toHaveCount(0);
 
   ({ ready } = await openReadyPreview(page, "toast", "light", "desktop", "real", "start"));
@@ -259,9 +261,10 @@ test("matches p7 through p9 tooltip, spinner, anchored error, and cancellation b
   const successToast = standardToasts(page).first();
   await expect(successToast).toContainText("Download started");
   await expect(successToast).toHaveAttribute("data-type", "success");
-  await expect(successToast.locator('[data-slot="toast-icon"] svg')).toHaveClass(
-    /lucide-circle-check/,
-  );
+  const successIcon = successToast.locator('[data-slot="toast-icon"] svg');
+  await expect(successIcon).toHaveAttribute("aria-hidden", "true");
+  await expect(successIcon).toHaveClass(/text-success/);
+  await expect(successIcon).not.toHaveClass(/lucide-/);
   await expect(successToast.getByRole("button", { name: "Cancel" })).toHaveCount(0);
   guard.assertNoErrors();
 });

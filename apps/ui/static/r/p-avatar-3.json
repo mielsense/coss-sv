@@ -1,0 +1,17 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "p-avatar-3",
+	"type": "registry:block",
+	"description": "COSS avatar example.",
+	"registryDependencies": [
+		"./particle-metadata.json",
+		"./avatar.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\n  export const meta = defineParticleMeta({\n    components: [\"avatar\"],\n    id: \"p-avatar-3\",\n    interactive: false,\n    responsive: true,\n    title: \"Avatar sizes\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import * as Avatar from \"$COMPONENTS$/ui/avatar/index.js\";\n</script>\n\n<div class=\"flex items-center gap-4\">\n  <Avatar.Root\n    ><Avatar.Image\n      alt=\"User\"\n      src=\"https://images.unsplash.com/photo-1543610892-0b1f7e6d8ac1?w=96&h=96&dpr=2&q=80\"\n    /><Avatar.Fallback>AV</Avatar.Fallback></Avatar.Root\n  ><Avatar.Root class=\"size-12\"\n    ><Avatar.Image\n      alt=\"User\"\n      src=\"https://images.unsplash.com/photo-1543610892-0b1f7e6d8ac1?w=144&h=144&dpr=2&q=80\"\n    /><Avatar.Fallback>AV</Avatar.Fallback></Avatar.Root\n  ><Avatar.Root class=\"size-16\"\n    ><Avatar.Image\n      alt=\"User\"\n      src=\"https://images.unsplash.com/photo-1543610892-0b1f7e6d8ac1?w=192&h=192&dpr=2&q=80\"\n    /><Avatar.Fallback>AV</Avatar.Fallback></Avatar.Root\n  >\n</div>\n",
+			"type": "registry:block",
+			"target": "p-avatar-3.svelte"
+		}
+	]
+}

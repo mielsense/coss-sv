@@ -43,17 +43,24 @@ describe("D10 feedback and status documentation", () => {
     );
     expect(code).not.toMatch(/\b(?:export let|createEventDispatcher)\b|\bon:/);
     expect(code).not.toMatch(/lucide|<svg\b/i);
+    expect(code).not.toContain("@hugeicons/svelte");
   });
 
   test.each(pages)("ports the %s page and route", (slug) => {
     const pagePath = resolve(appRoot, `content/docs/components/${slug}.svx`);
     const routePath = resolve(appRoot, `src/routes/docs/components/${slug}/+page.svelte`);
+    const loaderPath = resolve(appRoot, `src/routes/docs/components/${slug}/+page.server.ts`);
     expect(existsSync(pagePath)).toBe(true);
     expect(existsSync(routePath)).toBe(true);
+    expect(existsSync(loaderPath)).toBe(true);
     const page = readFileSync(pagePath, "utf8");
     expect(page).toContain("<InstallCommand");
     expect(page).toContain("pnpm dlx shadcn-svelte@latest add");
     expect(page).not.toMatch(/```(?:tsx|jsx)|@base-ui\/react|lucide-react|from ["']react/);
+    expect(readFileSync(routePath, "utf8")).toContain("data.documentation.metadata.title");
+    expect(readFileSync(loaderPath, "utf8")).toContain(
+      `generatedDocumentationRecord("components/${slug}")`,
+    );
   });
 
   test("keeps feedback semantics and async controls explicit", () => {
@@ -69,5 +76,64 @@ describe("D10 feedback and status documentation", () => {
     expect(
       readFileSync(resolve(appRoot, "registry/default/particles/p-toast-9.svelte"), "utf8"),
     ).toContain("Report generation was cancelled.");
+  });
+
+  test("keeps client-only timers and toast state cleanup explicit", () => {
+    const progress = readFileSync(
+      resolve(appRoot, "registry/default/particles/p-progress-1.svelte"),
+      "utf8",
+    );
+    expect(progress).toContain('import { onMount } from "svelte"');
+    expect(progress).toMatch(/onMount\(\(\) => \{[\s\S]*setInterval/);
+    expect(progress).toContain("return () => clearInterval(interval)");
+
+    const copy = readFileSync(
+      resolve(appRoot, "registry/default/particles/p-toast-7.svelte"),
+      "utf8",
+    );
+    expect(copy).toContain("await navigator.clipboard.writeText");
+    expect(copy).not.toMatch(/catch\s*\{\s*\}\s*copied = true/);
+    expect(copy).toContain("clearTimeout(resetTimer)");
+
+    const retry = readFileSync(
+      resolve(appRoot, "registry/default/particles/p-toast-8.svelte"),
+      "utf8",
+    );
+    expect(retry).toContain("Toast.anchoredToastManager.close(toastId)");
+    expect(retry).toContain("toastId = Toast.anchoredToastManager.add");
+
+    const promise = readFileSync(
+      resolve(appRoot, "registry/default/particles/p-toast-9.svelte"),
+      "utf8",
+    );
+    expect(promise).toMatch(/success:\s*\{[\s\S]*actionProps: undefined/);
+    expect(promise).toMatch(/error:[\s\S]*actionProps: undefined/);
+    expect(promise).toContain("controller?.abort()");
+  });
+
+  test("keeps exact tooltip timing, button semantics, and removable badge markup", () => {
+    const copyToast = readFileSync(
+      resolve(appRoot, "registry/default/particles/p-toast-7.svelte"),
+      "utf8",
+    );
+    expect(copyToast).not.toContain("delay={0}");
+    expect(copyToast).not.toMatch(/<Tooltip\.Provider\s+delay=/);
+    expect(copyToast).toMatch(/<Tooltip\.Trigger[\s\S]*type="button"/);
+
+    for (const id of [12, 13]) {
+      const toast = readFileSync(
+        resolve(appRoot, `registry/default/particles/p-toast-${id}.svelte`),
+        "utf8",
+      );
+      expect(toast).toMatch(/<Tooltip\.Trigger[\s\S]*delay=\{0\}/);
+      expect(toast).not.toMatch(/<Tooltip\.Provider\s+delay=/);
+      expect(toast).toMatch(/<Tooltip\.Trigger[\s\S]*type="button"/);
+    }
+
+    const removableBadge = readFileSync(
+      resolve(appRoot, "registry/default/particles/p-badge-20.svelte"),
+      "utf8",
+    );
+    expect(removableBadge).not.toContain('aria-label="Remove badge"');
   });
 });

@@ -11,31 +11,137 @@ links:
 ## Installation
 
 <InstallCommand
-  pnpm="pnpm add @coss-sv/ui @hugeicons/svelte @hugeicons/core-free-icons"
+  pnpm="pnpm add @coss-sv/ui"
   shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/toast.json"
 />
 
+Add `Toast.Provider` and `Toast.AnchoredProvider` to your app layout.
+
+```svelte title="src/routes/+layout.svelte"
+<script lang="ts">
+  import { Toast } from "@coss-sv/ui";
+  import type { Snippet } from "svelte";
+
+  let { children }: { children: Snippet } = $props();
+</script>
+
+<Toast.Provider>
+  <Toast.AnchoredProvider>
+    {@render children()}
+  </Toast.AnchoredProvider>
+</Toast.Provider>
+```
+
 ## Usage
+
+### Stacked Toasts
 
 ```svelte
 <script lang="ts">
   import { Toast } from "@coss-sv/ui";
+
+  function createEvent() {
+    Toast.toastManager.add({
+      title: "Event has been created",
+      description: "Monday, January 3rd at 6:00pm",
+    });
+  }
 </script>
 ```
 
-## API Reference
+By default, toasts appear in the **bottom-right** corner. Change this with the `position` prop on `Toast.Provider`.
 
-The Svelte port preserves the COSS styling and forwards native attributes to the rendered element. See the [Shards Toast API](https://shardsui.com/svelte/toast) for primitive behavior and part props.
+Allowed values are `top-left`, `top-center`, `top-right`, `bottom-left`, `bottom-center`, and `bottom-right`.
 
-## Examples
+```svelte
+<Toast.Provider position="top-center">
+  {@render children()}
+</Toast.Provider>
+```
 
 ### Deduplicated toasts (upsert)
+
+Pass a stable `id` when calling `Toast.toastManager.add`. If a toast with that `id` already exists, Shards UI updates it in place, refreshes the auto-dismiss timer, and increments `updateKey`. The styled toast replays a short re-notify animation on each update.
+
+```ts
+Toast.toastManager.add({
+  id: "save-status",
+  title: "Saved",
+  description: "Your draft was updated.",
+});
+```
 
 <ComponentPreview name="p-toast-10" />
 
 ### Anchored Toasts
 
+For toasts positioned relative to an element, use `Toast.anchoredToastManager`. Add `Toast.AnchoredProvider` to your app layout so components can use the manager directly.
+
+```ts
+Toast.anchoredToastManager.add({
+  title: "Copied!",
+  positionerProps: {
+    anchor: button,
+  },
+});
+```
+
+Style an anchored toast like a tooltip with `data: { tooltipStyle: true }`. Tooltip style displays only the title.
+
+```ts
+Toast.anchoredToastManager.add({
+  title: "Copied!",
+  positionerProps: {
+    anchor: button,
+  },
+  data: {
+    tooltipStyle: true,
+  },
+});
+```
+
 <ComponentPreview name="p-toast-12" />
+
+## API Reference
+
+### Toast.Provider
+
+Provider component for stacked toasts. Wraps `Toast.Provider` from Shards UI and renders the COSS toast stack.
+
+| Prop           | Type                                                                                              | Default              | Description                                                             |
+| -------------- | ------------------------------------------------------------------------------------------------- | -------------------- | ----------------------------------------------------------------------- |
+| `position`     | `"top-left" \| "top-center" \| "top-right" \| "bottom-left" \| "bottom-center" \| "bottom-right"` | `"bottom-right"`     | Positions the toast viewport                                            |
+| `portalProps`  | `ToastPortalProps`                                                                                | —                    | Passes `container`, native attributes, and `ref` to the internal portal |
+| `limit`        | `number`                                                                                          | `3`                  | Sets the maximum number of visible stacked toasts                       |
+| `timeout`      | `number`                                                                                          | `5000`               | Sets the default auto-dismiss time in milliseconds                      |
+| `toastManager` | `ToastManager`                                                                                    | `Toast.toastManager` | Supplies a custom manager instance                                      |
+
+### Toast.AnchoredProvider
+
+Provider component for toasts anchored to elements. Use it with `Toast.anchoredToastManager`.
+
+| Prop           | Type               | Default                      | Description                                                             |
+| -------------- | ------------------ | ---------------------------- | ----------------------------------------------------------------------- |
+| `portalProps`  | `ToastPortalProps` | —                            | Passes `container`, native attributes, and `ref` to the internal portal |
+| `limit`        | `number`           | `3`                          | Sets the maximum number of visible anchored toasts                      |
+| `timeout`      | `number`           | `5000`                       | Sets the default auto-dismiss time in milliseconds                      |
+| `toastManager` | `ToastManager`     | `Toast.anchoredToastManager` | Supplies a custom manager instance                                      |
+
+### Toast.toastManager
+
+Manager for stacked toasts. Use `Toast.toastManager.add()` to show a toast. A later `add` with the same `id` updates the existing toast instead of stacking a duplicate. Use `close(id)` to dismiss one toast, `close()` to dismiss all toasts, and `promise()` to update a loading toast from a promise result.
+
+### Toast.anchoredToastManager
+
+Manager for anchored toasts. Pass `positionerProps.anchor` to `add()`. Repeated calls with the same `id` update the existing toast.
+
+### Rendered toast parts
+
+The providers render the COSS-styled viewport, root, title, description, action, and anchored positioner around Shards UI toast parts. Use `Toast.ToastPrimitive` when a custom lower-level composition needs direct Shards parts.
+
+See the [Shards Toast API](https://shardsui.com/svelte/toast) for manager options, swipe behavior, priority, focus management, and primitive props.
+
+## Examples
 
 ### With Status
 

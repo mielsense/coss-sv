@@ -1,0 +1,18 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "p-toast-4",
+	"type": "registry:block",
+	"description": "COSS toast example.",
+	"registryDependencies": [
+		"./particle-metadata.json",
+		"./button.json",
+		"./toast.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\n  export const meta = defineParticleMeta({\n    components: [\"button\", \"toast\"],\n    id: \"p-toast-4\",\n    interactive: true,\n    responsive: false,\n    title: \"Toast with action\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { Button } from \"$COMPONENTS$/ui/button/index.js\";\n  import * as Toast from \"$COMPONENTS$/ui/toast/index.js\";\n\n  function perform() {\n    const id = Toast.toastManager.add({\n      actionProps: {\n        children: \"Undo\",\n        onclick: () => {\n          Toast.toastManager.close(id);\n          Toast.toastManager.add({\n            description: \"The action has been reverted.\",\n            title: \"Action undone\",\n            type: \"info\",\n          });\n        },\n      },\n      description: \"You can undo this action.\",\n      timeout: 1000000,\n      title: \"Action performed\",\n      type: \"success\",\n    });\n  }\n</script>\n\n<Toast.Provider><Button onclick={perform} variant=\"outline\">Perform Action</Button></Toast.Provider>\n",
+			"type": "registry:block",
+			"target": "p-toast-4.svelte"
+		}
+	]
+}

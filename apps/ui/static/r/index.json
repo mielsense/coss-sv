@@ -430,6 +430,102 @@
 		"relativeUrl": "p-accordion-4.json"
 	},
 	{
+		"name": "p-alert-1",
+		"type": "registry:block",
+		"description": "COSS alert example.",
+		"dependencies": [],
+		"registryDependencies": [
+			"local:particle-metadata",
+			"local:alert"
+		],
+		"relativeUrl": "p-alert-1.json"
+	},
+	{
+		"name": "p-alert-2",
+		"type": "registry:block",
+		"description": "COSS alert example.",
+		"dependencies": [
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata",
+			"local:alert",
+			"local:hugeicons-icon"
+		],
+		"relativeUrl": "p-alert-2.json"
+	},
+	{
+		"name": "p-alert-3",
+		"type": "registry:block",
+		"description": "COSS alert example.",
+		"dependencies": [
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata",
+			"local:alert",
+			"local:button",
+			"local:hugeicons-icon"
+		],
+		"relativeUrl": "p-alert-3.json"
+	},
+	{
+		"name": "p-alert-4",
+		"type": "registry:block",
+		"description": "COSS alert example.",
+		"dependencies": [
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata",
+			"local:alert",
+			"local:hugeicons-icon"
+		],
+		"relativeUrl": "p-alert-4.json"
+	},
+	{
+		"name": "p-alert-5",
+		"type": "registry:block",
+		"description": "COSS alert example.",
+		"dependencies": [
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata",
+			"local:alert",
+			"local:hugeicons-icon"
+		],
+		"relativeUrl": "p-alert-5.json"
+	},
+	{
+		"name": "p-alert-6",
+		"type": "registry:block",
+		"description": "COSS alert example.",
+		"dependencies": [
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata",
+			"local:alert",
+			"local:hugeicons-icon"
+		],
+		"relativeUrl": "p-alert-6.json"
+	},
+	{
+		"name": "p-alert-7",
+		"type": "registry:block",
+		"description": "COSS alert example.",
+		"dependencies": [
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata",
+			"local:alert",
+			"local:hugeicons-icon"
+		],
+		"relativeUrl": "p-alert-7.json"
+	},
+	{
 		"name": "p-alert-dialog-1",
 		"type": "registry:block",
 		"description": "COSS alert-dialog example.",
@@ -640,6 +736,398 @@
 			"local:autocomplete"
 		],
 		"relativeUrl": "p-autocomplete-9.json"
+	},
+	{
+		"name": "p-avatar-1",
+		"type": "registry:block",
+		"description": "COSS avatar example.",
+		"dependencies": [],
+		"registryDependencies": [
+			"local:particle-metadata",
+			"local:avatar"
+		],
+		"relativeUrl": "p-avatar-1.json"
+	},
+	{
+		"name": "p-avatar-10",
+		"type": "registry:block",
+		"description": "COSS avatar example.",
+		"dependencies": [],
+		"registryDependencies": [
+			"local:particle-metadata",
+			"local:avatar",
+			"local:badge"
+		],
+		"relativeUrl": "p-avatar-10.json"
+	},
+	{
+		"name": "p-avatar-11",
+		"type": "registry:block",
+		"description": "COSS avatar example.",
+		"dependencies": [],
+		"registryDependencies": [
+			"local:particle-metadata",
+			"local:avatar",
+			"local:badge"
+		],
+		"relativeUrl": "p-avatar-11.json"
+	},
+	{
+		"name": "p-avatar-12",
+		"type": "registry:block",
+		"description": "COSS avatar example.",
+		"dependencies": [
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata",
+			"local:avatar",
+			"local:hugeicons-icon"
+		],
+		"relativeUrl": "p-avatar-12.json"
+	},
+	{
+		"name": "p-avatar-13",
+		"type": "registry:block",
+		"description": "COSS avatar example.",
+		"dependencies": [],
+		"registryDependencies": [
+			"local:particle-metadata",
+			"local:avatar"
+		],
+		"relativeUrl": "p-avatar-13.json"
+	},
+	{
+		"name": "p-avatar-14",
+		"type": "registry:block",
+		"description": "COSS avatar example.",
+		"dependencies": [],
+		"registryDependencies": [
+			"local:particle-metadata",
+			"local:avatar"
+		],
+		"relativeUrl": "p-avatar-14.json"
+	},
+	{
+		"name": "p-avatar-2",
+		"type": "registry:block",
+		"description": "COSS avatar example.",
+		"dependencies": [],
+		"registryDependencies": [
+			"local:particle-metadata",
+			"local:avatar"
+		],
+		"relativeUrl": "p-avatar-2.json"
+	},
+	{
+		"name": "p-avatar-3",
+		"type": "registry:block",
+		"description": "COSS avatar example.",
+		"dependencies": [],
+		"registryDependencies": [
+			"local:particle-metadata",
+			"local:avatar"
+		],
+		"relativeUrl": "p-avatar-3.json"
+	},
+	{
+		"name": "p-avatar-4",
+		"type": "registry:block",
+		"description": "COSS avatar example.",
+		"dependencies": [],
+		"registryDependencies": [
+			"local:particle-metadata",
+			"local:avatar"
+		],
+		"relativeUrl": "p-avatar-4.json"
+	},
+	{
+		"name": "p-avatar-5",
+		"type": "registry:block",
+		"description": "COSS avatar example.",
+		"dependencies": [],
+		"registryDependencies": [
+			"local:particle-metadata",
+			"local:avatar"
+		],
+		"relativeUrl": "p-avatar-5.json"
+	},
+	{
+		"name": "p-avatar-6",
+		"type": "registry:block",
+		"description": "COSS avatar example.",
+		"dependencies": [
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata",
+			"local:avatar",
+			"local:hugeicons-icon"
+		],
+		"relativeUrl": "p-avatar-6.json"
+	},
+	{
+		"name": "p-avatar-7",
+		"type": "registry:block",
+		"description": "COSS avatar example.",
+		"dependencies": [],
+		"registryDependencies": [
+			"local:particle-metadata",
+			"local:avatar"
+		],
+		"relativeUrl": "p-avatar-7.json"
+	},
+	{
+		"name": "p-avatar-8",
+		"type": "registry:block",
+		"description": "COSS avatar example.",
+		"dependencies": [],
+		"registryDependencies": [
+			"local:particle-metadata",
+			"local:avatar"
+		],
+		"relativeUrl": "p-avatar-8.json"
+	},
+	{
+		"name": "p-avatar-9",
+		"type": "registry:block",
+		"description": "COSS avatar example.",
+		"dependencies": [],
+		"registryDependencies": [
+			"local:particle-metadata",
+			"local:avatar"
+		],
+		"relativeUrl": "p-avatar-9.json"
+	},
+	{
+		"name": "p-badge-1",
+		"type": "registry:block",
+		"description": "COSS badge example.",
+		"dependencies": [],
+		"registryDependencies": [
+			"local:particle-metadata",
+			"local:badge"
+		],
+		"relativeUrl": "p-badge-1.json"
+	},
+	{
+		"name": "p-badge-10",
+		"type": "registry:block",
+		"description": "COSS badge example.",
+		"dependencies": [],
+		"registryDependencies": [
+			"local:particle-metadata",
+			"local:badge"
+		],
+		"relativeUrl": "p-badge-10.json"
+	},
+	{
+		"name": "p-badge-11",
+		"type": "registry:block",
+		"description": "COSS badge example.",
+		"dependencies": [
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata",
+			"local:badge",
+			"local:hugeicons-icon"
+		],
+		"relativeUrl": "p-badge-11.json"
+	},
+	{
+		"name": "p-badge-12",
+		"type": "registry:block",
+		"description": "COSS badge example.",
+		"dependencies": [],
+		"registryDependencies": [
+			"local:particle-metadata",
+			"local:badge"
+		],
+		"relativeUrl": "p-badge-12.json"
+	},
+	{
+		"name": "p-badge-13",
+		"type": "registry:block",
+		"description": "COSS badge example.",
+		"dependencies": [],
+		"registryDependencies": [
+			"local:particle-metadata",
+			"local:badge"
+		],
+		"relativeUrl": "p-badge-13.json"
+	},
+	{
+		"name": "p-badge-14",
+		"type": "registry:block",
+		"description": "COSS badge example.",
+		"dependencies": [],
+		"registryDependencies": [
+			"local:particle-metadata",
+			"local:badge"
+		],
+		"relativeUrl": "p-badge-14.json"
+	},
+	{
+		"name": "p-badge-15",
+		"type": "registry:block",
+		"description": "COSS badge example.",
+		"dependencies": [],
+		"registryDependencies": [
+			"local:particle-metadata",
+			"local:badge"
+		],
+		"relativeUrl": "p-badge-15.json"
+	},
+	{
+		"name": "p-badge-16",
+		"type": "registry:block",
+		"description": "COSS badge example.",
+		"dependencies": [],
+		"registryDependencies": [
+			"local:particle-metadata",
+			"local:badge"
+		],
+		"relativeUrl": "p-badge-16.json"
+	},
+	{
+		"name": "p-badge-17",
+		"type": "registry:block",
+		"description": "COSS badge example.",
+		"dependencies": [],
+		"registryDependencies": [
+			"local:particle-metadata",
+			"local:badge"
+		],
+		"relativeUrl": "p-badge-17.json"
+	},
+	{
+		"name": "p-badge-18",
+		"type": "registry:block",
+		"description": "COSS badge example.",
+		"dependencies": [],
+		"registryDependencies": [
+			"local:particle-metadata",
+			"local:badge"
+		],
+		"relativeUrl": "p-badge-18.json"
+	},
+	{
+		"name": "p-badge-19",
+		"type": "registry:block",
+		"description": "COSS badge example.",
+		"dependencies": [
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata",
+			"local:badge",
+			"local:checkbox",
+			"local:hugeicons-icon"
+		],
+		"relativeUrl": "p-badge-19.json"
+	},
+	{
+		"name": "p-badge-2",
+		"type": "registry:block",
+		"description": "COSS badge example.",
+		"dependencies": [],
+		"registryDependencies": [
+			"local:particle-metadata",
+			"local:badge"
+		],
+		"relativeUrl": "p-badge-2.json"
+	},
+	{
+		"name": "p-badge-20",
+		"type": "registry:block",
+		"description": "COSS badge example.",
+		"dependencies": [
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata",
+			"local:badge",
+			"local:hugeicons-icon"
+		],
+		"relativeUrl": "p-badge-20.json"
+	},
+	{
+		"name": "p-badge-3",
+		"type": "registry:block",
+		"description": "COSS badge example.",
+		"dependencies": [],
+		"registryDependencies": [
+			"local:particle-metadata",
+			"local:badge"
+		],
+		"relativeUrl": "p-badge-3.json"
+	},
+	{
+		"name": "p-badge-4",
+		"type": "registry:block",
+		"description": "COSS badge example.",
+		"dependencies": [],
+		"registryDependencies": [
+			"local:particle-metadata",
+			"local:badge"
+		],
+		"relativeUrl": "p-badge-4.json"
+	},
+	{
+		"name": "p-badge-5",
+		"type": "registry:block",
+		"description": "COSS badge example.",
+		"dependencies": [],
+		"registryDependencies": [
+			"local:particle-metadata",
+			"local:badge"
+		],
+		"relativeUrl": "p-badge-5.json"
+	},
+	{
+		"name": "p-badge-6",
+		"type": "registry:block",
+		"description": "COSS badge example.",
+		"dependencies": [],
+		"registryDependencies": [
+			"local:particle-metadata",
+			"local:badge"
+		],
+		"relativeUrl": "p-badge-6.json"
+	},
+	{
+		"name": "p-badge-7",
+		"type": "registry:block",
+		"description": "COSS badge example.",
+		"dependencies": [],
+		"registryDependencies": [
+			"local:particle-metadata",
+			"local:badge"
+		],
+		"relativeUrl": "p-badge-7.json"
+	},
+	{
+		"name": "p-badge-8",
+		"type": "registry:block",
+		"description": "COSS badge example.",
+		"dependencies": [],
+		"registryDependencies": [
+			"local:particle-metadata",
+			"local:badge"
+		],
+		"relativeUrl": "p-badge-8.json"
+	},
+	{
+		"name": "p-badge-9",
+		"type": "registry:block",
+		"description": "COSS badge example.",
+		"dependencies": [],
+		"registryDependencies": [
+			"local:particle-metadata",
+			"local:badge"
+		],
+		"relativeUrl": "p-badge-9.json"
 	},
 	{
 		"name": "p-breadcrumb-1",
@@ -3404,6 +3892,18 @@
 		"relativeUrl": "p-input-11.json"
 	},
 	{
+		"name": "p-input-12",
+		"type": "registry:block",
+		"description": "COSS input example.",
+		"dependencies": [],
+		"registryDependencies": [
+			"local:particle-metadata",
+			"local:input-group",
+			"local:spinner"
+		],
+		"relativeUrl": "p-input-12.json"
+	},
+	{
 		"name": "p-input-13",
 		"type": "registry:block",
 		"description": "COSS input example.",
@@ -3986,6 +4486,17 @@
 		"relativeUrl": "p-input-group-9.json"
 	},
 	{
+		"name": "p-kbd-1",
+		"type": "registry:block",
+		"description": "COSS kbd example.",
+		"dependencies": [],
+		"registryDependencies": [
+			"local:particle-metadata",
+			"local:kbd"
+		],
+		"relativeUrl": "p-kbd-1.json"
+	},
+	{
 		"name": "p-menu-1",
 		"type": "registry:block",
 		"description": "COSS menu example.",
@@ -4095,6 +4606,50 @@
 			"local:menu"
 		],
 		"relativeUrl": "p-menu-9.json"
+	},
+	{
+		"name": "p-meter-1",
+		"type": "registry:block",
+		"description": "COSS meter example.",
+		"dependencies": [],
+		"registryDependencies": [
+			"local:particle-metadata",
+			"local:meter"
+		],
+		"relativeUrl": "p-meter-1.json"
+	},
+	{
+		"name": "p-meter-2",
+		"type": "registry:block",
+		"description": "COSS meter example.",
+		"dependencies": [],
+		"registryDependencies": [
+			"local:particle-metadata",
+			"local:meter"
+		],
+		"relativeUrl": "p-meter-2.json"
+	},
+	{
+		"name": "p-meter-3",
+		"type": "registry:block",
+		"description": "COSS meter example.",
+		"dependencies": [],
+		"registryDependencies": [
+			"local:particle-metadata",
+			"local:meter"
+		],
+		"relativeUrl": "p-meter-3.json"
+	},
+	{
+		"name": "p-meter-4",
+		"type": "registry:block",
+		"description": "COSS meter example.",
+		"dependencies": [],
+		"registryDependencies": [
+			"local:particle-metadata",
+			"local:meter"
+		],
+		"relativeUrl": "p-meter-4.json"
 	},
 	{
 		"name": "p-navigation-1",
@@ -4475,6 +5030,39 @@
 			"local:hugeicons-icon"
 		],
 		"relativeUrl": "p-preview-card-1.json"
+	},
+	{
+		"name": "p-progress-1",
+		"type": "registry:block",
+		"description": "COSS progress example.",
+		"dependencies": [],
+		"registryDependencies": [
+			"local:particle-metadata",
+			"local:progress"
+		],
+		"relativeUrl": "p-progress-1.json"
+	},
+	{
+		"name": "p-progress-2",
+		"type": "registry:block",
+		"description": "COSS progress example.",
+		"dependencies": [],
+		"registryDependencies": [
+			"local:particle-metadata",
+			"local:progress"
+		],
+		"relativeUrl": "p-progress-2.json"
+	},
+	{
+		"name": "p-progress-3",
+		"type": "registry:block",
+		"description": "COSS progress example.",
+		"dependencies": [],
+		"registryDependencies": [
+			"local:particle-metadata",
+			"local:progress"
+		],
+		"relativeUrl": "p-progress-3.json"
 	},
 	{
 		"name": "p-radio-group-1",
@@ -5270,6 +5858,17 @@
 		"relativeUrl": "p-slider-9.json"
 	},
 	{
+		"name": "p-spinner-1",
+		"type": "registry:block",
+		"description": "COSS spinner example.",
+		"dependencies": [],
+		"registryDependencies": [
+			"local:particle-metadata",
+			"local:spinner"
+		],
+		"relativeUrl": "p-spinner-1.json"
+	},
+	{
 		"name": "p-switch-1",
 		"type": "registry:block",
 		"description": "COSS switch example.",
@@ -5895,6 +6494,178 @@
 			"local:textarea"
 		],
 		"relativeUrl": "p-textarea-9.json"
+	},
+	{
+		"name": "p-toast-1",
+		"type": "registry:block",
+		"description": "COSS toast example.",
+		"dependencies": [],
+		"registryDependencies": [
+			"local:particle-metadata",
+			"local:button",
+			"local:toast"
+		],
+		"relativeUrl": "p-toast-1.json"
+	},
+	{
+		"name": "p-toast-10",
+		"type": "registry:block",
+		"description": "COSS toast example.",
+		"dependencies": [],
+		"registryDependencies": [
+			"local:particle-metadata",
+			"local:button",
+			"local:toast"
+		],
+		"relativeUrl": "p-toast-10.json"
+	},
+	{
+		"name": "p-toast-11",
+		"type": "registry:block",
+		"description": "COSS toast example.",
+		"dependencies": [],
+		"registryDependencies": [
+			"local:particle-metadata",
+			"local:button",
+			"local:toast"
+		],
+		"relativeUrl": "p-toast-11.json"
+	},
+	{
+		"name": "p-toast-12",
+		"type": "registry:block",
+		"description": "COSS toast example.",
+		"dependencies": [
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata",
+			"local:button",
+			"local:toast",
+			"local:tooltip",
+			"local:hugeicons-icon"
+		],
+		"relativeUrl": "p-toast-12.json"
+	},
+	{
+		"name": "p-toast-13",
+		"type": "registry:block",
+		"description": "COSS toast example.",
+		"dependencies": [
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata",
+			"local:button",
+			"local:toast",
+			"local:tooltip",
+			"local:hugeicons-icon"
+		],
+		"relativeUrl": "p-toast-13.json"
+	},
+	{
+		"name": "p-toast-2",
+		"type": "registry:block",
+		"description": "COSS toast example.",
+		"dependencies": [],
+		"registryDependencies": [
+			"local:particle-metadata",
+			"local:button",
+			"local:toast"
+		],
+		"relativeUrl": "p-toast-2.json"
+	},
+	{
+		"name": "p-toast-3",
+		"type": "registry:block",
+		"description": "COSS toast example.",
+		"dependencies": [],
+		"registryDependencies": [
+			"local:particle-metadata",
+			"local:button",
+			"local:toast"
+		],
+		"relativeUrl": "p-toast-3.json"
+	},
+	{
+		"name": "p-toast-4",
+		"type": "registry:block",
+		"description": "COSS toast example.",
+		"dependencies": [],
+		"registryDependencies": [
+			"local:particle-metadata",
+			"local:button",
+			"local:toast"
+		],
+		"relativeUrl": "p-toast-4.json"
+	},
+	{
+		"name": "p-toast-5",
+		"type": "registry:block",
+		"description": "COSS toast example.",
+		"dependencies": [],
+		"registryDependencies": [
+			"local:particle-metadata",
+			"local:button",
+			"local:toast"
+		],
+		"relativeUrl": "p-toast-5.json"
+	},
+	{
+		"name": "p-toast-6",
+		"type": "registry:block",
+		"description": "COSS toast example.",
+		"dependencies": [],
+		"registryDependencies": [
+			"local:particle-metadata",
+			"local:button",
+			"local:toast"
+		],
+		"relativeUrl": "p-toast-6.json"
+	},
+	{
+		"name": "p-toast-7",
+		"type": "registry:block",
+		"description": "COSS toast example.",
+		"dependencies": [
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata",
+			"local:button",
+			"local:toast",
+			"local:tooltip",
+			"local:hugeicons-icon"
+		],
+		"relativeUrl": "p-toast-7.json"
+	},
+	{
+		"name": "p-toast-8",
+		"type": "registry:block",
+		"description": "COSS toast example.",
+		"dependencies": [],
+		"registryDependencies": [
+			"local:particle-metadata",
+			"local:button",
+			"local:spinner",
+			"local:toast"
+		],
+		"relativeUrl": "p-toast-8.json"
+	},
+	{
+		"name": "p-toast-9",
+		"type": "registry:block",
+		"description": "COSS toast example.",
+		"dependencies": [
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata",
+			"local:button",
+			"local:toast",
+			"local:hugeicons-icon"
+		],
+		"relativeUrl": "p-toast-9.json"
 	},
 	{
 		"name": "p-toggle-1",

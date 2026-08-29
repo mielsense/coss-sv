@@ -1,0 +1,21 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "p-badge-11",
+	"type": "registry:block",
+	"description": "COSS badge example.",
+	"dependencies": [
+		"@hugeicons/core-free-icons@4.3.0"
+	],
+	"registryDependencies": [
+		"./particle-metadata.json",
+		"./badge.json",
+		"./hugeicons-icon.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\n  export const meta = defineParticleMeta({\n    components: [\"badge\"],\n    id: \"p-badge-11\",\n    interactive: false,\n    responsive: false,\n    title: \"Badge with icon\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { Badge } from \"$COMPONENTS$/ui/badge/index.js\";\n  import HugeiconsIcon from \"$LIB$/hugeicons-icon.svelte\";\n  import { Tick01Icon } from \"@hugeicons/core-free-icons\";\n</script>\n\n<Badge variant=\"outline\"\n  ><HugeiconsIcon aria-hidden=\"true\" icon={Tick01Icon} strokeWidth={2} />Verified</Badge\n>\n",
+			"type": "registry:block",
+			"target": "p-badge-11.svelte"
+		}
+	]
+}

@@ -1,0 +1,22 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "p-alert-3",
+	"type": "registry:block",
+	"description": "COSS alert example.",
+	"dependencies": [
+		"@hugeicons/core-free-icons@4.3.0"
+	],
+	"registryDependencies": [
+		"./particle-metadata.json",
+		"./alert.json",
+		"./button.json",
+		"./hugeicons-icon.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\n  export const meta = defineParticleMeta({\n    components: [\"alert\", \"button\"],\n    id: \"p-alert-3\",\n    interactive: true,\n    responsive: true,\n    title: \"Alert example 3\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import {\n    Alert,\n    AlertAction,\n    AlertDescription,\n    AlertTitle,\n  } from \"$COMPONENTS$/ui/alert/index.js\";\n  import { Button } from \"$COMPONENTS$/ui/button/index.js\";\n  import HugeiconsIcon from \"$LIB$/hugeicons-icon.svelte\";\n  import { InformationCircleIcon } from \"@hugeicons/core-free-icons\";\n</script>\n\n<Alert\n  ><HugeiconsIcon aria-hidden=\"true\" icon={InformationCircleIcon} strokeWidth={2} /><AlertTitle\n    >Heads up!</AlertTitle\n  ><AlertDescription>Describe what can be done about it here.</AlertDescription><AlertAction\n    ><Button size=\"xs\" variant=\"ghost\">Dismiss</Button><Button size=\"xs\">Ok</Button></AlertAction\n  ></Alert\n>\n",
+			"type": "registry:block",
+			"target": "p-alert-3.svelte"
+		}
+	]
+}

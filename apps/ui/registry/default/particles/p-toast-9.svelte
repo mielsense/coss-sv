@@ -11,57 +11,75 @@
 </script>
 
 <script lang="ts">
-  import { Button, Toast } from "@coss-sv/ui";
+  import { Button, HugeiconsIcon, Toast } from "@coss-sv/ui";
   import { Download01Icon } from "@hugeicons/core-free-icons";
-  import { HugeiconsIcon } from "@hugeicons/svelte";
 
   let generating = $state(false);
   let progress = $state(0);
-  async function download() {
-    if (generating) return;
-    generating = true;
-    const controller = new AbortController();
+  let controller: AbortController | null = null;
+
+  $effect(() => {
+    if (!generating) return;
     const interval = setInterval(
       () => (progress = Math.min(99, progress + Math.round(Math.random() * 8 + 2))),
       300,
     );
+    return () => clearInterval(interval);
+  });
+
+  $effect(() => () => controller?.abort());
+
+  async function download() {
+    if (generating) return;
+    generating = true;
+    progress = 0;
+    controller = new AbortController();
+    const activeController = controller;
     try {
       await Toast.toastManager.promise(
         new Promise((resolve, reject) => {
+          const shouldSucceed = Math.random() > 0.2;
           const timer = setTimeout(
             () =>
-              Math.random() > 0.2
-                ? resolve("Report ready")
-                : reject(new Error("Generation failed")),
+              shouldSucceed ? resolve("Report ready") : reject(new Error("Generation failed")),
             4000,
           );
-          controller.signal.addEventListener("abort", () => {
+          activeController.signal.addEventListener("abort", () => {
             clearTimeout(timer);
             reject(new DOMException("Cancelled", "AbortError"));
           });
         }),
         {
           loading: {
-            actionProps: { children: "Cancel", onclick: () => controller.abort() },
+            actionProps: { children: "Cancel", onclick: () => activeController.abort() },
             description: "Your download will begin once ready.",
             title: "Generating report…",
           },
-          success: { description: "Your file is now downloading.", title: "Download started" },
+          success: {
+            actionProps: undefined,
+            description: "Your file is now downloading.",
+            title: "Download started",
+          },
           error: (error) =>
             error instanceof Error && error.name === "AbortError"
               ? {
+                  actionProps: undefined,
                   description: "Report generation was cancelled.",
                   title: "Cancelled",
                   type: "info",
                 }
-              : { description: "Please try again later.", title: "Failed to generate report" },
+              : {
+                  actionProps: undefined,
+                  description: "Please try again later.",
+                  title: "Failed to generate report",
+                },
         },
       );
     } catch {
     } finally {
-      clearInterval(interval);
       generating = false;
       progress = 0;
+      if (controller === activeController) controller = null;
     }
   }
 </script>
