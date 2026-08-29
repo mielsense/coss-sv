@@ -1,7 +1,8 @@
 import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
-import { Command } from "@coss-sv/ui";
+import * as Ui from "@coss-sv/ui";
+import { compile } from "svelte/compiler";
 import { describe, expect, test } from "vitest";
 import { compileDocumentationTree } from "../../scripts/docs/compile.mts";
 
@@ -19,6 +20,7 @@ const guideRoutes = [
 ] as const;
 
 const hookRecords = ["hooks-use-media-query", "hooks-use-copy-to-clipboard"] as const;
+const Command = Ui.Command;
 
 async function source(name: string): Promise<string> {
   return readFile(resolve(appRoot, `content/docs/${name}.svx`), "utf8");
@@ -77,15 +79,30 @@ describe("D11 guide sources", () => {
 
   test("documents the exported Command dialog API instead of a nonexistent namespace part", async () => {
     const migration = await source("radix-migration");
+    const commandSection = migration.match(/### Command\n([\s\S]*?)\n### Menu/)?.[1] ?? "";
+    const runnableExample = commandSection.match(/```svelte\n([\s\S]*?)\n```/)?.[1] ?? "";
 
     expect(Command.DialogRoot).toBeDefined();
     expect(Command.CommandDialog).toBe(Command.DialogRoot);
     expect(Command.DialogTrigger).toBeDefined();
     expect(Command.DialogPopup).toBeDefined();
+    expect("CommandDialog" in Ui).toBe(false);
     expect(migration).not.toMatch(/Command\.Dialog(?:[\s`,]|$)/);
-    expect(migration).toContain("Command.DialogRoot");
-    expect(migration).toContain("Command.DialogTrigger");
-    expect(migration).toContain("Command.DialogPopup");
+    expect(commandSection).not.toMatch(/named (?:package-)?root alias/i);
+    expect(runnableExample).toContain("Command.DialogRoot");
+    expect(runnableExample).toContain("Command.DialogTrigger");
+    expect(runnableExample).toContain("Command.DialogPopup");
+    expect(runnableExample).toContain("type CommandItem");
+    expect(runnableExample).toContain("Command.Group");
+    expect(runnableExample).toContain("Command.Collection");
+    expect(runnableExample).toContain("Command.Item");
+    expect(runnableExample).not.toContain("...");
+    expect(() =>
+      compile(runnableExample, {
+        filename: "CommandMigrationExample.svelte",
+        generate: "server",
+      }),
+    ).not.toThrow();
   });
 
   test("preserves every exact upstream changelog agent prompt before separate port notes", async () => {
@@ -138,10 +155,24 @@ describe("D11 guide sources", () => {
 
     expect(button).toContain("onDestroy");
     expect(button).toContain("clearTimeout(timer)");
+    expect(button).toContain("new AbortController()");
+    expect(button).toContain("controller?.abort()");
+    expect(button).toContain("generation");
+    expect(button).toContain("{ signal: controller.signal }");
     expect(button).toContain("Copy Markdown");
     expect(button).not.toMatch(/copied\s*\?\s*["']Copied["']/);
     expect(clipboard).toContain('aria-hidden="true"');
-    expect(clipboard).toContain("clearTimeout(timer)");
+    expect(clipboard.match(/new AbortController\(\)/g)).toHaveLength(2);
+    expect(clipboard.match(/onDestroy\(destroy\)/g)).toHaveLength(2);
+    expect(clipboard.match(/generation/g)?.length).toBeGreaterThanOrEqual(8);
     expect(mediaDemo).toContain('title: "Device & preferences"');
+  });
+
+  test("keeps authored Skills and Get Started prose free of inline-header and dash tells", async () => {
+    for (const slug of ["skills", "get-started"] as const) {
+      const guide = await source(slug);
+      expect(guide).not.toContain("—");
+      expect(guide).not.toMatch(/^\s*(?:[-*]|\d+\.)\s+\*\*[^*]+\*\*\s*(?::|[-–—])/m);
+    }
   });
 });

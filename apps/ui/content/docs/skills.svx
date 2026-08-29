@@ -31,17 +31,17 @@ will have its own install command once the Svelte API and registry are stable.
 
 Learn more about the skills ecosystem at [skills.sh](https://skills.sh).
 
-## What's Included
+## What's included
 
 The repository instructions cover the full porting workflow.
 
-### Component Knowledge
+### Component knowledge
 
 Before changing a component, an agent reads the complete COSS registry source, documentation page,
 and every particle that imports it from the permitted `reference/apps/ui` boundary. It then reads the
 complete matching Shards source, documentation, tests, examples, and exported types.
 
-### Styling Conventions
+### Styling conventions
 
 The instructions cover Tailwind v4 token usage, the semantic color system, Hugeicons sizing,
 `data-slot` selectors, `--alpha()` syntax, and the font-variable contract: `--font-sans`,
@@ -60,36 +60,34 @@ All interface icons use Hugeicons data through the shared SSR-safe renderer:
 </Button>
 ```
 
-### Migration Patterns
+### Migration patterns
 
 The rules cover namespace composition, trigger delegation, controlled and uncontrolled bindings,
 Select item data, Toggle Group multiple selection, Slider values, and the callback contracts used by
 Shards-backed components.
 
-### CLI and Registry
+### CLI and registry
 
 The guides document installation through the shadcn-svelte CLI, custom registry URLs, dependency
 discovery, and manual install paths.
 
-### Particle Examples
+### Particle examples
 
 Every component review includes the upstream particle catalog. Agents use those real compositions to
 port production examples instead of inventing minimal stubs.
 
-## How It Works
+## How it works
 
-1. **Instruction activation** — the coding agent reads `AGENTS.md`, the port specification, and the
-   active plan before editing.
-2. **Progressive loading** — it reads the complete source evidence required for the assigned
-   component or page, then the relevant Svelte Edge references.
-3. **Pattern enforcement** — it writes one coherent Svelte 5 generation with `$props()`, snippets,
-   callback props, typed contexts, native attributes, and hydration-stable IDs.
-4. **Example-driven output** — it uses the matching COSS particles and the live reference rather than
-   memory.
-5. **Independent review** — parity/accessibility and Svelte-quality reviewers repeat the source
-   inspection before approving the exact commit.
+1. The coding agent reads `AGENTS.md`, the port specification, and the active plan before editing.
+2. It reads the complete source evidence for the assigned component or page, then the relevant Svelte
+   Edge references.
+3. It writes Svelte 5 with `$props()`, snippets, callback props, typed contexts, native attributes,
+   and hydration-stable IDs.
+4. It uses the matching COSS particles and the live reference instead of relying on memory.
+5. Parity, accessibility, and Svelte-quality reviewers repeat the source inspection before approving
+   the exact commit.
 
-## Supported Agents
+## Supported agents
 
 These instructions are plain repository files and can be read by any agent that supports project
 instructions, including Claude Code, Cursor, Codex, Cline, Windsurf, and GitHub Copilot. An agent is

@@ -173,14 +173,14 @@ COSS buttons are denser than the corresponding shadcn-svelte defaults and includ
 
 | Size      | Typical shadcn-svelte height | COSS height |
 | --------- | ---------------------------- | ----------- |
-| `xs`      | —                            | 24px        |
+| `xs`      | Not available                | 24px        |
 | `sm`      | 32px                         | 28px        |
 | `default` | 36px                         | 32px        |
 | `lg`      | 40px                         | 36px        |
-| `xl`      | —                            | 40px        |
+| `xl`      | Not available                | 40px        |
 | `icon`    | 36px                         | 32px        |
-| `icon-sm` | —                            | 28px        |
-| `icon-lg` | —                            | 36px        |
+| `icon-sm` | Not available                | 28px        |
+| `icon-lg` | Not available                | 36px        |
 
 Use `lg` to preserve a 36px default control. The `destructive-outline` variant is appropriate for a
 secondary destructive trigger; reserve the solid `destructive` variant for the primary destructive
@@ -318,19 +318,61 @@ trigger part directly instead of wrapping a second button.
 
 The Command API is data driven. Pass an `items` array to the root and render collections inside their
 groups. Use `Command.DialogRoot`, `Command.DialogTrigger`, and `Command.DialogPopup` for dialog mode.
-The named root alias is `CommandDialog` when you do not use the namespace import.
 
 ```svelte
 <script lang="ts">
   import { Command } from "@coss-sv/ui";
+
+  type CommandItem = {
+    label: string;
+    value: string;
+  };
+
+  type CommandGroup = {
+    label: string;
+    items: CommandItem[];
+  };
+
+  const groups: CommandGroup[] = [
+    {
+      label: "Pages",
+      items: [
+        { label: "Calendar", value: "calendar" },
+        { label: "Settings", value: "settings" },
+      ],
+    },
+    {
+      label: "Actions",
+      items: [
+        { label: "Create event", value: "create-event" },
+        { label: "Invite member", value: "invite-member" },
+      ],
+    },
+  ];
 </script>
 
 <Command.DialogRoot>
   <Command.DialogTrigger>Open command menu</Command.DialogTrigger>
-  <Command.DialogPopup>
-    <Command.Root {items}>
-      <Command.Input placeholder="Search…" />
-      <Command.List>...</Command.List>
+  <Command.DialogPopup aria-label="Command menu">
+    <Command.Root items={groups}>
+      <Command.Input aria-label="Search commands" placeholder="Search commands…" />
+      <Command.Panel>
+        <Command.Empty>No results found.</Command.Empty>
+        <Command.List>
+          <Command.Collection>
+            {#snippet children(group: CommandGroup)}
+              <Command.Group items={group.items}>
+                <Command.GroupLabel>{group.label}</Command.GroupLabel>
+                <Command.Collection>
+                  {#snippet children(item: CommandItem)}
+                    <Command.Item value={item}>{item.label}</Command.Item>
+                  {/snippet}
+                </Command.Collection>
+              </Command.Group>
+            {/snippet}
+          </Command.Collection>
+        </Command.List>
+      </Command.Panel>
     </Command.Root>
   </Command.DialogPopup>
 </Command.DialogRoot>

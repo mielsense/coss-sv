@@ -8,36 +8,68 @@
   let copied = $state(false);
   let error = $state("");
   let timer: number | undefined;
+  let controller: AbortController | undefined;
+  let destroyed = false;
+  let generation = 0;
 
   function clearFeedbackTimer(): void {
     clearTimeout(timer);
     timer = undefined;
   }
 
-  async function copyMarkdown() {
+  function isCurrent(operation: number, signal: AbortSignal): boolean {
+    return !destroyed && operation === generation && !signal.aborted;
+  }
+
+  function destroy(): void {
+    destroyed = true;
+    generation += 1;
+    controller?.abort();
+    controller = undefined;
+    clearFeedbackTimer();
+  }
+
+  async function copyMarkdown(): Promise<void> {
+    if (destroyed) return;
+
+    const operation = ++generation;
+    controller?.abort();
+    const requestController = new AbortController();
+    controller = requestController;
     error = "";
 
     try {
-      const response = await fetch(url);
+      const response = await fetch(url, { signal: controller.signal });
+      if (!isCurrent(operation, requestController.signal)) return;
       if (!response.ok) {
         throw new Error(`Markdown request failed with ${response.status}`);
       }
 
-      await navigator.clipboard.writeText(await response.text());
+      const markdown = await response.text();
+      if (!isCurrent(operation, requestController.signal)) return;
+
+      await navigator.clipboard.writeText(markdown);
+      if (!isCurrent(operation, requestController.signal)) return;
+
       clearFeedbackTimer();
       copied = true;
-      timer = window.setTimeout(() => {
+      const feedbackTimer = window.setTimeout(() => {
+        if (timer === feedbackTimer) timer = undefined;
+        if (!isCurrent(operation, requestController.signal)) return;
         copied = false;
-        timer = undefined;
       }, 2_000);
+      timer = feedbackTimer;
     } catch {
+      if (!isCurrent(operation, requestController.signal)) return;
       clearFeedbackTimer();
       copied = false;
       error = "Could not copy Markdown.";
+    } finally {
+      if (controller === requestController) controller = undefined;
     }
   }
 
-  onDestroy(clearFeedbackTimer);
+  onDestroy(destroy);
 </script>
 
 <div class="my-5">

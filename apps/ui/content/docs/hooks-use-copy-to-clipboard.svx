@@ -16,25 +16,15 @@ feedback, and Svelte's local state is enough for that job.
 ## Basic
 
 ```svelte
-<script lang="ts">
-  let copied = $state(false);
-
-  async function copy(value: string): Promise<void> {
-    if (!value || !navigator.clipboard?.writeText) return;
-    await navigator.clipboard.writeText(value);
-    copied = true;
-  }
-</script>
-
-<button type="button" onclick={() => copy("https://coss.com")}>
-  {copied ? "Copied!" : "Copy"}
+<button type="button" onclick={() => void navigator.clipboard.writeText("https://coss.com")}>
+  Copy
 </button>
 ```
 
 ## Temporary feedback
 
-Clear the existing timer before scheduling another copy confirmation. Dispose of the timer when the
-component unmounts.
+Invalidate an earlier copy before starting the next one. The generation and abort signal prevent an
+old clipboard request from updating state after a later click or after the component unmounts.
 
 ```svelte
 <script lang="ts">
@@ -43,19 +33,43 @@ component unmounts.
   const timeout = 2000;
   let copied = $state(false);
   let timer: ReturnType<typeof setTimeout> | undefined;
+  let controller: AbortController | undefined;
+  let destroyed = false;
+  let generation = 0;
+
+  function isCurrent(operation: number, signal: AbortSignal): boolean {
+    return !destroyed && operation === generation && !signal.aborted;
+  }
+
+  function destroy(): void {
+    destroyed = true;
+    generation += 1;
+    controller?.abort();
+    controller = undefined;
+    clearTimeout(timer);
+  }
 
   async function copy(value: string): Promise<void> {
-    if (!value || !navigator.clipboard?.writeText) return;
+    if (destroyed || !value || !navigator.clipboard?.writeText) return;
+
+    const operation = ++generation;
+    controller?.abort();
+    const requestController = new AbortController();
+    controller = requestController;
+
     await navigator.clipboard.writeText(value);
+    if (!isCurrent(operation, requestController.signal)) return;
+
     clearTimeout(timer);
     copied = true;
     timer = setTimeout(() => {
+      if (!isCurrent(operation, requestController.signal)) return;
       copied = false;
       timer = undefined;
     }, timeout);
   }
 
-  onDestroy(() => clearTimeout(timer));
+  onDestroy(destroy);
 </script>
 ```
 
@@ -63,11 +77,12 @@ Set no timer when the copied state should remain true until the component unmoun
 
 ## Callback after a successful copy
 
-Place the side effect after `writeText` resolves. A rejected clipboard request must not report a
-successful copy.
+Run a callback only after `writeText` resolves and the operation is still current. A rejected or
+invalidated clipboard request must not report a successful copy.
 
 ```ts
 await navigator.clipboard.writeText(value);
+if (!isCurrent(operation, requestController.signal)) return;
 copied = true;
 onCopy?.();
 ```
@@ -84,19 +99,43 @@ Use the shared SSR-safe renderer with Hugeicons data.
 
   let copied = $state(false);
   let timer: ReturnType<typeof setTimeout> | undefined;
+  let controller: AbortController | undefined;
+  let destroyed = false;
+  let generation = 0;
+
+  function isCurrent(operation: number, signal: AbortSignal): boolean {
+    return !destroyed && operation === generation && !signal.aborted;
+  }
+
+  function destroy(): void {
+    destroyed = true;
+    generation += 1;
+    controller?.abort();
+    controller = undefined;
+    clearTimeout(timer);
+  }
 
   async function copy(value: string): Promise<void> {
-    if (!value || !navigator.clipboard?.writeText) return;
+    if (destroyed || !value || !navigator.clipboard?.writeText) return;
+
+    const operation = ++generation;
+    controller?.abort();
+    const requestController = new AbortController();
+    controller = requestController;
+
     await navigator.clipboard.writeText(value);
+    if (!isCurrent(operation, requestController.signal)) return;
+
     clearTimeout(timer);
     copied = true;
     timer = setTimeout(() => {
+      if (!isCurrent(operation, requestController.signal)) return;
       copied = false;
       timer = undefined;
     }, 2_000);
   }
 
-  onDestroy(() => clearTimeout(timer));
+  onDestroy(destroy);
 </script>
 
 <Button

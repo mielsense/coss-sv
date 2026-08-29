@@ -121,6 +121,47 @@ try {
   await page.waitForTimeout(2_100);
   assert.equal(await page.getByRole("button", { name: "Copy Markdown", exact: true }).count(), 1);
 
+  await page.goto(`${baseUrl}/docs/get-started`);
+  await page.evaluate(async () => {
+    await navigator.clipboard.writeText("clipboard sentinel");
+    window.__d11FeedbackTimers = 0;
+    const originalSetTimeout = window.setTimeout.bind(window);
+    window.setTimeout = (handler, delay, ...arguments_) => {
+      if (delay === 2_000) window.__d11FeedbackTimers += 1;
+      return originalSetTimeout(handler, delay, ...arguments_);
+    };
+  });
+  let releaseMarkdownResponse;
+  const markdownResponseGate = new Promise((resolve) => {
+    releaseMarkdownResponse = resolve;
+  });
+  let markMarkdownRequested;
+  const markdownRequested = new Promise((resolve) => {
+    markMarkdownRequested = resolve;
+  });
+  await page.route("**/docs/get-started.md", async (route) => {
+    markMarkdownRequested();
+    await markdownResponseGate;
+    try {
+      await route.fulfill({
+        body: "# stale copy must not reach the clipboard",
+        contentType: "text/plain",
+        status: 200,
+      });
+    } catch {
+      // The component aborted its fetch during client navigation.
+    }
+  });
+  await page.getByRole("button", { name: "Copy Markdown", exact: true }).click();
+  await markdownRequested;
+  await page.locator('a[href="/docs/styling"]').first().click();
+  await page.getByRole("heading", { level: 1, name: "Styling", exact: true }).waitFor();
+  releaseMarkdownResponse();
+  await page.waitForTimeout(100);
+  assert.equal(await page.evaluate(() => navigator.clipboard.readText()), "clipboard sentinel");
+  assert.equal(await page.evaluate(() => window.__d11FeedbackTimers), 0);
+  await page.unroute("**/docs/get-started.md");
+
   await page.goto(`${baseUrl}/docs/changelog`);
   assert.equal(await page.getByText("Agent migration prompt:", { exact: true }).count(), 9);
   assert.equal(
