@@ -149,6 +149,23 @@ describe("D6 form and input documentation inventory", () => {
     }
   });
 
+  test("server-renders canonical Fieldset particles with resolvable legend names", () => {
+    for (const id of ["p-fieldset-1", "p-field-13", "p-field-14"]) {
+      const entry = Object.entries(compiledParticles).find(([path]) =>
+        path.endsWith(`/${id}.svelte`),
+      );
+      const component = (entry?.[1] as { default?: Component } | undefined)?.default;
+      expect(component, id).toBeDefined();
+
+      const body = render(component as Component).body;
+      const fieldset = body.match(/<fieldset[^>]*>/)?.[0];
+      const labelledBy = fieldset?.match(/aria-labelledby="([^"]+)"/)?.[1];
+
+      expect(labelledBy, id).toBeTruthy();
+      expect(body, id).toContain(`id="${labelledBy}"`);
+    }
+  });
+
   test("compiles and SSR renders all ten D6 pages", () => {
     expect(Object.keys(compiledPages)).toHaveLength(10);
     for (const [path, module] of Object.entries(compiledPages)) {
@@ -248,11 +265,23 @@ describe("D6 form and input documentation inventory", () => {
     }
 
     expect(source("apps/ui/content/docs/components/field.svx")).toContain("<Field.Root>");
-    expect(source("apps/ui/content/docs/components/fieldset.svx")).toContain("<Fieldset.Root>");
+    expect(source("apps/ui/content/docs/components/fieldset.svx")).toContain(
+      "<Fieldset.Root {legendId}>",
+    );
     expect(source("apps/ui/content/docs/components/number-field.svx")).toContain(
       "<NumberField.Root",
     );
     expect(source("apps/ui/content/docs/components/otp-field.svx")).toContain("<OTPField.Root");
+  });
+
+  test("pairs the displayed Fieldset usage IDs for JS-free naming", () => {
+    const page = source("apps/ui/content/docs/components/fieldset.svx");
+    const usage = fencedSvelteBlocks(page)[0] ?? "";
+
+    expect(usage).toContain("const uid = $props.id();");
+    expect(usage).toMatch(/const legendId = `\$\{uid\}-legend`;/);
+    expect(usage).toContain("<Fieldset.Root {legendId}>");
+    expect(usage).toContain("<Fieldset.Legend id={legendId}>Fieldset legend</Fieldset.Legend>");
   });
 
   test("preserves Label typography when optional copy renders as a span", () => {

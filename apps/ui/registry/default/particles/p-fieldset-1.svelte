@@ -13,10 +13,13 @@
 
 <script lang="ts">
   import { Field, Fieldset, Input } from "@coss-sv/ui";
+
+  const uid = $props.id();
+  const legendId = `${uid}-legend`;
 </script>
 
-<Fieldset.Root class="flex w-full flex-col gap-6">
-  <Fieldset.Legend>Billing Details</Fieldset.Legend>
+<Fieldset.Root class="flex w-full flex-col gap-6" {legendId}>
+  <Fieldset.Legend id={legendId}>Billing Details</Fieldset.Legend>
   <Field.Root>
     <Field.Label>Company</Field.Label>
     <Input placeholder="Enter company name" type="text" />

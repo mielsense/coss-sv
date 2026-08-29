@@ -16,6 +16,8 @@ The live COSS page confirmed one non-obvious detail: the default `FieldsetLegend
 
 SSR, hydration, and browser tests cover slots, exact classes, generated and explicit paired Legend IDs, and the matching server-rendered `aria-labelledby`. They also prove that roots without a Legend and roots with an unpaired custom Legend ID omit the server attribute. Browser coverage checks the automatic association after mount, nested disabled propagation, Legend snippet state, native disabled descendants, polymorphism, refs, and aliases. `apps/ui/src/lib/parity/components/fieldset.svelte` reproduces the only standalone Fieldset particle, `p-fieldset-1`, with its exact full-width, `max-w-64` preview metadata and `id` plus `data-particle` review selectors. There are no dependency-gated standalone Fieldset particles.
 
+`p-fieldset-1` and the displayed usage example derive a paired Legend ID with `$props.id()`. Their initial fieldsets are named in server-rendered HTML without changing the primitive's unpaired behavior.
+
 ## D6 documentation port
 
 Fresh inspection covered the complete Fieldset page, `p-fieldset-1`, and its Input/Label dependency sources. The Svelte page keeps the single upstream example, exact visible copy, disabled Field composition, API descriptions, and public `Fieldset.Root`/`Fieldset.Legend` usage. The particle and displayed source compile and SSR render in the D6 inventory.

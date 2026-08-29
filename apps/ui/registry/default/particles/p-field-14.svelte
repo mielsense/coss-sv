@@ -13,10 +13,13 @@
 
 <script lang="ts">
   import { Field, Fieldset, RadioGroup } from "@coss-sv/ui";
+
+  const uid = $props.id();
+  const legendId = `${uid}-legend`;
 </script>
 
-<Field.Root as="fieldset" class="gap-2" name="plan">
-  <Fieldset.Legend class="font-medium text-sm">Choose Plan</Fieldset.Legend>
+<Field.Root as="fieldset" class="gap-2" name="plan" {legendId}>
+  <Fieldset.Legend id={legendId} class="font-medium text-sm">Choose Plan</Fieldset.Legend>
   <RadioGroup.Root defaultValue="free">
     <Field.Item><Field.Label><RadioGroup.Item value="free" /> Free</Field.Label></Field.Item>
     <Field.Item><Field.Label><RadioGroup.Item value="pro" /> Pro</Field.Label></Field.Item>

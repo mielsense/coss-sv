@@ -41,4 +41,6 @@ In `p-field-1`, the label now targets the Input through `for` or `aria-labelledb
 
 `Field.Root as="fieldset"` writes `aria-labelledby` during SSR only when the composition supplies `legendId`. The Legend must receive the same ID. The SSR fixtures cover literal and `$props.id()` pairs without adding a wrapper element. Without a root `legendId`, SSR omits the attribute, and the Shards-style attachment associates the actual Legend after mount. Tests also cover a missing Legend and a custom Legend ID so neither case emits a dangling server reference.
 
+The canonical `p-field-13` and `p-field-14` compositions derive their paired IDs with `$props.id()`. Their server-rendered fieldsets point to an existing Legend before JavaScript runs.
+
 The Field page keeps COSS's page-only validity-preview override, `[& .preview>*]:w-full [&_.preview>*]:max-w-80`. `ComponentPreview` passes this class through the iframe URL and combines it with registry metadata for this page instance. The production browser test checks the rendered 20rem width. Standalone `p-field-5` previews keep the registry default.

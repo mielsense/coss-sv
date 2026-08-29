@@ -20,10 +20,13 @@ links:
 ```svelte
 <script lang="ts">
   import { Fieldset } from "@coss-sv/ui";
+
+  const uid = $props.id();
+  const legendId = `${uid}-legend`;
 </script>
 
-<Fieldset.Root>
-  <Fieldset.Legend>Fieldset legend</Fieldset.Legend>
+<Fieldset.Root {legendId}>
+  <Fieldset.Legend id={legendId}>Fieldset legend</Fieldset.Legend>
 </Fieldset.Root>
 ```
 
