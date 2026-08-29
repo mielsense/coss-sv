@@ -60,12 +60,8 @@ const registryUiItems = defineRegistryItems([
     name: "autocomplete",
     type: "registry:ui",
     description: "Suggests and filters values as a user types.",
-    dependencies: [
-      "@hugeicons/core-free-icons@4.3.0",
-      "@hugeicons/svelte@1.1.5",
-      "@shardsui/svelte@0.1.0-beta.0",
-    ],
-    registryDependencies: [],
+    dependencies: ["@hugeicons/core-free-icons@4.3.0", "@shardsui/svelte@0.1.0-beta.0"],
+    registryDependencies: ["local:hugeicons-icon", "local:scroll-area"],
     files: uiFiles("autocomplete", [
       "autocomplete-clear.svelte",
       "autocomplete-empty.svelte",
@@ -208,12 +204,8 @@ const registryUiItems = defineRegistryItems([
     name: "combobox",
     type: "registry:ui",
     description: "Selects one or more values from a filterable collection.",
-    dependencies: [
-      "@hugeicons/core-free-icons@4.3.0",
-      "@hugeicons/svelte@1.1.5",
-      "@shardsui/svelte@0.1.0-beta.0",
-    ],
-    registryDependencies: [],
+    dependencies: ["@hugeicons/core-free-icons@4.3.0", "@shardsui/svelte@0.1.0-beta.0"],
+    registryDependencies: ["local:hugeicons-icon", "local:scroll-area"],
     files: uiFiles("combobox", [
       "combobox-chip-remove.svelte",
       "combobox-chip.svelte",
@@ -242,12 +234,8 @@ const registryUiItems = defineRegistryItems([
     name: "command",
     type: "registry:ui",
     description: "Presents searchable commands in a panel or dialog.",
-    dependencies: [
-      "@hugeicons/core-free-icons@4.3.0",
-      "@hugeicons/svelte@1.1.5",
-      "@shardsui/svelte@0.1.0-beta.0",
-    ],
-    registryDependencies: [],
+    dependencies: ["@hugeicons/core-free-icons@4.3.0", "@shardsui/svelte@0.1.0-beta.0"],
+    registryDependencies: ["local:autocomplete", "local:hugeicons-icon"],
     files: uiFiles("command", [
       "command-dialog-backdrop.svelte",
       "command-dialog-popup.svelte",
@@ -273,7 +261,7 @@ const registryUiItems = defineRegistryItems([
     type: "registry:ui",
     description: "Opens a menu at the pointer position for contextual actions.",
     dependencies: ["@hugeicons/core-free-icons@4.3.0", "@shardsui/svelte@0.1.0-beta.0"],
-    registryDependencies: ["local:hugeicons-icon"],
+    registryDependencies: ["local:hugeicons-icon", "local:menu"],
     files: uiFiles("context-menu", [
       "context-menu-checkbox-item.svelte",
       "context-menu-group-label.svelte",
@@ -649,12 +637,8 @@ const registryUiItems = defineRegistryItems([
     name: "select",
     type: "registry:ui",
     description: "Chooses a value from a popup list.",
-    dependencies: [
-      "@hugeicons/core-free-icons@4.3.0",
-      "@hugeicons/svelte@1.1.5",
-      "@shardsui/svelte@0.1.0-beta.0",
-    ],
-    registryDependencies: [],
+    dependencies: ["@hugeicons/core-free-icons@4.3.0", "@shardsui/svelte@0.1.0-beta.0"],
+    registryDependencies: ["local:hugeicons-icon"],
     files: uiFiles("select", [
       "context.svelte.ts",
       "index.ts",

@@ -38,10 +38,12 @@
 		"description": "Suggests and filters values as a user types.",
 		"dependencies": [
 			"@hugeicons/core-free-icons@4.3.0",
-			"@hugeicons/svelte@1.1.5",
 			"@shardsui/svelte@0.1.0-beta.0"
 		],
-		"registryDependencies": [],
+		"registryDependencies": [
+			"local:hugeicons-icon",
+			"local:scroll-area"
+		],
 		"relativeUrl": "autocomplete.json"
 	},
 	{
@@ -149,10 +151,12 @@
 		"description": "Selects one or more values from a filterable collection.",
 		"dependencies": [
 			"@hugeicons/core-free-icons@4.3.0",
-			"@hugeicons/svelte@1.1.5",
 			"@shardsui/svelte@0.1.0-beta.0"
 		],
-		"registryDependencies": [],
+		"registryDependencies": [
+			"local:hugeicons-icon",
+			"local:scroll-area"
+		],
 		"relativeUrl": "combobox.json"
 	},
 	{
@@ -161,10 +165,12 @@
 		"description": "Presents searchable commands in a panel or dialog.",
 		"dependencies": [
 			"@hugeicons/core-free-icons@4.3.0",
-			"@hugeicons/svelte@1.1.5",
 			"@shardsui/svelte@0.1.0-beta.0"
 		],
-		"registryDependencies": [],
+		"registryDependencies": [
+			"local:autocomplete",
+			"local:hugeicons-icon"
+		],
 		"relativeUrl": "command.json"
 	},
 	{
@@ -176,7 +182,8 @@
 			"@shardsui/svelte@0.1.0-beta.0"
 		],
 		"registryDependencies": [
-			"local:hugeicons-icon"
+			"local:hugeicons-icon",
+			"local:menu"
 		],
 		"relativeUrl": "context-menu.json"
 	},
@@ -4814,10 +4821,11 @@
 		"description": "Chooses a value from a popup list.",
 		"dependencies": [
 			"@hugeicons/core-free-icons@4.3.0",
-			"@hugeicons/svelte@1.1.5",
 			"@shardsui/svelte@0.1.0-beta.0"
 		],
-		"registryDependencies": [],
+		"registryDependencies": [
+			"local:hugeicons-icon"
+		],
 		"relativeUrl": "select.json"
 	},
 	{

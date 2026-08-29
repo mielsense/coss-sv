@@ -136,10 +136,12 @@
       "description": "Suggests and filters values as a user types.",
       "dependencies": [
         "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5",
         "@shardsui/svelte@0.1.0-beta.0"
       ],
-      "registryDependencies": [],
+      "registryDependencies": [
+        "local:hugeicons-icon",
+        "local:scroll-area"
+      ],
       "files": [
         {
           "path": "../../packages/ui/src/components/ui/autocomplete/autocomplete-clear.svelte",
@@ -509,10 +511,12 @@
       "description": "Selects one or more values from a filterable collection.",
       "dependencies": [
         "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5",
         "@shardsui/svelte@0.1.0-beta.0"
       ],
-      "registryDependencies": [],
+      "registryDependencies": [
+        "local:hugeicons-icon",
+        "local:scroll-area"
+      ],
       "files": [
         {
           "path": "../../packages/ui/src/components/ui/combobox/combobox-chip-remove.svelte",
@@ -606,10 +610,12 @@
       "description": "Presents searchable commands in a panel or dialog.",
       "dependencies": [
         "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5",
         "@shardsui/svelte@0.1.0-beta.0"
       ],
-      "registryDependencies": [],
+      "registryDependencies": [
+        "local:autocomplete",
+        "local:hugeicons-icon"
+      ],
       "files": [
         {
           "path": "../../packages/ui/src/components/ui/command/command-dialog-backdrop.svelte",
@@ -690,7 +696,8 @@
         "@shardsui/svelte@0.1.0-beta.0"
       ],
       "registryDependencies": [
-        "local:hugeicons-icon"
+        "local:hugeicons-icon",
+        "local:menu"
       ],
       "files": [
         {
@@ -8660,10 +8667,11 @@
       "description": "Chooses a value from a popup list.",
       "dependencies": [
         "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5",
         "@shardsui/svelte@0.1.0-beta.0"
       ],
-      "registryDependencies": [],
+      "registryDependencies": [
+        "local:hugeicons-icon"
+      ],
       "files": [
         {
           "path": "../../packages/ui/src/components/ui/select/context.svelte.ts",

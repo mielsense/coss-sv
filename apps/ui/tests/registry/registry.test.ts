@@ -11,7 +11,7 @@ import {
   writeFile,
 } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { join, resolve } from "node:path";
+import { dirname, join, resolve } from "node:path";
 import { afterEach, describe, expect, test } from "vitest";
 import {
   assertGeneratedFileCurrent,
@@ -99,6 +99,45 @@ describe("registry validation", () => {
         type: "registry:ui",
       }),
     );
+  });
+
+  test("declares every cross-component import in each UI item's local dependency closure", async () => {
+    const items = new Map(registryUi.map((item) => [item.name, item]));
+    const missing: string[] = [];
+    const importPattern = /(?:from\s*|import\s*)["']([^"']+)["']/g;
+
+    for (const item of registryUi.filter(({ name }) => name !== "ui")) {
+      const closure = new Set([item.name]);
+      const pending = [item.name];
+      while (pending.length > 0) {
+        const current = items.get(pending.shift() ?? "");
+        for (const dependency of current?.registryDependencies ?? []) {
+          const name = dependency.replace(/^local:/, "");
+          if (closure.has(name)) continue;
+          closure.add(name);
+          if (items.has(name)) pending.push(name);
+        }
+      }
+
+      for (const file of item.files) {
+        const sourcePath = resolve(appRoot, file.path);
+        const source = await readFile(sourcePath, "utf8");
+        for (const match of source.matchAll(importPattern)) {
+          const specifier = match[1] ?? "";
+          if (specifier === "$lib/hugeicons-icon.svelte" && !closure.has("hugeicons-icon")) {
+            missing.push(`${item.name} -> hugeicons-icon (${file.path})`);
+          }
+          if (!specifier.startsWith("../")) continue;
+          const target = resolve(dirname(sourcePath), specifier);
+          const component = target.match(/packages\/ui\/src\/components\/ui\/([^/]+)/)?.[1];
+          if (component && component !== item.name && !closure.has(component)) {
+            missing.push(`${item.name} -> ${component} (${file.path})`);
+          }
+        }
+      }
+    }
+
+    expect(missing).toEqual([]);
   });
 
   test.each([
