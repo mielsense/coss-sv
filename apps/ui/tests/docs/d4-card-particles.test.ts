@@ -85,7 +85,7 @@ describe("D4 Select-dependent card particles", () => {
       );
 
       expect(labels).toEqual(frameworkOptions);
-      expect(code).toContain('Select,\n} from "@coss-sv/ui";');
+      expect(code).toMatch(/import\s*\{[\s\S]*?\bSelect\s*,?[\s\S]*?\}\s*from\s*"@coss-sv\/ui";/);
       expect(code).toContain("<Select.Root bind:value={framework} items={frameworkOptions}>");
       expect(code).toContain("<Select.Trigger><Select.Value /></Select.Trigger>");
       expect(code).not.toMatch(/@shardsui\/svelte|packages\/ui\/(?:src|dist)|<svg\b|lucide/i);

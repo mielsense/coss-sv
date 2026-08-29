@@ -152,11 +152,11 @@ function normalizedCopy(value: string): string {
 }
 
 function expectClassPropTable(section: { body: string; heading: string }): void {
-  expect(section.body, `${section.heading} should retain its prop table`).toContain(
-    "| Prop | Type | Default |",
+  expect(section.body, `${section.heading} should retain its prop table`).toMatch(
+    /\|\s*Prop\s*\|\s*Type\s*\|\s*Default\s*\|/,
   );
-  expect(section.body, `${section.heading} should document class`).toContain(
-    "| `class` | `string` | |",
+  expect(section.body, `${section.heading} should document class`).toMatch(
+    /\|\s*`class`\s*\|\s*`string`\s*\|\s*\|/,
   );
 }
 

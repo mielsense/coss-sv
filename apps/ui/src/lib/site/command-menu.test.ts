@@ -34,8 +34,12 @@ describe("COSS command and mobile navigation parity", () => {
     );
     expect(source).not.toContain("add @coss-sv/");
     expect(source).toContain("Go to Page");
-    expect(source).toContain("M7.99988 4.98096H6");
-    expect(source).toContain("M12 7.48076C12 7.48076");
+    expect(source).toContain("ArrowTurnBackwardIcon");
+    expect(source).toContain("Atom01Icon");
+    expect(source).toContain("BookOpen02Icon");
+    expect(source).toContain("Search01Icon");
+    expect(source).toContain("<HugeiconsIcon");
+    expect(source).not.toContain("<svg");
     expect(source).not.toContain("<dialog");
   });
 

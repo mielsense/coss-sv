@@ -346,7 +346,7 @@ const iconContract = {
   "p-frame-2": { sites: directSites("ChevronDownIcon", "TrashIcon") },
   "p-popover-2": { sites: directSites("Cancel01Icon") },
   "p-popover-3": { sites: directSites("Notification01Icon", "UserIcon") },
-  "p-popover-4": { sites: directSites("ArrowDown01Icon") },
+  "p-popover-4": { sites: directSites("ChevronDownIcon") },
   "p-preview-card-1": { sites: directSites("StarIcon", "ArrowTurnBackwardIcon") },
   "p-skeleton-1": { sites: directSites("UsersRoundIcon", "UserRoundPlusIcon") },
   "p-slider-11": { sites: directSites("VolumeMute02Icon", "VolumeHighIcon") },

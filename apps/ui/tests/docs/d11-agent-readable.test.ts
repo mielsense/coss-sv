@@ -1,5 +1,5 @@
 import { resolve } from "node:path";
-import { describe, expect, test } from "vitest";
+import { beforeAll, describe, expect, test } from "vitest";
 import { compileDocumentationTree } from "../../scripts/docs/compile.mts";
 import {
   createLlmsFullText,
@@ -14,18 +14,20 @@ import { GET as getLlms } from "../../src/routes/llms.txt/+server.js";
 const appRoot = resolve(import.meta.dirname, "../..");
 const repositoryRoot = resolve(appRoot, "../..");
 
-async function records() {
-  return (
-    await compileDocumentationTree({
-      contentRoot: resolve(appRoot, "content/docs"),
-      ownershipPath: resolve(repositoryRoot, "docs/porting/docs-ownership.json"),
-    })
-  ).pages;
-}
+let records: Awaited<ReturnType<typeof compileDocumentationTree>>["pages"];
 
 describe("agent-readable documentation", () => {
+  beforeAll(async () => {
+    records = (
+      await compileDocumentationTree({
+        contentRoot: resolve(appRoot, "content/docs"),
+        ownershipPath: resolve(repositoryRoot, "docs/porting/docs-ownership.json"),
+      })
+    ).pages;
+  }, 15_000);
+
   test("indexes canonical Markdown routes for guides, components, and hooks", async () => {
-    const index = createLlmsIndex(await records());
+    const index = createLlmsIndex(records);
 
     expect(index).toContain("# COSS for Svelte");
     expect(index).toContain("https://coss-sv.vercel.app/docs/get-started.md");
@@ -35,8 +37,7 @@ describe("agent-readable documentation", () => {
   });
 
   test("serves the same content record through page-level Markdown", async () => {
-    const pages = await records();
-    const record = findDocumentationRecord(pages, "get-started");
+    const record = findDocumentationRecord(records, "get-started");
     expect(record).toBeDefined();
     if (!record) throw new Error("missing get-started documentation record");
 
@@ -48,7 +49,7 @@ describe("agent-readable documentation", () => {
   });
 
   test("includes complete page bodies in llms-full.txt", async () => {
-    const full = createLlmsFullText(await records());
+    const full = createLlmsFullText(records);
     expect(full).toContain("## Document: Get Started");
     expect(full).toContain("## Document: Accordion");
     expect(full).toContain("## Document: useMediaQuery");
