@@ -478,11 +478,66 @@ type ProductionRegistryIndexItem = {
   type: string;
 };
 
+type ProductionRegistryDocument = {
+  dependencies?: string[];
+  files?: Array<{ target?: string; type?: string }>;
+  name: string;
+  registryDependencies?: string[];
+  type: string;
+};
+
 async function productionRegistryItems(): Promise<ProductionRegistryIndexItem[]> {
   const items = JSON.parse(
     await readFile(resolve(appRoot, "static/r/index.json"), "utf8"),
   ) as ProductionRegistryIndexItem[];
   return items.filter(({ name, type }) => type === "registry:ui" && name !== "ui");
+}
+
+async function productionRegistryClosure(
+  items: readonly ProductionRegistryIndexItem[],
+): Promise<ProductionRegistryDocument[]> {
+  const pending = items.map(({ relativeUrl }) => relativeUrl);
+  const visited = new Set<string>();
+  const documents: ProductionRegistryDocument[] = [];
+
+  while (pending.length > 0) {
+    const relativeUrl = pending.shift();
+    if (!relativeUrl) continue;
+    const normalizedUrl = relativeUrl.replace(/^\.\//, "");
+    if (visited.has(normalizedUrl)) continue;
+    visited.add(normalizedUrl);
+
+    const document = JSON.parse(
+      await readFile(resolve(appRoot, "static/r", normalizedUrl), "utf8"),
+    ) as ProductionRegistryDocument;
+    documents.push(document);
+    pending.push(...(document.registryDependencies ?? []));
+  }
+
+  return documents;
+}
+
+function dependencyName(specifier: string): string {
+  if (!specifier.startsWith("@")) return specifier.split("@")[0] ?? specifier;
+  const versionSeparator = specifier.indexOf("@", 1);
+  return versionSeparator === -1 ? specifier : specifier.slice(0, versionSeparator);
+}
+
+function installedFilePath(
+  registryItem: ProductionRegistryDocument,
+  file: NonNullable<ProductionRegistryDocument["files"]>[number],
+): string | undefined {
+  if (!file.target) return undefined;
+  if (registryItem.type === "registry:lib" || file.type === "registry:lib") {
+    return file.target.replace(/^src\/lib\//, "");
+  }
+  if (registryItem.type === "registry:file" || file.type === "registry:file") {
+    return file.target.replace(/^src\/lib\//, "");
+  }
+  if (registryItem.type === "registry:component" || file.type === "registry:component") {
+    return `components/${file.target}`;
+  }
+  return `components/ui/${file.target}`;
 }
 
 async function verifyInstalledProductionRegistry(
@@ -491,17 +546,11 @@ async function verifyInstalledProductionRegistry(
 ): Promise<void> {
   const installedFiles = await listFiles(resolve(fixtureRoot, "src/lib"));
   const expectedFiles = new Set<string>();
-  for (const item of items) {
-    const registryItem = JSON.parse(
-      await readFile(resolve(appRoot, "static/r", item.relativeUrl), "utf8"),
-    ) as { files?: Array<{ target?: string; type?: string }>; type?: string };
+  const registryItems = await productionRegistryClosure(items);
+  for (const registryItem of registryItems) {
     for (const file of registryItem.files ?? []) {
-      if (!file.target) continue;
-      expectedFiles.add(
-        registryItem.type === "registry:lib" || file.type === "registry:lib"
-          ? file.target.replace(/^src\/lib\//, "")
-          : `components/ui/${file.target}`,
-      );
+      const path = installedFilePath(registryItem, file);
+      if (path) expectedFiles.add(path);
     }
   }
 
@@ -520,12 +569,83 @@ async function verifyInstalledProductionRegistry(
     }
   }
 
-  const packageJson = await readFile(resolve(fixtureRoot, "package.json"), "utf8");
-  if (!packageJson.includes('"@shardsui/svelte"')) {
-    throw new Error("Production registry install did not record the Shards UI dependency.");
+  const packageJsonText = await readFile(resolve(fixtureRoot, "package.json"), "utf8");
+  const packageJson = JSON.parse(packageJsonText) as { dependencies?: Record<string, string> };
+  for (const dependency of new Set(
+    registryItems.flatMap((item) => item.dependencies ?? []).map(dependencyName),
+  )) {
+    if (!packageJson.dependencies?.[dependency]) {
+      throw new Error(`Production registry install did not record ${dependency}.`);
+    }
   }
-  if (/"react(?:-dom)?"|@base-ui/.test(packageJson.toLowerCase())) {
+  if (/"react(?:-dom)?"|@base-ui/.test(packageJsonText.toLowerCase())) {
     throw new Error("Production registry install contains a forbidden dependency.");
+  }
+}
+
+async function runWithConcurrency<T>(
+  values: readonly T[],
+  concurrency: number,
+  task: (value: T) => Promise<void>,
+): Promise<void> {
+  let nextIndex = 0;
+  async function worker(): Promise<void> {
+    while (nextIndex < values.length) {
+      const value = values[nextIndex];
+      nextIndex += 1;
+      if (value !== undefined) await task(value);
+    }
+  }
+  await Promise.all(Array.from({ length: Math.min(concurrency, values.length) }, () => worker()));
+}
+
+async function verifyIndividualProductionItem(options: {
+  baseUrl: string;
+  environment: NodeJS.ProcessEnv;
+  item: ProductionRegistryIndexItem;
+  root: string;
+  storeRoot: string;
+}): Promise<void> {
+  const { baseUrl, environment, item, root, storeRoot } = options;
+  const fixtureRoot = resolve(root, item.name);
+  try {
+    await mkdir(fixtureRoot, { recursive: true });
+    await writeConsumerFixture(fixtureRoot);
+    await run(
+      "pnpm",
+      ["install", "--ignore-workspace", "--frozen-lockfile=false", "--store-dir", storeRoot],
+      { cwd: fixtureRoot, env: environment, quiet: true },
+    );
+    await runLocalShadcn(
+      [
+        "add",
+        `${baseUrl}/${item.relativeUrl}`,
+        "-c",
+        fixtureRoot,
+        "--yes",
+        "--overwrite",
+        "--no-deps-install",
+      ],
+      { env: environment, quiet: true },
+    );
+    await run(
+      "pnpm",
+      ["install", "--ignore-workspace", "--frozen-lockfile=false", "--store-dir", storeRoot],
+      { cwd: fixtureRoot, env: environment, quiet: true },
+    );
+    await verifyInstalledProductionRegistry(fixtureRoot, [item]);
+    await run("pnpm", ["exec", "svelte-check", "--tsconfig", "./tsconfig.json"], {
+      cwd: fixtureRoot,
+      env: environment,
+      quiet: true,
+    });
+    await run("pnpm", ["exec", "vite", "build"], {
+      cwd: fixtureRoot,
+      env: environment,
+      quiet: true,
+    });
+  } catch (error) {
+    throw new Error(`Individual registry smoke failed for ${item.name}`, { cause: error });
   }
 }
 
@@ -535,6 +655,7 @@ const registryOutput = resolve(registryRoot, "static/r");
 const fixtureRoot = resolve(temporaryRoot, "consumer");
 const productionFixtureRoot = resolve(temporaryRoot, "production-consumer");
 const productionBundleFixtureRoot = resolve(temporaryRoot, "production-bundle-consumer");
+const productionItemFixturesRoot = resolve(temporaryRoot, "production-item-consumers");
 const storeRoot = resolve(temporaryRoot, "pnpm-store");
 const environment = isolatedEnvironment(temporaryRoot);
 let server: Server | undefined;
@@ -695,6 +816,17 @@ try {
     quiet: true,
   });
 
+  await mkdir(productionItemFixturesRoot, { recursive: true });
+  await runWithConcurrency(productionItems, 4, async (item) => {
+    await verifyIndividualProductionItem({
+      baseUrl: productionRegistryServer.baseUrl,
+      environment,
+      item,
+      root: productionItemFixturesRoot,
+      storeRoot,
+    });
+  });
+
   const privateSmokeArtifacts = findPrivateSmokeArtifacts(
     await readdir(resolve(appRoot, "static/r")),
   );
@@ -704,7 +836,7 @@ try {
     );
   }
   console.log(
-    `Private bundle, ${productionItems.length}-item production batch, and complete UI bundle installs, svelte-check, and builds passed.`,
+    `Private bundle, ${productionItems.length} individual UI items, the production batch, and the complete UI bundle installed, passed svelte-check, and built successfully.`,
   );
 } finally {
   await closeServer(server);
