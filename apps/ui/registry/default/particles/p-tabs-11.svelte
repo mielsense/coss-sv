@@ -12,7 +12,7 @@
 </script>
 
 <script lang="ts">
-  import { Tabs, HugeiconsIcon } from "@coss-sv/ui";
+  import { HugeiconsIcon, Tabs } from "@coss-sv/ui";
   import { House01Icon, PanelsTopLeftIcon, Settings01Icon } from "@hugeicons/core-free-icons";
 </script>
 

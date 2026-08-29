@@ -11,7 +11,7 @@
 </script>
 
 <script lang="ts">
-  import { Toggle, HugeiconsIcon } from "@coss-sv/ui";
+  import { HugeiconsIcon, Toggle } from "@coss-sv/ui";
   import { TextBoldIcon } from "@hugeicons/core-free-icons";
 </script>
 

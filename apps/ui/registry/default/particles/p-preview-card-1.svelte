@@ -10,7 +10,7 @@
 </script>
 
 <script lang="ts">
-  import { buttonVariants, PreviewCard, HugeiconsIcon } from "@coss-sv/ui";
+  import { buttonVariants, HugeiconsIcon, PreviewCard } from "@coss-sv/ui";
   import { ArrowTurnBackwardIcon, StarIcon } from "@hugeicons/core-free-icons";
 </script>
 

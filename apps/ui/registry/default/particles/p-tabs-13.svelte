@@ -11,7 +11,7 @@
 </script>
 
 <script lang="ts">
-  import { Tabs, Tooltip, HugeiconsIcon } from "@coss-sv/ui";
+  import { HugeiconsIcon, Tabs, Tooltip } from "@coss-sv/ui";
   import { House01Icon, PanelsTopLeftIcon, Settings01Icon } from "@hugeicons/core-free-icons";
 
   const overviewTooltip = Tooltip.TooltipCreateHandle();

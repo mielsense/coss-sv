@@ -11,7 +11,7 @@
 </script>
 
 <script lang="ts">
-  import { Button, Field, Slider, HugeiconsIcon } from "@coss-sv/ui";
+  import { Button, Field, HugeiconsIcon, Slider } from "@coss-sv/ui";
   import { MinusSignIcon, PlusSignIcon } from "@hugeicons/core-free-icons";
 
   const min = 0;

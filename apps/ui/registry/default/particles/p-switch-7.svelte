@@ -27,11 +27,11 @@
 
 <script lang="ts">
   import {
-    HugeiconsIcon,
     buttonVariants,
     CheckboxGroup,
     Combobox,
     cn,
+    HugeiconsIcon,
     Label,
     Popover,
     Select,

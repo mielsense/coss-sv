@@ -11,7 +11,7 @@
 </script>
 
 <script lang="ts">
-  import { Tabs, HugeiconsIcon } from "@coss-sv/ui";
+  import { HugeiconsIcon, Tabs } from "@coss-sv/ui";
   import { BoxIcon, House01Icon, PanelsTopLeftIcon } from "@hugeicons/core-free-icons";
 </script>
 

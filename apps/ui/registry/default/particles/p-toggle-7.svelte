@@ -11,7 +11,7 @@
 </script>
 
 <script lang="ts">
-  import { Toggle, HugeiconsIcon } from "@coss-sv/ui";
+  import { HugeiconsIcon, Toggle } from "@coss-sv/ui";
   import { TextBoldIcon, TextItalicIcon, TextUnderlineIcon } from "@hugeicons/core-free-icons";
 
   const tools = [

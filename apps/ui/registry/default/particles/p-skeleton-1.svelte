@@ -13,7 +13,7 @@
 </script>
 
 <script lang="ts">
-  import { Avatar, Button, Skeleton, HugeiconsIcon } from "@coss-sv/ui";
+  import { Avatar, Button, HugeiconsIcon, Skeleton } from "@coss-sv/ui";
   import { UserRoundPlusIcon, UsersRoundIcon } from "@hugeicons/core-free-icons";
 
   const users = [

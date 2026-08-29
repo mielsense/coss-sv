@@ -10,7 +10,7 @@
 </script>
 
 <script lang="ts">
-  import { ToggleGroup, Tooltip, toggleVariants, HugeiconsIcon } from "@coss-sv/ui";
+  import { HugeiconsIcon, ToggleGroup, Tooltip, toggleVariants } from "@coss-sv/ui";
   import { BoldIcon, ItalicIcon, UnderlineIcon } from "@hugeicons/core-free-icons";
   import type { Snippet } from "svelte";
 

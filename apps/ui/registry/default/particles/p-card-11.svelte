@@ -14,7 +14,6 @@
 
 <script lang="ts">
   import {
-    HugeiconsIcon,
     Button,
     Card,
     CardFrame,
@@ -28,6 +27,7 @@
     EmptyHeader,
     EmptyMedia,
     EmptyTitle,
+    HugeiconsIcon,
   } from "@coss-sv/ui";
   import { Add01Icon, Folder01Icon } from "@hugeicons/core-free-icons";
 </script>

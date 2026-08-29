@@ -11,7 +11,7 @@
 </script>
 
 <script lang="ts">
-  import { Field, Slider, HugeiconsIcon } from "@coss-sv/ui";
+  import { Field, HugeiconsIcon, Slider } from "@coss-sv/ui";
   import { VolumeHighIcon, VolumeMute02Icon } from "@hugeicons/core-free-icons";
 
   let value = $state<number | readonly number[]>(25);

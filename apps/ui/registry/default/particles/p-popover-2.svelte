@@ -10,7 +10,7 @@
 </script>
 
 <script lang="ts">
-  import { buttonVariants, Popover, HugeiconsIcon } from "@coss-sv/ui";
+  import { buttonVariants, HugeiconsIcon, Popover } from "@coss-sv/ui";
   import { Cancel01Icon } from "@hugeicons/core-free-icons";
 </script>
 

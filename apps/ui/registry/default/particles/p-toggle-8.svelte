@@ -11,7 +11,7 @@
 </script>
 
 <script lang="ts">
-  import { Toast, Toggle, Tooltip, HugeiconsIcon } from "@coss-sv/ui";
+  import { HugeiconsIcon, Toast, Toggle, Tooltip } from "@coss-sv/ui";
   import { Bookmark01Icon } from "@hugeicons/core-free-icons";
   import { tick } from "svelte";
 

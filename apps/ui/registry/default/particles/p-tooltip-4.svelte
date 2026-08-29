@@ -10,7 +10,7 @@
 </script>
 
 <script lang="ts">
-  import { buttonVariants, Group, Tooltip, HugeiconsIcon } from "@coss-sv/ui";
+  import { buttonVariants, Group, HugeiconsIcon, Tooltip } from "@coss-sv/ui";
   import { Link01Icon, Mail01Icon, Share08Icon } from "@hugeicons/core-free-icons";
   import type { Snippet } from "svelte";
 

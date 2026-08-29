@@ -14,7 +14,6 @@
 
 <script lang="ts">
   import {
-    HugeiconsIcon,
     Button,
     Card,
     CardPanel,
@@ -25,6 +24,7 @@
     FrameFooter,
     FrameHeader,
     FrameTitle,
+    HugeiconsIcon,
     Input,
     Select,
   } from "@coss-sv/ui";

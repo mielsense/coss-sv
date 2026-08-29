@@ -11,7 +11,7 @@
 </script>
 
 <script lang="ts">
-  import { Button, Kbd, KbdGroup, HugeiconsIcon } from "@coss-sv/ui";
+  import { Button, HugeiconsIcon, Kbd, KbdGroup } from "@coss-sv/ui";
   import { PrinterIcon } from "@hugeicons/core-free-icons";
 </script>
 

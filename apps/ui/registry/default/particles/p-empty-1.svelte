@@ -12,7 +12,6 @@
 
 <script lang="ts">
   import {
-    HugeiconsIcon,
     Button,
     Empty,
     EmptyContent,
@@ -20,6 +19,7 @@
     EmptyHeader,
     EmptyMedia,
     EmptyTitle,
+    HugeiconsIcon,
   } from "@coss-sv/ui";
   import { BookOpen01Icon, Route01Icon } from "@hugeicons/core-free-icons";
 </script>

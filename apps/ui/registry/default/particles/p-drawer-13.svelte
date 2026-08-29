@@ -10,7 +10,7 @@
 </script>
 
 <script lang="ts">
-  import { buttonVariants, Drawer, drawerMenuItemVariants, Menu, HugeiconsIcon } from "@coss-sv/ui";
+  import { buttonVariants, Drawer, drawerMenuItemVariants, HugeiconsIcon, Menu } from "@coss-sv/ui";
   import {
     CopyIcon,
     Delete02Icon,

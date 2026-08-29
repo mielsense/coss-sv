@@ -11,7 +11,7 @@
 </script>
 
 <script lang="ts">
-  import { Button, Fieldset, Label, NumberField, Slider, HugeiconsIcon } from "@coss-sv/ui";
+  import { Button, Fieldset, HugeiconsIcon, Label, NumberField, Slider } from "@coss-sv/ui";
   import { RotateLeft01Icon } from "@hugeicons/core-free-icons";
 
   const min = -10;

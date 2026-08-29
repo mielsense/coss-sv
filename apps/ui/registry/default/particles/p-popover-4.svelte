@@ -16,9 +16,9 @@
     buttonVariants,
     CheckboxGroup,
     Group,
+    HugeiconsIcon,
     Label,
     Popover,
-    HugeiconsIcon,
   } from "@coss-sv/ui";
   import { ArrowDown01Icon } from "@hugeicons/core-free-icons";
 
