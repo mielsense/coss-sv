@@ -1,29 +1,40 @@
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
+import { HugeiconsIcon } from "@coss-sv/ui";
 import {
   Add01Icon,
   AlertCircleIcon,
   ArrowDown01Icon,
+  ArrowDown02Icon,
   ArrowLeft01Icon,
+  ArrowLeft02Icon,
   ArrowRight01Icon,
   ArrowTurnBackwardIcon,
   ArrowUp01Icon,
+  ArrowUp02Icon,
   Bookmark02Icon,
   BookOpen01Icon,
   BoxIcon,
+  CableIcon,
   Cancel01Icon,
   ChevronDownIcon,
+  CircleQuestionMarkIcon,
+  CodeXmlIcon,
   CopyIcon,
+  CornerDownLeftIcon,
   Delete02Icon,
   DollarSignIcon,
   Download01Icon,
   FloppyDiskIcon,
   Folder01Icon,
+  GlobeIcon,
   House01Icon,
   InboxIcon,
   InformationCircleIcon,
+  LayersIcon,
   Link01Icon,
   Mail01Icon,
+  MapPinIcon,
   MinusSignIcon,
   MoreHorizontalIcon,
   NextIcon,
@@ -44,6 +55,7 @@ import {
   Share03Icon,
   Share08Icon,
   SidebarLeftIcon,
+  SparklesIcon,
   StarIcon,
   TextAlignCenterIcon,
   TextAlignLeftIcon,
@@ -58,18 +70,32 @@ import {
   ViewOffSlashIcon,
   VolumeHighIcon,
   VolumeMute02Icon,
+  ZapIcon,
 } from "@hugeicons/core-free-icons";
+import { parse } from "svelte/compiler";
 import { render } from "svelte/server";
 import { describe, expect, it } from "vitest";
 import SidebarIconSsrFixture from "../../../../tests/fixtures/sidebar-icon-ssr-fixture.svelte";
 import FixtureIcon, { type FixtureIconName } from "./fixture-icon.svelte";
 
 type IconData = readonly (readonly [string, Readonly<Record<string, string | number>>])[];
-type FixtureModule = { default: Parameters<typeof render>[0] };
+type AstNode = {
+  attributes?: AstNode[];
+  end?: number;
+  expression?: AstNode;
+  imported?: { name?: string };
+  local?: { name?: string };
+  name?: string;
+  source?: { value?: string };
+  specifiers?: AstNode[];
+  start?: number;
+  type?: string;
+  [key: string]: unknown;
+};
 
 const fixtureRoot = import.meta.dirname;
 const packageRoot = resolve(fixtureRoot, "../../../../../../packages/ui/src");
-const fixtureModules = import.meta.glob<FixtureModule>("./*.svelte", { eager: true });
+const fixtureModules = import.meta.glob("./*.svelte");
 
 const migratedFixtures = [
   "alert.svelte",
@@ -159,105 +185,404 @@ const semanticIconData = {
   "zoom-out": SearchMinusIcon,
 } satisfies Record<FixtureIconName, IconData>;
 
-const fixtureSemanticNames = {
-  "alert.svelte": ["info-circle"],
-  "autocomplete.svelte": [],
-  "badge.svelte": ["check"],
-  "button.svelte": ["plus", "download"],
-  "card.svelte": [
-    "unfold-more",
-    "arrow-up",
-    "check",
-    "arrow-down",
-    "alert-circle",
-    "plus",
-    "folder",
-  ],
-  "collapsible.svelte": ["chevron-down", "trash"],
-  "combobox.svelte": [],
-  "command.svelte": [],
-  "context-menu.svelte": ["pencil", "copy", "share", "trash"],
-  "drawer.svelte": ["more", "pencil", "copy", "share", "trash"],
-  "empty.svelte": ["route", "book"],
-  "field.svelte": ["arrow-right"],
-  "group.svelte": ["zoom-in", "zoom-out", "arrow-left", "arrow-right", "plus"],
-  "input-group.svelte": [
-    "search",
-    "mail",
-    "arrow-right",
-    "bold",
-    "italic",
-    "link",
-    "cancel",
-    "eye",
-    "eye-off",
-    "check",
-  ],
-  "menu.svelte": ["play", "pause", "previous", "next", "trash"],
-  "number-field.svelte": ["unfold-more", "arrow-up", "check", "arrow-down", "arrow-right", "reset"],
-  "popover.svelte": ["cancel", "bell", "user", "arrow-down"],
-  "preview-card.svelte": ["star", "redo"],
-  "select.svelte": [],
-  "slider.svelte": ["volume-mute", "volume-high", "minus", "plus-sign"],
-  "tabs.svelte": ["home", "panels", "settings", "package", "inbox"],
-  "toast.svelte": ["check", "copy", "download", "save"],
-  "toggle-group.svelte": ["bold", "italic", "underline"],
-  "toggle.svelte": ["bold", "italic", "underline", "bookmark"],
-  "toolbar.svelte": [
-    "align-left",
-    "align-center",
-    "align-right",
-    "currency",
-    "percent",
-    "unfold-more",
-    "check",
-    "arrow-up",
-    "arrow-down",
-  ],
-  "tooltip.svelte": ["bold", "italic", "underline", "link", "mail", "share-2"],
-} as const satisfies Record<(typeof migratedFixtures)[number], readonly FixtureIconName[]>;
+const officialIconData = {
+  ...semanticIconData,
+  ArrowDown02Icon,
+  ArrowLeft02Icon,
+  ArrowUp02Icon,
+  CableIcon,
+  Cancel01Icon,
+  CircleQuestionMarkIcon,
+  CodeXmlIcon,
+  CornerDownLeftIcon,
+  GlobeIcon,
+  LayersIcon,
+  MapPinIcon,
+  Search01Icon,
+  SparklesIcon,
+  UnfoldMoreIcon,
+  ZapIcon,
+} satisfies Record<string, IconData>;
 
-const directFixtureFragments = {
-  "autocomplete.svelte": ["icon={MapPinIcon}", "icon={Search01Icon}"],
-  "combobox.svelte": ["icon={Cancel01Icon}", "icon={Search01Icon}", "icon={UnfoldMoreIcon}"],
+type OfficialIconName = keyof typeof officialIconData;
+type SiteContract = { count: number; icons: readonly OfficialIconName[]; key: string };
+
+function site(key: string, count: number, ...icons: OfficialIconName[]): SiteContract {
+  return { count, icons, key };
+}
+
+const fixtureIconContracts = {
+  "alert.svelte": [site('component:FixtureIcon:name="info-circle"', 1, "info-circle")],
+  "autocomplete.svelte": [
+    site("component:HugeiconsIcon:icon={Search01Icon}", 1, "Search01Icon"),
+    site("component:HugeiconsIcon:icon={MapPinIcon}", 1, "MapPinIcon"),
+  ],
+  "badge.svelte": [site('component:FixtureIcon:name="check"', 1, "check")],
+  "button.svelte": [
+    site('component:FixtureIcon:name="plus"', 3, "plus"),
+    site('component:FixtureIcon:name="download"', 1, "download"),
+  ],
+  "card.svelte": [
+    site('component:FixtureIcon:name="unfold-more"', 1, "unfold-more"),
+    site('component:FixtureIcon:name="arrow-up"', 1, "arrow-up"),
+    site('component:FixtureIcon:name="check"', 1, "check"),
+    site('component:FixtureIcon:name="arrow-down"', 1, "arrow-down"),
+    site('component:FixtureIcon:name="alert-circle"', 1, "alert-circle"),
+    site('component:FixtureIcon:name="plus"', 1, "plus"),
+    site('component:FixtureIcon:name="folder"', 1, "folder"),
+  ],
+  "collapsible.svelte": [
+    site('component:FixtureIcon:name="chevron-down"', 2, "chevron-down"),
+    site('component:FixtureIcon:name="trash"', 1, "trash"),
+  ],
+  "combobox.svelte": [
+    site("component:HugeiconsIcon:icon={Search01Icon}", 1, "Search01Icon"),
+    site("component:HugeiconsIcon:icon={Cancel01Icon}", 1, "Cancel01Icon"),
+    site("component:HugeiconsIcon:icon={UnfoldMoreIcon}", 3, "UnfoldMoreIcon"),
+  ],
   "command.svelte": [
-    "icon={ArrowDown02Icon}",
-    "icon={ArrowLeft02Icon}",
-    "icon={ArrowUp02Icon}",
-    "icon={CircleQuestionMarkIcon}",
-    "icon={CornerDownLeftIcon}",
-    "icon={Search01Icon}",
-    "icon={SparklesIcon}",
+    site("component:HugeiconsIcon:icon={ArrowUp02Icon}", 1, "ArrowUp02Icon"),
+    site("component:HugeiconsIcon:icon={ArrowDown02Icon}", 1, "ArrowDown02Icon"),
+    site("component:HugeiconsIcon:icon={CornerDownLeftIcon}", 2, "CornerDownLeftIcon"),
+    site("component:HugeiconsIcon:icon={SparklesIcon}", 2, "SparklesIcon"),
+    site("component:HugeiconsIcon:icon={Search01Icon}", 1, "Search01Icon"),
+    site("component:HugeiconsIcon:icon={ArrowLeft02Icon}", 1, "ArrowLeft02Icon"),
+    site("component:HugeiconsIcon:icon={CircleQuestionMarkIcon}", 1, "CircleQuestionMarkIcon"),
+  ],
+  "context-menu.svelte": [
+    site('component:FixtureIcon:name="pencil"', 1, "pencil"),
+    site('component:FixtureIcon:name="copy"', 1, "copy"),
+    site('component:FixtureIcon:name="share"', 1, "share"),
+    site('component:FixtureIcon:name="trash"', 1, "trash"),
+    site("render:pencilIcon()", 1, "pencil"),
+    site("render:copyIcon()", 1, "copy"),
+    site("render:shareIcon()", 1, "share"),
+    site("render:trashIcon()", 1, "trash"),
+  ],
+  "drawer.svelte": [
+    site('component:FixtureIcon:name="more"', 2, "more"),
+    site('component:FixtureIcon:name="pencil"', 2, "pencil"),
+    site('component:FixtureIcon:name="copy"', 2, "copy"),
+    site('component:FixtureIcon:name="share"', 2, "share"),
+    site('component:FixtureIcon:name="trash"', 2, "trash"),
+  ],
+  "empty.svelte": [
+    site('component:FixtureIcon:name="route"', 1, "route"),
+    site('component:FixtureIcon:name="book"', 1, "book"),
+  ],
+  "field.svelte": [
+    site("render:arrowRightIcon()", 1, "arrow-right"),
+    site('component:FixtureIcon:name="arrow-right"', 1, "arrow-right"),
+  ],
+  "group.svelte": [
+    site('render:icon("zoom-in")', 1, "zoom-in"),
+    site('render:icon("zoom-out")', 1, "zoom-out"),
+    site('render:icon("arrow-left", true)', 1, "arrow-left"),
+    site('render:icon("arrow-right", true)', 1, "arrow-right"),
+    site('render:icon("plus", true)', 1, "plus"),
+    site(
+      "component:FixtureIcon:name={name as FixtureIconName}",
+      1,
+      "zoom-in",
+      "zoom-out",
+      "arrow-left",
+      "arrow-right",
+      "plus",
+    ),
+  ],
+  "input-group.svelte": [
+    site('render:icon("search", true)', 4, "search"),
+    site('render:icon("mail", true)', 1, "mail"),
+    site('render:icon("arrow-right", true)', 1, "arrow-right"),
+    site('render:icon("bold", true)', 1, "bold"),
+    site('render:icon("italic", true)', 1, "italic"),
+    site('render:icon("link", true)', 1, "link"),
+    site('render:icon("x", true)', 1, "cancel"),
+    site('render:icon(isPasswordVisible ? "eye-off" : "eye", true)', 1, "eye-off", "eye"),
+    site(
+      'render:icon( requirement.met ? "check" : "x", true, requirement.met ? "size-4 text-emerald-500" : "size-4 text-muted-foreground/80", )',
+      1,
+      "check",
+      "cancel",
+    ),
+    site(
+      'component:FixtureIcon:name={name === "x" ? "cancel" : name}',
+      1,
+      "search",
+      "mail",
+      "arrow-right",
+      "bold",
+      "italic",
+      "link",
+      "cancel",
+      "eye",
+      "eye-off",
+      "check",
+    ),
+  ],
+  "menu.svelte": [
+    site('component:FixtureIcon:name="play"', 1, "play"),
+    site('component:FixtureIcon:name="pause"', 1, "pause"),
+    site('component:FixtureIcon:name="previous"', 1, "previous"),
+    site('component:FixtureIcon:name="next"', 1, "next"),
+    site('component:FixtureIcon:name="trash"', 1, "trash"),
+    site("render:playIcon()", 1, "play"),
+    site("render:pauseIcon()", 1, "pause"),
+    site("render:skipBackIcon()", 1, "previous"),
+    site("render:skipForwardIcon()", 1, "next"),
+    site("render:trashIcon()", 1, "trash"),
+  ],
+  "number-field.svelte": [
+    site('component:FixtureIcon:name="unfold-more"', 1, "unfold-more"),
+    site('component:FixtureIcon:name="arrow-up"', 1, "arrow-up"),
+    site('component:FixtureIcon:name="check"', 1, "check"),
+    site('component:FixtureIcon:name="arrow-down"', 1, "arrow-down"),
+    site('component:FixtureIcon:name="arrow-right"', 1, "arrow-right"),
+    site('component:FixtureIcon:name="reset"', 1, "reset"),
+  ],
+  "popover.svelte": [
+    site("render:xIcon()", 1, "cancel"),
+    site("render:bellIcon()", 1, "bell"),
+    site("render:userIcon()", 1, "user"),
+    site("render:chevronDownIcon()", 1, "arrow-down"),
+    site('component:FixtureIcon:name="cancel"', 1, "cancel"),
+    site('component:FixtureIcon:name="bell"', 1, "bell"),
+    site('component:FixtureIcon:name="user"', 1, "user"),
+    site('component:FixtureIcon:name="arrow-down"', 1, "arrow-down"),
+  ],
+  "preview-card.svelte": [
+    site("render:starIcon()", 1, "star"),
+    site("render:cornerUpLeftIcon()", 1, "redo"),
+    site('component:FixtureIcon:name="star"', 1, "star"),
+    site('component:FixtureIcon:name="redo"', 1, "redo"),
   ],
   "select.svelte": [
-    "icon={CableIcon}",
-    '{ icon: LayersIcon, label: "Components"',
-    '{ icon: ZapIcon, label: "Performance"',
-    '{ icon: GlobeIcon, label: "Network"',
-    '{ icon: CodeXmlIcon, label: "Development"',
-    "icon={item.icon}",
+    site("component:HugeiconsIcon:icon={CableIcon}", 1, "CableIcon"),
+    site(
+      "component:HugeiconsIcon:icon={item.icon}",
+      2,
+      "LayersIcon",
+      "ZapIcon",
+      "GlobeIcon",
+      "CodeXmlIcon",
+    ),
   ],
+  "slider.svelte": [
+    site('component:FixtureIcon:name="volume-mute"', 1, "volume-mute"),
+    site('component:FixtureIcon:name="volume-high"', 1, "volume-high"),
+    site('component:FixtureIcon:name="minus"', 1, "minus"),
+    site('component:FixtureIcon:name="plus-sign"', 1, "plus-sign"),
+  ],
+  "tabs.svelte": [
+    site("render:houseIcon()", 5, "home"),
+    site("render:panelsIcon()", 4, "panels"),
+    site("render:settingsIcon()", 5, "settings"),
+    site('render:houseIcon("opacity-60", 16)', 1, "home"),
+    site('render:panelsIcon("opacity-60", 16)', 1, "panels"),
+    site('render:boxIcon("opacity-60", 16)', 1, "package"),
+    site("render:inboxIcon()", 1, "inbox"),
+    site('component:FixtureIcon:name="home"', 1, "home"),
+    site('component:FixtureIcon:name="panels"', 1, "panels"),
+    site('component:FixtureIcon:name="settings"', 1, "settings"),
+    site('component:FixtureIcon:name="package"', 1, "package"),
+    site('component:FixtureIcon:name="inbox"', 1, "inbox"),
+  ],
+  "toast.svelte": [
+    site('render:checkIcon("size-4")', 1, "check"),
+    site('render:copyIcon("size-4")', 1, "copy"),
+    site("render:downloadIcon()", 1, "download"),
+    site("render:saveIcon()", 2, "save"),
+    site('component:FixtureIcon:name="check"', 1, "check"),
+    site('component:FixtureIcon:name="copy"', 1, "copy"),
+    site('component:FixtureIcon:name="download"', 1, "download"),
+    site('component:FixtureIcon:name="save"', 1, "save"),
+  ],
+  "toggle-group.svelte": [
+    site("render:boldIcon()", 8, "bold"),
+    site("render:italicIcon()", 8, "italic"),
+    site("render:underlineIcon()", 8, "underline"),
+    site('component:FixtureIcon:name="bold"', 1, "bold"),
+    site('component:FixtureIcon:name="italic"', 1, "italic"),
+    site('component:FixtureIcon:name="underline"', 1, "underline"),
+  ],
+  "toggle.svelte": [
+    site("render:boldIcon()", 2, "bold"),
+    site("render:italicIcon()", 1, "italic"),
+    site("render:underlineIcon()", 1, "underline"),
+    site("render:bookmarkIcon()", 1, "bookmark"),
+    site('component:FixtureIcon:name="bold"', 1, "bold"),
+    site('component:FixtureIcon:name="italic"', 1, "italic"),
+    site('component:FixtureIcon:name="underline"', 1, "underline"),
+    site('component:FixtureIcon:name="bookmark"', 1, "bookmark"),
+  ],
+  "toolbar.svelte": [
+    site(
+      "component:FixtureIcon:{name}",
+      1,
+      "align-left",
+      "align-center",
+      "align-right",
+      "currency",
+      "percent",
+    ),
+    site('component:FixtureIcon:name="unfold-more"', 1, "unfold-more"),
+    site('component:FixtureIcon:name="check"', 1, "check"),
+    site(
+      'component:FixtureIcon:name={direction === "up" ? "arrow-up" : "arrow-down"}',
+      1,
+      "arrow-up",
+      "arrow-down",
+    ),
+    site('render:lineIcon("align-left")', 1, "align-left"),
+    site('render:lineIcon("align-center")', 1, "align-center"),
+    site('render:lineIcon("align-right")', 1, "align-right"),
+    site('render:lineIcon("currency")', 1, "currency"),
+    site('render:lineIcon("percent")', 1, "percent"),
+    site("render:chevronsIcon()", 1, "unfold-more"),
+    site('render:chevronIcon("up")', 1, "arrow-up"),
+    site("render:checkIcon()", 1, "check"),
+    site('render:chevronIcon("down")', 1, "arrow-down"),
+  ],
+  "tooltip.svelte": [
+    site("render:boldIcon()", 2, "bold"),
+    site("render:italicIcon()", 2, "italic"),
+    site("render:underlineIcon()", 2, "underline"),
+    site("render:linkIcon()", 1, "link"),
+    site("render:mailIcon()", 1, "mail"),
+    site("render:share2Icon()", 1, "share-2"),
+    site('component:FixtureIcon:name="bold"', 1, "bold"),
+    site('component:FixtureIcon:name="italic"', 1, "italic"),
+    site('component:FixtureIcon:name="underline"', 1, "underline"),
+    site('component:FixtureIcon:name="link"', 1, "link"),
+    site('component:FixtureIcon:name="mail"', 1, "mail"),
+    site('component:FixtureIcon:name="share-2"', 1, "share-2"),
+  ],
+} as const satisfies Record<(typeof migratedFixtures)[number], readonly SiteContract[]>;
+
+const directCoreImports = {
+  "autocomplete.svelte": ["MapPinIcon", "Search01Icon"],
+  "combobox.svelte": ["Cancel01Icon", "Search01Icon", "UnfoldMoreIcon"],
+  "command.svelte": [
+    "ArrowDown02Icon",
+    "ArrowLeft02Icon",
+    "ArrowUp02Icon",
+    "CircleQuestionMarkIcon",
+    "CornerDownLeftIcon",
+    "Search01Icon",
+    "SparklesIcon",
+  ],
+  "select.svelte": ["CableIcon", "CodeXmlIcon", "GlobeIcon", "LayersIcon", "ZapIcon"],
 } as const;
 
-function assertOfficialGeometry(body: string, icon: IconData, label: string): void {
-  for (const [tag, attributes] of icon) {
-    expect(body, `${label}: missing <${tag}>`).toContain(`<${tag}`);
-    for (const [attribute, value] of Object.entries(attributes)) {
-      if (
-        attribute === "key" ||
-        attribute === "stroke" ||
-        attribute === "strokeLinecap" ||
-        attribute === "strokeLinejoin" ||
-        attribute === "strokeWidth"
-      ) {
-        continue;
-      }
-      const htmlAttribute = attribute.replace(/([a-z0-9])([A-Z])/g, "$1-$2").toLowerCase();
-      expect(body, `${label}: missing ${htmlAttribute}`).toContain(`${htmlAttribute}="${value}"`);
-    }
+const selectDataBindings = [
+  '{ icon: LayersIcon, label: "Components", value: "components" }',
+  '{ icon: ZapIcon, label: "Performance", value: "performance" }',
+  '{ icon: GlobeIcon, label: "Network", value: "network" }',
+  '{ icon: CodeXmlIcon, label: "Development", value: "development" }',
+] as const;
+
+function normalizeSource(value: string): string {
+  return value.replace(/\s+/g, " ").trim();
+}
+
+function walkAst(node: unknown, visit: (node: AstNode) => void): void {
+  if (!node || typeof node !== "object") return;
+  if (Array.isArray(node)) {
+    for (const child of node) walkAst(child, visit);
+    return;
   }
-  expect(body, `${label}: wrong viewBox`).toContain('viewBox="0 0 24 24"');
-  expect(body, `${label}: wrong stroke width`).toContain('stroke-width="2"');
+  const astNode = node as AstNode;
+  visit(astNode);
+  for (const [key, child] of Object.entries(astNode)) {
+    if (key === "loc" || key === "metadata") continue;
+    walkAst(child, visit);
+  }
+}
+
+function extractIconSites(source: string): Map<string, number> {
+  const sites = new Map<string, number>();
+  const add = (key: string): void => {
+    sites.set(key, (sites.get(key) ?? 0) + 1);
+  };
+
+  walkAst(parse(source, { modern: true }), (node) => {
+    if (
+      node.type === "Component" &&
+      (node.name === "FixtureIcon" || node.name === "HugeiconsIcon")
+    ) {
+      const bindingName = node.name === "FixtureIcon" ? "name" : "icon";
+      const binding = node.attributes?.find(
+        (attribute) => attribute.type === "Attribute" && attribute.name === bindingName,
+      );
+      if (binding?.start === undefined || binding.end === undefined) {
+        throw new Error(`${node.name} is missing its ${bindingName} binding`);
+      }
+      add(`component:${node.name}:${normalizeSource(source.slice(binding.start, binding.end))}`);
+    }
+
+    if (
+      node.type === "RenderTag" &&
+      node.expression?.start !== undefined &&
+      node.expression.end !== undefined
+    ) {
+      const expression = normalizeSource(source.slice(node.expression.start, node.expression.end));
+      if (/icon/i.test(expression)) add(`render:${expression}`);
+    }
+  });
+  return sites;
+}
+
+function extractCoreImports(source: string): string[] {
+  const imports = new Set<string>();
+  walkAst(parse(source, { modern: true }), (node) => {
+    if (node.type !== "ImportDeclaration" || node.source?.value !== "@hugeicons/core-free-icons") {
+      return;
+    }
+    for (const specifier of node.specifiers ?? []) {
+      const name = specifier.imported?.name ?? specifier.local?.name;
+      if (name) imports.add(name);
+    }
+  });
+  return [...imports].sort();
+}
+
+function parseAttributes(value: string): Record<string, string> {
+  return Object.fromEntries(
+    [...value.matchAll(/([\w:-]+)="([^"]*)"/g)].map((match) => [
+      match[1] as string,
+      match[2] as string,
+    ]),
+  );
+}
+
+function assertOfficialGeometry(body: string, icon: IconData, label: string): void {
+  const svgs = [...body.matchAll(/<svg\b([^>]*)>([\s\S]*?)<\/svg>/g)];
+  expect(svgs, `${label}: expected exactly one rendered icon`).toHaveLength(1);
+  const svg = svgs[0];
+  if (!svg) throw new Error(`${label}: missing rendered icon`);
+
+  const svgAttributes = parseAttributes(svg[1] ?? "");
+  expect(svgAttributes.viewBox, `${label}: wrong viewBox`).toBe("0 0 24 24");
+  expect(svgAttributes["stroke-width"], `${label}: wrong root stroke width`).toBe("2");
+
+  const actualNodes = [...(svg[2] ?? "").matchAll(/<(path|circle|ellipse|rect)\b([^>]*)>/g)].map(
+    (match) => ({ attributes: parseAttributes(match[2] ?? ""), tag: match[1] }),
+  );
+  const expectedNodes = icon
+    .filter(([tag]) => tag === "path" || tag === "circle" || tag === "ellipse" || tag === "rect")
+    .map(([tag, sourceAttributes]) => {
+      const attributes: Record<string, string> = {};
+      for (const [attribute, value] of Object.entries(sourceAttributes)) {
+        if (attribute === "key") continue;
+        const htmlAttribute = attribute.replace(/([a-z0-9])([A-Z])/g, "$1-$2").toLowerCase();
+        attributes[htmlAttribute] = String(value);
+      }
+      attributes["stroke-width"] = "2";
+      return { attributes, tag };
+    });
+
+  expect(expectedNodes.length, `${label}: official dataset is empty`).toBeGreaterThan(0);
+  expect(actualNodes, `${label}: wrong official Hugeicons glyph geometry`).toEqual(expectedNodes);
 }
 
 describe("parity fixture icon migration", () => {
@@ -289,38 +614,58 @@ describe("parity fixture icon migration", () => {
     }
   });
 
-  it("binds every fixture to the exact COSS semantic icon names", () => {
-    for (const [fileName, iconNames] of Object.entries(fixtureSemanticNames)) {
+  it("binds all 204 icon component and snippet sites to exact official datasets", () => {
+    let coveredSiteCount = 0;
+
+    for (const fileName of migratedFixtures) {
       const source = readFileSync(resolve(fixtureRoot, fileName), "utf8");
-      for (const iconName of iconNames) {
-        expect(source, `${fileName}: missing ${iconName}`).toContain(`"${iconName}"`);
+      const actualSites = extractIconSites(source);
+      const contract = fixtureIconContracts[fileName];
+      const expectedSites = new Map(contract.map(({ count, key }) => [key, count]));
+
+      expect(contract.length, `${fileName}: contract cannot be empty`).toBeGreaterThan(0);
+      expect(actualSites, `${fileName}: icon render-site contract changed`).toEqual(expectedSites);
+
+      for (const { count, icons, key } of contract) {
+        expect(count, `${fileName}: ${key} has a vacuous count`).toBeGreaterThan(0);
+        expect(icons.length, `${fileName}: ${key} has no official dataset`).toBeGreaterThan(0);
+        coveredSiteCount += count;
+
+        for (const iconName of icons) {
+          const body = render(HugeiconsIcon, {
+            props: { icon: officialIconData[iconName], strokeWidth: 2 },
+          }).body;
+          assertOfficialGeometry(
+            body,
+            officialIconData[iconName],
+            `${fileName}: ${key}: ${iconName}`,
+          );
+        }
       }
     }
 
-    for (const [fileName, fragments] of Object.entries(directFixtureFragments)) {
+    expect(coveredSiteCount).toBe(204);
+  });
+
+  it("imports every direct fixture dataset from the official core package", () => {
+    for (const [fileName, expectedImports] of Object.entries(directCoreImports)) {
       const source = readFileSync(resolve(fixtureRoot, fileName), "utf8");
-      for (const fragment of fragments) {
-        expect(source, `${fileName}: missing ${fragment}`).toContain(fragment);
-      }
+      expect(extractCoreImports(source), fileName).toEqual([...expectedImports].sort());
+      expect(source, fileName).toContain('import { HugeiconsIcon } from "@coss-sv/ui"');
+    }
+
+    const selectSource = normalizeSource(
+      readFileSync(resolve(fixtureRoot, "select.svelte"), "utf8"),
+    );
+    for (const binding of selectDataBindings) {
+      expect(selectSource, `select.svelte: missing ${binding}`).toContain(binding);
     }
   });
 
-  it("emits the exact official Hugeicons geometry at stroke two for every semantic mapping", () => {
+  it("emits exact official geometry at stroke two for every semantic helper mapping", () => {
     for (const [name, icon] of Object.entries(semanticIconData)) {
       const body = render(FixtureIcon, { props: { name: name as FixtureIconName } }).body;
       assertOfficialGeometry(body, icon, name);
-    }
-  });
-
-  it("server-renders all 26 migrated fixtures with stroke-two icons", () => {
-    for (const fileName of migratedFixtures) {
-      const component = fixtureModules[`./${fileName}`]?.default;
-      if (!component) throw new Error(`Missing parity fixture module: ${fileName}`);
-      const body = render(component, { props: {} }).body;
-      for (const svg of body.matchAll(/<svg\b[\s\S]*?<\/svg>/g)) {
-        expect(svg[0], fileName).toContain('viewBox="0 0 24 24"');
-        expect(svg[0], fileName).toContain('stroke-width="2"');
-      }
     }
   });
 
@@ -329,6 +674,10 @@ describe("parity fixture icon migration", () => {
       resolve(packageRoot, "components/ui/sidebar/sidebar-trigger.svelte"),
       "utf8",
     );
+    expect(
+      source.match(/<HugeiconsIcon\b/g),
+      "sidebar-trigger.svelte: renderer count",
+    ).toHaveLength(1);
     expect(source).toContain(
       'import SidebarLeftIcon from "@hugeicons/core-free-icons/SidebarLeftIcon"',
     );

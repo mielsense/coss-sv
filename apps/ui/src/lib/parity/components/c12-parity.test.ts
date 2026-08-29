@@ -28,11 +28,15 @@ describe("C12 parity fixtures", () => {
 
   test("uses the official Hugeicons mappings in the Context Menu icon particle", async () => {
     const contextMenu = await readParityFixture("context-menu");
+    const tooltip = await readParityFixture("tooltip");
 
     expect(contextMenu).toContain('name="pencil"');
     expect(contextMenu).toContain('name="copy"');
-    expect(contextMenu).toContain('name="share-2"');
+    expect(contextMenu).toContain('name="share"');
+    expect(contextMenu).not.toContain('name="share-2"');
     expect(contextMenu).toContain('name="trash"');
     expect(contextMenu).not.toMatch(/lucide-|<svg|<path/i);
+    expect(tooltip).toContain('name="share-2"');
+    expect(tooltip).not.toContain('name="share"');
   });
 });

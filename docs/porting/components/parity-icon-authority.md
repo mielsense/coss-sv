@@ -57,7 +57,9 @@ attachments, portals, and state contracts unchanged; only glyph rendering is rep
 central renderer. The package Sidebar trigger imports the same renderer internally through
 `$lib/hugeicons-icon.svelte`. Source tests enumerate every migrated fixture, reject direct
 `@hugeicons/svelte` imports and copied glyph markup, preserve the three theme illustrations, and
-bind each fixture to its COSS semantic icon names. The test renders all 26 fixtures and the real
-Sidebar provider fixture on the server. It also checks every semantic name against the complete
-official Hugeicons geometry at `strokeWidth={2}`, so a different glyph fails even when it uses the
-same renderer.
+bind all 204 icon component and snippet sites to explicit official datasets. The contract includes
+popup-only, conditional, and dynamic sites that closed-state SSR does not emit, plus the direct
+core icon sites in Autocomplete, Combobox, Command, and Select. Every contract count and dataset
+list must be nonzero. The test server-renders each bound dataset and the real Sidebar provider
+fixture, then compares the complete node geometry and `strokeWidth={2}` output. A missing site,
+empty render, or different glyph fails the test.
