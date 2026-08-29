@@ -102,13 +102,15 @@ describe("registry validation", () => {
   });
 
   test("declares every cross-component import in each UI item's local dependency closure", async () => {
-    const items = new Map(registryUi.map((item) => [item.name, item]));
+    const items = new Map<string, (typeof registryUi)[number]>(
+      registryUi.map((item) => [item.name, item]),
+    );
     const missing: string[] = [];
     const importPattern = /(?:from\s*|import\s*)["']([^"']+)["']/g;
 
     for (const item of registryUi.filter(({ name }) => name !== "ui")) {
-      const closure = new Set([item.name]);
-      const pending = [item.name];
+      const closure = new Set<string>([item.name]);
+      const pending: string[] = [item.name];
       while (pending.length > 0) {
         const current = items.get(pending.shift() ?? "");
         for (const dependency of current?.registryDependencies ?? []) {
