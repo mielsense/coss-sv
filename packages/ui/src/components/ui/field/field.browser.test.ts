@@ -127,6 +127,15 @@ describe("Field browser contract", () => {
     await expect.element(page.getByTestId("field-control")).toHaveFocus();
   });
 
+  test("forwards polymorphic Root and Item label clicks to their registered controls", async () => {
+    render(FieldFixture);
+
+    await page.getByTestId("span-label").click();
+    await expect.element(page.getByTestId("span-label-control")).toHaveFocus();
+    await page.getByTestId("item-span-label").click();
+    await expect.element(page.getByTestId("item-span-label-control")).toHaveFocus();
+  });
+
   test("hydrates the COSS root without changing server markup", async () => {
     const warning = vi.spyOn(console, "warn").mockImplementation(() => undefined);
     const target = document.createElement("div");

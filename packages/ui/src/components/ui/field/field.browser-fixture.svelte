@@ -34,6 +34,18 @@
   <Field.Control data-testid="field-control" />
 </Field.Root>
 
+<Field.Root>
+  <Field.Label as="span" data-testid="span-label">Span label</Field.Label>
+  <Field.Control data-testid="span-label-control" />
+</Field.Root>
+
+<Field.Root>
+  <Field.Item>
+    <Field.Label as="span" data-testid="item-span-label">Item span label</Field.Label>
+    <Field.Control data-testid="item-span-label-control" />
+  </Field.Item>
+</Field.Root>
+
 <button
   data-testid="toggle-composed-disabled"
   onclick={() => (composedDisabled = !composedDisabled)}

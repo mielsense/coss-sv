@@ -12,16 +12,25 @@
 
   const uid = $props.id();
   const relationships = getFieldRelationshipContext();
-  let { class: className, id = uid, ref = $bindable(null), ...props }: FieldLabelProps = $props();
+  let {
+    as = "label",
+    class: className,
+    id = uid,
+    ref = $bindable(null),
+    ...props
+  }: FieldLabelProps = $props();
   untrack(() => relationships?.registerInitialLabelId(id));
   $effect(() => {
     const nextId = id;
     return untrack(() => relationships?.registerLabelId(nextId));
   });
-  const controlFor = $derived(relationships?.controlId ? { for: relationships.controlId } : {});
+  const controlFor = $derived(
+    as === "label" && relationships?.controlId ? { for: relationships.controlId } : {},
+  );
 </script>
 
 <FieldPrimitive.Label
+  {as}
   bind:ref
   data-slot="field-label"
   class={cn(

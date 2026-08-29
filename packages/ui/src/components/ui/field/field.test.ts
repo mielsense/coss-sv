@@ -4,6 +4,7 @@ import FieldSsrFixture from "./field.ssr-fixture.svelte";
 import FieldControlRelationshipsSsrFixture from "./field-control-relationships.ssr-fixture.svelte";
 import FieldExplicitControlsSsrFixture from "./field-explicit-controls.ssr-fixture.svelte";
 import FieldFieldsetSsrFixture from "./field-fieldset.ssr-fixture.svelte";
+import FieldLabelPolymorphismSsrFixture from "./field-label-polymorphism.ssr-fixture.svelte";
 import * as Field from "./index.js";
 import { FieldRelationshipState } from "./relationship-context.svelte.js";
 
@@ -107,5 +108,18 @@ describe("Field SSR contract", () => {
       expect(labelFor, testId).toBeTruthy();
       expect(controlId, testId).toBe(labelFor);
     }
+  });
+
+  test("emits automatic for only on native labels and preserves an explicit consumer for", () => {
+    const body = render(FieldLabelPolymorphismSsrFixture).body;
+    const element = (testId: string) =>
+      body.match(new RegExp(`<[^>]+data-testid="${testId}"[^>]*>`))?.[0];
+
+    expect(element("root-span-label")).toMatch(/^<span\b/);
+    expect(element("root-span-label")).not.toMatch(/\sfor=/);
+    expect(element("item-span-label")).toMatch(/^<span\b/);
+    expect(element("item-span-label")).not.toMatch(/\sfor=/);
+    expect(element("explicit-label")).toContain('for="consumer-control"');
+    expect(element("explicit-span-label")).toContain('for="consumer-span-control"');
   });
 });
