@@ -5,6 +5,39 @@ import InputFieldHydrationFixture from "./input-field.hydration-fixture.svelte";
 import { inputFieldHydrationHtml } from "./input-field.hydration-html.js";
 
 describe("Input SSR contract", () => {
+  test.each([false, true])(
+    "serializes defaultValue as the native value without leaking an attribute (nativeInput=%s)",
+    (nativeInput) => {
+      const { body } = render(Input, {
+        props: { defaultValue: "hello@coss.com", nativeInput },
+      });
+      const input = body.match(/<input[^>]*>/)?.[0];
+
+      expect(input).toBeDefined();
+      expect(input).toContain('value="hello@coss.com"');
+      expect(input).not.toMatch(/defaultvalue/i);
+    },
+  );
+
+  test.each([false, true])(
+    "gives an explicit value precedence over defaultValue (nativeInput=%s)",
+    (nativeInput) => {
+      const { body } = render(Input, {
+        props: {
+          defaultValue: "default@coss.com",
+          nativeInput,
+          value: "controlled@coss.com",
+        },
+      });
+      const input = body.match(/<input[^>]*>/)?.[0];
+
+      expect(input).toBeDefined();
+      expect(input).toContain('value="controlled@coss.com"');
+      expect(input).not.toContain("default@coss.com");
+      expect(input).not.toMatch(/defaultvalue/i);
+    },
+  );
+
   test("renders the COSS wrapper and inner input contract", () => {
     const { body } = render(Input, {
       props: {

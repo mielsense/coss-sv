@@ -16,6 +16,7 @@
 <script lang="ts">
   import { Input as InputPrimitive } from "@shardsui/svelte";
   import { type Component, untrack } from "svelte";
+  import type { Attachment } from "svelte/attachments";
   import { cn } from "$lib/utils.js";
   import { reconcileAriaRelationship } from "../field/reconcile-aria-relationship.js";
   import { getFieldRelationshipContext } from "../field/relationship-context.svelte.js";
@@ -36,6 +37,7 @@
     "aria-label": ariaLabel,
     "aria-labelledby": ariaLabelledBy,
     class: className,
+    defaultValue,
     id = relationships?.resolveDefaultControlId(uid) ?? uid,
     nativeInput = false,
     ref = $bindable(null),
@@ -46,6 +48,9 @@
     ...props
   }: InputProps = $props();
   untrack(() => {
+    if (value === undefined && defaultValue !== undefined && type !== "file") {
+      value = defaultValue;
+    }
     if (id) relationships?.registerInitialControlId(id);
   });
   $effect(() => {
@@ -97,12 +102,21 @@
     const ids = [...new Set(values.flatMap((value) => value?.split(/\s+/).filter(Boolean) ?? []))];
     return ids.join(" ") || undefined;
   }
+
+  const reflectInitialDefaultValue: Attachment<HTMLInputElement> = (node) => {
+    untrack(() => {
+      if (defaultValue !== undefined && type !== "file") {
+        node.defaultValue = String(value ?? defaultValue);
+      }
+    });
+  };
 </script>
 
 <span data-size={size} data-slot="input-control" class={classes}>
   {#if nativeInput}
     {#if type === "file"}
       <input
+        {@attach reflectInitialDefaultValue}
         bind:this={ref}
         aria-label={ariaLabel}
         {id}
@@ -115,6 +129,7 @@
       />
     {:else}
       <input
+        {@attach reflectInitialDefaultValue}
         bind:this={ref}
         bind:value
         aria-label={ariaLabel}
@@ -130,6 +145,7 @@
   {:else}
     <InputControl
       {@attach reconcileAriaRelationship("aria-describedby", describedBy)}
+      {@attach reflectInitialDefaultValue}
       bind:ref
       bind:value
       aria-label={ariaLabel}

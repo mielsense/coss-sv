@@ -13,6 +13,7 @@
   let nativeInputs = $state(0);
   let fileChanges = $state(0);
   let nativeFileChanges = $state(0);
+  let defaultValue = $state("default seed");
   let reactiveDescription = $state<string | null | undefined>(null);
   let showReactiveInput = $state(true);
 
@@ -36,7 +37,7 @@
     name="query"
     oninput={() => (changes += 1)}
   />
-  <Input data-testid="default-value-input" defaultValue="default seed" name="defaulted" />
+  <Input data-testid="default-value-input" {defaultValue} name="defaulted" />
   <Input data-testid="callback-input" onValueChange={(next) => (valueChange = next)} />
   <Input data-testid="file-input" name="asset" onchange={() => (fileChanges += 1)} type="file" />
   <Input
@@ -62,6 +63,13 @@
   />
   <Input aria-invalid="true" data-testid="invalid-input" disabled />
 </form>
+<button
+  data-testid="change-input-default"
+  type="button"
+  onclick={() => (defaultValue = "replacement default")}
+>
+  Change default
+</button>
 <Field.Root>
   <Input data-testid="field-input" required />
 </Field.Root>

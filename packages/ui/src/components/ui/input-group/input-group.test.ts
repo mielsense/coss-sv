@@ -4,6 +4,17 @@ import * as InputGroup from "./index.js";
 import InputGroupSsrFixture from "./input-group.ssr-fixture.svelte";
 
 describe("Input Group SSR contract", () => {
+  test("serializes the Input defaultValue without leaking an invalid attribute", () => {
+    const { body } = render(InputGroup.Input, {
+      props: { defaultValue: "hello@coss.com" },
+    });
+    const input = body.match(/<input[^>]*>/)?.[0];
+
+    expect(input).toBeDefined();
+    expect(input).toContain('value="hello@coss.com"');
+    expect(input).not.toMatch(/defaultvalue/i);
+  });
+
   test("renders inputs, textareas, addons, and alignment variants", () => {
     const { body } = render(InputGroupSsrFixture);
 

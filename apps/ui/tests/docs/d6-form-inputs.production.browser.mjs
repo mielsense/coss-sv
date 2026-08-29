@@ -74,6 +74,23 @@ async function openParticle(id) {
   assert.match(html, /data-preview-ready="true"/, `${id} production preview should be ready`);
 }
 
+async function inspectInputGroupServerValue() {
+  const response = await fetch(
+    `${baseUrl}/preview/p-input-group-18?theme=light&width=desktop&timers=real`,
+  );
+  const html = await response.text();
+  const input = html.match(/<input[^>]*placeholder="Enter email"[^>]*>/)?.[0];
+
+  assert.equal(response.status, 200, "p-input-group-18 SSR preview should return 200");
+  assert.ok(input, "p-input-group-18 SSR should include its email input");
+  assert.match(input, /value="hello@coss\.com"/, "JS-free SSR should include the COSS default");
+  assert.doesNotMatch(
+    input,
+    /defaultvalue/i,
+    "SSR must not leak an invalid defaultvalue attribute",
+  );
+}
+
 async function inspectFieldValidityPreview() {
   const browser = await chromium.launch({ headless: true });
   try {
@@ -167,6 +184,7 @@ try {
     if (coldStartParticles.includes(id) || id === "p-field-1") continue;
     await openParticle(id);
   }
+  await inspectInputGroupServerValue();
   await inspectFieldValidityPreview();
   await inspectInputGroupDefaultValue();
 } finally {

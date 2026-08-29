@@ -26,6 +26,9 @@ describe("Input browser contract", () => {
 
     const defaultValueInput = page.getByTestId("default-value-input");
     await expect.element(defaultValueInput).toHaveValue("default seed");
+    await defaultValueInput.fill("user edit");
+    await page.getByTestId("change-input-default").click();
+    await expect.element(defaultValueInput).toHaveValue("user edit");
 
     const callbackInput = page.getByTestId("callback-input");
     await callbackInput.fill("callback value");
@@ -49,7 +52,7 @@ describe("Input browser contract", () => {
     const form = document.querySelector<HTMLFormElement>('[data-testid="input-form"]');
     expect(form).not.toBeNull();
     expect(new FormData(form ?? undefined).get("query")).toBe("updated");
-    expect(new FormData(form ?? undefined).get("defaulted")).toBe("default seed");
+    expect(new FormData(form ?? undefined).get("defaulted")).toBe("user edit");
     expect(new FormData(form ?? undefined).get("native")).toBe("native value");
     expect(new FormData(form ?? undefined).get("native-defaulted")).toBe("native default");
 
