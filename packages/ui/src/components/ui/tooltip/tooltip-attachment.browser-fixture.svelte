@@ -201,6 +201,7 @@
   <button
     {@attach Tooltip.createTriggerAttachment(transitHandle, () => ({
       ariaDescribedBy: transitPopupId,
+      closeDelay: 300,
       delay: 0,
       id: transitId,
     }))}

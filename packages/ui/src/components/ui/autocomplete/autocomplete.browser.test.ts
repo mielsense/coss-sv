@@ -44,6 +44,7 @@ describe("Autocomplete browser contract", () => {
     const asyncInput = page.getByRole("combobox", { name: "Async search" });
     await asyncInput.fill("query");
     await expect.element(page.getByText("Searching...")).toBeVisible();
+    document.querySelector<HTMLButtonElement>('[data-testid="resolve-async-search"]')?.click();
     await expect.element(page.getByRole("option", { name: "Async result" })).toBeVisible();
     await expect.element(page.getByText("Searching...")).not.toBeInTheDocument();
   });

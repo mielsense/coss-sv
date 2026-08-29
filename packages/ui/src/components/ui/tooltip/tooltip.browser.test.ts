@@ -132,10 +132,10 @@ describe("Tooltip browser contract", () => {
     await expect.element(page.getByText("Grouped first hint")).not.toBeInTheDocument();
     await expect.element(page.getByText("Grouped first hint")).toBeInTheDocument();
 
-    const started = performance.now();
     await page.getByTestId("attached-grouped-second").hover();
-    await expect.element(page.getByText("Grouped second hint")).toBeInTheDocument();
-    expect(performance.now() - started).toBeLessThan(200);
+    const second = page.getByText("Grouped second hint");
+    expect(document.body.textContent).toContain("Grouped second hint");
+    await expect.element(second).toBeInTheDocument();
   });
 
   test("resets removed roots without leaking the instant phase across providers", async () => {
@@ -192,6 +192,79 @@ describe("Tooltip browser contract", () => {
     await expect.element(popup).toBeInTheDocument();
     await popup.hover();
     await expect.element(popup).toBeInTheDocument();
+  });
+
+  test.each([
+    {
+      movement: "outside",
+      point: (rect: DOMRect) => ({ x: rect.right + 500, y: rect.bottom + 4 }),
+    },
+    {
+      movement: "reverse",
+      point: (rect: DOMRect) => ({ x: rect.left + rect.width / 2, y: rect.top - 4 }),
+    },
+  ])("removes the safe-transit listener before a delayed $movement close", async ({ point }) => {
+    const activePointerMoves = new Set<EventListenerOrEventListenerObject>();
+    const addEventListener = document.addEventListener.bind(document);
+    const removeEventListener = document.removeEventListener.bind(document);
+    const addSpy = vi
+      .spyOn(document, "addEventListener")
+      .mockImplementation(
+        (
+          type: string,
+          listener: EventListenerOrEventListenerObject,
+          options?: boolean | AddEventListenerOptions,
+        ) => {
+          if (type === "pointermove") activePointerMoves.add(listener);
+          addEventListener(type, listener, options);
+        },
+      );
+    const removeSpy = vi
+      .spyOn(document, "removeEventListener")
+      .mockImplementation(
+        (
+          type: string,
+          listener: EventListenerOrEventListenerObject,
+          options?: boolean | EventListenerOptions,
+        ) => {
+          if (type === "pointermove") activePointerMoves.delete(listener);
+          removeEventListener(type, listener, options);
+        },
+      );
+    render(AttachmentFixture);
+    const trigger = page.getByTestId("attached-transit");
+    await trigger.hover();
+    const popup = page.getByRole("tooltip", { name: "Transit hint" });
+    await expect.element(popup).toBeInTheDocument();
+
+    const rect = trigger.element().getBoundingClientRect();
+    trigger.element().dispatchEvent(
+      new PointerEvent("pointerleave", {
+        bubbles: false,
+        clientX: rect.left + rect.width / 2,
+        clientY: rect.bottom - 1,
+        pointerType: "mouse",
+      }),
+    );
+    await Promise.resolve();
+    expect(activePointerMoves.size).toBe(1);
+    const listener = [...activePointerMoves][0];
+    if (!listener) throw new Error("missing safe-transit listener");
+    const closePoint = point(rect);
+    const movement = new PointerEvent("pointermove", {
+      clientX: closePoint.x,
+      clientY: closePoint.y,
+      pointerType: "mouse",
+    });
+    if (typeof listener === "function") listener(movement);
+    else listener.handleEvent(movement);
+
+    expect(activePointerMoves.size).toBe(0);
+    await expect.element(popup).toBeInTheDocument();
+    await new Promise((resolve) => setTimeout(resolve, 320));
+    await expect.element(popup).not.toBeInTheDocument();
+    addSpy.mockRestore();
+    removeSpy.mockRestore();
   });
 
   test("closes on trigger leave when an attached root disables hoverable popups", async () => {

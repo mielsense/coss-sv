@@ -1,27 +1,35 @@
 <script lang="ts">
-import * as Autocomplete from "./index.js";
-const fruits = ["Apple", "Banana", "Orange", "Grape"];
-let value = $state("");
-let inlineValue = $state("");
-let asyncItems = $state<string[]>([]);
-let asyncPending = $state(false);
-let asyncRequest = 0;
-const people = [
-  { id: "ada", name: "Ada Lovelace" },
-  { id: "grace", name: "Grace Hopper" },
-];
-let personValue = $state("");
+  import * as Autocomplete from "./index.js";
+  const fruits = ["Apple", "Banana", "Orange", "Grape"];
+  let value = $state("");
+  let inlineValue = $state("");
+  let asyncItems = $state<string[]>([]);
+  let asyncPending = $state(false);
+  let asyncRequest = 0;
+  let resolveAsyncRequest: (() => void) | undefined;
+  const people = [
+    { id: "ada", name: "Ada Lovelace" },
+    { id: "grace", name: "Grace Hopper" },
+  ];
+  let personValue = $state("");
 
-async function searchAsync(query: string): Promise<void> {
-  const request = ++asyncRequest;
-  asyncPending = query.length > 0;
-  asyncItems = [];
-  if (!query) return;
-  await new Promise((resolve) => setTimeout(resolve, 20));
-  if (request !== asyncRequest) return;
-  asyncItems = ["Async result"];
-  asyncPending = false;
-}
+  async function searchAsync(query: string): Promise<void> {
+    const request = ++asyncRequest;
+    asyncPending = query.length > 0;
+    asyncItems = [];
+    if (!query) return;
+    await new Promise<void>((resolve) => {
+      resolveAsyncRequest = resolve;
+    });
+    if (request !== asyncRequest) return;
+    asyncItems = ["Async result"];
+    asyncPending = false;
+    resolveAsyncRequest = undefined;
+  }
+
+  function resolveAsyncSearch(): void {
+    resolveAsyncRequest?.();
+  }
 </script>
 
 <form data-testid="autocomplete-form">
@@ -91,3 +99,6 @@ async function searchAsync(query: string): Promise<void> {
     </Autocomplete.List>
   </Autocomplete.Popup>
 </Autocomplete.Root>
+<button data-testid="resolve-async-search" onclick={resolveAsyncSearch} type="button">
+  Resolve async search
+</button>

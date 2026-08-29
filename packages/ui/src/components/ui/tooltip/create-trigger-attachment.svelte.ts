@@ -229,7 +229,10 @@ export function createTriggerAttachment<Payload = unknown>(
         floating: popup,
         leaveX: event.clientX,
         leaveY: event.clientY,
-        onClose: () => scheduleClose("trigger-hover", event),
+        onClose: () => {
+          clearSafeTransit();
+          scheduleClose("trigger-hover", event);
+        },
         onLanding: clearSafeTransit,
         reference: node,
         side: getPopupSide(popup),
