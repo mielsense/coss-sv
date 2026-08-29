@@ -7,7 +7,7 @@ function uiFiles(component: string, files: string[]) {
   }));
 }
 
-const registryUiItems = defineRegistryItems([
+export const registryUiItems = defineRegistryItems([
   {
     name: "accordion",
     type: "registry:ui",

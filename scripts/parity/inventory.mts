@@ -71,7 +71,7 @@ const statusOrder: ParityStatus[] = ["missing", "implemented", "reviewed", "appr
 
 export const targetManifestDefinitions = [
   {
-    exportName: "registryUi",
+    exportName: "registryUiItems",
     idProperty: "name",
     kind: "component",
     path: "apps/ui/registry/registry-ui.ts",

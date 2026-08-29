@@ -214,7 +214,7 @@ test("reads only canonical exported manifests and compares exact target IDs", ()
     const sources = new Map([
       [
         "component",
-        `const inert = [{ name: "inert-component" }];\nexport const registryUi = defineRegistryItems([{ name: "accordion" }, { name: "renamed-button" }]);\n`,
+        `const inert = [{ name: "inert-component" }];\nexport const registryUiItems = defineRegistryItems([{ name: "accordion" }, { name: "renamed-button" }]);\n`,
       ],
       [
         "particle",
