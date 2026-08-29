@@ -1,0 +1,256 @@
+---
+title: Changelog
+description: Breaking changes, migration guides, and notable updates from the pinned COSS reference.
+---
+
+# Changelog
+
+Breaking changes, migration guides, and notable updates from the pinned COSS reference.
+
+<CopyMarkdownButton url="/docs/changelog.md" />
+
+The dates and topics below match the upstream COSS changelog. Commands and examples are translated to
+the Svelte registry where the same change applies. Entries tied only to the upstream framework are
+kept as provenance notes instead of prescribing an unrelated Svelte migration.
+
+## August 19, 2026
+
+### Tabs sizing and segmented control styles
+
+**`Tabs.List`** supports a **`size`** prop with **`"sm"`**, **`"default"`**, and **`"lg"`** values.
+The size propagates to its **`Tabs.Tab`** children, and an individual tab can override the inherited
+size.
+
+The default Tabs appearance uses the same optical item sizing as the
+[Segmented Control](/docs/components/segmented-control) pattern. The default rendered height is
+slightly smaller so the inset active indicator stays balanced beside a Button of the corresponding
+size.
+
+Tabs shares its item layout and size maps with the Segmented Control implementation. The registry
+records that dependency, so shadcn-svelte installs it with a fresh Tabs installation.
+
+**Migration:**
+
+Existing Tabs markup needs no size prop because `"default"` remains the default. If you replace a
+local Tabs component through the CLI, review local changes before accepting the overwrite:
+
+```bash
+pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/tabs.json
+```
+
+After updating, remove local height or horizontal-padding utilities only where they accidentally
+override the new size API. Keep intentional product-specific overrides. Verify the default and
+underline variants at every size used by the application.
+
+## July 31, 2026
+
+### Scroll Area — overscroll contain
+
+**`ScrollArea.Root`** no longer applies **`overscroll-behavior: contain`** by default. Use the optional
+**`overscrollContain`** prop, whose default is **`false`**, to opt in.
+
+Nested surfaces that must not chain scroll to the page already pass it, including dialog, sheet,
+drawer, combobox, autocomplete, and sidebar panels.
+
+**Migration:**
+
+No change is required for those composed parts after upgrading. For custom nested scroll areas, opt
+in explicitly:
+
+```diff
+- <ScrollArea.Root scrollbarGutter scrollFade>
++ <ScrollArea.Root overscrollContain scrollbarGutter scrollFade>
+```
+
+Add the prop only where wheel or touch scrolling should not propagate to a parent scroller.
+
+## July 26, 2026
+
+### Calendar engine update
+
+The upstream COSS release moved its framework-specific DayPicker dependency to version 10 and removed
+APIs deprecated in version 9.
+
+COSS for Svelte does not use that package. Its Calendar adapter uses the Svelte implementation in this
+repository and `@internationalized/date` values. No dependency or import migration is required. If
+you maintain a custom Calendar wrapper, compare it to the current
+[Calendar documentation](/docs/components/calendar) and tests instead of applying the upstream
+framework migration literally.
+
+## June 22, 2026
+
+### Behavioral primitive update
+
+The upstream COSS release updated Base UI and renamed an OTP namespace export. COSS for Svelte uses
+Shards UI, so the Base UI package and namespace rename do not apply.
+
+The Svelte OTP module exposes the COSS parts through its namespace. Update generated files from the
+Svelte registry when the local API differs:
+
+```bash
+pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/otp-field.json
+```
+
+## June 11, 2026
+
+### Context Menu
+
+**Context Menu** is the pointer-anchored action-menu component for right click and long press. See the
+[Context Menu documentation](/docs/components/context-menu) for installation and examples.
+
+**Install:**
+
+```bash
+pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/context-menu.json
+```
+
+There is no migration from an earlier COSS primitive. Use it where pointer-triggered actions belong
+beside, or instead of, a regular Menu.
+
+### Menu and Context Menu — link items
+
+**`Menu.LinkItem`** and **`ContextMenu.LinkItem`** are styled navigation rows. They match the action
+items visually and close the menu after navigation by default.
+
+Use link items for navigation and action items for callbacks:
+
+```diff
+- <Menu.Item onclick={() => goto("/docs")}>Docs</Menu.Item>
++ <Menu.LinkItem href="/docs">Docs</Menu.LinkItem>
+```
+
+For a SvelteKit-enhanced anchor, keep the anchor attributes on the link item. Do not translate the
+upstream render-delegation example; Svelte components accept native anchor attributes directly.
+
+```svelte
+<Menu.LinkItem data-sveltekit-preload-data="hover" href="/docs">Docs</Menu.LinkItem>
+```
+
+The equivalent Context Menu migration changes only the namespace:
+
+```diff
+- <ContextMenu.Item onclick={() => goto("/docs")}>Docs</ContextMenu.Item>
++ <ContextMenu.LinkItem href="/docs">Docs</ContextMenu.LinkItem>
+```
+
+## May 29, 2026
+
+### Scroll Area
+
+**`ScrollArea.Root`** adds an optional **`fill`** prop whose default is **`false`**. When enabled,
+`size-full` is applied to the content so inner flex layouts can use the full viewport height, such as
+pinning a footer with `mt-auto` in a sidebar.
+
+Most scroll areas should keep the default. Opt in only when the scroll container must stretch rather
+than size to its children.
+
+**Migration:**
+
+No change is required for lists, dialogs, comboboxes, or command menus. For a flex column with a
+bottom-pinned footer, opt in explicitly:
+
+```diff
+- <ScrollArea.Root class="min-h-0 flex-1">
++ <ScrollArea.Root class="min-h-0 flex-1" fill>
+    <div class="flex h-full flex-col">
+      ...
+      <footer class="mt-auto">...</footer>
+    </div>
+  </ScrollArea.Root>
+```
+
+The generated Sidebar content already passes `fill`; update its registry item if your project owns an
+older copy.
+
+## April 17, 2026
+
+### Form
+
+The **`Form`** component no longer applies default layout classes. It is a thin behavioral wrapper;
+pass `class` wherever you need a vertical field stack, width constraints, or dialog layout.
+
+**Migration:**
+
+Restore a typical stacked layout explicitly:
+
+```diff
+- <Form onsubmit={save}>
++ <Form class="flex w-full flex-col gap-4" onsubmit={save}>
+```
+
+For dialogs, sheets, and drawers, keep the Header outside the form. Wrap the Panel and Footer in a
+Form, or a native form, with `class="contents"`. Display contents keeps the header, panel, and footer
+as direct flex children so panel scroll and height constraints continue to work.
+
+```svelte
+<Dialog.Popup>
+  <Dialog.Header>...</Dialog.Header>
+  <form class="contents" onsubmit={save}>
+    <Dialog.Panel>...</Dialog.Panel>
+    <Dialog.Footer>...</Dialog.Footer>
+  </form>
+</Dialog.Popup>
+```
+
+## April 14, 2026
+
+### OTP Field
+
+The earlier Input OTP registry item was replaced by **OTP Field**. See the
+[OTP Field documentation](/docs/components/otp-field) and
+[migration guide](/docs/radix-migration#otp-field) for the current namespace.
+
+**Migration:**
+
+```diff
+- pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/input-otp.json
++ pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/otp-field.json
+```
+
+```diff
+- import * as InputOTP from "$lib/components/ui/input-otp/index.js";
++ import * as OTPField from "$lib/components/ui/otp-field/index.js";
+```
+
+Use `OTPField.Root`, `OTPField.Input`, and `OTPField.Separator`, and set `length` on the root.
+
+## April 12, 2026
+
+### Table
+
+`Table` supports an optional **`variant`** prop: **`"default"`**, which is the default, or
+**`"card"`**. Omitting it keeps the earlier appearance. Use `variant="card"` for the separated-row
+grid shown in the [Table documentation](/docs/components/table), including tables inside Frame or
+Card Frame.
+
+**Migration:**
+
+Existing tables require no change. Opt in only where the design calls for the card-style grid:
+
+```svelte
+<Table variant="card">...</Table>
+```
+
+## March 20, 2026
+
+### Toggle Group
+
+The grouped item is named `ToggleGroup.Item` to avoid a conflict with the standalone `Toggle` export.
+
+**Migration:**
+
+```diff
+- import { Toggle, ToggleGroup } from "$lib/components/ui/toggle-group/index.js";
++ import * as ToggleGroup from "$lib/components/ui/toggle-group/index.js";
+```
+
+```diff
+- <ToggleGroup>
+-   <Toggle value="bold">Bold</Toggle>
+- </ToggleGroup>
++ <ToggleGroup.Root>
++   <ToggleGroup.Item value="bold">Bold</ToggleGroup.Item>
++ </ToggleGroup.Root>
+```
+
+Do not change imports from the standalone Toggle module.

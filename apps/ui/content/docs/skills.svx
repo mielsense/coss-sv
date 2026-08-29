@@ -1,0 +1,96 @@
+---
+title: Skills
+description: Give your coding agent deep knowledge of COSS for Svelte components, patterns, and review rules.
+---
+
+# Skills
+
+Give your coding agent deep knowledge of COSS for Svelte components, patterns, and review rules.
+
+<CopyMarkdownButton url="/docs/skills.md" />
+
+Skills give coding agents structured knowledge about a component library: APIs, composition patterns,
+styling conventions, migration rules, and common pitfalls. With the right project instructions, an
+agent can use COSS primitives without guessing.
+
+For example, you can ask your agent to:
+
+- _"Add a settings dialog with a form and save/cancel buttons."_
+- _"Add a select with grouped options and a search filter."_
+- _"Migrate this shadcn-svelte menu to COSS for Svelte."_
+- _"Build a toast notification for form submission errors."_
+
+## Install
+
+COSS for Svelte does not publish an Agent Skills package yet. Do not install the upstream React skill
+and assume its APIs apply to this port.
+
+Agents working in this repository start with `AGENTS.md`. It points to the port specification, the
+active plan, and the rules that protect source provenance and component parity. A future public skill
+will have its own install command once the Svelte API and registry are stable.
+
+Learn more about the skills ecosystem at [skills.sh](https://skills.sh).
+
+## What's Included
+
+The repository instructions cover the full porting workflow.
+
+### Component Knowledge
+
+Before changing a component, an agent reads the complete COSS registry source, documentation page,
+and every particle that imports it from the permitted `reference/apps/ui` boundary. It then reads the
+complete matching Shards source, documentation, tests, examples, and exported types.
+
+### Styling Conventions
+
+The instructions cover Tailwind v4 token usage, the semantic color system, Hugeicons sizing,
+`data-slot` selectors, `--alpha()` syntax, and the font-variable contract: `--font-sans`,
+`--font-mono`, and `--font-heading`.
+
+All interface icons use Hugeicons data through the shared SSR-safe renderer:
+
+```svelte
+<script lang="ts">
+  import { Copy01Icon } from "@hugeicons/core-free-icons";
+  import { Button, HugeiconsIcon } from "@coss-sv/ui";
+</script>
+
+<Button aria-label="Copy" size="icon" variant="outline">
+  <HugeiconsIcon aria-hidden="true" icon={Copy01Icon} strokeWidth={2} />
+</Button>
+```
+
+### Migration Patterns
+
+The rules cover namespace composition, trigger delegation, controlled and uncontrolled bindings,
+Select item data, Toggle Group multiple selection, Slider values, and the callback contracts used by
+Shards-backed components.
+
+### CLI and Registry
+
+The guides document installation through the shadcn-svelte CLI, custom registry URLs, dependency
+discovery, and manual install paths.
+
+### Particle Examples
+
+Every component review includes the upstream particle catalog. Agents use those real compositions to
+port production examples instead of inventing minimal stubs.
+
+## How It Works
+
+1. **Instruction activation** — the coding agent reads `AGENTS.md`, the port specification, and the
+   active plan before editing.
+2. **Progressive loading** — it reads the complete source evidence required for the assigned
+   component or page, then the relevant Svelte Edge references.
+3. **Pattern enforcement** — it writes one coherent Svelte 5 generation with `$props()`, snippets,
+   callback props, typed contexts, native attributes, and hydration-stable IDs.
+4. **Example-driven output** — it uses the matching COSS particles and the live reference rather than
+   memory.
+5. **Independent review** — parity/accessibility and Svelte-quality reviewers repeat the source
+   inspection before approving the exact commit.
+
+## Supported Agents
+
+These instructions are plain repository files and can be read by any agent that supports project
+instructions, including Claude Code, Cursor, Codex, Cline, Windsurf, and GitHub Copilot. An agent is
+not considered compatible until it performs the same source, test, browser, and review workflow.

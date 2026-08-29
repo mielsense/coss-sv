@@ -1,0 +1,88 @@
+---
+title: useMediaQuery
+description: Use Svelte's reactive MediaQuery class for viewport, pointer, and preference queries.
+---
+
+<p class="eyebrow">Svelte pattern</p>
+
+# useMediaQuery
+
+<CopyMarkdownButton url="/docs/hooks/use-media-query.md" />
+
+The upstream React page documents a `useMediaQuery` hook with Tailwind-like shorthand. COSS for Svelte
+does not export a `useMediaQuery` hook. Svelte 5 already provides the reactive `MediaQuery` class in
+`svelte/reactivity`, so this port documents that native API instead of inventing a package export.
+
+## Usage
+
+### Breakpoints
+
+Pass a complete CSS media query and provide `false` as the server fallback. Read `.current` in markup,
+`$derived`, or `$effect`.
+
+```svelte
+<script lang="ts">
+  import { MediaQuery } from "svelte/reactivity";
+
+  const isDesktop = new MediaQuery("(min-width: 1024px)", false);
+  const isMobile = new MediaQuery("(max-width: 799px)", false);
+  const isTablet = new MediaQuery("(min-width: 800px) and (max-width: 1023px)", false);
+</script>
+
+{#if isDesktop.current}
+  <DesktopNav />
+{:else}
+  <MobileNav />
+{/if}
+```
+
+Use CSS container or media queries when only layout changes. Conditional rendering is appropriate
+when the component tree or behavior must differ.
+
+### Pointer and preference queries
+
+```svelte
+<script lang="ts">
+  import { MediaQuery } from "svelte/reactivity";
+
+  const isTouch = new MediaQuery("(pointer: coarse)", false);
+  const prefersDark = new MediaQuery("(prefers-color-scheme: dark)", false);
+  const prefersReducedMotion = new MediaQuery("(prefers-reduced-motion: reduce)", false);
+</script>
+```
+
+## Breakpoints
+
+The upstream COSS hook used these values. Keep the queries in sync with the breakpoints in your
+Tailwind theme.
+
+| Name  | Value  |
+| ----- | ------ |
+| `sm`  | 640px  |
+| `md`  | 800px  |
+| `lg`  | 1024px |
+| `xl`  | 1280px |
+| `2xl` | 1536px |
+| `3xl` | 1600px |
+| `4xl` | 2000px |
+
+## SSR behavior
+
+The second constructor argument is the value used on the server. `false` matches the upstream hook's
+server behavior and prevents the server from guessing a viewport. A branch may change after hydration
+when the browser query is true, so prefer CSS when both branches contain important content.
+
+## Examples
+
+Resize the viewport to see the values update.
+
+<MediaQueryDemo />
+
+## API
+
+```ts
+import { MediaQuery } from "svelte/reactivity";
+
+const query = new MediaQuery("(min-width: 800px)", false);
+query.current; // boolean
+```

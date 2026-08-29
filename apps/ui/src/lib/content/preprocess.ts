@@ -12,9 +12,12 @@ export const documentationComponentNames = [
   "CodeSource",
   "ComponentPreview",
   "ComponentStatus",
+  "CopyMarkdownButton",
+  "EarlyAccessCallout",
   "FileTree",
   "InstallCommand",
   "LinkedHeading",
+  "MediaQueryDemo",
   "PageNavigation",
 ] as const;
 

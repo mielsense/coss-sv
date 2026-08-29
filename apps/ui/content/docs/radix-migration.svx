@@ -1,0 +1,585 @@
+---
+title: Migrating from shadcn-svelte and Bits UI
+description: Move an existing Svelte component set to the Shards-backed COSS for Svelte wrappers.
+---
+
+# Migrating from shadcn-svelte and Bits UI
+
+Move an existing Svelte component set to the Shards-backed COSS for Svelte wrappers.
+
+<CopyMarkdownButton url="/docs/radix-migration.md" />
+
+The upstream COSS guide helps React applications move from Radix and shadcn/ui to COSS and Base UI.
+For this port, the equivalent job is moving a Svelte application from shadcn-svelte or direct Bits UI
+parts to the COSS wrappers backed by Shards UI.
+
+Do not translate React props literally. Install one component at a time, compare its current Svelte
+types, then test its keyboard and focus behavior before removing the old implementation.
+
+## Overview
+
+COSS for Svelte uses compound namespace imports for behavioral components. The root owns shared state,
+and nested parts read it through context.
+
+```svelte
+<script lang="ts">
+  import * as Dialog from "$lib/components/ui/dialog/index.js";
+</script>
+
+<Dialog.Root>
+  <Dialog.Trigger>Open dialog</Dialog.Trigger>
+  <Dialog.Popup>
+    <Dialog.Header>
+      <Dialog.Title>Edit profile</Dialog.Title>
+      <Dialog.Description>Change the account details below.</Dialog.Description>
+    </Dialog.Header>
+    <Dialog.Panel>Form fields go here.</Dialog.Panel>
+    <Dialog.Footer>
+      <Dialog.Close>Cancel</Dialog.Close>
+    </Dialog.Footer>
+  </Dialog.Popup>
+</Dialog.Root>
+```
+
+## General migration patterns
+
+### Use namespaces and an explicit root
+
+Replace a flat list of component imports with a namespace for compound components.
+
+```svelte
+<script lang="ts">
+  import * as Accordion from "$lib/components/ui/accordion/index.js";
+</script>
+
+<Accordion.Root defaultValue={["item-1"]}>
+  <Accordion.Item value="item-1">
+    <Accordion.Header>
+      <Accordion.Trigger>Account</Accordion.Trigger>
+    </Accordion.Header>
+    <Accordion.Panel>Account settings</Accordion.Panel>
+  </Accordion.Item>
+</Accordion.Root>
+```
+
+### Replace render delegation with native parts
+
+Shards parts render the correct native element and forward HTML attributes. Style a trigger directly
+instead of wrapping a Button solely to delegate its element.
+
+```svelte
+<script lang="ts">
+  import { buttonVariants } from "$lib/components/ui/button/index.js";
+  import * as Dialog from "$lib/components/ui/dialog/index.js";
+</script>
+
+<Dialog.Root>
+  <Dialog.Trigger class={buttonVariants({ variant: "outline" })}>Open dialog</Dialog.Trigger>
+  <Dialog.Popup>...</Dialog.Popup>
+</Dialog.Root>
+```
+
+Use the `as` prop only when a part should render another HTML tag. It accepts a tag name, not a
+component.
+
+```svelte
+<Menu.Item as="a" href="/settings">Settings</Menu.Item>
+```
+
+### Bind state with Svelte
+
+Replace controlled value boilerplate with bindings. Callback props remain available when the change
+needs a side effect.
+
+```svelte
+<script lang="ts">
+  import * as Dialog from "$lib/components/ui/dialog/index.js";
+  let open = $state(false);
+</script>
+
+<Dialog.Root bind:open onOpenChange={(next) => console.log(next)}>...</Dialog.Root>
+```
+
+Common bindings include `bind:open`, `bind:value`, `bind:checked`, and `bind:ref`.
+
+### Use `class` and lowercase event attributes
+
+Svelte uses `class`, not `className`, and current event attributes such as `onclick`, not React event
+props or legacy directives.
+
+```svelte
+<Menu.Item class="text-destructive" onclick={() => archiveProject()}>Archive project</Menu.Item>
+```
+
+### Component naming conventions
+
+The Svelte namespace keeps the same clearer part names introduced by COSS:
+
+- `*.Content` becomes `*.Popup` for positioned surfaces or `*.Panel` for scrollable body content.
+- Legacy aliases may exist for compatibility, but new code should use the documented namespace name.
+- Compound components use an explicit `*.Root`; simple elements such as Button and Input remain named
+  exports.
+
+## Component migration guides
+
+### Accordion
+
+- Use `Accordion.Root`, `Item`, `Header`, `Trigger`, and `Panel`.
+- Values are arrays for both single and multiple selection.
+- Set `multiple` to allow more than one open item.
+- Use `bind:value` or `onValueChange` for controlled state.
+
+**Comparison example:**
+
+```svelte title="shadcn-svelte"
+<Accordion.Root type="multiple" value="item-1">
+  <Accordion.Item value="item-1">
+    <Accordion.Trigger>Title</Accordion.Trigger>
+    <Accordion.Content>Content</Accordion.Content>
+  </Accordion.Item>
+</Accordion.Root>
+```
+
+```svelte title="COSS for Svelte"
+<Accordion.Root multiple defaultValue={["item-1"]}>
+  <Accordion.Item value="item-1">
+    <Accordion.Header>
+      <Accordion.Trigger>Title</Accordion.Trigger>
+    </Accordion.Header>
+    <Accordion.Panel>Content</Accordion.Panel>
+  </Accordion.Item>
+</Accordion.Root>
+```
+
+### Alert
+
+Alert remains a single element component. COSS adds semantic `info`, `success`, `warning`, and
+`error` variants. Add the semantic color variables from the [Styling](/docs/styling) guide.
+
+### Badge
+
+Badge remains a named component. It adds `sm`, `default`, and `lg` sizes; use `lg` when preserving the
+height of a typical shadcn-svelte badge. It also adds the semantic variants listed for Alert.
+
+When the whole badge navigates, render it as an anchor directly:
+
+```svelte
+<Badge as="a" href="/new">New</Badge>
+```
+
+### Button
+
+COSS buttons are denser than the corresponding shadcn-svelte defaults and include more sizes.
+
+| Size      | Typical shadcn-svelte height | COSS height |
+| --------- | ---------------------------- | ----------- |
+| `xs`      | —                            | 24px        |
+| `sm`      | 32px                         | 28px        |
+| `default` | 36px                         | 32px        |
+| `lg`      | 40px                         | 36px        |
+| `xl`      | —                            | 40px        |
+| `icon`    | 36px                         | 32px        |
+| `icon-sm` | —                            | 28px        |
+| `icon-lg` | —                            | 36px        |
+
+Use `lg` to preserve a 36px default control. The `destructive-outline` variant is appropriate for a
+secondary destructive trigger; reserve the solid `destructive` variant for the primary destructive
+action.
+
+Buttons render anchors when `href` is present:
+
+```svelte
+<Button href="/login">Login</Button>
+```
+
+### Input
+
+Input sizes are `sm` at 28px, `default` at 32px, and `lg` at 36px. Use `lg` when preserving the
+typical 36px shadcn-svelte input height.
+
+### Alert Dialog
+
+- Use `AlertDialog.Popup` instead of `Content` in new code.
+- Compose Header and Footer directly inside Popup; Alert Dialog has no separate Panel part.
+- Replace separate Action and Cancel parts with `AlertDialog.Close` controls.
+- Bind `open` on the root when application state needs it.
+
+```svelte
+<AlertDialog.Root>
+  <AlertDialog.Trigger class={buttonVariants({ variant: "outline" })}>
+    Show Alert Dialog
+  </AlertDialog.Trigger>
+  <AlertDialog.Popup>
+    <AlertDialog.Header>
+      <AlertDialog.Title>Are you absolutely sure?</AlertDialog.Title>
+      <AlertDialog.Description>This action cannot be undone.</AlertDialog.Description>
+    </AlertDialog.Header>
+    <AlertDialog.Footer>
+      <AlertDialog.Close class={buttonVariants({ variant: "ghost" })}>Cancel</AlertDialog.Close>
+      <AlertDialog.Close class={buttonVariants({ variant: "destructive" })}>
+        Continue
+      </AlertDialog.Close>
+    </AlertDialog.Footer>
+  </AlertDialog.Popup>
+</AlertDialog.Root>
+```
+
+### Dialog
+
+- Use `Dialog.Popup` instead of `Content` in new code.
+- Put `Header`, `Panel`, and `Footer` in that order.
+- Keep a form that spans Panel and Footer at `class="contents"`.
+- Use `Dialog.Close` for controls that dismiss the overlay.
+
+```svelte
+<Dialog.Root>
+  <Dialog.Trigger class={buttonVariants({ variant: "outline" })}>Show Dialog</Dialog.Trigger>
+  <Dialog.Popup>
+    <Dialog.Header>
+      <Dialog.Title>Dialog Title</Dialog.Title>
+      <Dialog.Description>Dialog Description</Dialog.Description>
+    </Dialog.Header>
+    <Dialog.Panel>Content</Dialog.Panel>
+    <Dialog.Footer>
+      <Dialog.Close class={buttonVariants({ variant: "ghost" })}>Cancel</Dialog.Close>
+    </Dialog.Footer>
+  </Dialog.Popup>
+</Dialog.Root>
+```
+
+### Sheet
+
+Sheet follows the Dialog structure with `Sheet.Popup`, `Sheet.Header`, `Sheet.Panel`, and
+`Sheet.Footer`.
+
+```svelte
+<Sheet.Root>
+  <Sheet.Trigger class={buttonVariants({ variant: "outline" })}>Open Sheet</Sheet.Trigger>
+  <Sheet.Popup>
+    <Sheet.Header><Sheet.Title>Sheet Title</Sheet.Title></Sheet.Header>
+    <Sheet.Panel>Content here</Sheet.Panel>
+    <Sheet.Footer>
+      <Sheet.Close class={buttonVariants()}>Close</Sheet.Close>
+    </Sheet.Footer>
+  </Sheet.Popup>
+</Sheet.Root>
+```
+
+### Group (Button Group)
+
+- Prefer the `Group.*` names; legacy Button Group aliases may remain for compatibility.
+- Place `Group.Separator` between adjacent controls, including outline buttons, so focus states and
+  borders remain consistent.
+- Render text or icons directly in `Group.Text` rather than introducing an extra control.
+
+### Input Group
+
+Use the regular Button inside `InputGroup.Addon`; there is no separate Input Group Button component.
+To disable the group, disable `InputGroup.Input` or `InputGroup.Textarea` and any Button inside the
+group. Do not add a manual `data-disabled` attribute to the wrapper.
+
+### Avatar and links
+
+Use the root as an anchor when the whole avatar navigates.
+
+```svelte
+<Avatar.Root as="a" href="/profile">
+  <Avatar.Image alt="User" src="/avatar.jpg" />
+  <Avatar.Fallback>U</Avatar.Fallback>
+</Avatar.Root>
+```
+
+### Card
+
+Use `Card.Panel` for the main card body. `Card.Content` remains a compatibility alias.
+
+### Checkbox
+
+Checkbox remains a named component. Bind `checked` for a controlled value, and pass labels through a
+native `<label>` or the COSS Label component.
+
+```svelte
+<Label><Checkbox bind:checked /> Accept the terms</Label>
+```
+
+### Collapsible
+
+Use `Collapsible.Panel` for content and bind `open` on `Collapsible.Root` when needed. Style the COSS
+trigger part directly instead of wrapping a second button.
+
+```svelte
+<Collapsible.Root>
+  <Collapsible.Trigger class={buttonVariants({ variant: "outline" })}>Toggle</Collapsible.Trigger>
+  <Collapsible.Panel>Content here</Collapsible.Panel>
+</Collapsible.Root>
+```
+
+### Command
+
+The Command API is data driven. Pass an `items` array to the root and render collections inside their
+groups. Use `Command.Dialog`, `DialogTrigger`, and `DialogPopup` for dialog mode instead of composing a
+separate Dialog.
+
+- The Svelte port has no `cmdk` dependency.
+- `Command.GroupLabel` is a child, not a `heading` prop.
+- Render `Command.Collection` inside `Command.Group` for grouped data.
+- Read the [Command documentation](/docs/components/command) before migrating a custom filter or
+  virtualization layer.
+
+### Menu
+
+- Use `Menu.Popup` and `Menu.SubPopup`.
+- Action items use `onclick`.
+- Navigation rows use `Menu.LinkItem` with `href`.
+- Checkbox and radio items support Svelte bindings.
+
+```svelte
+<Menu.Root>
+  <Menu.Trigger>Open menu</Menu.Trigger>
+  <Menu.Popup>
+    <Menu.Item onclick={() => edit()}>Edit</Menu.Item>
+    <Menu.LinkItem href="/settings">Settings</Menu.LinkItem>
+  </Menu.Popup>
+</Menu.Root>
+```
+
+When migrating a shadcn-svelte Dropdown Menu, rename the namespace and use current Svelte event
+attributes:
+
+```diff
+- <DropdownMenu.Root>
+-   <DropdownMenu.Trigger>Open menu</DropdownMenu.Trigger>
+-   <DropdownMenu.Content>
+-     <DropdownMenu.Item on:select={openDashboard}>Dashboard</DropdownMenu.Item>
+-   </DropdownMenu.Content>
+- </DropdownMenu.Root>
++ <Menu.Root>
++   <Menu.Trigger>Open menu</Menu.Trigger>
++   <Menu.Popup>
++     <Menu.Item onclick={openDashboard}>Dashboard</Menu.Item>
++   </Menu.Popup>
++ </Menu.Root>
+```
+
+### Context Menu
+
+Context Menu uses the same Popup, Item, LinkItem, checkbox, radio, group, and submenu vocabulary as
+Menu. Its root opens from right click or long press rather than a trigger click. Use
+`ContextMenu.LinkItem` for navigation rows.
+
+### OTP Field
+
+Use one `OTPField.Input` for each character. The root takes `length`; inputs follow DOM order and do
+not take an index.
+
+```svelte
+<script lang="ts">
+  import * as OTPField from "$lib/components/ui/otp-field/index.js";
+  let value = $state("");
+</script>
+
+<OTPField.Root aria-label="Verification code" bind:value length={6}>
+  {#each Array(3) as _, index (index)}
+    <OTPField.Input aria-label={index === 0 ? undefined : `Character ${index + 1} of 6`} />
+  {/each}
+  <OTPField.Separator />
+  {#each Array(3) as _, index (index)}
+    <OTPField.Input aria-label={`Character ${index + 4} of 6`} />
+  {/each}
+</OTPField.Root>
+```
+
+### Popover
+
+Use `Popover.Popup` in new code. Popover also provides `Title`, `Description`, and `Close`. Bind
+`open` on the root for controlled state.
+
+```svelte
+<Popover.Root>
+  <Popover.Trigger class={buttonVariants({ variant: "outline" })}>Open Popover</Popover.Trigger>
+  <Popover.Popup>
+    <Popover.Title>Popover Title</Popover.Title>
+    <Popover.Description>Popover Description</Popover.Description>
+    <Popover.Close class={buttonVariants({ variant: "ghost" })}>Close</Popover.Close>
+  </Popover.Popup>
+</Popover.Root>
+```
+
+### Preview Card
+
+Rename Hover Card imports to Preview Card and use `PreviewCard.Popup` in place of Content.
+
+```svelte
+<PreviewCard.Root>
+  <PreviewCard.Trigger class={buttonVariants({ variant: "outline" })}>
+    Open Preview Card
+  </PreviewCard.Trigger>
+  <PreviewCard.Popup>Preview Card Content</PreviewCard.Popup>
+</PreviewCard.Root>
+```
+
+### Progress
+
+The root renders the normal track and indicator when it has no children. For a custom composition,
+include `Progress.Track` and `Progress.Indicator` yourself. `Progress.Label` and `Progress.Value`
+connect visible text to the meter semantics.
+
+### Radio Group
+
+Use `RadioGroup.Root` with `RadioGroup.Item` for each option. Bind the string value on the root and
+associate each item with visible label text.
+
+```svelte
+<RadioGroup.Root bind:value>
+  <Label><RadioGroup.Item value="comfortable" /> Comfortable</Label>
+  <Label><RadioGroup.Item value="compact" /> Compact</Label>
+</RadioGroup.Root>
+```
+
+### Scroll Area
+
+Use `ScrollArea.Root`, `Viewport`, and the exported scrollbar parts. Add `overscrollContain` only for
+nested surfaces that must not chain scroll to a parent. Add `fill` only when inner flex content must
+stretch to the viewport height.
+
+### Select
+
+Pass `items` to the root so the selected label is available during server rendering. Bind the selected
+value and render the same values as items.
+
+```svelte
+<script lang="ts">
+  import * as Select from "$lib/components/ui/select/index.js";
+
+  const frameworks = [
+    { label: "Select a framework", value: null },
+    { label: "SvelteKit", value: "sveltekit" },
+    { label: "Vite", value: "vite" },
+    { label: "Astro", value: "astro" },
+  ];
+  let framework = $state<string | null>(null);
+</script>
+
+<Select.Root aria-label="Framework" bind:value={framework} items={frameworks}>
+  <Select.Trigger><Select.Value /></Select.Trigger>
+  <Select.Popup alignItemWithTrigger={false}>
+    {#each frameworks as item (item.value)}
+      <Select.Item value={item.value}>{item.label}</Select.Item>
+    {/each}
+  </Select.Popup>
+</Select.Root>
+```
+
+### Slider
+
+The Svelte wrapper accepts a scalar for one thumb and an array for multiple thumbs. Bind `value` with
+the same shape you pass initially.
+
+```svelte
+<Slider value={50} />
+<Slider value={[25, 75]} />
+```
+
+### Switch
+
+Switch remains a named component. Bind `checked` for controlled state and use a Label for visible
+text.
+
+```svelte
+<Label><Switch bind:checked /> Airplane mode</Label>
+```
+
+### Tabs
+
+Use `Tabs.Tab` and `Tabs.Panel`. The list supports `default` and `underline` variants plus `sm`,
+`default`, and `lg` sizes.
+
+```svelte
+<Tabs.Root defaultValue="tab-1">
+  <Tabs.List>
+    <Tabs.Tab value="tab-1">Tab 1</Tabs.Tab>
+    <Tabs.Tab value="tab-2">Tab 2</Tabs.Tab>
+    <Tabs.Tab value="tab-3">Tab 3</Tabs.Tab>
+  </Tabs.List>
+  <Tabs.Panel value="tab-1">Tab 1 content</Tabs.Panel>
+  <Tabs.Panel value="tab-2">Tab 2 content</Tabs.Panel>
+  <Tabs.Panel value="tab-3">Tab 3 content</Tabs.Panel>
+</Tabs.Root>
+```
+
+### Textarea
+
+Textarea sizes are `sm`, `default`, and `lg`. Match the size used by adjacent Input and Select
+controls so a form retains a consistent density.
+
+### Toast
+
+Wrap the application content in `Toast.Provider` and call a manager from event handlers.
+
+```svelte
+<script lang="ts">
+  import * as Toast from "$lib/components/ui/toast/index.js";
+  const manager = new Toast.Manager();
+</script>
+
+<Toast.Provider toastManager={manager}>
+  <button
+    type="button"
+    onclick={() => manager.add({ title: "Event has been created", type: "success" })}
+  >
+    Create event
+  </button>
+</Toast.Provider>
+```
+
+### Toggle
+
+The standalone Toggle remains a named component. Bind `pressed` when application state needs to read
+or change it. Do not confuse it with `ToggleGroup.Item`.
+
+### Toggle Group
+
+Use `multiple` for multi-select groups. Values are arrays in both single and multiple mode, and each
+option is `ToggleGroup.Item`.
+
+```svelte
+<ToggleGroup.Root defaultValue={["bold"]} multiple>
+  <ToggleGroup.Item value="bold">Bold</ToggleGroup.Item>
+  <ToggleGroup.Item value="italic">Italic</ToggleGroup.Item>
+</ToggleGroup.Root>
+```
+
+### Tooltip
+
+Use `Tooltip.Popup` instead of Content. Wrap related tooltips in one Provider and style the Trigger
+part directly.
+
+```svelte
+<Tooltip.Provider>
+  <Tooltip.Root>
+    <Tooltip.Trigger class={buttonVariants({ variant: "outline" })}>Hover me</Tooltip.Trigger>
+    <Tooltip.Popup>Tooltip content</Tooltip.Popup>
+  </Tooltip.Root>
+</Tooltip.Provider>
+```
+
+## Verify after migration
+
+- Run `pnpm check` and the affected tests.
+- Open every overlay with the keyboard, close it with Escape, and confirm focus returns to its trigger.
+- Verify labels, descriptions, invalid state, selected state, and form values.
+- Compare density, spacing, borders, focus rings, and dark theme with the matching COSS example.
+- Check server output and hydration logs for missing selected labels or generated ID changes.
+
+## Additional resources
+
+- [Component documentation](/docs)
+- [Styling guide](/docs/styling)
+- [Shards UI documentation](https://shardsui.com/svelte)
+- [shadcn-svelte documentation](https://www.shadcn-svelte.com)
+
+## Need help?
+
+Check the individual component page, compare the rendered result with the matching COSS reference,
+and read the local Shards documentation for the primitive's state and keyboard contract. If the
+mismatch remains, open an issue with a reproduction, viewport, theme, and expected COSS example.

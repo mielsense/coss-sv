@@ -1,22 +1,96 @@
 ---
 title: Introduction
-description: Start using the COSS component library in a Svelte 5 app.
+description: A modern Svelte 5 component library built on Shards UI. Built for developers and AI.
 ---
-
-<p class="eyebrow">Documentation</p>
 
 # Introduction
 
-COSS for Svelte ports the COSS component library to Svelte 5. Components keep the upstream visual
-design while their public APIs follow current Svelte and Shards UI conventions.
+A modern Svelte 5 component library built on Shards UI. Built for developers and AI.
 
-The component port is in progress. The registry command will be documented once the first reviewed
-component ships.
+<CopyMarkdownButton url="/docs/index.md" />
 
-```svelte
-<script lang="ts">
-  import { Button } from "$lib/components/ui/button/index.js";
-</script>
+**COSS for Svelte** is a collection of beautifully designed, accessible, and composable components
+for Svelte 5 applications. Built on top of [Shards UI](https://shardsui.com) and styled with
+[Tailwind CSS](https://tailwindcss.com), it is designed for you to copy, paste, and own.
 
-<Button>Save changes</Button>
-```
+We think Shards UI is the right behavioral foundation for this port. We take its unstyled Svelte
+primitives and apply the COSS design system, examples, states, and interaction details.
+
+The original [COSS UI](https://coss.com/ui) is the component library being progressively adopted by
+[Cal.com](https://cal.com). This independent port brings that library to Svelte without changing the
+visual design.
+
+<EarlyAccessCallout>
+  COSS for Svelte is in active development. Components, documentation, and registry items are being
+  reviewed against the pinned COSS reference, and Shards UI may still introduce API changes. Use it
+  in projects where you are comfortable adapting to changes before the first stable release.
+</EarlyAccessCallout>
+
+## How It Works
+
+Our approach is simple: you should own your code. We follow the copy-paste ethos of **shadcn-svelte**.
+
+Instead of installing an opaque component package, you get the source code. This means:
+
+- **No abstractions:** You have full control over how components look and behave.
+- **Endless customization:** Need to change something? Edit the generated file.
+- **Learn by doing:** See how components are built and adapt them to your needs.
+
+## Built on Shards UI, Designed for Production
+
+COSS for Svelte is built on **Shards UI** from the ground up. Shards supplies accessible,
+unopinionated primitives that handle keyboard navigation, focus management, selection, overlays, and
+positioning without imposing a visual design.
+
+This port is not a restyled shadcn-svelte component set. It is a **coherent, opinionated UI system
+that follows the pinned COSS reference**, including:
+
+- **Production-tested patterns** from real applications
+- **Extended component variants** for common use cases
+- **Thoughtful defaults** optimized for modern, dense interfaces
+- **A consistent design system** across every component
+
+If you are migrating from shadcn-svelte or direct Bits UI components, read the
+[migration guide](/docs/radix-migration).
+
+## Primitives, Particles and Atoms
+
+At the core of COSS are the **UI primitives**: accessible building blocks whose behavior is powered
+by Shards UI and whose visible design comes from COSS.
+
+On top of these primitives are [particles](/particles). Particles are **pre-assembled components**,
+such as authentication forms, tables, or date pickers, that combine several primitives into
+ready-to-use solutions. They are more opinionated, but remain easy to customize or break apart.
+
+The original COSS ecosystem also includes [atoms](https://cal.com/atoms). Atoms are **API-enhanced
+particles** that connect interface patterns to external data and services. Atoms are not part of this
+Svelte component-library port.
+
+Together, the layers form a spectrum:
+
+- **Primitives** → the foundation
+- **Particles** → the patterns
+- **Atoms** → the integrations
+
+This lets you choose the right level of abstraction: a bare component, a polished interface pattern,
+or an API-connected solution.
+
+## Built for Humans and AI
+
+The source is written to be clear, readable, and predictable, so people and language models can
+understand, reason about, and modify it. Each documentation page also has a plain-text Markdown route.
+
+## Open Source, Made Sustainable
+
+This port preserves the open-source intent of COSS. It adapts only the MIT-designated
+`reference/apps/ui` source boundary, records the pinned upstream revision, and keeps the attribution
+visible. See [Credits](/credits) for the exact provenance and license links.
+
+COSS for Svelte is an independent project and is not endorsed by COSS, Cal.com, or their
+contributors.
+
+## Get Involved
+
+Bug reports, accessibility findings, component mismatches, and documentation fixes are welcome. A
+useful report names the component or particle, includes the viewport and theme, and links to the
+matching COSS reference example.
