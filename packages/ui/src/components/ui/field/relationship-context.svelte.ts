@@ -128,7 +128,12 @@ export function getFieldRelationshipContext(): FieldRelationshipState | undefine
   try {
     return getRequiredFieldRelationshipContext();
   } catch (error) {
-    if (error instanceof Error && error.name === "Svelte error") return undefined;
+    if (
+      error instanceof Error &&
+      (error.name === "Svelte error" || error.message.includes("/e/missing_context"))
+    ) {
+      return undefined;
+    }
     throw error;
   }
 }
