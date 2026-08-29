@@ -25,13 +25,18 @@ export interface NumberFieldContext {
   readonly required: boolean;
   readonly size: "default" | "lg" | "sm";
   readonly scrubLabelId: string | undefined;
-  commit(): void;
+  commit(event: Event, reason?: "input-blur" | "keyboard" | "scrub"): void;
   registerInput(input: HTMLInputElement | null): void;
   registerScrubLabelId(id: string): () => void;
-  scrub(delta: number): void;
+  scrub(delta: number, event: PointerEvent): void;
+  setBoundary(value: number, event: KeyboardEvent): void;
   setEditing(editing: boolean): void;
-  setInput(raw: string): void;
-  stepBy(multiplier: number): void;
+  setInput(raw: string, event: InputEvent | Event): void;
+  stepBy(
+    multiplier: number,
+    event: KeyboardEvent | MouseEvent | WheelEvent,
+    reason: "decrement-press" | "increment-press" | "keyboard" | "wheel",
+  ): void;
 }
 
 export const [getNumberFieldContext, setNumberFieldContext] = createContext<NumberFieldContext>();

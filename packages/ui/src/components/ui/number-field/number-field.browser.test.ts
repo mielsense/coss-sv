@@ -272,6 +272,72 @@ describe("NumberField browser contract", () => {
     await expect.element(page.getByTestId("remount-wheel-number")).toHaveValue("1");
   });
 
+  test("preserves out-of-range and percent text semantics and publishes typed event details", async () => {
+    render(NumberFieldFixture);
+
+    const outOfRange = document.querySelector<HTMLInputElement>(
+      '[data-testid="out-of-range-number"]',
+    );
+    if (!outOfRange) throw new Error("out-of-range input missing");
+    outOfRange.focus();
+    outOfRange.value = "12";
+    outOfRange.dispatchEvent(new InputEvent("input", { bubbles: true, data: "2" }));
+    outOfRange.dispatchEvent(new FocusEvent("blur", { bubbles: true }));
+    await expect.element(page.getByTestId("out-of-range-number")).toHaveValue("12");
+    await expect
+      .element(page.getByTestId("out-of-range-number"))
+      .toHaveAttribute("aria-valuenow", "12");
+
+    const percent = document.querySelector<HTMLInputElement>('[data-testid="percent-number"]');
+    if (!percent) throw new Error("percent input missing");
+    percent.focus();
+    percent.value = "50%";
+    percent.dispatchEvent(new InputEvent("input", { bubbles: true, data: "%" }));
+    await expect
+      .element(page.getByTestId("percent-state"))
+      .toHaveTextContent("0.5:0.5:input-change:input:");
+    percent.dispatchEvent(new FocusEvent("blur", { bubbles: true }));
+    await expect.element(page.getByTestId("percent-number")).toHaveValue("50%");
+    await expect
+      .element(page.getByTestId("percent-state"))
+      .toHaveTextContent("0.5:0.5:input-change:input:0.5:input-blur:blur");
+  });
+
+  test("supports any, small, and large steps and composes scrub pointer handlers", async () => {
+    render(NumberFieldFixture);
+    const input = page.getByTestId("step-variants-number");
+    await userEvent.click(input);
+    await userEvent.keyboard("{Alt>}{ArrowUp}{/Alt}");
+    await expect.element(input).toHaveValue("1.25");
+    await userEvent.keyboard("{Shift>}{ArrowUp}{/Shift}");
+    await expect.element(input).toHaveValue("5");
+    await userEvent.click(page.getByTestId("step-variants-increment"));
+    await expect.element(input).toHaveValue("6");
+    await expect
+      .element(page.getByTestId("step-state"))
+      .toHaveTextContent("6:increment-press:click");
+
+    const scrub = page.getByTestId("composed-scrub-area").element();
+    scrub.dispatchEvent(
+      new PointerEvent("pointermove", { bubbles: true, clientX: 8, pointerId: 1 }),
+    );
+    scrub.dispatchEvent(new PointerEvent("pointerup", { bubbles: true, pointerId: 1 }));
+    await expect.element(page.getByTestId("scrub-handler-state")).toHaveTextContent("1:1");
+  });
+
+  test("does not commit boundary no-ops and reports Home and End as keyboard changes", async () => {
+    render(NumberFieldFixture);
+    const input = page.getByTestId("boundary-number");
+    await userEvent.click(input);
+    await userEvent.keyboard("{ArrowUp}");
+    await expect.element(page.getByTestId("boundary-state")).toHaveTextContent("10:0:0:");
+
+    await userEvent.keyboard("{Home}");
+    await expect.element(page.getByTestId("boundary-state")).toHaveTextContent("0:1:1:keyboard");
+    await userEvent.keyboard("{Home}");
+    await expect.element(page.getByTestId("boundary-state")).toHaveTextContent("0:1:1:keyboard");
+  });
+
   test("hydrates its SSR root without a mismatch", async () => {
     const warning = vi.spyOn(console, "warn").mockImplementation(() => undefined);
     const target = document.createElement("div");

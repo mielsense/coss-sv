@@ -1,5 +1,5 @@
 <script lang="ts">
-import * as Fieldset from "./index.js";
+  import * as Fieldset from "./index.js";
 </script>
 
 <Fieldset.Root disabled>
@@ -10,6 +10,6 @@ import * as Fieldset from "./index.js";
         Nested <span data-testid="nested-legend-state">{String(state.disabled)}</span>
       {/snippet}
     </Fieldset.Legend>
-    <input name="updates" type="checkbox">
+    <input name="updates" type="checkbox" />
   </Fieldset.Root>
 </Fieldset.Root>

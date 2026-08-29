@@ -1,6 +1,6 @@
 <script lang="ts">
-import * as Field from "../field/index.js";
-import * as OTPField from "./index.js";
+  import * as Field from "../field/index.js";
+  import * as OTPField from "./index.js";
 </script>
 
 <OTPField.Root aria-label="Verification code" form="verification-form" length={2}>

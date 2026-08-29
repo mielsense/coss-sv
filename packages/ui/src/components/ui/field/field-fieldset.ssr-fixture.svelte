@@ -1,7 +1,7 @@
 <script lang="ts">
-import * as Fieldset from "../fieldset/index.js";
-import Input from "../input/input.svelte";
-import * as Field from "./index.js";
+  import * as Fieldset from "../fieldset/index.js";
+  import Input from "../input/input.svelte";
+  import * as Field from "./index.js";
 </script>
 
 <Field.Root as="fieldset" class="gap-4" disabled name="frameworks">

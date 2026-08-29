@@ -1,7 +1,7 @@
 <script lang="ts">
-import Label from "../label/label.svelte";
-import type { GroupTextDelegateProps } from "./index.js";
-import * as Group from "./index.js";
+  import Label from "../label/label.svelte";
+  import type { GroupTextDelegateProps } from "./index.js";
+  import * as Group from "./index.js";
 </script>
 
 <Group.Root aria-label="Actions" orientation="vertical">
@@ -13,7 +13,7 @@ import * as Group from "./index.js";
 <Group.Root aria-label="Domain input">
   <Group.Text aria-label="Domain" delegate={labelDelegate} for="domain">https://</Group.Text>
   <Group.Separator />
-  <input aria-label="Domain" data-slot="input" id="domain">
+  <input aria-label="Domain" data-slot="input" id="domain" />
 </Group.Root>
 
 {#snippet labelDelegate(props: GroupTextDelegateProps)}

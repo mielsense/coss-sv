@@ -1,6 +1,8 @@
 import { createRawSnippet } from "svelte";
 import { expect, expectTypeOf, test } from "vitest";
 import type {
+  NumberFieldChangeEventDetails,
+  NumberFieldCommitEventDetails,
   NumberFieldGroupProps,
   NumberFieldInputProps,
   NumberFieldRootProps,
@@ -16,12 +18,30 @@ test("types bindable state, callbacks, formatting, native attributes, snippets, 
     max: 10,
     min: -10,
     name: "quantity",
-    onValueChange: (value: number | null) => value,
+    allowOutOfRange: true,
+    allowWheelScrub: true,
+    largeStep: 10,
+    onValueChange: (value: number | null, details: NumberFieldChangeEventDetails) =>
+      `${value}:${details.reason}`,
+    onValueCommitted: (value: number | null, details: NumberFieldCommitEventDetails) =>
+      `${value}:${details.reason}`,
     size: "sm",
-    step: 0.5,
+    smallStep: 0.1,
+    snapOnStep: true,
+    step: "any",
     value: 2,
   } satisfies NumberFieldRootProps;
   expect(root.value).toBe(2);
+
+  expectTypeOf<
+    Extract<NumberFieldChangeEventDetails, { reason: "wheel" }>["event"]
+  >().toEqualTypeOf<WheelEvent>();
+  expectTypeOf<
+    Extract<NumberFieldChangeEventDetails, { reason: "keyboard" }>["event"]
+  >().toEqualTypeOf<KeyboardEvent>();
+  expectTypeOf<
+    Extract<NumberFieldCommitEventDetails, { reason: "input-blur" }>["event"]
+  >().toEqualTypeOf<FocusEvent>();
 
   const input = {
     "aria-invalid": true,

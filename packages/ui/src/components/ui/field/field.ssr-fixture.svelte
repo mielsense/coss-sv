@@ -1,5 +1,5 @@
 <script lang="ts">
-import * as Field from "./index.js";
+  import * as Field from "./index.js";
 </script>
 
 <Field.Root name="account" invalid>

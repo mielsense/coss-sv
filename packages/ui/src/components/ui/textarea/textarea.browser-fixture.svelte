@@ -1,11 +1,11 @@
 <script lang="ts">
-import { Field } from "@shardsui/svelte";
-import Textarea from "./textarea.svelte";
+  import { Field } from "@shardsui/svelte";
+  import Textarea from "./textarea.svelte";
 
-let textareaRef = $state<HTMLTextAreaElement | null>(null);
-let value = $state("Draft");
-let inputs = $state(0);
-let valueChange = $state("none");
+  let textareaRef = $state<HTMLTextAreaElement | null>(null);
+  let value = $state("Draft");
+  let inputs = $state(0);
+  let valueChange = $state("none");
 </script>
 
 <form data-testid="textarea-form">

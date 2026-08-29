@@ -64,6 +64,26 @@ export function clampValue(value: number, min?: number, max?: number, step = 1):
   );
 }
 
+export function snapValueToStep(
+  value: number,
+  step: number,
+  min: number | undefined,
+  direction: -1 | 1,
+  nearest = false,
+): number {
+  if (step === 0) return value;
+  const stepSize = Math.abs(step);
+  const base = min ?? 0;
+  const tolerance = stepSize * 1e-10 * direction;
+  const rawSteps = value - base + tolerance;
+  const steps = nearest
+    ? Math.round(rawSteps / stepSize)
+    : direction > 0
+      ? Math.floor(rawSteps / stepSize)
+      : Math.ceil(rawSteps / stepSize);
+  return roundToStep(base + steps * stepSize, stepSize);
+}
+
 export function formatNumber(
   value: number | null,
   locale?: string | string[],

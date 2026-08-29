@@ -1,11 +1,11 @@
 <script lang="ts">
-import * as InputGroup from "./index.js";
+  import * as InputGroup from "./index.js";
 
-let value = $state("seed");
-let inputRef = $state<HTMLInputElement | null>(null);
-let textareaValue = $state("notes");
-let password = $state("");
-let passwordVisible = $state(false);
+  let value = $state("seed");
+  let inputRef = $state<HTMLInputElement | null>(null);
+  let textareaValue = $state("notes");
+  let password = $state("");
+  let passwordVisible = $state(false);
 </script>
 
 <InputGroup.Root data-testid="root">

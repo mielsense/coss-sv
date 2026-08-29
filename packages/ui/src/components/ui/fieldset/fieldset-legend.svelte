@@ -1,28 +1,28 @@
 <script module lang="ts">
-import type { Fieldset as FieldsetPrimitive } from "@shardsui/svelte";
-import type { ComponentProps } from "svelte";
+  import type { Fieldset as FieldsetPrimitive } from "@shardsui/svelte";
+  import type { ComponentProps } from "svelte";
 
-export type FieldsetLegendProps = ComponentProps<typeof FieldsetPrimitive.Legend>;
+  export type FieldsetLegendProps = ComponentProps<typeof FieldsetPrimitive.Legend>;
 </script>
 
 <script lang="ts">
-import type { Attachment } from "svelte/attachments";
-import { cn } from "$lib/utils.js";
-import { getFieldsetCompositionContext } from "./context.svelte.js";
+  import type { Attachment } from "svelte/attachments";
+  import { cn } from "$lib/utils.js";
+  import { getFieldsetCompositionContext } from "./context.svelte.js";
 
-const uid = $props.id();
+  const uid = $props.id();
 
-let {
-  as = "div",
-  children,
-  class: className,
-  id = uid,
-  ref = $bindable(null),
-  ...props
-}: FieldsetLegendProps = $props();
+  let {
+    as = "div",
+    children,
+    class: className,
+    id = uid,
+    ref = $bindable(null),
+    ...props
+  }: FieldsetLegendProps = $props();
 
-const context = getFieldsetCompositionContext();
-const registerLegend: Attachment<HTMLElement> = () => context.registerLegend(id);
+  const context = getFieldsetCompositionContext();
+  const registerLegend: Attachment<HTMLElement> = () => context.registerLegend(id);
 </script>
 
 <svelte:element

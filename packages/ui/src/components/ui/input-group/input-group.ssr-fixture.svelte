@@ -1,5 +1,5 @@
 <script lang="ts">
-import * as InputGroup from "./index.js";
+  import * as InputGroup from "./index.js";
 </script>
 
 <InputGroup.Root aria-label="Website">

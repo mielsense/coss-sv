@@ -16,7 +16,10 @@
   let {
     class: className,
     label,
+    onpointercancel,
     onpointerdown,
+    onpointermove,
+    onpointerup,
     ref = $bindable(null),
     style,
     ...props
@@ -43,16 +46,26 @@
     node.setPointerCapture(event.pointerId);
   }
   function pointermove(event: PointerEvent): void {
+    onpointermove?.(event as Parameters<NonNullable<typeof onpointermove>>[0]);
+    if (event.defaultPrevented) return;
     if (!(event.currentTarget as HTMLSpanElement).hasPointerCapture(event.pointerId)) return;
     cursorX = event.clientX;
     cursorY = event.clientY;
     const steps = Math.trunc((event.clientX - origin) / 8);
     if (steps !== consumed) {
-      context.scrub(steps - consumed);
+      context.scrub(steps - consumed, event);
       consumed = steps;
     }
   }
-  function pointerup(): void {
+  function pointerup(event: PointerEvent): void {
+    onpointerup?.(event as Parameters<NonNullable<typeof onpointerup>>[0]);
+    if (event.defaultPrevented) return;
+    scrubbing = false;
+    context.commit(event, "scrub");
+  }
+  function pointercancel(event: PointerEvent): void {
+    onpointercancel?.(event as Parameters<NonNullable<typeof onpointercancel>>[0]);
+    if (event.defaultPrevented) return;
     scrubbing = false;
   }
 </script>
@@ -63,7 +76,7 @@
   data-slot="number-field-scrub-area"
   role="presentation"
   style={`touch-action: none; -webkit-user-select: none; user-select: none;${style ? ` ${style}` : ""}`}
-  onpointercancel={pointerup}
+  onpointercancel={pointercancel}
   onpointerdown={pointerdown}
   onpointermove={pointermove}
   onpointerup={pointerup}

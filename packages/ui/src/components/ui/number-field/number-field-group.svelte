@@ -1,24 +1,24 @@
 <script module lang="ts">
-import type { Snippet } from "svelte";
-import type { HTMLAttributes } from "svelte/elements";
+  import type { Snippet } from "svelte";
+  import type { HTMLAttributes } from "svelte/elements";
 
-export type NumberFieldGroupProps = Omit<HTMLAttributes<HTMLDivElement>, "children"> & {
-  children?: Snippet;
-  ref?: HTMLDivElement | null;
-};
+  export type NumberFieldGroupProps = Omit<HTMLAttributes<HTMLDivElement>, "children"> & {
+    children?: Snippet;
+    ref?: HTMLDivElement | null;
+  };
 </script>
 
 <script lang="ts">
-import { cn } from "$lib/utils.js";
-import { getNumberFieldContext } from "./context.js";
+  import { cn } from "$lib/utils.js";
+  import { getNumberFieldContext } from "./context.js";
 
-let {
-  children,
-  class: className,
-  ref = $bindable(null),
-  ...props
-}: NumberFieldGroupProps = $props();
-const context = getNumberFieldContext();
+  let {
+    children,
+    class: className,
+    ref = $bindable(null),
+    ...props
+  }: NumberFieldGroupProps = $props();
+  const context = getNumberFieldContext();
 </script>
 
 <!-- biome-ignore lint/a11y/useSemanticElements: COSS and Base UI use a div group around the input and step buttons. -->

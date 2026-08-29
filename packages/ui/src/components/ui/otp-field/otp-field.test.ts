@@ -1,11 +1,11 @@
 import { createRawSnippet } from "svelte";
 import { render } from "svelte/server";
-import { describe, expect, test } from "vitest";
+import { describe, expect, test, vi } from "vitest";
 import * as OTPField from "./index.js";
 import OTPFieldHydrationFixture from "./otp-field.hydration-fixture.svelte";
 import { otpFieldHydrationHtml } from "./otp-field.hydration-html.js";
 import OTPFieldSSRFixture from "./otp-field.ssr-fixture.svelte";
-import { normalizeOTP } from "./otp-field-machine.js";
+import { normalizeOTP, normalizeOTPValue } from "./otp-field-machine.js";
 
 describe("OTPField contract", () => {
   test.each([
@@ -15,6 +15,38 @@ describe("OTPField contract", () => {
     ["0-3", "none", "0-3"],
   ] as const)("normalizes %s as %s", (raw, type, expected) => {
     expect(normalizeOTP(raw, type)).toBe(expected);
+  });
+
+  test("normalizes initial values in the upstream order without reporting user-entry errors", () => {
+    expect(normalizeOTPValue(" 1a 2b3 ", 2, "numeric")).toBe("12");
+    expect(normalizeOTPValue(" a b c ", 2, "none")).toBe("ab");
+    expect(normalizeOTPValue("a-7z", 3, "alphanumeric", (value) => value.toUpperCase())).toBe(
+      "A7Z",
+    );
+    expect(normalizeOTPValue("a7", 2, "alpha", (value) => `${value}9B`)).toBe("aB");
+
+    const invalid = vi.fn();
+    const defaultMarkup = render(OTPField.Root, {
+      props: {
+        "aria-label": "Default code",
+        defaultValue: " 1a 2b3 ",
+        length: 2,
+        name: "default-code",
+        onValueInvalid: invalid,
+      },
+    }).body;
+    const controlledMarkup = render(OTPField.Root, {
+      props: {
+        "aria-label": "Controlled code",
+        length: 3,
+        name: "controlled-code",
+        value: " 98x76 ",
+      },
+    }).body;
+
+    expect(defaultMarkup).toMatch(/name="default-code"[^>]*value="12"/);
+    expect(controlledMarkup).toMatch(/name="controlled-code"[^>]*value="987"/);
+    expect(invalid).not.toHaveBeenCalled();
   });
 
   test("renders root semantics, exact classes, and a single hidden form value", () => {

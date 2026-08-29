@@ -1,21 +1,21 @@
 <script module lang="ts">
-import type { InputProps } from "../input/input.svelte";
+  import type { InputProps } from "../input/input.svelte";
 
-export type InputGroupInputProps = InputProps;
+  export type InputGroupInputProps = InputProps;
 </script>
 
 <script lang="ts">
-import type { Component } from "svelte";
-import InputComponent from "../input/input.svelte";
+  import type { Component } from "svelte";
+  import InputComponent from "../input/input.svelte";
 
-const Input = InputComponent as Component<InputGroupInputProps, object, "ref" | "value">;
+  const Input = InputComponent as Component<InputGroupInputProps, object, "ref" | "value">;
 
-let {
-  class: className,
-  ref = $bindable(null),
-  value = $bindable(),
-  ...props
-}: InputGroupInputProps = $props();
+  let {
+    class: className,
+    ref = $bindable(null),
+    value = $bindable(),
+    ...props
+  }: InputGroupInputProps = $props();
 </script>
 
 {#if className === undefined}

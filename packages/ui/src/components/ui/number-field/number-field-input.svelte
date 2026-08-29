@@ -148,7 +148,7 @@
     const target = event.currentTarget as HTMLInputElement;
     oninput?.(event as Parameters<NonNullable<typeof oninput>>[0]);
     if (!event.defaultPrevented) {
-      context.setInput(target.value);
+      context.setInput(target.value, event);
       target.value = context.displayValue;
       inputValue = context.displayValue;
     }
@@ -161,7 +161,7 @@
 
   function handleBlur(event: FocusEvent): void {
     onblur?.(event as Parameters<NonNullable<typeof onblur>>[0]);
-    context.commit();
+    context.commit(event);
   }
 
   function handleKeydown(event: KeyboardEvent): void {
@@ -170,17 +170,13 @@
     const multiplier = event.key === "ArrowUp" ? 1 : event.key === "ArrowDown" ? -1 : 0;
     if (multiplier !== 0) {
       event.preventDefault();
-      context.stepBy(multiplier);
+      context.stepBy(multiplier, event, "keyboard");
     } else if (event.key === "Home" && context.min !== undefined) {
       event.preventDefault();
-      context.setInput(String(context.min));
-      context.commit();
+      context.setBoundary(context.min, event);
     } else if (event.key === "End" && context.max !== undefined) {
       event.preventDefault();
-      context.setInput(String(context.max));
-      context.commit();
-    } else if (event.key === "Enter") {
-      context.commit();
+      context.setBoundary(context.max, event);
     }
   }
 
@@ -189,7 +185,7 @@
     if (event.defaultPrevented) return;
     if (context.allowWheel && document.activeElement === event.currentTarget) {
       event.preventDefault();
-      context.stepBy(event.deltaY < 0 ? 1 : -1);
+      context.stepBy(event.deltaY < 0 ? 1 : -1, event, "wheel");
     }
   }
 

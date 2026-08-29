@@ -220,6 +220,41 @@ describe("OTPField browser contract", () => {
     ).toBe(false);
   });
 
+  test("normalizes default, controlled, reset, and submitted values without initial invalid reports", async () => {
+    render(OTPFieldFixture);
+
+    await expect.element(page.getByTestId("normalized-default-first")).toHaveValue("8");
+    await expect.element(page.getByTestId("normalized-default-second")).toHaveValue("7");
+    expect(
+      new FormData(
+        document.querySelector<HTMLFormElement>('[data-testid="normalized-otp-form"]') ?? undefined,
+      ).get("normalized-default-code"),
+    ).toBe("87");
+    await expect.element(page.getByTestId("initial-invalid-reports")).toHaveTextContent("0");
+
+    await expect.element(page.getByTestId("controlled-first")).toHaveValue("9");
+    expect(
+      new FormData(
+        document.querySelector<HTMLFormElement>('[data-testid="controlled-otp-form"]') ?? undefined,
+      ).get("controlled-code"),
+    ).toBe("987");
+    await page.getByTestId("set-controlled-invalid").click();
+    await expect.element(page.getByTestId("controlled-first")).toHaveValue("4");
+    expect(
+      new FormData(
+        document.querySelector<HTMLFormElement>('[data-testid="controlled-otp-form"]') ?? undefined,
+      ).get("controlled-code"),
+    ).toBe("432");
+
+    await page.getByTestId("normalized-default-first").click();
+    await userEvent.keyboard("1");
+    await page.getByTestId("normalized-default-reset").click();
+    await Promise.resolve();
+    await expect.element(page.getByTestId("normalized-default-first")).toHaveValue("8");
+    await expect.element(page.getByTestId("normalized-default-second")).toHaveValue("7");
+    await expect.element(page.getByTestId("normalized-reset-state")).toHaveTextContent("87");
+  });
+
   test("keeps the separator semantic and exact", () => {
     render(OTPFieldFixture);
     const separator = document.querySelector(
@@ -242,6 +277,26 @@ describe("OTPField browser contract", () => {
       target,
     });
     expect(target.querySelector('[data-slot="otp-field"]')).not.toBeNull();
+    expect(warning).not.toHaveBeenCalled();
+    await unmount(component);
+    warning.mockRestore();
+  });
+
+  test("hydrates a normalized initial hidden value without a mismatch", async () => {
+    const warning = vi.spyOn(console, "warn").mockImplementation(() => undefined);
+    const target = document.createElement("div");
+    target.innerHTML = `<!--[--><div aria-label="Default code" class="flex items-center gap-2 has-disabled:opacity-64 has-disabled:**:data-[slot=otp-field-input]:shadow-none has-disabled:**:data-[slot=otp-field-input]:before:shadow-none!" data-size="default" data-slot="otp-field" role="group"><!----> <!--[0--><input type="hidden" name="default-code" value="12"><!--]--></div><!--]-->`;
+    document.body.append(target);
+    const component = hydrate(OTPFieldRoot, {
+      props: {
+        "aria-label": "Default code",
+        defaultValue: " 1a 2b3 ",
+        length: 2,
+        name: "default-code",
+      },
+      target,
+    });
+    expect(target.querySelector<HTMLInputElement>('input[name="default-code"]')?.value).toBe("12");
     expect(warning).not.toHaveBeenCalled();
     await unmount(component);
     warning.mockRestore();

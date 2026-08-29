@@ -36,7 +36,9 @@
 
   function handleClick(event: MouseEvent): void {
     onclick?.(event as Parameters<NonNullable<typeof onclick>>[0]);
-    if (!event.defaultPrevented) context.stepBy(direction);
+    if (!event.defaultPrevented) {
+      context.stepBy(direction, event, direction === 1 ? "increment-press" : "decrement-press");
+    }
   }
 </script>
 

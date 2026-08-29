@@ -1,9 +1,9 @@
 <script lang="ts">
-import * as Field from "../field/index.js";
-import Input from "../input/input.svelte";
-import * as Fieldset from "./index.js";
+  import * as Field from "../field/index.js";
+  import Input from "../input/input.svelte";
+  import * as Fieldset from "./index.js";
 
-let outerDisabled = $state(true);
+  let outerDisabled = $state(true);
 </script>
 
 <button
@@ -26,7 +26,7 @@ let outerDisabled = $state(true);
         Nested <span data-testid="inner-legend-state">{String(state.disabled)}</span>
       {/snippet}
     </Fieldset.Legend>
-    <input data-testid="native-disabled-control">
+    <input data-testid="native-disabled-control" />
   </Fieldset.Root>
 </Fieldset.Root>
 

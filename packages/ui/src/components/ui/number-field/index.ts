@@ -19,8 +19,17 @@ export {
   createNumberLocale,
   formatNumber,
   parseNumber,
+  snapValueToStep,
 } from "./number-field-machine.js";
-export type { NumberFieldRootProps, NumberFieldSize } from "./number-field-root.svelte";
+export type {
+  NumberFieldChangeEventDetails,
+  NumberFieldChangeEventReason,
+  NumberFieldCommitEventDetails,
+  NumberFieldCommitEventReason,
+  NumberFieldEventForReason,
+  NumberFieldRootProps,
+  NumberFieldSize,
+} from "./number-field-root.svelte";
 export { default as NumberField, default as Root } from "./number-field-root.svelte";
 export type { NumberFieldScrubAreaProps } from "./number-field-scrub-area.svelte";
 export {

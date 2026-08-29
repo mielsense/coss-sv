@@ -1,24 +1,26 @@
 <script lang="ts">
-import { fromAction } from "svelte/attachments";
-import * as Field from "../field/index.js";
-import Input from "../input/input.svelte";
-import { Form } from "./index.js";
+  import { fromAction } from "svelte/attachments";
+  import * as Field from "../field/index.js";
+  import Input from "../input/input.svelte";
+  import { Form } from "./index.js";
 
-let nativeResult = $state("idle");
-let valuesResult = $state("idle");
-let validateAllForm = $state<{ validate: (fieldName?: string) => void }>();
-let validateOneForm = $state<{ validate: (fieldName?: string) => void }>();
-let attachedTag = $state("missing");
-let delayedErrors = $state<Record<string, string | string[]>>({});
+  let nativeResult = $state("idle");
+  let valuesResult = $state("idle");
+  let validateAllForm = $state<{ validate: (fieldName?: string) => void }>();
+  let validateOneForm = $state<{ validate: (fieldName?: string) => void }>();
+  let attachedTag = $state("missing");
+  let delayedErrors = $state<Record<string, string | string[]>>({});
 
-function handleNativeSubmit(event: SubmitEvent & { currentTarget: EventTarget & HTMLFormElement }) {
-  event.preventDefault();
-  nativeResult = String(new FormData(event.currentTarget).get("email"));
-}
+  function handleNativeSubmit(
+    event: SubmitEvent & { currentTarget: EventTarget & HTMLFormElement },
+  ) {
+    event.preventDefault();
+    nativeResult = String(new FormData(event.currentTarget).get("email"));
+  }
 
-function enhanceProbe(node: HTMLFormElement) {
-  attachedTag = node.tagName;
-}
+  function enhanceProbe(node: HTMLFormElement) {
+    attachedTag = node.tagName;
+  }
 </script>
 
 <Form action="?/save" method="POST" data-testid="native-form" onsubmit={handleNativeSubmit}>
@@ -92,7 +94,10 @@ function enhanceProbe(node: HTMLFormElement) {
   onsubmit={(event) => {
     event.preventDefault();
     setTimeout(() => {
-      delayedErrors = { delayedFirst: "First server error.", delayedSecond: "Second server error." };
+      delayedErrors = {
+        delayedFirst: "First server error.",
+        delayedSecond: "Second server error.",
+      };
     }, 20);
   }}
 >

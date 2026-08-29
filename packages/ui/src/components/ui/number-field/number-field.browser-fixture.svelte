@@ -12,6 +12,17 @@
   let showFieldError = $state(false);
   let reactiveDescription = $state<string | null | undefined>(null);
   let showReactiveNumber = $state(true);
+  let percentValue = $state<number | null>(0);
+  let percentChange = $state("");
+  let percentCommit = $state("");
+  let stepValue = $state<number | null>(1);
+  let stepReason = $state("");
+  let scrubMoves = $state(0);
+  let scrubUps = $state(0);
+  let boundaryValue = $state<number | null>(10);
+  let boundaryChanges = $state(0);
+  let boundaryCommits = $state(0);
+  let boundaryReason = $state("");
   const removedNumberAria = {
     "aria-describedby": null,
     "aria-labelledby": null,
@@ -66,6 +77,20 @@
   </NumberField.Group>
 </NumberField.Root>
 
+<NumberField.Root
+  bind:value={boundaryValue}
+  aria-label="Boundary details"
+  max={10}
+  min={0}
+  onValueChange={(_value, details) => {
+    boundaryChanges += 1;
+    boundaryReason = details.reason;
+  }}
+  onValueCommitted={() => (boundaryCommits += 1)}
+>
+  <NumberField.Group><NumberField.Input data-testid="boundary-number" /></NumberField.Group>
+</NumberField.Root>
+
 <NumberField.Root aria-invalid={true} aria-label="Invalid number" defaultValue={2} readonly>
   <NumberField.Group>
     <NumberField.Decrement />
@@ -76,6 +101,53 @@
 
 <NumberField.Root allowWheel aria-label="Wheel number" defaultValue={1} step={2}>
   <NumberField.Group><NumberField.Input data-testid="wheel-number" /></NumberField.Group>
+</NumberField.Root>
+
+<NumberField.Root
+  allowOutOfRange
+  aria-label="Out of range number"
+  defaultValue={5}
+  max={10}
+  min={0}
+>
+  <NumberField.Group><NumberField.Input data-testid="out-of-range-number" /></NumberField.Group>
+</NumberField.Root>
+
+<NumberField.Root
+  bind:value={percentValue}
+  aria-label="Percent number"
+  format={{ style: "percent" }}
+  onValueChange={(value, details) =>
+    (percentChange = `${value}:${details.reason}:${details.event.type}`)}
+  onValueCommitted={(value, details) =>
+    (percentCommit = `${value}:${details.reason}:${details.event.type}`)}
+>
+  <NumberField.Group><NumberField.Input data-testid="percent-number" /></NumberField.Group>
+</NumberField.Root>
+
+<NumberField.Root
+  bind:value={stepValue}
+  allowWheelScrub
+  aria-label="Step variants"
+  largeStep={5}
+  max={20}
+  min={0}
+  onValueCommitted={(_value, details) => (stepReason = `${details.reason}:${details.event.type}`)}
+  smallStep={0.25}
+  snapOnStep
+  step="any"
+>
+  <NumberField.Group>
+    <NumberField.Decrement />
+    <NumberField.Input data-testid="step-variants-number" />
+    <NumberField.Increment data-testid="step-variants-increment" />
+  </NumberField.Group>
+  <NumberField.ScrubArea
+    data-testid="composed-scrub-area"
+    label="Scrub variants"
+    onpointermove={() => (scrubMoves += 1)}
+    onpointerup={() => (scrubUps += 1)}
+  />
 </NumberField.Root>
 
 <NumberField.Root
@@ -258,3 +330,9 @@
   data-testid="cursor-grow-icon"
 />
 <output data-testid="cursor-grow-ref">{cursorRef?.tagName ?? "missing"}</output>
+<output data-testid="percent-state">{percentValue}:{percentChange}:{percentCommit}</output>
+<output data-testid="boundary-state">
+  {boundaryValue}:{boundaryChanges}:{boundaryCommits}:{boundaryReason}
+</output>
+<output data-testid="step-state">{stepValue}:{stepReason}</output>
+<output data-testid="scrub-handler-state">{scrubMoves}:{scrubUps}</output>

@@ -10,6 +10,9 @@
   let normalizedValue = $state("");
   let dynamicMiddle = $state(true);
   let resetValue = $state("12");
+  let normalizedResetValue = $state(" 8x 7 ");
+  let controlledValue = $state(" 98x76 ");
+  let initialInvalidReports = $state(0);
   let fieldInvalid = $state(false);
   let firstFieldSlotMounted = $state(true);
 </script>
@@ -57,6 +60,39 @@
   <OTPField.Input data-testid="normalized-otp" />
   <OTPField.Input />
 </OTPField.Root>
+
+<form data-testid="normalized-otp-form">
+  <OTPField.Root
+    aria-label="Normalized default code"
+    bind:value={normalizedResetValue}
+    defaultValue=" 8x 7 "
+    length={2}
+    name="normalized-default-code"
+    onValueInvalid={() => (initialInvalidReports += 1)}
+  >
+    <OTPField.Input data-testid="normalized-default-first" />
+    <OTPField.Input data-testid="normalized-default-second" />
+  </OTPField.Root>
+  <button data-testid="normalized-default-reset" type="reset">Reset normalized default</button>
+</form>
+
+<form data-testid="controlled-otp-form">
+  <OTPField.Root
+    aria-label="Controlled normalized code"
+    bind:value={controlledValue}
+    length={3}
+    name="controlled-code"
+  >
+    <OTPField.Input data-testid="controlled-first" />
+    <OTPField.Input />
+    <OTPField.Input />
+  </OTPField.Root>
+</form>
+<button
+  data-testid="set-controlled-invalid"
+  type="button"
+  onclick={() => (controlledValue = " 4z 321 ")}>Set controlled invalid</button
+>
 
 <OTPField.Root aria-label="Dynamic code" length={3}>
   <OTPField.Input data-testid="dynamic-first" />
@@ -169,3 +205,6 @@
 <output data-testid="otp-invalid-state">{invalidValue}</output>
 <output data-testid="normalized-state">{normalizedValue}:{normalizedInvalidValue}</output>
 <output data-testid="reset-state">{resetValue}</output>
+<output data-testid="normalized-reset-state">{normalizedResetValue}</output>
+<output data-testid="controlled-state">{controlledValue}</output>
+<output data-testid="initial-invalid-reports">{initialInvalidReports}</output>
