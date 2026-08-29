@@ -11,17 +11,17 @@
   import { getFieldsetCompositionContext } from "./context.svelte.js";
 
   const uid = $props.id();
+  const context = getFieldsetCompositionContext();
 
   let {
     as = "div",
     children,
     class: className,
-    id = uid,
+    id = context.legendId ?? uid,
     ref = $bindable(null),
     ...props
   }: FieldsetLegendProps = $props();
 
-  const context = getFieldsetCompositionContext();
   const registerLegend: Attachment<HTMLElement> = () => context.registerLegend(id);
 </script>
 

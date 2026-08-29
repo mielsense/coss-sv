@@ -20,6 +20,7 @@ export type PreviewWidth = keyof typeof previewWidths;
 
 export type PreviewConfiguration = {
   align: PreviewAlignment;
+  containerClass?: string;
   direction: PreviewDirection;
   locale: string;
   network: PreviewNetwork;
@@ -47,6 +48,7 @@ const defaults = {
 
 const allowedParameters = new Set([
   "align",
+  "containerClass",
   "direction",
   "locale",
   "network",
@@ -108,6 +110,13 @@ function parseSeed(value: string, errors: string[]): number | undefined {
   return seed;
 }
 
+function hasAsciiControlCharacter(value: string): boolean {
+  return Array.from(value).some((character) => {
+    const code = character.charCodeAt(0);
+    return code <= 31 || code === 127;
+  });
+}
+
 export function parsePreviewQuery(parameters: URLSearchParams): PreviewQuery {
   const errors: string[] = [];
   const values = Object.fromEntries(
@@ -154,12 +163,22 @@ export function parsePreviewQuery(parameters: URLSearchParams): PreviewQuery {
   const locale = parseLocale(values.locale ?? defaults.locale, errors);
   const now = parseIsoDate(values.now ?? defaults.now, errors);
   const seed = parseSeed(values.seed ?? String(defaults.seed), errors);
+  const containerClass = values.containerClass;
+  if (
+    containerClass !== undefined &&
+    (containerClass.length === 0 ||
+      containerClass.length > 512 ||
+      hasAsciiControlCharacter(containerClass))
+  ) {
+    errors.push("containerClass must be a non-empty class string of at most 512 characters");
+  }
 
   if (errors.length > 0) return { errors, ok: false };
 
   const validatedWidth = width as PreviewWidth;
   return {
     align: align as PreviewAlignment,
+    ...(containerClass === undefined ? {} : { containerClass }),
     direction: direction as PreviewDirection,
     locale: locale as string,
     network: network as PreviewNetwork,

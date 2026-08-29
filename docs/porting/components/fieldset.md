@@ -10,11 +10,11 @@
 
 ## contract and mapping
 
-The root has no default COSS class. Legend uses `font-semibold text-foreground`. Shards propagates disabled state through nested fieldsets and fields. A small local coordination context registers the same generated Legend ID and writes `aria-labelledby`; Field's single-root Fieldset mode shares that context. The local context resolves disabled as `disabled || parent.disabled`, matching Shards exactly, so a Legend beneath an enabled nested root still receives disabled metadata and a `{ disabled: true }` snippet state when an ancestor Fieldset is disabled.
+The root has no default COSS class. Legend uses `font-semibold text-foreground`. Shards propagates disabled state through nested fieldsets and fields. The local context gives Root and Legend the same hydration-stable ID, so Root writes `aria-labelledby` during SSR. Field's single-root Fieldset mode uses the same context. A consumer who gives Legend an explicit ID passes the same `legendId` to Root. The context resolves disabled as `disabled || parent.disabled`, matching Shards. A Legend beneath an enabled nested root still receives disabled metadata and a `{ disabled: true }` snippet state when an ancestor Fieldset is disabled.
 
 The live COSS page confirmed one non-obvious detail: the default `FieldsetLegend` tag is `DIV`, not native `LEGEND`. The reference fieldset points to it with `aria-labelledby`. The port leaves the Shards default intact and still accepts `as="legend"` when a consumer wants native legend markup.
 
-SSR, hydration, and browser tests cover slots, exact classes, generated and explicit legend IDs, nested disabled propagation on root and Legend metadata, Legend snippet state, native disabled descendants, polymorphism, refs, and aliases. `apps/ui/src/lib/parity/components/fieldset.svelte` reproduces the only standalone Fieldset particle, `p-fieldset-1`, with its exact full-width, `max-w-64` preview metadata and `id` plus `data-particle` review selectors. There are no dependency-gated standalone Fieldset particles.
+SSR, hydration, and browser tests cover slots, exact classes, generated and explicit legend IDs, and a matching server-rendered `aria-labelledby`. They also cover nested disabled propagation, Legend snippet state, native disabled descendants, polymorphism, refs, and aliases. `apps/ui/src/lib/parity/components/fieldset.svelte` reproduces the only standalone Fieldset particle, `p-fieldset-1`, with its exact full-width, `max-w-64` preview metadata and `id` plus `data-particle` review selectors. There are no dependency-gated standalone Fieldset particles.
 
 ## D6 documentation port
 

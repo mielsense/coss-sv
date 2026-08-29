@@ -3,6 +3,7 @@ import { spawn } from "node:child_process";
 import { readFile } from "node:fs/promises";
 import { createServer } from "node:net";
 import { fileURLToPath } from "node:url";
+import { chromium } from "playwright";
 
 const appDirectory = fileURLToPath(new URL("../..", import.meta.url));
 const repositoryRoot = fileURLToPath(new URL("../../../..", import.meta.url));
@@ -73,6 +74,36 @@ async function openParticle(id) {
   assert.match(html, /data-preview-ready="true"/, `${id} production preview should be ready`);
 }
 
+async function inspectFieldValidityPreview() {
+  const browser = await chromium.launch({ headless: true });
+  try {
+    const page = await browser.newPage({ viewport: { height: 900, width: 1440 } });
+    const parameters = new URLSearchParams({
+      theme: "light",
+      width: "desktop",
+      timers: "real",
+      containerClass: "[& .preview>*]:w-full [&_.preview>*]:max-w-80",
+    });
+    await page.goto(`${baseUrl}/preview/p-field-5?${parameters}`, { waitUntil: "networkidle" });
+
+    const preview = page.locator('[data-slot="preview"]');
+    await preview.waitFor({ state: "visible" });
+
+    const geometry = await preview.evaluate((element) => ({
+      maxWidth: getComputedStyle(element).maxWidth,
+      width: element.getBoundingClientRect().width,
+    }));
+    assert.equal(geometry.maxWidth, "320px", "p-field-5 should keep COSS's max-w-80 override");
+    assert.equal(
+      Math.round(geometry.width),
+      320,
+      "p-field-5 should render at the COSS 20rem width",
+    );
+  } finally {
+    await browser.close();
+  }
+}
+
 try {
   await Promise.race([
     waitForPreview(),
@@ -91,6 +122,7 @@ try {
     if (coldStartParticles.includes(id) || id === "p-field-1") continue;
     await openParticle(id);
   }
+  await inspectFieldValidityPreview();
 } finally {
   preview.kill("SIGTERM");
 }

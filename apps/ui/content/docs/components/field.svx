@@ -85,7 +85,7 @@ Enter an invalid email address and press enter to see the error.
 
 ### With Validity
 
-<ComponentPreview name="p-field-5" />
+<ComponentPreview name="p-field-5" containerClass="[& .preview>*]:w-full [&_.preview>*]:max-w-80" />
 
 ### Input Group
 

@@ -10,6 +10,7 @@
 
   type Props = HTMLAttributes<HTMLElement> & {
     align?: PreviewAlignment;
+    containerClass?: string | undefined;
     iframeHeight?: number;
     name: string;
     reducedMotion?: PreviewReducedMotion;
@@ -21,6 +22,7 @@
   let {
     align = "center",
     class: className,
+    containerClass,
     iframeHeight = 450,
     name,
     reducedMotion = "no-preference",
@@ -39,6 +41,7 @@
       reducedMotion,
       timers: "real",
     });
+    if (containerClass) parameters.set("containerClass", containerClass);
     return `/preview/${encodeURIComponent(name)}?${parameters.toString()}`;
   });
 

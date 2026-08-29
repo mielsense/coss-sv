@@ -155,11 +155,16 @@ describe("Field browser contract", () => {
     const warning = vi.spyOn(console, "warn").mockImplementation(() => undefined);
     const target = document.createElement("div");
     target.innerHTML =
-      '<fieldset data-disabled="" disabled="" data-slot="field" class="flex flex-col items-start gap-2" data-testid="hydrated-composed-field"></fieldset>';
+      '<fieldset data-disabled="" disabled="" aria-labelledby="hydrated-composed-legend" data-slot="field" class="flex flex-col items-start gap-2" data-testid="hydrated-composed-field"></fieldset>';
     document.body.append(target);
 
     const component = hydrate(FieldRoot, {
-      props: { as: "fieldset", "data-testid": "hydrated-composed-field", disabled: true },
+      props: {
+        as: "fieldset",
+        "data-testid": "hydrated-composed-field",
+        disabled: true,
+        legendId: "hydrated-composed-legend",
+      },
       target,
     });
 

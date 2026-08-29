@@ -32,6 +32,7 @@ export function getFieldsetCompositionContext(): FieldsetCompositionContext {
 export function createFieldsetCompositionContext(
   getDisabled: () => boolean,
   ownsContext: () => boolean = () => true,
+  getDefaultLegendId: () => string | undefined = () => undefined,
 ): FieldsetCompositionContext {
   const parent = getOptionalFieldsetCompositionContext();
   let legendIds = $state<string[]>([]);
@@ -43,7 +44,8 @@ export function createFieldsetCompositionContext(
       return isDisabled();
     },
     get legendId() {
-      return ownsContext() ? legendIds[0] : (parent?.legendId ?? legendIds[0]);
+      if (!ownsContext() && parent) return parent.legendId;
+      return legendIds[0] ?? getDefaultLegendId();
     },
     get state() {
       return { disabled: isDisabled() };

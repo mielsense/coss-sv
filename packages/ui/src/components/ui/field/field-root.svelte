@@ -8,6 +8,11 @@
      * child's `id` so a preceding label has the correct native `for` value during SSR.
      */
     controlId?: string;
+    /**
+     * Hydration-stable ID shared with an explicitly identified `Fieldset.Legend` when `as` is
+     * `"fieldset"`. The generated default is used by a Legend without an explicit ID.
+     */
+    legendId?: string;
   };
 </script>
 
@@ -23,6 +28,7 @@
     class: className,
     controlId = `${uid}-control`,
     disabled = false,
+    legendId = `${uid}-legend`,
     ref = $bindable(null),
     ...props
   }: FieldRootProps = $props();
@@ -33,6 +39,7 @@
   const fieldsetContext = createFieldsetCompositionContext(
     () => disabled,
     () => as === "fieldset",
+    () => (as === "fieldset" ? legendId : undefined),
   );
 
   // Shards consumes its lowercase `disabled` prop for Field state. HTML attribute names are

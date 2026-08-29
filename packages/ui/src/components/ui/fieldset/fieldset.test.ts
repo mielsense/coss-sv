@@ -11,10 +11,16 @@ describe("Fieldset SSR contract", () => {
     expect(body).toContain('data-slot="fieldset"');
     expect(body).toContain(" disabled");
     expect(body).toContain('id="preferences-legend" data-disabled=""');
+    const outerRoot = body.match(/<fieldset[^>]*data-slot="fieldset"[^>]*>/)?.[0];
+    expect(outerRoot).toContain('aria-labelledby="preferences-legend"');
     const nestedRoot = body.match(/<fieldset[^>]*data-testid="nested-fieldset"[^>]*>/)?.[0];
     expect(nestedRoot).toContain('data-disabled=""');
     expect(nestedRoot).toContain('disabled=""');
-    expect(body).toContain('id="nested-legend" data-disabled=""');
+    const nestedLegend = body.match(/<div[^>]*data-testid="nested-legend"[^>]*>/)?.[0];
+    const nestedLegendId = nestedLegend?.match(/id="([^"]+)"/)?.[1];
+    expect(nestedLegendId).toBeTruthy();
+    expect(nestedRoot).toContain(`aria-labelledby="${nestedLegendId}"`);
+    expect(nestedLegend).toContain('data-disabled=""');
     expect(body).toContain('data-testid="nested-legend-state">true</span>');
     expect(body).toContain("font-semibold text-foreground");
   });

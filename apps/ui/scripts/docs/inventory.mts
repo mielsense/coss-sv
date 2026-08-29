@@ -119,8 +119,11 @@ function pageOrder(directory: string, prefix: "" | "components/" | "hooks/"): st
 }
 
 function previewReferences(source: string): string[] {
-  return Array.from(source.matchAll(/<ComponentPreview\b[^>]*\bname=["']([^"']+)["'][^>]*\/?\s*>/g))
-    .flatMap((match) => (match[1] ? [match[1]] : []))
+  return Array.from(source.matchAll(/<ComponentPreview\b((?:[^>"']|"[^"]*"|'[^']*')*?)\s*\/?\s*>/g))
+    .flatMap((match) => {
+      const name = /\bname=["']([^"']+)["']/.exec(match[1] ?? "")?.[1];
+      return name ? [name] : [];
+    })
     .filter((name) => name.startsWith("p-"));
 }
 

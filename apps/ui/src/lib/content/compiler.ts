@@ -138,21 +138,23 @@ function previewReferences(
   markdown: string,
   particleIds: ReadonlySet<string>,
 ): Array<Omit<PreviewReference, "source">> {
-  return Array.from(withoutFencedCode(markdown).matchAll(/<ComponentPreview\b([^>]*)\/?\s*>/g)).map(
-    (match) => {
-      const attributes = match[1] ?? "";
-      const id = /\bname=["']([^"']+)["']/.exec(attributes)?.[1];
-      if (!id) throw new Error("ComponentPreview is missing its particle name");
-      if (!particleIds.has(id)) throw new Error(`unknown particle ${id}`);
-      const requestedAlign = /\balign=["']([^"']+)["']/.exec(attributes)?.[1] ?? "center";
-      if (
-        !(["center", "start", "end"] as const).includes(requestedAlign as PreviewReference["align"])
-      ) {
-        throw new Error(`invalid preview alignment ${requestedAlign} for ${id}`);
-      }
-      return { align: requestedAlign as PreviewReference["align"], id };
-    },
-  );
+  return Array.from(
+    withoutFencedCode(markdown).matchAll(
+      /<ComponentPreview\b((?:[^>"']|"[^"]*"|'[^']*')*?)\s*\/?\s*>/g,
+    ),
+  ).map((match) => {
+    const attributes = match[1] ?? "";
+    const id = /\bname=["']([^"']+)["']/.exec(attributes)?.[1];
+    if (!id) throw new Error("ComponentPreview is missing its particle name");
+    if (!particleIds.has(id)) throw new Error(`unknown particle ${id}`);
+    const requestedAlign = /\balign=["']([^"']+)["']/.exec(attributes)?.[1] ?? "center";
+    if (
+      !(["center", "start", "end"] as const).includes(requestedAlign as PreviewReference["align"])
+    ) {
+      throw new Error(`invalid preview alignment ${requestedAlign} for ${id}`);
+    }
+    return { align: requestedAlign as PreviewReference["align"], id };
+  });
 }
 
 function installCommands(markdown: string): InstallCommands[] {

@@ -50,11 +50,12 @@ describe("Fieldset browser contract", () => {
   test("hydrates a server-equivalent fieldset without warnings", async () => {
     const warning = vi.spyOn(console, "warn").mockImplementation(() => undefined);
     const target = document.createElement("div");
-    target.innerHTML = '<fieldset data-slot="fieldset" data-testid="hydrated-fieldset"></fieldset>';
+    target.innerHTML =
+      '<fieldset aria-labelledby="hydrated-fieldset-legend" data-slot="fieldset" data-testid="hydrated-fieldset"></fieldset>';
     document.body.append(target);
 
     const component = hydrate(FieldsetRoot, {
-      props: { "data-testid": "hydrated-fieldset" },
+      props: { "data-testid": "hydrated-fieldset", legendId: "hydrated-fieldset-legend" },
       target,
     });
 

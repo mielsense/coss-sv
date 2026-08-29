@@ -2,10 +2,10 @@
   import * as Fieldset from "./index.js";
 </script>
 
-<Fieldset.Root disabled>
+<Fieldset.Root disabled legendId="preferences-legend">
   <Fieldset.Legend id="preferences-legend">Preferences</Fieldset.Legend>
   <Fieldset.Root data-testid="nested-fieldset">
-    <Fieldset.Legend id="nested-legend">
+    <Fieldset.Legend data-testid="nested-legend">
       {#snippet children(state)}
         Nested <span data-testid="nested-legend-state">{String(state.disabled)}</span>
       {/snippet}

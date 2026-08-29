@@ -51,10 +51,32 @@ describe("preview query contract", () => {
     });
   });
 
+  test("accepts one page-owned container class override without changing the defaults", () => {
+    const result = parsePreviewQuery(
+      new URLSearchParams({
+        containerClass: "[& .preview>*]:w-full [&_.preview>*]:max-w-80",
+        theme: "light",
+        width: "desktop",
+      }),
+    );
+
+    expect(result).toMatchObject({
+      containerClass: "[& .preview>*]:w-full [&_.preview>*]:max-w-80",
+      ok: true,
+      theme: "light",
+      width: "desktop",
+    });
+  });
+
   test.each([
     ["duplicate values", "theme=light&theme=dark&width=desktop", "theme must appear once"],
     ["unknown values", "theme=sepia&width=desktop", "theme must be light or dark"],
     ["unknown keys", "theme=light&width=desktop&foo=bar", "unexpected preview parameter: foo"],
+    [
+      "duplicate container classes",
+      "theme=light&width=desktop&containerClass=w-full&containerClass=max-w-80",
+      "containerClass must appear once",
+    ],
     [
       "invalid locale",
       "theme=light&width=desktop&locale=not_a_locale",

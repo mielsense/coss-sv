@@ -1,48 +1,51 @@
 <script lang="ts">
-import * as Tabs from "@coss-sv/ui/components/ui/tabs";
-import type { HTMLAttributes } from "svelte/elements";
-import type {
-  PreviewAlignment,
-  PreviewTheme,
-  PreviewWidth,
-} from "../../../routes/preview/[name]/preview-contract.js";
-import type { HighlightedSource } from "../../code/highlight.js";
-import CodeSource from "./CodeSource.svelte";
-import PreviewPresentation from "./PreviewPresentation.svelte";
+  import * as Tabs from "@coss-sv/ui/components/ui/tabs";
+  import type { HTMLAttributes } from "svelte/elements";
+  import type {
+    PreviewAlignment,
+    PreviewTheme,
+    PreviewWidth,
+  } from "../../../routes/preview/[name]/preview-contract.js";
+  import type { HighlightedSource } from "../../code/highlight.js";
+  import CodeSource from "./CodeSource.svelte";
+  import PreviewPresentation from "./PreviewPresentation.svelte";
 
-type Props = HTMLAttributes<HTMLElement> & {
-  align?: PreviewAlignment;
-  hideCode?: boolean;
-  iframeHeight?: number;
-  name: string;
-  source: HighlightedSource;
-  theme?: PreviewTheme;
-  title?: string;
-  width?: PreviewWidth;
-};
+  type Props = HTMLAttributes<HTMLElement> & {
+    align?: PreviewAlignment;
+    containerClass?: string | undefined;
+    hideCode?: boolean;
+    iframeHeight?: number;
+    name: string;
+    source: HighlightedSource;
+    theme?: PreviewTheme;
+    title?: string;
+    width?: PreviewWidth;
+  };
 
-let {
-  align = "center",
-  class: className,
-  hideCode = false,
-  iframeHeight = 450,
-  name,
-  source,
-  theme,
-  title = name,
-  width = "desktop",
-  ...rest
-}: Props = $props();
-let tab = $state<Tabs.TabsValue>("preview");
-const instanceId = $props.id();
-const panelId = `${instanceId}-panel`;
-const previewTabId = `${instanceId}-preview-tab`;
-const sourceTabId = `${instanceId}-source-tab`;
+  let {
+    align = "center",
+    class: className,
+    containerClass,
+    hideCode = false,
+    iframeHeight = 450,
+    name,
+    source,
+    theme,
+    title = name,
+    width = "desktop",
+    ...rest
+  }: Props = $props();
+  let tab = $state<Tabs.TabsValue>("preview");
+  const instanceId = $props.id();
+  const panelId = `${instanceId}-panel`;
+  const previewTabId = `${instanceId}-preview-tab`;
+  const sourceTabId = `${instanceId}-source-tab`;
 </script>
 
 {#snippet panelContent()}
   <PreviewPresentation
     {align}
+    {containerClass}
     {iframeHeight}
     {name}
     {theme}

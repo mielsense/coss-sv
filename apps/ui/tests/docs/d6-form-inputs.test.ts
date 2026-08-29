@@ -129,6 +129,14 @@ function fencedSvelteBlocks(markdown: string): string[] {
 }
 
 describe("D6 form and input documentation inventory", () => {
+  test("preserves the exact COSS page-only Field validity preview override", () => {
+    const field = source("apps/ui/content/docs/components/field.svx");
+    const previewClass = "[& .preview>*]:w-full [&_.preview>*]:max-w-80";
+
+    expect(field).toMatch(/<ComponentPreview\s+name="p-field-5"[\s\S]*?\/>/);
+    expect(field).toContain(`containerClass="${previewClass}"`);
+  });
+
   test("compiles the exact 124 owned Svelte particles", () => {
     expect(Object.keys(compiledParticles)).toHaveLength(124);
   });

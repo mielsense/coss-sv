@@ -114,7 +114,7 @@ async function injectPreviewSources(
   loadParticleSource: ParticleSourceLoader,
 ): Promise<{ declarations: string[]; source: string }> {
   const masked = withoutFencedCode(content);
-  const matches = [...masked.matchAll(/<ComponentPreview\b([^>]*)\/>/g)];
+  const matches = [...masked.matchAll(/<ComponentPreview\b((?:[^>"']|"[^"]*"|'[^']*')*?)\s*\/>/g)];
   const sources = new Map<string, { declaration: string; variable: string }>();
   const replacements: Array<{ end: number; start: number; value: string }> = [];
 

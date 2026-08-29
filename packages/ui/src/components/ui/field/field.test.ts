@@ -4,6 +4,7 @@ import FieldSsrFixture from "./field.ssr-fixture.svelte";
 import FieldControlRelationshipsSsrFixture from "./field-control-relationships.ssr-fixture.svelte";
 import FieldExplicitControlsSsrFixture from "./field-explicit-controls.ssr-fixture.svelte";
 import FieldFieldsetSsrFixture from "./field-fieldset.ssr-fixture.svelte";
+import FieldGeneratedFieldsetSsrFixture from "./field-generated-fieldset.ssr-fixture.svelte";
 import FieldLabelPolymorphismSsrFixture from "./field-label-polymorphism.ssr-fixture.svelte";
 import * as Field from "./index.js";
 import { FieldRelationshipState } from "./relationship-context.svelte.js";
@@ -44,8 +45,20 @@ describe("Field SSR contract", () => {
     expect(body).toContain("flex flex-col items-start gap-4");
     expect(body).toContain('data-slot="fieldset-legend"');
     expect(body).toContain('id="frameworks-legend"');
+    expect(body).toMatch(/<fieldset[^>]*aria-labelledby="frameworks-legend"/);
     expect(body).toMatch(/<fieldset[^>]* disabled(?:="")?/);
     expect(body).toContain("data-disabled");
+  });
+
+  test("server-renders a hydration-stable generated legend relationship in fieldset mode", () => {
+    const body = render(FieldGeneratedFieldsetSsrFixture).body;
+    const fieldset = body.match(/<fieldset[^>]*data-testid="generated-fieldset"[^>]*>/)?.[0];
+    const legend = body.match(/<div[^>]*data-testid="generated-legend"[^>]*>/)?.[0];
+    const legendId = legend?.match(/id="([^"]+)"/)?.[1];
+
+    expect(legendId).toBeTruthy();
+    expect(fieldset).toContain(`aria-labelledby="${legendId}"`);
+    expect(body.match(/<fieldset/g)).toHaveLength(1);
   });
 
   test("allocates the seeded id once and restores the previous control on cleanup", () => {
