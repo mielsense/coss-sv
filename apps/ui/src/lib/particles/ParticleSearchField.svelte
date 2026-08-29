@@ -1,3 +1,4 @@
+<!-- biome-ignore-all lint/a11y/noAutofocus: COSS focuses the particle filter when the chooser opens. -->
 <script lang="ts">
   import { goto } from "$app/navigation";
   import { page } from "$app/state";
