@@ -1,0 +1,20 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "p-scroll-area-5",
+	"type": "registry:block",
+	"description": "COSS scroll-area example.",
+	"dependencies": [
+		"@coss-sv/ui",
+		"@hugeicons/core-free-icons@4.3.0"
+	],
+	"registryDependencies": [
+		"./particle-metadata.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n  export const meta = defineParticleMeta({\n    components: [\"scroll-area\"],\n    id: \"p-scroll-area-5\",\n    interactive: true,\n    responsive: true,\n    title: \"Scroll area with scrollbar gutter\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { ScrollArea } from \"@coss-sv/ui\";\n</script>\n\n<ScrollArea class=\"max-w-96 rounded-lg border\" scrollbarGutter\n  ><div class=\"flex w-max gap-4 p-4\">\n    {#each Array.from({ length: 20 }) as _, index (index)}<div\n        class=\"flex h-20 w-32 shrink-0 items-center justify-center rounded-md bg-muted\"\n      >\n        <span class=\"font-medium text-sm\">Item {index + 1}</span>\n      </div>{/each}\n  </div></ScrollArea\n>\n",
+			"type": "registry:block",
+			"target": "p-scroll-area-5.svelte"
+		}
+	]
+}

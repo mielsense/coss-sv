@@ -1,0 +1,20 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "p-breadcrumb-6",
+	"type": "registry:block",
+	"description": "COSS breadcrumb example.",
+	"dependencies": [
+		"@coss-sv/ui",
+		"@hugeicons/core-free-icons@4.3.0"
+	],
+	"registryDependencies": [
+		"./particle-metadata.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n  export const meta = defineParticleMeta({\n    components: [\"breadcrumb\"],\n    id: \"p-breadcrumb-6\",\n    interactive: true,\n    responsive: true,\n    title: \"Breadcrumb with dot separators\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import {\n    Breadcrumb,\n    BreadcrumbItem,\n    BreadcrumbLink,\n    BreadcrumbList,\n    BreadcrumbPage,\n    BreadcrumbSeparator,\n    HugeiconsIcon,\n  } from \"@coss-sv/ui\";\n  import { Home01Icon } from \"@hugeicons/core-free-icons\";\n</script>\n\n<Breadcrumb\n  ><BreadcrumbList\n    ><BreadcrumbItem\n      ><BreadcrumbLink aria-label=\"Home\" href=\"/\"\n        ><HugeiconsIcon\n          aria-hidden=\"true\"\n          class=\"size-4\"\n          icon={Home01Icon}\n          strokeWidth={2}\n        /></BreadcrumbLink\n      ></BreadcrumbItem\n    ><BreadcrumbSeparator>·</BreadcrumbSeparator><BreadcrumbItem\n      ><BreadcrumbLink href=\"/docs/\">Components</BreadcrumbLink></BreadcrumbItem\n    ><BreadcrumbSeparator>·</BreadcrumbSeparator><BreadcrumbItem\n      ><BreadcrumbPage>Breadcrumb</BreadcrumbPage></BreadcrumbItem\n    ></BreadcrumbList\n  ></Breadcrumb\n>\n",
+			"type": "registry:block",
+			"target": "p-breadcrumb-6.svelte"
+		}
+	]
+}

@@ -1,0 +1,20 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "p-calendar-9",
+	"type": "registry:block",
+	"description": "COSS calendar example.",
+	"dependencies": [
+		"@coss-sv/ui",
+		"@hugeicons/core-free-icons@4.3.0"
+	],
+	"registryDependencies": [
+		"./particle-metadata.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n  export const meta = defineParticleMeta({\n    components: [\"calendar\"],\n    id: \"p-calendar-9\",\n    interactive: true,\n    responsive: false,\n    title: \"Rounded calendar days\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { Calendar } from \"@coss-sv/ui\";\n  const today = new Date(2026, 7, 28, 12);\n  let date = $state<Date | undefined>(today);\n</script>\n\n<Calendar classNames={{ day_button: \"rounded-full\" }} mode=\"single\" bind:selected={date} {today} />\n",
+			"type": "registry:block",
+			"target": "p-calendar-9.svelte"
+		}
+	]
+}

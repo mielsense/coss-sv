@@ -92,6 +92,7 @@ const appRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const logicalTrustRoot = resolve(appRoot, "../..");
 const defaultSourceRoots = [
   resolve(appRoot, "../../packages/ui/src"),
+  resolve(appRoot, "registry/default/lib"),
   resolve(appRoot, "registry/default/particles"),
   resolve(appRoot, "src/lib/registry"),
 ];

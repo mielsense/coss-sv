@@ -1,0 +1,20 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "p-breadcrumb-7",
+	"type": "registry:block",
+	"description": "COSS breadcrumb example.",
+	"dependencies": [
+		"@coss-sv/ui",
+		"@hugeicons/core-free-icons@4.3.0"
+	],
+	"registryDependencies": [
+		"./particle-metadata.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n  export const meta = defineParticleMeta({\n    components: [\"breadcrumb\", \"select\"],\n    id: \"p-breadcrumb-7\",\n    interactive: true,\n    responsive: true,\n    title: \"Breadcrumb with database selector\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import {\n    Breadcrumb,\n    BreadcrumbItem,\n    BreadcrumbLink,\n    BreadcrumbList,\n    BreadcrumbSeparator,\n    HugeiconsIcon,\n    Select,\n  } from \"@coss-sv/ui\";\n  import { Database01Icon } from \"@hugeicons/core-free-icons\";\n  const items = [\n    { label: \"Orion\", value: \"orion\" },\n    { label: \"Sigma\", value: \"sigma\" },\n    { label: \"Dorado\", value: \"dorado\" },\n  ];\n  let value = $state(\"orion\");\n</script>\n\n<Breadcrumb\n  ><BreadcrumbList\n    ><BreadcrumbItem><BreadcrumbLink href=\"/\">Databases</BreadcrumbLink></BreadcrumbItem\n    ><BreadcrumbSeparator /><BreadcrumbItem\n      ><Select.Root aria-label=\"Select database\" {items} bind:value\n        ><Select.Trigger size=\"sm\"\n          ><HugeiconsIcon aria-hidden=\"true\" icon={Database01Icon} strokeWidth={2} /><Select.Value\n          /></Select.Trigger\n        ><Select.Popup\n          >{#each items as item (item.value)}<Select.Item value={item.value}\n              >{item.label}</Select.Item\n            >{/each}</Select.Popup\n        ></Select.Root\n      ></BreadcrumbItem\n    ></BreadcrumbList\n  ></Breadcrumb\n>\n",
+			"type": "registry:block",
+			"target": "p-breadcrumb-7.svelte"
+		}
+	]
+}

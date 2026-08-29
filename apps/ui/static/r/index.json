@@ -181,6 +181,14 @@
 		"relativeUrl": "context-menu.json"
 	},
 	{
+		"name": "date-format",
+		"type": "registry:lib",
+		"description": "Formats COSS date-picker labels with stable ordinal dates.",
+		"dependencies": [],
+		"registryDependencies": [],
+		"relativeUrl": "date-format.json"
+	},
+	{
 		"name": "dialog",
 		"type": "registry:ui",
 		"description": "Displays focused content in a modal or non-modal overlay.",
@@ -449,6 +457,97 @@
 			"local:particle-metadata"
 		],
 		"relativeUrl": "p-alert-dialog-2.json"
+	},
+	{
+		"name": "p-breadcrumb-1",
+		"type": "registry:block",
+		"description": "COSS breadcrumb example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-breadcrumb-1.json"
+	},
+	{
+		"name": "p-breadcrumb-2",
+		"type": "registry:block",
+		"description": "COSS breadcrumb example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-breadcrumb-2.json"
+	},
+	{
+		"name": "p-breadcrumb-3",
+		"type": "registry:block",
+		"description": "COSS breadcrumb example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-breadcrumb-3.json"
+	},
+	{
+		"name": "p-breadcrumb-4",
+		"type": "registry:block",
+		"description": "COSS breadcrumb example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-breadcrumb-4.json"
+	},
+	{
+		"name": "p-breadcrumb-5",
+		"type": "registry:block",
+		"description": "COSS breadcrumb example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-breadcrumb-5.json"
+	},
+	{
+		"name": "p-breadcrumb-6",
+		"type": "registry:block",
+		"description": "COSS breadcrumb example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-breadcrumb-6.json"
+	},
+	{
+		"name": "p-breadcrumb-7",
+		"type": "registry:block",
+		"description": "COSS breadcrumb example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-breadcrumb-7.json"
 	},
 	{
 		"name": "p-button-1",
@@ -1011,6 +1110,331 @@
 		"relativeUrl": "p-button-9.json"
 	},
 	{
+		"name": "p-calendar-1",
+		"type": "registry:block",
+		"description": "COSS calendar example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-calendar-1.json"
+	},
+	{
+		"name": "p-calendar-10",
+		"type": "registry:block",
+		"description": "COSS calendar example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-calendar-10.json"
+	},
+	{
+		"name": "p-calendar-11",
+		"type": "registry:block",
+		"description": "COSS calendar example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-calendar-11.json"
+	},
+	{
+		"name": "p-calendar-12",
+		"type": "registry:block",
+		"description": "COSS calendar example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-calendar-12.json"
+	},
+	{
+		"name": "p-calendar-13",
+		"type": "registry:block",
+		"description": "COSS calendar example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-calendar-13.json"
+	},
+	{
+		"name": "p-calendar-14",
+		"type": "registry:block",
+		"description": "COSS calendar example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-calendar-14.json"
+	},
+	{
+		"name": "p-calendar-15",
+		"type": "registry:block",
+		"description": "COSS calendar example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-calendar-15.json"
+	},
+	{
+		"name": "p-calendar-16",
+		"type": "registry:block",
+		"description": "COSS calendar example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-calendar-16.json"
+	},
+	{
+		"name": "p-calendar-17",
+		"type": "registry:block",
+		"description": "COSS calendar example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-calendar-17.json"
+	},
+	{
+		"name": "p-calendar-18",
+		"type": "registry:block",
+		"description": "COSS calendar example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-calendar-18.json"
+	},
+	{
+		"name": "p-calendar-19",
+		"type": "registry:block",
+		"description": "COSS calendar example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-calendar-19.json"
+	},
+	{
+		"name": "p-calendar-2",
+		"type": "registry:block",
+		"description": "COSS calendar example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-calendar-2.json"
+	},
+	{
+		"name": "p-calendar-20",
+		"type": "registry:block",
+		"description": "COSS calendar example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-calendar-20.json"
+	},
+	{
+		"name": "p-calendar-21",
+		"type": "registry:block",
+		"description": "COSS calendar example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-calendar-21.json"
+	},
+	{
+		"name": "p-calendar-22",
+		"type": "registry:block",
+		"description": "COSS calendar example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-calendar-22.json"
+	},
+	{
+		"name": "p-calendar-23",
+		"type": "registry:block",
+		"description": "COSS calendar example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-calendar-23.json"
+	},
+	{
+		"name": "p-calendar-24",
+		"type": "registry:block",
+		"description": "COSS calendar example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-calendar-24.json"
+	},
+	{
+		"name": "p-calendar-25",
+		"type": "registry:block",
+		"description": "COSS calendar example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-calendar-25.json"
+	},
+	{
+		"name": "p-calendar-3",
+		"type": "registry:block",
+		"description": "COSS calendar example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-calendar-3.json"
+	},
+	{
+		"name": "p-calendar-4",
+		"type": "registry:block",
+		"description": "COSS calendar example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-calendar-4.json"
+	},
+	{
+		"name": "p-calendar-5",
+		"type": "registry:block",
+		"description": "COSS calendar example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-calendar-5.json"
+	},
+	{
+		"name": "p-calendar-6",
+		"type": "registry:block",
+		"description": "COSS calendar example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-calendar-6.json"
+	},
+	{
+		"name": "p-calendar-7",
+		"type": "registry:block",
+		"description": "COSS calendar example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-calendar-7.json"
+	},
+	{
+		"name": "p-calendar-8",
+		"type": "registry:block",
+		"description": "COSS calendar example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-calendar-8.json"
+	},
+	{
+		"name": "p-calendar-9",
+		"type": "registry:block",
+		"description": "COSS calendar example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-calendar-9.json"
+	},
+	{
 		"name": "p-card-1",
 		"type": "registry:block",
 		"description": "COSS card example.",
@@ -1317,6 +1741,128 @@
 			"local:particle-metadata"
 		],
 		"relativeUrl": "p-collapsible-1.json"
+	},
+	{
+		"name": "p-date-picker-1",
+		"type": "registry:block",
+		"description": "COSS date-picker example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata",
+			"local:date-format"
+		],
+		"relativeUrl": "p-date-picker-1.json"
+	},
+	{
+		"name": "p-date-picker-2",
+		"type": "registry:block",
+		"description": "COSS date-picker example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-date-picker-2.json"
+	},
+	{
+		"name": "p-date-picker-3",
+		"type": "registry:block",
+		"description": "COSS date-picker example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata",
+			"local:date-format"
+		],
+		"relativeUrl": "p-date-picker-3.json"
+	},
+	{
+		"name": "p-date-picker-4",
+		"type": "registry:block",
+		"description": "COSS date-picker example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata",
+			"local:date-format"
+		],
+		"relativeUrl": "p-date-picker-4.json"
+	},
+	{
+		"name": "p-date-picker-5",
+		"type": "registry:block",
+		"description": "COSS date-picker example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-date-picker-5.json"
+	},
+	{
+		"name": "p-date-picker-6",
+		"type": "registry:block",
+		"description": "COSS date-picker example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata",
+			"local:date-format"
+		],
+		"relativeUrl": "p-date-picker-6.json"
+	},
+	{
+		"name": "p-date-picker-7",
+		"type": "registry:block",
+		"description": "COSS date-picker example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-date-picker-7.json"
+	},
+	{
+		"name": "p-date-picker-8",
+		"type": "registry:block",
+		"description": "COSS date-picker example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata",
+			"local:date-format"
+		],
+		"relativeUrl": "p-date-picker-8.json"
+	},
+	{
+		"name": "p-date-picker-9",
+		"type": "registry:block",
+		"description": "COSS date-picker example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-date-picker-9.json"
 	},
 	{
 		"name": "p-dialog-1",
@@ -1669,6 +2215,87 @@
 		"relativeUrl": "p-frame-4.json"
 	},
 	{
+		"name": "p-navigation-1",
+		"type": "registry:block",
+		"description": "COSS navigation example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata",
+			"local:segmented-control"
+		],
+		"relativeUrl": "p-navigation-1.json"
+	},
+	{
+		"name": "p-navigation-2",
+		"type": "registry:block",
+		"description": "COSS navigation example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata",
+			"local:segmented-control"
+		],
+		"relativeUrl": "p-navigation-2.json"
+	},
+	{
+		"name": "p-navigation-3",
+		"type": "registry:block",
+		"description": "COSS navigation example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata",
+			"local:segmented-control"
+		],
+		"relativeUrl": "p-navigation-3.json"
+	},
+	{
+		"name": "p-pagination-1",
+		"type": "registry:block",
+		"description": "COSS pagination example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-pagination-1.json"
+	},
+	{
+		"name": "p-pagination-2",
+		"type": "registry:block",
+		"description": "COSS pagination example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-pagination-2.json"
+	},
+	{
+		"name": "p-pagination-3",
+		"type": "registry:block",
+		"description": "COSS pagination example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-pagination-3.json"
+	},
+	{
 		"name": "p-popover-1",
 		"type": "registry:block",
 		"description": "COSS popover example.",
@@ -1821,6 +2448,113 @@
 			"local:particle-metadata"
 		],
 		"relativeUrl": "p-radio-group-6.json"
+	},
+	{
+		"name": "p-radio-group-7",
+		"type": "registry:block",
+		"description": "COSS radio-group example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata",
+			"local:segmented-control"
+		],
+		"relativeUrl": "p-radio-group-7.json"
+	},
+	{
+		"name": "p-radio-group-8",
+		"type": "registry:block",
+		"description": "COSS radio-group example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata",
+			"local:segmented-control"
+		],
+		"relativeUrl": "p-radio-group-8.json"
+	},
+	{
+		"name": "p-radio-group-9",
+		"type": "registry:block",
+		"description": "COSS radio-group example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata",
+			"local:segmented-control"
+		],
+		"relativeUrl": "p-radio-group-9.json"
+	},
+	{
+		"name": "p-scroll-area-1",
+		"type": "registry:block",
+		"description": "COSS scroll-area example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-scroll-area-1.json"
+	},
+	{
+		"name": "p-scroll-area-2",
+		"type": "registry:block",
+		"description": "COSS scroll-area example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-scroll-area-2.json"
+	},
+	{
+		"name": "p-scroll-area-3",
+		"type": "registry:block",
+		"description": "COSS scroll-area example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-scroll-area-3.json"
+	},
+	{
+		"name": "p-scroll-area-4",
+		"type": "registry:block",
+		"description": "COSS scroll-area example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-scroll-area-4.json"
+	},
+	{
+		"name": "p-scroll-area-5",
+		"type": "registry:block",
+		"description": "COSS scroll-area example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-scroll-area-5.json"
 	},
 	{
 		"name": "p-separator-1",
@@ -2353,6 +3087,127 @@
 			"local:particle-metadata"
 		],
 		"relativeUrl": "p-switch-9.json"
+	},
+	{
+		"name": "p-table-1",
+		"type": "registry:block",
+		"description": "COSS table example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-table-1.json"
+	},
+	{
+		"name": "p-table-2",
+		"type": "registry:block",
+		"description": "COSS table example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-table-2.json"
+	},
+	{
+		"name": "p-table-3",
+		"type": "registry:block",
+		"description": "COSS table example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0",
+			"@tanstack/svelte-table@9.2.3"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-table-3.json"
+	},
+	{
+		"name": "p-table-4",
+		"type": "registry:block",
+		"description": "COSS table example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0",
+			"@tanstack/svelte-table@9.2.3"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-table-4.json"
+	},
+	{
+		"name": "p-table-5",
+		"type": "registry:block",
+		"description": "COSS table example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-table-5.json"
+	},
+	{
+		"name": "p-table-6",
+		"type": "registry:block",
+		"description": "COSS table example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0",
+			"@tanstack/svelte-table@9.2.3"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-table-6.json"
+	},
+	{
+		"name": "p-table-7",
+		"type": "registry:block",
+		"description": "COSS table example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-table-7.json"
+	},
+	{
+		"name": "p-table-8",
+		"type": "registry:block",
+		"description": "COSS table example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0",
+			"@tanstack/svelte-table@9.2.3"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-table-8.json"
+	},
+	{
+		"name": "p-tabs-1",
+		"type": "registry:block",
+		"description": "COSS tabs example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-tabs-1.json"
 	},
 	{
 		"name": "p-tabs-10",

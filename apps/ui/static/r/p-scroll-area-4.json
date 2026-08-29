@@ -1,0 +1,20 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "p-scroll-area-4",
+	"type": "registry:block",
+	"description": "COSS scroll-area example.",
+	"dependencies": [
+		"@coss-sv/ui",
+		"@hugeicons/core-free-icons@4.3.0"
+	],
+	"registryDependencies": [
+		"./particle-metadata.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n  export const meta = defineParticleMeta({\n    components: [\"scroll-area\"],\n    containerClass: \"**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64\",\n    id: \"p-scroll-area-4\",\n    interactive: true,\n    responsive: true,\n    title: \"Scroll area with fading edges\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { ScrollArea } from \"@coss-sv/ui\";\n  const tags = Array.from({ length: 50 }, (_, index) => `v1.0.0-alpha.${index}`);\n</script>\n\n<ScrollArea class=\"h-64 rounded-lg border\" scrollFade\n  ><div class=\"px-4 py-2\">\n    <h4 class=\"mb-2 font-medium text-sm\">Tags</h4>\n    <div class=\"flex flex-col gap-1\">\n      {#each tags as tag (tag)}<div class=\"text-sm\">{tag}</div>{/each}\n    </div>\n  </div></ScrollArea\n>\n",
+			"type": "registry:block",
+			"target": "p-scroll-area-4.svelte"
+		}
+	]
+}

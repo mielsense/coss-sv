@@ -1,0 +1,13 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "date-format",
+	"type": "registry:lib",
+	"description": "Formats COSS date-picker labels with stable ordinal dates.",
+	"files": [
+		{
+			"content": "function ordinalSuffix(day: number): string {\n  const lastTwoDigits = day % 100;\n  if (lastTwoDigits >= 11 && lastTwoDigits <= 13) return \"th\";\n\n  if (day % 10 === 1) return \"st\";\n  if (day % 10 === 2) return \"nd\";\n  if (day % 10 === 3) return \"rd\";\n  return \"th\";\n}\n\n/** Matches date-fns `format(date, \"PPP\")` with its default en-US locale. */\nexport function formatDatePpp(date: Date): string {\n  const month = new Intl.DateTimeFormat(\"en-US\", { month: \"long\" }).format(date);\n  const day = date.getDate();\n  return `${month} ${day}${ordinalSuffix(day)}, ${date.getFullYear()}`;\n}\n",
+			"type": "registry:lib",
+			"target": "date-format.ts"
+		}
+	]
+}

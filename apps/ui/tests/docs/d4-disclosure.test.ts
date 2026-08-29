@@ -461,7 +461,7 @@ describe("D4 disclosure and surface documentation inventory", () => {
     },
   );
 
-  test("keeps the tabs landing route pending on the D9-owned primary preview", () => {
+  test("publishes the tabs landing route with the D9-owned primary preview", () => {
     const ownership = JSON.parse(source("docs/porting/docs-ownership.json")) as OwnershipFile;
     const primaryPreview = ownership.ownership.find(({ particle }) => particle === "p-tabs-1");
 
@@ -469,11 +469,9 @@ describe("D4 disclosure and surface documentation inventory", () => {
       implementationLane: "D9",
       primaryPage: "components/segmented-control",
     });
-    expect(existsSync(resolve(repositoryRoot, primaryPreview?.targetPath ?? "missing"))).toBe(
-      false,
-    );
+    expect(existsSync(resolve(repositoryRoot, primaryPreview?.targetPath ?? "missing"))).toBe(true);
     expect(
       existsSync(resolve(repositoryRoot, "apps/ui/src/routes/docs/components/tabs/+page.svelte")),
-    ).toBe(false);
+    ).toBe(true);
   });
 });

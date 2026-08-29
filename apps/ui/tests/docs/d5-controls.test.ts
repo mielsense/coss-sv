@@ -149,8 +149,8 @@ function source(path: string): string {
 }
 
 describe("D5 control documentation inventory", () => {
-  test("compiles every owned Svelte particle", () => {
-    expect(Object.keys(compiledParticles)).toHaveLength(105);
+  test("compiles every matched control particle, including D9 segmented radio examples", () => {
+    expect(Object.keys(compiledParticles)).toHaveLength(108);
   });
 
   test("keeps the locked 105-particle ownership set exact", () => {

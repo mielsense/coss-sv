@@ -1,0 +1,20 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "p-calendar-17",
+	"type": "registry:block",
+	"description": "COSS calendar example.",
+	"dependencies": [
+		"@coss-sv/ui",
+		"@hugeicons/core-free-icons@4.3.0"
+	],
+	"registryDependencies": [
+		"./particle-metadata.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n  export const meta = defineParticleMeta({\n    components: [\"calendar\", \"field\", \"input-group\"],\n    id: \"p-calendar-17\",\n    interactive: true,\n    responsive: false,\n    title: \"Calendar date input\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { Calendar03Icon } from \"@hugeicons/core-free-icons\";\n  import { Calendar, Field, HugeiconsIcon, InputGroup } from \"@coss-sv/ui\";\n  const today = new Date(2026, 7, 28, 12);\n  let date = $state<Date | undefined>(today);\n  let month = $state(today);\n  let inputValue = $state(\"2026-08-28\");\n  function selectDate(selected: Date | undefined) {\n    date = selected;\n    inputValue = selected\n      ? `${selected.getFullYear()}-${String(selected.getMonth() + 1).padStart(2, \"0\")}-${String(selected.getDate()).padStart(2, \"0\")}`\n      : \"\";\n    if (selected) month = selected;\n  }\n  function updateDate(value: string) {\n    inputValue = value;\n    const parsed = /^\\d{4}-\\d{2}-\\d{2}$/.test(value) ? new Date(`${value}T12:00:00`) : undefined;\n    if (parsed && !Number.isNaN(parsed.getTime())) {\n      date = parsed;\n      month = parsed;\n    } else if (!value) date = undefined;\n  }\n</script>\n\n<div class=\"flex flex-col gap-2\">\n  <Calendar mode=\"single\" bind:month selected={date} onSelect={selectDate} {today} /><Field.Root\n    class=\"flex-row items-center gap-4\"\n    ><Field.Label class=\"whitespace-nowrap\">Enter date</Field.Label><InputGroup.Root\n      ><InputGroup.Input\n        aria-label=\"Select date\"\n        class=\"*:[input]:[&::-webkit-calendar-picker-indicator]:hidden *:[input]:[&::-webkit-calendar-picker-indicator]:appearance-none\"\n        type=\"date\"\n        value={inputValue}\n        oninput={(event) => updateDate(event.currentTarget.value)}\n      /><InputGroup.Addon\n        ><HugeiconsIcon\n          icon={Calendar03Icon}\n          aria-hidden=\"true\"\n          strokeWidth={2}\n        /></InputGroup.Addon\n      ></InputGroup.Root\n    ></Field.Root\n  >\n</div>\n",
+			"type": "registry:block",
+			"target": "p-calendar-17.svelte"
+		}
+	]
+}

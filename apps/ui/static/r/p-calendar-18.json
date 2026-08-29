@@ -1,0 +1,20 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "p-calendar-18",
+	"type": "registry:block",
+	"description": "COSS calendar example.",
+	"dependencies": [
+		"@coss-sv/ui",
+		"@hugeicons/core-free-icons@4.3.0"
+	],
+	"registryDependencies": [
+		"./particle-metadata.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n  export const meta = defineParticleMeta({\n    components: [\"calendar\", \"field\", \"input-group\"],\n    id: \"p-calendar-18\",\n    interactive: true,\n    responsive: false,\n    title: \"Calendar time input\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { Clock01Icon } from \"@hugeicons/core-free-icons\";\n  import { Calendar, Field, HugeiconsIcon, InputGroup } from \"@coss-sv/ui\";\n  const today = new Date(2026, 7, 28, 12);\n  let date = $state<Date | undefined>(today);\n  let month = $state(today);\n  let timeValue = $state(\"12:00:00\");\n</script>\n\n<div class=\"flex flex-col gap-2\">\n  <Calendar mode=\"single\" bind:month bind:selected={date} {today} /><Field.Root\n    class=\"flex-row items-center gap-3\"\n    ><Field.Label class=\"whitespace-nowrap text-xs\">Enter time</Field.Label><InputGroup.Root\n      class=\"grow\"\n      ><InputGroup.Input\n        aria-label=\"Select time\"\n        class=\"*:[input]:[&::-webkit-calendar-picker-indicator]:hidden *:[input]:[&::-webkit-calendar-picker-indicator]:appearance-none\"\n        step=\"1\"\n        type=\"time\"\n        bind:value={timeValue}\n      /><InputGroup.Addon\n        ><HugeiconsIcon icon={Clock01Icon} aria-hidden=\"true\" strokeWidth={2} /></InputGroup.Addon\n      ></InputGroup.Root\n    ></Field.Root\n  >\n</div>\n",
+			"type": "registry:block",
+			"target": "p-calendar-18.svelte"
+		}
+	]
+}

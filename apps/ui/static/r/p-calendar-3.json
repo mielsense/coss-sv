@@ -1,0 +1,20 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "p-calendar-3",
+	"type": "registry:block",
+	"description": "COSS calendar example.",
+	"dependencies": [
+		"@coss-sv/ui",
+		"@hugeicons/core-free-icons@4.3.0"
+	],
+	"registryDependencies": [
+		"./particle-metadata.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n  export const meta = defineParticleMeta({\n    components: [\"calendar\"],\n    id: \"p-calendar-3\",\n    interactive: true,\n    responsive: false,\n    title: \"Calendar range selection\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { Calendar, type DateRange } from \"@coss-sv/ui\";\n  const today = new Date(2026, 7, 28, 12);\n  let range = $state<DateRange | undefined>({ from: today, to: new Date(2026, 8, 4, 12) });\n</script>\n\n<Calendar mode=\"range\" bind:selected={range} {today} />\n",
+			"type": "registry:block",
+			"target": "p-calendar-3.svelte"
+		}
+	]
+}

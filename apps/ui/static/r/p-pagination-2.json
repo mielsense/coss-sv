@@ -1,0 +1,20 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "p-pagination-2",
+	"type": "registry:block",
+	"description": "COSS pagination example.",
+	"dependencies": [
+		"@coss-sv/ui",
+		"@hugeicons/core-free-icons@4.3.0"
+	],
+	"registryDependencies": [
+		"./particle-metadata.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n  export const meta = defineParticleMeta({\n    components: [\"button\", \"pagination\"],\n    containerClass: \"**:data-[slot=preview]:w-full\",\n    id: \"p-pagination-2\",\n    interactive: true,\n    responsive: true,\n    title: \"Previous and next pagination\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { buttonVariants, Pagination } from \"@coss-sv/ui\";\n  let currentPage = $state(1);\n  const totalPages = 10;\n</script>\n\n<Pagination.Root\n  ><Pagination.Content class=\"w-full justify-between gap-2\"\n    ><Pagination.Item\n      >{#if currentPage === 1}<button\n          class={buttonVariants({ variant: \"outline\" })}\n          disabled\n          type=\"button\">Previous</button\n        >{:else}<a\n          class={buttonVariants({ variant: \"outline\" })}\n          href={`#page-${currentPage - 1}`}\n          onclick={() => (currentPage -= 1)}>Previous</a\n        >{/if}</Pagination.Item\n    ><Pagination.Item\n      >{#if currentPage === totalPages}<button\n          class={buttonVariants({ variant: \"outline\" })}\n          disabled\n          type=\"button\">Next</button\n        >{:else}<a\n          class={buttonVariants({ variant: \"outline\" })}\n          href={`#page-${currentPage + 1}`}\n          onclick={() => (currentPage += 1)}>Next</a\n        >{/if}</Pagination.Item\n    ></Pagination.Content\n  ></Pagination.Root\n>\n",
+			"type": "registry:block",
+			"target": "p-pagination-2.svelte"
+		}
+	]
+}

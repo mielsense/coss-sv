@@ -2,6 +2,19 @@ import { defineRegistryItems } from "./registry.js";
 
 export const registryLibs = defineRegistryItems([
   {
+    name: "date-format",
+    type: "registry:lib",
+    description: "Formats COSS date-picker labels with stable ordinal dates.",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "registry/default/lib/date-format.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+  {
     name: "hugeicons-icon",
     type: "registry:lib",
     description: "Renders official Hugeicons data during SSR and client hydration.",
