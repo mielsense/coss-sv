@@ -44,6 +44,7 @@ import {
   Route01Icon,
   Search01Icon,
   Settings01Icon,
+  Share03Icon,
   Share08Icon,
   ShieldAlertIcon,
   StarIcon,
@@ -179,6 +180,7 @@ const iconGeometryHashes = {
   Route01Icon: "d7cb0d74cc8c991aa7955787984b53f49383ead65b04679663be060ad3a44378",
   Search01Icon: "0b36e99e65cfcd9dc4ccb2f86d3d4c182402fd022522c040753c544939e4774b",
   Settings01Icon: "6b44c3049eafdbbd6588b07a97c3556bbf1fb5efcf99b49a5c2369b45c44d8b6",
+  Share03Icon: "1f5a0d4fb4c41b86de394d7b5f563903023dffb966fb6534797e8f5572e7bcab",
   Share08Icon: "b07e61c7d90c1324f8d5bbdaf4153bcd555f0bc368770747b214595fcb5755b7",
   ShieldAlertIcon: "88db0ddd296eb24591f6474043334262ad334e9275601fbcac0cb0fded52a5f8",
   StarIcon: "82653014b062b899c5466740951f5216b8f460f515c703d3754e539639557669",
@@ -244,6 +246,7 @@ const officialIcons = {
   Route01Icon,
   Search01Icon,
   Settings01Icon,
+  Share03Icon,
   Share08Icon,
   ShieldAlertIcon,
   StarIcon,
@@ -330,12 +333,12 @@ const iconContract = {
       "MoreHorizontalIcon",
       "PencilIcon",
       "CopyIcon",
-      "Share08Icon",
+      "Share03Icon",
       "Delete02Icon",
       "MoreHorizontalIcon",
       "PencilIcon",
       "CopyIcon",
-      "Share08Icon",
+      "Share03Icon",
       "Delete02Icon",
     ),
   },
@@ -463,6 +466,7 @@ function officialIcon(name: IconName): HugeiconData {
 describe("owned registry particle Hugeicons renderer migration", () => {
   test("locks the exact 65-particle ownership and icon contract", () => {
     expect(ownedParticles).toHaveLength(65);
+    expect(Object.values(iconContract).flatMap(({ sites }) => sites)).toHaveLength(113);
     expect(Object.keys(iconContract).sort()).toEqual([...ownedParticles].sort());
     expect(Object.keys(particleModules).sort()).toEqual(
       ownedParticles.map((id) => `../../registry/default/particles/${id}.svelte`).sort(),
