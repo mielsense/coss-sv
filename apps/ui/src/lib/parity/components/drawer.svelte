@@ -357,7 +357,7 @@
                   class={Drawer.drawerMenuItemVariants()}
                   data-slot="drawer-menu-item"
                   data-variant="default"
-                  ><FixtureIcon aria-hidden="true" name="share-2" />Share</Drawer.Close
+                  ><FixtureIcon aria-hidden="true" name="share" />Share</Drawer.Close
                 >
               </Drawer.MenuGroup>
               <Drawer.MenuSeparator />
@@ -472,8 +472,7 @@
             ><Menu.GroupLabel>Actions</Menu.GroupLabel><Menu.Item
               ><FixtureIcon aria-hidden="true" name="pencil" />Edit</Menu.Item
             ><Menu.Item><FixtureIcon aria-hidden="true" name="copy" />Duplicate</Menu.Item
-            ><Menu.Item><FixtureIcon aria-hidden="true" name="share-2" />Share</Menu.Item
-            ></Menu.Group
+            ><Menu.Item><FixtureIcon aria-hidden="true" name="share" />Share</Menu.Item></Menu.Group
           >
           <Menu.Separator /><Menu.CheckboxItem>Shuffle</Menu.CheckboxItem><Menu.CheckboxItem
             >Repeat</Menu.CheckboxItem

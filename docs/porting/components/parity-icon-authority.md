@@ -35,6 +35,11 @@ projects, settings, package, inbox, save, currency, and percent. All render with
 `@hugeicons/core-free-icons` data and `strokeWidth={2}` through the package's SSR-safe
 `HugeiconsIcon` renderer.
 
+COSS uses two different share glyphs. Context Menu and Drawer use the upload-style `ShareIcon`,
+which maps to `Share03Icon`. Tooltip uses the three-node `Share2Icon`, which maps to
+`Share08Icon`. The Input Group password control maps `EyeOffIcon` to the slashed
+`ViewOffSlashIcon` rather than the unslashed closed-eye glyph.
+
 No source under `reference/packages/ui/**` was read or used.
 
 ## Shards evidence
@@ -52,4 +57,7 @@ attachments, portals, and state contracts unchanged; only glyph rendering is rep
 central renderer. The package Sidebar trigger imports the same renderer internally through
 `$lib/hugeicons-icon.svelte`. Source tests enumerate every migrated fixture, reject direct
 `@hugeicons/svelte` imports and copied glyph markup, preserve the three theme illustrations, and
-assert official Hugeicons path data in SSR output.
+bind each fixture to its COSS semantic icon names. The test renders all 26 fixtures and the real
+Sidebar provider fixture on the server. It also checks every semantic name against the complete
+official Hugeicons geometry at `strokeWidth={2}`, so a different glyph fails even when it uses the
+same renderer.

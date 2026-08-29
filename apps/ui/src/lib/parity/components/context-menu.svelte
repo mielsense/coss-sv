@@ -16,7 +16,7 @@
   <FixtureIcon aria-hidden="true" name="copy" />
 {/snippet}
 {#snippet shareIcon()}
-  <FixtureIcon aria-hidden="true" name="share-2" />
+  <FixtureIcon aria-hidden="true" name="share" />
 {/snippet}
 {#snippet trashIcon()}
   <FixtureIcon aria-hidden="true" name="trash" />

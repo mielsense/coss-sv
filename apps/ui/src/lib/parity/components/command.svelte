@@ -376,7 +376,7 @@ You can customize project settings at any time by clicking the settings icon in 
                       strokeWidth={2}
                     />
                   </div>
-                  You asked:<span>"{submittedQuery}"</span>
+                  You asked: {" "}<span>"{submittedQuery}"</span>
                 </div>
               {:else}
                 <div class="flex items-center gap-2">
