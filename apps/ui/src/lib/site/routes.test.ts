@@ -43,6 +43,38 @@ describe("documentation routes", () => {
     expect(footer).toContain('href="/credits"');
   });
 
+  test("shared chrome renders every interface icon from Hugeicons", async () => {
+    const sources = await Promise.all(
+      ["SiteHeader.svelte", "MobileNav.svelte", "CommandMenu.svelte"].map(async (file) => ({
+        file,
+        source: await readFile(new URL(`./${file}`, import.meta.url), "utf8"),
+      })),
+    );
+
+    for (const { file, source } of sources) {
+      expect(source, file).toContain('from "@hugeicons/core-free-icons"');
+      expect(source, file).toContain("HugeiconsIcon");
+      expect(source, file).not.toContain("<svg");
+      expect(source, file).not.toContain("<path");
+      expect(source, file).not.toContain("<circle");
+      expect(source, file).not.toContain("<ellipse");
+    }
+
+    expect(sources.find(({ file }) => file === "SiteHeader.svelte")?.source).toContain(
+      "GithubIcon",
+    );
+    expect(sources.find(({ file }) => file === "SiteHeader.svelte")?.source).toContain(
+      "ContrastIcon",
+    );
+    expect(sources.find(({ file }) => file === "MobileNav.svelte")?.source).toContain("Menu09Icon");
+    expect(sources.find(({ file }) => file === "CommandMenu.svelte")?.source).toContain(
+      "Atom01Icon",
+    );
+    expect(sources.find(({ file }) => file === "CommandMenu.svelte")?.source).toContain(
+      "BookOpen02Icon",
+    );
+  });
+
   test("applies the saved theme before Svelte hydrates", async () => {
     const appHtml = await readFile(new URL("../../app.html", import.meta.url), "utf8");
 

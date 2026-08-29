@@ -1,18 +1,20 @@
 <script lang="ts">
-import { Drawer } from "@shardsui/svelte/drawer";
-import { componentCategories } from "./categories.js";
-import {
-  hooksNavigation,
-  overviewNavigation,
-  primaryNavigation,
-  resourcesNavigation,
-} from "./site.js";
+  import { Cancel01Icon, Menu09Icon } from "@hugeicons/core-free-icons";
+  import { HugeiconsIcon } from "@coss-sv/ui";
+  import { Drawer } from "@shardsui/svelte/drawer";
+  import { componentCategories } from "./categories.js";
+  import {
+    hooksNavigation,
+    overviewNavigation,
+    primaryNavigation,
+    resourcesNavigation,
+  } from "./site.js";
 
-let menuOpen = $state(false);
+  let menuOpen = $state(false);
 
-function setMenuOpen(nextOpen: boolean) {
-  menuOpen = nextOpen;
-}
+  function setMenuOpen(nextOpen: boolean) {
+    menuOpen = nextOpen;
+  }
 </script>
 
 <Drawer.Root open={menuOpen} onOpenChange={setMenuOpen} swipeDirection="left">
@@ -23,7 +25,7 @@ function setMenuOpen(nextOpen: boolean) {
     aria-haspopup="dialog"
     aria-expanded={menuOpen}
   >
-    <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 7h16M4 17h16" /></svg>
+    <HugeiconsIcon aria-hidden="true" icon={Menu09Icon} strokeWidth={2} />
   </Drawer.Trigger>
 
   <Drawer.Portal>
@@ -31,7 +33,7 @@ function setMenuOpen(nextOpen: boolean) {
     <Drawer.Viewport class="mobile-menu-viewport">
       <Drawer.Popup class="mobile-menu-dialog" aria-label="Menu">
         <Drawer.Close class="mobile-menu-close" type="button" aria-label="Close Menu">
-          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18" /></svg>
+          <HugeiconsIcon aria-hidden="true" icon={Cancel01Icon} strokeWidth={2} />
         </Drawer.Close>
         <Drawer.Content class="mobile-menu-panel">
           <nav aria-label="Mobile navigation">

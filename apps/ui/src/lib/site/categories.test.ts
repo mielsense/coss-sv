@@ -105,6 +105,20 @@ describe("COSS homepage category parity", () => {
     expect(source).not.toContain("Thumbnails.has");
   });
 
+  test("uses official Hugeicons datasets for every thumbnail glyph", async () => {
+    const source = await readFile(
+      new URL("./thumbnail/ThumbnailIcon.svelte", import.meta.url),
+      "utf8",
+    );
+
+    expect(source).toContain('from "@hugeicons/core-free-icons"');
+    expect(source).toContain('import { HugeiconsIcon, cn } from "@coss-sv/ui"');
+    expect(source).not.toContain("<svg");
+    expect(source).not.toContain("<path");
+    expect(source).not.toContain("<circle");
+    expect(source).not.toContain("<rect");
+  });
+
   test("merges primitive defaults into the measured upstream thumbnail geometry", () => {
     const accordion = render(CategoryThumbnail, { props: { slug: "accordion" } }).body;
     const alert = render(CategoryThumbnail, { props: { slug: "alert" } }).body;
