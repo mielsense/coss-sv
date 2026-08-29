@@ -3,17 +3,14 @@
 	"name": "p-button-28",
 	"type": "registry:block",
 	"description": "COSS button example.",
-	"dependencies": [
-		"@coss-sv/ui",
-		"@hugeicons/core-free-icons@4.3.0",
-		"@hugeicons/svelte@1.1.5"
-	],
 	"registryDependencies": [
-		"./particle-metadata.json"
+		"./particle-metadata.json",
+		"./avatar.json",
+		"./button.json"
 	],
 	"files": [
 		{
-			"content": "<script module lang=\"ts\">\nimport { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\nexport const meta = defineParticleMeta({\n  components: [\"avatar\", \"button\"],\n  id: \"p-button-28\",\n  interactive: true,\n  responsive: false,\n  title: \"Button with avatar\",\n});\n</script>\n\n<script lang=\"ts\">\nimport { Avatar, Button } from \"@coss-sv/ui\";\n</script>\n\n<Button class=\"rounded-full ps-1\">\n  <Avatar.Root class=\"size-6\">\n    <Avatar.Image\n      alt=\"Luke Tracy\"\n      src=\"https://images.unsplash.com/photo-1628157588553-5eeea00af15c?w=128&h=128&dpr=2&q=80\"\n    />\n    <Avatar.Fallback>LT</Avatar.Fallback>\n  </Avatar.Root>\n  @georgelucas\n</Button>\n",
+			"content": "<script module lang=\"ts\">\nimport { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\nexport const meta = defineParticleMeta({\n  components: [\"avatar\", \"button\"],\n  id: \"p-button-28\",\n  interactive: true,\n  responsive: false,\n  title: \"Button with avatar\",\n});\n</script>\n\n<script lang=\"ts\">\nimport * as Avatar from \"$COMPONENTS$/ui/avatar/index.js\";\nimport { Button } from \"$COMPONENTS$/ui/button/index.js\";\n</script>\n\n<Button class=\"rounded-full ps-1\">\n  <Avatar.Root class=\"size-6\">\n    <Avatar.Image\n      alt=\"Luke Tracy\"\n      src=\"https://images.unsplash.com/photo-1628157588553-5eeea00af15c?w=128&h=128&dpr=2&q=80\"\n    />\n    <Avatar.Fallback>LT</Avatar.Fallback>\n  </Avatar.Root>\n  @georgelucas\n</Button>\n",
 			"type": "registry:block",
 			"target": "p-button-28.svelte"
 		}

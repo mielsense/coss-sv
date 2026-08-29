@@ -3,17 +3,17 @@
 	"name": "p-radio-group-5",
 	"type": "registry:block",
 	"description": "COSS radio-group example.",
-	"dependencies": [
-		"@coss-sv/ui",
-		"@hugeicons/core-free-icons@4.3.0",
-		"@hugeicons/svelte@1.1.5"
-	],
 	"registryDependencies": [
-		"./particle-metadata.json"
+		"./particle-metadata.json",
+		"./button.json",
+		"./field.json",
+		"./fieldset.json",
+		"./form.json",
+		"./radio-group.json"
 	],
 	"files": [
 		{
-			"content": "<script module lang=\"ts\">\nimport { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\nexport const meta = defineParticleMeta({\n  components: [\"button\", \"field\", \"fieldset\", \"form\", \"radio-group\"],\n  id: \"p-radio-group-5\",\n  interactive: true,\n  responsive: false,\n  title: \"Radio group form\",\n});\n</script>\n\n<script lang=\"ts\">\nimport { Button, Field, Fieldset, Form, RadioGroup } from \"@coss-sv/ui\";\n\nconst frameworks = [\n  { value: \"next\", label: \"Next.js\" },\n  { value: \"vite\", label: \"Vite\" },\n  { value: \"astro\", label: \"Astro\" },\n];\nlet loading = $state(false);\nasync function submit(event: SubmitEvent) {\n  event.preventDefault();\n  const formData = new FormData(event.currentTarget as HTMLFormElement);\n  loading = true;\n  await new Promise((resolve) => window.setTimeout(resolve, 800));\n  loading = false;\n  window.alert(`Selected: ${formData.get(\"frameworks\")}`);\n}\n</script>\n\n<Form class=\"flex w-full max-w-[160px] flex-col gap-4\" onsubmit={submit}>\n  <Field.Root as=\"fieldset\" class=\"gap-2\" name=\"frameworks\">\n    <Fieldset.Legend class=\"font-medium text-sm\">Frameworks</Fieldset.Legend>\n    <RadioGroup.Root defaultValue=\"next\">\n      {#each frameworks as framework (framework.value)}\n        <Field.Item>\n          <Field.Label><RadioGroup.Item value={framework.value} />{framework.label}</Field.Label>\n        </Field.Item>\n      {/each}\n    </RadioGroup.Root>\n  </Field.Root>\n  <Button {loading} type=\"submit\">Submit</Button>\n</Form>\n",
+			"content": "<script module lang=\"ts\">\nimport { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\nexport const meta = defineParticleMeta({\n  components: [\"button\", \"field\", \"fieldset\", \"form\", \"radio-group\"],\n  id: \"p-radio-group-5\",\n  interactive: true,\n  responsive: false,\n  title: \"Radio group form\",\n});\n</script>\n\n<script lang=\"ts\">\nimport { Button } from \"$COMPONENTS$/ui/button/index.js\";\nimport * as Field from \"$COMPONENTS$/ui/field/index.js\";\nimport * as Fieldset from \"$COMPONENTS$/ui/fieldset/index.js\";\nimport { Form } from \"$COMPONENTS$/ui/form/index.js\";\nimport * as RadioGroup from \"$COMPONENTS$/ui/radio-group/index.js\";\n\nconst frameworks = [\n  { value: \"next\", label: \"Next.js\" },\n  { value: \"vite\", label: \"Vite\" },\n  { value: \"astro\", label: \"Astro\" },\n];\nlet loading = $state(false);\nasync function submit(event: SubmitEvent) {\n  event.preventDefault();\n  const formData = new FormData(event.currentTarget as HTMLFormElement);\n  loading = true;\n  await new Promise((resolve) => window.setTimeout(resolve, 800));\n  loading = false;\n  window.alert(`Selected: ${formData.get(\"frameworks\")}`);\n}\n</script>\n\n<Form class=\"flex w-full max-w-[160px] flex-col gap-4\" onsubmit={submit}>\n  <Field.Root as=\"fieldset\" class=\"gap-2\" name=\"frameworks\">\n    <Fieldset.Legend class=\"font-medium text-sm\">Frameworks</Fieldset.Legend>\n    <RadioGroup.Root defaultValue=\"next\">\n      {#each frameworks as framework (framework.value)}\n        <Field.Item>\n          <Field.Label><RadioGroup.Item value={framework.value} />{framework.label}</Field.Label>\n        </Field.Item>\n      {/each}\n    </RadioGroup.Root>\n  </Field.Root>\n  <Button {loading} type=\"submit\">Submit</Button>\n</Form>\n",
 			"type": "registry:block",
 			"target": "p-radio-group-5.svelte"
 		}

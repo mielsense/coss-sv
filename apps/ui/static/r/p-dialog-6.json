@@ -3,17 +3,17 @@
 	"name": "p-dialog-6",
 	"type": "registry:block",
 	"description": "COSS dialog example.",
-	"dependencies": [
-		"@coss-sv/ui",
-		"@hugeicons/core-free-icons@4.3.0",
-		"@hugeicons/svelte@1.1.5"
-	],
 	"registryDependencies": [
-		"./particle-metadata.json"
+		"./particle-metadata.json",
+		"./button.json",
+		"./dialog.json",
+		"./field.json",
+		"./form.json",
+		"./input.json"
 	],
 	"files": [
 		{
-			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n  export const meta = defineParticleMeta({\n    components: [\"button\", \"dialog\", \"field\", \"form\", \"input\"],\n    id: \"p-dialog-6\",\n    interactive: true,\n    responsive: true,\n    title: \"Bare dialog footer\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { Button, buttonVariants, Dialog, Field, Form, Input } from \"@coss-sv/ui\";\n</script>\n\n<Dialog.Root>\n  <Dialog.Trigger class={buttonVariants({ variant: \"outline\" })}>Open Dialog</Dialog.Trigger>\n  <Dialog.Popup class=\"sm:max-w-sm\">\n    <Dialog.Header>\n      <Dialog.Title>Edit profile</Dialog.Title><Dialog.Description>\n        Make changes to your profile here. Click save when you're done.\n      </Dialog.Description>\n    </Dialog.Header>\n    <Form class=\"contents\">\n      <Dialog.Panel class=\"grid gap-4\">\n        <Field.Root>\n          <Field.Label>Name</Field.Label><Input value=\"Margaret Welsh\" type=\"text\" />\n        </Field.Root><Field.Root>\n          <Field.Label>Username</Field.Label>\n          <Input value=\"@maggie.welsh\" type=\"text\" />\n        </Field.Root>\n      </Dialog.Panel><Dialog.Footer variant=\"bare\">\n        <Dialog.Close class={buttonVariants({ variant: \"ghost\" })}>Cancel</Dialog.Close><Button\n          type=\"submit\">Save</Button\n        >\n      </Dialog.Footer>\n    </Form>\n  </Dialog.Popup>\n</Dialog.Root>\n",
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n  export const meta = defineParticleMeta({\n    components: [\"button\", \"dialog\", \"field\", \"form\", \"input\"],\n    id: \"p-dialog-6\",\n    interactive: true,\n    responsive: true,\n    title: \"Bare dialog footer\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { Button, buttonVariants } from \"$COMPONENTS$/ui/button/index.js\";\n  import * as Dialog from \"$COMPONENTS$/ui/dialog/index.js\";\n  import * as Field from \"$COMPONENTS$/ui/field/index.js\";\n  import { Form } from \"$COMPONENTS$/ui/form/index.js\";\n  import { Input } from \"$COMPONENTS$/ui/input/index.js\";\n</script>\n\n<Dialog.Root>\n  <Dialog.Trigger class={buttonVariants({ variant: \"outline\" })}>Open Dialog</Dialog.Trigger>\n  <Dialog.Popup class=\"sm:max-w-sm\">\n    <Dialog.Header>\n      <Dialog.Title>Edit profile</Dialog.Title><Dialog.Description>\n        Make changes to your profile here. Click save when you're done.\n      </Dialog.Description>\n    </Dialog.Header>\n    <Form class=\"contents\">\n      <Dialog.Panel class=\"grid gap-4\">\n        <Field.Root>\n          <Field.Label>Name</Field.Label><Input value=\"Margaret Welsh\" type=\"text\" />\n        </Field.Root><Field.Root>\n          <Field.Label>Username</Field.Label>\n          <Input value=\"@maggie.welsh\" type=\"text\" />\n        </Field.Root>\n      </Dialog.Panel><Dialog.Footer variant=\"bare\">\n        <Dialog.Close class={buttonVariants({ variant: \"ghost\" })}>Cancel</Dialog.Close><Button\n          type=\"submit\">Save</Button\n        >\n      </Dialog.Footer>\n    </Form>\n  </Dialog.Popup>\n</Dialog.Root>\n",
 			"type": "registry:block",
 			"target": "p-dialog-6.svelte"
 		}

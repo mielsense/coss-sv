@@ -3,17 +3,14 @@
 	"name": "p-radio-group-3",
 	"type": "registry:block",
 	"description": "COSS radio-group example.",
-	"dependencies": [
-		"@coss-sv/ui",
-		"@hugeicons/core-free-icons@4.3.0",
-		"@hugeicons/svelte@1.1.5"
-	],
 	"registryDependencies": [
-		"./particle-metadata.json"
+		"./particle-metadata.json",
+		"./label.json",
+		"./radio-group.json"
 	],
 	"files": [
 		{
-			"content": "<script module lang=\"ts\">\nimport { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\nexport const meta = defineParticleMeta({\n  components: [\"label\", \"radio-group\"],\n  id: \"p-radio-group-3\",\n  interactive: true,\n  responsive: false,\n  title: \"Radio group with descriptions\",\n});\n</script>\n\n<script lang=\"ts\">\nimport { Label, RadioGroup } from \"@coss-sv/ui\";\n\nconst plans = [\n  { value: \"r-1\", title: \"Free\", description: \"Basic features for personal use.\" },\n  { value: \"r-2\", title: \"Pro\", description: \"Advanced tools for professionals.\" },\n];\n</script>\n\n<RadioGroup.Root defaultValue=\"r-1\">\n  {#each plans as plan (plan.value)}\n    <div class=\"flex items-start gap-2\">\n      <RadioGroup.Item id={plan.value} value={plan.value} />\n      <div class=\"flex flex-col gap-1\">\n        <Label for={plan.value}>{plan.title}</Label>\n        <p class=\"text-muted-foreground text-xs\">{plan.description}</p>\n      </div>\n    </div>\n  {/each}\n</RadioGroup.Root>\n",
+			"content": "<script module lang=\"ts\">\nimport { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\nexport const meta = defineParticleMeta({\n  components: [\"label\", \"radio-group\"],\n  id: \"p-radio-group-3\",\n  interactive: true,\n  responsive: false,\n  title: \"Radio group with descriptions\",\n});\n</script>\n\n<script lang=\"ts\">\nimport { Label } from \"$COMPONENTS$/ui/label/index.js\";\nimport * as RadioGroup from \"$COMPONENTS$/ui/radio-group/index.js\";\n\nconst plans = [\n  { value: \"r-1\", title: \"Free\", description: \"Basic features for personal use.\" },\n  { value: \"r-2\", title: \"Pro\", description: \"Advanced tools for professionals.\" },\n];\n</script>\n\n<RadioGroup.Root defaultValue=\"r-1\">\n  {#each plans as plan (plan.value)}\n    <div class=\"flex items-start gap-2\">\n      <RadioGroup.Item id={plan.value} value={plan.value} />\n      <div class=\"flex flex-col gap-1\">\n        <Label for={plan.value}>{plan.title}</Label>\n        <p class=\"text-muted-foreground text-xs\">{plan.description}</p>\n      </div>\n    </div>\n  {/each}\n</RadioGroup.Root>\n",
 			"type": "registry:block",
 			"target": "p-radio-group-3.svelte"
 		}

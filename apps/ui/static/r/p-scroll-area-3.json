@@ -3,16 +3,13 @@
 	"name": "p-scroll-area-3",
 	"type": "registry:block",
 	"description": "COSS scroll-area example.",
-	"dependencies": [
-		"@coss-sv/ui",
-		"@hugeicons/core-free-icons@4.3.0"
-	],
 	"registryDependencies": [
-		"./particle-metadata.json"
+		"./particle-metadata.json",
+		"./scroll-area.json"
 	],
 	"files": [
 		{
-			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n  export const meta = defineParticleMeta({\n    components: [\"scroll-area\"],\n    id: \"p-scroll-area-3\",\n    interactive: true,\n    responsive: true,\n    title: \"Two-axis scroll area\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { ScrollArea } from \"@coss-sv/ui\";\n</script>\n\n<ScrollArea class=\"h-80 max-w-80 rounded-lg border\"\n  ><p class=\"min-w-100 p-4\">\n    Just as suddenly as it had begun, the sensation stopped, leaving Alice feeling slightly\n    disoriented. She looked around and realized that the room hadn't changed at all - it was she who\n    had grown smaller, shrinking down to a fraction of her previous size. Alice felt herself growing\n    larger and larger, filling up the entire room until she feared she might burst. The sensation\n    was both thrilling and terrifying, as if she were expanding beyond the confines of her own body.\n    She wondered if this was what it felt like to be a balloon, swelling with air until it could\n    hold no more. Alice peered into the mirror, her reflection staring back at her with an air of\n    mischief. She wondered what it would be like to step through the glass and into the world\n    beyond, where everything seemed to be topsy-turvy and nothing was quite as it seemed. It's no\n    use going back to yesterday, because I was a different person then, reflected Alice.\n  </p></ScrollArea\n>\n",
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n  export const meta = defineParticleMeta({\n    components: [\"scroll-area\"],\n    id: \"p-scroll-area-3\",\n    interactive: true,\n    responsive: true,\n    title: \"Two-axis scroll area\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { ScrollArea } from \"$COMPONENTS$/ui/scroll-area/index.js\";\n</script>\n\n<ScrollArea class=\"h-80 max-w-80 rounded-lg border\"\n  ><p class=\"min-w-100 p-4\">\n    Just as suddenly as it had begun, the sensation stopped, leaving Alice feeling slightly\n    disoriented. She looked around and realized that the room hadn't changed at all - it was she who\n    had grown smaller, shrinking down to a fraction of her previous size. Alice felt herself growing\n    larger and larger, filling up the entire room until she feared she might burst. The sensation\n    was both thrilling and terrifying, as if she were expanding beyond the confines of her own body.\n    She wondered if this was what it felt like to be a balloon, swelling with air until it could\n    hold no more. Alice peered into the mirror, her reflection staring back at her with an air of\n    mischief. She wondered what it would be like to step through the glass and into the world\n    beyond, where everything seemed to be topsy-turvy and nothing was quite as it seemed. It's no\n    use going back to yesterday, because I was a different person then, reflected Alice.\n  </p></ScrollArea\n>\n",
 			"type": "registry:block",
 			"target": "p-scroll-area-3.svelte"
 		}

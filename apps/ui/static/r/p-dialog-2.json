@@ -3,17 +3,15 @@
 	"name": "p-dialog-2",
 	"type": "registry:block",
 	"description": "COSS dialog example.",
-	"dependencies": [
-		"@coss-sv/ui",
-		"@hugeicons/core-free-icons@4.3.0",
-		"@hugeicons/svelte@1.1.5"
-	],
 	"registryDependencies": [
-		"./particle-metadata.json"
+		"./particle-metadata.json",
+		"./button.json",
+		"./dialog.json",
+		"./menu.json"
 	],
 	"files": [
 		{
-			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n  export const meta = defineParticleMeta({\n    components: [\"button\", \"dialog\", \"menu\"],\n    id: \"p-dialog-2\",\n    interactive: true,\n    responsive: true,\n    title: \"Dialog opened from menu\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { buttonVariants, Dialog, Menu } from \"@coss-sv/ui\";\n\n  let dialogOpen = $state(false);\n</script>\n\n<Menu.Root>\n  <Menu.Trigger class={buttonVariants({ variant: \"outline\" })}>Open menu</Menu.Trigger>\n  <Menu.Popup align=\"start\">\n    <Menu.Item onclick={() => (dialogOpen = true)}>Open dialog</Menu.Item>\n  </Menu.Popup>\n</Menu.Root>\n<Dialog.Root open={dialogOpen} onOpenChange={(open) => (dialogOpen = open)}>\n  <Dialog.Popup>\n    <Dialog.Header>\n      <Dialog.Title>Settings</Dialog.Title><Dialog.Description>\n        Change your preferences\n      </Dialog.Description>\n    </Dialog.Header>\n    <Dialog.Footer>\n      <Dialog.Close class={buttonVariants({ variant: \"ghost\" })}>Close</Dialog.Close>\n    </Dialog.Footer>\n  </Dialog.Popup>\n</Dialog.Root>\n",
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n  export const meta = defineParticleMeta({\n    components: [\"button\", \"dialog\", \"menu\"],\n    id: \"p-dialog-2\",\n    interactive: true,\n    responsive: true,\n    title: \"Dialog opened from menu\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { buttonVariants } from \"$COMPONENTS$/ui/button/index.js\";\n  import * as Dialog from \"$COMPONENTS$/ui/dialog/index.js\";\n  import * as Menu from \"$COMPONENTS$/ui/menu/index.js\";\n\n  let dialogOpen = $state(false);\n</script>\n\n<Menu.Root>\n  <Menu.Trigger class={buttonVariants({ variant: \"outline\" })}>Open menu</Menu.Trigger>\n  <Menu.Popup align=\"start\">\n    <Menu.Item onclick={() => (dialogOpen = true)}>Open dialog</Menu.Item>\n  </Menu.Popup>\n</Menu.Root>\n<Dialog.Root open={dialogOpen} onOpenChange={(open) => (dialogOpen = open)}>\n  <Dialog.Popup>\n    <Dialog.Header>\n      <Dialog.Title>Settings</Dialog.Title><Dialog.Description>\n        Change your preferences\n      </Dialog.Description>\n    </Dialog.Header>\n    <Dialog.Footer>\n      <Dialog.Close class={buttonVariants({ variant: \"ghost\" })}>Close</Dialog.Close>\n    </Dialog.Footer>\n  </Dialog.Popup>\n</Dialog.Root>\n",
 			"type": "registry:block",
 			"target": "p-dialog-2.svelte"
 		}

@@ -3,16 +3,13 @@
 	"name": "p-pagination-1",
 	"type": "registry:block",
 	"description": "COSS pagination example.",
-	"dependencies": [
-		"@coss-sv/ui",
-		"@hugeicons/core-free-icons@4.3.0"
-	],
 	"registryDependencies": [
-		"./particle-metadata.json"
+		"./particle-metadata.json",
+		"./pagination.json"
 	],
 	"files": [
 		{
-			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n  export const meta = defineParticleMeta({\n    components: [\"pagination\"],\n    id: \"p-pagination-1\",\n    interactive: true,\n    responsive: true,\n    title: \"Pagination example\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { Pagination } from \"@coss-sv/ui\";\n</script>\n\n<Pagination.Root\n  ><Pagination.Content\n    ><Pagination.Item><Pagination.Previous href=\"#previous\" /></Pagination.Item><Pagination.Item\n      ><Pagination.Link href=\"#page-1\">1</Pagination.Link></Pagination.Item\n    ><Pagination.Item\n      ><Pagination.Link aria-current=\"page\" isActive href=\"#page-2\">2</Pagination.Link\n      ></Pagination.Item\n    ><Pagination.Item><Pagination.Link href=\"#page-3\">3</Pagination.Link></Pagination.Item\n    ><Pagination.Item><Pagination.Ellipsis /></Pagination.Item><Pagination.Item\n      ><Pagination.Next href=\"#next\" /></Pagination.Item\n    ></Pagination.Content\n  ></Pagination.Root\n>\n",
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n  export const meta = defineParticleMeta({\n    components: [\"pagination\"],\n    id: \"p-pagination-1\",\n    interactive: true,\n    responsive: true,\n    title: \"Pagination example\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import * as Pagination from \"$COMPONENTS$/ui/pagination/index.js\";\n</script>\n\n<Pagination.Root\n  ><Pagination.Content\n    ><Pagination.Item><Pagination.Previous href=\"#previous\" /></Pagination.Item><Pagination.Item\n      ><Pagination.Link href=\"#page-1\">1</Pagination.Link></Pagination.Item\n    ><Pagination.Item\n      ><Pagination.Link aria-current=\"page\" isActive href=\"#page-2\">2</Pagination.Link\n      ></Pagination.Item\n    ><Pagination.Item><Pagination.Link href=\"#page-3\">3</Pagination.Link></Pagination.Item\n    ><Pagination.Item><Pagination.Ellipsis /></Pagination.Item><Pagination.Item\n      ><Pagination.Next href=\"#next\" /></Pagination.Item\n    ></Pagination.Content\n  ></Pagination.Root\n>\n",
 			"type": "registry:block",
 			"target": "p-pagination-1.svelte"
 		}

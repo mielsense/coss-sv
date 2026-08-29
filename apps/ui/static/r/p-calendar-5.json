@@ -3,16 +3,14 @@
 	"name": "p-calendar-5",
 	"type": "registry:block",
 	"description": "COSS calendar example.",
-	"dependencies": [
-		"@coss-sv/ui",
-		"@hugeicons/core-free-icons@4.3.0"
-	],
 	"registryDependencies": [
-		"./particle-metadata.json"
+		"./particle-metadata.json",
+		"./calendar.json",
+		"./select.json"
 	],
 	"files": [
 		{
-			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n  export const meta = defineParticleMeta({\n    components: [\"calendar\", \"select\"],\n    id: \"p-calendar-5\",\n    interactive: true,\n    responsive: false,\n    title: \"Calendar custom select dropdowns\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { Calendar, Select, type CalendarDropdownContext } from \"@coss-sv/ui\";\n  const today = new Date(2026, 7, 28, 12);\n  let date = $state<Date | undefined>(today);\n</script>\n\n{#snippet dropdown(props: CalendarDropdownContext)}\n  <Select.Root\n    aria-label={props[\"aria-label\"]}\n    disabled={props.disabled}\n    items={props.options}\n    onValueChange={(value) => typeof value === \"number\" && props.onChange(value)}\n    value={props.value}\n  >\n    <Select.Trigger class=\"min-w-none\"><Select.Value /></Select.Trigger>\n    <Select.Popup\n      >{#each props.options as item (item.value)}<Select.Item\n          disabled={item.disabled}\n          value={item.value}>{item.label}</Select.Item\n        >{/each}</Select.Popup\n    >\n  </Select.Root>\n{/snippet}\n\n<Calendar\n  captionLayout=\"dropdown\"\n  components={{ Dropdown: dropdown }}\n  endMonth={new Date(2030, 11, 1, 12)}\n  mode=\"single\"\n  bind:selected={date}\n  startMonth={new Date(1930, 0, 1, 12)}\n  {today}\n/>\n",
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n  export const meta = defineParticleMeta({\n    components: [\"calendar\", \"select\"],\n    id: \"p-calendar-5\",\n    interactive: true,\n    responsive: false,\n    title: \"Calendar custom select dropdowns\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { Calendar, type CalendarDropdownContext } from \"$COMPONENTS$/ui/calendar/index.js\";\n  import * as Select from \"$COMPONENTS$/ui/select/index.js\";\n  const today = new Date(2026, 7, 28, 12);\n  let date = $state<Date | undefined>(today);\n</script>\n\n{#snippet dropdown(props: CalendarDropdownContext)}\n  <Select.Root\n    aria-label={props[\"aria-label\"]}\n    disabled={props.disabled}\n    items={props.options}\n    onValueChange={(value) => typeof value === \"number\" && props.onChange(value)}\n    value={props.value}\n  >\n    <Select.Trigger class=\"min-w-none\"><Select.Value /></Select.Trigger>\n    <Select.Popup\n      >{#each props.options as item (item.value)}<Select.Item\n          disabled={item.disabled}\n          value={item.value}>{item.label}</Select.Item\n        >{/each}</Select.Popup\n    >\n  </Select.Root>\n{/snippet}\n\n<Calendar\n  captionLayout=\"dropdown\"\n  components={{ Dropdown: dropdown }}\n  endMonth={new Date(2030, 11, 1, 12)}\n  mode=\"single\"\n  bind:selected={date}\n  startMonth={new Date(1930, 0, 1, 12)}\n  {today}\n/>\n",
 			"type": "registry:block",
 			"target": "p-calendar-5.svelte"
 		}

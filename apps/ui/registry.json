@@ -1525,11 +1525,7 @@
       "categories": [
         "accordion"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS accordion example.",
       "files": [
         {
@@ -1539,7 +1535,8 @@
       ],
       "name": "p-accordion-1",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:accordion"
       ],
       "type": "registry:block"
     },
@@ -1547,11 +1544,7 @@
       "categories": [
         "accordion"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS accordion example.",
       "files": [
         {
@@ -1561,7 +1554,8 @@
       ],
       "name": "p-accordion-2",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:accordion"
       ],
       "type": "registry:block"
     },
@@ -1569,11 +1563,7 @@
       "categories": [
         "accordion"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS accordion example.",
       "files": [
         {
@@ -1583,7 +1573,8 @@
       ],
       "name": "p-accordion-3",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:accordion"
       ],
       "type": "registry:block"
     },
@@ -1591,11 +1582,7 @@
       "categories": [
         "accordion"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS accordion example.",
       "files": [
         {
@@ -1605,7 +1592,9 @@
       ],
       "name": "p-accordion-4",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:accordion",
+        "local:button"
       ],
       "type": "registry:block"
     },
@@ -1613,11 +1602,7 @@
       "categories": [
         "alert-dialog"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS alert-dialog example.",
       "files": [
         {
@@ -1627,7 +1612,9 @@
       ],
       "name": "p-alert-dialog-1",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:alert-dialog",
+        "local:button"
       ],
       "type": "registry:block"
     },
@@ -1635,11 +1622,7 @@
       "categories": [
         "alert-dialog"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS alert-dialog example.",
       "files": [
         {
@@ -1649,7 +1632,9 @@
       ],
       "name": "p-alert-dialog-2",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:alert-dialog",
+        "local:button"
       ],
       "type": "registry:block"
     },
@@ -1657,10 +1642,7 @@
       "categories": [
         "autocomplete"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS autocomplete example.",
       "files": [
         {
@@ -1670,7 +1652,8 @@
       ],
       "name": "p-autocomplete-1",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:autocomplete"
       ],
       "type": "registry:block"
     },
@@ -1678,10 +1661,7 @@
       "categories": [
         "autocomplete"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS autocomplete example.",
       "files": [
         {
@@ -1691,7 +1671,8 @@
       ],
       "name": "p-autocomplete-10",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:autocomplete"
       ],
       "type": "registry:block"
     },
@@ -1699,10 +1680,7 @@
       "categories": [
         "autocomplete"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS autocomplete example.",
       "files": [
         {
@@ -1712,7 +1690,8 @@
       ],
       "name": "p-autocomplete-11",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:autocomplete"
       ],
       "type": "registry:block"
     },
@@ -1720,10 +1699,7 @@
       "categories": [
         "autocomplete"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS autocomplete example.",
       "files": [
         {
@@ -1733,7 +1709,9 @@
       ],
       "name": "p-autocomplete-12",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:autocomplete",
+        "local:spinner"
       ],
       "type": "registry:block"
     },
@@ -1741,10 +1719,7 @@
       "categories": [
         "autocomplete"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS autocomplete example.",
       "files": [
         {
@@ -1754,7 +1729,11 @@
       ],
       "name": "p-autocomplete-13",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:autocomplete",
+        "local:button",
+        "local:field",
+        "local:form"
       ],
       "type": "registry:block"
     },
@@ -1763,7 +1742,6 @@
         "autocomplete"
       ],
       "dependencies": [
-        "@coss-sv/ui",
         "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS autocomplete example.",
@@ -1775,7 +1753,9 @@
       ],
       "name": "p-autocomplete-14",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:autocomplete",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -1783,10 +1763,7 @@
       "categories": [
         "autocomplete"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS autocomplete example.",
       "files": [
         {
@@ -1796,7 +1773,8 @@
       ],
       "name": "p-autocomplete-15",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:autocomplete"
       ],
       "type": "registry:block"
     },
@@ -1805,7 +1783,6 @@
         "autocomplete"
       ],
       "dependencies": [
-        "@coss-sv/ui",
         "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS autocomplete example.",
@@ -1817,7 +1794,10 @@
       ],
       "name": "p-autocomplete-16",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:autocomplete",
+        "local:spinner",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -1825,10 +1805,7 @@
       "categories": [
         "autocomplete"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS autocomplete example.",
       "files": [
         {
@@ -1838,7 +1815,8 @@
       ],
       "name": "p-autocomplete-2",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:autocomplete"
       ],
       "type": "registry:block"
     },
@@ -1846,10 +1824,7 @@
       "categories": [
         "autocomplete"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS autocomplete example.",
       "files": [
         {
@@ -1859,7 +1834,8 @@
       ],
       "name": "p-autocomplete-3",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:autocomplete"
       ],
       "type": "registry:block"
     },
@@ -1867,10 +1843,7 @@
       "categories": [
         "autocomplete"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS autocomplete example.",
       "files": [
         {
@@ -1880,7 +1853,8 @@
       ],
       "name": "p-autocomplete-4",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:autocomplete"
       ],
       "type": "registry:block"
     },
@@ -1888,10 +1862,7 @@
       "categories": [
         "autocomplete"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS autocomplete example.",
       "files": [
         {
@@ -1901,7 +1872,9 @@
       ],
       "name": "p-autocomplete-5",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:autocomplete",
+        "local:label"
       ],
       "type": "registry:block"
     },
@@ -1909,10 +1882,7 @@
       "categories": [
         "autocomplete"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS autocomplete example.",
       "files": [
         {
@@ -1922,7 +1892,8 @@
       ],
       "name": "p-autocomplete-6",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:autocomplete"
       ],
       "type": "registry:block"
     },
@@ -1930,10 +1901,7 @@
       "categories": [
         "autocomplete"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS autocomplete example.",
       "files": [
         {
@@ -1943,7 +1911,8 @@
       ],
       "name": "p-autocomplete-7",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:autocomplete"
       ],
       "type": "registry:block"
     },
@@ -1951,10 +1920,7 @@
       "categories": [
         "autocomplete"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS autocomplete example.",
       "files": [
         {
@@ -1964,7 +1930,8 @@
       ],
       "name": "p-autocomplete-8",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:autocomplete"
       ],
       "type": "registry:block"
     },
@@ -1972,10 +1939,7 @@
       "categories": [
         "autocomplete"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS autocomplete example.",
       "files": [
         {
@@ -1985,7 +1949,8 @@
       ],
       "name": "p-autocomplete-9",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:autocomplete"
       ],
       "type": "registry:block"
     },
@@ -1993,10 +1958,7 @@
       "categories": [
         "breadcrumb"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS breadcrumb example.",
       "files": [
         {
@@ -2006,7 +1968,10 @@
       ],
       "name": "p-breadcrumb-1",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:breadcrumb",
+        "local:button",
+        "local:menu"
       ],
       "type": "registry:block"
     },
@@ -2014,10 +1979,7 @@
       "categories": [
         "breadcrumb"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS breadcrumb example.",
       "files": [
         {
@@ -2027,7 +1989,8 @@
       ],
       "name": "p-breadcrumb-2",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:breadcrumb"
       ],
       "type": "registry:block"
     },
@@ -2036,7 +1999,6 @@
         "breadcrumb"
       ],
       "dependencies": [
-        "@coss-sv/ui",
         "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS breadcrumb example.",
@@ -2048,7 +2010,9 @@
       ],
       "name": "p-breadcrumb-3",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:breadcrumb",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -2057,7 +2021,6 @@
         "breadcrumb"
       ],
       "dependencies": [
-        "@coss-sv/ui",
         "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS breadcrumb example.",
@@ -2069,7 +2032,11 @@
       ],
       "name": "p-breadcrumb-4",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:breadcrumb",
+        "local:button",
+        "local:menu",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -2078,7 +2045,6 @@
         "breadcrumb"
       ],
       "dependencies": [
-        "@coss-sv/ui",
         "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS breadcrumb example.",
@@ -2090,7 +2056,9 @@
       ],
       "name": "p-breadcrumb-5",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:breadcrumb",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -2099,7 +2067,6 @@
         "breadcrumb"
       ],
       "dependencies": [
-        "@coss-sv/ui",
         "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS breadcrumb example.",
@@ -2111,7 +2078,9 @@
       ],
       "name": "p-breadcrumb-6",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:breadcrumb",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -2120,7 +2089,6 @@
         "breadcrumb"
       ],
       "dependencies": [
-        "@coss-sv/ui",
         "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS breadcrumb example.",
@@ -2132,7 +2100,10 @@
       ],
       "name": "p-breadcrumb-7",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:breadcrumb",
+        "local:select",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -2140,11 +2111,7 @@
       "categories": [
         "button"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS button example.",
       "files": [
         {
@@ -2154,7 +2121,8 @@
       ],
       "name": "p-button-1",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button"
       ],
       "type": "registry:block"
     },
@@ -2162,11 +2130,7 @@
       "categories": [
         "button"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS button example.",
       "files": [
         {
@@ -2176,7 +2140,8 @@
       ],
       "name": "p-button-10",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button"
       ],
       "type": "registry:block"
     },
@@ -2184,11 +2149,7 @@
       "categories": [
         "button"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS button example.",
       "files": [
         {
@@ -2198,7 +2159,8 @@
       ],
       "name": "p-button-11",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button"
       ],
       "type": "registry:block"
     },
@@ -2206,11 +2168,7 @@
       "categories": [
         "button"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS button example.",
       "files": [
         {
@@ -2220,7 +2178,8 @@
       ],
       "name": "p-button-12",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button"
       ],
       "type": "registry:block"
     },
@@ -2229,9 +2188,7 @@
         "button"
       ],
       "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
+        "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS button example.",
       "files": [
@@ -2242,7 +2199,9 @@
       ],
       "name": "p-button-13",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -2251,9 +2210,7 @@
         "button"
       ],
       "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
+        "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS button example.",
       "files": [
@@ -2264,7 +2221,9 @@
       ],
       "name": "p-button-14",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -2273,9 +2232,7 @@
         "button"
       ],
       "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
+        "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS button example.",
       "files": [
@@ -2286,7 +2243,9 @@
       ],
       "name": "p-button-15",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -2295,9 +2254,7 @@
         "button"
       ],
       "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
+        "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS button example.",
       "files": [
@@ -2308,7 +2265,9 @@
       ],
       "name": "p-button-16",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -2316,11 +2275,7 @@
       "categories": [
         "button"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS button example.",
       "files": [
         {
@@ -2330,7 +2285,8 @@
       ],
       "name": "p-button-17",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button"
       ],
       "type": "registry:block"
     },
@@ -2338,11 +2294,7 @@
       "categories": [
         "button"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS button example.",
       "files": [
         {
@@ -2352,7 +2304,9 @@
       ],
       "name": "p-button-18",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:spinner"
       ],
       "type": "registry:block"
     },
@@ -2361,9 +2315,7 @@
         "button"
       ],
       "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
+        "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS button example.",
       "files": [
@@ -2374,7 +2326,9 @@
       ],
       "name": "p-button-19",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -2382,11 +2336,7 @@
       "categories": [
         "button"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS button example.",
       "files": [
         {
@@ -2396,7 +2346,8 @@
       ],
       "name": "p-button-2",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button"
       ],
       "type": "registry:block"
     },
@@ -2405,9 +2356,7 @@
         "button"
       ],
       "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
+        "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS button example.",
       "files": [
@@ -2418,7 +2367,9 @@
       ],
       "name": "p-button-20",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -2427,9 +2378,7 @@
         "button"
       ],
       "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
+        "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS button example.",
       "files": [
@@ -2440,7 +2389,9 @@
       ],
       "name": "p-button-21",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -2449,9 +2400,7 @@
         "button"
       ],
       "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
+        "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS button example.",
       "files": [
@@ -2462,7 +2411,9 @@
       ],
       "name": "p-button-22",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -2471,9 +2422,7 @@
         "button"
       ],
       "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
+        "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS button example.",
       "files": [
@@ -2484,7 +2433,9 @@
       ],
       "name": "p-button-23",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -2493,9 +2444,7 @@
         "button"
       ],
       "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
+        "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS button example.",
       "files": [
@@ -2506,7 +2455,9 @@
       ],
       "name": "p-button-24",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -2515,9 +2466,7 @@
         "button"
       ],
       "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
+        "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS button example.",
       "files": [
@@ -2528,7 +2477,9 @@
       ],
       "name": "p-button-26",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -2537,9 +2488,7 @@
         "button"
       ],
       "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
+        "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS button example.",
       "files": [
@@ -2550,7 +2499,10 @@
       ],
       "name": "p-button-27",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:group",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -2558,11 +2510,7 @@
       "categories": [
         "button"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS button example.",
       "files": [
         {
@@ -2572,7 +2520,9 @@
       ],
       "name": "p-button-28",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:avatar",
+        "local:button"
       ],
       "type": "registry:block"
     },
@@ -2580,11 +2530,7 @@
       "categories": [
         "button"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS button example.",
       "files": [
         {
@@ -2594,7 +2540,8 @@
       ],
       "name": "p-button-29",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button"
       ],
       "type": "registry:block"
     },
@@ -2602,11 +2549,7 @@
       "categories": [
         "button"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS button example.",
       "files": [
         {
@@ -2616,7 +2559,8 @@
       ],
       "name": "p-button-3",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button"
       ],
       "type": "registry:block"
     },
@@ -2625,9 +2569,7 @@
         "button"
       ],
       "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
+        "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS button example.",
       "files": [
@@ -2638,7 +2580,9 @@
       ],
       "name": "p-button-30",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -2647,9 +2591,7 @@
         "button"
       ],
       "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
+        "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS button example.",
       "files": [
@@ -2660,7 +2602,10 @@
       ],
       "name": "p-button-31",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:kbd",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -2668,11 +2613,7 @@
       "categories": [
         "button"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS button example.",
       "files": [
         {
@@ -2682,7 +2623,9 @@
       ],
       "name": "p-button-32",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:badge",
+        "local:button"
       ],
       "type": "registry:block"
     },
@@ -2690,11 +2633,7 @@
       "categories": [
         "button"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS button example.",
       "files": [
         {
@@ -2704,7 +2643,8 @@
       ],
       "name": "p-button-33",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button"
       ],
       "type": "registry:block"
     },
@@ -2712,11 +2652,7 @@
       "categories": [
         "button"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS button example.",
       "files": [
         {
@@ -2726,7 +2662,8 @@
       ],
       "name": "p-button-34",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button"
       ],
       "type": "registry:block"
     },
@@ -2735,9 +2672,7 @@
         "button"
       ],
       "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
+        "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS button example.",
       "files": [
@@ -2748,7 +2683,9 @@
       ],
       "name": "p-button-35",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -2757,9 +2694,7 @@
         "button"
       ],
       "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
+        "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS button example.",
       "files": [
@@ -2770,7 +2705,9 @@
       ],
       "name": "p-button-36",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -2779,9 +2716,7 @@
         "button"
       ],
       "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
+        "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS button example.",
       "files": [
@@ -2792,7 +2727,9 @@
       ],
       "name": "p-button-37",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -2801,9 +2738,7 @@
         "button"
       ],
       "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
+        "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS button example.",
       "files": [
@@ -2814,7 +2749,9 @@
       ],
       "name": "p-button-38",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -2823,9 +2760,7 @@
         "button"
       ],
       "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
+        "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS button example.",
       "files": [
@@ -2836,7 +2771,9 @@
       ],
       "name": "p-button-39",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -2844,11 +2781,7 @@
       "categories": [
         "button"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS button example.",
       "files": [
         {
@@ -2858,7 +2791,8 @@
       ],
       "name": "p-button-4",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button"
       ],
       "type": "registry:block"
     },
@@ -2867,9 +2801,7 @@
         "button"
       ],
       "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
+        "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS button example.",
       "files": [
@@ -2880,7 +2812,13 @@
       ],
       "name": "p-button-40",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:group",
+        "local:spinner",
+        "local:toast",
+        "local:tooltip",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -2888,11 +2826,7 @@
       "categories": [
         "button"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS button example.",
       "files": [
         {
@@ -2902,7 +2836,8 @@
       ],
       "name": "p-button-41",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button"
       ],
       "type": "registry:block"
     },
@@ -2910,11 +2845,7 @@
       "categories": [
         "button"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS button example.",
       "files": [
         {
@@ -2924,7 +2855,8 @@
       ],
       "name": "p-button-5",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button"
       ],
       "type": "registry:block"
     },
@@ -2932,11 +2864,7 @@
       "categories": [
         "button"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS button example.",
       "files": [
         {
@@ -2946,7 +2874,8 @@
       ],
       "name": "p-button-6",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button"
       ],
       "type": "registry:block"
     },
@@ -2954,11 +2883,7 @@
       "categories": [
         "button"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS button example.",
       "files": [
         {
@@ -2968,7 +2893,8 @@
       ],
       "name": "p-button-7",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button"
       ],
       "type": "registry:block"
     },
@@ -2976,11 +2902,7 @@
       "categories": [
         "button"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS button example.",
       "files": [
         {
@@ -2990,7 +2912,8 @@
       ],
       "name": "p-button-8",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button"
       ],
       "type": "registry:block"
     },
@@ -2998,11 +2921,7 @@
       "categories": [
         "button"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS button example.",
       "files": [
         {
@@ -3012,7 +2931,8 @@
       ],
       "name": "p-button-9",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button"
       ],
       "type": "registry:block"
     },
@@ -3020,10 +2940,7 @@
       "categories": [
         "calendar"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS calendar example.",
       "files": [
         {
@@ -3033,7 +2950,8 @@
       ],
       "name": "p-calendar-1",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:calendar"
       ],
       "type": "registry:block"
     },
@@ -3041,10 +2959,7 @@
       "categories": [
         "calendar"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS calendar example.",
       "files": [
         {
@@ -3054,7 +2969,8 @@
       ],
       "name": "p-calendar-10",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:calendar"
       ],
       "type": "registry:block"
     },
@@ -3062,10 +2978,7 @@
       "categories": [
         "calendar"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS calendar example.",
       "files": [
         {
@@ -3075,7 +2988,8 @@
       ],
       "name": "p-calendar-11",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:calendar"
       ],
       "type": "registry:block"
     },
@@ -3083,10 +2997,7 @@
       "categories": [
         "calendar"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS calendar example.",
       "files": [
         {
@@ -3096,7 +3007,8 @@
       ],
       "name": "p-calendar-12",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:calendar"
       ],
       "type": "registry:block"
     },
@@ -3104,10 +3016,7 @@
       "categories": [
         "calendar"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS calendar example.",
       "files": [
         {
@@ -3117,7 +3026,9 @@
       ],
       "name": "p-calendar-13",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:calendar",
+        "local:combobox"
       ],
       "type": "registry:block"
     },
@@ -3125,10 +3036,7 @@
       "categories": [
         "calendar"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS calendar example.",
       "files": [
         {
@@ -3138,7 +3046,9 @@
       ],
       "name": "p-calendar-14",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:calendar",
+        "local:select"
       ],
       "type": "registry:block"
     },
@@ -3146,10 +3056,7 @@
       "categories": [
         "calendar"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS calendar example.",
       "files": [
         {
@@ -3159,7 +3066,9 @@
       ],
       "name": "p-calendar-15",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:calendar",
+        "local:button"
       ],
       "type": "registry:block"
     },
@@ -3167,10 +3076,7 @@
       "categories": [
         "calendar"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS calendar example.",
       "files": [
         {
@@ -3180,7 +3086,9 @@
       ],
       "name": "p-calendar-16",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:calendar",
+        "local:button"
       ],
       "type": "registry:block"
     },
@@ -3189,7 +3097,6 @@
         "calendar"
       ],
       "dependencies": [
-        "@coss-sv/ui",
         "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS calendar example.",
@@ -3201,7 +3108,11 @@
       ],
       "name": "p-calendar-17",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:calendar",
+        "local:field",
+        "local:input-group",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -3210,7 +3121,6 @@
         "calendar"
       ],
       "dependencies": [
-        "@coss-sv/ui",
         "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS calendar example.",
@@ -3222,7 +3132,11 @@
       ],
       "name": "p-calendar-18",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:calendar",
+        "local:field",
+        "local:input-group",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -3230,10 +3144,7 @@
       "categories": [
         "calendar"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS calendar example.",
       "files": [
         {
@@ -3243,7 +3154,11 @@
       ],
       "name": "p-calendar-19",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:calendar",
+        "local:scroll-area",
+        "local:toggle",
+        "local:toggle-group"
       ],
       "type": "registry:block"
     },
@@ -3251,10 +3166,7 @@
       "categories": [
         "calendar"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS calendar example.",
       "files": [
         {
@@ -3264,7 +3176,8 @@
       ],
       "name": "p-calendar-2",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:calendar"
       ],
       "type": "registry:block"
     },
@@ -3272,10 +3185,7 @@
       "categories": [
         "calendar"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS calendar example.",
       "files": [
         {
@@ -3285,7 +3195,9 @@
       ],
       "name": "p-calendar-20",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:calendar",
+        "local:button"
       ],
       "type": "registry:block"
     },
@@ -3293,10 +3205,7 @@
       "categories": [
         "calendar"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS calendar example.",
       "files": [
         {
@@ -3306,7 +3215,9 @@
       ],
       "name": "p-calendar-21",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:calendar",
+        "local:button"
       ],
       "type": "registry:block"
     },
@@ -3314,10 +3225,7 @@
       "categories": [
         "calendar"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS calendar example.",
       "files": [
         {
@@ -3327,7 +3235,8 @@
       ],
       "name": "p-calendar-22",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:calendar"
       ],
       "type": "registry:block"
     },
@@ -3335,10 +3244,7 @@
       "categories": [
         "calendar"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS calendar example.",
       "files": [
         {
@@ -3348,7 +3254,8 @@
       ],
       "name": "p-calendar-23",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:calendar"
       ],
       "type": "registry:block"
     },
@@ -3356,10 +3263,7 @@
       "categories": [
         "calendar"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS calendar example.",
       "files": [
         {
@@ -3369,7 +3273,8 @@
       ],
       "name": "p-calendar-24",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:calendar"
       ],
       "type": "registry:block"
     },
@@ -3378,7 +3283,6 @@
         "calendar"
       ],
       "dependencies": [
-        "@coss-sv/ui",
         "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS calendar example.",
@@ -3390,7 +3294,11 @@
       ],
       "name": "p-calendar-25",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:calendar",
+        "local:autocomplete",
+        "local:field",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -3398,10 +3306,7 @@
       "categories": [
         "calendar"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS calendar example.",
       "files": [
         {
@@ -3411,7 +3316,8 @@
       ],
       "name": "p-calendar-3",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:calendar"
       ],
       "type": "registry:block"
     },
@@ -3419,10 +3325,7 @@
       "categories": [
         "calendar"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS calendar example.",
       "files": [
         {
@@ -3432,7 +3335,8 @@
       ],
       "name": "p-calendar-4",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:calendar"
       ],
       "type": "registry:block"
     },
@@ -3440,10 +3344,7 @@
       "categories": [
         "calendar"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS calendar example.",
       "files": [
         {
@@ -3453,7 +3354,9 @@
       ],
       "name": "p-calendar-5",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:calendar",
+        "local:select"
       ],
       "type": "registry:block"
     },
@@ -3461,10 +3364,7 @@
       "categories": [
         "calendar"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS calendar example.",
       "files": [
         {
@@ -3474,7 +3374,9 @@
       ],
       "name": "p-calendar-6",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:calendar",
+        "local:combobox"
       ],
       "type": "registry:block"
     },
@@ -3482,10 +3384,7 @@
       "categories": [
         "calendar"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS calendar example.",
       "files": [
         {
@@ -3495,7 +3394,8 @@
       ],
       "name": "p-calendar-7",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:calendar"
       ],
       "type": "registry:block"
     },
@@ -3503,10 +3403,7 @@
       "categories": [
         "calendar"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS calendar example.",
       "files": [
         {
@@ -3516,7 +3413,8 @@
       ],
       "name": "p-calendar-8",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:calendar"
       ],
       "type": "registry:block"
     },
@@ -3524,10 +3422,7 @@
       "categories": [
         "calendar"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS calendar example.",
       "files": [
         {
@@ -3537,7 +3432,8 @@
       ],
       "name": "p-calendar-9",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:calendar"
       ],
       "type": "registry:block"
     },
@@ -3546,9 +3442,7 @@
         "card"
       ],
       "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
+        "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS card example.",
       "files": [
@@ -3559,7 +3453,14 @@
       ],
       "name": "p-card-1",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:card",
+        "local:field",
+        "local:form",
+        "local:input",
+        "local:select",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -3568,9 +3469,7 @@
         "card"
       ],
       "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
+        "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS card example.",
       "files": [
@@ -3581,7 +3480,15 @@
       ],
       "name": "p-card-10",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:card",
+        "local:field",
+        "local:form",
+        "local:frame",
+        "local:input",
+        "local:select",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -3590,9 +3497,7 @@
         "card"
       ],
       "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
+        "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS card example.",
       "files": [
@@ -3603,7 +3508,11 @@
       ],
       "name": "p-card-11",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:card",
+        "local:empty",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -3611,11 +3520,7 @@
       "categories": [
         "card"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS card example.",
       "files": [
         {
@@ -3625,7 +3530,12 @@
       ],
       "name": "p-card-2",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:card",
+        "local:field",
+        "local:form",
+        "local:input"
       ],
       "type": "registry:block"
     },
@@ -3634,9 +3544,7 @@
         "card"
       ],
       "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
+        "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS card example.",
       "files": [
@@ -3647,7 +3555,13 @@
       ],
       "name": "p-card-3",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:card",
+        "local:field",
+        "local:form",
+        "local:input",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -3656,9 +3570,7 @@
         "card"
       ],
       "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
+        "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS card example.",
       "files": [
@@ -3669,7 +3581,14 @@
       ],
       "name": "p-card-4",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:card",
+        "local:field",
+        "local:form",
+        "local:input",
+        "local:select",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -3677,11 +3596,7 @@
       "categories": [
         "card"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS card example.",
       "files": [
         {
@@ -3691,7 +3606,13 @@
       ],
       "name": "p-card-5",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:card",
+        "local:field",
+        "local:form",
+        "local:input",
+        "local:select"
       ],
       "type": "registry:block"
     },
@@ -3700,9 +3621,7 @@
         "card"
       ],
       "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
+        "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS card example.",
       "files": [
@@ -3713,7 +3632,14 @@
       ],
       "name": "p-card-6",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:card",
+        "local:field",
+        "local:form",
+        "local:input",
+        "local:select",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -3722,9 +3648,7 @@
         "card"
       ],
       "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
+        "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS card example.",
       "files": [
@@ -3735,7 +3659,14 @@
       ],
       "name": "p-card-7",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:card",
+        "local:field",
+        "local:form",
+        "local:input",
+        "local:select",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -3744,9 +3675,7 @@
         "card"
       ],
       "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
+        "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS card example.",
       "files": [
@@ -3757,7 +3686,15 @@
       ],
       "name": "p-card-8",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:card",
+        "local:field",
+        "local:form",
+        "local:frame",
+        "local:input",
+        "local:select",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -3765,11 +3702,7 @@
       "categories": [
         "card"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS card example.",
       "files": [
         {
@@ -3779,7 +3712,14 @@
       ],
       "name": "p-card-9",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:card",
+        "local:field",
+        "local:form",
+        "local:frame",
+        "local:input",
+        "local:select"
       ],
       "type": "registry:block"
     },
@@ -3787,11 +3727,7 @@
       "categories": [
         "checkbox"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS checkbox example.",
       "files": [
         {
@@ -3801,7 +3737,9 @@
       ],
       "name": "p-checkbox-1",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:checkbox",
+        "local:label"
       ],
       "type": "registry:block"
     },
@@ -3809,11 +3747,7 @@
       "categories": [
         "checkbox"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS checkbox example.",
       "files": [
         {
@@ -3823,7 +3757,9 @@
       ],
       "name": "p-checkbox-2",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:checkbox",
+        "local:label"
       ],
       "type": "registry:block"
     },
@@ -3831,11 +3767,7 @@
       "categories": [
         "checkbox"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS checkbox example.",
       "files": [
         {
@@ -3845,7 +3777,9 @@
       ],
       "name": "p-checkbox-3",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:checkbox",
+        "local:label"
       ],
       "type": "registry:block"
     },
@@ -3853,11 +3787,7 @@
       "categories": [
         "checkbox"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS checkbox example.",
       "files": [
         {
@@ -3867,7 +3797,9 @@
       ],
       "name": "p-checkbox-4",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:checkbox",
+        "local:label"
       ],
       "type": "registry:block"
     },
@@ -3875,11 +3807,7 @@
       "categories": [
         "checkbox"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS checkbox example.",
       "files": [
         {
@@ -3889,7 +3817,11 @@
       ],
       "name": "p-checkbox-5",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:checkbox",
+        "local:field",
+        "local:form"
       ],
       "type": "registry:block"
     },
@@ -3897,11 +3829,7 @@
       "categories": [
         "checkbox-group"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS checkbox-group example.",
       "files": [
         {
@@ -3911,7 +3839,10 @@
       ],
       "name": "p-checkbox-group-1",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:checkbox",
+        "local:checkbox-group",
+        "local:label"
       ],
       "type": "registry:block"
     },
@@ -3919,11 +3850,7 @@
       "categories": [
         "checkbox-group"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS checkbox-group example.",
       "files": [
         {
@@ -3933,7 +3860,10 @@
       ],
       "name": "p-checkbox-group-2",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:checkbox",
+        "local:checkbox-group",
+        "local:label"
       ],
       "type": "registry:block"
     },
@@ -3941,11 +3871,7 @@
       "categories": [
         "checkbox-group"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS checkbox-group example.",
       "files": [
         {
@@ -3955,7 +3881,10 @@
       ],
       "name": "p-checkbox-group-3",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:checkbox",
+        "local:checkbox-group",
+        "local:label"
       ],
       "type": "registry:block"
     },
@@ -3963,11 +3892,7 @@
       "categories": [
         "checkbox-group"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS checkbox-group example.",
       "files": [
         {
@@ -3977,7 +3902,10 @@
       ],
       "name": "p-checkbox-group-4",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:checkbox",
+        "local:checkbox-group",
+        "local:label"
       ],
       "type": "registry:block"
     },
@@ -3985,11 +3913,7 @@
       "categories": [
         "checkbox-group"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS checkbox-group example.",
       "files": [
         {
@@ -3999,7 +3923,13 @@
       ],
       "name": "p-checkbox-group-5",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:checkbox",
+        "local:checkbox-group",
+        "local:field",
+        "local:fieldset",
+        "local:form"
       ],
       "type": "registry:block"
     },
@@ -4008,9 +3938,7 @@
         "collapsible"
       ],
       "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
+        "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS collapsible example.",
       "files": [
@@ -4021,7 +3949,9 @@
       ],
       "name": "p-collapsible-1",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:collapsible",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -4029,10 +3959,7 @@
       "categories": [
         "combobox"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS combobox example.",
       "files": [
         {
@@ -4042,7 +3969,8 @@
       ],
       "name": "p-combobox-1",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:combobox"
       ],
       "type": "registry:block"
     },
@@ -4051,7 +3979,6 @@
         "combobox"
       ],
       "dependencies": [
-        "@coss-sv/ui",
         "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS combobox example.",
@@ -4063,7 +3990,10 @@
       ],
       "name": "p-combobox-10",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:combobox",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -4071,10 +4001,7 @@
       "categories": [
         "combobox"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS combobox example.",
       "files": [
         {
@@ -4084,7 +4011,11 @@
       ],
       "name": "p-combobox-11",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:combobox",
+        "local:field",
+        "local:form"
       ],
       "type": "registry:block"
     },
@@ -4092,10 +4023,7 @@
       "categories": [
         "combobox"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS combobox example.",
       "files": [
         {
@@ -4105,7 +4033,11 @@
       ],
       "name": "p-combobox-12",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:combobox",
+        "local:field",
+        "local:form"
       ],
       "type": "registry:block"
     },
@@ -4114,7 +4046,6 @@
         "combobox"
       ],
       "dependencies": [
-        "@coss-sv/ui",
         "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS combobox example.",
@@ -4126,7 +4057,9 @@
       ],
       "name": "p-combobox-13",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:combobox",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -4135,7 +4068,6 @@
         "combobox"
       ],
       "dependencies": [
-        "@coss-sv/ui",
         "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS combobox example.",
@@ -4147,7 +4079,9 @@
       ],
       "name": "p-combobox-14",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:combobox",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -4155,10 +4089,7 @@
       "categories": [
         "combobox"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS combobox example.",
       "files": [
         {
@@ -4168,7 +4099,8 @@
       ],
       "name": "p-combobox-15",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:combobox"
       ],
       "type": "registry:block"
     },
@@ -4176,10 +4108,7 @@
       "categories": [
         "combobox"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS combobox example.",
       "files": [
         {
@@ -4189,7 +4118,8 @@
       ],
       "name": "p-combobox-16",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:combobox"
       ],
       "type": "registry:block"
     },
@@ -4198,7 +4128,6 @@
         "combobox"
       ],
       "dependencies": [
-        "@coss-sv/ui",
         "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS combobox example.",
@@ -4210,7 +4139,10 @@
       ],
       "name": "p-combobox-17",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:combobox",
+        "local:select",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -4219,7 +4151,6 @@
         "combobox"
       ],
       "dependencies": [
-        "@coss-sv/ui",
         "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS combobox example.",
@@ -4231,7 +4162,10 @@
       ],
       "name": "p-combobox-18",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:combobox",
+        "local:select",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -4240,7 +4174,6 @@
         "combobox"
       ],
       "dependencies": [
-        "@coss-sv/ui",
         "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS combobox example.",
@@ -4252,7 +4185,12 @@
       ],
       "name": "p-combobox-19",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:avatar",
+        "local:badge",
+        "local:button",
+        "local:combobox",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -4260,10 +4198,7 @@
       "categories": [
         "combobox"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS combobox example.",
       "files": [
         {
@@ -4273,7 +4208,8 @@
       ],
       "name": "p-combobox-2",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:combobox"
       ],
       "type": "registry:block"
     },
@@ -4282,7 +4218,6 @@
         "combobox"
       ],
       "dependencies": [
-        "@coss-sv/ui",
         "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS combobox example.",
@@ -4294,7 +4229,12 @@
       ],
       "name": "p-combobox-20",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:avatar",
+        "local:badge",
+        "local:button",
+        "local:combobox",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -4302,10 +4242,7 @@
       "categories": [
         "combobox"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS combobox example.",
       "files": [
         {
@@ -4315,7 +4252,8 @@
       ],
       "name": "p-combobox-3",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:combobox"
       ],
       "type": "registry:block"
     },
@@ -4323,10 +4261,7 @@
       "categories": [
         "combobox"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS combobox example.",
       "files": [
         {
@@ -4336,7 +4271,8 @@
       ],
       "name": "p-combobox-4",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:combobox"
       ],
       "type": "registry:block"
     },
@@ -4344,10 +4280,7 @@
       "categories": [
         "combobox"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS combobox example.",
       "files": [
         {
@@ -4357,7 +4290,9 @@
       ],
       "name": "p-combobox-5",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:combobox",
+        "local:label"
       ],
       "type": "registry:block"
     },
@@ -4365,10 +4300,7 @@
       "categories": [
         "combobox"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS combobox example.",
       "files": [
         {
@@ -4378,7 +4310,8 @@
       ],
       "name": "p-combobox-6",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:combobox"
       ],
       "type": "registry:block"
     },
@@ -4386,10 +4319,7 @@
       "categories": [
         "combobox"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS combobox example.",
       "files": [
         {
@@ -4399,7 +4329,8 @@
       ],
       "name": "p-combobox-7",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:combobox"
       ],
       "type": "registry:block"
     },
@@ -4407,10 +4338,7 @@
       "categories": [
         "combobox"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS combobox example.",
       "files": [
         {
@@ -4420,7 +4348,8 @@
       ],
       "name": "p-combobox-8",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:combobox"
       ],
       "type": "registry:block"
     },
@@ -4428,10 +4357,7 @@
       "categories": [
         "combobox"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS combobox example.",
       "files": [
         {
@@ -4441,7 +4367,8 @@
       ],
       "name": "p-combobox-9",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:combobox"
       ],
       "type": "registry:block"
     },
@@ -4450,7 +4377,6 @@
         "command"
       ],
       "dependencies": [
-        "@coss-sv/ui",
         "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS command example.",
@@ -4462,7 +4388,11 @@
       ],
       "name": "p-command-1",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:command",
+        "local:kbd",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -4471,7 +4401,6 @@
         "command"
       ],
       "dependencies": [
-        "@coss-sv/ui",
         "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS command example.",
@@ -4483,7 +4412,17 @@
       ],
       "name": "p-command-2",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:autocomplete",
+        "local:button",
+        "local:command",
+        "local:empty",
+        "local:input",
+        "local:kbd",
+        "local:scroll-area",
+        "local:skeleton",
+        "local:spinner",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -4491,10 +4430,7 @@
       "categories": [
         "context-menu"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS context-menu example.",
       "files": [
         {
@@ -4504,7 +4440,8 @@
       ],
       "name": "p-context-menu-1",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:context-menu"
       ],
       "type": "registry:block"
     },
@@ -4512,10 +4449,7 @@
       "categories": [
         "context-menu"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS context-menu example.",
       "files": [
         {
@@ -4525,7 +4459,8 @@
       ],
       "name": "p-context-menu-2",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:context-menu"
       ],
       "type": "registry:block"
     },
@@ -4533,10 +4468,7 @@
       "categories": [
         "context-menu"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS context-menu example.",
       "files": [
         {
@@ -4546,7 +4478,8 @@
       ],
       "name": "p-context-menu-3",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:context-menu"
       ],
       "type": "registry:block"
     },
@@ -4554,10 +4487,7 @@
       "categories": [
         "context-menu"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS context-menu example.",
       "files": [
         {
@@ -4567,7 +4497,8 @@
       ],
       "name": "p-context-menu-4",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:context-menu"
       ],
       "type": "registry:block"
     },
@@ -4575,10 +4506,7 @@
       "categories": [
         "context-menu"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS context-menu example.",
       "files": [
         {
@@ -4588,7 +4516,8 @@
       ],
       "name": "p-context-menu-5",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:context-menu"
       ],
       "type": "registry:block"
     },
@@ -4597,7 +4526,6 @@
         "context-menu"
       ],
       "dependencies": [
-        "@coss-sv/ui",
         "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS context-menu example.",
@@ -4609,7 +4537,9 @@
       ],
       "name": "p-context-menu-6",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:context-menu",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -4617,10 +4547,7 @@
       "categories": [
         "context-menu"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS context-menu example.",
       "files": [
         {
@@ -4630,7 +4557,8 @@
       ],
       "name": "p-context-menu-7",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:context-menu"
       ],
       "type": "registry:block"
     },
@@ -4638,10 +4566,7 @@
       "categories": [
         "context-menu"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS context-menu example.",
       "files": [
         {
@@ -4651,7 +4576,8 @@
       ],
       "name": "p-context-menu-8",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:context-menu"
       ],
       "type": "registry:block"
     },
@@ -4660,7 +4586,6 @@
         "date-picker"
       ],
       "dependencies": [
-        "@coss-sv/ui",
         "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS date-picker example.",
@@ -4673,6 +4598,10 @@
       "name": "p-date-picker-1",
       "registryDependencies": [
         "local:particle-metadata",
+        "local:calendar",
+        "local:popover",
+        "local:button",
+        "local:hugeicons-icon",
         "local:date-format"
       ],
       "type": "registry:block"
@@ -4682,7 +4611,6 @@
         "date-picker"
       ],
       "dependencies": [
-        "@coss-sv/ui",
         "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS date-picker example.",
@@ -4694,7 +4622,11 @@
       ],
       "name": "p-date-picker-2",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:calendar",
+        "local:popover",
+        "local:button",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -4703,7 +4635,6 @@
         "date-picker"
       ],
       "dependencies": [
-        "@coss-sv/ui",
         "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS date-picker example.",
@@ -4716,6 +4647,12 @@
       "name": "p-date-picker-3",
       "registryDependencies": [
         "local:particle-metadata",
+        "local:button",
+        "local:calendar",
+        "local:combobox",
+        "local:field",
+        "local:popover",
+        "local:hugeicons-icon",
         "local:date-format"
       ],
       "type": "registry:block"
@@ -4725,7 +4662,6 @@
         "date-picker"
       ],
       "dependencies": [
-        "@coss-sv/ui",
         "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS date-picker example.",
@@ -4738,6 +4674,10 @@
       "name": "p-date-picker-4",
       "registryDependencies": [
         "local:particle-metadata",
+        "local:button",
+        "local:calendar",
+        "local:popover",
+        "local:hugeicons-icon",
         "local:date-format"
       ],
       "type": "registry:block"
@@ -4747,7 +4687,6 @@
         "date-picker"
       ],
       "dependencies": [
-        "@coss-sv/ui",
         "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS date-picker example.",
@@ -4759,7 +4698,12 @@
       ],
       "name": "p-date-picker-5",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:calendar",
+        "local:input-group",
+        "local:popover",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -4768,7 +4712,6 @@
         "date-picker"
       ],
       "dependencies": [
-        "@coss-sv/ui",
         "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS date-picker example.",
@@ -4781,6 +4724,10 @@
       "name": "p-date-picker-6",
       "registryDependencies": [
         "local:particle-metadata",
+        "local:calendar",
+        "local:popover",
+        "local:button",
+        "local:hugeicons-icon",
         "local:date-format"
       ],
       "type": "registry:block"
@@ -4790,7 +4737,6 @@
         "date-picker"
       ],
       "dependencies": [
-        "@coss-sv/ui",
         "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS date-picker example.",
@@ -4802,7 +4748,12 @@
       ],
       "name": "p-date-picker-7",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:badge",
+        "local:button",
+        "local:calendar",
+        "local:popover",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -4811,7 +4762,6 @@
         "date-picker"
       ],
       "dependencies": [
-        "@coss-sv/ui",
         "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS date-picker example.",
@@ -4824,6 +4774,10 @@
       "name": "p-date-picker-8",
       "registryDependencies": [
         "local:particle-metadata",
+        "local:calendar",
+        "local:popover",
+        "local:select",
+        "local:hugeicons-icon",
         "local:date-format"
       ],
       "type": "registry:block"
@@ -4833,7 +4787,6 @@
         "date-picker"
       ],
       "dependencies": [
-        "@coss-sv/ui",
         "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS date-picker example.",
@@ -4845,7 +4798,11 @@
       ],
       "name": "p-date-picker-9",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:calendar",
+        "local:popover",
+        "local:button",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -4853,11 +4810,7 @@
       "categories": [
         "dialog"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS dialog example.",
       "files": [
         {
@@ -4867,7 +4820,12 @@
       ],
       "name": "p-dialog-1",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:dialog",
+        "local:field",
+        "local:form",
+        "local:input"
       ],
       "type": "registry:block"
     },
@@ -4875,11 +4833,7 @@
       "categories": [
         "dialog"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS dialog example.",
       "files": [
         {
@@ -4889,7 +4843,10 @@
       ],
       "name": "p-dialog-2",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:dialog",
+        "local:menu"
       ],
       "type": "registry:block"
     },
@@ -4897,11 +4854,7 @@
       "categories": [
         "dialog"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS dialog example.",
       "files": [
         {
@@ -4911,7 +4864,11 @@
       ],
       "name": "p-dialog-3",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:dialog",
+        "local:field",
+        "local:input"
       ],
       "type": "registry:block"
     },
@@ -4919,11 +4876,7 @@
       "categories": [
         "dialog"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS dialog example.",
       "files": [
         {
@@ -4933,7 +4886,13 @@
       ],
       "name": "p-dialog-4",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:alert-dialog",
+        "local:button",
+        "local:dialog",
+        "local:field",
+        "local:form",
+        "local:textarea"
       ],
       "type": "registry:block"
     },
@@ -4941,11 +4900,7 @@
       "categories": [
         "dialog"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS dialog example.",
       "files": [
         {
@@ -4955,7 +4910,9 @@
       ],
       "name": "p-dialog-5",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:dialog"
       ],
       "type": "registry:block"
     },
@@ -4963,11 +4920,7 @@
       "categories": [
         "dialog"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS dialog example.",
       "files": [
         {
@@ -4977,7 +4930,12 @@
       ],
       "name": "p-dialog-6",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:dialog",
+        "local:field",
+        "local:form",
+        "local:input"
       ],
       "type": "registry:block"
     },
@@ -4985,11 +4943,7 @@
       "categories": [
         "drawer"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS drawer example.",
       "files": [
         {
@@ -4999,7 +4953,9 @@
       ],
       "name": "p-drawer-1",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:drawer"
       ],
       "type": "registry:block"
     },
@@ -5007,11 +4963,7 @@
       "categories": [
         "drawer"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS drawer example.",
       "files": [
         {
@@ -5021,7 +4973,12 @@
       ],
       "name": "p-drawer-10",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:drawer",
+        "local:field",
+        "local:form",
+        "local:input"
       ],
       "type": "registry:block"
     },
@@ -5029,11 +4986,7 @@
       "categories": [
         "drawer"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS drawer example.",
       "files": [
         {
@@ -5043,7 +4996,9 @@
       ],
       "name": "p-drawer-11",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:drawer"
       ],
       "type": "registry:block"
     },
@@ -5051,11 +5006,7 @@
       "categories": [
         "drawer"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS drawer example.",
       "files": [
         {
@@ -5065,7 +5016,13 @@
       ],
       "name": "p-drawer-12",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:dialog",
+        "local:drawer",
+        "local:field",
+        "local:form",
+        "local:input"
       ],
       "type": "registry:block"
     },
@@ -5074,9 +5031,7 @@
         "drawer"
       ],
       "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
+        "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS drawer example.",
       "files": [
@@ -5087,7 +5042,11 @@
       ],
       "name": "p-drawer-13",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:drawer",
+        "local:menu",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -5095,11 +5054,7 @@
       "categories": [
         "drawer"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS drawer example.",
       "files": [
         {
@@ -5109,7 +5064,9 @@
       ],
       "name": "p-drawer-14",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:drawer"
       ],
       "type": "registry:block"
     },
@@ -5117,11 +5074,7 @@
       "categories": [
         "drawer"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS drawer example.",
       "files": [
         {
@@ -5131,7 +5084,9 @@
       ],
       "name": "p-drawer-2",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:drawer"
       ],
       "type": "registry:block"
     },
@@ -5139,11 +5094,7 @@
       "categories": [
         "drawer"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS drawer example.",
       "files": [
         {
@@ -5153,7 +5104,9 @@
       ],
       "name": "p-drawer-3",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:drawer"
       ],
       "type": "registry:block"
     },
@@ -5161,11 +5114,7 @@
       "categories": [
         "drawer"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS drawer example.",
       "files": [
         {
@@ -5175,7 +5124,9 @@
       ],
       "name": "p-drawer-4",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:drawer"
       ],
       "type": "registry:block"
     },
@@ -5183,11 +5134,7 @@
       "categories": [
         "drawer"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS drawer example.",
       "files": [
         {
@@ -5197,7 +5144,9 @@
       ],
       "name": "p-drawer-5",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:drawer"
       ],
       "type": "registry:block"
     },
@@ -5205,11 +5154,7 @@
       "categories": [
         "drawer"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS drawer example.",
       "files": [
         {
@@ -5219,7 +5164,9 @@
       ],
       "name": "p-drawer-6",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:drawer"
       ],
       "type": "registry:block"
     },
@@ -5227,11 +5174,7 @@
       "categories": [
         "drawer"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS drawer example.",
       "files": [
         {
@@ -5241,7 +5184,9 @@
       ],
       "name": "p-drawer-7",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:drawer"
       ],
       "type": "registry:block"
     },
@@ -5249,11 +5194,7 @@
       "categories": [
         "drawer"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS drawer example.",
       "files": [
         {
@@ -5263,7 +5204,11 @@
       ],
       "name": "p-drawer-8",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:drawer",
+        "local:field",
+        "local:input"
       ],
       "type": "registry:block"
     },
@@ -5271,11 +5216,7 @@
       "categories": [
         "drawer"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS drawer example.",
       "files": [
         {
@@ -5285,7 +5226,9 @@
       ],
       "name": "p-drawer-9",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:drawer"
       ],
       "type": "registry:block"
     },
@@ -5294,9 +5237,7 @@
         "empty"
       ],
       "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
+        "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS empty example.",
       "files": [
@@ -5307,7 +5248,10 @@
       ],
       "name": "p-empty-1",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:empty",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -5315,11 +5259,7 @@
       "categories": [
         "frame"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS frame example.",
       "files": [
         {
@@ -5329,7 +5269,8 @@
       ],
       "name": "p-frame-1",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:frame"
       ],
       "type": "registry:block"
     },
@@ -5338,9 +5279,7 @@
         "frame"
       ],
       "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
+        "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS frame example.",
       "files": [
@@ -5351,7 +5290,11 @@
       ],
       "name": "p-frame-2",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:collapsible",
+        "local:frame",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -5359,11 +5302,7 @@
       "categories": [
         "frame"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS frame example.",
       "files": [
         {
@@ -5373,7 +5312,8 @@
       ],
       "name": "p-frame-3",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:frame"
       ],
       "type": "registry:block"
     },
@@ -5381,11 +5321,7 @@
       "categories": [
         "frame"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS frame example.",
       "files": [
         {
@@ -5395,7 +5331,9 @@
       ],
       "name": "p-frame-4",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:frame",
+        "local:separator"
       ],
       "type": "registry:block"
     },
@@ -5404,7 +5342,6 @@
         "menu"
       ],
       "dependencies": [
-        "@coss-sv/ui",
         "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS menu example.",
@@ -5416,7 +5353,10 @@
       ],
       "name": "p-menu-1",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:menu",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -5424,10 +5364,7 @@
       "categories": [
         "menu"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS menu example.",
       "files": [
         {
@@ -5437,7 +5374,9 @@
       ],
       "name": "p-menu-2",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:menu"
       ],
       "type": "registry:block"
     },
@@ -5445,10 +5384,7 @@
       "categories": [
         "menu"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS menu example.",
       "files": [
         {
@@ -5458,7 +5394,9 @@
       ],
       "name": "p-menu-3",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:menu"
       ],
       "type": "registry:block"
     },
@@ -5466,10 +5404,7 @@
       "categories": [
         "menu"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS menu example.",
       "files": [
         {
@@ -5479,7 +5414,9 @@
       ],
       "name": "p-menu-4",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:menu"
       ],
       "type": "registry:block"
     },
@@ -5487,10 +5424,7 @@
       "categories": [
         "menu"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS menu example.",
       "files": [
         {
@@ -5500,7 +5434,9 @@
       ],
       "name": "p-menu-5",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:menu"
       ],
       "type": "registry:block"
     },
@@ -5508,10 +5444,7 @@
       "categories": [
         "menu"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS menu example.",
       "files": [
         {
@@ -5521,7 +5454,9 @@
       ],
       "name": "p-menu-6",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:menu"
       ],
       "type": "registry:block"
     },
@@ -5529,10 +5464,7 @@
       "categories": [
         "menu"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS menu example.",
       "files": [
         {
@@ -5542,7 +5474,9 @@
       ],
       "name": "p-menu-7",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:menu"
       ],
       "type": "registry:block"
     },
@@ -5550,10 +5484,7 @@
       "categories": [
         "menu"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS menu example.",
       "files": [
         {
@@ -5563,7 +5494,9 @@
       ],
       "name": "p-menu-8",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:menu"
       ],
       "type": "registry:block"
     },
@@ -5571,10 +5504,7 @@
       "categories": [
         "menu"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS menu example.",
       "files": [
         {
@@ -5584,7 +5514,9 @@
       ],
       "name": "p-menu-9",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:menu"
       ],
       "type": "registry:block"
     },
@@ -5592,10 +5524,7 @@
       "categories": [
         "navigation"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS navigation example.",
       "files": [
         {
@@ -5614,10 +5543,7 @@
       "categories": [
         "navigation"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS navigation example.",
       "files": [
         {
@@ -5636,10 +5562,7 @@
       "categories": [
         "navigation"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS navigation example.",
       "files": [
         {
@@ -5658,10 +5581,7 @@
       "categories": [
         "pagination"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS pagination example.",
       "files": [
         {
@@ -5671,7 +5591,8 @@
       ],
       "name": "p-pagination-1",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:pagination"
       ],
       "type": "registry:block"
     },
@@ -5679,10 +5600,7 @@
       "categories": [
         "pagination"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS pagination example.",
       "files": [
         {
@@ -5692,7 +5610,9 @@
       ],
       "name": "p-pagination-2",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:pagination"
       ],
       "type": "registry:block"
     },
@@ -5700,10 +5620,7 @@
       "categories": [
         "pagination"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS pagination example.",
       "files": [
         {
@@ -5713,7 +5630,10 @@
       ],
       "name": "p-pagination-3",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:pagination",
+        "local:select"
       ],
       "type": "registry:block"
     },
@@ -5721,11 +5641,7 @@
       "categories": [
         "popover"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS popover example.",
       "files": [
         {
@@ -5735,7 +5651,12 @@
       ],
       "name": "p-popover-1",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:field",
+        "local:form",
+        "local:popover",
+        "local:textarea"
       ],
       "type": "registry:block"
     },
@@ -5744,9 +5665,7 @@
         "popover"
       ],
       "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
+        "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS popover example.",
       "files": [
@@ -5757,7 +5676,10 @@
       ],
       "name": "p-popover-2",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:popover",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -5766,9 +5688,7 @@
         "popover"
       ],
       "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
+        "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS popover example.",
       "files": [
@@ -5779,7 +5699,11 @@
       ],
       "name": "p-popover-3",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:avatar",
+        "local:button",
+        "local:popover",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -5788,9 +5712,7 @@
         "popover"
       ],
       "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
+        "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS popover example.",
       "files": [
@@ -5801,7 +5723,15 @@
       ],
       "name": "p-popover-4",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:badge",
+        "local:button",
+        "local:checkbox",
+        "local:checkbox-group",
+        "local:group",
+        "local:label",
+        "local:popover",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -5810,9 +5740,7 @@
         "preview-card"
       ],
       "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
+        "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS preview-card example.",
       "files": [
@@ -5823,7 +5751,10 @@
       ],
       "name": "p-preview-card-1",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:preview-card",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -5831,11 +5762,7 @@
       "categories": [
         "radio-group"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS radio-group example.",
       "files": [
         {
@@ -5845,7 +5772,9 @@
       ],
       "name": "p-radio-group-1",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:label",
+        "local:radio-group"
       ],
       "type": "registry:block"
     },
@@ -5853,11 +5782,7 @@
       "categories": [
         "radio-group"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS radio-group example.",
       "files": [
         {
@@ -5867,7 +5792,9 @@
       ],
       "name": "p-radio-group-2",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:label",
+        "local:radio-group"
       ],
       "type": "registry:block"
     },
@@ -5875,11 +5802,7 @@
       "categories": [
         "radio-group"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS radio-group example.",
       "files": [
         {
@@ -5889,7 +5812,9 @@
       ],
       "name": "p-radio-group-3",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:label",
+        "local:radio-group"
       ],
       "type": "registry:block"
     },
@@ -5897,11 +5822,7 @@
       "categories": [
         "radio-group"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS radio-group example.",
       "files": [
         {
@@ -5911,7 +5832,9 @@
       ],
       "name": "p-radio-group-4",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:label",
+        "local:radio-group"
       ],
       "type": "registry:block"
     },
@@ -5919,11 +5842,7 @@
       "categories": [
         "radio-group"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS radio-group example.",
       "files": [
         {
@@ -5933,7 +5852,12 @@
       ],
       "name": "p-radio-group-5",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:field",
+        "local:fieldset",
+        "local:form",
+        "local:radio-group"
       ],
       "type": "registry:block"
     },
@@ -5941,11 +5865,7 @@
       "categories": [
         "radio-group"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS radio-group example.",
       "files": [
         {
@@ -5955,7 +5875,10 @@
       ],
       "name": "p-radio-group-6",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:field",
+        "local:fieldset",
+        "local:radio-group"
       ],
       "type": "registry:block"
     },
@@ -5963,10 +5886,7 @@
       "categories": [
         "radio-group"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS radio-group example.",
       "files": [
         {
@@ -5977,6 +5897,7 @@
       "name": "p-radio-group-7",
       "registryDependencies": [
         "local:particle-metadata",
+        "local:radio-group",
         "local:segmented-control"
       ],
       "type": "registry:block"
@@ -5985,10 +5906,7 @@
       "categories": [
         "radio-group"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS radio-group example.",
       "files": [
         {
@@ -5999,6 +5917,7 @@
       "name": "p-radio-group-8",
       "registryDependencies": [
         "local:particle-metadata",
+        "local:radio-group",
         "local:segmented-control"
       ],
       "type": "registry:block"
@@ -6007,10 +5926,7 @@
       "categories": [
         "radio-group"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS radio-group example.",
       "files": [
         {
@@ -6021,6 +5937,7 @@
       "name": "p-radio-group-9",
       "registryDependencies": [
         "local:particle-metadata",
+        "local:radio-group",
         "local:segmented-control"
       ],
       "type": "registry:block"
@@ -6029,10 +5946,7 @@
       "categories": [
         "scroll-area"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS scroll-area example.",
       "files": [
         {
@@ -6042,7 +5956,8 @@
       ],
       "name": "p-scroll-area-1",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:scroll-area"
       ],
       "type": "registry:block"
     },
@@ -6050,10 +5965,7 @@
       "categories": [
         "scroll-area"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS scroll-area example.",
       "files": [
         {
@@ -6063,7 +5975,8 @@
       ],
       "name": "p-scroll-area-2",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:scroll-area"
       ],
       "type": "registry:block"
     },
@@ -6071,10 +5984,7 @@
       "categories": [
         "scroll-area"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS scroll-area example.",
       "files": [
         {
@@ -6084,7 +5994,8 @@
       ],
       "name": "p-scroll-area-3",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:scroll-area"
       ],
       "type": "registry:block"
     },
@@ -6092,10 +6003,7 @@
       "categories": [
         "scroll-area"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS scroll-area example.",
       "files": [
         {
@@ -6105,7 +6013,8 @@
       ],
       "name": "p-scroll-area-4",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:scroll-area"
       ],
       "type": "registry:block"
     },
@@ -6113,10 +6022,7 @@
       "categories": [
         "scroll-area"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS scroll-area example.",
       "files": [
         {
@@ -6126,7 +6032,8 @@
       ],
       "name": "p-scroll-area-5",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:scroll-area"
       ],
       "type": "registry:block"
     },
@@ -6134,10 +6041,7 @@
       "categories": [
         "select"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS select example.",
       "files": [
         {
@@ -6147,7 +6051,8 @@
       ],
       "name": "p-select-1",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:select"
       ],
       "type": "registry:block"
     },
@@ -6155,10 +6060,7 @@
       "categories": [
         "select"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS select example.",
       "files": [
         {
@@ -6168,7 +6070,8 @@
       ],
       "name": "p-select-10",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:select"
       ],
       "type": "registry:block"
     },
@@ -6176,10 +6079,7 @@
       "categories": [
         "select"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS select example.",
       "files": [
         {
@@ -6189,7 +6089,11 @@
       ],
       "name": "p-select-11",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:field",
+        "local:form",
+        "local:select"
       ],
       "type": "registry:block"
     },
@@ -6197,10 +6101,7 @@
       "categories": [
         "select"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS select example.",
       "files": [
         {
@@ -6210,7 +6111,8 @@
       ],
       "name": "p-select-12",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:select"
       ],
       "type": "registry:block"
     },
@@ -6218,10 +6120,7 @@
       "categories": [
         "select"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS select example.",
       "files": [
         {
@@ -6231,7 +6130,8 @@
       ],
       "name": "p-select-13",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:select"
       ],
       "type": "registry:block"
     },
@@ -6239,10 +6139,7 @@
       "categories": [
         "select"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS select example.",
       "files": [
         {
@@ -6252,7 +6149,8 @@
       ],
       "name": "p-select-14",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:select"
       ],
       "type": "registry:block"
     },
@@ -6260,10 +6158,7 @@
       "categories": [
         "select"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS select example.",
       "files": [
         {
@@ -6273,7 +6168,8 @@
       ],
       "name": "p-select-15",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:select"
       ],
       "type": "registry:block"
     },
@@ -6281,10 +6177,7 @@
       "categories": [
         "select"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS select example.",
       "files": [
         {
@@ -6294,7 +6187,8 @@
       ],
       "name": "p-select-16",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:select"
       ],
       "type": "registry:block"
     },
@@ -6302,10 +6196,7 @@
       "categories": [
         "select"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS select example.",
       "files": [
         {
@@ -6315,7 +6206,8 @@
       ],
       "name": "p-select-17",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:select"
       ],
       "type": "registry:block"
     },
@@ -6323,10 +6215,7 @@
       "categories": [
         "select"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS select example.",
       "files": [
         {
@@ -6336,7 +6225,8 @@
       ],
       "name": "p-select-18",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:select"
       ],
       "type": "registry:block"
     },
@@ -6344,10 +6234,7 @@
       "categories": [
         "select"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS select example.",
       "files": [
         {
@@ -6357,7 +6244,9 @@
       ],
       "name": "p-select-19",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:avatar",
+        "local:select"
       ],
       "type": "registry:block"
     },
@@ -6365,10 +6254,7 @@
       "categories": [
         "select"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS select example.",
       "files": [
         {
@@ -6378,7 +6264,8 @@
       ],
       "name": "p-select-2",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:select"
       ],
       "type": "registry:block"
     },
@@ -6386,10 +6273,7 @@
       "categories": [
         "select"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS select example.",
       "files": [
         {
@@ -6399,7 +6283,9 @@
       ],
       "name": "p-select-20",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:avatar",
+        "local:select"
       ],
       "type": "registry:block"
     },
@@ -6407,10 +6293,7 @@
       "categories": [
         "select"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS select example.",
       "files": [
         {
@@ -6420,7 +6303,8 @@
       ],
       "name": "p-select-21",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:select"
       ],
       "type": "registry:block"
     },
@@ -6428,10 +6312,7 @@
       "categories": [
         "select"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS select example.",
       "files": [
         {
@@ -6441,7 +6322,8 @@
       ],
       "name": "p-select-22",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:select"
       ],
       "type": "registry:block"
     },
@@ -6449,10 +6331,7 @@
       "categories": [
         "select"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS select example.",
       "files": [
         {
@@ -6462,7 +6341,8 @@
       ],
       "name": "p-select-23",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:select"
       ],
       "type": "registry:block"
     },
@@ -6470,10 +6350,7 @@
       "categories": [
         "select"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS select example.",
       "files": [
         {
@@ -6483,7 +6360,8 @@
       ],
       "name": "p-select-3",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:select"
       ],
       "type": "registry:block"
     },
@@ -6491,10 +6369,7 @@
       "categories": [
         "select"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS select example.",
       "files": [
         {
@@ -6504,7 +6379,8 @@
       ],
       "name": "p-select-4",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:select"
       ],
       "type": "registry:block"
     },
@@ -6512,10 +6388,7 @@
       "categories": [
         "select"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS select example.",
       "files": [
         {
@@ -6525,7 +6398,8 @@
       ],
       "name": "p-select-5",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:select"
       ],
       "type": "registry:block"
     },
@@ -6533,10 +6407,7 @@
       "categories": [
         "select"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS select example.",
       "files": [
         {
@@ -6546,7 +6417,8 @@
       ],
       "name": "p-select-6",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:select"
       ],
       "type": "registry:block"
     },
@@ -6554,10 +6426,7 @@
       "categories": [
         "select"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS select example.",
       "files": [
         {
@@ -6567,7 +6436,8 @@
       ],
       "name": "p-select-7",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:select"
       ],
       "type": "registry:block"
     },
@@ -6576,7 +6446,6 @@
         "select"
       ],
       "dependencies": [
-        "@coss-sv/ui",
         "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS select example.",
@@ -6588,7 +6457,9 @@
       ],
       "name": "p-select-8",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:select",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -6597,7 +6468,6 @@
         "select"
       ],
       "dependencies": [
-        "@coss-sv/ui",
         "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS select example.",
@@ -6609,7 +6479,9 @@
       ],
       "name": "p-select-9",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:select",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -6617,11 +6489,7 @@
       "categories": [
         "separator"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS separator example.",
       "files": [
         {
@@ -6631,7 +6499,8 @@
       ],
       "name": "p-separator-1",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:separator"
       ],
       "type": "registry:block"
     },
@@ -6639,11 +6508,7 @@
       "categories": [
         "sheet"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS sheet example.",
       "files": [
         {
@@ -6653,7 +6518,12 @@
       ],
       "name": "p-sheet-1",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:field",
+        "local:form",
+        "local:input",
+        "local:sheet"
       ],
       "type": "registry:block"
     },
@@ -6661,11 +6531,7 @@
       "categories": [
         "sheet"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS sheet example.",
       "files": [
         {
@@ -6675,7 +6541,12 @@
       ],
       "name": "p-sheet-2",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:field",
+        "local:form",
+        "local:input",
+        "local:sheet"
       ],
       "type": "registry:block"
     },
@@ -6683,11 +6554,7 @@
       "categories": [
         "sheet"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS sheet example.",
       "files": [
         {
@@ -6697,7 +6564,9 @@
       ],
       "name": "p-sheet-3",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:sheet"
       ],
       "type": "registry:block"
     },
@@ -6706,9 +6575,7 @@
         "skeleton"
       ],
       "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
+        "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS skeleton example.",
       "files": [
@@ -6719,7 +6586,11 @@
       ],
       "name": "p-skeleton-1",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:avatar",
+        "local:button",
+        "local:skeleton",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -6727,11 +6598,7 @@
       "categories": [
         "skeleton"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS skeleton example.",
       "files": [
         {
@@ -6741,7 +6608,8 @@
       ],
       "name": "p-skeleton-2",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:skeleton"
       ],
       "type": "registry:block"
     },
@@ -6749,11 +6617,7 @@
       "categories": [
         "slider"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS slider example.",
       "files": [
         {
@@ -6763,7 +6627,8 @@
       ],
       "name": "p-slider-1",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:slider"
       ],
       "type": "registry:block"
     },
@@ -6771,11 +6636,7 @@
       "categories": [
         "slider"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS slider example.",
       "files": [
         {
@@ -6785,7 +6646,8 @@
       ],
       "name": "p-slider-10",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:slider"
       ],
       "type": "registry:block"
     },
@@ -6794,9 +6656,7 @@
         "slider"
       ],
       "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
+        "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS slider example.",
       "files": [
@@ -6807,7 +6667,10 @@
       ],
       "name": "p-slider-11",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:field",
+        "local:slider",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -6815,11 +6678,7 @@
       "categories": [
         "slider"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS slider example.",
       "files": [
         {
@@ -6829,7 +6688,9 @@
       ],
       "name": "p-slider-12",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:number-field",
+        "local:slider"
       ],
       "type": "registry:block"
     },
@@ -6837,11 +6698,7 @@
       "categories": [
         "slider"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS slider example.",
       "files": [
         {
@@ -6851,7 +6708,9 @@
       ],
       "name": "p-slider-13",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:number-field",
+        "local:slider"
       ],
       "type": "registry:block"
     },
@@ -6860,9 +6719,7 @@
         "slider"
       ],
       "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
+        "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS slider example.",
       "files": [
@@ -6873,7 +6730,11 @@
       ],
       "name": "p-slider-14",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:field",
+        "local:slider",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -6881,11 +6742,7 @@
       "categories": [
         "slider"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS slider example.",
       "files": [
         {
@@ -6895,7 +6752,9 @@
       ],
       "name": "p-slider-15",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:fieldset",
+        "local:slider"
       ],
       "type": "registry:block"
     },
@@ -6903,11 +6762,7 @@
       "categories": [
         "slider"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS slider example.",
       "files": [
         {
@@ -6917,7 +6772,9 @@
       ],
       "name": "p-slider-16",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:field",
+        "local:slider"
       ],
       "type": "registry:block"
     },
@@ -6925,11 +6782,7 @@
       "categories": [
         "slider"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS slider example.",
       "files": [
         {
@@ -6939,7 +6792,8 @@
       ],
       "name": "p-slider-17",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:slider"
       ],
       "type": "registry:block"
     },
@@ -6947,11 +6801,7 @@
       "categories": [
         "slider"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS slider example.",
       "files": [
         {
@@ -6961,7 +6811,8 @@
       ],
       "name": "p-slider-18",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:slider"
       ],
       "type": "registry:block"
     },
@@ -6969,11 +6820,7 @@
       "categories": [
         "slider"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS slider example.",
       "files": [
         {
@@ -6983,7 +6830,9 @@
       ],
       "name": "p-slider-19",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:number-field",
+        "local:slider"
       ],
       "type": "registry:block"
     },
@@ -6991,11 +6840,7 @@
       "categories": [
         "slider"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS slider example.",
       "files": [
         {
@@ -7005,7 +6850,9 @@
       ],
       "name": "p-slider-2",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:field",
+        "local:slider"
       ],
       "type": "registry:block"
     },
@@ -7013,11 +6860,7 @@
       "categories": [
         "slider"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS slider example.",
       "files": [
         {
@@ -7027,7 +6870,8 @@
       ],
       "name": "p-slider-20",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:slider"
       ],
       "type": "registry:block"
     },
@@ -7036,9 +6880,7 @@
         "slider"
       ],
       "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
+        "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS slider example.",
       "files": [
@@ -7049,7 +6891,13 @@
       ],
       "name": "p-slider-21",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:fieldset",
+        "local:label",
+        "local:number-field",
+        "local:slider",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -7057,11 +6905,7 @@
       "categories": [
         "slider"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS slider example.",
       "files": [
         {
@@ -7071,7 +6915,11 @@
       ],
       "name": "p-slider-22",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:input-group",
+        "local:number-field",
+        "local:slider"
       ],
       "type": "registry:block"
     },
@@ -7079,11 +6927,7 @@
       "categories": [
         "slider"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS slider example.",
       "files": [
         {
@@ -7093,7 +6937,12 @@
       ],
       "name": "p-slider-23",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:field",
+        "local:fieldset",
+        "local:form",
+        "local:slider"
       ],
       "type": "registry:block"
     },
@@ -7101,11 +6950,7 @@
       "categories": [
         "slider"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS slider example.",
       "files": [
         {
@@ -7115,7 +6960,8 @@
       ],
       "name": "p-slider-3",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:slider"
       ],
       "type": "registry:block"
     },
@@ -7123,11 +6969,7 @@
       "categories": [
         "slider"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS slider example.",
       "files": [
         {
@@ -7137,7 +6979,8 @@
       ],
       "name": "p-slider-4",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:slider"
       ],
       "type": "registry:block"
     },
@@ -7145,11 +6988,7 @@
       "categories": [
         "slider"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS slider example.",
       "files": [
         {
@@ -7159,7 +6998,8 @@
       ],
       "name": "p-slider-5",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:slider"
       ],
       "type": "registry:block"
     },
@@ -7167,11 +7007,7 @@
       "categories": [
         "slider"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS slider example.",
       "files": [
         {
@@ -7181,7 +7017,8 @@
       ],
       "name": "p-slider-6",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:slider"
       ],
       "type": "registry:block"
     },
@@ -7189,11 +7026,7 @@
       "categories": [
         "slider"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS slider example.",
       "files": [
         {
@@ -7203,7 +7036,8 @@
       ],
       "name": "p-slider-7",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:slider"
       ],
       "type": "registry:block"
     },
@@ -7211,11 +7045,7 @@
       "categories": [
         "slider"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS slider example.",
       "files": [
         {
@@ -7225,7 +7055,8 @@
       ],
       "name": "p-slider-8",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:slider"
       ],
       "type": "registry:block"
     },
@@ -7233,11 +7064,7 @@
       "categories": [
         "slider"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS slider example.",
       "files": [
         {
@@ -7247,7 +7074,8 @@
       ],
       "name": "p-slider-9",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:slider"
       ],
       "type": "registry:block"
     },
@@ -7255,11 +7083,7 @@
       "categories": [
         "switch"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS switch example.",
       "files": [
         {
@@ -7269,7 +7093,9 @@
       ],
       "name": "p-switch-1",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:label",
+        "local:switch"
       ],
       "type": "registry:block"
     },
@@ -7277,11 +7103,7 @@
       "categories": [
         "switch"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS switch example.",
       "files": [
         {
@@ -7291,7 +7113,9 @@
       ],
       "name": "p-switch-2",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:label",
+        "local:switch"
       ],
       "type": "registry:block"
     },
@@ -7299,11 +7123,7 @@
       "categories": [
         "switch"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS switch example.",
       "files": [
         {
@@ -7313,7 +7133,9 @@
       ],
       "name": "p-switch-3",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:label",
+        "local:switch"
       ],
       "type": "registry:block"
     },
@@ -7321,11 +7143,7 @@
       "categories": [
         "switch"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS switch example.",
       "files": [
         {
@@ -7335,7 +7153,9 @@
       ],
       "name": "p-switch-4",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:label",
+        "local:switch"
       ],
       "type": "registry:block"
     },
@@ -7343,11 +7163,7 @@
       "categories": [
         "switch"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS switch example.",
       "files": [
         {
@@ -7357,7 +7173,11 @@
       ],
       "name": "p-switch-5",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:field",
+        "local:form",
+        "local:switch"
       ],
       "type": "registry:block"
     },
@@ -7365,11 +7185,7 @@
       "categories": [
         "switch"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS switch example.",
       "files": [
         {
@@ -7379,7 +7195,8 @@
       ],
       "name": "p-switch-6",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:switch"
       ],
       "type": "registry:block"
     },
@@ -7388,9 +7205,7 @@
         "switch"
       ],
       "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
+        "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS switch example.",
       "files": [
@@ -7401,7 +7216,17 @@
       ],
       "name": "p-switch-7",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:checkbox",
+        "local:checkbox-group",
+        "local:combobox",
+        "local:label",
+        "local:popover",
+        "local:select",
+        "local:switch",
+        "local:tooltip",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -7410,9 +7235,7 @@
         "switch"
       ],
       "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
+        "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS switch example.",
       "files": [
@@ -7423,7 +7246,17 @@
       ],
       "name": "p-switch-8",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:checkbox",
+        "local:checkbox-group",
+        "local:combobox",
+        "local:group",
+        "local:label",
+        "local:popover",
+        "local:switch",
+        "local:tooltip",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -7432,9 +7265,7 @@
         "switch"
       ],
       "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
+        "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS switch example.",
       "files": [
@@ -7445,7 +7276,17 @@
       ],
       "name": "p-switch-9",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:checkbox",
+        "local:checkbox-group",
+        "local:combobox",
+        "local:group",
+        "local:label",
+        "local:popover",
+        "local:switch",
+        "local:tooltip",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -7453,10 +7294,7 @@
       "categories": [
         "table"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS table example.",
       "files": [
         {
@@ -7466,7 +7304,9 @@
       ],
       "name": "p-table-1",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:badge",
+        "local:table"
       ],
       "type": "registry:block"
     },
@@ -7474,10 +7314,7 @@
       "categories": [
         "table"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS table example.",
       "files": [
         {
@@ -7487,7 +7324,10 @@
       ],
       "name": "p-table-2",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:badge",
+        "local:frame",
+        "local:table"
       ],
       "type": "registry:block"
     },
@@ -7496,8 +7336,6 @@
         "table"
       ],
       "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
         "@tanstack/svelte-table@9.2.3"
       ],
       "description": "COSS table example.",
@@ -7509,7 +7347,11 @@
       ],
       "name": "p-table-3",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:badge",
+        "local:checkbox",
+        "local:frame",
+        "local:table"
       ],
       "type": "registry:block"
     },
@@ -7518,7 +7360,6 @@
         "table"
       ],
       "dependencies": [
-        "@coss-sv/ui",
         "@hugeicons/core-free-icons@4.3.0",
         "@tanstack/svelte-table@9.2.3"
       ],
@@ -7531,7 +7372,15 @@
       ],
       "name": "p-table-4",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:badge",
+        "local:button",
+        "local:checkbox",
+        "local:frame",
+        "local:pagination",
+        "local:select",
+        "local:table",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -7539,10 +7388,7 @@
       "categories": [
         "table"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS table example.",
       "files": [
         {
@@ -7552,7 +7398,9 @@
       ],
       "name": "p-table-5",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:badge",
+        "local:table"
       ],
       "type": "registry:block"
     },
@@ -7561,8 +7409,6 @@
         "table"
       ],
       "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
         "@tanstack/svelte-table@9.2.3"
       ],
       "description": "COSS table example.",
@@ -7574,7 +7420,11 @@
       ],
       "name": "p-table-6",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:badge",
+        "local:card",
+        "local:checkbox",
+        "local:table"
       ],
       "type": "registry:block"
     },
@@ -7582,10 +7432,7 @@
       "categories": [
         "table"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS table example.",
       "files": [
         {
@@ -7595,7 +7442,10 @@
       ],
       "name": "p-table-7",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:badge",
+        "local:card",
+        "local:table"
       ],
       "type": "registry:block"
     },
@@ -7604,7 +7454,6 @@
         "table"
       ],
       "dependencies": [
-        "@coss-sv/ui",
         "@hugeicons/core-free-icons@4.3.0",
         "@tanstack/svelte-table@9.2.3"
       ],
@@ -7617,7 +7466,15 @@
       ],
       "name": "p-table-8",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:badge",
+        "local:button",
+        "local:card",
+        "local:checkbox",
+        "local:pagination",
+        "local:select",
+        "local:table",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -7625,10 +7482,7 @@
       "categories": [
         "tabs"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0"
-      ],
+      "dependencies": [],
       "description": "COSS tabs example.",
       "files": [
         {
@@ -7638,7 +7492,8 @@
       ],
       "name": "p-tabs-1",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:tabs"
       ],
       "type": "registry:block"
     },
@@ -7646,11 +7501,7 @@
       "categories": [
         "tabs"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS tabs example.",
       "files": [
         {
@@ -7660,7 +7511,9 @@
       ],
       "name": "p-tabs-10",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:badge",
+        "local:tabs"
       ],
       "type": "registry:block"
     },
@@ -7669,9 +7522,7 @@
         "tabs"
       ],
       "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
+        "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS tabs example.",
       "files": [
@@ -7682,7 +7533,9 @@
       ],
       "name": "p-tabs-11",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:tabs",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -7691,9 +7544,7 @@
         "tabs"
       ],
       "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
+        "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS tabs example.",
       "files": [
@@ -7704,7 +7555,10 @@
       ],
       "name": "p-tabs-12",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:badge",
+        "local:tabs",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -7713,9 +7567,7 @@
         "tabs"
       ],
       "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
+        "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS tabs example.",
       "files": [
@@ -7726,7 +7578,10 @@
       ],
       "name": "p-tabs-13",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:tabs",
+        "local:tooltip",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -7734,11 +7589,7 @@
       "categories": [
         "tabs"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS tabs example.",
       "files": [
         {
@@ -7748,7 +7599,8 @@
       ],
       "name": "p-tabs-14",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:tabs"
       ],
       "type": "registry:block"
     },
@@ -7756,11 +7608,7 @@
       "categories": [
         "tabs"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS tabs example.",
       "files": [
         {
@@ -7770,7 +7618,8 @@
       ],
       "name": "p-tabs-15",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:tabs"
       ],
       "type": "registry:block"
     },
@@ -7778,11 +7627,7 @@
       "categories": [
         "tabs"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS tabs example.",
       "files": [
         {
@@ -7792,7 +7637,8 @@
       ],
       "name": "p-tabs-2",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:tabs"
       ],
       "type": "registry:block"
     },
@@ -7800,11 +7646,7 @@
       "categories": [
         "tabs"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS tabs example.",
       "files": [
         {
@@ -7814,7 +7656,8 @@
       ],
       "name": "p-tabs-3",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:tabs"
       ],
       "type": "registry:block"
     },
@@ -7822,11 +7665,7 @@
       "categories": [
         "tabs"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS tabs example.",
       "files": [
         {
@@ -7836,7 +7675,8 @@
       ],
       "name": "p-tabs-4",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:tabs"
       ],
       "type": "registry:block"
     },
@@ -7844,11 +7684,7 @@
       "categories": [
         "tabs"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS tabs example.",
       "files": [
         {
@@ -7858,7 +7694,8 @@
       ],
       "name": "p-tabs-5",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:tabs"
       ],
       "type": "registry:block"
     },
@@ -7867,9 +7704,7 @@
         "tabs"
       ],
       "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
+        "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS tabs example.",
       "files": [
@@ -7880,7 +7715,9 @@
       ],
       "name": "p-tabs-6",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:tabs",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -7889,9 +7726,7 @@
         "tabs"
       ],
       "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
+        "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS tabs example.",
       "files": [
@@ -7902,7 +7737,9 @@
       ],
       "name": "p-tabs-7",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:tabs",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -7911,9 +7748,7 @@
         "tabs"
       ],
       "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
+        "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS tabs example.",
       "files": [
@@ -7924,7 +7759,9 @@
       ],
       "name": "p-tabs-8",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:tabs",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -7933,9 +7770,7 @@
         "tabs"
       ],
       "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
+        "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS tabs example.",
       "files": [
@@ -7946,7 +7781,9 @@
       ],
       "name": "p-tabs-9",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:tabs",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -7954,11 +7791,7 @@
       "categories": [
         "toggle"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS toggle example.",
       "files": [
         {
@@ -7968,7 +7801,8 @@
       ],
       "name": "p-toggle-1",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:toggle"
       ],
       "type": "registry:block"
     },
@@ -7976,11 +7810,7 @@
       "categories": [
         "toggle"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS toggle example.",
       "files": [
         {
@@ -7990,7 +7820,8 @@
       ],
       "name": "p-toggle-2",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:toggle"
       ],
       "type": "registry:block"
     },
@@ -7999,9 +7830,7 @@
         "toggle"
       ],
       "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
+        "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS toggle example.",
       "files": [
@@ -8012,7 +7841,9 @@
       ],
       "name": "p-toggle-3",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:toggle",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -8020,11 +7851,7 @@
       "categories": [
         "toggle"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS toggle example.",
       "files": [
         {
@@ -8034,7 +7861,8 @@
       ],
       "name": "p-toggle-4",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:toggle"
       ],
       "type": "registry:block"
     },
@@ -8042,11 +7870,7 @@
       "categories": [
         "toggle"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS toggle example.",
       "files": [
         {
@@ -8056,7 +7880,8 @@
       ],
       "name": "p-toggle-5",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:toggle"
       ],
       "type": "registry:block"
     },
@@ -8064,11 +7889,7 @@
       "categories": [
         "toggle"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS toggle example.",
       "files": [
         {
@@ -8078,7 +7899,8 @@
       ],
       "name": "p-toggle-6",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:toggle"
       ],
       "type": "registry:block"
     },
@@ -8087,9 +7909,7 @@
         "toggle"
       ],
       "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
+        "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS toggle example.",
       "files": [
@@ -8100,7 +7920,9 @@
       ],
       "name": "p-toggle-7",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:toggle",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -8109,9 +7931,7 @@
         "toggle"
       ],
       "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
+        "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS toggle example.",
       "files": [
@@ -8122,7 +7942,11 @@
       ],
       "name": "p-toggle-8",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:toggle",
+        "local:tooltip",
+        "local:toast",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -8131,9 +7955,7 @@
         "toggle-group"
       ],
       "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
+        "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS toggle-group example.",
       "files": [
@@ -8144,7 +7966,9 @@
       ],
       "name": "p-toggle-group-1",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:toggle-group",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -8153,9 +7977,7 @@
         "toggle-group"
       ],
       "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
+        "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS toggle-group example.",
       "files": [
@@ -8166,7 +7988,9 @@
       ],
       "name": "p-toggle-group-2",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:toggle-group",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -8175,9 +7999,7 @@
         "toggle-group"
       ],
       "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
+        "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS toggle-group example.",
       "files": [
@@ -8188,7 +8010,9 @@
       ],
       "name": "p-toggle-group-3",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:toggle-group",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -8197,9 +8021,7 @@
         "toggle-group"
       ],
       "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
+        "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS toggle-group example.",
       "files": [
@@ -8210,7 +8032,9 @@
       ],
       "name": "p-toggle-group-4",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:toggle-group",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -8219,9 +8043,7 @@
         "toggle-group"
       ],
       "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
+        "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS toggle-group example.",
       "files": [
@@ -8232,7 +8054,9 @@
       ],
       "name": "p-toggle-group-5",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:toggle-group",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -8241,9 +8065,7 @@
         "toggle-group"
       ],
       "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
+        "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS toggle-group example.",
       "files": [
@@ -8254,7 +8076,9 @@
       ],
       "name": "p-toggle-group-6",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:toggle-group",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -8263,9 +8087,7 @@
         "toggle-group"
       ],
       "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
+        "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS toggle-group example.",
       "files": [
@@ -8276,7 +8098,9 @@
       ],
       "name": "p-toggle-group-7",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:toggle-group",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -8285,9 +8109,7 @@
         "toggle-group"
       ],
       "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
+        "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS toggle-group example.",
       "files": [
@@ -8298,7 +8120,9 @@
       ],
       "name": "p-toggle-group-8",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:toggle-group",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -8307,9 +8131,7 @@
         "toggle-group"
       ],
       "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
+        "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS toggle-group example.",
       "files": [
@@ -8320,7 +8142,10 @@
       ],
       "name": "p-toggle-group-9",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:toggle-group",
+        "local:tooltip",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -8329,7 +8154,6 @@
         "toolbar"
       ],
       "dependencies": [
-        "@coss-sv/ui",
         "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS toolbar example.",
@@ -8341,7 +8165,13 @@
       ],
       "name": "p-toolbar-1",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:select",
+        "local:toggle-group",
+        "local:toolbar",
+        "local:tooltip",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -8349,11 +8179,7 @@
       "categories": [
         "tooltip"
       ],
-      "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
-      ],
+      "dependencies": [],
       "description": "COSS tooltip example.",
       "files": [
         {
@@ -8363,7 +8189,9 @@
       ],
       "name": "p-tooltip-1",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:tooltip"
       ],
       "type": "registry:block"
     },
@@ -8372,9 +8200,7 @@
         "tooltip"
       ],
       "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
+        "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS tooltip example.",
       "files": [
@@ -8385,7 +8211,10 @@
       ],
       "name": "p-tooltip-2",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:toggle-group",
+        "local:tooltip",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -8394,9 +8223,7 @@
         "tooltip"
       ],
       "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
+        "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS tooltip example.",
       "files": [
@@ -8407,7 +8234,10 @@
       ],
       "name": "p-tooltip-3",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:toggle-group",
+        "local:tooltip",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },
@@ -8416,9 +8246,7 @@
         "tooltip"
       ],
       "dependencies": [
-        "@coss-sv/ui",
-        "@hugeicons/core-free-icons@4.3.0",
-        "@hugeicons/svelte@1.1.5"
+        "@hugeicons/core-free-icons@4.3.0"
       ],
       "description": "COSS tooltip example.",
       "files": [
@@ -8429,7 +8257,11 @@
       ],
       "name": "p-tooltip-4",
       "registryDependencies": [
-        "local:particle-metadata"
+        "local:particle-metadata",
+        "local:button",
+        "local:group",
+        "local:tooltip",
+        "local:hugeicons-icon"
       ],
       "type": "registry:block"
     },

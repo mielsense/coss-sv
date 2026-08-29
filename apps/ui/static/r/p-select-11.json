@@ -3,16 +3,16 @@
 	"name": "p-select-11",
 	"type": "registry:block",
 	"description": "COSS select example.",
-	"dependencies": [
-		"@coss-sv/ui",
-		"@hugeicons/core-free-icons@4.3.0"
-	],
 	"registryDependencies": [
-		"./particle-metadata.json"
+		"./particle-metadata.json",
+		"./button.json",
+		"./field.json",
+		"./form.json",
+		"./select.json"
 	],
 	"files": [
 		{
-			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n  export const meta = defineParticleMeta({\n    components: [\"button\", \"field\", \"form\", \"select\"],\n    containerClass: \"**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64\",\n    id: \"p-select-11\",\n    interactive: true,\n    responsive: false,\n    title: \"Select in form\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { Button, Field, Form, Select } from \"@coss-sv/ui\";\n\n  const items = [\n    { label: \"Next.js\", value: \"next\" },\n    { label: \"Vite\", value: \"vite\" },\n    { label: \"Astro\", value: \"astro\" },\n  ];\n  let loading = $state(false);\n  async function submit(e: SubmitEvent) {\n    e.preventDefault();\n    const value = new FormData(e.currentTarget as HTMLFormElement).get(\"framework\") ?? \"\";\n    loading = true;\n    await new Promise((r) => setTimeout(r, 800));\n    loading = false;\n    alert(`Framework: ${value}`);\n  }\n</script>\n\n<Form class=\"flex w-full max-w-64 flex-col gap-4\" onsubmit={submit}\n  ><Field.Root\n    ><Field.Label>Framework</Field.Label><Select.Root\n      aria-label=\"Select framework\"\n      {items}\n      name=\"framework\"\n      required\n      ><Select.Trigger><Select.Value placeholder=\"Select a framework\" /></Select.Trigger\n      ><Select.Popup\n        >{#each items as item (item.value)}<Select.Item value={item.value}>{item.label}</Select.Item\n          >{/each}</Select.Popup\n      ></Select.Root\n    ><Field.Description>Pick your favorite.</Field.Description><Field.Error\n      >Please select a value.</Field.Error\n    ></Field.Root\n  ><Button {loading} type=\"submit\">Submit</Button></Form\n>\n",
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n  export const meta = defineParticleMeta({\n    components: [\"button\", \"field\", \"form\", \"select\"],\n    containerClass: \"**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64\",\n    id: \"p-select-11\",\n    interactive: true,\n    responsive: false,\n    title: \"Select in form\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { Button } from \"$COMPONENTS$/ui/button/index.js\";\n  import * as Field from \"$COMPONENTS$/ui/field/index.js\";\n  import { Form } from \"$COMPONENTS$/ui/form/index.js\";\n  import * as Select from \"$COMPONENTS$/ui/select/index.js\";\n\n  const items = [\n    { label: \"Next.js\", value: \"next\" },\n    { label: \"Vite\", value: \"vite\" },\n    { label: \"Astro\", value: \"astro\" },\n  ];\n  let loading = $state(false);\n  async function submit(e: SubmitEvent) {\n    e.preventDefault();\n    const value = new FormData(e.currentTarget as HTMLFormElement).get(\"framework\") ?? \"\";\n    loading = true;\n    await new Promise((r) => setTimeout(r, 800));\n    loading = false;\n    alert(`Framework: ${value}`);\n  }\n</script>\n\n<Form class=\"flex w-full max-w-64 flex-col gap-4\" onsubmit={submit}\n  ><Field.Root\n    ><Field.Label>Framework</Field.Label><Select.Root\n      aria-label=\"Select framework\"\n      {items}\n      name=\"framework\"\n      required\n      ><Select.Trigger><Select.Value placeholder=\"Select a framework\" /></Select.Trigger\n      ><Select.Popup\n        >{#each items as item (item.value)}<Select.Item value={item.value}>{item.label}</Select.Item\n          >{/each}</Select.Popup\n      ></Select.Root\n    ><Field.Description>Pick your favorite.</Field.Description><Field.Error\n      >Please select a value.</Field.Error\n    ></Field.Root\n  ><Button {loading} type=\"submit\">Submit</Button></Form\n>\n",
 			"type": "registry:block",
 			"target": "p-select-11.svelte"
 		}

@@ -4,16 +4,17 @@
 	"type": "registry:block",
 	"description": "COSS button example.",
 	"dependencies": [
-		"@coss-sv/ui",
-		"@hugeicons/core-free-icons@4.3.0",
-		"@hugeicons/svelte@1.1.5"
+		"@hugeicons/core-free-icons@4.3.0"
 	],
 	"registryDependencies": [
-		"./particle-metadata.json"
+		"./particle-metadata.json",
+		"./button.json",
+		"./kbd.json",
+		"./hugeicons-icon.json"
 	],
 	"files": [
 		{
-			"content": "<script module lang=\"ts\">\nimport { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\nexport const meta = defineParticleMeta({\n  components: [\"button\", \"kbd\"],\n  id: \"p-button-31\",\n  interactive: true,\n  responsive: false,\n  title: \"Print shortcut button\",\n});\n</script>\n\n<script lang=\"ts\">\nimport { Button, Kbd, KbdGroup } from \"@coss-sv/ui\";\nimport { PrinterIcon } from \"@hugeicons/core-free-icons\";\nimport { HugeiconsIcon } from \"@hugeicons/svelte\";\n</script>\n\n<Button variant=\"outline\"\n  ><HugeiconsIcon aria-hidden=\"true\" icon={PrinterIcon} strokeWidth={2} />Print<KbdGroup\n    class=\"-me-1\"\n    ><Kbd>&#8984;</Kbd><Kbd>P</Kbd></KbdGroup\n  ></Button\n>\n",
+			"content": "<script module lang=\"ts\">\nimport { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\nexport const meta = defineParticleMeta({\n  components: [\"button\", \"kbd\"],\n  id: \"p-button-31\",\n  interactive: true,\n  responsive: false,\n  title: \"Print shortcut button\",\n});\n</script>\n\n<script lang=\"ts\">\nimport { Button } from \"$COMPONENTS$/ui/button/index.js\";\nimport { Kbd, KbdGroup } from \"$COMPONENTS$/ui/kbd/index.js\";\nimport { PrinterIcon } from \"@hugeicons/core-free-icons\";\nimport HugeiconsIcon from \"$LIB$/hugeicons-icon.svelte\";\n</script>\n\n<Button variant=\"outline\"\n  ><HugeiconsIcon aria-hidden=\"true\" icon={PrinterIcon} strokeWidth={2} />Print<KbdGroup\n    class=\"-me-1\"\n    ><Kbd>&#8984;</Kbd><Kbd>P</Kbd></KbdGroup\n  ></Button\n>\n",
 			"type": "registry:block",
 			"target": "p-button-31.svelte"
 		}

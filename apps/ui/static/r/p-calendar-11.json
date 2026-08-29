@@ -3,16 +3,13 @@
 	"name": "p-calendar-11",
 	"type": "registry:block",
 	"description": "COSS calendar example.",
-	"dependencies": [
-		"@coss-sv/ui",
-		"@hugeicons/core-free-icons@4.3.0"
-	],
 	"registryDependencies": [
-		"./particle-metadata.json"
+		"./particle-metadata.json",
+		"./calendar.json"
 	],
 	"files": [
 		{
-			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n  export const meta = defineParticleMeta({\n    components: [\"calendar\"],\n    id: \"p-calendar-11\",\n    interactive: true,\n    responsive: false,\n    title: \"Left aligned calendar caption\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { Calendar } from \"@coss-sv/ui\";\n  const today = new Date(2026, 7, 28, 12);\n  let date = $state<Date | undefined>(today);\n</script>\n\n<Calendar\n  classNames={{\n    month_caption: \"ms-0 me-[calc(var(--cell-size)*2)] justify-start\",\n    nav: \"justify-end\",\n  }}\n  mode=\"single\"\n  bind:selected={date}\n  {today}\n/>\n",
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n  export const meta = defineParticleMeta({\n    components: [\"calendar\"],\n    id: \"p-calendar-11\",\n    interactive: true,\n    responsive: false,\n    title: \"Left aligned calendar caption\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { Calendar } from \"$COMPONENTS$/ui/calendar/index.js\";\n  const today = new Date(2026, 7, 28, 12);\n  let date = $state<Date | undefined>(today);\n</script>\n\n<Calendar\n  classNames={{\n    month_caption: \"ms-0 me-[calc(var(--cell-size)*2)] justify-start\",\n    nav: \"justify-end\",\n  }}\n  mode=\"single\"\n  bind:selected={date}\n  {today}\n/>\n",
 			"type": "registry:block",
 			"target": "p-calendar-11.svelte"
 		}

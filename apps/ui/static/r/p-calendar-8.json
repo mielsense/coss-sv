@@ -3,16 +3,13 @@
 	"name": "p-calendar-8",
 	"type": "registry:block",
 	"description": "COSS calendar example.",
-	"dependencies": [
-		"@coss-sv/ui",
-		"@hugeicons/core-free-icons@4.3.0"
-	],
 	"registryDependencies": [
-		"./particle-metadata.json"
+		"./particle-metadata.json",
+		"./calendar.json"
 	],
 	"files": [
 		{
-			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n  export const meta = defineParticleMeta({\n    components: [\"calendar\"],\n    id: \"p-calendar-8\",\n    interactive: true,\n    responsive: false,\n    title: \"Calendar multiple selection\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { Calendar } from \"@coss-sv/ui\";\n  const today = new Date(2026, 7, 28, 12);\n  const addDays = (days: number) => new Date(2026, 7, 28 + days, 12);\n  let date = $state<Date[] | undefined>([addDays(-17), addDays(2), addDays(6), addDays(8)]);\n</script>\n\n<Calendar mode=\"multiple\" bind:selected={date} {today} />\n",
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n  export const meta = defineParticleMeta({\n    components: [\"calendar\"],\n    id: \"p-calendar-8\",\n    interactive: true,\n    responsive: false,\n    title: \"Calendar multiple selection\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { Calendar } from \"$COMPONENTS$/ui/calendar/index.js\";\n  const today = new Date(2026, 7, 28, 12);\n  const addDays = (days: number) => new Date(2026, 7, 28 + days, 12);\n  let date = $state<Date[] | undefined>([addDays(-17), addDays(2), addDays(6), addDays(8)]);\n</script>\n\n<Calendar mode=\"multiple\" bind:selected={date} {today} />\n",
 			"type": "registry:block",
 			"target": "p-calendar-8.svelte"
 		}

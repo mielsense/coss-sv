@@ -4,16 +4,20 @@
 	"type": "registry:block",
 	"description": "COSS card example.",
 	"dependencies": [
-		"@coss-sv/ui",
-		"@hugeicons/core-free-icons@4.3.0",
-		"@hugeicons/svelte@1.1.5"
+		"@hugeicons/core-free-icons@4.3.0"
 	],
 	"registryDependencies": [
-		"./particle-metadata.json"
+		"./particle-metadata.json",
+		"./button.json",
+		"./card.json",
+		"./field.json",
+		"./form.json",
+		"./input.json",
+		"./hugeicons-icon.json"
 	],
 	"files": [
 		{
-			"content": "<script module lang=\"ts\">\nimport { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\nexport const meta = defineParticleMeta({\n  components: [\"button\", \"card\", \"field\", \"form\", \"input\"],\n  containerClass:\n    \"**:data-[slot=preview]:w-full **:data-[slot=preview]:flex **:data-[slot=preview]:justify-center\",\n  id: \"p-card-3\",\n  interactive: true,\n  responsive: true,\n  title: \"Authentication card with separators\",\n});\n</script>\n\n<script lang=\"ts\">\nimport {\n  Button,\n  Card,\n  CardDescription,\n  CardFooter,\n  CardHeader,\n  CardPanel,\n  CardTitle,\n  Field,\n  Form,\n  Input,\n} from \"@coss-sv/ui\";\nimport { ShieldAlertIcon } from \"@hugeicons/core-free-icons\";\nimport { HugeiconsIcon } from \"@hugeicons/svelte\";\n</script>\n\n<Card class=\"w-full max-w-xs\">\n  <CardHeader class=\"border-b\">\n    <CardTitle>Login to your account</CardTitle>\n    <CardDescription>Enter email and password to login</CardDescription>\n  </CardHeader>\n  <CardPanel>\n    <Form class=\"flex w-full flex-col gap-4\">\n      <Field.Root>\n        <Field.Label>Email</Field.Label>\n        <Input placeholder=\"Enter your email\" type=\"email\" />\n      </Field.Root>\n      <Field.Root>\n        <Field.Label>Password</Field.Label>\n        <Input placeholder=\"Enter your password\" type=\"password\" />\n      </Field.Root>\n      <Button class=\"w-full\" type=\"submit\">Login</Button>\n    </Form>\n  </CardPanel>\n  <CardFooter class=\"border-t\">\n    <div class=\"flex gap-1 text-muted-foreground text-xs\">\n      <HugeiconsIcon\n        aria-hidden=\"true\"\n        class=\"size-3 h-lh shrink-0\"\n        icon={ShieldAlertIcon}\n        strokeWidth={2}\n      />\n      <p>The information you enter is encrypted and stored securely.</p>\n    </div>\n  </CardFooter>\n</Card>\n",
+			"content": "<script module lang=\"ts\">\nimport { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\nexport const meta = defineParticleMeta({\n  components: [\"button\", \"card\", \"field\", \"form\", \"input\"],\n  containerClass:\n    \"**:data-[slot=preview]:w-full **:data-[slot=preview]:flex **:data-[slot=preview]:justify-center\",\n  id: \"p-card-3\",\n  interactive: true,\n  responsive: true,\n  title: \"Authentication card with separators\",\n});\n</script>\n\n<script lang=\"ts\">\nimport { Button } from \"$COMPONENTS$/ui/button/index.js\";\nimport {\n  Card,\n  CardDescription,\n  CardFooter,\n  CardHeader,\n  CardPanel,\n  CardTitle,\n} from \"$COMPONENTS$/ui/card/index.js\";\nimport * as Field from \"$COMPONENTS$/ui/field/index.js\";\nimport { Form } from \"$COMPONENTS$/ui/form/index.js\";\nimport { Input } from \"$COMPONENTS$/ui/input/index.js\";\nimport { ShieldAlertIcon } from \"@hugeicons/core-free-icons\";\nimport HugeiconsIcon from \"$LIB$/hugeicons-icon.svelte\";\n</script>\n\n<Card class=\"w-full max-w-xs\">\n  <CardHeader class=\"border-b\">\n    <CardTitle>Login to your account</CardTitle>\n    <CardDescription>Enter email and password to login</CardDescription>\n  </CardHeader>\n  <CardPanel>\n    <Form class=\"flex w-full flex-col gap-4\">\n      <Field.Root>\n        <Field.Label>Email</Field.Label>\n        <Input placeholder=\"Enter your email\" type=\"email\" />\n      </Field.Root>\n      <Field.Root>\n        <Field.Label>Password</Field.Label>\n        <Input placeholder=\"Enter your password\" type=\"password\" />\n      </Field.Root>\n      <Button class=\"w-full\" type=\"submit\">Login</Button>\n    </Form>\n  </CardPanel>\n  <CardFooter class=\"border-t\">\n    <div class=\"flex gap-1 text-muted-foreground text-xs\">\n      <HugeiconsIcon\n        aria-hidden=\"true\"\n        class=\"size-3 h-lh shrink-0\"\n        icon={ShieldAlertIcon}\n        strokeWidth={2}\n      />\n      <p>The information you enter is encrypted and stored securely.</p>\n    </div>\n  </CardFooter>\n</Card>\n",
 			"type": "registry:block",
 			"target": "p-card-3.svelte"
 		}

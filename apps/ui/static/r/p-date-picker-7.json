@@ -4,15 +4,19 @@
 	"type": "registry:block",
 	"description": "COSS date-picker example.",
 	"dependencies": [
-		"@coss-sv/ui",
 		"@hugeicons/core-free-icons@4.3.0"
 	],
 	"registryDependencies": [
-		"./particle-metadata.json"
+		"./particle-metadata.json",
+		"./badge.json",
+		"./button.json",
+		"./calendar.json",
+		"./popover.json",
+		"./hugeicons-icon.json"
 	],
 	"files": [
 		{
-			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n  export const meta = defineParticleMeta({\n    components: [\"badge\", \"button\", \"calendar\", \"popover\"],\n    containerClass: \"**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64\",\n    id: \"p-date-picker-7\",\n    interactive: true,\n    responsive: false,\n    title: \"Multiple date picker\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { Calendar03Icon } from \"@hugeicons/core-free-icons\";\n  import { HugeiconsIcon } from \"@coss-sv/ui\";\n  import { Badge, buttonVariants, Calendar, Popover } from \"@coss-sv/ui\";\n  const today = new Date(2026, 7, 28, 12);\n  let dates = $state<Date[] | undefined>();\n  const format = (value: Date) =>\n    new Intl.DateTimeFormat(\"en-US\", { month: \"short\", day: \"numeric\" }).format(value);\n</script>\n\n<Popover.Root\n  ><Popover.Trigger class={buttonVariants({ class: \"w-full justify-start\", variant: \"outline\" })}\n    ><HugeiconsIcon\n      class=\"shrink-0\"\n      icon={Calendar03Icon}\n      aria-hidden=\"true\"\n      strokeWidth={2}\n    /><span class=\"flex flex-wrap gap-1\"\n      >{#if dates?.length}{#each dates.slice(0, 3) as selected (selected.toISOString())}<Badge\n            variant=\"secondary\">{format(selected)}</Badge\n          >{/each}{#if dates.length > 3}<Badge variant=\"secondary\">+{dates.length - 3}</Badge\n          >{/if}{:else}<span>Pick dates</span>{/if}</span\n    ></Popover.Trigger\n  ><Popover.Popup><Calendar mode=\"multiple\" bind:selected={dates} {today} /></Popover.Popup\n  ></Popover.Root\n>\n",
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n  export const meta = defineParticleMeta({\n    components: [\"badge\", \"button\", \"calendar\", \"popover\"],\n    containerClass: \"**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64\",\n    id: \"p-date-picker-7\",\n    interactive: true,\n    responsive: false,\n    title: \"Multiple date picker\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { Calendar03Icon } from \"@hugeicons/core-free-icons\";\n  import HugeiconsIcon from \"$LIB$/hugeicons-icon.svelte\";\n  import { Badge } from \"$COMPONENTS$/ui/badge/index.js\";\n  import { buttonVariants } from \"$COMPONENTS$/ui/button/index.js\";\n  import { Calendar } from \"$COMPONENTS$/ui/calendar/index.js\";\n  import * as Popover from \"$COMPONENTS$/ui/popover/index.js\";\n  const today = new Date(2026, 7, 28, 12);\n  let dates = $state<Date[] | undefined>();\n  const format = (value: Date) =>\n    new Intl.DateTimeFormat(\"en-US\", { month: \"short\", day: \"numeric\" }).format(value);\n</script>\n\n<Popover.Root\n  ><Popover.Trigger class={buttonVariants({ class: \"w-full justify-start\", variant: \"outline\" })}\n    ><HugeiconsIcon\n      class=\"shrink-0\"\n      icon={Calendar03Icon}\n      aria-hidden=\"true\"\n      strokeWidth={2}\n    /><span class=\"flex flex-wrap gap-1\"\n      >{#if dates?.length}{#each dates.slice(0, 3) as selected (selected.toISOString())}<Badge\n            variant=\"secondary\">{format(selected)}</Badge\n          >{/each}{#if dates.length > 3}<Badge variant=\"secondary\">+{dates.length - 3}</Badge\n          >{/if}{:else}<span>Pick dates</span>{/if}</span\n    ></Popover.Trigger\n  ><Popover.Popup><Calendar mode=\"multiple\" bind:selected={dates} {today} /></Popover.Popup\n  ></Popover.Root\n>\n",
 			"type": "registry:block",
 			"target": "p-date-picker-7.svelte"
 		}

@@ -3,17 +3,14 @@
 	"name": "p-drawer-6",
 	"type": "registry:block",
 	"description": "COSS drawer example.",
-	"dependencies": [
-		"@coss-sv/ui",
-		"@hugeicons/core-free-icons@4.3.0",
-		"@hugeicons/svelte@1.1.5"
-	],
 	"registryDependencies": [
-		"./particle-metadata.json"
+		"./particle-metadata.json",
+		"./button.json",
+		"./drawer.json"
 	],
 	"files": [
 		{
-			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n  export const meta = defineParticleMeta({\n    components: [\"button\", \"drawer\"],\n    id: \"p-drawer-6\",\n    iframeHeight: 640,\n    interactive: true,\n    responsive: true,\n    title: \"Scrollable drawer\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { buttonVariants, Drawer } from \"@coss-sv/ui\";\n\n  const boxes = Array.from({ length: 48 }, (_, index) => `box-${index}`);\n</script>\n\n<Drawer.Root>\n  <Drawer.Trigger class={buttonVariants({ variant: \"outline\" })}>\n    Scrollable content\n  </Drawer.Trigger><Drawer.Popup showBar>\n    <Drawer.Header>\n      <Drawer.Title>Scrollable content</Drawer.Title>\n    </Drawer.Header><Drawer.Panel>\n      <div class=\"flex flex-col gap-2\">\n        {#each boxes as box (box)}\n          <div class=\"h-12 shrink-0 rounded-xl border bg-muted\"></div>\n        {/each}\n      </div>\n    </Drawer.Panel><Drawer.Footer>\n      <Drawer.Close class={buttonVariants({ variant: \"outline\" })}>Close</Drawer.Close>\n    </Drawer.Footer>\n  </Drawer.Popup>\n</Drawer.Root>\n",
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n  export const meta = defineParticleMeta({\n    components: [\"button\", \"drawer\"],\n    id: \"p-drawer-6\",\n    iframeHeight: 640,\n    interactive: true,\n    responsive: true,\n    title: \"Scrollable drawer\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { buttonVariants } from \"$COMPONENTS$/ui/button/index.js\";\n  import * as Drawer from \"$COMPONENTS$/ui/drawer/index.js\";\n\n  const boxes = Array.from({ length: 48 }, (_, index) => `box-${index}`);\n</script>\n\n<Drawer.Root>\n  <Drawer.Trigger class={buttonVariants({ variant: \"outline\" })}>\n    Scrollable content\n  </Drawer.Trigger><Drawer.Popup showBar>\n    <Drawer.Header>\n      <Drawer.Title>Scrollable content</Drawer.Title>\n    </Drawer.Header><Drawer.Panel>\n      <div class=\"flex flex-col gap-2\">\n        {#each boxes as box (box)}\n          <div class=\"h-12 shrink-0 rounded-xl border bg-muted\"></div>\n        {/each}\n      </div>\n    </Drawer.Panel><Drawer.Footer>\n      <Drawer.Close class={buttonVariants({ variant: \"outline\" })}>Close</Drawer.Close>\n    </Drawer.Footer>\n  </Drawer.Popup>\n</Drawer.Root>\n",
 			"type": "registry:block",
 			"target": "p-drawer-6.svelte"
 		}

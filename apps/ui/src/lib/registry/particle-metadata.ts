@@ -1,4 +1,5 @@
 export type ParticleMeta = {
+  colSpan?: 2;
   components: readonly string[];
   containerClass?: string;
   id: string;

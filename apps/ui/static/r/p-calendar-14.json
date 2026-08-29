@@ -3,16 +3,14 @@
 	"name": "p-calendar-14",
 	"type": "registry:block",
 	"description": "COSS calendar example.",
-	"dependencies": [
-		"@coss-sv/ui",
-		"@hugeicons/core-free-icons@4.3.0"
-	],
 	"registryDependencies": [
-		"./particle-metadata.json"
+		"./particle-metadata.json",
+		"./calendar.json",
+		"./select.json"
 	],
 	"files": [
 		{
-			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n  export const meta = defineParticleMeta({\n    components: [\"calendar\", \"select\"],\n    id: \"p-calendar-14\",\n    interactive: true,\n    responsive: false,\n    title: \"Calendar dropdown navigation\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import {\n    Calendar,\n    Select,\n    type CalendarDropdownContext,\n    type CalendarDropdownNavContext,\n  } from \"@coss-sv/ui\";\n  const today = new Date(2026, 7, 28, 12);\n  let date = $state<Date | undefined>(today);\n</script>\n\n{#snippet dropdown(props: CalendarDropdownContext)}<Select.Root\n    items={props.options}\n    onValueChange={(value) => typeof value === \"number\" && props.onChange(value)}\n    value={props.value}\n    ><Select.Trigger aria-label={props[\"aria-label\"]} class=\"min-w-none\"\n      ><Select.Value /></Select.Trigger\n    ><Select.Popup\n      >{#each props.options as item (item.value)}<Select.Item\n          disabled={item.disabled}\n          value={item.value}>{item.label}</Select.Item\n        >{/each}</Select.Popup\n    ></Select.Root\n  >{/snippet}\n{#snippet dropdownNav(props: CalendarDropdownNavContext)}<div\n    class=\"flex w-full items-center gap-2\"\n  >\n    {@render props.children()}\n  </div>{/snippet}\n\n<Calendar\n  captionLayout=\"dropdown\"\n  classNames={{ month_caption: \"mx-0\" }}\n  components={{ Dropdown: dropdown, DropdownNav: dropdownNav }}\n  defaultMonth={today}\n  hideNavigation\n  mode=\"single\"\n  bind:selected={date}\n  startMonth={new Date(1980, 6, 1, 12)}\n  {today}\n/>\n",
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n  export const meta = defineParticleMeta({\n    components: [\"calendar\", \"select\"],\n    id: \"p-calendar-14\",\n    interactive: true,\n    responsive: false,\n    title: \"Calendar dropdown navigation\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import {\n    Calendar,\n    type CalendarDropdownContext,\n    type CalendarDropdownNavContext,\n  } from \"$COMPONENTS$/ui/calendar/index.js\";\n  import * as Select from \"$COMPONENTS$/ui/select/index.js\";\n  const today = new Date(2026, 7, 28, 12);\n  let date = $state<Date | undefined>(today);\n</script>\n\n{#snippet dropdown(props: CalendarDropdownContext)}<Select.Root\n    items={props.options}\n    onValueChange={(value) => typeof value === \"number\" && props.onChange(value)}\n    value={props.value}\n    ><Select.Trigger aria-label={props[\"aria-label\"]} class=\"min-w-none\"\n      ><Select.Value /></Select.Trigger\n    ><Select.Popup\n      >{#each props.options as item (item.value)}<Select.Item\n          disabled={item.disabled}\n          value={item.value}>{item.label}</Select.Item\n        >{/each}</Select.Popup\n    ></Select.Root\n  >{/snippet}\n{#snippet dropdownNav(props: CalendarDropdownNavContext)}<div\n    class=\"flex w-full items-center gap-2\"\n  >\n    {@render props.children()}\n  </div>{/snippet}\n\n<Calendar\n  captionLayout=\"dropdown\"\n  classNames={{ month_caption: \"mx-0\" }}\n  components={{ Dropdown: dropdown, DropdownNav: dropdownNav }}\n  defaultMonth={today}\n  hideNavigation\n  mode=\"single\"\n  bind:selected={date}\n  startMonth={new Date(1980, 6, 1, 12)}\n  {today}\n/>\n",
 			"type": "registry:block",
 			"target": "p-calendar-14.svelte"
 		}

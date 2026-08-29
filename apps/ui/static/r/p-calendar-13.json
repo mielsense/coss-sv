@@ -3,16 +3,14 @@
 	"name": "p-calendar-13",
 	"type": "registry:block",
 	"description": "COSS calendar example.",
-	"dependencies": [
-		"@coss-sv/ui",
-		"@hugeicons/core-free-icons@4.3.0"
-	],
 	"registryDependencies": [
-		"./particle-metadata.json"
+		"./particle-metadata.json",
+		"./calendar.json",
+		"./combobox.json"
 	],
 	"files": [
 		{
-			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n  export const meta = defineParticleMeta({\n    components: [\"calendar\", \"combobox\"],\n    id: \"p-calendar-13\",\n    interactive: true,\n    responsive: false,\n    title: \"Calendar searchable year dropdown\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { Calendar, Combobox, type CalendarDropdownContext } from \"@coss-sv/ui\";\n  const today = new Date(2026, 7, 28, 12);\n  let date = $state<Date | undefined>(today);\n</script>\n\n{#snippet yearDropdown(props: CalendarDropdownContext)}\n  <Combobox.Root\n    aria-label={props[\"aria-label\"]}\n    autoHighlight\n    disabled={props.disabled}\n    items={props.options}\n    onValueChange={(item) => item && props.onChange(item.value)}\n    value={props.options.find((item) => item.value === props.value)}\n    ><Combobox.Input\n      class=\"**:[input]:w-0 **:[input]:flex-1\"\n      onfocus={(event) => event.currentTarget.select()}\n    /><Combobox.Popup aria-label={props[\"aria-label\"]}\n      ><Combobox.Empty>No items found.</Combobox.Empty><Combobox.List\n        ><Combobox.Collection\n          >{#snippet children(item: (typeof props.options)[number])}<Combobox.Item\n              disabled={item.disabled}\n              value={item}>{item.label}</Combobox.Item\n            >{/snippet}</Combobox.Collection\n        ></Combobox.List\n      ></Combobox.Popup\n    ></Combobox.Root\n  >\n{/snippet}\n\n<Calendar\n  captionLayout=\"dropdown-years\"\n  classNames={{ dropdowns: \"*:flex-1 *:[span]:text-center\" }}\n  components={{ Dropdown: yearDropdown }}\n  endMonth={new Date(2030, 11, 1, 12)}\n  mode=\"single\"\n  bind:selected={date}\n  startMonth={new Date(1930, 0, 1, 12)}\n  {today}\n/>\n",
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n  export const meta = defineParticleMeta({\n    components: [\"calendar\", \"combobox\"],\n    id: \"p-calendar-13\",\n    interactive: true,\n    responsive: false,\n    title: \"Calendar searchable year dropdown\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { Calendar, type CalendarDropdownContext } from \"$COMPONENTS$/ui/calendar/index.js\";\n  import * as Combobox from \"$COMPONENTS$/ui/combobox/index.js\";\n  const today = new Date(2026, 7, 28, 12);\n  let date = $state<Date | undefined>(today);\n</script>\n\n{#snippet yearDropdown(props: CalendarDropdownContext)}\n  <Combobox.Root\n    aria-label={props[\"aria-label\"]}\n    autoHighlight\n    disabled={props.disabled}\n    items={props.options}\n    onValueChange={(item) => item && props.onChange(item.value)}\n    value={props.options.find((item) => item.value === props.value)}\n    ><Combobox.Input\n      class=\"**:[input]:w-0 **:[input]:flex-1\"\n      onfocus={(event) => event.currentTarget.select()}\n    /><Combobox.Popup aria-label={props[\"aria-label\"]}\n      ><Combobox.Empty>No items found.</Combobox.Empty><Combobox.List\n        ><Combobox.Collection\n          >{#snippet children(item: (typeof props.options)[number])}<Combobox.Item\n              disabled={item.disabled}\n              value={item}>{item.label}</Combobox.Item\n            >{/snippet}</Combobox.Collection\n        ></Combobox.List\n      ></Combobox.Popup\n    ></Combobox.Root\n  >\n{/snippet}\n\n<Calendar\n  captionLayout=\"dropdown-years\"\n  classNames={{ dropdowns: \"*:flex-1 *:[span]:text-center\" }}\n  components={{ Dropdown: yearDropdown }}\n  endMonth={new Date(2030, 11, 1, 12)}\n  mode=\"single\"\n  bind:selected={date}\n  startMonth={new Date(1930, 0, 1, 12)}\n  {today}\n/>\n",
 			"type": "registry:block",
 			"target": "p-calendar-13.svelte"
 		}

@@ -3,17 +3,13 @@
 	"name": "p-button-10",
 	"type": "registry:block",
 	"description": "COSS button example.",
-	"dependencies": [
-		"@coss-sv/ui",
-		"@hugeicons/core-free-icons@4.3.0",
-		"@hugeicons/svelte@1.1.5"
-	],
 	"registryDependencies": [
-		"./particle-metadata.json"
+		"./particle-metadata.json",
+		"./button.json"
 	],
 	"files": [
 		{
-			"content": "<script module lang=\"ts\">\nimport { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\nexport const meta = defineParticleMeta({\n  components: [\"button\"],\n  id: \"p-button-10\",\n  interactive: true,\n  responsive: false,\n  title: \"Large button\",\n});\n</script>\n\n<script lang=\"ts\">\nimport { Button } from \"@coss-sv/ui\";\n</script>\n\n<Button size=\"lg\">Button</Button>\n",
+			"content": "<script module lang=\"ts\">\nimport { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\nexport const meta = defineParticleMeta({\n  components: [\"button\"],\n  id: \"p-button-10\",\n  interactive: true,\n  responsive: false,\n  title: \"Large button\",\n});\n</script>\n\n<script lang=\"ts\">\nimport { Button } from \"$COMPONENTS$/ui/button/index.js\";\n</script>\n\n<Button size=\"lg\">Button</Button>\n",
 			"type": "registry:block",
 			"target": "p-button-10.svelte"
 		}

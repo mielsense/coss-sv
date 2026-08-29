@@ -32,6 +32,8 @@ const buttonMeta = defineParticleMeta({
   title: "Basic button",
 });
 
+const wideButtonMeta = defineParticleMeta({ ...buttonMeta, colSpan: 2 });
+
 describe("typed particle preview registry", () => {
   test("discovers exact particle modules and preserves their upstream-derived metadata", () => {
     const registry = createPreviewRegistry({
@@ -48,6 +50,7 @@ describe("typed particle preview registry", () => {
     });
     expect(Object.isFrozen(registry)).toBe(true);
     expect(Object.isFrozen(buttonMeta.components)).toBe(true);
+    expect(wideButtonMeta.colSpan).toBe(2);
   });
 
   test.each([

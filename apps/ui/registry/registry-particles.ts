@@ -1,4 +1,13 @@
+import { readFileSync } from "node:fs";
+import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
+import { particleCatalog } from "../src/lib/particles/catalog.js";
 import { defineRegistryItems } from "./registry.js";
+import { registryUi } from "./registry-ui.js";
+
+const registryRoot = dirname(fileURLToPath(import.meta.url));
+const particleCatalogByName = new Map(particleCatalog.map((entry) => [entry.name, entry]));
+const componentRegistryNames = new Set<string>(registryUi.map(({ name }) => name));
 
 const particleIds = [
   "p-accordion-1",
@@ -325,9 +334,13 @@ const particleIds = [
 
 function particle(name: (typeof particleIds)[number]) {
   const category = name.replace(/^p-/, "").replace(/-\d+$/, "");
+  const source = readFileSync(resolve(registryRoot, `default/particles/${name}.svelte`), "utf8");
+  const catalogEntry = particleCatalogByName.get(name);
+  if (!catalogEntry) throw new Error(`Missing COSS particle catalog entry for ${name}.`);
+  const usesHugeicons = source.includes("HugeiconsIcon");
   return {
     categories: [category],
-    dependencies: ["@coss-sv/ui", "@hugeicons/core-free-icons@4.3.0", "@hugeicons/svelte@1.1.5"],
+    dependencies: usesHugeicons ? ["@hugeicons/core-free-icons@4.3.0"] : [],
     description: `COSS ${category} example.`,
     files: [
       {
@@ -336,12 +349,17 @@ function particle(name: (typeof particleIds)[number]) {
       },
     ],
     name,
-    registryDependencies: ["local:particle-metadata"],
+    registryDependencies: [
+      "local:particle-metadata",
+      ...catalogEntry.registryDependencies
+        .map((dependency) => dependency.replace(/^@coss\//, ""))
+        .filter((dependency) => componentRegistryNames.has(dependency))
+        .map((dependency) => `local:${dependency}`),
+      ...(usesHugeicons ? ["local:hugeicons-icon"] : []),
+    ],
     type: "registry:block" as const,
   };
 }
-
-const d9ParticleDependencies = ["@coss-sv/ui", "@hugeicons/core-free-icons@4.3.0"];
 
 function d9Particle(
   name: (typeof particleIds)[number],
@@ -350,10 +368,11 @@ function d9Particle(
     registryDependencies?: readonly string[];
   } = {},
 ) {
+  const base = particle(name);
   return {
-    ...particle(name),
-    dependencies: [...d9ParticleDependencies, ...(options.dependencies ?? [])],
-    registryDependencies: ["local:particle-metadata", ...(options.registryDependencies ?? [])],
+    ...base,
+    dependencies: [...base.dependencies, ...(options.dependencies ?? [])],
+    registryDependencies: [...base.registryDependencies, ...(options.registryDependencies ?? [])],
   };
 }
 

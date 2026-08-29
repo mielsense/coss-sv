@@ -3,17 +3,14 @@
 	"name": "p-radio-group-9",
 	"type": "registry:block",
 	"description": "COSS radio-group example.",
-	"dependencies": [
-		"@coss-sv/ui",
-		"@hugeicons/core-free-icons@4.3.0"
-	],
 	"registryDependencies": [
 		"./particle-metadata.json",
+		"./radio-group.json",
 		"./segmented-control.json"
 	],
 	"files": [
 		{
-			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\n  export const meta = defineParticleMeta({\n    components: [\"radio-group\", \"segmented-control\"],\n    id: \"p-radio-group-9\",\n    interactive: true,\n    responsive: true,\n    title: \"Large segmented control built with a radio group\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { RadioGroup } from \"@coss-sv/ui\";\n  import {\n    segmentedControlItemVariants,\n    segmentedControlRootClassName,\n  } from \"@coss-sv/ui/lib/segmented-control\";\n\n  const itemClassName = segmentedControlItemVariants({\n    className: \"grow\",\n    size: \"lg\",\n    state: \"checked\",\n  });\n</script>\n\n<RadioGroup.RadioGroupPrimitive\n  aria-label=\"Billing period\"\n  class={segmentedControlRootClassName}\n  value=\"monthly\"\n>\n  <RadioGroup.RadioPrimitive.Root class={itemClassName} value=\"monthly\"\n    >Monthly</RadioGroup.RadioPrimitive.Root\n  >\n  <RadioGroup.RadioPrimitive.Root class={itemClassName} value=\"yearly\"\n    >Yearly</RadioGroup.RadioPrimitive.Root\n  >\n</RadioGroup.RadioGroupPrimitive>\n",
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\n  export const meta = defineParticleMeta({\n    components: [\"radio-group\", \"segmented-control\"],\n    id: \"p-radio-group-9\",\n    interactive: true,\n    responsive: true,\n    title: \"Large segmented control built with a radio group\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import * as RadioGroup from \"$COMPONENTS$/ui/radio-group/index.js\";\n  import {\n    segmentedControlItemVariants,\n    segmentedControlRootClassName,\n  } from \"$LIB$/segmented-control.js\";\n\n  const itemClassName = segmentedControlItemVariants({\n    className: \"grow\",\n    size: \"lg\",\n    state: \"checked\",\n  });\n</script>\n\n<RadioGroup.RadioGroupPrimitive\n  aria-label=\"Billing period\"\n  class={segmentedControlRootClassName}\n  value=\"monthly\"\n>\n  <RadioGroup.RadioPrimitive.Root class={itemClassName} value=\"monthly\"\n    >Monthly</RadioGroup.RadioPrimitive.Root\n  >\n  <RadioGroup.RadioPrimitive.Root class={itemClassName} value=\"yearly\"\n    >Yearly</RadioGroup.RadioPrimitive.Root\n  >\n</RadioGroup.RadioGroupPrimitive>\n",
 			"type": "registry:block",
 			"target": "p-radio-group-9.svelte"
 		}

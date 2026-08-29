@@ -3,17 +3,14 @@
 	"name": "p-drawer-14",
 	"type": "registry:block",
 	"description": "COSS drawer example.",
-	"dependencies": [
-		"@coss-sv/ui",
-		"@hugeicons/core-free-icons@4.3.0",
-		"@hugeicons/svelte@1.1.5"
-	],
 	"registryDependencies": [
-		"./particle-metadata.json"
+		"./particle-metadata.json",
+		"./button.json",
+		"./drawer.json"
 	],
 	"files": [
 		{
-			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n  export const meta = defineParticleMeta({\n    components: [\"button\", \"drawer\"],\n    containerClass: \"w-full\",\n    id: \"p-drawer-14\",\n    interactive: true,\n    responsive: true,\n    title: \"Non-modal swipe area drawer\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { Button, Drawer } from \"@coss-sv/ui\";\n\n  const links = [\"Home\", \"Profile\", \"Settings\", \"Sign out\"];\n</script>\n\n<div class=\"relative min-h-80 w-full overflow-hidden rounded-xl border\">\n  <Drawer.Root modal={false} position=\"left\">\n    <Drawer.SwipeArea class=\"absolute border-input border-e border-dashed bg-muted\">\n      <span\n        class=\"pointer-events-none absolute top-1/2 left-0 ms-2 -translate-y-1/2 rotate-90 whitespace-nowrap font-medium text-muted-foreground text-xs uppercase\"\n      >\n        Swipe area\n      </span>\n    </Drawer.SwipeArea>\n    <div class=\"flex min-h-80 items-center justify-center p-6 ps-14 text-center\">\n      <p class=\"max-w-56 text-balance text-muted-foreground text-sm\">\n        Swipe from the left edge to open the menu.\n      </p>\n    </div>\n    <Drawer.Popup position=\"left\" showCloseButton variant=\"straight\">\n      <Drawer.Header>\n        <Drawer.Title>Menu</Drawer.Title>\n      </Drawer.Header><Drawer.Panel>\n        <nav class=\"-mx-[calc(--spacing(3)-1px)] flex flex-col gap-0.5\">\n          {#each links as label}\n            <Button as=\"a\" class=\"justify-start\" href=\"#\" variant=\"ghost\">\n              {label}\n            </Button>\n          {/each}\n        </nav>\n      </Drawer.Panel>\n    </Drawer.Popup>\n  </Drawer.Root>\n</div>\n",
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n  export const meta = defineParticleMeta({\n    components: [\"button\", \"drawer\"],\n    containerClass: \"w-full\",\n    id: \"p-drawer-14\",\n    interactive: true,\n    responsive: true,\n    title: \"Non-modal swipe area drawer\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { Button } from \"$COMPONENTS$/ui/button/index.js\";\n  import * as Drawer from \"$COMPONENTS$/ui/drawer/index.js\";\n\n  const links = [\"Home\", \"Profile\", \"Settings\", \"Sign out\"];\n</script>\n\n<div class=\"relative min-h-80 w-full overflow-hidden rounded-xl border\">\n  <Drawer.Root modal={false} position=\"left\">\n    <Drawer.SwipeArea class=\"absolute border-input border-e border-dashed bg-muted\">\n      <span\n        class=\"pointer-events-none absolute top-1/2 left-0 ms-2 -translate-y-1/2 rotate-90 whitespace-nowrap font-medium text-muted-foreground text-xs uppercase\"\n      >\n        Swipe area\n      </span>\n    </Drawer.SwipeArea>\n    <div class=\"flex min-h-80 items-center justify-center p-6 ps-14 text-center\">\n      <p class=\"max-w-56 text-balance text-muted-foreground text-sm\">\n        Swipe from the left edge to open the menu.\n      </p>\n    </div>\n    <Drawer.Popup position=\"left\" showCloseButton variant=\"straight\">\n      <Drawer.Header>\n        <Drawer.Title>Menu</Drawer.Title>\n      </Drawer.Header><Drawer.Panel>\n        <nav class=\"-mx-[calc(--spacing(3)-1px)] flex flex-col gap-0.5\">\n          {#each links as label}\n            <Button as=\"a\" class=\"justify-start\" href=\"#\" variant=\"ghost\">\n              {label}\n            </Button>\n          {/each}\n        </nav>\n      </Drawer.Panel>\n    </Drawer.Popup>\n  </Drawer.Root>\n</div>\n",
 			"type": "registry:block",
 			"target": "p-drawer-14.svelte"
 		}

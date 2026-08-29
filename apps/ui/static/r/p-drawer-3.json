@@ -3,17 +3,14 @@
 	"name": "p-drawer-3",
 	"type": "registry:block",
 	"description": "COSS drawer example.",
-	"dependencies": [
-		"@coss-sv/ui",
-		"@hugeicons/core-free-icons@4.3.0",
-		"@hugeicons/svelte@1.1.5"
-	],
 	"registryDependencies": [
-		"./particle-metadata.json"
+		"./particle-metadata.json",
+		"./button.json",
+		"./drawer.json"
 	],
 	"files": [
 		{
-			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n  export const meta = defineParticleMeta({\n    components: [\"button\", \"drawer\"],\n    id: \"p-drawer-3\",\n    interactive: true,\n    responsive: true,\n    title: \"Straight side drawer\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { buttonVariants, Drawer } from \"@coss-sv/ui\";\n</script>\n\n<Drawer.Root position=\"right\">\n  <Drawer.Trigger class={buttonVariants({ variant: \"outline\" })}>\n    Open drawer\n  </Drawer.Trigger><Drawer.Popup showCloseButton variant=\"straight\">\n    <Drawer.Header>\n      <Drawer.Title>Notifications</Drawer.Title><Drawer.Description>\n        This is the description of the drawer.\n      </Drawer.Description>\n    </Drawer.Header><Drawer.Panel>\n      <p class=\"text-muted-foreground text-sm\">\n        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut\n        labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco\n        laboris.\n      </p>\n    </Drawer.Panel>\n  </Drawer.Popup>\n</Drawer.Root>\n",
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n  export const meta = defineParticleMeta({\n    components: [\"button\", \"drawer\"],\n    id: \"p-drawer-3\",\n    interactive: true,\n    responsive: true,\n    title: \"Straight side drawer\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { buttonVariants } from \"$COMPONENTS$/ui/button/index.js\";\n  import * as Drawer from \"$COMPONENTS$/ui/drawer/index.js\";\n</script>\n\n<Drawer.Root position=\"right\">\n  <Drawer.Trigger class={buttonVariants({ variant: \"outline\" })}>\n    Open drawer\n  </Drawer.Trigger><Drawer.Popup showCloseButton variant=\"straight\">\n    <Drawer.Header>\n      <Drawer.Title>Notifications</Drawer.Title><Drawer.Description>\n        This is the description of the drawer.\n      </Drawer.Description>\n    </Drawer.Header><Drawer.Panel>\n      <p class=\"text-muted-foreground text-sm\">\n        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut\n        labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco\n        laboris.\n      </p>\n    </Drawer.Panel>\n  </Drawer.Popup>\n</Drawer.Root>\n",
 			"type": "registry:block",
 			"target": "p-drawer-3.svelte"
 		}

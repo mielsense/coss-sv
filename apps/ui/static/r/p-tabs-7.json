@@ -4,16 +4,16 @@
 	"type": "registry:block",
 	"description": "COSS tabs example.",
 	"dependencies": [
-		"@coss-sv/ui",
-		"@hugeicons/core-free-icons@4.3.0",
-		"@hugeicons/svelte@1.1.5"
+		"@hugeicons/core-free-icons@4.3.0"
 	],
 	"registryDependencies": [
-		"./particle-metadata.json"
+		"./particle-metadata.json",
+		"./tabs.json",
+		"./hugeicons-icon.json"
 	],
 	"files": [
 		{
-			"content": "<script module lang=\"ts\">\nimport { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\nexport const meta = defineParticleMeta({\n  components: [\"tabs\"],\n  id: \"p-tabs-7\",\n  interactive: true,\n  responsive: false,\n  title: \"Tabs with icon before name and underline\",\n});\n</script>\n\n<script lang=\"ts\">\nimport { Tabs } from \"@coss-sv/ui\";\nimport { House01Icon, PanelsTopLeftIcon, Settings01Icon } from \"@hugeicons/core-free-icons\";\nimport { HugeiconsIcon } from \"@hugeicons/svelte\";\n</script>\n\n<Tabs.Root defaultValue=\"tab-1\">\n  <div class=\"border-b\">\n    <Tabs.List variant=\"underline\">\n      <Tabs.Tab value=\"tab-1\">\n        <HugeiconsIcon aria-hidden=\"true\" icon={House01Icon} strokeWidth={2} />\n        Overview\n      </Tabs.Tab>\n      <Tabs.Tab value=\"tab-2\">\n        <HugeiconsIcon aria-hidden=\"true\" icon={PanelsTopLeftIcon} strokeWidth={2} />\n        Projects\n      </Tabs.Tab>\n      <Tabs.Tab value=\"tab-3\">\n        <HugeiconsIcon aria-hidden=\"true\" icon={Settings01Icon} strokeWidth={2} />\n        Settings\n      </Tabs.Tab>\n    </Tabs.List>\n  </div>\n  <Tabs.Panel value=\"tab-1\">\n    <p class=\"p-4 text-center text-muted-foreground text-xs\">Overview content</p>\n  </Tabs.Panel>\n  <Tabs.Panel value=\"tab-2\">\n    <p class=\"p-4 text-center text-muted-foreground text-xs\">Projects content</p>\n  </Tabs.Panel>\n  <Tabs.Panel value=\"tab-3\">\n    <p class=\"p-4 text-center text-muted-foreground text-xs\">Settings content</p>\n  </Tabs.Panel>\n</Tabs.Root>\n",
+			"content": "<script module lang=\"ts\">\nimport { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\nexport const meta = defineParticleMeta({\n  components: [\"tabs\"],\n  id: \"p-tabs-7\",\n  interactive: true,\n  responsive: false,\n  title: \"Tabs with icon before name and underline\",\n});\n</script>\n\n<script lang=\"ts\">\nimport * as Tabs from \"$COMPONENTS$/ui/tabs/index.js\";\nimport { House01Icon, PanelsTopLeftIcon, Settings01Icon } from \"@hugeicons/core-free-icons\";\nimport HugeiconsIcon from \"$LIB$/hugeicons-icon.svelte\";\n</script>\n\n<Tabs.Root defaultValue=\"tab-1\">\n  <div class=\"border-b\">\n    <Tabs.List variant=\"underline\">\n      <Tabs.Tab value=\"tab-1\">\n        <HugeiconsIcon aria-hidden=\"true\" icon={House01Icon} strokeWidth={2} />\n        Overview\n      </Tabs.Tab>\n      <Tabs.Tab value=\"tab-2\">\n        <HugeiconsIcon aria-hidden=\"true\" icon={PanelsTopLeftIcon} strokeWidth={2} />\n        Projects\n      </Tabs.Tab>\n      <Tabs.Tab value=\"tab-3\">\n        <HugeiconsIcon aria-hidden=\"true\" icon={Settings01Icon} strokeWidth={2} />\n        Settings\n      </Tabs.Tab>\n    </Tabs.List>\n  </div>\n  <Tabs.Panel value=\"tab-1\">\n    <p class=\"p-4 text-center text-muted-foreground text-xs\">Overview content</p>\n  </Tabs.Panel>\n  <Tabs.Panel value=\"tab-2\">\n    <p class=\"p-4 text-center text-muted-foreground text-xs\">Projects content</p>\n  </Tabs.Panel>\n  <Tabs.Panel value=\"tab-3\">\n    <p class=\"p-4 text-center text-muted-foreground text-xs\">Settings content</p>\n  </Tabs.Panel>\n</Tabs.Root>\n",
 			"type": "registry:block",
 			"target": "p-tabs-7.svelte"
 		}

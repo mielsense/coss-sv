@@ -3,17 +3,17 @@
 	"name": "p-slider-23",
 	"type": "registry:block",
 	"description": "COSS slider example.",
-	"dependencies": [
-		"@coss-sv/ui",
-		"@hugeicons/core-free-icons@4.3.0",
-		"@hugeicons/svelte@1.1.5"
-	],
 	"registryDependencies": [
-		"./particle-metadata.json"
+		"./particle-metadata.json",
+		"./button.json",
+		"./field.json",
+		"./fieldset.json",
+		"./form.json",
+		"./slider.json"
 	],
 	"files": [
 		{
-			"content": "<script module lang=\"ts\">\nimport { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\nexport const meta = defineParticleMeta({\n  components: [\"button\", \"field\", \"fieldset\", \"form\", \"slider\"],\n  id: \"p-slider-23\",\n  interactive: true,\n  responsive: true,\n  title: \"Slider form\",\n  containerClass: \"**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64\",\n});\n</script>\n\n<script lang=\"ts\">\nimport { Button, Field, Fieldset, Form, Slider } from \"@coss-sv/ui\";\n\nlet loading = $state(false);\nlet value = $state<number | readonly number[]>([25, 75]);\nasync function submit(event: SubmitEvent) {\n  event.preventDefault();\n  const formData = new FormData(event.currentTarget as HTMLFormElement);\n  loading = true;\n  await new Promise((resolve) => setTimeout(resolve, 800));\n  loading = false;\n  window.alert(`Volume: ${formData.getAll(\"volume\").join(\", \")}`);\n}\n</script>\n\n<Form class=\"flex w-full flex-col gap-4\" onsubmit={submit}>\n  <Fieldset.Root class=\"flex w-full flex-col items-stretch gap-3\">\n    <Field.Root>\n      <Slider.Root name=\"volume\" bind:value>\n        <div class=\"mb-2 flex items-center justify-between gap-1\">\n          <Fieldset.Legend>Volume</Fieldset.Legend>\n          <Slider.Value />\n        </div>\n      </Slider.Root>\n      <Field.Description>Choose a value between 0 and 100</Field.Description>\n    </Field.Root>\n  </Fieldset.Root>\n  <Button {loading} type=\"submit\">Submit</Button>\n</Form>\n",
+			"content": "<script module lang=\"ts\">\nimport { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\nexport const meta = defineParticleMeta({\n  components: [\"button\", \"field\", \"fieldset\", \"form\", \"slider\"],\n  id: \"p-slider-23\",\n  interactive: true,\n  responsive: true,\n  title: \"Slider form\",\n  containerClass: \"**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64\",\n});\n</script>\n\n<script lang=\"ts\">\nimport { Button } from \"$COMPONENTS$/ui/button/index.js\";\nimport * as Field from \"$COMPONENTS$/ui/field/index.js\";\nimport * as Fieldset from \"$COMPONENTS$/ui/fieldset/index.js\";\nimport { Form } from \"$COMPONENTS$/ui/form/index.js\";\nimport * as Slider from \"$COMPONENTS$/ui/slider/index.js\";\n\nlet loading = $state(false);\nlet value = $state<number | readonly number[]>([25, 75]);\nasync function submit(event: SubmitEvent) {\n  event.preventDefault();\n  const formData = new FormData(event.currentTarget as HTMLFormElement);\n  loading = true;\n  await new Promise((resolve) => setTimeout(resolve, 800));\n  loading = false;\n  window.alert(`Volume: ${formData.getAll(\"volume\").join(\", \")}`);\n}\n</script>\n\n<Form class=\"flex w-full flex-col gap-4\" onsubmit={submit}>\n  <Fieldset.Root class=\"flex w-full flex-col items-stretch gap-3\">\n    <Field.Root>\n      <Slider.Root name=\"volume\" bind:value>\n        <div class=\"mb-2 flex items-center justify-between gap-1\">\n          <Fieldset.Legend>Volume</Fieldset.Legend>\n          <Slider.Value />\n        </div>\n      </Slider.Root>\n      <Field.Description>Choose a value between 0 and 100</Field.Description>\n    </Field.Root>\n  </Fieldset.Root>\n  <Button {loading} type=\"submit\">Submit</Button>\n</Form>\n",
 			"type": "registry:block",
 			"target": "p-slider-23.svelte"
 		}

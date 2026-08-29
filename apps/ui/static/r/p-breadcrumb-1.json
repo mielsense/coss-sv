@@ -3,16 +3,15 @@
 	"name": "p-breadcrumb-1",
 	"type": "registry:block",
 	"description": "COSS breadcrumb example.",
-	"dependencies": [
-		"@coss-sv/ui",
-		"@hugeicons/core-free-icons@4.3.0"
-	],
 	"registryDependencies": [
-		"./particle-metadata.json"
+		"./particle-metadata.json",
+		"./breadcrumb.json",
+		"./button.json",
+		"./menu.json"
 	],
 	"files": [
 		{
-			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n  export const meta = defineParticleMeta({\n    components: [\"breadcrumb\", \"button\", \"menu\"],\n    id: \"p-breadcrumb-1\",\n    interactive: true,\n    responsive: true,\n    title: \"Breadcrumb with menu example\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import {\n    Breadcrumb,\n    BreadcrumbEllipsis,\n    BreadcrumbItem,\n    BreadcrumbLink,\n    BreadcrumbList,\n    BreadcrumbPage,\n    BreadcrumbSeparator,\n    buttonVariants,\n    Menu,\n  } from \"@coss-sv/ui\";\n</script>\n\n<Breadcrumb\n  ><BreadcrumbList\n    ><BreadcrumbItem><BreadcrumbLink href=\"/\">Home</BreadcrumbLink></BreadcrumbItem\n    ><BreadcrumbSeparator /><BreadcrumbItem\n      ><Menu.Root\n        ><Menu.Trigger\n          aria-label=\"More pages\"\n          class={buttonVariants({\n            class: \"-m-1.5 text-muted-foreground\",\n            size: \"icon-sm\",\n            variant: \"ghost\",\n          })}><BreadcrumbEllipsis /></Menu.Trigger\n        ><Menu.Popup align=\"start\"\n          ><Menu.LinkItem href=\"/docs\">Docs</Menu.LinkItem><Menu.LinkItem href=\"/particles\"\n            >Particles</Menu.LinkItem\n          ></Menu.Popup\n        ></Menu.Root\n      ></BreadcrumbItem\n    ><BreadcrumbSeparator /><BreadcrumbItem\n      ><BreadcrumbLink href=\"/docs/\">Components</BreadcrumbLink></BreadcrumbItem\n    ><BreadcrumbSeparator /><BreadcrumbItem\n      ><BreadcrumbPage>Breadcrumb</BreadcrumbPage></BreadcrumbItem\n    ></BreadcrumbList\n  ></Breadcrumb\n>\n",
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n  export const meta = defineParticleMeta({\n    components: [\"breadcrumb\", \"button\", \"menu\"],\n    id: \"p-breadcrumb-1\",\n    interactive: true,\n    responsive: true,\n    title: \"Breadcrumb with menu example\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import {\n    Breadcrumb,\n    BreadcrumbEllipsis,\n    BreadcrumbItem,\n    BreadcrumbLink,\n    BreadcrumbList,\n    BreadcrumbPage,\n    BreadcrumbSeparator,\n  } from \"$COMPONENTS$/ui/breadcrumb/index.js\";\n  import { buttonVariants } from \"$COMPONENTS$/ui/button/index.js\";\n  import * as Menu from \"$COMPONENTS$/ui/menu/index.js\";\n</script>\n\n<Breadcrumb\n  ><BreadcrumbList\n    ><BreadcrumbItem><BreadcrumbLink href=\"/\">Home</BreadcrumbLink></BreadcrumbItem\n    ><BreadcrumbSeparator /><BreadcrumbItem\n      ><Menu.Root\n        ><Menu.Trigger\n          aria-label=\"More pages\"\n          class={buttonVariants({\n            class: \"-m-1.5 text-muted-foreground\",\n            size: \"icon-sm\",\n            variant: \"ghost\",\n          })}><BreadcrumbEllipsis /></Menu.Trigger\n        ><Menu.Popup align=\"start\"\n          ><Menu.LinkItem href=\"/docs\">Docs</Menu.LinkItem><Menu.LinkItem href=\"/particles\"\n            >Particles</Menu.LinkItem\n          ></Menu.Popup\n        ></Menu.Root\n      ></BreadcrumbItem\n    ><BreadcrumbSeparator /><BreadcrumbItem\n      ><BreadcrumbLink href=\"/docs/\">Components</BreadcrumbLink></BreadcrumbItem\n    ><BreadcrumbSeparator /><BreadcrumbItem\n      ><BreadcrumbPage>Breadcrumb</BreadcrumbPage></BreadcrumbItem\n    ></BreadcrumbList\n  ></Breadcrumb\n>\n",
 			"type": "registry:block",
 			"target": "p-breadcrumb-1.svelte"
 		}

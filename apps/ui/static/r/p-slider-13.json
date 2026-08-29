@@ -3,17 +3,14 @@
 	"name": "p-slider-13",
 	"type": "registry:block",
 	"description": "COSS slider example.",
-	"dependencies": [
-		"@coss-sv/ui",
-		"@hugeicons/core-free-icons@4.3.0",
-		"@hugeicons/svelte@1.1.5"
-	],
 	"registryDependencies": [
-		"./particle-metadata.json"
+		"./particle-metadata.json",
+		"./number-field.json",
+		"./slider.json"
 	],
 	"files": [
 		{
-			"content": "<script module lang=\"ts\">\nimport { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\nexport const meta = defineParticleMeta({\n  components: [\"number-field\", \"slider\"],\n  id: \"p-slider-13\",\n  interactive: true,\n  responsive: true,\n  title: \"Range slider with inputs\",\n  containerClass: \"**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64\",\n});\n</script>\n\n<script lang=\"ts\">\nimport { NumberField, Slider } from \"@coss-sv/ui\";\n\nconst min = 0;\nconst max = 50;\nlet values = $state<number[]>([0, 20]);\nfunction updateValue(index: number, next: number | null) {\n  const value = next ?? min;\n  values =\n    index === 0\n      ? [Math.min(value, values[1] ?? max), values[1] ?? max]\n      : [values[0] ?? min, Math.max(value, values[0] ?? min)];\n}\n</script>\n\n<div class=\"flex items-center gap-2\">\n  <NumberField.Root\n    aria-label=\"Minimum value\"\n    class=\"w-10\"\n    max={values[1]}\n    {min}\n    onValueChange={(next) => updateValue(0, next)}\n    size=\"sm\"\n    value={values[0]}\n    ><NumberField.Group><NumberField.Input /></NumberField.Group></NumberField.Root\n  >\n  <Slider.Root\n    aria-label=\"Dual range slider\"\n    class=\"flex-1 *:min-w-0!\"\n    {max}\n    {min}\n    bind:value={values}\n  />\n  <NumberField.Root\n    aria-label=\"Maximum value\"\n    class=\"w-10\"\n    {max}\n    min={values[0]}\n    onValueChange={(next) => updateValue(1, next)}\n    size=\"sm\"\n    value={values[1]}\n    ><NumberField.Group><NumberField.Input /></NumberField.Group></NumberField.Root\n  >\n</div>\n",
+			"content": "<script module lang=\"ts\">\nimport { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\nexport const meta = defineParticleMeta({\n  components: [\"number-field\", \"slider\"],\n  id: \"p-slider-13\",\n  interactive: true,\n  responsive: true,\n  title: \"Range slider with inputs\",\n  containerClass: \"**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64\",\n});\n</script>\n\n<script lang=\"ts\">\nimport * as NumberField from \"$COMPONENTS$/ui/number-field/index.js\";\nimport * as Slider from \"$COMPONENTS$/ui/slider/index.js\";\n\nconst min = 0;\nconst max = 50;\nlet values = $state<number[]>([0, 20]);\nfunction updateValue(index: number, next: number | null) {\n  const value = next ?? min;\n  values =\n    index === 0\n      ? [Math.min(value, values[1] ?? max), values[1] ?? max]\n      : [values[0] ?? min, Math.max(value, values[0] ?? min)];\n}\n</script>\n\n<div class=\"flex items-center gap-2\">\n  <NumberField.Root\n    aria-label=\"Minimum value\"\n    class=\"w-10\"\n    max={values[1]}\n    {min}\n    onValueChange={(next) => updateValue(0, next)}\n    size=\"sm\"\n    value={values[0]}\n    ><NumberField.Group><NumberField.Input /></NumberField.Group></NumberField.Root\n  >\n  <Slider.Root\n    aria-label=\"Dual range slider\"\n    class=\"flex-1 *:min-w-0!\"\n    {max}\n    {min}\n    bind:value={values}\n  />\n  <NumberField.Root\n    aria-label=\"Maximum value\"\n    class=\"w-10\"\n    {max}\n    min={values[0]}\n    onValueChange={(next) => updateValue(1, next)}\n    size=\"sm\"\n    value={values[1]}\n    ><NumberField.Group><NumberField.Input /></NumberField.Group></NumberField.Root\n  >\n</div>\n",
 			"type": "registry:block",
 			"target": "p-slider-13.svelte"
 		}

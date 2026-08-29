@@ -3,17 +3,15 @@
 	"name": "p-checkbox-group-3",
 	"type": "registry:block",
 	"description": "COSS checkbox-group example.",
-	"dependencies": [
-		"@coss-sv/ui",
-		"@hugeicons/core-free-icons@4.3.0",
-		"@hugeicons/svelte@1.1.5"
-	],
 	"registryDependencies": [
-		"./particle-metadata.json"
+		"./particle-metadata.json",
+		"./checkbox.json",
+		"./checkbox-group.json",
+		"./label.json"
 	],
 	"files": [
 		{
-			"content": "<script module lang=\"ts\">\nimport { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\nexport const meta = defineParticleMeta({\n  components: [\"checkbox\", \"checkbox-group\", \"label\"],\n  id: \"p-checkbox-group-3\",\n  interactive: true,\n  responsive: false,\n  title: \"Checkbox group with parent\",\n});\n</script>\n\n<script lang=\"ts\">\nimport { CheckboxGroup, Label } from \"@coss-sv/ui\";\n\nconst frameworks = [\n  { value: \"next\", label: \"Next.js\" },\n  { value: \"vite\", label: \"Vite\" },\n  { value: \"astro\", label: \"Astro\" },\n];\nlet value = $state<string[]>([]);\n</script>\n\n<CheckboxGroup.Root\n  allValues={frameworks.map(({ value }) => value)}\n  aria-labelledby=\"frameworks-caption\"\n  bind:value\n>\n  <Label id=\"frameworks-caption\"><CheckboxGroup.Item name=\"frameworks\" parent />Frameworks</Label>\n  {#each frameworks as framework (framework.value)}\n    <Label class=\"ms-4\"><CheckboxGroup.Item value={framework.value} />{framework.label}</Label>\n  {/each}\n</CheckboxGroup.Root>\n",
+			"content": "<script module lang=\"ts\">\nimport { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\nexport const meta = defineParticleMeta({\n  components: [\"checkbox\", \"checkbox-group\", \"label\"],\n  id: \"p-checkbox-group-3\",\n  interactive: true,\n  responsive: false,\n  title: \"Checkbox group with parent\",\n});\n</script>\n\n<script lang=\"ts\">\nimport * as CheckboxGroup from \"$COMPONENTS$/ui/checkbox-group/index.js\";\nimport { Label } from \"$COMPONENTS$/ui/label/index.js\";\n\nconst frameworks = [\n  { value: \"next\", label: \"Next.js\" },\n  { value: \"vite\", label: \"Vite\" },\n  { value: \"astro\", label: \"Astro\" },\n];\nlet value = $state<string[]>([]);\n</script>\n\n<CheckboxGroup.Root\n  allValues={frameworks.map(({ value }) => value)}\n  aria-labelledby=\"frameworks-caption\"\n  bind:value\n>\n  <Label id=\"frameworks-caption\"><CheckboxGroup.Item name=\"frameworks\" parent />Frameworks</Label>\n  {#each frameworks as framework (framework.value)}\n    <Label class=\"ms-4\"><CheckboxGroup.Item value={framework.value} />{framework.label}</Label>\n  {/each}\n</CheckboxGroup.Root>\n",
 			"type": "registry:block",
 			"target": "p-checkbox-group-3.svelte"
 		}

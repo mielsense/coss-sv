@@ -3,16 +3,13 @@
 	"name": "p-calendar-10",
 	"type": "registry:block",
 	"description": "COSS calendar example.",
-	"dependencies": [
-		"@coss-sv/ui",
-		"@hugeicons/core-free-icons@4.3.0"
-	],
 	"registryDependencies": [
-		"./particle-metadata.json"
+		"./particle-metadata.json",
+		"./calendar.json"
 	],
 	"files": [
 		{
-			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n  export const meta = defineParticleMeta({\n    components: [\"calendar\"],\n    id: \"p-calendar-10\",\n    interactive: true,\n    responsive: false,\n    title: \"Rounded calendar range\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { Calendar, type DateRange } from \"@coss-sv/ui\";\n  const today = new Date(2026, 7, 28, 12);\n  let date = $state<DateRange | undefined>({ from: today, to: new Date(2026, 7, 31, 12) });\n</script>\n\n<Calendar\n  classNames={{\n    day: \"relative before:absolute before:inset-y-px before:inset-x-0 [&.range-start:not(.range-end):before]:bg-linear-to-end before:from-transparent before:from-50% before:to-accent before:to-50% [&.range-end:not(.range-start):before]:bg-linear-to-start\",\n    day_button:\n      \"rounded-full group-[.range-start:not(.range-end)]:rounded-e-full group-[.range-end:not(.range-start)]:rounded-s-full\",\n  }}\n  mode=\"range\"\n  bind:selected={date}\n  {today}\n/>\n",
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n  export const meta = defineParticleMeta({\n    components: [\"calendar\"],\n    id: \"p-calendar-10\",\n    interactive: true,\n    responsive: false,\n    title: \"Rounded calendar range\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { Calendar, type DateRange } from \"$COMPONENTS$/ui/calendar/index.js\";\n  const today = new Date(2026, 7, 28, 12);\n  let date = $state<DateRange | undefined>({ from: today, to: new Date(2026, 7, 31, 12) });\n</script>\n\n<Calendar\n  classNames={{\n    day: \"relative before:absolute before:inset-y-px before:inset-x-0 [&.range-start:not(.range-end):before]:bg-linear-to-end before:from-transparent before:from-50% before:to-accent before:to-50% [&.range-end:not(.range-start):before]:bg-linear-to-start\",\n    day_button:\n      \"rounded-full group-[.range-start:not(.range-end)]:rounded-e-full group-[.range-end:not(.range-start)]:rounded-s-full\",\n  }}\n  mode=\"range\"\n  bind:selected={date}\n  {today}\n/>\n",
 			"type": "registry:block",
 			"target": "p-calendar-10.svelte"
 		}

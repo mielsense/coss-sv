@@ -3,17 +3,14 @@
 	"name": "p-switch-3",
 	"type": "registry:block",
 	"description": "COSS switch example.",
-	"dependencies": [
-		"@coss-sv/ui",
-		"@hugeicons/core-free-icons@4.3.0",
-		"@hugeicons/svelte@1.1.5"
-	],
 	"registryDependencies": [
-		"./particle-metadata.json"
+		"./particle-metadata.json",
+		"./label.json",
+		"./switch.json"
 	],
 	"files": [
 		{
-			"content": "<script module lang=\"ts\">\nimport { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\nexport const meta = defineParticleMeta({\n  components: [\"label\", \"switch\"],\n  id: \"p-switch-3\",\n  interactive: true,\n  responsive: false,\n  title: \"Switch with description\",\n});\n</script>\n\n<script lang=\"ts\">\nimport { Label, Switch } from \"@coss-sv/ui\";\n\nconst id = $props.id();\nconst labelId = `${id}-label`;\n</script>\n\n<div class=\"flex items-start gap-2\">\n  <Switch aria-labelledby={labelId} checked {id} />\n  <div class=\"flex flex-col gap-1\">\n    <Label for={id} id={labelId}>Marketing emails</Label>\n    <p class=\"text-muted-foreground text-xs\">\n      By enabling marketing emails, you agree to receive emails.\n    </p>\n  </div>\n</div>\n",
+			"content": "<script module lang=\"ts\">\nimport { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\nexport const meta = defineParticleMeta({\n  components: [\"label\", \"switch\"],\n  id: \"p-switch-3\",\n  interactive: true,\n  responsive: false,\n  title: \"Switch with description\",\n});\n</script>\n\n<script lang=\"ts\">\nimport { Label } from \"$COMPONENTS$/ui/label/index.js\";\nimport { Switch } from \"$COMPONENTS$/ui/switch/index.js\";\n\nconst id = $props.id();\nconst labelId = `${id}-label`;\n</script>\n\n<div class=\"flex items-start gap-2\">\n  <Switch aria-labelledby={labelId} checked {id} />\n  <div class=\"flex flex-col gap-1\">\n    <Label for={id} id={labelId}>Marketing emails</Label>\n    <p class=\"text-muted-foreground text-xs\">\n      By enabling marketing emails, you agree to receive emails.\n    </p>\n  </div>\n</div>\n",
 			"type": "registry:block",
 			"target": "p-switch-3.svelte"
 		}

@@ -8,6 +8,7 @@ import {
   validateRegistry,
 } from "../../registry/registry.js";
 import { appRoot, runLocalShadcn } from "./lib.mjs";
+import { createUiExportMap, transformParticleSource } from "./particle-source.mjs";
 
 type BuildOptions = {
   registryPath: string;
@@ -31,6 +32,9 @@ export async function withStagedRegistry<Result>(
 ): Promise<Result> {
   const root = await mkdtemp(join(registryDirectory, ".registry-build-"));
   try {
+    const uiExports = createUiExportMap(
+      await readFile(resolve(appRoot, "../../packages/ui/src/index.ts"), "utf8"),
+    );
     const sourceRoot = resolve(root, "sources");
     await mkdir(sourceRoot, { mode: 0o700 });
     const manifest = structuredClone(validated.manifest);
@@ -51,7 +55,12 @@ export async function withStagedRegistry<Result>(
       );
       await mkdir(stagedDirectory, { recursive: true, mode: 0o700 });
       const stagedPath = resolve(stagedDirectory, basename(file.path));
-      await writeFile(stagedPath, source.bytes, { flag: "wx", mode: 0o400 });
+      const item = manifest.items[source.itemIndex];
+      const bytes =
+        item?.type === "registry:block" && basename(file.path).startsWith("p-")
+          ? transformParticleSource(Buffer.from(source.bytes).toString("utf8"), uiExports)
+          : source.bytes;
+      await writeFile(stagedPath, bytes, { flag: "wx", mode: 0o400 });
       file.path = stagedPath;
       sourcePaths.push(stagedPath);
       stagedSources.add(sourceKey);

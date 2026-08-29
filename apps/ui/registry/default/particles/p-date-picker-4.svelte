@@ -11,10 +11,10 @@
 </script>
 
 <script lang="ts">
+  import { Button, buttonVariants, Calendar, HugeiconsIcon, Popover } from "@coss-sv/ui";
   import { Calendar03Icon } from "@hugeicons/core-free-icons";
-  import { HugeiconsIcon } from "@coss-sv/ui";
-  import { Button, buttonVariants, Calendar, Popover } from "@coss-sv/ui";
-  import { formatDatePpp } from "$lib/date-format.js";
+  import { formatDatePpp } from "../lib/date-format.js";
+
   const today = new Date(2026, 7, 28, 12);
   const options = [
     { label: "Today", days: 0 },

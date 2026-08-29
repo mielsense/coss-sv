@@ -3,17 +3,13 @@
 	"name": "p-slider-5",
 	"type": "registry:block",
 	"description": "COSS slider example.",
-	"dependencies": [
-		"@coss-sv/ui",
-		"@hugeicons/core-free-icons@4.3.0",
-		"@hugeicons/svelte@1.1.5"
-	],
 	"registryDependencies": [
-		"./particle-metadata.json"
+		"./particle-metadata.json",
+		"./slider.json"
 	],
 	"files": [
 		{
-			"content": "<script module lang=\"ts\">\nimport { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\nexport const meta = defineParticleMeta({\n  components: [\"slider\"],\n  id: \"p-slider-5\",\n  interactive: true,\n  responsive: true,\n  title: \"Slider with ticks\",\n  containerClass: \"**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64\",\n});\n</script>\n\n<script lang=\"ts\">\nimport { Slider } from \"@coss-sv/ui\";\n\nconst ticks = Array.from({ length: 13 }, (_, index) => index);\n</script>\n<div>\n  <Slider.Root aria-label=\"Value selector\" defaultValue={5} max={12} />\n  <fieldset\n    aria-label=\"Value scale from 0 to 12\"\n    class=\"mt-3 flex min-w-0 w-full items-center justify-between gap-1 border-0 px-2.5 py-0 font-medium text-muted-foreground text-xs\"\n  >\n    {#each ticks as tick (tick)}\n      <span class=\"flex w-0 flex-col items-center justify-center gap-2\">\n        <span class={[\"w-px bg-muted-foreground/72\", tick % 2 === 0 ? \"h-1\" : \"h-0.5\"]}></span>\n        <span class={tick % 2 !== 0 ? \"opacity-0\" : undefined}>{tick}</span>\n      </span>\n    {/each}\n  </fieldset>\n</div>\n",
+			"content": "<script module lang=\"ts\">\nimport { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\nexport const meta = defineParticleMeta({\n  components: [\"slider\"],\n  id: \"p-slider-5\",\n  interactive: true,\n  responsive: true,\n  title: \"Slider with ticks\",\n  containerClass: \"**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64\",\n});\n</script>\n\n<script lang=\"ts\">\nimport * as Slider from \"$COMPONENTS$/ui/slider/index.js\";\n\nconst ticks = Array.from({ length: 13 }, (_, index) => index);\n</script>\n<div>\n  <Slider.Root aria-label=\"Value selector\" defaultValue={5} max={12} />\n  <fieldset\n    aria-label=\"Value scale from 0 to 12\"\n    class=\"mt-3 flex min-w-0 w-full items-center justify-between gap-1 border-0 px-2.5 py-0 font-medium text-muted-foreground text-xs\"\n  >\n    {#each ticks as tick (tick)}\n      <span class=\"flex w-0 flex-col items-center justify-center gap-2\">\n        <span class={[\"w-px bg-muted-foreground/72\", tick % 2 === 0 ? \"h-1\" : \"h-0.5\"]}></span>\n        <span class={tick % 2 !== 0 ? \"opacity-0\" : undefined}>{tick}</span>\n      </span>\n    {/each}\n  </fieldset>\n</div>\n",
 			"type": "registry:block",
 			"target": "p-slider-5.svelte"
 		}

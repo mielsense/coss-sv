@@ -3,17 +3,14 @@
 	"name": "p-sheet-3",
 	"type": "registry:block",
 	"description": "COSS sheet example.",
-	"dependencies": [
-		"@coss-sv/ui",
-		"@hugeicons/core-free-icons@4.3.0",
-		"@hugeicons/svelte@1.1.5"
-	],
 	"registryDependencies": [
-		"./particle-metadata.json"
+		"./particle-metadata.json",
+		"./button.json",
+		"./sheet.json"
 	],
 	"files": [
 		{
-			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n  export const meta = defineParticleMeta({\n    components: [\"button\", \"sheet\"],\n    id: \"p-sheet-3\",\n    iframeHeight: 640,\n    interactive: true,\n    responsive: true,\n    title: \"Sheet sides\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { buttonVariants, Sheet } from \"@coss-sv/ui\";\n\n  const sides = [\n    { label: \"Right\", side: \"right\", description: \"Right side of the screen.\" },\n    { label: \"Left\", side: \"left\", description: \"Left side of the screen.\" },\n    { label: \"Top\", side: \"top\", description: \"Top of the screen.\" },\n    { label: \"Bottom\", side: \"bottom\", description: \"Bottom of the screen.\" },\n  ] as const;\n  const copy =\n    \"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\";\n</script>\n\n<div class=\"flex flex-wrap gap-2\">\n  {#each sides as item}\n    <Sheet.Root>\n      <Sheet.Trigger class={buttonVariants({ variant: \"outline\" })}>\n        Open {item.label}\n      </Sheet.Trigger><Sheet.Popup showCloseButton={false} side={item.side}>\n        <Sheet.Header>\n          <Sheet.Title>{item.label}</Sheet.Title><Sheet.Description>\n            {item.description}\n          </Sheet.Description>\n        </Sheet.Header><Sheet.Panel><p>{copy}</p></Sheet.Panel>\n      </Sheet.Popup>\n    </Sheet.Root>\n  {/each}\n</div>\n",
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n  export const meta = defineParticleMeta({\n    components: [\"button\", \"sheet\"],\n    id: \"p-sheet-3\",\n    iframeHeight: 640,\n    interactive: true,\n    responsive: true,\n    title: \"Sheet sides\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { buttonVariants } from \"$COMPONENTS$/ui/button/index.js\";\n  import * as Sheet from \"$COMPONENTS$/ui/sheet/index.js\";\n\n  const sides = [\n    { label: \"Right\", side: \"right\", description: \"Right side of the screen.\" },\n    { label: \"Left\", side: \"left\", description: \"Left side of the screen.\" },\n    { label: \"Top\", side: \"top\", description: \"Top of the screen.\" },\n    { label: \"Bottom\", side: \"bottom\", description: \"Bottom of the screen.\" },\n  ] as const;\n  const copy =\n    \"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\";\n</script>\n\n<div class=\"flex flex-wrap gap-2\">\n  {#each sides as item}\n    <Sheet.Root>\n      <Sheet.Trigger class={buttonVariants({ variant: \"outline\" })}>\n        Open {item.label}\n      </Sheet.Trigger><Sheet.Popup showCloseButton={false} side={item.side}>\n        <Sheet.Header>\n          <Sheet.Title>{item.label}</Sheet.Title><Sheet.Description>\n            {item.description}\n          </Sheet.Description>\n        </Sheet.Header><Sheet.Panel><p>{copy}</p></Sheet.Panel>\n      </Sheet.Popup>\n    </Sheet.Root>\n  {/each}\n</div>\n",
 			"type": "registry:block",
 			"target": "p-sheet-3.svelte"
 		}

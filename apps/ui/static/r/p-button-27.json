@@ -4,16 +4,17 @@
 	"type": "registry:block",
 	"description": "COSS button example.",
 	"dependencies": [
-		"@coss-sv/ui",
-		"@hugeicons/core-free-icons@4.3.0",
-		"@hugeicons/svelte@1.1.5"
+		"@hugeicons/core-free-icons@4.3.0"
 	],
 	"registryDependencies": [
-		"./particle-metadata.json"
+		"./particle-metadata.json",
+		"./button.json",
+		"./group.json",
+		"./hugeicons-icon.json"
 	],
 	"files": [
 		{
-			"content": "<script module lang=\"ts\">\nimport { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\nexport const meta = defineParticleMeta({\n  components: [\"button\", \"group\"],\n  id: \"p-button-27\",\n  interactive: true,\n  responsive: false,\n  title: \"QR sign-in group\",\n});\n</script>\n\n<script lang=\"ts\">\nimport { Button, Group } from \"@coss-sv/ui\";\nimport { QrCodeIcon } from \"@hugeicons/core-free-icons\";\nimport { HugeiconsIcon } from \"@hugeicons/svelte\";\n</script>\n\n<Group.Root\n  ><Button aria-label=\"QR code\" size=\"icon\"\n    ><HugeiconsIcon aria-hidden=\"true\" icon={QrCodeIcon} strokeWidth={2} /></Button\n  ><Group.Separator class=\"bg-primary/72\" /><Button>Sign in</Button></Group.Root\n>\n",
+			"content": "<script module lang=\"ts\">\nimport { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\nexport const meta = defineParticleMeta({\n  components: [\"button\", \"group\"],\n  id: \"p-button-27\",\n  interactive: true,\n  responsive: false,\n  title: \"QR sign-in group\",\n});\n</script>\n\n<script lang=\"ts\">\nimport { Button } from \"$COMPONENTS$/ui/button/index.js\";\nimport * as Group from \"$COMPONENTS$/ui/group/index.js\";\nimport { QrCodeIcon } from \"@hugeicons/core-free-icons\";\nimport HugeiconsIcon from \"$LIB$/hugeicons-icon.svelte\";\n</script>\n\n<Group.Root\n  ><Button aria-label=\"QR code\" size=\"icon\"\n    ><HugeiconsIcon aria-hidden=\"true\" icon={QrCodeIcon} strokeWidth={2} /></Button\n  ><Group.Separator class=\"bg-primary/72\" /><Button>Sign in</Button></Group.Root\n>\n",
 			"type": "registry:block",
 			"target": "p-button-27.svelte"
 		}

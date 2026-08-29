@@ -3,17 +3,14 @@
 	"name": "p-switch-4",
 	"type": "registry:block",
 	"description": "COSS switch example.",
-	"dependencies": [
-		"@coss-sv/ui",
-		"@hugeicons/core-free-icons@4.3.0",
-		"@hugeicons/svelte@1.1.5"
-	],
 	"registryDependencies": [
-		"./particle-metadata.json"
+		"./particle-metadata.json",
+		"./label.json",
+		"./switch.json"
 	],
 	"files": [
 		{
-			"content": "<script module lang=\"ts\">\nimport { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\nexport const meta = defineParticleMeta({\n  components: [\"label\", \"switch\"],\n  id: \"p-switch-4\",\n  interactive: true,\n  responsive: true,\n  title: \"Card switch\",\n});\n</script>\n\n<script lang=\"ts\">\nimport { Label, Switch } from \"@coss-sv/ui\";\n\nconst id = $props.id();\nconst labelId = `${id}-label`;\n</script>\n\n<Label\n  class=\"flex items-center gap-6 rounded-lg border p-3 hover:bg-accent/50 has-data-checked:border-primary/48 has-data-checked:bg-accent/50\"\n  for={id}\n  id={labelId}\n>\n  <div class=\"flex flex-col gap-1\">\n    <p>Enable notifications</p>\n    <p class=\"text-muted-foreground text-xs\">\n      You can enable or disable notifications at any time.\n    </p>\n  </div>\n  <Switch\n    aria-labelledby={labelId}\n    class=\"[--thumb-size:--spacing(4)] sm:[--thumb-size:--spacing(3)]\"\n    checked\n    {id}\n  />\n</Label>\n",
+			"content": "<script module lang=\"ts\">\nimport { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\nexport const meta = defineParticleMeta({\n  components: [\"label\", \"switch\"],\n  id: \"p-switch-4\",\n  interactive: true,\n  responsive: true,\n  title: \"Card switch\",\n});\n</script>\n\n<script lang=\"ts\">\nimport { Label } from \"$COMPONENTS$/ui/label/index.js\";\nimport { Switch } from \"$COMPONENTS$/ui/switch/index.js\";\n\nconst id = $props.id();\nconst labelId = `${id}-label`;\n</script>\n\n<Label\n  class=\"flex items-center gap-6 rounded-lg border p-3 hover:bg-accent/50 has-data-checked:border-primary/48 has-data-checked:bg-accent/50\"\n  for={id}\n  id={labelId}\n>\n  <div class=\"flex flex-col gap-1\">\n    <p>Enable notifications</p>\n    <p class=\"text-muted-foreground text-xs\">\n      You can enable or disable notifications at any time.\n    </p>\n  </div>\n  <Switch\n    aria-labelledby={labelId}\n    class=\"[--thumb-size:--spacing(4)] sm:[--thumb-size:--spacing(3)]\"\n    checked\n    {id}\n  />\n</Label>\n",
 			"type": "registry:block",
 			"target": "p-switch-4.svelte"
 		}

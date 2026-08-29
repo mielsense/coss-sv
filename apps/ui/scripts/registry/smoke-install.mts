@@ -493,6 +493,24 @@ async function productionRegistryItems(): Promise<ProductionRegistryIndexItem[]>
   return items.filter(({ name, type }) => type === "registry:ui" && name !== "ui");
 }
 
+async function productionParticleItems(
+  names: readonly string[],
+): Promise<ProductionRegistryIndexItem[]> {
+  const items = JSON.parse(
+    await readFile(resolve(appRoot, "static/r/index.json"), "utf8"),
+  ) as ProductionRegistryIndexItem[];
+  const byName = new Map(items.map((item) => [item.name, item]));
+
+  return names.map((name) => {
+    const item = byName.get(name);
+    if (!item) throw new Error(`Representative particle ${name} is missing from the registry.`);
+    if (item.type !== "registry:block") {
+      throw new Error(`Representative particle ${name} has unexpected type ${item.type}.`);
+    }
+    return item;
+  });
+}
+
 async function productionRegistryClosure(
   items: readonly ProductionRegistryIndexItem[],
 ): Promise<ProductionRegistryDocument[]> {
@@ -537,6 +555,9 @@ function installedFilePath(
   if (registryItem.type === "registry:component" || file.type === "registry:component") {
     return `components/${file.target}`;
   }
+  if (registryItem.type === "registry:block" || file.type === "registry:block") {
+    return `components/${file.target}`;
+  }
   return `components/ui/${file.target}`;
 }
 
@@ -564,7 +585,10 @@ async function verifyInstalledProductionRegistry(
 
   for (const installedFile of installedFiles.filter((file) => /\.(?:svelte|ts)$/.test(file))) {
     const source = await readFile(resolve(fixtureRoot, "src/lib", installedFile), "utf8");
-    if (source.includes("$UTILS$") || /(?:^|["'(])(?:reference|shardsui)\//im.test(source)) {
+    if (
+      /\$(?:COMPONENTS|LIB|UI|UTILS)\$/.test(source) ||
+      /(?:^|["'(])(?:reference|shardsui)\//im.test(source)
+    ) {
       throw new Error(`Production registry install retained a private path in ${installedFile}.`);
     }
   }
@@ -656,6 +680,7 @@ const fixtureRoot = resolve(temporaryRoot, "consumer");
 const productionFixtureRoot = resolve(temporaryRoot, "production-consumer");
 const productionBundleFixtureRoot = resolve(temporaryRoot, "production-bundle-consumer");
 const productionItemFixturesRoot = resolve(temporaryRoot, "production-item-consumers");
+const productionParticleFixtureRoot = resolve(temporaryRoot, "production-particle-consumer");
 const storeRoot = resolve(temporaryRoot, "pnpm-store");
 const environment = isolatedEnvironment(temporaryRoot);
 let server: Server | undefined;
@@ -827,6 +852,53 @@ try {
     });
   });
 
+  const representativeParticles = await productionParticleItems([
+    "p-accordion-1",
+    "p-button-1",
+    "p-date-picker-1",
+    "p-dialog-1",
+    "p-navigation-1",
+    "p-select-1",
+    "p-table-3",
+  ]);
+  await mkdir(productionParticleFixtureRoot, { recursive: true });
+  await writeConsumerFixture(productionParticleFixtureRoot);
+  await run(
+    "pnpm",
+    ["install", "--ignore-workspace", "--frozen-lockfile=false", "--store-dir", storeRoot],
+    { cwd: productionParticleFixtureRoot, env: environment, quiet: true },
+  );
+  await runLocalShadcn(
+    [
+      "add",
+      ...representativeParticles.map(
+        ({ relativeUrl }) => `${productionRegistryServer.baseUrl}/${relativeUrl}`,
+      ),
+      "-c",
+      productionParticleFixtureRoot,
+      "--yes",
+      "--overwrite",
+      "--no-deps-install",
+    ],
+    { env: environment, quiet: true },
+  );
+  await run(
+    "pnpm",
+    ["install", "--ignore-workspace", "--frozen-lockfile=false", "--store-dir", storeRoot],
+    { cwd: productionParticleFixtureRoot, env: environment, quiet: true },
+  );
+  await verifyInstalledProductionRegistry(productionParticleFixtureRoot, representativeParticles);
+  await run("pnpm", ["exec", "svelte-check", "--tsconfig", "./tsconfig.json"], {
+    cwd: productionParticleFixtureRoot,
+    env: environment,
+    quiet: true,
+  });
+  await run("pnpm", ["exec", "vite", "build"], {
+    cwd: productionParticleFixtureRoot,
+    env: environment,
+    quiet: true,
+  });
+
   const privateSmokeArtifacts = findPrivateSmokeArtifacts(
     await readdir(resolve(appRoot, "static/r")),
   );
@@ -836,7 +908,7 @@ try {
     );
   }
   console.log(
-    `Private bundle, ${productionItems.length} individual UI items, the production batch, and the complete UI bundle installed, passed svelte-check, and built successfully.`,
+    `Private bundle, ${productionItems.length} individual UI items, the production batch, the complete UI bundle, and ${representativeParticles.length} representative particles installed, passed svelte-check, and built successfully.`,
   );
 } finally {
   await closeServer(server);

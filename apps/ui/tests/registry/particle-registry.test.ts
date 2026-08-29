@@ -10,6 +10,12 @@ type OwnershipFile = {
   ownership: Array<{ implementationLane: string; particle: string }>;
 };
 
+type GeneratedRegistryItem = {
+  dependencies?: string[] | null;
+  files: Array<{ content: string }>;
+  registryDependencies?: string[] | null;
+};
+
 describe("documentation particle registry", () => {
   test("installs the date formatter at the alias imported by date-picker particles", async () => {
     const dateFormat = registryLibs.find(({ name }) => name === "date-format");
@@ -36,11 +42,41 @@ describe("documentation particle registry", () => {
         resolve(appRoot, `registry/default/particles/${id}.svelte`),
         "utf8",
       );
-      expect(source, id).toContain('from "$lib/date-format.js"');
+      expect(source, id).toContain('from "../lib/date-format.js"');
       expect(registryParticles.find(({ name }) => name === id)?.registryDependencies, id).toContain(
         "local:date-format",
       );
     }
+  });
+
+  test("publishes particles with consumer-local component and helper imports", async () => {
+    const generated = async (id: string) =>
+      JSON.parse(
+        await readFile(resolve(appRoot, `static/r/${id}.json`), "utf8"),
+      ) as GeneratedRegistryItem;
+
+    const button = await generated("p-button-1");
+    expect(button.files[0]?.content).toContain('from "$COMPONENTS$/ui/button/index.js"');
+    expect(button.registryDependencies).toContain("./button.json");
+
+    const datePicker = await generated("p-date-picker-1");
+    expect(datePicker.files[0]?.content).toContain('from "$LIB$/date-format.js"');
+    expect(datePicker.files[0]?.content).toContain('from "$LIB$/hugeicons-icon.svelte"');
+    expect(datePicker.files[0]?.content).toContain('from "$COMPONENTS$/ui/calendar/index.js"');
+    expect(datePicker.files[0]?.content).not.toContain("@coss-sv/ui");
+    expect(datePicker.registryDependencies).toEqual(
+      expect.arrayContaining([
+        "./button.json",
+        "./calendar.json",
+        "./date-format.json",
+        "./hugeicons-icon.json",
+        "./particle-metadata.json",
+        "./popover.json",
+      ]),
+    );
+    expect(datePicker.dependencies ?? []).not.toEqual(
+      expect.arrayContaining(["@coss-sv/ui", "@hugeicons/svelte@1.1.5"]),
+    );
   });
 
   test("publishes the approved D4, D5, D7, D8, and D9 inventory with its metadata support file", async () => {
@@ -79,6 +115,16 @@ describe("documentation particle registry", () => {
         },
       ]);
       expect(particle.registryDependencies, particle.name).toContain("local:particle-metadata");
+      expect(particle.dependencies ?? [], particle.name).not.toEqual(
+        expect.arrayContaining(["@coss-sv/ui", "@hugeicons/svelte@1.1.5"]),
+      );
+
+      const generated = JSON.parse(
+        await readFile(resolve(appRoot, `static/r/${particle.name}.json`), "utf8"),
+      ) as GeneratedRegistryItem;
+      expect(generated.files[0]?.content, particle.name).not.toMatch(
+        /@coss-sv\/ui|@hugeicons\/svelte/,
+      );
     }
   });
 });

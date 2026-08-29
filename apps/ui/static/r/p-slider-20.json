@@ -3,17 +3,13 @@
 	"name": "p-slider-20",
 	"type": "registry:block",
 	"description": "COSS slider example.",
-	"dependencies": [
-		"@coss-sv/ui",
-		"@hugeicons/core-free-icons@4.3.0",
-		"@hugeicons/svelte@1.1.5"
-	],
 	"registryDependencies": [
-		"./particle-metadata.json"
+		"./particle-metadata.json",
+		"./slider.json"
 	],
 	"files": [
 		{
-			"content": "<script module lang=\"ts\">\nimport { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\nexport const meta = defineParticleMeta({\n  components: [\"slider\"],\n  id: \"p-slider-20\",\n  interactive: true,\n  responsive: true,\n  title: \"Equalizer\",\n});\n</script>\n\n<script lang=\"ts\">\nimport { Slider } from \"@coss-sv/ui\";\n\nconst bands = [\n  { label: \"60 Hz\", value: 2 },\n  { label: \"250 Hz\", value: 1 },\n  { label: \"1k\", value: -1 },\n  { label: \"4k\", value: -3 },\n  { label: \"16k\", value: 2 },\n];\n</script>\n\n<div class=\"flex h-48 justify-center gap-8\">\n  {#each bands as band (band.label)}\n    <Slider.Root\n      aria-label={band.label}\n      defaultValue={band.value}\n      max={5}\n      min={-5}\n      orientation=\"vertical\"\n    />\n  {/each}\n</div>\n",
+			"content": "<script module lang=\"ts\">\nimport { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\nexport const meta = defineParticleMeta({\n  components: [\"slider\"],\n  id: \"p-slider-20\",\n  interactive: true,\n  responsive: true,\n  title: \"Equalizer\",\n});\n</script>\n\n<script lang=\"ts\">\nimport * as Slider from \"$COMPONENTS$/ui/slider/index.js\";\n\nconst bands = [\n  { label: \"60 Hz\", value: 2 },\n  { label: \"250 Hz\", value: 1 },\n  { label: \"1k\", value: -1 },\n  { label: \"4k\", value: -3 },\n  { label: \"16k\", value: 2 },\n];\n</script>\n\n<div class=\"flex h-48 justify-center gap-8\">\n  {#each bands as band (band.label)}\n    <Slider.Root\n      aria-label={band.label}\n      defaultValue={band.value}\n      max={5}\n      min={-5}\n      orientation=\"vertical\"\n    />\n  {/each}\n</div>\n",
 			"type": "registry:block",
 			"target": "p-slider-20.svelte"
 		}
