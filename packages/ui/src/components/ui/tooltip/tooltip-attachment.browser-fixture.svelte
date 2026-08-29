@@ -1,13 +1,16 @@
 <script lang="ts">
-  import * as Tooltip from "./index.js";
   import * as ToggleGroup from "../toggle-group/index.js";
   import * as Toolbar from "../toolbar/index.js";
+  import * as Tooltip from "./index.js";
 
   const focusHandle = Tooltip.TooltipCreateHandle<string>();
   const persistentHandle = Tooltip.TooltipCreateHandle();
   const disabledHandle = Tooltip.TooltipCreateHandle();
   const cleanupHandle = Tooltip.TooltipCreateHandle();
   const composedHandle = Tooltip.TooltipCreateHandle();
+  const groupedFirstHandle = Tooltip.TooltipCreateHandle();
+  const groupedSecondHandle = Tooltip.TooltipCreateHandle();
+  const isolatedHandle = Tooltip.TooltipCreateHandle();
   const uid = $props.id();
   const focusId = `${uid}-focus`;
   const focusPopupId = `${uid}-focus-popup`;
@@ -19,7 +22,14 @@
   const cleanupPopupId = `${uid}-cleanup-popup`;
   const composedId = `${uid}-composed`;
   const composedPopupId = `${uid}-composed-popup`;
+  const groupedFirstId = `${uid}-grouped-first`;
+  const groupedFirstPopupId = `${uid}-grouped-first-popup`;
+  const groupedSecondId = `${uid}-grouped-second`;
+  const groupedSecondPopupId = `${uid}-grouped-second-popup`;
+  const isolatedId = `${uid}-isolated`;
+  const isolatedPopupId = `${uid}-isolated-popup`;
   let showCleanupTarget = $state(true);
+  let showGroupedFirst = $state(true);
   let cleanupResult = $state("idle");
 
   function openCleanupTarget(): void {
@@ -138,3 +148,63 @@
     </Tooltip.Root>
   </ToggleGroup.Root>
 </Toolbar.Root>
+
+<Tooltip.Provider delay={250} timeout={500}>
+  {#if showGroupedFirst}
+    <Tooltip.Root handle={groupedFirstHandle}>
+      <button
+        {@attach Tooltip.createTriggerAttachment(groupedFirstHandle, () => ({
+          ariaDescribedBy: groupedFirstPopupId,
+          id: groupedFirstId,
+        }))}
+        aria-describedby={groupedFirstPopupId}
+        data-testid="attached-grouped-first"
+        id={groupedFirstId}
+        type="button"
+      >
+        Grouped first
+      </button>
+      <Tooltip.Popup id={groupedFirstPopupId}>Grouped first hint</Tooltip.Popup>
+    </Tooltip.Root>
+  {/if}
+  <Tooltip.Root handle={groupedSecondHandle}>
+    <button
+      {@attach Tooltip.createTriggerAttachment(groupedSecondHandle, () => ({
+        ariaDescribedBy: groupedSecondPopupId,
+        id: groupedSecondId,
+      }))}
+      aria-describedby={groupedSecondPopupId}
+      data-testid="attached-grouped-second"
+      id={groupedSecondId}
+      type="button"
+    >
+      Grouped second
+    </button>
+    <Tooltip.Popup id={groupedSecondPopupId}>Grouped second hint</Tooltip.Popup>
+  </Tooltip.Root>
+  <button
+    data-testid="remove-grouped-first"
+    onclick={() => (showGroupedFirst = false)}
+    type="button"
+  >
+    Remove grouped first
+  </button>
+</Tooltip.Provider>
+
+<Tooltip.Provider delay={250} timeout={500}>
+  <Tooltip.Root handle={isolatedHandle}>
+    <button
+      {@attach Tooltip.createTriggerAttachment(isolatedHandle, () => ({
+        ariaDescribedBy: isolatedPopupId,
+        id: isolatedId,
+      }))}
+      aria-describedby={isolatedPopupId}
+      data-testid="attached-isolated"
+      id={isolatedId}
+      type="button"
+    >
+      Isolated trigger
+    </button>
+    <Tooltip.Popup id={isolatedPopupId}>Isolated hint</Tooltip.Popup>
+  </Tooltip.Root>
+</Tooltip.Provider>

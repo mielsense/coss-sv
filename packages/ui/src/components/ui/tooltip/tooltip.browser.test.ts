@@ -124,6 +124,37 @@ describe("Tooltip browser contract", () => {
     await expect.element(target).toHaveAttribute("data-popup-open");
   });
 
+  test("shares the provider delay and opens sibling attachments during the instant window", async () => {
+    render(AttachmentFixture);
+    const first = page.getByTestId("attached-grouped-first");
+    await first.hover();
+    await new Promise((resolve) => setTimeout(resolve, 80));
+    await expect.element(page.getByText("Grouped first hint")).not.toBeInTheDocument();
+    await expect.element(page.getByText("Grouped first hint")).toBeInTheDocument();
+
+    const started = performance.now();
+    await page.getByTestId("attached-grouped-second").hover();
+    await expect.element(page.getByText("Grouped second hint")).toBeInTheDocument();
+    expect(performance.now() - started).toBeLessThan(200);
+  });
+
+  test("resets removed roots without leaking the instant phase across providers", async () => {
+    render(AttachmentFixture);
+    await page.getByTestId("attached-grouped-first").hover();
+    await expect.element(page.getByText("Grouped first hint")).toBeInTheDocument();
+    await page.getByTestId("remove-grouped-first").click();
+
+    await page.getByTestId("attached-grouped-second").hover();
+    await new Promise((resolve) => setTimeout(resolve, 80));
+    await expect.element(page.getByText("Grouped second hint")).not.toBeInTheDocument();
+    await expect.element(page.getByText("Grouped second hint")).toBeInTheDocument();
+
+    await page.getByTestId("attached-isolated").hover();
+    await new Promise((resolve) => setTimeout(resolve, 80));
+    await expect.element(page.getByText("Isolated hint")).not.toBeInTheDocument();
+    await expect.element(page.getByText("Isolated hint")).toBeInTheDocument();
+  });
+
   test("hydrates the exact server-rendered tree without diagnostics", async () => {
     const warning = vi.spyOn(console, "warn").mockImplementation(() => undefined);
     const error = vi.spyOn(console, "error").mockImplementation(() => undefined);

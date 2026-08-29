@@ -1,6 +1,7 @@
 import type { Attachment } from "svelte/attachments";
 import { on } from "svelte/events";
 import type { TooltipHandle } from "./handle.svelte.js";
+import type { TooltipAttachmentProviderMember } from "./provider-context.svelte.js";
 
 const DEFAULT_OPEN_DELAY = 600;
 
@@ -20,6 +21,7 @@ type TooltipState<Payload> = {
   applyTriggerBindings(bindings: TriggerBindings<Payload>): void;
   closeOnClick: boolean;
   disabled: boolean;
+  isInstantPhase: boolean;
   open: boolean;
   popupElement: HTMLElement | null;
   setCursorPosition(x: number, y: number): void;
@@ -62,9 +64,9 @@ function restoreAttribute(
  * The target stays owned by its Toolbar, Toggle, Select, or other behavioral primitive.
  *
  * This mirrors Shards Trigger registration, payload, focus, hover, cursor tracking, disabled,
- * click-dismissal, and state-attribute behavior through its public handle. Shards does not expose
- * its provider delay-group or safe-polygon internals as public attachments, so attached triggers
- * use their own delay timers and a popup-hover boundary instead of those two private mechanisms.
+ * click-dismissal, provider delay grouping, and state-attribute behavior through its public
+ * handle. Shards does not expose its safe-polygon internals as a public attachment, so attached
+ * triggers use a popup-hover boundary for noninteractive pointer transit.
  */
 export function createTriggerAttachment<Payload = unknown>(
   handle: TooltipHandle<Payload>,
@@ -72,6 +74,7 @@ export function createTriggerAttachment<Payload = unknown>(
 ): Attachment<HTMLElement> {
   return (node) => {
     const state = handle.state as unknown as TooltipState<Payload>;
+    const provider = handle.attachmentProvider;
     const previous = {
       "aria-describedby": node.getAttribute("aria-describedby"),
       "data-popup-open": node.getAttribute("data-popup-open"),
@@ -85,6 +88,14 @@ export function createTriggerAttachment<Payload = unknown>(
     let closeTimer: ReturnType<typeof setTimeout> | undefined;
     let pointerType = "mouse";
     let pointerFocus = false;
+    const providerMember: TooltipAttachmentProviderMember = {
+      close() {
+        if (isActive()) state.setOpen(false, "none", undefined, node);
+      },
+      setInstant(value) {
+        state.isInstantPhase = value;
+      },
+    };
 
     const clearOpenTimer = (): void => {
       if (openTimer !== undefined) clearTimeout(openTimer);
@@ -156,7 +167,7 @@ export function createTriggerAttachment<Payload = unknown>(
       if (pointerType === "touch" || isDisabled()) return;
       clearOpenTimer();
       clearCloseTimer();
-      const delay = state.open ? 0 : current().delay;
+      const delay = state.open ? 0 : (provider?.getOpenDelay(options().delay) ?? current().delay);
       if (delay === 0) open("trigger-hover", event);
       else openTimer = setTimeout(() => open("trigger-hover", event), delay);
     };
@@ -172,7 +183,7 @@ export function createTriggerAttachment<Payload = unknown>(
         if (state.popupElement?.matches(":hover")) return;
         if (node.ownerDocument.activeElement === node) return;
         close("trigger-hover", event);
-      }, current().closeDelay);
+      }, provider?.getCloseDelay(options().closeDelay) ?? current().closeDelay);
     };
     const onClick = (event: MouseEvent): void => {
       clearOpenTimer();
@@ -190,6 +201,12 @@ export function createTriggerAttachment<Payload = unknown>(
         else node.removeAttribute("aria-describedby");
         node.toggleAttribute("data-trigger-disabled", isDisabled());
         node.toggleAttribute("data-popup-open", state.open && state.activeTriggerId === value.id);
+      });
+
+      $effect(() => {
+        const activeOpen = state.open && state.activeTriggerId === current().id;
+        if (activeOpen) provider?.claim(providerMember);
+        else provider?.release(providerMember);
       });
 
       $effect(() => {
@@ -219,6 +236,7 @@ export function createTriggerAttachment<Payload = unknown>(
         cleanup();
       });
       disposeEffects();
+      provider?.remove(providerMember);
       restoreAttribute(node, "id", previous.id);
       restoreAttribute(node, "aria-describedby", previous["aria-describedby"]);
       restoreAttribute(node, "data-popup-open", previous["data-popup-open"]);

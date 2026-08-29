@@ -7,6 +7,11 @@ export {
   TooltipHandle as Handle,
 } from "./handle.svelte.js";
 export type {
+  TooltipAttachmentProviderContext,
+  TooltipAttachmentProviderMember,
+  TooltipAttachmentProviderOptions,
+} from "./provider-context.svelte.js";
+export type {
   TooltipRootProps,
   TooltipRootState,
   TooltipTriggerProps,
