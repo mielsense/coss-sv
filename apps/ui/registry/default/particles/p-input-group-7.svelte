@@ -1,19 +1,20 @@
 <script module lang="ts">
-import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
-export const meta = defineParticleMeta({
-  components: ["button", "input-group", "popover"],
-  containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64",
-  id: "p-input-group-7",
-  interactive: true,
-  responsive: false,
-  title: "Input group with end tooltip",
-});
+  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  export const meta = defineParticleMeta({
+    components: ["button", "input-group", "popover"],
+    containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64",
+    id: "p-input-group-7",
+    interactive: true,
+    responsive: false,
+    title: "Input group with end tooltip",
+  });
 </script>
+
 <script lang="ts">
-import { InformationCircleIcon } from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/svelte";
-import { buttonVariants, InputGroup, Popover } from "@coss-sv/ui";
+  import { buttonVariants, HugeiconsIcon, InputGroup, Popover } from "@coss-sv/ui";
+  import { InformationCircleIcon } from "@hugeicons/core-free-icons";
 </script>
+
 <InputGroup.Root>
   <InputGroup.Input aria-label="Password" placeholder="Password" type="password" />
   <InputGroup.Addon align="inline-end">

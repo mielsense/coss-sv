@@ -1,19 +1,20 @@
 <script module lang="ts">
-import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
-export const meta = defineParticleMeta({
-  components: ["badge", "button", "input-group", "menu"],
-  containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64",
-  id: "p-input-group-18",
-  interactive: true,
-  responsive: false,
-  title: "Input group with badge and menu",
-});
+  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  export const meta = defineParticleMeta({
+    components: ["badge", "button", "input-group", "menu"],
+    containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64",
+    id: "p-input-group-18",
+    interactive: true,
+    responsive: false,
+    title: "Input group with badge and menu",
+  });
 </script>
+
 <script lang="ts">
-import { MoreHorizontalIcon } from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/svelte";
-import { Badge, buttonVariants, InputGroup, Menu } from "@coss-sv/ui";
+  import { Badge, buttonVariants, HugeiconsIcon, InputGroup, Menu } from "@coss-sv/ui";
+  import { MoreHorizontalIcon } from "@hugeicons/core-free-icons";
 </script>
+
 <InputGroup.Root>
   <InputGroup.Input value="hello@coss.com" placeholder="Enter email" type="email" />
   <InputGroup.Addon align="inline-end">

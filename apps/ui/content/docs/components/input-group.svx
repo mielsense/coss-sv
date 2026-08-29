@@ -7,15 +7,17 @@ description: A flexible component for grouping inputs with addons, buttons, and 
 
 ## Installation
 
-<InstallCommand pnpm="pnpm add @coss-sv/ui" shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/input-group.json" />
+<InstallCommand
+  pnpm="pnpm add @coss-sv/ui"
+  shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/input-group.json"
+/>
 
 ## Usage
 
 ```svelte
 <script lang="ts">
-  import { InputGroup } from "@coss-sv/ui";
+  import { HugeiconsIcon, InputGroup } from "@coss-sv/ui";
   import { Mail01Icon } from "@hugeicons/core-free-icons";
-  import { HugeiconsIcon } from "@hugeicons/svelte";
 </script>
 
 <InputGroup.Root>
@@ -32,19 +34,19 @@ description: A flexible component for grouping inputs with addons, buttons, and 
 
 The main component that wraps inputs and addons.
 
-| Prop | Type | Description |
-| --- | --- | --- |
-| `class` | `string` | Additional CSS classes |
-| `...props` | `HTMLAttributes<HTMLDivElement>` | Native div attributes |
+| Prop       | Type                             | Description            |
+| ---------- | -------------------------------- | ---------------------- |
+| `class`    | `string`                         | Additional CSS classes |
+| `...props` | `HTMLAttributes<HTMLDivElement>` | Native div attributes  |
 
 ### InputGroup.Addon
 
 A container for icons, text, buttons, and other elements. It can appear at the inline start, inline end, block start, or block end.
 
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
+| Prop    | Type                                                             | Default          | Description                    |
+| ------- | ---------------------------------------------------------------- | ---------------- | ------------------------------ |
 | `align` | `"inline-start" \| "inline-end" \| "block-start" \| "block-end"` | `"inline-start"` | Position relative to the input |
-| `class` | `string` | | Additional CSS classes |
+| `class` | `string`                                                         |                  | Additional CSS classes         |
 
 For correct focus order, place `InputGroup.Addon` after the input in the DOM.
 
@@ -52,9 +54,9 @@ For correct focus order, place `InputGroup.Addon` after the input in the DOM.
 
 A text container for content within an addon. It styles muted text and child icons.
 
-| Prop | Type | Description |
-| --- | --- | --- |
-| `class` | `string` | Additional CSS classes |
+| Prop       | Type                              | Description            |
+| ---------- | --------------------------------- | ---------------------- |
+| `class`    | `string`                          | Additional CSS classes |
 | `...props` | `HTMLAttributes<HTMLSpanElement>` | Native span attributes |
 
 ### InputGroup.Input

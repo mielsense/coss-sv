@@ -1,19 +1,20 @@
 <script module lang="ts">
-import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
-export const meta = defineParticleMeta({
-  components: ["button", "input-group"],
-  containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64",
-  id: "p-input-group-15",
-  interactive: true,
-  responsive: false,
-  title: "Disabled input group",
-});
+  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  export const meta = defineParticleMeta({
+    components: ["button", "input-group"],
+    containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64",
+    id: "p-input-group-15",
+    interactive: true,
+    responsive: false,
+    title: "Disabled input group",
+  });
 </script>
+
 <script lang="ts">
-import { ArrowRight01Icon } from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/svelte";
-import { Button, InputGroup } from "@coss-sv/ui";
+  import { Button, HugeiconsIcon, InputGroup } from "@coss-sv/ui";
+  import { ArrowRight01Icon } from "@hugeicons/core-free-icons";
 </script>
+
 <InputGroup.Root
   ><InputGroup.Input
     aria-label="Subscribe to our newsletter"

@@ -1,18 +1,19 @@
 <script module lang="ts">
-import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
-export const meta = defineParticleMeta({
-  components: ["button", "group"],
-  id: "p-group-10",
-  interactive: true,
-  responsive: false,
-  title: "Nested groups",
-});
+  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  export const meta = defineParticleMeta({
+    components: ["button", "group"],
+    id: "p-group-10",
+    interactive: true,
+    responsive: false,
+    title: "Nested groups",
+  });
 </script>
+
 <script lang="ts">
-import { ArrowLeft01Icon, ArrowRight01Icon } from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/svelte";
-import { Button, Group } from "@coss-sv/ui";
+  import { Button, Group, HugeiconsIcon } from "@coss-sv/ui";
+  import { ArrowLeft01Icon, ArrowRight01Icon } from "@hugeicons/core-free-icons";
 </script>
+
 <Group.Root aria-label="Pagination">
   <Group.Root aria-label="Page numbers">
     {#each [1, 2, 3, 4, 5] as page (page)}

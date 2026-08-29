@@ -7,7 +7,10 @@ description: A component for visually grouping a series of controls.
 
 ## Installation
 
-<InstallCommand pnpm="pnpm add @coss-sv/ui" shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/group.json" />
+<InstallCommand
+  pnpm="pnpm add @coss-sv/ui"
+  shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/group.json"
+/>
 
 ## Usage
 
@@ -48,8 +51,8 @@ description: A component for visually grouping a series of controls.
 
 The root visually groups related controls with consistent connected styling.
 
-| Prop | Type | Default |
-| --- | --- | --- |
+| Prop          | Type                         | Default        |
+| ------------- | ---------------------------- | -------------- |
 | `orientation` | `"horizontal" \| "vertical"` | `"horizontal"` |
 
 ```svelte
@@ -66,8 +69,8 @@ Nest multiple groups to create layouts with spacing. See the [nested groups](#ne
 
 The separator visually divides controls within a group.
 
-| Prop | Type | Default |
-| --- | --- | --- |
+| Prop          | Type                         | Default      |
+| ------------- | ---------------------------- | ------------ |
 | `orientation` | `"horizontal" \| "vertical"` | `"vertical"` |
 
 Unlike shadcn's ButtonGroup, `Group.Separator` is required between all controls, including outline buttons. It preserves the intended hierarchy and focus states.
@@ -76,8 +79,8 @@ Unlike shadcn's ButtonGroup, `Group.Separator` is required between all controls,
 
 Use this component for text such as labels or prefixes.
 
-| Prop | Type | Default |
-| --- | --- | --- |
+| Prop | Type                          | Default  |
+| ---- | ----------------------------- | -------- |
 | `as` | `keyof HTMLElementTagNameMap` | `"span"` |
 
 ```svelte

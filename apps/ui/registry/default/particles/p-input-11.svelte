@@ -1,18 +1,18 @@
 <script module lang="ts">
-import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
 
-export const meta = defineParticleMeta({
-  components: ["input-group", "kbd"],
-  containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64",
-  id: "p-input-11",
-  interactive: true,
-  responsive: false,
-  title: "Input group with keyboard shortcut",
-});
+  export const meta = defineParticleMeta({
+    components: ["input-group", "kbd"],
+    containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64",
+    id: "p-input-11",
+    interactive: true,
+    responsive: false,
+    title: "Input group with keyboard shortcut",
+  });
 </script>
 
 <script lang="ts">
-import { InputGroup, Kbd } from "@coss-sv/ui";
+  import { InputGroup, Kbd } from "@coss-sv/ui";
 </script>
 
 <InputGroup.Root>

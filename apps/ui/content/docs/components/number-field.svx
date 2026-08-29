@@ -7,7 +7,10 @@ description: A numeric input element with increment and decrement buttons, and a
 
 ## Installation
 
-<InstallCommand pnpm="pnpm add @coss-sv/ui" shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/number-field.json" />
+<InstallCommand
+  pnpm="pnpm add @coss-sv/ui"
+  shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/number-field.json"
+/>
 
 ## Usage
 
@@ -32,8 +35,8 @@ description: A numeric input element with increment and decrement buttons, and a
 
 Root component for the local Svelte number-field behavior.
 
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
+| Prop   | Type                        | Default     | Description                                               |
+| ------ | --------------------------- | ----------- | --------------------------------------------------------- |
 | `size` | `"sm" \| "default" \| "lg"` | `"default"` | Controls the size of all child components through context |
 
 ### NumberField.Group
@@ -56,9 +59,9 @@ Button that decrements the value and displays the Hugeicons minus glyph.
 
 Draggable area for scrubbing the value.
 
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `label` | `string` | - | Label text displayed in the scrub area |
+| Prop    | Type     | Default | Description                            |
+| ------- | -------- | ------- | -------------------------------------- |
+| `label` | `string` | -       | Label text displayed in the scrub area |
 
 ## Examples
 

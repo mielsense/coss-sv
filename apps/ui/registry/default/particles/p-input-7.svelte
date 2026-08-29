@@ -1,18 +1,18 @@
 <script module lang="ts">
-import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
 
-export const meta = defineParticleMeta({
-  components: ["button", "group", "input"],
-  containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64",
-  id: "p-input-7",
-  interactive: true,
-  responsive: false,
-  title: "Input with button using Group",
-});
+  export const meta = defineParticleMeta({
+    components: ["button", "group", "input"],
+    containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64",
+    id: "p-input-7",
+    interactive: true,
+    responsive: false,
+    title: "Input with button using Group",
+  });
 </script>
 
 <script lang="ts">
-import { Button, Group, Input } from "@coss-sv/ui";
+  import { Button, Group, Input } from "@coss-sv/ui";
 </script>
 
 <Group.Root aria-label="Email subscription" class="gap-2">

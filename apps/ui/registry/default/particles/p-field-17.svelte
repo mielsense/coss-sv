@@ -1,18 +1,18 @@
 <script module lang="ts">
-import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
 
-export const meta = defineParticleMeta({
-  components: ["field", "number-field"],
-  containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64",
-  id: "p-field-17",
-  interactive: true,
-  responsive: false,
-  title: "Field with number field",
-});
+  export const meta = defineParticleMeta({
+    components: ["field", "number-field"],
+    containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64",
+    id: "p-field-17",
+    interactive: true,
+    responsive: false,
+    title: "Field with number field",
+  });
 </script>
 
 <script lang="ts">
-import { Field, NumberField } from "@coss-sv/ui";
+  import { Field, NumberField } from "@coss-sv/ui";
 </script>
 
 <Field.Root>

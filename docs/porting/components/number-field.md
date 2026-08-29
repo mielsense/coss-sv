@@ -30,7 +30,7 @@ The other nine importing particles are also required fixtures. `p-field-17` comb
 
 ## Rendered evidence
 
-Automated headless Playwright inspection used `https://coss.com/ui/docs/components/number-field`; root will repeat final manual comparison in the Codex in-app browser.
+Automated headless Playwright inspection used `https://coss.com/ui/docs/components/number-field`. A final Codex in-app Browser comparison confirmed the documented control dimensions and the single-element delegated groups used by `p-group-14` and `p-group-22`.
 
 - The default root is a `div[data-slot="number-field"][data-size="default"]`; the visual control is a `div[role="group"][data-slot="number-field-group"]`.
 - At a 1280 px viewport the documented preview is 256 by 32 px. The small and large controls are 256 by 28 px and 256 by 36 px.
@@ -86,4 +86,4 @@ The increment and decrement buttons now render `PlusSignIcon` and `MinusSignIcon
 
 Fresh inspection covered `p-number-field-1` through `p-number-field-11` and the complete Number Field page. The page preserves the first ten upstream previews, API parts, locale/range/step/format examples, Scrub Area behavior, labels, validation, and Zod form integration. `p-number-field-11` remains an additional registry example.
 
-The D6 browser regression keeps a confirmed package seam red: the rendered `p-number-field-7` native input exposes `type="text"` and `aria-roledescription="Number field"`, but it has neither `role="spinbutton"` nor an accessible-name relationship. The test still exercises Increase, ArrowDown, Home, the minimum boundary, and disabled Decrease once the semantic assertions can pass. D6 does not add particle-only ARIA that would mask the public package defect.
+The reviewed package implementation now gives the `p-number-field-7` input `role="spinbutton"` and an accessible-name relationship without particle-only ARIA. The D6 browser regression verifies those semantics together with Increase, ArrowDown, Home, the minimum boundary, and disabled Decrease.

@@ -1,19 +1,20 @@
 <script module lang="ts">
-import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
-export const meta = defineParticleMeta({
-  components: ["button", "input-group", "menu", "tooltip"],
-  containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-80",
-  id: "p-input-group-17",
-  interactive: true,
-  responsive: false,
-  title: "Input group with textarea",
-});
+  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  export const meta = defineParticleMeta({
+    components: ["button", "input-group", "menu", "tooltip"],
+    containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-80",
+    id: "p-input-group-17",
+    interactive: true,
+    responsive: false,
+    title: "Input group with textarea",
+  });
 </script>
+
 <script lang="ts">
-import { Add01Icon, ArrowUp01Icon } from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/svelte";
-import { buttonVariants, InputGroup, Menu, Tooltip } from "@coss-sv/ui";
+  import { buttonVariants, HugeiconsIcon, InputGroup, Menu, Tooltip } from "@coss-sv/ui";
+  import { Add01Icon, ArrowUp01Icon } from "@hugeicons/core-free-icons";
 </script>
+
 <InputGroup.Root>
   <InputGroup.Textarea placeholder="Ask, Search or Chat…" />
   <InputGroup.Addon align="block-end">

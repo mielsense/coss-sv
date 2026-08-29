@@ -1,29 +1,28 @@
 <script module lang="ts">
-import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
 
-export const meta = defineParticleMeta({
-  components: ["button", "group", "input", "tooltip"],
-  id: "p-group-2",
-  interactive: true,
-  responsive: false,
-  title: "Group with input",
-});
+  export const meta = defineParticleMeta({
+    components: ["button", "group", "input", "tooltip"],
+    id: "p-group-2",
+    interactive: true,
+    responsive: false,
+    title: "Group with input",
+  });
 </script>
 
 <script lang="ts">
-import { Copy01Icon, Tick01Icon } from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/svelte";
-import { buttonVariants, Group, Input, Tooltip } from "@coss-sv/ui";
+  import { buttonVariants, Group, HugeiconsIcon, Input, Tooltip } from "@coss-sv/ui";
+  import { Copy01Icon, Tick01Icon } from "@hugeicons/core-free-icons";
 
-let input: HTMLInputElement | null = $state(null);
-let isCopied = $state(false);
+  let input: HTMLInputElement | null = $state(null);
+  let isCopied = $state(false);
 
-async function copy() {
-  if (!input) return;
-  await navigator.clipboard.writeText(input.value);
-  isCopied = true;
-  setTimeout(() => (isCopied = false), 1500);
-}
+  async function copy() {
+    if (!input) return;
+    await navigator.clipboard.writeText(input.value);
+    isCopied = true;
+    setTimeout(() => (isCopied = false), 1500);
+  }
 </script>
 
 <Group.Root aria-label="Url input">

@@ -1,58 +1,71 @@
 <script module lang="ts">
-import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
-export const meta = defineParticleMeta({
-  components: ["avatar", "badge", "button", "combobox", "group"],
-  id: "p-group-23",
-  interactive: true,
-  responsive: true,
-  title: "Group with filter label, combobox multi-select, and remove button",
-});
+  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  export const meta = defineParticleMeta({
+    components: ["avatar", "badge", "button", "combobox", "group"],
+    id: "p-group-23",
+    interactive: true,
+    responsive: true,
+    title: "Group with filter label, combobox multi-select, and remove button",
+  });
 </script>
-<script lang="ts">
-import { Cancel01Icon, FilterIcon, Search01Icon, UnfoldMoreIcon } from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/svelte";
-import { Avatar, Badge, Button, buttonVariants, Combobox, Group } from "@coss-sv/ui";
 
-type FilterOption = { id: string; label: string; avatar?: string };
-const members: FilterOption[] = [
-  {
-    avatar:
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=64&h=64&fit=crop&crop=faces",
-    id: "alex-chen",
-    label: "Alex Chen",
-  },
-  {
-    avatar:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=64&h=64&fit=crop&crop=faces",
-    id: "sarah-johnson",
-    label: "Sarah Johnson",
-  },
-  {
-    avatar:
-      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=64&h=64&fit=crop&crop=faces",
-    id: "marcus-williams",
-    label: "Marcus Williams",
-  },
-  {
-    avatar:
-      "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=64&h=64&fit=crop&crop=faces",
-    id: "emma-davis",
-    label: "Emma Davis",
-  },
-  {
-    avatar:
-      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=64&h=64&fit=crop&crop=faces",
-    id: "james-miller",
-    label: "James Miller",
-  },
-];
-let selectedMembers = $state<FilterOption[]>(members.slice(0, 2));
-const firstMember = $derived(selectedMembers[0]);
-const remainingCount = $derived(selectedMembers.length - 1);
-function initials(name: string) {
-  const parts = name.trim().split(/\s+/);
-  return ((parts[0]?.[0] ?? "") + (parts.at(-1)?.[0] ?? "")).toUpperCase();
-}
+<script lang="ts">
+  import {
+    Avatar,
+    Badge,
+    Button,
+    buttonVariants,
+    Combobox,
+    Group,
+    HugeiconsIcon,
+  } from "@coss-sv/ui";
+  import {
+    Cancel01Icon,
+    FilterIcon,
+    Search01Icon,
+    UnfoldMoreIcon,
+  } from "@hugeicons/core-free-icons";
+
+  type FilterOption = { id: string; label: string; avatar?: string };
+  const members: FilterOption[] = [
+    {
+      avatar:
+        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=64&h=64&fit=crop&crop=faces",
+      id: "alex-chen",
+      label: "Alex Chen",
+    },
+    {
+      avatar:
+        "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=64&h=64&fit=crop&crop=faces",
+      id: "sarah-johnson",
+      label: "Sarah Johnson",
+    },
+    {
+      avatar:
+        "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=64&h=64&fit=crop&crop=faces",
+      id: "marcus-williams",
+      label: "Marcus Williams",
+    },
+    {
+      avatar:
+        "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=64&h=64&fit=crop&crop=faces",
+      id: "emma-davis",
+      label: "Emma Davis",
+    },
+    {
+      avatar:
+        "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=64&h=64&fit=crop&crop=faces",
+      id: "james-miller",
+      label: "James Miller",
+    },
+  ];
+  let selectedMembers = $state<FilterOption[]>(members.slice(0, 2));
+  const firstMember = $derived(selectedMembers[0]);
+  const remainingCount = $derived(selectedMembers.length - 1);
+  function initials(name: string) {
+    const parts = name.trim().split(/\s+/);
+    return ((parts[0]?.[0] ?? "") + (parts.at(-1)?.[0] ?? "")).toUpperCase();
+  }
 </script>
 
 {#snippet memberAvatar(member: FilterOption)}

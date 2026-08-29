@@ -1,26 +1,26 @@
 <script module lang="ts">
-import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
 
-export const meta = defineParticleMeta({
-  components: ["field", "select"],
-  containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64",
-  id: "p-field-11",
-  interactive: true,
-  responsive: false,
-  title: "Field with select",
-});
+  export const meta = defineParticleMeta({
+    components: ["field", "select"],
+    containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64",
+    id: "p-field-11",
+    interactive: true,
+    responsive: false,
+    title: "Field with select",
+  });
 </script>
 
 <script lang="ts">
-import { Field, Select } from "@coss-sv/ui";
+  import { Field, Select } from "@coss-sv/ui";
 
-const items = [
-  { label: "Select a country", value: null },
-  { label: "United States", value: "us" },
-  { label: "United Kingdom", value: "uk" },
-  { label: "Canada", value: "ca" },
-  { label: "Australia", value: "au" },
-];
+  const items = [
+    { label: "Select a country", value: null },
+    { label: "United States", value: "us" },
+    { label: "United Kingdom", value: "uk" },
+    { label: "Canada", value: "ca" },
+    { label: "Australia", value: "au" },
+  ];
 </script>
 
 <Field.Root>

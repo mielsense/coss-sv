@@ -1,4 +1,4 @@
-import { mount, type Component } from "svelte";
+import { type Component, mount } from "svelte";
 import { afterEach, describe, expect, test } from "vitest";
 import { page, userEvent } from "vitest/browser";
 
@@ -129,7 +129,9 @@ describe("D6 form and input browser parity", () => {
           ?.split(/\s+/)
           .includes(label?.id ?? ""),
     ).toBe(true);
-    expect(name?.getAttribute("aria-describedby")).toContain(description?.id);
+    await expect
+      .element(name as HTMLInputElement)
+      .toHaveAttribute("aria-describedby", description?.id ?? "");
 
     document.body.innerHTML = "";
     render(component("p-form-1"));

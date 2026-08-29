@@ -7,7 +7,10 @@ description: A native textarea element.
 
 ## Installation
 
-<InstallCommand pnpm="pnpm add @coss-sv/ui" shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/textarea.json" />
+<InstallCommand
+  pnpm="pnpm add @coss-sv/ui"
+  shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/textarea.json"
+/>
 
 ## Usage
 
@@ -38,10 +41,10 @@ Shards UI does not provide a native Textarea part. This component wraps the nati
 
 Styled native textarea element with custom size options.
 
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `size` | `"sm" \| "default" \| "lg" \| number` | `"default"` | Controls the textarea padding. Number values pass to the native `rows` attribute |
-| `unstyled` | `boolean` | `false` | Removes all default styling |
+| Prop       | Type                                  | Default     | Description                                                                      |
+| ---------- | ------------------------------------- | ----------- | -------------------------------------------------------------------------------- |
+| `size`     | `"sm" \| "default" \| "lg" \| number` | `"default"` | Controls the textarea padding. Number values pass to the native `rows` attribute |
+| `unstyled` | `boolean`                             | `false`     | Removes all default styling                                                      |
 
 ## Examples
 

@@ -1,20 +1,19 @@
 <script module lang="ts">
-import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
 
-export const meta = defineParticleMeta({
-  components: ["button", "field", "input-group"],
-  containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64",
-  id: "p-field-6",
-  interactive: true,
-  responsive: false,
-  title: "Input group with field",
-});
+  export const meta = defineParticleMeta({
+    components: ["button", "field", "input-group"],
+    containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64",
+    id: "p-field-6",
+    interactive: true,
+    responsive: false,
+    title: "Input group with field",
+  });
 </script>
 
 <script lang="ts">
-import { ArrowRight01Icon } from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/svelte";
-import { Button, Field, InputGroup } from "@coss-sv/ui";
+  import { Button, Field, HugeiconsIcon, InputGroup } from "@coss-sv/ui";
+  import { ArrowRight01Icon } from "@hugeicons/core-free-icons";
 </script>
 
 <Field.Root>

@@ -1,32 +1,32 @@
 <script module lang="ts">
-import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
 
-export const meta = defineParticleMeta({
-  components: ["combobox", "field"],
-  containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64",
-  id: "p-field-9",
-  interactive: true,
-  responsive: false,
-  title: "Field with multiple selection combobox",
-});
+  export const meta = defineParticleMeta({
+    components: ["combobox", "field"],
+    containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64",
+    id: "p-field-9",
+    interactive: true,
+    responsive: false,
+    title: "Field with multiple selection combobox",
+  });
 </script>
 
 <script lang="ts">
-import { Combobox, Field } from "@coss-sv/ui";
+  import { Combobox, Field } from "@coss-sv/ui";
 
-const items = [
-  { label: "Apple", value: "apple" },
-  { label: "Banana", value: "banana" },
-  { label: "Orange", value: "orange" },
-  { label: "Grape", value: "grape" },
-  { label: "Strawberry", value: "strawberry" },
-  { label: "Mango", value: "mango" },
-  { label: "Pineapple", value: "pineapple" },
-  { label: "Kiwi", value: "kiwi" },
-  { label: "Peach", value: "peach" },
-  { label: "Pear", value: "pear" },
-];
-let value = $state<(typeof items)[number][]>([items[0], items[4]]);
+  const items = [
+    { label: "Apple", value: "apple" },
+    { label: "Banana", value: "banana" },
+    { label: "Orange", value: "orange" },
+    { label: "Grape", value: "grape" },
+    { label: "Strawberry", value: "strawberry" },
+    { label: "Mango", value: "mango" },
+    { label: "Pineapple", value: "pineapple" },
+    { label: "Kiwi", value: "kiwi" },
+    { label: "Peach", value: "peach" },
+    { label: "Pear", value: "pear" },
+  ];
+  let value = $state<(typeof items)[number][]>([items[0], items[4]]);
 </script>
 
 <Field.Root>

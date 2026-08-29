@@ -1,18 +1,19 @@
 <script module lang="ts">
-import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
-export const meta = defineParticleMeta({
-  components: ["button", "group", "input-group", "tooltip"],
-  id: "p-group-12",
-  interactive: true,
-  responsive: false,
-  title: "Group with input group",
-});
+  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  export const meta = defineParticleMeta({
+    components: ["button", "group", "input-group", "tooltip"],
+    id: "p-group-12",
+    interactive: true,
+    responsive: false,
+    title: "Group with input group",
+  });
 </script>
+
 <script lang="ts">
-import { Attachment01Icon, Mic01Icon } from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/svelte";
-import { Button, buttonVariants, Group, InputGroup, Tooltip } from "@coss-sv/ui";
+  import { Button, buttonVariants, Group, HugeiconsIcon, InputGroup, Tooltip } from "@coss-sv/ui";
+  import { Attachment01Icon, Mic01Icon } from "@hugeicons/core-free-icons";
 </script>
+
 <Group.Root aria-label="Message composer" class="[--radius-lg:9999px] [--radius:9999rem]">
   <Group.Root aria-label="Attachments">
     <Button aria-label="Attach file" size="icon" variant="outline">

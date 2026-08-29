@@ -1,19 +1,20 @@
 <script module lang="ts">
-import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
-export const meta = defineParticleMeta({
-  components: ["button", "input-group", "tooltip"],
-  containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64",
-  id: "p-input-group-21",
-  interactive: true,
-  responsive: false,
-  title: "Input group with start tooltip",
-});
+  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  export const meta = defineParticleMeta({
+    components: ["button", "input-group", "tooltip"],
+    containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64",
+    id: "p-input-group-21",
+    interactive: true,
+    responsive: false,
+    title: "Input group with start tooltip",
+  });
 </script>
+
 <script lang="ts">
-import { InformationCircleIcon } from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/svelte";
-import { buttonVariants, InputGroup, Tooltip } from "@coss-sv/ui";
+  import { buttonVariants, HugeiconsIcon, InputGroup, Tooltip } from "@coss-sv/ui";
+  import { InformationCircleIcon } from "@hugeicons/core-free-icons";
 </script>
+
 <InputGroup.Root>
   <InputGroup.Addon>
     <Tooltip.Root>

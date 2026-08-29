@@ -1,19 +1,20 @@
 <script module lang="ts">
-import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
-export const meta = defineParticleMeta({
-  components: ["button", "input-group", "tooltip"],
-  containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-80",
-  id: "p-input-group-28",
-  interactive: true,
-  responsive: false,
-  title: "Message composer with attachment buttons",
-});
+  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  export const meta = defineParticleMeta({
+    components: ["button", "input-group", "tooltip"],
+    containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-80",
+    id: "p-input-group-28",
+    interactive: true,
+    responsive: false,
+    title: "Message composer with attachment buttons",
+  });
 </script>
+
 <script lang="ts">
-import { Attachment01Icon, Image01Icon } from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/svelte";
-import { Button, buttonVariants, InputGroup, Tooltip } from "@coss-sv/ui";
+  import { Button, buttonVariants, HugeiconsIcon, InputGroup, Tooltip } from "@coss-sv/ui";
+  import { Attachment01Icon, Image01Icon } from "@hugeicons/core-free-icons";
 </script>
+
 <InputGroup.Root>
   <InputGroup.Textarea placeholder="Compose your message…" rows={4} />
   <InputGroup.Addon align="block-end" class="justify-between">

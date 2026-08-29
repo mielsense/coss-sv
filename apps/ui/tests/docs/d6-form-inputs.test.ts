@@ -23,6 +23,7 @@ const compiledParticles = import.meta.glob(
 const compiledPages = import.meta.glob(
   [
     "../../content/docs/components/input.svx",
+    "../../content/docs/components/label.svx",
     "../../content/docs/components/textarea.svx",
     "../../content/docs/components/field.svx",
     "../../content/docs/components/fieldset.svx",
@@ -78,7 +79,7 @@ const expectedPagePreviews = {
     "p-input-7",
     "p-form-1",
   ],
-  label: ["p-input-6", "checkbox-demo"],
+  label: ["p-input-6"],
   textarea: range("p-textarea", 1, 6),
   field: range("p-field", 1, 18),
   fieldset: ["p-fieldset-1"],
@@ -117,6 +118,8 @@ const expectedPagePreviews = {
   ],
 } as const;
 
+const expectedPageSlugs = Object.keys(expectedPagePreviews);
+
 function source(path: string): string {
   return readFileSync(resolve(repositoryRoot, path), "utf8");
 }
@@ -138,22 +141,22 @@ describe("D6 form and input documentation inventory", () => {
     }
   });
 
-  test("compiles and SSR renders the nine pages without the confirmed upstream label seam", () => {
-    expect(Object.keys(compiledPages)).toHaveLength(9);
+  test("compiles and SSR renders all ten D6 pages", () => {
+    expect(Object.keys(compiledPages)).toHaveLength(10);
     for (const [path, module] of Object.entries(compiledPages)) {
       const component = (module as { default: Component }).default;
       expect(render(component).body, path).toContain("data-slot=");
     }
   });
 
-  test("preserves the exact missing upstream label example as a coordinator seam", () => {
+  test("omits only the unportable upstream Label preview", () => {
     const label = source("apps/ui/content/docs/components/label.svx");
-    expect(label).toContain('<ComponentPreview name="checkbox-demo" />');
-    expect(
-      existsSync(
-        resolve(repositoryRoot, "reference/apps/ui/registry/default/particles/checkbox-demo.tsx"),
-      ),
-    ).toBe(false);
+    const evidence = source("docs/porting/components/label.md");
+
+    expect(label).toContain("### With Checkbox");
+    expect(label).not.toContain("checkbox-demo");
+    expect(evidence).toContain("no `checkbox-demo` particle exists");
+    expect(evidence).toContain("omits only the dangling preview reference");
   });
 
   test("keeps the locked D6 ownership set exact", () => {
@@ -164,6 +167,18 @@ describe("D6 form and input documentation inventory", () => {
       .sort();
 
     expect(actual).toEqual([...expectedParticles].sort());
+  });
+
+  test("exposes every D6 documentation page through a typed route", () => {
+    for (const slug of expectedPageSlugs) {
+      const routeRoot = `apps/ui/src/routes/docs/components/${slug}`;
+      const page = source(`${routeRoot}/+page.svelte`);
+      const loader = source(`${routeRoot}/+page.server.ts`);
+
+      expect(page).toContain(`$content/docs/components/${slug}.svx`);
+      expect(page).toContain("data.documentation.metadata.title");
+      expect(loader).toContain(`generatedDocumentationRecord("components/${slug}")`);
+    }
   });
 
   test.each(expectedParticles)("ports %s with exact metadata and modern Svelte source", (id) => {
@@ -184,6 +199,10 @@ describe("D6 form and input documentation inventory", () => {
     );
     expect(particle).not.toMatch(/\b(?:export let|createEventDispatcher)\b|\bon:/);
     expect(particle).not.toMatch(/lucide|<svg\b|<path\b/i);
+    expect(particle).not.toMatch(/from\s+["']@hugeicons\/svelte["']/);
+    for (const [icon] of particle.matchAll(/<HugeiconsIcon\b[\s\S]*?\/>/g)) {
+      expect(icon).toContain("strokeWidth={2}");
+    }
   });
 
   test.each(Object.keys(expectedPagePreviews))(
@@ -194,6 +213,7 @@ describe("D6 form and input documentation inventory", () => {
       expect(page).toContain("pnpm dlx shadcn-svelte@latest add");
       expect(page).not.toMatch(/\b(?:npm|npx|bun|bunx|yarn)\b/);
       expect(page).not.toMatch(/```(?:tsx|jsx)|@base-ui\/react|lucide-react|from ["']react/);
+      expect(page).not.toMatch(/from\s+["']@hugeicons\/svelte["']/);
 
       const previews = [...page.matchAll(/<ComponentPreview\s+name="([^"]+)"/g)].map(
         ([, id]) => id,
@@ -225,5 +245,29 @@ describe("D6 form and input documentation inventory", () => {
       "<NumberField.Root",
     );
     expect(source("apps/ui/content/docs/components/otp-field.svx")).toContain("<OTPField.Root");
+  });
+
+  test("preserves Label typography when optional copy renders as a span", () => {
+    for (const id of ["p-input-14", "p-textarea-8"]) {
+      expect(source(`apps/ui/registry/default/particles/${id}.svelte`)).toContain(
+        '<Label as="span" class="font-normal text-muted-foreground">Optional</Label>',
+      );
+    }
+  });
+
+  test("delegates Group text labels through the public Label component", () => {
+    for (const id of ["p-group-7", "p-group-8", "p-group-17"]) {
+      const particle = source(`apps/ui/registry/default/particles/${id}.svelte`);
+      expect(particle).toContain("delegate={labelDelegate}");
+      expect(particle).toContain("<Label {...props} />");
+    }
+  });
+
+  test("delegates composed Number Fields to one group element", () => {
+    for (const id of ["p-group-14", "p-group-22"]) {
+      const particle = source(`apps/ui/registry/default/particles/${id}.svelte`);
+      expect(particle).toContain("delegate={numberGroup}");
+      expect(particle).toContain("<NumberField.Group {...props} />");
+    }
   });
 });

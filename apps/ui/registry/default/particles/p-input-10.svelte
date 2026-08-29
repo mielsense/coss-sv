@@ -1,22 +1,21 @@
 <script module lang="ts">
-import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
 
-export const meta = defineParticleMeta({
-  components: ["button", "input-group", "popover"],
-  containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64",
-  id: "p-input-10",
-  interactive: true,
-  responsive: false,
-  title: "Input group mimicking a URL bar",
-});
+  export const meta = defineParticleMeta({
+    components: ["button", "input-group", "popover"],
+    containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64",
+    id: "p-input-10",
+    interactive: true,
+    responsive: false,
+    title: "Input group mimicking a URL bar",
+  });
 </script>
 
 <script lang="ts">
-import { InformationCircleIcon, StarIcon } from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/svelte";
-import { Button, buttonVariants, InputGroup, Popover } from "@coss-sv/ui";
+  import { Button, buttonVariants, HugeiconsIcon, InputGroup, Popover } from "@coss-sv/ui";
+  import { InformationCircleIcon, StarIcon } from "@hugeicons/core-free-icons";
 
-let isFavorite = $state(false);
+  let isFavorite = $state(false);
 </script>
 
 <InputGroup.Root class="[--radius-lg:9999px] [--radius:9999rem]">

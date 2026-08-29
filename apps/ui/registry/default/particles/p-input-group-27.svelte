@@ -1,34 +1,36 @@
 <script module lang="ts">
-import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
-export const meta = defineParticleMeta({
-  components: ["button", "input-group", "select", "tooltip"],
-  containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-80",
-  id: "p-input-group-27",
-  interactive: true,
-  responsive: false,
-  title: "Code snippet input with language selector",
-});
+  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  export const meta = defineParticleMeta({
+    components: ["button", "input-group", "select", "tooltip"],
+    containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-80",
+    id: "p-input-group-27",
+    interactive: true,
+    responsive: false,
+    title: "Code snippet input with language selector",
+  });
 </script>
+
 <script lang="ts">
-import { Copy01Icon, Tick01Icon } from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/svelte";
-import { buttonVariants, InputGroup, Select, Tooltip } from "@coss-sv/ui";
-const languages = [
-  { label: "JavaScript", value: "javascript" },
-  { label: "TypeScript", value: "typescript" },
-  { label: "Python", value: "python" },
-  { label: "Go", value: "go" },
-  { label: "Rust", value: "rust" },
-];
-let language = $state("javascript");
-let textarea: HTMLTextAreaElement | null = $state(null);
-let copied = $state(false);
-async function copy() {
-  await navigator.clipboard.writeText(textarea?.value || "");
-  copied = true;
-  setTimeout(() => (copied = false), 2000);
-}
+  import { buttonVariants, HugeiconsIcon, InputGroup, Select, Tooltip } from "@coss-sv/ui";
+  import { Copy01Icon, Tick01Icon } from "@hugeicons/core-free-icons";
+
+  const languages = [
+    { label: "JavaScript", value: "javascript" },
+    { label: "TypeScript", value: "typescript" },
+    { label: "Python", value: "python" },
+    { label: "Go", value: "go" },
+    { label: "Rust", value: "rust" },
+  ];
+  let language = $state("javascript");
+  let textarea: HTMLTextAreaElement | null = $state(null);
+  let copied = $state(false);
+  async function copy() {
+    await navigator.clipboard.writeText(textarea?.value || "");
+    copied = true;
+    setTimeout(() => (copied = false), 2000);
+  }
 </script>
+
 <InputGroup.Root>
   <InputGroup.Textarea
     bind:ref={textarea}

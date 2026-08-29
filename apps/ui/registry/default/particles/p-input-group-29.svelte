@@ -1,19 +1,20 @@
 <script module lang="ts">
-import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
-export const meta = defineParticleMeta({
-  components: ["button", "input-group", "tooltip"],
-  containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-80",
-  id: "p-input-group-29",
-  interactive: true,
-  responsive: false,
-  title: "Chat input with voice and send buttons",
-});
+  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  export const meta = defineParticleMeta({
+    components: ["button", "input-group", "tooltip"],
+    containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-80",
+    id: "p-input-group-29",
+    interactive: true,
+    responsive: false,
+    title: "Chat input with voice and send buttons",
+  });
 </script>
+
 <script lang="ts">
-import { ArrowRight01Icon, Mic01Icon } from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/svelte";
-import { buttonVariants, InputGroup, Tooltip } from "@coss-sv/ui";
+  import { buttonVariants, HugeiconsIcon, InputGroup, Tooltip } from "@coss-sv/ui";
+  import { ArrowRight01Icon, Mic01Icon } from "@hugeicons/core-free-icons";
 </script>
+
 <InputGroup.Root>
   <InputGroup.Textarea placeholder="Type a message…" />
   <InputGroup.Addon align="block-end">

@@ -7,7 +7,10 @@ description: Renders an accessible label associated with controls.
 
 ## Installation
 
-<InstallCommand pnpm="pnpm add @coss-sv/ui" shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/label.json" />
+<InstallCommand
+  pnpm="pnpm add @coss-sv/ui"
+  shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/label.json"
+/>
 
 ## Usage
 
@@ -27,8 +30,8 @@ This is a native Svelte label wrapper rather than a Shards UI part.
 
 A label component that can render as a different element.
 
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
+| Prop | Type                          | Default   | Description                 |
+| ---- | ----------------------------- | --------- | --------------------------- |
 | `as` | `keyof HTMLElementTagNameMap` | `"label"` | Renders a different element |
 
 ## Examples
@@ -36,5 +39,3 @@ A label component that can render as a different element.
 For accessible labelling and validation, prefer using `Field.Label`. See some [related examples](/docs/components/field).
 
 ### With Checkbox
-
-<ComponentPreview name="checkbox-demo" />

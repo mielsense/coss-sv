@@ -10,7 +10,10 @@ links:
 
 ## Installation
 
-<InstallCommand pnpm="pnpm add @coss-sv/ui" shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/input.json" />
+<InstallCommand
+  pnpm="pnpm add @coss-sv/ui"
+  shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/input.json"
+/>
 
 ## Usage
 
@@ -28,10 +31,10 @@ links:
 
 Styled wrapper for the Shards UI Input with custom size options.
 
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `size` | `"sm" \| "default" \| "lg" \| number` | `"default"` | Controls the input height. Number values pass to the native `size` attribute |
-| `unstyled` | `boolean` | `false` | Removes the wrapper styling, including the border and shadow |
+| Prop       | Type                                  | Default     | Description                                                                  |
+| ---------- | ------------------------------------- | ----------- | ---------------------------------------------------------------------------- |
+| `size`     | `"sm" \| "default" \| "lg" \| number` | `"default"` | Controls the input height. Number values pass to the native `size` attribute |
+| `unstyled` | `boolean`                             | `false`     | Removes the wrapper styling, including the border and shadow                 |
 
 ## Examples
 

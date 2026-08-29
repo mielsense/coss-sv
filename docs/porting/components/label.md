@@ -34,6 +34,6 @@ The parity fixture keeps the `p-input-6` root class `flex flex-col items-start g
 
 ## D6 documentation port
 
-The Label page keeps the upstream example order and the exact `checkbox-demo` identifier. Fresh full-tree inspection confirmed that `checkbox-demo` has no source under the permitted `reference/apps/ui/**` boundary, so the page does not invent a replacement. `p-input-6` remains the complete visible Label example and retains its native `for`/`id` association.
+The Label page keeps the complete `p-input-6` example and its native `for`/`id` association. It also retains the upstream “With Checkbox” heading. Fresh full-tree inspection confirmed that `checkbox-demo` has no source under the permitted `reference/apps/ui/**` boundary, so the target omits only the dangling preview reference. It does not invent a replacement or use source outside the licensed subtree.
 
-The D6 source test asserts both the dangling upstream identifier and the missing licensed source. The Label page is deliberately excluded from eager SVX compilation until the coordinator resolves that registry seam; the other nine D6 pages compile and SSR render.
+The D6 source test locks that single deviation: the heading remains, the target page contains no `checkbox-demo` reference, and the evidence record names the missing permitted source. All ten routes typecheck, and the page now participates in production builds without a fabricated registry entry.

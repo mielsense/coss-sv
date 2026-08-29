@@ -1,23 +1,24 @@
 <script module lang="ts">
-import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
-export const meta = defineParticleMeta({
-  components: ["button", "group", "menu"],
-  id: "p-group-13",
-  interactive: true,
-  responsive: false,
-  title: "Group with menu",
-});
+  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  export const meta = defineParticleMeta({
+    components: ["button", "group", "menu"],
+    id: "p-group-13",
+    interactive: true,
+    responsive: false,
+    title: "Group with menu",
+  });
 </script>
+
 <script lang="ts">
-import {
-  ArrowDown01Icon,
-  Download01Icon,
-  Edit01Icon,
-  Share01Icon,
-} from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/svelte";
-import { Button, buttonVariants, Group, Menu } from "@coss-sv/ui";
+  import { Button, buttonVariants, Group, HugeiconsIcon, Menu } from "@coss-sv/ui";
+  import {
+    ArrowDown01Icon,
+    Download01Icon,
+    Edit01Icon,
+    Share01Icon,
+  } from "@hugeicons/core-free-icons";
 </script>
+
 <Group.Root aria-label="Subscription actions">
   <Button>Subscribe</Button>
   <Group.Separator class="bg-primary/72" />

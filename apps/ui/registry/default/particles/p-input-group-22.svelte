@@ -1,20 +1,22 @@
 <script module lang="ts">
-import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
-export const meta = defineParticleMeta({
-  components: ["button", "input-group"],
-  containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64",
-  id: "p-input-group-22",
-  interactive: true,
-  responsive: false,
-  title: "Input group with clear button",
-});
+  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  export const meta = defineParticleMeta({
+    components: ["button", "input-group"],
+    containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64",
+    id: "p-input-group-22",
+    interactive: true,
+    responsive: false,
+    title: "Input group with clear button",
+  });
 </script>
+
 <script lang="ts">
-import { Cancel01Icon } from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/svelte";
-import { Button, InputGroup } from "@coss-sv/ui";
-let value = $state("Clear me");
+  import { Button, HugeiconsIcon, InputGroup } from "@coss-sv/ui";
+  import { Cancel01Icon } from "@hugeicons/core-free-icons";
+
+  let value = $state("Clear me");
 </script>
+
 <InputGroup.Root>
   <InputGroup.Input
     aria-label="Text input with clear button"

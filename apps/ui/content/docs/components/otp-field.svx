@@ -9,7 +9,10 @@ This component provides a Svelte implementation of the COSS OTP Field behavior. 
 
 ## Installation
 
-<InstallCommand pnpm="pnpm add @coss-sv/ui" shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/otp-field.json" />
+<InstallCommand
+  pnpm="pnpm add @coss-sv/ui"
+  shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/otp-field.json"
+/>
 
 ## Usage
 
@@ -39,20 +42,20 @@ Root component. `class` merges with the default layout styles.
 
 Use required `length` for the number of characters. The previous `maxLength` prop from the legacy `input-otp` package is not used.
 
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `size` | `"default" \| "lg"` | `"default"` | Size applied to all slots |
-| `validationType` | `"numeric" \| "alpha" \| "alphanumeric" \| "none"` | `"numeric"` | Accepted character set |
-| `mask` | `boolean` | `false` | Masks entered characters in each slot |
+| Prop             | Type                                               | Default     | Description                           |
+| ---------------- | -------------------------------------------------- | ----------- | ------------------------------------- |
+| `size`           | `"default" \| "lg"`                                | `"default"` | Size applied to all slots             |
+| `validationType` | `"numeric" \| "alpha" \| "alphanumeric" \| "none"` | `"numeric"` | Accepted character set                |
+| `mask`           | `boolean`                                          | `false`     | Masks entered characters in each slot |
 
 ### OTPField.Input
 
 Renders one OTP character input. Slots use DOM order and do not take an index prop.
 
-| Prop | Type | Description |
-| --- | --- | --- |
-| `class` | `string` | Merges with the default slot styles |
-| `placeholder` | `string` | Native placeholder text |
+| Prop          | Type     | Description                         |
+| ------------- | -------- | ----------------------------------- |
+| `class`       | `string` | Merges with the default slot styles |
+| `placeholder` | `string` | Native placeholder text             |
 
 Label the OTP control on the root with `aria-label` or a visible `Label` or `Field.Label`. The first input inherits the field label. Give later slots an explicit label such as `Character 2 of 6`.
 

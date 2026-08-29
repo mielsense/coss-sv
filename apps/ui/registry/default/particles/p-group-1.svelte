@@ -1,27 +1,26 @@
 <script module lang="ts">
-import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
 
-export const meta = defineParticleMeta({
-  components: ["button", "group", "menu"],
-  id: "p-group-1",
-  interactive: true,
-  responsive: false,
-  title: "Basic group",
-});
+  export const meta = defineParticleMeta({
+    components: ["button", "group", "menu"],
+    id: "p-group-1",
+    interactive: true,
+    responsive: false,
+    title: "Basic group",
+  });
 </script>
 
 <script lang="ts">
-import {
-  Archive01Icon,
-  Delete02Icon,
-  Edit01Icon,
-  Files01Icon,
-  Film01Icon,
-  MoreHorizontalIcon,
-  Share01Icon,
-} from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/svelte";
-import { Button, buttonVariants, Group, Menu } from "@coss-sv/ui";
+  import { Button, buttonVariants, Group, HugeiconsIcon, Menu } from "@coss-sv/ui";
+  import {
+    Archive01Icon,
+    Delete02Icon,
+    Edit01Icon,
+    Files01Icon,
+    Film01Icon,
+    MoreHorizontalIcon,
+    Share01Icon,
+  } from "@hugeicons/core-free-icons";
 </script>
 
 <Group.Root aria-label="File actions">

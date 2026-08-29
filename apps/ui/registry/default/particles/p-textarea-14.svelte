@@ -1,18 +1,18 @@
 <script module lang="ts">
-import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
 
-export const meta = defineParticleMeta({
-  components: ["button", "textarea"],
-  containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64",
-  id: "p-textarea-14",
-  interactive: true,
-  responsive: false,
-  title: "Textarea with button aligned right",
-});
+  export const meta = defineParticleMeta({
+    components: ["button", "textarea"],
+    containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64",
+    id: "p-textarea-14",
+    interactive: true,
+    responsive: false,
+    title: "Textarea with button aligned right",
+  });
 </script>
 
 <script lang="ts">
-import { Button, Textarea } from "@coss-sv/ui";
+  import { Button, Textarea } from "@coss-sv/ui";
 </script>
 
 <div class="flex flex-col gap-2">

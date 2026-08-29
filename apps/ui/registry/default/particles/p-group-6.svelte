@@ -1,33 +1,32 @@
 <script module lang="ts">
-import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
 
-export const meta = defineParticleMeta({
-  components: ["button", "group", "menu"],
-  id: "p-group-6",
-  interactive: true,
-  responsive: false,
-  title: "Group with default button",
-});
+  export const meta = defineParticleMeta({
+    components: ["button", "group", "menu"],
+    id: "p-group-6",
+    interactive: true,
+    responsive: false,
+    title: "Group with default button",
+  });
 </script>
 
 <script lang="ts">
-import {
-  Archive01Icon,
-  Delete02Icon,
-  Edit01Icon,
-  Files01Icon,
-  Film01Icon,
-  MoreHorizontalIcon,
-  Share01Icon,
-} from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/svelte";
-import { Button, buttonVariants, Group, Menu } from "@coss-sv/ui";
+  import { Button, buttonVariants, Group, HugeiconsIcon, Menu } from "@coss-sv/ui";
+  import {
+    Archive01Icon,
+    Delete02Icon,
+    Edit01Icon,
+    Files01Icon,
+    Film01Icon,
+    MoreHorizontalIcon,
+    Share01Icon,
+  } from "@hugeicons/core-free-icons";
 </script>
 
 <Group.Root aria-label="File actions">
-  <Button> <HugeiconsIcon aria-hidden="true" icon={Files01Icon} strokeWidth={2} /> Files </Button>
+  <Button><HugeiconsIcon aria-hidden="true" icon={Files01Icon} strokeWidth={2} /> Files</Button>
   <Group.Separator class="bg-primary/72" />
-  <Button> <HugeiconsIcon aria-hidden="true" icon={Film01Icon} strokeWidth={2} /> Media </Button>
+  <Button><HugeiconsIcon aria-hidden="true" icon={Film01Icon} strokeWidth={2} /> Media</Button>
   <Group.Separator class="bg-primary/72" />
   <Menu.Root>
     <Menu.Trigger aria-label="Menu" class={buttonVariants({ size: "icon", variant: "default" })}>

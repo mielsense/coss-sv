@@ -1,18 +1,18 @@
 <script module lang="ts">
-import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
 
-export const meta = defineParticleMeta({
-  components: ["field", "fieldset", "input"],
-  containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64",
-  id: "p-fieldset-1",
-  interactive: true,
-  responsive: false,
-  title: "Fieldset with multiple fields",
-});
+  export const meta = defineParticleMeta({
+    components: ["field", "fieldset", "input"],
+    containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64",
+    id: "p-fieldset-1",
+    interactive: true,
+    responsive: false,
+    title: "Fieldset with multiple fields",
+  });
 </script>
 
 <script lang="ts">
-import { Field, Fieldset, Input } from "@coss-sv/ui";
+  import { Field, Fieldset, Input } from "@coss-sv/ui";
 </script>
 
 <Fieldset.Root class="flex w-full flex-col gap-6">

@@ -1,22 +1,21 @@
 <script module lang="ts">
-import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
 
-export const meta = defineParticleMeta({
-  components: ["button", "input-group", "tooltip"],
-  containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64",
-  id: "p-input-9",
-  interactive: true,
-  responsive: false,
-  title: "Password input with toggle visibility",
-});
+  export const meta = defineParticleMeta({
+    components: ["button", "input-group", "tooltip"],
+    containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64",
+    id: "p-input-9",
+    interactive: true,
+    responsive: false,
+    title: "Password input with toggle visibility",
+  });
 </script>
 
 <script lang="ts">
-import { ViewIcon, ViewOffIcon } from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/svelte";
-import { buttonVariants, InputGroup, Tooltip } from "@coss-sv/ui";
+  import { buttonVariants, HugeiconsIcon, InputGroup, Tooltip } from "@coss-sv/ui";
+  import { ViewIcon, ViewOffIcon } from "@hugeicons/core-free-icons";
 
-let showPassword = $state(false);
+  let showPassword = $state(false);
 </script>
 
 <InputGroup.Root>

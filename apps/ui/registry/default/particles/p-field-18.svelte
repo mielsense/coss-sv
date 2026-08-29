@@ -1,38 +1,38 @@
 <script module lang="ts">
-import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
 
-export const meta = defineParticleMeta({
-  components: ["button", "checkbox", "field", "form", "input", "select"],
-  containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64",
-  id: "p-field-18",
-  interactive: true,
-  responsive: false,
-  title: "Complete form built with field",
-});
+  export const meta = defineParticleMeta({
+    components: ["button", "checkbox", "field", "form", "input", "select"],
+    containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64",
+    id: "p-field-18",
+    interactive: true,
+    responsive: false,
+    title: "Complete form built with field",
+  });
 </script>
 
 <script lang="ts">
-import { Button, Checkbox, Field, Form, Input, Select } from "@coss-sv/ui";
+  import { Button, Checkbox, Field, Form, Input, Select } from "@coss-sv/ui";
 
-const roles = [
-  { label: "Select your role", value: null },
-  { label: "Developer", value: "developer" },
-  { label: "Designer", value: "designer" },
-  { label: "Product Manager", value: "manager" },
-  { label: "Other", value: "other" },
-];
-let loading = $state(false);
+  const roles = [
+    { label: "Select your role", value: null },
+    { label: "Developer", value: "developer" },
+    { label: "Designer", value: "designer" },
+    { label: "Product Manager", value: "manager" },
+    { label: "Other", value: "other" },
+  ];
+  let loading = $state(false);
 
-async function submit(event: SubmitEvent) {
-  event.preventDefault();
-  const formData = new FormData(event.currentTarget as HTMLFormElement);
-  loading = true;
-  await new Promise((resolve) => setTimeout(resolve, 800));
-  loading = false;
-  alert(
-    `Full name: ${formData.get("fullName") || ""}\nEmail: ${formData.get("email") || ""}\nRole: ${formData.get("role") || ""}\nNewsletter: ${formData.get("newsletter")}`,
-  );
-}
+  async function submit(event: SubmitEvent) {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget as HTMLFormElement);
+    loading = true;
+    await new Promise((resolve) => setTimeout(resolve, 800));
+    loading = false;
+    alert(
+      `Full name: ${formData.get("fullName") || ""}\nEmail: ${formData.get("email") || ""}\nRole: ${formData.get("role") || ""}\nNewsletter: ${formData.get("newsletter")}`,
+    );
+  }
 </script>
 
 <Form class="flex w-full flex-col gap-4" onsubmit={submit}>

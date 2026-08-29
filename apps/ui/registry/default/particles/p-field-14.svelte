@@ -1,18 +1,18 @@
 <script module lang="ts">
-import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
 
-export const meta = defineParticleMeta({
-  components: ["field", "fieldset", "radio-group"],
-  containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64",
-  id: "p-field-14",
-  interactive: true,
-  responsive: false,
-  title: "Field with radio group",
-});
+  export const meta = defineParticleMeta({
+    components: ["field", "fieldset", "radio-group"],
+    containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64",
+    id: "p-field-14",
+    interactive: true,
+    responsive: false,
+    title: "Field with radio group",
+  });
 </script>
 
 <script lang="ts">
-import { Field, Fieldset, RadioGroup } from "@coss-sv/ui";
+  import { Field, Fieldset, RadioGroup } from "@coss-sv/ui";
 </script>
 
 <Field.Root as="fieldset" class="gap-2" name="plan">
