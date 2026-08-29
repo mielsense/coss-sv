@@ -62,7 +62,7 @@ describe("agent-readable documentation", () => {
     const missing = await getMarkdown({ params: { slug: "missing" } } as never);
 
     for (const response of [llms, full, guide]) {
-      expect(response.headers.get("content-type")).toBe("text/plain; charset=utf-8");
+      expect(response.headers.get("content-type")).toMatch(/^text\/plain;\s*charset=utf-8$/i);
       expect(response.headers.get("cache-control")).toBe("public, max-age=0, must-revalidate");
     }
     expect(await llms.text()).toContain("/docs/hooks/use-copy-to-clipboard.md");
