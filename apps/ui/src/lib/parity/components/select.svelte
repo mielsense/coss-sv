@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Avatar, Button, Field, Form } from "@coss-sv/ui";
+  import { Avatar, Button, Field, Form, HugeiconsIcon } from "@coss-sv/ui";
   import {
     CableIcon,
     CodeXmlIcon,
@@ -7,7 +7,6 @@
     LayersIcon,
     ZapIcon,
   } from "@hugeicons/core-free-icons";
-  import { HugeiconsIcon } from "@coss-sv/ui";
   import * as Select from "../../../../../../packages/ui/dist/components/ui/select/index.js";
 
   const frameworks = [

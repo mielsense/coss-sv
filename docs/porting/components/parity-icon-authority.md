@@ -40,7 +40,8 @@ which maps to `Share03Icon`. Tooltip uses the three-node `Share2Icon`, which map
 `Share08Icon`. The Input Group password control maps `EyeOffIcon` to the slashed
 `ViewOffSlashIcon` rather than the unslashed closed-eye glyph. The address Autocomplete pin maps
 to the two-node `Location01Icon`, and the detached Popover bell maps to `Notification01Icon` with
-its closed body and clapper.
+its closed body and clapper. COSS arrow-left and arrow-right glyphs map to the full-shaft
+`ArrowLeft02Icon` and `ArrowRight02Icon` datasets.
 
 No source under `reference/packages/ui/**` was read or used.
 
@@ -61,7 +62,8 @@ central renderer. The package Sidebar trigger imports the same renderer internal
 `@hugeicons/svelte` imports and copied glyph markup, preserve the three theme illustrations, and
 bind all 204 icon component and snippet sites to explicit official datasets. The contract includes
 popup-only, conditional, and dynamic sites that closed-state SSR does not emit, plus the direct
-core icon sites in Autocomplete, Combobox, Command, and Select. Every contract count and dataset
-list must be nonzero. The test server-renders each bound dataset and the real Sidebar provider
-fixture, then compares the complete node geometry and `strokeWidth={2}` output. A missing site,
-empty render, or different glyph fails the test.
+core icon sites in Autocomplete, Combobox, Command, and Select. Each direct site must declare the
+literal `strokeWidth={2}` binding. Every contract count and dataset list must be nonzero. The test
+server-renders each bound dataset and the real Sidebar provider fixture, then compares the complete
+node geometry and stroke-two output. A missing site, changed stroke binding, empty render, or
+different glyph fails the test.

@@ -6,9 +6,8 @@ import {
   AlertCircleIcon,
   ArrowDown01Icon,
   ArrowDown02Icon,
-  ArrowLeft01Icon,
   ArrowLeft02Icon,
-  ArrowRight01Icon,
+  ArrowRight02Icon,
   ArrowTurnBackwardIcon,
   ArrowUp01Icon,
   ArrowUp02Icon,
@@ -132,8 +131,8 @@ const semanticIconData = {
   "align-left": TextAlignLeftIcon,
   "align-right": TextAlignRightIcon,
   "arrow-down": ArrowDown01Icon,
-  "arrow-left": ArrowLeft01Icon,
-  "arrow-right": ArrowRight01Icon,
+  "arrow-left": ArrowLeft02Icon,
+  "arrow-right": ArrowRight02Icon,
   "arrow-up": ArrowUp01Icon,
   bell: Notification01Icon,
   bookmark: Bookmark02Icon,
@@ -214,8 +213,8 @@ function site(key: string, count: number, ...icons: OfficialIconName[]): SiteCon
 const fixtureIconContracts = {
   "alert.svelte": [site('component:FixtureIcon:name="info-circle"', 1, "info-circle")],
   "autocomplete.svelte": [
-    site("component:HugeiconsIcon:icon={Search01Icon}", 1, "Search01Icon"),
-    site("component:HugeiconsIcon:icon={Location01Icon}", 1, "Location01Icon"),
+    site("component:HugeiconsIcon:icon={Search01Icon}:strokeWidth={2}", 1, "Search01Icon"),
+    site("component:HugeiconsIcon:icon={Location01Icon}:strokeWidth={2}", 1, "Location01Icon"),
   ],
   "badge.svelte": [site('component:FixtureIcon:name="check"', 1, "check")],
   "button.svelte": [
@@ -236,18 +235,26 @@ const fixtureIconContracts = {
     site('component:FixtureIcon:name="trash"', 1, "trash"),
   ],
   "combobox.svelte": [
-    site("component:HugeiconsIcon:icon={Search01Icon}", 1, "Search01Icon"),
-    site("component:HugeiconsIcon:icon={Cancel01Icon}", 1, "Cancel01Icon"),
-    site("component:HugeiconsIcon:icon={UnfoldMoreIcon}", 3, "UnfoldMoreIcon"),
+    site("component:HugeiconsIcon:icon={Search01Icon}:strokeWidth={2}", 1, "Search01Icon"),
+    site("component:HugeiconsIcon:icon={Cancel01Icon}:strokeWidth={2}", 1, "Cancel01Icon"),
+    site("component:HugeiconsIcon:icon={UnfoldMoreIcon}:strokeWidth={2}", 3, "UnfoldMoreIcon"),
   ],
   "command.svelte": [
-    site("component:HugeiconsIcon:icon={ArrowUp02Icon}", 1, "ArrowUp02Icon"),
-    site("component:HugeiconsIcon:icon={ArrowDown02Icon}", 1, "ArrowDown02Icon"),
-    site("component:HugeiconsIcon:icon={CornerDownLeftIcon}", 2, "CornerDownLeftIcon"),
-    site("component:HugeiconsIcon:icon={SparklesIcon}", 2, "SparklesIcon"),
-    site("component:HugeiconsIcon:icon={Search01Icon}", 1, "Search01Icon"),
-    site("component:HugeiconsIcon:icon={ArrowLeft02Icon}", 1, "ArrowLeft02Icon"),
-    site("component:HugeiconsIcon:icon={CircleQuestionMarkIcon}", 1, "CircleQuestionMarkIcon"),
+    site("component:HugeiconsIcon:icon={ArrowUp02Icon}:strokeWidth={2}", 1, "ArrowUp02Icon"),
+    site("component:HugeiconsIcon:icon={ArrowDown02Icon}:strokeWidth={2}", 1, "ArrowDown02Icon"),
+    site(
+      "component:HugeiconsIcon:icon={CornerDownLeftIcon}:strokeWidth={2}",
+      2,
+      "CornerDownLeftIcon",
+    ),
+    site("component:HugeiconsIcon:icon={SparklesIcon}:strokeWidth={2}", 2, "SparklesIcon"),
+    site("component:HugeiconsIcon:icon={Search01Icon}:strokeWidth={2}", 1, "Search01Icon"),
+    site("component:HugeiconsIcon:icon={ArrowLeft02Icon}:strokeWidth={2}", 1, "ArrowLeft02Icon"),
+    site(
+      "component:HugeiconsIcon:icon={CircleQuestionMarkIcon}:strokeWidth={2}",
+      1,
+      "CircleQuestionMarkIcon",
+    ),
   ],
   "context-menu.svelte": [
     site('component:FixtureIcon:name="pencil"', 1, "pencil"),
@@ -357,9 +364,9 @@ const fixtureIconContracts = {
     site('component:FixtureIcon:name="redo"', 1, "redo"),
   ],
   "select.svelte": [
-    site("component:HugeiconsIcon:icon={CableIcon}", 1, "CableIcon"),
+    site("component:HugeiconsIcon:icon={CableIcon}:strokeWidth={2}", 1, "CableIcon"),
     site(
-      "component:HugeiconsIcon:icon={item.icon}",
+      "component:HugeiconsIcon:icon={item.icon}:strokeWidth={2}",
       2,
       "LayersIcon",
       "ZapIcon",
@@ -510,14 +517,17 @@ function extractIconSites(source: string): Map<string, number> {
       node.type === "Component" &&
       (node.name === "FixtureIcon" || node.name === "HugeiconsIcon")
     ) {
-      const bindingName = node.name === "FixtureIcon" ? "name" : "icon";
-      const binding = node.attributes?.find(
-        (attribute) => attribute.type === "Attribute" && attribute.name === bindingName,
-      );
-      if (binding?.start === undefined || binding.end === undefined) {
-        throw new Error(`${node.name} is missing its ${bindingName} binding`);
-      }
-      add(`component:${node.name}:${normalizeSource(source.slice(binding.start, binding.end))}`);
+      const bindingNames = node.name === "FixtureIcon" ? ["name"] : ["icon", "strokeWidth"];
+      const bindings = bindingNames.map((bindingName) => {
+        const binding = node.attributes?.find(
+          (attribute) => attribute.type === "Attribute" && attribute.name === bindingName,
+        );
+        if (binding?.start === undefined || binding.end === undefined) {
+          throw new Error(`${node.name} is missing its ${bindingName} binding`);
+        }
+        return normalizeSource(source.slice(binding.start, binding.end));
+      });
+      add(`component:${node.name}:${bindings.join(":")}`);
     }
 
     if (
@@ -645,6 +655,44 @@ describe("parity fixture icon migration", () => {
     }
 
     expect(coveredSiteCount).toBe(204);
+  });
+
+  it("rejects changed or missing stroke-two bindings at every direct icon site", () => {
+    let changedMutations = 0;
+    let removedMutations = 0;
+
+    for (const fileName of Object.keys(directCoreImports) as (keyof typeof directCoreImports)[]) {
+      const source = readFileSync(resolve(fixtureRoot, fileName), "utf8");
+      const contract = fixtureIconContracts[fileName];
+      const expectedSites = new Map(contract.map(({ count, key }) => [key, count]));
+      const expectedDirectCount = contract
+        .filter(({ key }) => key.startsWith("component:HugeiconsIcon:"))
+        .reduce((count, siteContract) => count + siteContract.count, 0);
+      const strokeBindings = [...source.matchAll(/strokeWidth=\{2\}/g)];
+
+      expect(strokeBindings, `${fileName}: direct stroke binding count`).toHaveLength(
+        expectedDirectCount,
+      );
+      for (const binding of strokeBindings) {
+        const index = binding.index;
+        const changedSource = `${source.slice(0, index)}strokeWidth={1}${source.slice(index + binding[0].length)}`;
+        expect(
+          extractIconSites(changedSource),
+          `${fileName}: changed stroke binding at ${index}`,
+        ).not.toEqual(expectedSites);
+        changedMutations += 1;
+
+        const removedSource = `${source.slice(0, index)}${source.slice(index + binding[0].length)}`;
+        expect(
+          () => extractIconSites(removedSource),
+          `${fileName}: removed stroke binding at ${index}`,
+        ).toThrow("HugeiconsIcon is missing its strokeWidth binding");
+        removedMutations += 1;
+      }
+    }
+
+    expect(changedMutations).toBe(19);
+    expect(removedMutations).toBe(19);
   });
 
   it("imports every direct fixture dataset from the official core package", () => {

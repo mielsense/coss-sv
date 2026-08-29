@@ -3,6 +3,7 @@
     Button,
     buttonVariants,
     EmptyMedia,
+    HugeiconsIcon,
     Input,
     Kbd,
     KbdGroup,
@@ -19,7 +20,6 @@
     Search01Icon,
     SparklesIcon,
   } from "@hugeicons/core-free-icons";
-  import { HugeiconsIcon } from "@coss-sv/ui";
   import * as Command from "../../../../../../packages/ui/dist/components/ui/command/index.js";
 
   type Item = { keywords?: string[]; label: string; shortcut?: string; value: string };
