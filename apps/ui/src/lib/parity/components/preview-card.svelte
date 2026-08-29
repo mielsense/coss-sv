@@ -34,5 +34,5 @@
   <FixtureIcon aria-hidden="true" class="size-3" name="star" />
 {/snippet}
 {#snippet cornerUpLeftIcon()}
-  <FixtureIcon aria-hidden="true" class="size-3" name="redo" />
+  <FixtureIcon aria-hidden="true" class="size-3" name="corner-up-left" />
 {/snippet}

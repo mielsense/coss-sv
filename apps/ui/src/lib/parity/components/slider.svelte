@@ -188,7 +188,7 @@
           size="icon"
           variant="outline"
         >
-          <FixtureIcon aria-hidden="true" name="plus-sign" />
+          <FixtureIcon aria-hidden="true" name="plus" />
         </Button>
       </div>
     </Field.Root>

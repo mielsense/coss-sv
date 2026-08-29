@@ -2,9 +2,9 @@
 
 ## Scope
 
-This record covers the icon-only migration in `apps/ui/src/lib/parity/components/**` and the
-package Sidebar trigger. It does not change component behavior, registry particles, registry
-metadata, or shared navigation.
+This record covers the icon-only migration in `apps/ui/src/lib/parity/components/**`, the package
+Select scroll controls, and the package Sidebar trigger. It does not change component behavior,
+registry particles, registry metadata, or shared navigation.
 
 Owned fixtures audited:
 
@@ -12,6 +12,7 @@ Owned fixtures audited:
   Empty, Field, Group, Input Group, Menu, Number Field, Popover, Preview Card, Select, Slider,
   Tabs, Toast, Toggle Group, Toggle, Toolbar, and Tooltip.
 - `packages/ui/src/components/ui/sidebar/sidebar-trigger.svelte`.
+- `packages/ui/src/components/ui/select/select-popup.svelte`.
 - Radio Group's three `88 × 70` theme preview illustrations are content graphics, not glyphs, and
   remain inline SVG.
 
@@ -43,6 +44,12 @@ to the two-node `Location01Icon`, and the detached Popover bell maps to `Notific
 its closed body and clapper. COSS arrow-left and arrow-right glyphs map to the full-shaft
 `ArrowLeft02Icon` and `ArrowRight02Icon` datasets.
 
+The Preview Card fork count maps COSS `CornerUpLeftIcon` to Hugeicons `CornerUpLeftIcon`. The
+Slider reset maps `RotateCcwIcon` to the identically named Hugeicons dataset, and the Slider add
+button shares `Add01Icon` with the other COSS `PlusIcon` sites. Select's scroll controls use
+`ChevronUpIcon` and `ChevronDownIcon`; their geometry happens to match the current Hugeicons
+`ArrowUp01Icon` and `ArrowDown01Icon` data, but the implementation keeps the COSS icon identities.
+
 No source under `reference/packages/ui/**` was read or used.
 
 ## Shards evidence
@@ -67,3 +74,9 @@ literal `strokeWidth={2}` binding. Every contract count and dataset list must be
 server-renders each bound dataset and the real Sidebar provider fixture, then compares the complete
 node geometry and stroke-two output. A missing site, changed stroke binding, empty render, or
 different glyph fails the test.
+
+A separate high-risk authority table records each permitted COSS source site, its imported COSS
+icon name, the chosen Hugeicons export, the target source fragments, and a SHA-256 hash of the
+official icon data. This table covers the distinct share glyphs, eye-off, address pin, bell,
+full-shaft horizontal arrows, Preview Card fork, Slider reset and add, Select scroll controls, and
+the Sidebar trigger. It does not derive expectations from the semantic fixture map.

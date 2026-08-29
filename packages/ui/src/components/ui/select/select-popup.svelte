@@ -16,7 +16,7 @@
 </script>
 
 <script lang="ts">
-  import { ArrowDown01Icon, ArrowUp01Icon } from "@hugeicons/core-free-icons";
+  import { ChevronDownIcon, ChevronUpIcon } from "@hugeicons/core-free-icons";
   import { Select as S } from "@shardsui/svelte";
   import { tick } from "svelte";
   import HugeiconsIcon from "$lib/hugeicons-icon.svelte";
@@ -131,7 +131,7 @@
         ><HugeiconsIcon
           aria-hidden="true"
           class="relative size-4.5 sm:size-4"
-          icon={ArrowUp01Icon}
+          icon={ChevronUpIcon}
           strokeWidth={2}
         /></S.ScrollUpArrow
       >
@@ -149,7 +149,7 @@
         ><HugeiconsIcon
           aria-hidden="true"
           class="relative size-4.5 sm:size-4"
-          icon={ArrowDown01Icon}
+          icon={ChevronDownIcon}
           strokeWidth={2}
         /></S.ScrollDownArrow
       ></S.Popup

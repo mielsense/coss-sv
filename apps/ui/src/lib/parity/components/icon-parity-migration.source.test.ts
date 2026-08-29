@@ -1,3 +1,4 @@
+import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { HugeiconsIcon } from "@coss-sv/ui";
@@ -8,7 +9,6 @@ import {
   ArrowDown02Icon,
   ArrowLeft02Icon,
   ArrowRight02Icon,
-  ArrowTurnBackwardIcon,
   ArrowUp01Icon,
   ArrowUp02Icon,
   Bookmark02Icon,
@@ -17,10 +17,12 @@ import {
   CableIcon,
   Cancel01Icon,
   ChevronDownIcon,
+  ChevronUpIcon,
   CircleQuestionMarkIcon,
   CodeXmlIcon,
   CopyIcon,
   CornerDownLeftIcon,
+  CornerUpLeftIcon,
   Delete02Icon,
   DollarSignIcon,
   Download01Icon,
@@ -43,9 +45,8 @@ import {
   PencilIcon,
   PercentIcon,
   PlayIcon,
-  PlusSignIcon,
   PreviousIcon,
-  ReloadIcon,
+  RotateCcwIcon,
   Route01Icon,
   Search01Icon,
   SearchAddIcon,
@@ -141,6 +142,8 @@ const semanticIconData = {
   cancel: Cancel01Icon,
   check: Tick02Icon,
   "chevron-down": ChevronDownIcon,
+  "chevron-up": ChevronUpIcon,
+  "corner-up-left": CornerUpLeftIcon,
   copy: CopyIcon,
   currency: DollarSignIcon,
   download: Download01Icon,
@@ -163,10 +166,8 @@ const semanticIconData = {
   percent: PercentIcon,
   play: PlayIcon,
   plus: Add01Icon,
-  "plus-sign": PlusSignIcon,
   previous: PreviousIcon,
-  redo: ArrowTurnBackwardIcon,
-  reset: ReloadIcon,
+  "rotate-ccw": RotateCcwIcon,
   route: Route01Icon,
   save: FloppyDiskIcon,
   search: Search01Icon,
@@ -341,11 +342,11 @@ const fixtureIconContracts = {
   ],
   "number-field.svelte": [
     site('component:FixtureIcon:name="unfold-more"', 1, "unfold-more"),
-    site('component:FixtureIcon:name="arrow-up"', 1, "arrow-up"),
+    site('component:FixtureIcon:name="chevron-up"', 1, "chevron-up"),
     site('component:FixtureIcon:name="check"', 1, "check"),
-    site('component:FixtureIcon:name="arrow-down"', 1, "arrow-down"),
+    site('component:FixtureIcon:name="chevron-down"', 1, "chevron-down"),
     site('component:FixtureIcon:name="arrow-right"', 1, "arrow-right"),
-    site('component:FixtureIcon:name="reset"', 1, "reset"),
+    site('component:FixtureIcon:name="rotate-ccw"', 1, "rotate-ccw"),
   ],
   "popover.svelte": [
     site("render:xIcon()", 1, "cancel"),
@@ -359,9 +360,9 @@ const fixtureIconContracts = {
   ],
   "preview-card.svelte": [
     site("render:starIcon()", 1, "star"),
-    site("render:cornerUpLeftIcon()", 1, "redo"),
+    site("render:cornerUpLeftIcon()", 1, "corner-up-left"),
     site('component:FixtureIcon:name="star"', 1, "star"),
-    site('component:FixtureIcon:name="redo"', 1, "redo"),
+    site('component:FixtureIcon:name="corner-up-left"', 1, "corner-up-left"),
   ],
   "select.svelte": [
     site("component:HugeiconsIcon:icon={CableIcon}:strokeWidth={2}", 1, "CableIcon"),
@@ -378,7 +379,7 @@ const fixtureIconContracts = {
     site('component:FixtureIcon:name="volume-mute"', 1, "volume-mute"),
     site('component:FixtureIcon:name="volume-high"', 1, "volume-high"),
     site('component:FixtureIcon:name="minus"', 1, "minus"),
-    site('component:FixtureIcon:name="plus-sign"', 1, "plus-sign"),
+    site('component:FixtureIcon:name="plus"', 1, "plus"),
   ],
   "tabs.svelte": [
     site("render:houseIcon()", 5, "home"),
@@ -487,6 +488,197 @@ const selectDataBindings = [
   '{ icon: GlobeIcon, label: "Network", value: "network" }',
   '{ icon: CodeXmlIcon, label: "Development", value: "development" }',
 ] as const;
+
+type AuthorityTarget = {
+  count: number;
+  file: string;
+  fragment: string;
+  root: "fixture" | "package";
+};
+type CossIconAuthorityContract = {
+  cossIcon: string;
+  data: IconData;
+  hash: string;
+  hugeicon: string;
+  semanticName?: FixtureIconName;
+  sourceSite: string;
+  targets: readonly AuthorityTarget[];
+};
+
+const fixtureTarget = (file: string, fragment: string, count = 1): AuthorityTarget => ({
+  count,
+  file,
+  fragment,
+  root: "fixture",
+});
+const packageTarget = (file: string, fragment: string, count = 1): AuthorityTarget => ({
+  count,
+  file,
+  fragment,
+  root: "package",
+});
+
+const cossIconAuthority: readonly CossIconAuthorityContract[] = [
+  {
+    cossIcon: "ShareIcon",
+    data: Share03Icon,
+    hash: "1f5a0d4fb4c41b86de394d7b5f563903023dffb966fb6534797e8f5572e7bcab",
+    hugeicon: "Share03Icon",
+    semanticName: "share",
+    sourceSite: "particles/p-context-menu-6.tsx",
+    targets: [fixtureTarget("context-menu.svelte", 'name="share"')],
+  },
+  {
+    cossIcon: "ShareIcon",
+    data: Share03Icon,
+    hash: "1f5a0d4fb4c41b86de394d7b5f563903023dffb966fb6534797e8f5572e7bcab",
+    hugeicon: "Share03Icon",
+    semanticName: "share",
+    sourceSite: "particles/p-drawer-13.tsx",
+    targets: [fixtureTarget("drawer.svelte", 'name="share"', 2)],
+  },
+  {
+    cossIcon: "Share2Icon",
+    data: Share08Icon,
+    hash: "b07e61c7d90c1324f8d5bbdaf4153bcd555f0bc368770747b214595fcb5755b7",
+    hugeicon: "Share08Icon",
+    semanticName: "share-2",
+    sourceSite: "particles/p-tooltip-4.tsx",
+    targets: [fixtureTarget("tooltip.svelte", 'name="share-2"')],
+  },
+  {
+    cossIcon: "EyeOffIcon",
+    data: ViewOffSlashIcon,
+    hash: "90b25f0f817aa882abb717d12c5ed7ef163040bafee7941c2bb18bc4e7f79d97",
+    hugeicon: "ViewOffSlashIcon",
+    semanticName: "eye-off",
+    sourceSite: "particles/p-input-group-26.tsx",
+    targets: [fixtureTarget("input-group.svelte", 'isPasswordVisible ? "eye-off" : "eye"')],
+  },
+  {
+    cossIcon: "MapPinIcon",
+    data: Location01Icon,
+    hash: "e2da75757c78d5a8c8b6eb724eac876ade6ea7d96bd22aa5e837e6272cf49215",
+    hugeicon: "Location01Icon",
+    sourceSite: "particles/p-autocomplete-16.tsx",
+    targets: [fixtureTarget("autocomplete.svelte", "icon={Location01Icon}")],
+  },
+  {
+    cossIcon: "BellIcon",
+    data: Notification01Icon,
+    hash: "9aeffa18660a220b4bbf3511c530b939d8718a6acf002fdd6e19ab608fc41abc",
+    hugeicon: "Notification01Icon",
+    semanticName: "bell",
+    sourceSite: "particles/p-popover-3.tsx",
+    targets: [fixtureTarget("popover.svelte", 'name="bell"')],
+  },
+  {
+    cossIcon: "ArrowLeftIcon",
+    data: ArrowLeft02Icon,
+    hash: "ba1578b053fc1710770f596628a196c89adac19be4a49984cc6a976939c55543",
+    hugeicon: "ArrowLeft02Icon",
+    semanticName: "arrow-left",
+    sourceSite: "particles/p-group-10.tsx",
+    targets: [fixtureTarget("group.svelte", 'icon("arrow-left", true)')],
+  },
+  {
+    cossIcon: "ArrowRightIcon",
+    data: ArrowRight02Icon,
+    hash: "3744ff279af9fb84f25144c9f23e999b38258db40caf304215dc0879c8c64bd2",
+    hugeicon: "ArrowRight02Icon",
+    semanticName: "arrow-right",
+    sourceSite: "particles/p-group-10.tsx",
+    targets: [fixtureTarget("group.svelte", 'icon("arrow-right", true)')],
+  },
+  {
+    cossIcon: "ArrowRightIcon",
+    data: ArrowRight02Icon,
+    hash: "3744ff279af9fb84f25144c9f23e999b38258db40caf304215dc0879c8c64bd2",
+    hugeicon: "ArrowRight02Icon",
+    semanticName: "arrow-right",
+    sourceSite: "particles/p-field-6.tsx",
+    targets: [fixtureTarget("field.svelte", 'name="arrow-right"')],
+  },
+  {
+    cossIcon: "ArrowRightIcon",
+    data: ArrowRight02Icon,
+    hash: "3744ff279af9fb84f25144c9f23e999b38258db40caf304215dc0879c8c64bd2",
+    hugeicon: "ArrowRight02Icon",
+    semanticName: "arrow-right",
+    sourceSite: "particles/p-group-14.tsx",
+    targets: [fixtureTarget("number-field.svelte", 'name="arrow-right"')],
+  },
+  {
+    cossIcon: "ArrowRightIcon",
+    data: ArrowRight02Icon,
+    hash: "3744ff279af9fb84f25144c9f23e999b38258db40caf304215dc0879c8c64bd2",
+    hugeicon: "ArrowRight02Icon",
+    semanticName: "arrow-right",
+    sourceSite: "particles/p-input-group-15.tsx",
+    targets: [fixtureTarget("input-group.svelte", 'icon("arrow-right", true)')],
+  },
+  {
+    cossIcon: "CornerUpLeftIcon",
+    data: CornerUpLeftIcon,
+    hash: "197c4447d1d95a818146559dbfd69ee67e2e9863ff1a28faaa551013575ac4df",
+    hugeicon: "CornerUpLeftIcon",
+    semanticName: "corner-up-left",
+    sourceSite: "particles/p-preview-card-1.tsx",
+    targets: [fixtureTarget("preview-card.svelte", 'name="corner-up-left"')],
+  },
+  {
+    cossIcon: "RotateCcwIcon",
+    data: RotateCcwIcon,
+    hash: "e728b4082e4d76673551aea841d6b0d414ba8725d43b4a6cf190da3535bbe23c",
+    hugeicon: "RotateCcwIcon",
+    semanticName: "rotate-ccw",
+    sourceSite: "particles/p-slider-21.tsx",
+    targets: [fixtureTarget("number-field.svelte", 'name="rotate-ccw"')],
+  },
+  {
+    cossIcon: "PlusIcon",
+    data: Add01Icon,
+    hash: "a5a294ca98632c42d8b4ae02413c9fa429ad7cae03a4734e2e2f84b6a43c1a94",
+    hugeicon: "Add01Icon",
+    semanticName: "plus",
+    sourceSite: "particles/p-slider-14.tsx",
+    targets: [fixtureTarget("slider.svelte", 'name="plus"')],
+  },
+  {
+    cossIcon: "ChevronUpIcon",
+    data: ChevronUpIcon,
+    hash: "164220dcb897ab32ba98b545f3f4222d7bb1eaa1d6d2771bec6bd37b9c508812",
+    hugeicon: "ChevronUpIcon",
+    semanticName: "chevron-up",
+    sourceSite: "ui/select.tsx:scroll-up",
+    targets: [
+      packageTarget("components/ui/select/select-popup.svelte", "icon={ChevronUpIcon}"),
+      fixtureTarget("number-field.svelte", 'name="chevron-up"'),
+    ],
+  },
+  {
+    cossIcon: "ChevronDownIcon",
+    data: ChevronDownIcon,
+    hash: "0b8a8f5fe27dce2bf2f723623a596788e99f42c353524ad27b968b7b9ae9d241",
+    hugeicon: "ChevronDownIcon",
+    semanticName: "chevron-down",
+    sourceSite: "ui/select.tsx:scroll-down",
+    targets: [
+      packageTarget("components/ui/select/select-popup.svelte", "icon={ChevronDownIcon}"),
+      fixtureTarget("number-field.svelte", 'name="chevron-down"'),
+    ],
+  },
+  {
+    cossIcon: "PanelLeftIcon",
+    data: SidebarLeftIcon,
+    hash: "4a434323253de3718fdecfe8bfb87a418f0853e0835e1109c1a07f3ce9233f03",
+    hugeicon: "SidebarLeftIcon",
+    sourceSite: "ui/sidebar.tsx:trigger",
+    targets: [
+      packageTarget("components/ui/sidebar/sidebar-trigger.svelte", "icon={SidebarLeftIcon}"),
+    ],
+  },
+];
 
 function normalizeSource(value: string): string {
   return value.replace(/\s+/g, " ").trim();
@@ -621,6 +813,70 @@ describe("parity fixture icon migration", () => {
       expect(readFileSync(resolve(fixtureRoot, fileName), "utf8"), fileName).toMatch(
         /(?:FixtureIcon|HugeiconsIcon)/,
       );
+    }
+  });
+
+  it("locks high-risk COSS source identities to named official Hugeicons datasets", () => {
+    expect(
+      cossIconAuthority.map(({ cossIcon, hugeicon, sourceSite }) => [
+        `${sourceSite}:${cossIcon}`,
+        hugeicon,
+      ]),
+    ).toEqual([
+      ["particles/p-context-menu-6.tsx:ShareIcon", "Share03Icon"],
+      ["particles/p-drawer-13.tsx:ShareIcon", "Share03Icon"],
+      ["particles/p-tooltip-4.tsx:Share2Icon", "Share08Icon"],
+      ["particles/p-input-group-26.tsx:EyeOffIcon", "ViewOffSlashIcon"],
+      ["particles/p-autocomplete-16.tsx:MapPinIcon", "Location01Icon"],
+      ["particles/p-popover-3.tsx:BellIcon", "Notification01Icon"],
+      ["particles/p-group-10.tsx:ArrowLeftIcon", "ArrowLeft02Icon"],
+      ["particles/p-group-10.tsx:ArrowRightIcon", "ArrowRight02Icon"],
+      ["particles/p-field-6.tsx:ArrowRightIcon", "ArrowRight02Icon"],
+      ["particles/p-group-14.tsx:ArrowRightIcon", "ArrowRight02Icon"],
+      ["particles/p-input-group-15.tsx:ArrowRightIcon", "ArrowRight02Icon"],
+      ["particles/p-preview-card-1.tsx:CornerUpLeftIcon", "CornerUpLeftIcon"],
+      ["particles/p-slider-21.tsx:RotateCcwIcon", "RotateCcwIcon"],
+      ["particles/p-slider-14.tsx:PlusIcon", "Add01Icon"],
+      ["ui/select.tsx:scroll-up:ChevronUpIcon", "ChevronUpIcon"],
+      ["ui/select.tsx:scroll-down:ChevronDownIcon", "ChevronDownIcon"],
+      ["ui/sidebar.tsx:trigger:PanelLeftIcon", "SidebarLeftIcon"],
+    ]);
+
+    for (const contract of cossIconAuthority) {
+      expect(contract.targets.length, `${contract.sourceSite}: target contract`).toBeGreaterThan(0);
+      expect(
+        createHash("sha256").update(JSON.stringify(contract.data)).digest("hex"),
+        `${contract.sourceSite}: ${contract.hugeicon} official data changed`,
+      ).toBe(contract.hash);
+
+      const body = render(HugeiconsIcon, {
+        props: { icon: contract.data, strokeWidth: 2 },
+      }).body;
+      assertOfficialGeometry(body, contract.data, `${contract.sourceSite}: ${contract.hugeicon}`);
+
+      if (contract.semanticName) {
+        const semanticBody = render(FixtureIcon, {
+          props: { name: contract.semanticName },
+        }).body;
+        assertOfficialGeometry(
+          semanticBody,
+          contract.data,
+          `${contract.sourceSite}: ${contract.semanticName}`,
+        );
+      }
+
+      for (const target of contract.targets) {
+        expect(
+          target.count,
+          `${contract.sourceSite}: ${target.file} has a vacuous count`,
+        ).toBeGreaterThan(0);
+        const root = target.root === "fixture" ? fixtureRoot : packageRoot;
+        const source = readFileSync(resolve(root, target.file), "utf8");
+        expect(
+          source.split(target.fragment).length - 1,
+          `${contract.sourceSite}: ${target.file}: ${target.fragment}`,
+        ).toBe(target.count);
+      }
     }
   });
 

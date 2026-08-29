@@ -13,7 +13,7 @@ const iconContracts = {
   "command/command-input.svelte": ["Search01Icon"],
   "select/select-button.svelte": ["UnfoldMoreIcon"],
   "select/select-item.svelte": ["Tick02Icon"],
-  "select/select-popup.svelte": ["ArrowDown01Icon", "ArrowUp01Icon"],
+  "select/select-popup.svelte": ["ChevronDownIcon", "ChevronUpIcon"],
   "select/select-trigger.svelte": ["UnfoldMoreIcon"],
 } as const;
 

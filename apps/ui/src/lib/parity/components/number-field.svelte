@@ -310,7 +310,7 @@
                   <FixtureIcon
                     aria-hidden="true"
                     class="relative size-4.5 sm:size-4"
-                    name="arrow-up"
+                    name="chevron-up"
                   />
                 </Select.ScrollUpArrow>
                 <div
@@ -343,7 +343,7 @@
                   <FixtureIcon
                     aria-hidden="true"
                     class="relative size-4.5 sm:size-4"
-                    name="arrow-down"
+                    name="chevron-down"
                   />
                 </Select.ScrollDownArrow>
               </Select.Popup>
@@ -513,7 +513,7 @@
         onclick={() => (objectValues = { x: 0, y: 0, z: 0 })}
         variant="outline"
       >
-        <FixtureIcon aria-hidden="true" class="-ms-1 opacity-60" name="reset" />
+        <FixtureIcon aria-hidden="true" class="-ms-1 opacity-60" name="rotate-ccw" />
         Reset
       </Button>
     </Fieldset.Root>
