@@ -1,5 +1,6 @@
 <script module lang="ts">
   import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+
   export const meta = defineParticleMeta({
     components: [
       "autocomplete",
@@ -20,19 +21,33 @@
 </script>
 
 <script lang="ts">
-  import { Button, Command, Empty, Input, Kbd, KbdGroup, Skeleton, Spinner } from "@coss-sv/ui";
+  import {
+    Button,
+    Command,
+    EmptyMedia,
+    HugeiconsIcon,
+    Input,
+    Kbd,
+    KbdGroup,
+    ScrollArea,
+    Skeleton,
+    Spinner,
+  } from "@coss-sv/ui";
   import {
     ArrowDown01Icon,
     ArrowLeft01Icon,
     ArrowUp01Icon,
+    CircleQuestionMarkIcon,
     CornerDownLeftIcon,
     Search01Icon,
     SparklesIcon,
   } from "@hugeicons/core-free-icons";
-  import { HugeiconsIcon } from "@hugeicons/svelte";
+  import { onDestroy, tick } from "svelte";
+  import type { Attachment } from "svelte/attachments";
 
   type Item = { value: string; label: string; shortcut?: string; keywords?: string[] };
   type Group = { value: string; items: Item[] };
+
   const groups: Group[] = [
     {
       value: "Pages",
@@ -59,224 +74,392 @@
       ],
     },
   ];
-  const responseParagraphs = [
-    'To create a new project, navigate to the Projects page and click the "New Project" button in the top right corner. You\'ll be prompted to enter a project name and description.',
-    'Once created, you can invite team members by clicking the "Share" button and entering their email addresses. Team members will receive an invitation link via email or you can add them manually by clicking the "Add Team Member" button in the project settings.',
-    "You can customize project settings at any time by clicking the settings icon in the project header. For more information, see the Project Settings documentation.",
-  ];
-  const links = [
+  const mockAIResponse = `To create a new project, navigate to the Projects page and click the "New Project" button in the top right corner. You'll be prompted to enter a project name and description.
+
+Once created, you can invite team members by clicking the "Share" button and entering their email addresses. Team members will receive an invitation link via email or you can add them manually by clicking the "Add Team Member" button in the project settings.
+
+You can customize project settings at any time by clicking the settings icon in the project header. For more information, see the Project Settings documentation.`;
+  const mockReferenceLinks = [
     { title: "Creating Projects", url: "/docs/projects/create" },
     { title: "Team Collaboration", url: "/docs/team/collaborate" },
     { title: "Project Settings", url: "/docs/projects/settings" },
   ];
+
   let dialogOpen = $state(false);
   let aiMode = $state(false);
-  let query = $state("");
-  let submitted = $state("");
+  let aiQuery = $state("");
+  let searchQuery = $state("");
+  let submittedQuery = $state("");
   let generating = $state(false);
-  let response = $state(false);
-  let request = 0;
+  let response = $state("");
+  let error = $state<string | null>(null);
+  let referenceLinks = $state<typeof mockReferenceLinks>([]);
+  const uid = $props.id();
+  const searchInputId = `${uid}-search-input`;
+  const aiInputId = `${uid}-ai-input`;
+  let searchInput = $state<HTMLInputElement | null>(null);
+  let aiInput = $state<HTMLInputElement | null>(null);
+  let commandResetKey = $state(0);
+  let abortController: AbortController | null = null;
+
+  const captureSearchInput: Attachment<HTMLInputElement> = (node) => {
+    searchInput = node;
+    return () => {
+      if (searchInput === node) searchInput = null;
+    };
+  };
+  const captureAIInput: Attachment<HTMLInputElement> = (node) => {
+    aiInput = node;
+    return () => {
+      if (aiInput === node) aiInput = null;
+    };
+  };
+
+  const contains = (value: string, query: string): boolean =>
+    value.localeCompare(query, undefined, { sensitivity: "base", usage: "search" }) === 0 ||
+    value.toLocaleLowerCase().includes(query.toLocaleLowerCase());
+  const filterItem = (itemValue: unknown, query: string): boolean => {
+    if (typeof itemValue !== "object" || itemValue === null) return false;
+    const item = itemValue as Item;
+    return (
+      contains(item.label, query) ||
+      contains(item.value, query) ||
+      item.keywords?.some((keyword) => contains(keyword, query)) === true
+    );
+  };
   const hasResults = $derived(
-    !query.trim() ||
-      groups.some((group) =>
-        group.items.some((item) =>
-          [item.label, item.value, ...(item.keywords ?? [])].some((value) =>
-            value.toLowerCase().includes(query.toLowerCase()),
-          ),
-        ),
-      ),
+    !searchQuery.trim() ||
+      groups.some((group) => group.items.some((item) => filterItem(item, searchQuery))),
   );
-  function back() {
-    request += 1;
+
+  onDestroy(() => abortController?.abort());
+
+  function resetAIState(): void {
+    abortController?.abort();
+    abortController = null;
     aiMode = false;
-    query = "";
-    submitted = "";
+    aiQuery = "";
+    submittedQuery = "";
     generating = false;
-    response = false;
+    response = "";
+    error = null;
+    referenceLinks = [];
   }
-  async function ask(value = query) {
-    if (!value.trim()) {
-      aiMode = true;
-      return;
-    }
-    const current = ++request;
-    submitted = value;
-    query = "";
-    aiMode = true;
+
+  async function backToSearch(): Promise<void> {
+    resetAIState();
+    searchQuery = "";
+    commandResetKey += 1;
+    await tick();
+    searchInput?.focus();
+  }
+
+  async function generateAI(queryOverride?: string): Promise<void> {
+    const query = queryOverride || aiQuery;
+    if (!query.trim()) return;
+
+    abortController?.abort();
+    const controller = new AbortController();
+    abortController = controller;
+    error = null;
     generating = true;
-    response = false;
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    if (current !== request) return;
-    generating = false;
-    response = true;
+    aiQuery = "";
+    referenceLinks = [];
+    response = "";
+    submittedQuery = query;
+
+    try {
+      await new Promise<void>((resolve, reject) => {
+        const timeout = setTimeout(resolve, 1500);
+        controller.signal.addEventListener(
+          "abort",
+          () => {
+            clearTimeout(timeout);
+            reject(new Error("aborted"));
+          },
+          { once: true },
+        );
+      });
+      if (controller.signal.aborted) return;
+      generating = false;
+      referenceLinks = mockReferenceLinks;
+      response = mockAIResponse;
+    } catch (caught) {
+      if ((caught instanceof Error && caught.message === "aborted") || controller.signal.aborted) {
+        return;
+      }
+      error = "Failed to generate response. Please try again.";
+      generating = false;
+    }
   }
-  function close() {
+
+  function askAI(): void {
+    const currentQuery = searchQuery;
+    searchQuery = "";
+    aiMode = true;
+    aiQuery = "";
+    if (currentQuery.trim()) void generateAI(currentQuery);
+  }
+
+  function handleCaptureEscape(event: KeyboardEvent): void {
+    if (!dialogOpen || !aiMode || event.key !== "Escape") return;
+    event.preventDefault();
+    event.stopPropagation();
+    void backToSearch();
+  }
+
+  function close(): void {
     dialogOpen = false;
-    back();
   }
+
+  $effect(() => {
+    if (aiMode && !generating) aiInput?.focus();
+  });
 </script>
+
+<svelte:document onkeydowncapture={handleCaptureEscape} />
 
 <Button onclick={() => (dialogOpen = true)} variant="outline">Cmdk with AI</Button>
 <Command.DialogRoot
   bind:open={dialogOpen}
   onOpenChange={(value) => {
-    if (!value) back();
+    if (!value) {
+      searchQuery = "";
+      resetAIState();
+    }
   }}
-  ><Command.DialogPopup>
+>
+  <Command.DialogPopup>
     {#if !aiMode}
-      <Command.Root items={groups}
-        ><div class="relative flex items-center *:first:flex-1">
-          <Command.Input
-            bind:value={query}
-            onkeydown={(event) => {
-              if (event.key === "Tab" || (event.key === "Enter" && !hasResults && query.trim())) {
-                event.preventDefault();
-                ask();
-              }
-            }}
-            placeholder="Type a command or search..."
-          /><Button
-            class="me-2.5 rounded-md not-hover:text-muted-foreground text-sm sm:text-xs"
-            onclick={() => ask()}
-            size="sm"
-            variant="ghost"
-            ><HugeiconsIcon aria-hidden="true" icon={SparklesIcon} strokeWidth={2} />Ask AI<Kbd
-              class="ms-0.5 -me-1.5">Tab</Kbd
-            ></Button
-          >
-        </div>
-        <Command.Panel
-          ><Command.Empty class="not-empty:py-12"
-            >{#if query.trim()}<div class="wrap-break-word flex flex-col items-center gap-2">
-                <Empty.Media variant="icon"
-                  ><HugeiconsIcon
-                    aria-hidden="true"
-                    icon={Search01Icon}
-                    strokeWidth={2}
-                  /></Empty.Media
-                >
-                <p>No results found.</p>
-                <p>
-                  Press <Kbd>Enter</Kbd> to ask AI about:<br /><strong
-                    class="font-medium text-foreground">{query}</strong
-                  >
-                </p>
-              </div>{/if}</Command.Empty
-          ><Command.List
-            >{#each groups as group (group.value)}<Command.Group items={group.items}
-                ><Command.GroupLabel>{group.value}</Command.GroupLabel><Command.Collection
-                  >{#snippet children(item: Item)}<Command.Item onclick={close} value={item}
-                      ><span class="flex-1">{item.label}</span>{#if item.shortcut}<Command.Shortcut
-                          >{item.shortcut}</Command.Shortcut
-                        >{/if}</Command.Item
-                    >{/snippet}</Command.Collection
-                ></Command.Group
-              ><Command.Separator />{/each}</Command.List
-          ></Command.Panel
-        >
-        <Command.Footer
-          >{#if hasResults}<div class="flex items-center gap-4">
-              <div class="flex items-center gap-2">
-                <KbdGroup
-                  ><Kbd
-                    ><HugeiconsIcon aria-hidden="true" icon={ArrowUp01Icon} strokeWidth={2} /></Kbd
-                  ><Kbd
+      {#key commandResetKey}
+        <Command.Root filter={filterItem} items={groups}>
+          <div class="relative flex items-center *:first:flex-1">
+            <Command.Input
+              {@attach captureSearchInput}
+              id={searchInputId}
+              onkeydown={(event) => {
+                if (
+                  event.key === "Tab" ||
+                  (event.key === "Enter" && !hasResults && searchQuery.trim())
+                ) {
+                  event.preventDefault();
+                  askAI();
+                }
+              }}
+              oninput={(event) => (searchQuery = event.currentTarget.value)}
+              placeholder="Type a command or search..."
+              value={searchQuery}
+            />
+            <Button
+              class="me-2.5 rounded-md not-hover:text-muted-foreground text-sm sm:text-xs"
+              onclick={askAI}
+              size="sm"
+              variant="ghost"
+            >
+              <HugeiconsIcon
+                aria-hidden="true"
+                class="size-4 sm:size-3.5"
+                icon={SparklesIcon}
+                strokeWidth={2}
+              />
+              Ask AI
+              <Kbd class="ms-0.5 -me-1.5">Tab</Kbd>
+            </Button>
+          </div>
+          <Command.Panel>
+            <Command.Empty class="not-empty:py-12">
+              {#if searchQuery.trim()}
+                <div class="wrap-break-word flex flex-col flex-wrap items-center gap-2">
+                  <EmptyMedia variant="icon"
                     ><HugeiconsIcon
                       aria-hidden="true"
-                      icon={ArrowDown01Icon}
+                      icon={Search01Icon}
+                      strokeWidth={2}
+                    /></EmptyMedia
+                  >
+                  <p>No results found.</p>
+                  <p>
+                    Press <Kbd>Enter</Kbd> to ask AI about:<br /><strong
+                      class="font-medium text-foreground">{searchQuery}</strong
+                    >
+                  </p>
+                </div>
+              {/if}
+            </Command.Empty>
+            <Command.List>
+              {#each groups as group (group.value)}
+                <Command.Group items={group.items}>
+                  <Command.GroupLabel>{group.value}</Command.GroupLabel>
+                  <Command.Collection>
+                    {#snippet children(item: Item)}
+                      <Command.Item onclick={close} value={item}
+                        ><span class="flex-1">{item.label}</span
+                        >{#if item.shortcut}<Command.Shortcut>{item.shortcut}</Command.Shortcut
+                          >{/if}</Command.Item
+                      >
+                    {/snippet}
+                  </Command.Collection>
+                </Command.Group>
+                <Command.Separator />
+              {/each}
+            </Command.List>
+          </Command.Panel>
+          <Command.Footer>
+            {#if hasResults}
+              <div class="flex items-center gap-4">
+                <div class="flex items-center gap-2">
+                  <KbdGroup
+                    ><Kbd
+                      ><HugeiconsIcon
+                        aria-hidden="true"
+                        icon={ArrowUp01Icon}
+                        strokeWidth={2}
+                      /></Kbd
+                    ><Kbd
+                      ><HugeiconsIcon
+                        aria-hidden="true"
+                        icon={ArrowDown01Icon}
+                        strokeWidth={2}
+                      /></Kbd
+                    ></KbdGroup
+                  ><span>Navigate</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <Kbd
+                    ><HugeiconsIcon
+                      aria-hidden="true"
+                      icon={CornerDownLeftIcon}
                       strokeWidth={2}
                     /></Kbd
-                  ></KbdGroup
-                ><span>Navigate</span>
+                  ><span>Open</span>
+                </div>
               </div>
-              <div class="flex items-center gap-2">
-                <Kbd
-                  ><HugeiconsIcon
-                    aria-hidden="true"
-                    icon={CornerDownLeftIcon}
-                    strokeWidth={2}
-                  /></Kbd
-                ><span>Open</span>
-              </div>
-            </div>{/if}
-          <div class="ms-auto flex items-center gap-2">
-            <Kbd>Esc</Kbd><span>Close</span>
-          </div></Command.Footer
-        ></Command.Root
-      >
+              <div class="flex items-center gap-2"><Kbd>Esc</Kbd><span>Close</span></div>
+            {:else}
+              <div class="ms-auto flex items-center gap-2"><Kbd>Esc</Kbd><span>Close</span></div>
+            {/if}
+          </Command.Footer>
+        </Command.Root>
+      {/key}
     {:else}
-      <Command.Root
-        ><div class="flex items-center *:first:flex-1">
+      <Command.Root>
+        <div class="flex items-center *:first:flex-1">
           <div class="px-2.5 py-1.5">
             <div class="relative w-full">
-              <span
-                class="pointer-events-none absolute inset-y-0 start-px z-10 flex items-center ps-3 opacity-80"
-                ><HugeiconsIcon aria-hidden="true" icon={SparklesIcon} strokeWidth={2} /></span
-              ><Input
+              <div
+                aria-hidden="true"
+                class="pointer-events-none absolute inset-y-0 start-px z-10 flex items-center ps-[calc(--spacing(3)-1px)] opacity-80 has-[+[data-size=sm]]:ps-[calc(--spacing(2.5)-1px)] [&_svg:not([class*='size-'])]:size-4.5 sm:[&_svg:not([class*='size-'])]:size-4 [&_svg]:-mx-0.5"
+                data-slot="autocomplete-start-addon"
+              >
+                <HugeiconsIcon aria-hidden="true" icon={SparklesIcon} strokeWidth={2} />
+              </div>
+              <Input
+                {@attach captureAIInput}
                 aria-label="AI query input"
-                class="border-transparent! bg-transparent! shadow-none before:hidden *:data-[slot=input]:ps-8"
+                class="border-transparent! bg-transparent! shadow-none before:hidden has-focus-visible:ring-0 *:data-[slot=input]:ps-[calc(--spacing(8.5)-1px)] sm:*:data-[slot=input]:ps-[calc(--spacing(8)-1px)]"
                 disabled={generating}
-                bind:value={query}
+                id={aiInputId}
                 onkeydown={(event) => {
-                  if (event.key === "Enter" && !generating) ask();
-                  if (event.key === "Escape") {
-                    event.preventDefault();
-                    back();
-                  }
+                  if (event.key === "Enter" && !generating) void generateAI();
                 }}
+                oninput={(event) => (aiQuery = event.currentTarget.value)}
                 placeholder="Ask AI anything…"
                 size="lg"
+                value={aiQuery}
               />
             </div>
           </div>
           <Button
             class="me-2.5 rounded-md not-hover:text-muted-foreground text-sm sm:text-xs"
-            onclick={back}
+            onclick={() => void backToSearch()}
             size="sm"
             variant="ghost"
-            ><HugeiconsIcon aria-hidden="true" icon={ArrowLeft01Icon} strokeWidth={2} />Back to
-            search<Kbd class="ms-0.5 -me-1.5">Esc</Kbd></Button
           >
+            <HugeiconsIcon
+              aria-hidden="true"
+              class="size-4 sm:size-3.5"
+              icon={ArrowLeft01Icon}
+              strokeWidth={2}
+            />Back to search<Kbd class="ms-0.5 -me-1.5">Esc</Kbd>
+          </Button>
         </div>
-        <Command.Panel
-          ><div class="p-5">
-            {#if generating}<div class="flex flex-col gap-4">
-                {#each [4, 3, 4] as lines, index (index)}<div class="flex flex-col gap-2">
-                    {#each Array(lines) as _}<Skeleton class="h-4 w-full" />{/each}
-                  </div>{/each}
-              </div>{:else if response}<div
-                aria-live="polite"
-                class="text-muted-foreground text-sm"
-              >
-                {#each responseParagraphs as paragraph}<p class="not-first:mt-3 leading-relaxed">
-                    {paragraph}
-                  </p>{/each}
+        <Command.Panel>
+          <ScrollArea overscrollContain scrollbarGutter scrollFade>
+            <div class="p-5">
+              {#if !generating && !response && !error}<div
+                  class="flex items-center justify-center py-12"
+                >
+                  <p class="text-muted-foreground text-sm">
+                    Ask AI anything and press <Kbd>Enter</Kbd> to get started.
+                  </p>
+                </div>{/if}
+              {#if error}<div aria-live="polite" class="text-destructive text-sm" role="alert">
+                  {error}
+                </div>{/if}
+              {#if generating}
+                <div class="flex flex-col gap-4">
+                  <div class="flex flex-col gap-2">
+                    <Skeleton class="h-4 w-full" /><Skeleton class="h-4 w-full" /><Skeleton
+                      class="h-4 w-full"
+                    /><Skeleton class="h-4 w-1/2" />
+                  </div>
+                  <div class="flex flex-col gap-2">
+                    <Skeleton class="h-4 w-full" /><Skeleton class="h-4 w-full" /><Skeleton
+                      class="h-4 w-3/4"
+                    />
+                  </div>
+                  <div class="flex flex-col gap-2">
+                    <Skeleton class="h-4 w-full" /><Skeleton class="h-4 w-full" /><Skeleton
+                      class="h-4 w-full"
+                    /><Skeleton class="h-4 w-3/5" />
+                  </div>
+                </div>
+              {/if}
+              {#if response && !generating}
+                <div
+                  aria-live="polite"
+                  class="text-muted-foreground text-sm **:[a]:underline **:[a]:underline-offset-4 **:[code]:rounded-md **:[code]:bg-muted **:[code]:px-[0.3rem] **:[code]:py-[0.2rem] **:[code]:font-mono **:[p]:not-first:mt-3 **:[p]:leading-relaxed **:[strong,a]:font-medium **:[strong,a]:text-foreground"
+                >
+                  {#each response.split("\n\n") as paragraph}<p>{paragraph}</p>{/each}
+                </div>
+                {#if referenceLinks.length > 0}<div class="mt-4 flex flex-wrap gap-2">
+                    {#each referenceLinks as link (`${link.url}-${link.title}`)}<Button
+                        href={link.url}
+                        size="sm"
+                        variant="secondary">{link.title}</Button
+                      >{/each}
+                  </div>{/if}
+              {/if}
+            </div>
+          </ScrollArea>
+        </Command.Panel>
+        <Command.Footer>
+          {#if generating}
+            <div aria-live="polite" class="flex items-center gap-2">
+              <div class="flex h-5 items-center justify-center"><Spinner class="size-3" /></div>
+              <span class="animate-pulse">Generating response…</span>
+            </div>
+          {:else if response}
+            <div class="flex items-center gap-2">
+              <div class="flex h-5 items-center justify-center">
+                <HugeiconsIcon
+                  aria-hidden="true"
+                  class="size-3"
+                  icon={CircleQuestionMarkIcon}
+                  strokeWidth={2}
+                />
               </div>
-              <div class="mt-4 flex flex-wrap gap-2">
-                {#each links as link (link.url)}<Button
-                    href={link.url}
-                    size="sm"
-                    variant="secondary">{link.title}</Button
-                  >{/each}
-              </div>{:else}<div class="flex items-center justify-center py-12">
-                <p class="text-muted-foreground text-sm">
-                  Ask AI anything and press <Kbd>Enter</Kbd> to get started.
-                </p>
-              </div>{/if}
-          </div></Command.Panel
-        >
-        <Command.Footer
-          >{#if generating}<div aria-live="polite" class="flex items-center gap-2">
-              <Spinner class="size-3" /><span class="animate-pulse">Generating response…</span>
-            </div>{:else if response}<div class="flex items-center gap-2">
-              You asked: <span>"{submitted}"</span>
-            </div>{:else}<div class="flex items-center gap-2">
+              You asked:<span>"{submittedQuery}"</span>
+            </div>
+          {:else}
+            <div class="flex items-center gap-2">
               <Kbd
                 ><HugeiconsIcon aria-hidden="true" icon={CornerDownLeftIcon} strokeWidth={2} /></Kbd
               ><span>Ask AI</span>
-            </div>{/if}</Command.Footer
-        ></Command.Root
-      >
+            </div>
+          {/if}
+        </Command.Footer>
+      </Command.Root>
     {/if}
-  </Command.DialogPopup></Command.DialogRoot
->
+  </Command.DialogPopup>
+</Command.DialogRoot>

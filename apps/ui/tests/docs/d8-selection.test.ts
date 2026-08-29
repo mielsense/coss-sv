@@ -193,6 +193,45 @@ describe("D8 selection, command, and menu documentation", () => {
     expect(pillCombobox).toContain('placeholder="Select a item..."');
   });
 
+  test("server-renders one hydration-stable ID for the labelled combobox control", () => {
+    const particle = source("apps/ui/registry/default/particles/p-combobox-5.svelte");
+    expect(particle).toContain("<Label for={id}>Fruits</Label>");
+    expect(particle).toMatch(/<Combobox\.Input[\s\S]*?(?:id=\{id\}|\{id\})/);
+    const module = particleModules["../../registry/default/particles/p-combobox-5.svelte"];
+    const body = render(module?.default as Component).body;
+    const labelFor = body.match(/<label[^>]*for="([^"]+)"/)?.[1];
+    const inputId = body.match(/<input[^>]*id="([^"]+)"/)?.[1];
+    expect(labelFor).toBeTruthy();
+    expect(inputId).toBe(labelFor);
+  });
+
+  test("keeps Command AI parity state, scrolling, focus hooks, and response footer", () => {
+    const particle = source("apps/ui/registry/default/particles/p-command-2.svelte");
+    expect(particle).toContain("<ScrollArea");
+    expect(particle).toContain('role="alert"');
+    expect(particle).toContain("Failed to generate response. Please try again.");
+    expect(particle).toContain("capture");
+    expect(particle).toContain("searchInput?.focus()");
+    expect(particle).toContain("aiInput?.focus()");
+    expect(particle).toContain("{@attach captureSearchInput}");
+    expect(particle).toContain("{@attach captureAIInput}");
+    expect(particle).toContain("CircleQuestionMarkIcon");
+    expect(particle).toContain("You asked:");
+    expect(particle).toContain("HugeiconsIcon,");
+    expect(particle).not.toContain('from "@hugeicons/svelte"');
+
+    const toolbar = source("apps/ui/registry/default/particles/p-toolbar-1.svelte");
+    expect(toolbar).toContain("HugeiconsIcon,");
+    expect(toolbar).not.toContain('from "@hugeicons/svelte"');
+  });
+
+  test("uses Svelte 5 declaration tags in the multiple Select particle", () => {
+    const particle = source("apps/ui/registry/default/particles/p-select-7.svelte");
+    expect(particle).not.toContain("{@const");
+    expect(particle).toContain("{const selectedValues");
+    expect(particle).toContain("{const firstSelected");
+  });
+
   test("composes toolbar tooltips onto the registered controls without wrapper targets", () => {
     const toolbar = source("apps/ui/registry/default/particles/p-toolbar-1.svelte");
     expect(toolbar).not.toContain("<Tooltip.Trigger");

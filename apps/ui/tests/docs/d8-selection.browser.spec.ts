@@ -5,8 +5,10 @@ import { afterEach, describe, expect, test } from "vitest";
 import { page, userEvent } from "vitest/browser";
 import AutocompleteExample from "../../registry/default/particles/p-autocomplete-1.svelte";
 import AsyncAutocompleteExample from "../../registry/default/particles/p-autocomplete-12.svelte";
+import LabelledComboboxExample from "../../registry/default/particles/p-combobox-5.svelte";
 import ComboboxExample from "../../registry/default/particles/p-combobox-9.svelte";
 import CommandExample from "../../registry/default/particles/p-command-1.svelte";
+import CommandAiExample from "../../registry/default/particles/p-command-2.svelte";
 import ContextMenuExample from "../../registry/default/particles/p-context-menu-1.svelte";
 import MenuExample from "../../registry/default/particles/p-menu-1.svelte";
 import SelectExample from "../../registry/default/particles/p-select-7.svelte";
@@ -42,6 +44,15 @@ describe("D8 selection, command, and menu examples", () => {
       .toHaveLength(2);
     await unmount(view);
   });
+  test("focuses the labelled combobox input when its visible label is clicked", async () => {
+    const view = mount(LabelledComboboxExample, { target: document.body });
+    const label = page.getByText("Fruits", { exact: true });
+    const input = page.getByRole("combobox", { name: "Select an item" });
+    expect(label.element().getAttribute("for")).toBe(input.element().id);
+    await label.click();
+    await expect.element(input).toHaveFocus();
+    await unmount(view);
+  });
   test("supports multiple select keyboard selection and escape dismissal", async () => {
     const view = mount(SelectExample, { target: document.body });
     const trigger = page.getByRole("combobox", { name: "Select languages" });
@@ -61,6 +72,36 @@ describe("D8 selection, command, and menu examples", () => {
     await userEvent.fill(input, "Linear");
     await page.getByRole("option", { name: /Linear/ }).click();
     await expect.poll(() => document.querySelector('[role="dialog"]')).toBeNull();
+    await unmount(view);
+  });
+  test("moves focus into and back out of the AI view without dismissing the dialog", async () => {
+    const view = mount(CommandAiExample, { target: document.body });
+    await page.getByRole("button", { name: "Cmdk with AI" }).click();
+    const search = page.getByPlaceholder("Type a command or search...");
+    await expect.element(search).toHaveFocus();
+    await page.getByRole("button", { name: /Ask AI Tab/ }).click();
+    const aiInput = page.getByRole("textbox", { name: "AI query input" });
+    await expect.element(aiInput).toHaveFocus();
+    await userEvent.keyboard("{Escape}");
+    await expect.element(page.getByRole("dialog")).toBeVisible();
+    await expect.element(search).toHaveFocus();
+    await unmount(view);
+  });
+  test("renders the complete AI response panel and response footer", async () => {
+    const view = mount(CommandAiExample, { target: document.body });
+    await page.getByRole("button", { name: "Cmdk with AI" }).click();
+    const search = page.getByPlaceholder("Type a command or search...");
+    await search.fill("create a project");
+    await page.getByRole("button", { name: /Ask AI Tab/ }).click();
+    await expect.element(page.getByRole("textbox", { name: "AI query input" })).toBeDisabled();
+    expect(document.querySelector('[data-slot="scroll-area-viewport"]')).not.toBeNull();
+    await new Promise((resolve) => setTimeout(resolve, 1_600));
+    await expect.element(page.getByText("Creating Projects", { exact: true })).toBeVisible();
+    await expect.element(page.getByText(/You asked:/)).toBeVisible();
+    const footer = Array.from(
+      document.querySelectorAll<HTMLElement>('[data-slot="command-footer"]'),
+    ).find((element) => element.textContent?.includes("You asked:"));
+    expect(footer?.querySelector("svg")).not.toBeNull();
     await unmount(view);
   });
   test("operates menu checkbox, radio, and nested submenu with keyboard", async () => {

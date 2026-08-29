@@ -10,7 +10,14 @@
 </script>
 
 <script lang="ts">
-  import { buttonVariants, Select, ToggleGroup, Toolbar, Tooltip } from "@coss-sv/ui";
+  import {
+    buttonVariants,
+    HugeiconsIcon,
+    Select,
+    ToggleGroup,
+    Toolbar,
+    Tooltip,
+  } from "@coss-sv/ui";
   import {
     AlignHorizontalCenterIcon,
     AlignLeftIcon,
@@ -18,7 +25,6 @@
     DollarSignIcon,
     PercentIcon,
   } from "@hugeicons/core-free-icons";
-  import { HugeiconsIcon } from "@hugeicons/svelte";
 
   const fonts = [
     { label: "Helvetica", value: "helvetica" },

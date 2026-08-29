@@ -33,9 +33,9 @@
 <Select.Root aria-label="Select languages" multiple bind:value>
   <Select.Trigger
     ><Select.Value
-      >{#snippet children(selected)}{@const selectedValues = Array.isArray(selected)
+      >{#snippet children(selected)}{const selectedValues = Array.isArray(selected)
           ? (selected as Language[])
-          : []}{@const firstSelected = selectedValues.at(0)}{firstSelected
+          : []}{const firstSelected = selectedValues.at(0)}{firstSelected
           ? languages[firstSelected] +
             (selectedValues.length > 1 ? ` (+${selectedValues.length - 1} more)` : "")
           : "Select languages…"}{/snippet}</Select.Value
