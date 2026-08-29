@@ -11,24 +11,36 @@
 </script>
 
 <script lang="ts">
-  import { buttonVariants, HugeiconsIcon, InputGroup, Menu, Tooltip } from "@coss-sv/ui";
+  import { Button, buttonVariants, HugeiconsIcon, InputGroup, Menu, Tooltip } from "@coss-sv/ui";
   import { Add01Icon, ArrowUp01Icon } from "@hugeicons/core-free-icons";
+
+  const uid = $props.id();
+  const addFilesTooltip = Tooltip.TooltipCreateHandle();
+  const sendTooltip = Tooltip.TooltipCreateHandle();
+  const addFilesId = `${uid}-add-files`;
+  const addFilesTooltipId = `${uid}-add-files-tooltip`;
+  const sendId = `${uid}-send`;
+  const sendTooltipId = `${uid}-send-tooltip`;
 </script>
 
 <InputGroup.Root>
   <InputGroup.Textarea placeholder="Ask, Search or Chat…" />
   <InputGroup.Addon align="block-end">
     <Menu.Root>
-      <Tooltip.Root>
-        <Tooltip.Trigger as="div" class="inline-flex">
-          <Menu.Trigger
-            aria-label="Add files"
-            class={buttonVariants({ size: "icon-sm", variant: "ghost", class: "rounded-full" })}
-          >
-            <HugeiconsIcon aria-hidden="true" icon={Add01Icon} strokeWidth={2} />
-          </Menu.Trigger>
-        </Tooltip.Trigger>
-        <Tooltip.Popup>Add files and more</Tooltip.Popup>
+      <Tooltip.Root handle={addFilesTooltip}>
+        <Menu.Trigger
+          {@attach Tooltip.createTriggerAttachment(addFilesTooltip, () => ({
+            ariaDescribedBy: addFilesTooltipId,
+            id: addFilesId,
+          }))}
+          aria-describedby={addFilesTooltipId}
+          aria-label="Add files"
+          class={buttonVariants({ size: "icon-sm", variant: "ghost", class: "rounded-full" })}
+          id={addFilesId}
+        >
+          <HugeiconsIcon aria-hidden="true" icon={Add01Icon} strokeWidth={2} />
+        </Menu.Trigger>
+        <Tooltip.Popup id={addFilesTooltipId}>Add files and more</Tooltip.Popup>
       </Tooltip.Root>
       <Menu.Popup align="start">
         <Menu.Item>Add photos &amp; files</Menu.Item>
@@ -38,14 +50,21 @@
       </Menu.Popup>
     </Menu.Root>
     <InputGroup.Text class="ml-auto">78% used</InputGroup.Text>
-    <Tooltip.Root>
-      <Tooltip.Trigger
+    <Tooltip.Root handle={sendTooltip}>
+      <Button
+        {@attach Tooltip.createTriggerAttachment(sendTooltip, () => ({
+          ariaDescribedBy: sendTooltipId,
+          id: sendId,
+        }))}
+        aria-describedby={sendTooltipId}
         aria-label="Send"
-        class={buttonVariants({ size: "icon-sm", variant: "default", class: "rounded-full" })}
+        class="rounded-full"
+        id={sendId}
+        size="icon-sm"
       >
         <HugeiconsIcon aria-hidden="true" icon={ArrowUp01Icon} strokeWidth={2} />
-      </Tooltip.Trigger>
-      <Tooltip.Popup>Send</Tooltip.Popup>
+      </Button>
+      <Tooltip.Popup id={sendTooltipId}>Send</Tooltip.Popup>
     </Tooltip.Root>
   </InputGroup.Addon>
 </InputGroup.Root>

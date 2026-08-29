@@ -71,6 +71,44 @@ describe("D6 form and input browser parity", () => {
     await expect.element(page.getByRole("button", { name: "Clear input" })).not.toBeInTheDocument();
   });
 
+  test("composes the textarea menu and tooltip onto one button", async () => {
+    render(component("p-input-group-17"));
+
+    const addFiles = page.getByRole("button", { name: "Add files" });
+    const addFilesElement = addFiles.element();
+
+    expect(document.querySelectorAll("button")).toHaveLength(2);
+    expect(addFilesElement).toMatchObject({ tagName: "BUTTON" });
+    await expect.element(addFiles).toHaveAttribute("data-slot", "menu-trigger");
+    await expect.element(addFiles).toHaveAttribute("data-tooltip-trigger");
+    expect(addFilesElement.parentElement).not.toHaveAttribute("data-slot", "tooltip-trigger");
+    await expect.element(addFiles).toHaveAttribute("aria-haspopup", "menu");
+
+    addFilesElement.focus();
+    await expect.element(page.getByText("Add files and more")).toBeInTheDocument();
+
+    await addFiles.click();
+    await expect.element(addFiles).toHaveAttribute("aria-expanded", "true");
+    const firstItem = page.getByRole("menuitem", { name: "Add photos & files" });
+    await expect.element(firstItem).toBeInTheDocument();
+    await expect.element(page.getByRole("menuitem", { name: "Create image" })).toBeInTheDocument();
+    await expect.element(page.getByRole("menuitem", { name: "Thinking" })).toBeInTheDocument();
+    await expect.element(page.getByRole("menuitem", { name: "Deep research" })).toBeInTheDocument();
+
+    await userEvent.keyboard("{ArrowDown}");
+    await expect.element(firstItem).toHaveFocus();
+
+    await userEvent.keyboard("{Escape}");
+    await expect.element(addFiles).toHaveFocus();
+    await expect.element(addFiles).toHaveAttribute("aria-expanded", "false");
+
+    const send = page.getByRole("button", { name: "Send" });
+    await expect.element(send).toHaveAttribute("data-slot", "button");
+    await expect.element(send).toHaveAttribute("data-tooltip-trigger");
+    send.element().focus();
+    await expect.element(page.getByRole("tooltip", { name: "Send" })).toBeInTheDocument();
+  });
+
   test("supports number-field buttons, boundaries, and keyboard stepping", async () => {
     render(component("p-number-field-7"));
     const input = document.querySelector<HTMLInputElement>('[data-slot="number-field-input"]');
