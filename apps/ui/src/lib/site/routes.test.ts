@@ -256,20 +256,18 @@ describe("theme boundaries", () => {
     );
     const frameRule = previewPage.match(/\.preview-frame\s*\{([^}]*)\}/)?.[1] ?? "";
     const surfaceRule = previewPage.match(/\.preview-surface\s*\{([^}]*)\}/)?.[1] ?? "";
+    const alignmentRule = (alignment: "start" | "center" | "end") =>
+      previewPage.match(
+        new RegExp(`\\.preview-frame\\[data-preview-align="${alignment}"\\]\\s*\\{([^}]*)\\}`),
+      )?.[1] ?? "";
 
     expect(frameRule).toContain("display: flex;");
     expect(frameRule).toContain("justify-content: center;");
     expect(frameRule).toContain("overflow-y: auto;");
     expect(frameRule).not.toContain("place-items: center;");
-    expect(previewPage).toContain(
-      '.preview-frame[data-preview-align="start"] {\n  align-items: flex-start;',
-    );
-    expect(previewPage).toContain(
-      '.preview-frame[data-preview-align="center"] {\n  align-items: center;',
-    );
-    expect(previewPage).toContain(
-      '.preview-frame[data-preview-align="end"] {\n  align-items: flex-end;',
-    );
+    expect(alignmentRule("start")).toMatch(/align-items\s*:\s*flex-start\s*;/);
+    expect(alignmentRule("center")).toMatch(/align-items\s*:\s*center\s*;/);
+    expect(alignmentRule("end")).toMatch(/align-items\s*:\s*flex-end\s*;/);
     expect(surfaceRule).toContain("flex: 0 0 auto;");
     expect(surfaceRule).not.toContain("margin-block: auto;");
   });
