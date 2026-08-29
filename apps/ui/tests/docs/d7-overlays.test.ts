@@ -231,7 +231,7 @@ describe("D7 overlay documentation", () => {
     ]) {
       const particle = source(`apps/ui/registry/default/particles/${id}.svelte`);
       expect(particle).toContain('from "@hugeicons/core-free-icons"');
-      expect(particle).toContain('from "@hugeicons/svelte"');
+      expect(particle).not.toContain("@hugeicons/svelte");
       expect(particle).toContain("strokeWidth={2}");
     }
   });

@@ -14,7 +14,7 @@
 	],
 	"files": [
 		{
-			"content": "<script module lang=\"ts\">\nimport { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\nexport const meta = defineParticleMeta({\n  components: [\"button\", \"kbd\"],\n  id: \"p-button-31\",\n  interactive: true,\n  responsive: false,\n  title: \"Print shortcut button\",\n});\n</script>\n\n<script lang=\"ts\">\nimport { Button } from \"$COMPONENTS$/ui/button/index.js\";\nimport { Kbd, KbdGroup } from \"$COMPONENTS$/ui/kbd/index.js\";\nimport { PrinterIcon } from \"@hugeicons/core-free-icons\";\nimport HugeiconsIcon from \"$LIB$/hugeicons-icon.svelte\";\n</script>\n\n<Button variant=\"outline\"\n  ><HugeiconsIcon aria-hidden=\"true\" icon={PrinterIcon} strokeWidth={2} />Print<KbdGroup\n    class=\"-me-1\"\n    ><Kbd>&#8984;</Kbd><Kbd>P</Kbd></KbdGroup\n  ></Button\n>\n",
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\n  export const meta = defineParticleMeta({\n    components: [\"button\", \"kbd\"],\n    id: \"p-button-31\",\n    interactive: true,\n    responsive: false,\n    title: \"Print shortcut button\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { Button } from \"$COMPONENTS$/ui/button/index.js\";\n  import HugeiconsIcon from \"$LIB$/hugeicons-icon.svelte\";\n  import { Kbd, KbdGroup } from \"$COMPONENTS$/ui/kbd/index.js\";\n  import { PrinterIcon } from \"@hugeicons/core-free-icons\";\n</script>\n\n<Button variant=\"outline\"\n  ><HugeiconsIcon aria-hidden=\"true\" icon={PrinterIcon} strokeWidth={2} />Print<KbdGroup\n    class=\"-me-1\"><Kbd>&#8984;</Kbd><Kbd>P</Kbd></KbdGroup\n  ></Button\n>\n",
 			"type": "registry:block",
 			"target": "p-button-31.svelte"
 		}

@@ -190,7 +190,7 @@ describe("D4 disclosure and surface documentation inventory", () => {
     expect(particle).not.toMatch(/<svg\b|lucide(?:-react|-svelte)?/i);
     if (iconParticles.has(id)) {
       expect(particle).toContain('from "@hugeicons/core-free-icons"');
-      expect(particle).toContain('from "@hugeicons/svelte"');
+      expect(particle).not.toContain("@hugeicons/svelte");
       expect(particle).toContain("<HugeiconsIcon");
     }
   });

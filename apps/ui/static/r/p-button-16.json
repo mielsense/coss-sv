@@ -13,7 +13,7 @@
 	],
 	"files": [
 		{
-			"content": "<script module lang=\"ts\">\nimport { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\nexport const meta = defineParticleMeta({\n  components: [\"button\"],\n  id: \"p-button-16\",\n  interactive: true,\n  responsive: false,\n  title: \"Button with icon\",\n});\n</script>\n\n<script lang=\"ts\">\nimport { Button } from \"$COMPONENTS$/ui/button/index.js\";\nimport { Download01Icon } from \"@hugeicons/core-free-icons\";\nimport HugeiconsIcon from \"$LIB$/hugeicons-icon.svelte\";\n</script>\n\n<Button><HugeiconsIcon aria-hidden=\"true\" icon={Download01Icon} strokeWidth={2} />Download</Button>\n",
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\n  export const meta = defineParticleMeta({\n    components: [\"button\"],\n    id: \"p-button-16\",\n    interactive: true,\n    responsive: false,\n    title: \"Button with icon\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { Button } from \"$COMPONENTS$/ui/button/index.js\";\n  import HugeiconsIcon from \"$LIB$/hugeicons-icon.svelte\";\n  import { Download01Icon } from \"@hugeicons/core-free-icons\";\n</script>\n\n<Button><HugeiconsIcon aria-hidden=\"true\" icon={Download01Icon} strokeWidth={2} />Download</Button>\n",
 			"type": "registry:block",
 			"target": "p-button-16.svelte"
 		}

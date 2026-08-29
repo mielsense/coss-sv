@@ -13,7 +13,7 @@
 	],
 	"files": [
 		{
-			"content": "<script module lang=\"ts\">\nimport { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\nexport const meta = defineParticleMeta({\n  components: [\"toggle\"],\n  id: \"p-toggle-3\",\n  interactive: true,\n  responsive: false,\n  title: \"Toggle with icon\",\n});\n</script>\n\n<script lang=\"ts\">\nimport { Toggle } from \"$COMPONENTS$/ui/toggle/index.js\";\nimport { TextBoldIcon } from \"@hugeicons/core-free-icons\";\nimport HugeiconsIcon from \"$LIB$/hugeicons-icon.svelte\";\n</script>\n\n<Toggle aria-label=\"Toggle bold\" variant=\"outline\">\n  <HugeiconsIcon aria-hidden=\"true\" icon={TextBoldIcon} strokeWidth={2} />\n</Toggle>\n",
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\n  export const meta = defineParticleMeta({\n    components: [\"toggle\"],\n    id: \"p-toggle-3\",\n    interactive: true,\n    responsive: false,\n    title: \"Toggle with icon\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import HugeiconsIcon from \"$LIB$/hugeicons-icon.svelte\";\n  import { Toggle } from \"$COMPONENTS$/ui/toggle/index.js\";\n  import { TextBoldIcon } from \"@hugeicons/core-free-icons\";\n</script>\n\n<Toggle aria-label=\"Toggle bold\" variant=\"outline\">\n  <HugeiconsIcon aria-hidden=\"true\" icon={TextBoldIcon} strokeWidth={2} />\n</Toggle>\n",
 			"type": "registry:block",
 			"target": "p-toggle-3.svelte"
 		}
