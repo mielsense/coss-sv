@@ -62,11 +62,11 @@ Displays the selected value. Styled wrapper for `Select.Value` from Shards UI.
 
 Popup container for select options. Also exported as `Select.Content`.
 
-| Prop                   | Type                | Default | Description                               |
-| ---------------------- | ------------------- | ------- | ----------------------------------------- |
-| `alignItemWithTrigger` | `boolean`           | `true`  | Aligns the selected item with the trigger |
-| `sideOffset`           | `number`            | `4`     | Distance from the trigger in pixels       |
-| `portalProps`          | `SelectPortalProps` | -       | Props forwarded to the internal portal    |
+| Prop                   | Type                              | Default | Description                               |
+| ---------------------- | --------------------------------- | ------- | ----------------------------------------- |
+| `alignItemWithTrigger` | `boolean`                         | `true`  | Aligns the selected item with the trigger |
+| `sideOffset`           | `number`                          | `4`     | Distance from the trigger in pixels       |
+| `portalProps`          | `SelectPopupProps["portalProps"]` | -       | Props forwarded to the internal portal    |
 
 ### Select.Item
 

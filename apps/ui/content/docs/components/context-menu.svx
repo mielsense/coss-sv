@@ -61,7 +61,7 @@ Popup container that displays the menu content at the pointer.
 | `align`       | `"start" \| "center" \| "end"`           | `"center"` | Alignment relative to the anchor         |
 | `sideOffset`  | `number`                                 | `4`        | Distance from the anchor in pixels       |
 | `alignOffset` | `number`                                 | -          | Offset along the alignment axis          |
-| `portalProps` | `ContextMenuPortalProps`                 | -          | Props forwarded to the internal portal   |
+| `portalProps` | `ContextMenuPopupProps["portalProps"]`   | -          | Props forwarded to the internal portal   |
 
 ### ContextMenu.Group
 

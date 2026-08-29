@@ -19,13 +19,16 @@ links:
 
 ```svelte
 <script lang="ts">
+  import * as ToggleGroup from "@coss-sv/ui/components/ui/toggle-group";
   import * as Toolbar from "@coss-sv/ui/components/ui/toolbar";
 </script>
 
 <Toolbar.Root aria-label="Formatting">
   <Toolbar.Group aria-label="Text style">
-    <Toolbar.Button>Bold</Toolbar.Button>
-    <Toolbar.Button>Underline</Toolbar.Button>
+    <ToggleGroup.Root multiple>
+      <ToggleGroup.Item value="bold">Bold</ToggleGroup.Item>
+      <ToggleGroup.Item value="underline">Underline</ToggleGroup.Item>
+    </ToggleGroup.Root>
   </Toolbar.Group>
   <Toolbar.Separator />
   <Toolbar.Button>Save</Toolbar.Button>

@@ -193,6 +193,17 @@ describe("D8 selection, command, and menu documentation", () => {
     expect(pillCombobox).toContain('placeholder="Select a item..."');
   });
 
+  test("composes toolbar tooltips onto the registered controls without wrapper targets", () => {
+    const toolbar = source("apps/ui/registry/default/particles/p-toolbar-1.svelte");
+    expect(toolbar).not.toContain("<Tooltip.Trigger");
+    expect(toolbar).toContain("{@attach Tooltip.createTriggerAttachment(leftTooltip");
+    expect(toolbar).toContain("{@attach Tooltip.createTriggerAttachment(currencyTooltip");
+    expect(toolbar).toContain("{@attach Tooltip.createTriggerAttachment(fontTooltip");
+    expect(toolbar).toContain('aria-label="Toggle center"');
+    expect(toolbar).toContain('aria-label="Toggle right"');
+    expect(toolbar).toContain("aria-label={fontLabel}");
+  });
+
   test("ports the complete command reference instead of API stubs", () => {
     const page = source("apps/ui/content/docs/components/command.svx");
     expect(page).toContain("A command palette component built with Dialog and Autocomplete");
@@ -203,6 +214,77 @@ describe("D8 selection, command, and menu documentation", () => {
     expect(page).toContain("const groupedItems = [");
     expect(page).toContain("Standalone Command (Without Dialog)");
     expect([...page.matchAll(/```svelte/g)]).toHaveLength(5);
+  });
+
+  test("keeps the complete distinct single and multiple Combobox usage examples", () => {
+    const page = source("apps/ui/content/docs/components/combobox.svx");
+    expect(page).toContain("### Single Selection");
+    expect(page).toContain("### Multiple Selection");
+    expect(page).toContain('<Combobox.Input placeholder="Select an item..." />');
+    expect(page).toContain("<Combobox.Chips>");
+    expect(page).toContain("<Combobox.Value>");
+    expect(page).toContain("<Combobox.Chip aria-label={item.value} value={item.value}>");
+    expect(page).toContain('placeholder={value.length > 0 ? undefined : "Select an item..."}');
+    expect([...page.matchAll(/```svelte/g)]).toHaveLength(4);
+  });
+
+  test("documents Toggle-composed toolbar controls instead of plain buttons", () => {
+    const page = source("apps/ui/content/docs/components/toolbar.svx");
+    expect(page).toContain(
+      'import * as ToggleGroup from "@coss-sv/ui/components/ui/toggle-group";',
+    );
+    expect(page).toContain('<ToggleGroup.Item value="bold">Bold</ToggleGroup.Item>');
+    expect(page).toContain('<ToggleGroup.Item value="underline">Underline</ToggleGroup.Item>');
+    expect(page).not.toContain("<Toolbar.Button>Bold</Toolbar.Button>");
+    expect(page).not.toContain("<Toolbar.Button>Underline</Toolbar.Button>");
+  });
+
+  test("uses only exported wrapper types in D8 API tables", () => {
+    const pages = Object.keys(expectedPreviews).map((slug) =>
+      source(`apps/ui/content/docs/components/${slug}.svx`),
+    );
+    const inventedTypes = [
+      "AutocompletePortalProps",
+      "ComboboxPortalProps",
+      "SelectPortalProps",
+      "MenuPortalProps",
+      "ContextMenuPortalProps",
+      "AutocompleteRootProps",
+      "DialogRootState",
+      "DialogPortalProps",
+    ];
+    for (const invented of inventedTypes) {
+      expect(pages.join("\n"), invented).not.toContain(`\`${invented}\``);
+    }
+    expect(pages.join("\n")).not.toContain("`Dialog.PortalProps`");
+
+    expect(pages[0]).toContain('`AutocompletePopupProps["portalProps"]`');
+    expect(pages[1]).toContain('`ComboboxPopupProps["portalProps"]`');
+    expect(pages[2]).toContain('`SelectPopupProps["portalProps"]`');
+    expect(pages[4]).toContain('`MenuPopupProps["portalProps"]`');
+    expect(pages[5]).toContain('`ContextMenuPopupProps["portalProps"]`');
+
+    const provenTypes = {
+      AutocompletePopupProps:
+        "packages/ui/src/components/ui/autocomplete/autocomplete-popup.svelte",
+      ComboboxPopupProps: "packages/ui/src/components/ui/combobox/combobox-popup.svelte",
+      CommandDialogPopupProps: "packages/ui/src/components/ui/command/command-dialog-popup.svelte",
+      CommandDialogTriggerProps:
+        "packages/ui/src/components/ui/command/command-dialog-trigger.svelte",
+      CommandFooterProps: "packages/ui/src/components/ui/command/command-footer.svelte",
+      CommandPanelProps: "packages/ui/src/components/ui/command/command-panel.svelte",
+      CommandShortcutProps: "packages/ui/src/components/ui/command/command-shortcut.svelte",
+      ContextMenuPopupProps: "packages/ui/src/components/ui/context-menu/context-menu.types.ts",
+      MenuPopupProps: "packages/ui/src/components/ui/menu/menu.types.ts",
+      SelectPopupProps: "packages/ui/src/components/ui/select/select-popup.svelte",
+    } as const;
+    for (const [typeName, path] of Object.entries(provenTypes)) {
+      expect(source(path), typeName).toContain(`export type ${typeName}`);
+    }
+    expect(source("packages/ui/src/components/ui/command/index.ts")).toContain(
+      "export const DialogRoot: typeof D.Root = D.Root;",
+    );
+    expect(pages[3]).toContain("`Snippet<[{ payload: Payload \\| undefined }]>`");
   });
 
   test("does not omit upstream API tables or Select labelling guidance", () => {

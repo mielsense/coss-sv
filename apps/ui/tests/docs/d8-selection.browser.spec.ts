@@ -101,6 +101,13 @@ describe("D8 selection, command, and menu examples", () => {
     await expect.element(toolbar).toBeVisible();
     const toolbarElement = left.element().closest<HTMLElement>('[role="toolbar"]');
     expect(toolbarElement).not.toBeNull();
+    await expect.element(left).toHaveAttribute("data-slot", "toggle");
+    await expect
+      .element(page.getByRole("button", { name: "Format as currency" }))
+      .toHaveAttribute("data-slot", "toolbar-button");
+    await expect
+      .element(page.getByRole("combobox", { name: "Helvetica" }))
+      .toHaveAttribute("data-slot", "select-trigger");
     left.element().focus();
     await expect
       .poll(
@@ -114,8 +121,45 @@ describe("D8 selection, command, and menu examples", () => {
     await expect.element(page.getByRole("button", { name: "Toggle center" })).toHaveFocus();
     await userEvent.keyboard("{ArrowRight}");
     await expect.element(page.getByRole("button", { name: "Toggle right" })).toHaveFocus();
+    await userEvent.keyboard("{ArrowRight}");
+    await expect.element(page.getByRole("button", { name: "Format as currency" })).toHaveFocus();
+    await userEvent.keyboard("{ArrowRight}{ArrowRight}");
+    await expect.element(page.getByRole("combobox", { name: "Helvetica" })).toHaveFocus();
+    await userEvent.keyboard("{ArrowRight}");
+    await expect.element(page.getByRole("button", { name: "Save" })).toHaveFocus();
     await userEvent.keyboard("{Tab}");
     expect(document.activeElement).toBe(after);
+    await unmount(view);
+  });
+
+  test("attaches tooltip focus and hover semantics to the actual toolbar controls", async () => {
+    const view = mount(ToolbarExample, { target: document.body });
+    const left = page.getByRole("button", { name: "Align left" });
+    const currency = page.getByRole("button", { name: "Format as currency" });
+    const font = page.getByRole("combobox", { name: "Helvetica" });
+
+    expect(left.element().parentElement?.matches('[data-slot="tooltip-trigger"]')).toBe(false);
+    await expect.element(left).toHaveAttribute("data-tooltip-trigger");
+    left.element().focus();
+    await expect.element(left).toHaveAttribute("data-popup-open");
+    await expect.element(page.getByRole("tooltip", { name: "Align left" })).toBeVisible();
+    const leftDescription = left.element().getAttribute("aria-describedby");
+    expect(leftDescription).toBeTruthy();
+    expect(document.getElementById(leftDescription ?? "")?.textContent).toContain("Align left");
+
+    await userEvent.hover(currency);
+    await expect.element(page.getByRole("tooltip", { name: "Format as currency" })).toBeVisible();
+    const currencyDescription = currency.element().getAttribute("aria-describedby");
+    expect(currencyDescription).toBeTruthy();
+    expect(document.getElementById(currencyDescription ?? "")?.textContent).toContain(
+      "Format as currency",
+    );
+
+    font.element().focus();
+    await expect
+      .element(page.getByRole("tooltip", { name: "Select a different font" }))
+      .toBeVisible();
+    expect(font.element().getAttribute("aria-describedby")).toBeTruthy();
     await unmount(view);
   });
 

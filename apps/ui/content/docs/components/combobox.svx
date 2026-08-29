@@ -17,9 +17,22 @@ links:
 
 ## Usage
 
+### Single Selection
+
 ```svelte
 <script lang="ts">
   import * as Combobox from "@coss-sv/ui/components/ui/combobox";
+</script>
+```
+
+```svelte
+<script lang="ts">
+  const items = [
+    { value: "apple", label: "Apple" },
+    { value: "banana", label: "Banana" },
+    { value: "orange", label: "Orange" },
+    { value: "grape", label: "Grape" },
+  ];
 </script>
 
 <Combobox.Root {items}>
@@ -29,6 +42,54 @@ links:
     <Combobox.List>
       <Combobox.Collection>
         {#snippet children(item)}
+          <Combobox.Item value={item}>{item.label}</Combobox.Item>
+        {/snippet}
+      </Combobox.Collection>
+    </Combobox.List>
+  </Combobox.Popup>
+</Combobox.Root>
+```
+
+### Multiple Selection
+
+```svelte
+<script lang="ts">
+  import * as Combobox from "@coss-sv/ui/components/ui/combobox";
+</script>
+```
+
+```svelte
+<script lang="ts">
+  const items = [
+    { value: "apple", label: "Apple" },
+    { value: "banana", label: "Banana" },
+    { value: "orange", label: "Orange" },
+    { value: "grape", label: "Grape" },
+  ] as const;
+  type Item = (typeof items)[number];
+</script>
+
+<Combobox.Root {items} multiple>
+  <Combobox.Chips>
+    <Combobox.Value>
+      {#snippet children(value: Item[])}
+        {#each value as item (item.value)}
+          <Combobox.Chip aria-label={item.value} value={item.value}>
+            {item.label}
+          </Combobox.Chip>
+        {/each}
+        <Combobox.ChipsInput
+          aria-label="Select an item"
+          placeholder={value.length > 0 ? undefined : "Select an item..."}
+        />
+      {/snippet}
+    </Combobox.Value>
+  </Combobox.Chips>
+  <Combobox.Popup>
+    <Combobox.Empty>No results found.</Combobox.Empty>
+    <Combobox.List>
+      <Combobox.Collection>
+        {#snippet children(item: Item)}
           <Combobox.Item value={item}>{item.label}</Combobox.Item>
         {/snippet}
       </Combobox.Collection>
@@ -70,11 +131,11 @@ The input field component for single selection mode with extended features for s
 
 The popup container that displays the combobox options.
 
-| Prop          | Type                  | Description                                          |
-| ------------- | --------------------- | ---------------------------------------------------- |
-| `class`       | `string`              | Additional CSS classes to apply to the component     |
-| `portalProps` | `ComboboxPortalProps` | Props forwarded to the internal portal               |
-| `...props`    | `ComboboxPopupProps`  | All standard combobox popup attributes are supported |
+| Prop          | Type                                | Description                                          |
+| ------------- | ----------------------------------- | ---------------------------------------------------- |
+| `class`       | `string`                            | Additional CSS classes to apply to the component     |
+| `portalProps` | `ComboboxPopupProps["portalProps"]` | Props forwarded to the internal portal               |
+| `...props`    | `ComboboxPopupProps`                | All standard combobox popup attributes are supported |
 
 ### Combobox.List
 
@@ -132,10 +193,10 @@ Displays a label for a combobox group.
 
 Used to wrap items within a group for rendering.
 
-| Prop       | Type                       | Description                                               |
-| ---------- | -------------------------- | --------------------------------------------------------- |
-| `children` | `Snippet<[unknown]>`       | Renders each filtered item                                |
-| `...props` | Shards UI Collection props | All standard combobox collection attributes are supported |
+| Prop       | Type                                         | Description                                               |
+| ---------- | -------------------------------------------- | --------------------------------------------------------- |
+| `children` | `Snippet<[unknown]>`                         | Renders each filtered item                                |
+| `...props` | `ComponentProps<typeof Combobox.Collection>` | All standard combobox collection attributes are supported |
 
 ### Combobox.Chips
 

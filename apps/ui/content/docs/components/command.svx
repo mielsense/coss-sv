@@ -73,34 +73,34 @@ The root component that wraps the autocomplete functionality. It's an alias for 
 
 A wrapper component that provides the dialog root functionality. It's an alias for `Dialog.Root` from Shards UI.
 
-| Prop           | Type                         | Description                             |
-| -------------- | ---------------------------- | --------------------------------------- |
-| `open`         | `boolean`                    | Controls whether the dialog is open     |
-| `onOpenChange` | `(open: boolean) => void`    | Called when the open state changes      |
-| `children`     | `Snippet<[DialogRootState]>` | Dialog content                          |
-| `...props`     | Shards UI Dialog root props  | All standard dialog props are supported |
+| Prop           | Type                                           | Description                             |
+| -------------- | ---------------------------------------------- | --------------------------------------- |
+| `open`         | `boolean`                                      | Controls whether the dialog is open     |
+| `onOpenChange` | `(open: boolean) => void`                      | Called when the open state changes      |
+| `children`     | `Snippet<[{ payload: Payload \| undefined }]>` | Dialog content                          |
+| `...props`     | `ComponentProps<typeof Command.DialogRoot>`    | All standard dialog props are supported |
 
 ### Command.DialogTrigger
 
 The trigger button that opens the command dialog. Renders as a button by default.
 
-| Prop       | Type                           | Description                                          |
-| ---------- | ------------------------------ | ---------------------------------------------------- |
-| `as`       | `keyof HTMLElementTagNameMap`  | Element to render                                    |
-| `class`    | `string`                       | Additional CSS classes to apply to the component     |
-| `children` | `Snippet`                      | Trigger content                                      |
-| `...props` | Shards UI Dialog trigger props | All standard dialog trigger attributes are supported |
+| Prop       | Type                          | Description                                          |
+| ---------- | ----------------------------- | ---------------------------------------------------- |
+| `as`       | `keyof HTMLElementTagNameMap` | Element to render                                    |
+| `class`    | `string`                      | Additional CSS classes to apply to the component     |
+| `children` | `Snippet`                     | Trigger content                                      |
+| `...props` | `CommandDialogTriggerProps`   | All standard dialog trigger attributes are supported |
 
 ### Command.DialogPopup
 
 The popup content container that displays the command palette inside a dialog.
 
-| Prop          | Type                          | Description                                        |
-| ------------- | ----------------------------- | -------------------------------------------------- |
-| `class`       | `string`                      | Additional CSS classes to apply to the component   |
-| `portalProps` | `Dialog.PortalProps`          | Props forwarded to the internal portal             |
-| `children`    | `Snippet<[DialogPopupState]>` | Popup content                                      |
-| `...props`    | Shards UI Dialog popup props  | All standard dialog popup attributes are supported |
+| Prop          | Type                                     | Description                                        |
+| ------------- | ---------------------------------------- | -------------------------------------------------- |
+| `class`       | `string`                                 | Additional CSS classes to apply to the component   |
+| `portalProps` | `CommandDialogPopupProps["portalProps"]` | Props forwarded to the internal portal             |
+| `children`    | `CommandDialogPopupProps["children"]`    | Popup content                                      |
+| `...props`    | `CommandDialogPopupProps`                | All standard dialog popup attributes are supported |
 
 ### Command.Input
 
@@ -127,12 +127,12 @@ A scrollable container for command items. It wraps `Autocomplete.List` with scro
 
 A container component that provides styling for command content outside of dialogs. Useful when building standalone command interfaces with a bordered, elevated appearance.
 
-| Prop       | Type                          | Description                                      |
-| ---------- | ----------------------------- | ------------------------------------------------ |
-| `as`       | `"div" \| "kbd"`              | Element to render                                |
-| `class`    | `string`                      | Additional CSS classes to apply to the component |
-| `children` | `Snippet`                     | Panel content                                    |
-| `...props` | `HTMLAttributes<HTMLElement>` | All standard element attributes are supported    |
+| Prop       | Type                | Description                                      |
+| ---------- | ------------------- | ------------------------------------------------ |
+| `as`       | `"div" \| "kbd"`    | Element to render                                |
+| `class`    | `string`            | Additional CSS classes to apply to the component |
+| `children` | `Snippet`           | Panel content                                    |
+| `...props` | `CommandPanelProps` | All standard element attributes are supported    |
 
 ### Command.Empty
 
@@ -189,30 +189,30 @@ A visual separator between command groups or items. Includes default vertical sp
 
 Displays keyboard shortcuts in a styled `kbd` element.
 
-| Prop       | Type                          | Description                                      |
-| ---------- | ----------------------------- | ------------------------------------------------ |
-| `class`    | `string`                      | Additional CSS classes to apply to the component |
-| `children` | `Snippet`                     | Shortcut text                                    |
-| `...props` | `HTMLAttributes<HTMLElement>` | All standard element attributes are supported    |
+| Prop       | Type                   | Description                                      |
+| ---------- | ---------------------- | ------------------------------------------------ |
+| `class`    | `string`               | Additional CSS classes to apply to the component |
+| `children` | `Snippet`              | Shortcut text                                    |
+| `...props` | `CommandShortcutProps` | All standard element attributes are supported    |
 
 ### Command.Footer
 
 A footer section for displaying hints or additional keyboard shortcuts. Renders as a styled `div` with padding and border.
 
-| Prop       | Type                          | Description                                      |
-| ---------- | ----------------------------- | ------------------------------------------------ |
-| `class`    | `string`                      | Additional CSS classes to apply to the component |
-| `children` | `Snippet`                     | Footer content                                   |
-| `...props` | `HTMLAttributes<HTMLElement>` | All standard element attributes are supported    |
+| Prop       | Type                 | Description                                      |
+| ---------- | -------------------- | ------------------------------------------------ |
+| `class`    | `string`             | Additional CSS classes to apply to the component |
+| `children` | `Snippet`            | Footer content                                   |
+| `...props` | `CommandFooterProps` | All standard element attributes are supported    |
 
 ### Command.Collection
 
 Used within `Command.Group` to wrap items when using grouped data. It's an alias for `Autocomplete.Collection` from the Autocomplete component.
 
-| Prop       | Type                       | Description                                                   |
-| ---------- | -------------------------- | ------------------------------------------------------------- |
-| `children` | `Snippet<[unknown]>`       | Renders each filtered item                                    |
-| `...props` | Shards UI Collection props | All standard autocomplete collection attributes are supported |
+| Prop       | Type                                        | Description                                                   |
+| ---------- | ------------------------------------------- | ------------------------------------------------------------- |
+| `children` | `Snippet<[unknown]>`                        | Renders each filtered item                                    |
+| `...props` | `ComponentProps<typeof Command.Collection>` | All standard autocomplete collection attributes are supported |
 
 ## Examples
 

@@ -68,7 +68,7 @@ Popup container that displays the menu content. Also exported as `DropdownMenuCo
 | `align`       | `"start" \| "center" \| "end"`           | `"center"` | Alignment relative to the trigger         |
 | `sideOffset`  | `number`                                 | `4`        | Distance from the trigger in pixels       |
 | `alignOffset` | `number`                                 | -          | Offset along the alignment axis           |
-| `portalProps` | `MenuPortalProps`                        | -          | Props forwarded to the internal portal    |
+| `portalProps` | `MenuPopupProps["portalProps"]`          | -          | Props forwarded to the internal portal    |
 
 ### Menu.Group
 

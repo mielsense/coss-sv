@@ -25,86 +25,124 @@
     { label: "Arial", value: "arial" },
     { label: "Times New Roman", value: "times-new-roman" },
   ];
-  let leftAnchor = $state<HTMLElement | null>(null);
-  let centerAnchor = $state<HTMLElement | null>(null);
-  let rightAnchor = $state<HTMLElement | null>(null);
-  let currencyAnchor = $state<HTMLElement | null>(null);
-  let percentAnchor = $state<HTMLElement | null>(null);
-  let fontAnchor = $state<HTMLButtonElement | null>(null);
+  const uid = $props.id();
+  const leftTooltip = Tooltip.TooltipCreateHandle();
+  const centerTooltip = Tooltip.TooltipCreateHandle();
+  const rightTooltip = Tooltip.TooltipCreateHandle();
+  const currencyTooltip = Tooltip.TooltipCreateHandle();
+  const percentTooltip = Tooltip.TooltipCreateHandle();
+  const fontTooltip = Tooltip.TooltipCreateHandle();
+  const tooltipIds = {
+    center: `${uid}-center-tooltip`,
+    currency: `${uid}-currency-tooltip`,
+    font: `${uid}-font-tooltip`,
+    left: `${uid}-left-tooltip`,
+    percent: `${uid}-percent-tooltip`,
+    right: `${uid}-right-tooltip`,
+  };
+  let font = $state("helvetica");
+  const fontLabel = $derived(fonts.find((item) => item.value === font)?.label ?? "Helvetica");
 </script>
 
 <Tooltip.Provider>
   <Toolbar.Root aria-label="Text formatting" class="w-fit">
     <ToggleGroup.Root class="border-none p-0" defaultValue={["left"]}>
-      <Tooltip.Root>
-        <Tooltip.Trigger as="span" class="contents">
-          <ToggleGroup.Item aria-label="Align left" bind:ref={leftAnchor} value="left">
-            <HugeiconsIcon aria-hidden="true" icon={AlignLeftIcon} strokeWidth={2} />
-          </ToggleGroup.Item>
-        </Tooltip.Trigger>
-        <Tooltip.Popup anchor={leftAnchor ?? undefined} sideOffset={8}>Align left</Tooltip.Popup>
-      </Tooltip.Root>
-      <Tooltip.Root>
-        <Tooltip.Trigger as="span" class="contents">
-          <ToggleGroup.Item aria-label="Toggle center" bind:ref={centerAnchor} value="center">
-            <HugeiconsIcon aria-hidden="true" icon={AlignHorizontalCenterIcon} strokeWidth={2} />
-          </ToggleGroup.Item>
-        </Tooltip.Trigger>
-        <Tooltip.Popup anchor={centerAnchor ?? undefined} sideOffset={8}>Align center</Tooltip.Popup
+      <Tooltip.Root handle={leftTooltip}>
+        <ToggleGroup.Item
+          {@attach Tooltip.createTriggerAttachment(leftTooltip, () => ({
+            ariaDescribedBy: tooltipIds.left,
+            id: `${uid}-left`,
+          }))}
+          aria-describedby={tooltipIds.left}
+          aria-label="Align left"
+          id={`${uid}-left`}
+          value="left"
         >
+          <HugeiconsIcon aria-hidden="true" icon={AlignLeftIcon} strokeWidth={2} />
+        </ToggleGroup.Item>
+        <Tooltip.Popup id={tooltipIds.left} sideOffset={8}>Align left</Tooltip.Popup>
       </Tooltip.Root>
-      <Tooltip.Root>
-        <Tooltip.Trigger as="span" class="contents">
-          <ToggleGroup.Item aria-label="Toggle right" bind:ref={rightAnchor} value="right">
-            <HugeiconsIcon aria-hidden="true" icon={AlignRightIcon} strokeWidth={2} />
-          </ToggleGroup.Item>
-        </Tooltip.Trigger>
-        <Tooltip.Popup anchor={rightAnchor ?? undefined} sideOffset={8}>Align right</Tooltip.Popup>
+      <Tooltip.Root handle={centerTooltip}>
+        <ToggleGroup.Item
+          {@attach Tooltip.createTriggerAttachment(centerTooltip, () => ({
+            ariaDescribedBy: tooltipIds.center,
+            id: `${uid}-center`,
+          }))}
+          aria-describedby={tooltipIds.center}
+          aria-label="Toggle center"
+          id={`${uid}-center`}
+          value="center"
+        >
+          <HugeiconsIcon aria-hidden="true" icon={AlignHorizontalCenterIcon} strokeWidth={2} />
+        </ToggleGroup.Item>
+        <Tooltip.Popup id={tooltipIds.center} sideOffset={8}>Align center</Tooltip.Popup>
+      </Tooltip.Root>
+      <Tooltip.Root handle={rightTooltip}>
+        <ToggleGroup.Item
+          {@attach Tooltip.createTriggerAttachment(rightTooltip, () => ({
+            ariaDescribedBy: tooltipIds.right,
+            id: `${uid}-right`,
+          }))}
+          aria-describedby={tooltipIds.right}
+          aria-label="Toggle right"
+          id={`${uid}-right`}
+          value="right"
+        >
+          <HugeiconsIcon aria-hidden="true" icon={AlignRightIcon} strokeWidth={2} />
+        </ToggleGroup.Item>
+        <Tooltip.Popup id={tooltipIds.right} sideOffset={8}>Align right</Tooltip.Popup>
       </Tooltip.Root>
     </ToggleGroup.Root>
     <Toolbar.Separator />
     <Toolbar.Group aria-label="Number formatting">
-      <Tooltip.Root>
-        <Tooltip.Trigger as="span" class="contents">
-          <Toolbar.Button
-            aria-label="Format as currency"
-            bind:ref={currencyAnchor}
-            class={buttonVariants({ size: "icon", variant: "ghost" })}
-          >
-            <HugeiconsIcon aria-hidden="true" icon={DollarSignIcon} strokeWidth={2} />
-          </Toolbar.Button>
-        </Tooltip.Trigger>
-        <Tooltip.Popup anchor={currencyAnchor ?? undefined} sideOffset={8}
-          >Format as currency</Tooltip.Popup
+      <Tooltip.Root handle={currencyTooltip}>
+        <Toolbar.Button
+          {@attach Tooltip.createTriggerAttachment(currencyTooltip, () => ({
+            ariaDescribedBy: tooltipIds.currency,
+            id: `${uid}-currency`,
+          }))}
+          aria-describedby={tooltipIds.currency}
+          aria-label="Format as currency"
+          class={buttonVariants({ size: "icon", variant: "ghost" })}
+          id={`${uid}-currency`}
         >
+          <HugeiconsIcon aria-hidden="true" icon={DollarSignIcon} strokeWidth={2} />
+        </Toolbar.Button>
+        <Tooltip.Popup id={tooltipIds.currency} sideOffset={8}>Format as currency</Tooltip.Popup>
       </Tooltip.Root>
-      <Tooltip.Root>
-        <Tooltip.Trigger as="span" class="contents">
-          <Toolbar.Button
-            aria-label="Format as percent"
-            bind:ref={percentAnchor}
-            class={buttonVariants({ size: "icon", variant: "ghost" })}
-          >
-            <HugeiconsIcon aria-hidden="true" icon={PercentIcon} strokeWidth={2} />
-          </Toolbar.Button>
-        </Tooltip.Trigger>
-        <Tooltip.Popup anchor={percentAnchor ?? undefined} sideOffset={8}
-          >Format as percent</Tooltip.Popup
+      <Tooltip.Root handle={percentTooltip}>
+        <Toolbar.Button
+          {@attach Tooltip.createTriggerAttachment(percentTooltip, () => ({
+            ariaDescribedBy: tooltipIds.percent,
+            id: `${uid}-percent`,
+          }))}
+          aria-describedby={tooltipIds.percent}
+          aria-label="Format as percent"
+          class={buttonVariants({ size: "icon", variant: "ghost" })}
+          id={`${uid}-percent`}
         >
+          <HugeiconsIcon aria-hidden="true" icon={PercentIcon} strokeWidth={2} />
+        </Toolbar.Button>
+        <Tooltip.Popup id={tooltipIds.percent} sideOffset={8}>Format as percent</Tooltip.Popup>
       </Tooltip.Root>
     </Toolbar.Group>
     <Toolbar.Separator />
     <Toolbar.Group aria-label="Font">
-      <Select.Root aria-label="Font" items={fonts} value="helvetica">
-        <Tooltip.Root>
-          <Tooltip.Trigger as="span" class="contents">
-            <Select.Trigger bind:ref={fontAnchor} title="Select a different font">
-              <Select.Value />
-            </Select.Trigger>
-          </Tooltip.Trigger>
-          <Tooltip.Popup anchor={fontAnchor ?? undefined} sideOffset={8}
-            >Select a different font</Tooltip.Popup
+      <Select.Root items={fonts} bind:value={font}>
+        <Tooltip.Root handle={fontTooltip}>
+          <Select.Trigger
+            {@attach Tooltip.createTriggerAttachment(fontTooltip, () => ({
+              ariaDescribedBy: tooltipIds.font,
+              id: `${uid}-font`,
+            }))}
+            aria-describedby={tooltipIds.font}
+            aria-label={fontLabel}
+            id={`${uid}-font`}
+            title="Select a different font"
           >
+            <Select.Value />
+          </Select.Trigger>
+          <Tooltip.Popup id={tooltipIds.font} sideOffset={8}>Select a different font</Tooltip.Popup>
         </Tooltip.Root>
         <Select.Popup>
           {#each fonts as item (item.value)}
