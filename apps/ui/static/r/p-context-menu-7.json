@@ -1,0 +1,20 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "p-context-menu-7",
+	"type": "registry:block",
+	"description": "COSS context-menu example.",
+	"dependencies": [
+		"@coss-sv/ui",
+		"@hugeicons/core-free-icons@4.3.0"
+	],
+	"registryDependencies": [
+		"./particle-metadata.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n  export const meta = defineParticleMeta({\n    components: [\"context-menu\"],\n    containerClass: \"**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-sm\",\n    id: \"p-context-menu-7\",\n    interactive: true,\n    responsive: true,\n    title: \"Context menu with radio group\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { ContextMenu } from \"@coss-sv/ui\";\n</script>\n\n<ContextMenu.Root\n  ><ContextMenu.Trigger\n    class=\"flex h-32 w-full max-w-sm items-center justify-center rounded-lg border border-dashed text-muted-foreground text-sm\"\n    >Right click here</ContextMenu.Trigger\n  ><ContextMenu.Popup\n    ><ContextMenu.RadioGroup value=\"system\"\n      ><ContextMenu.RadioItem value=\"light\">Light</ContextMenu.RadioItem><ContextMenu.RadioItem\n        value=\"dark\">Dark</ContextMenu.RadioItem\n      ><ContextMenu.RadioItem value=\"system\">System</ContextMenu.RadioItem></ContextMenu.RadioGroup\n    ></ContextMenu.Popup\n  ></ContextMenu.Root\n>\n",
+			"type": "registry:block",
+			"target": "p-context-menu-7.svelte"
+		}
+	]
+}

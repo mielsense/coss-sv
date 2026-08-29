@@ -1,0 +1,20 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "p-menu-5",
+	"type": "registry:block",
+	"description": "COSS menu example.",
+	"dependencies": [
+		"@coss-sv/ui",
+		"@hugeicons/core-free-icons@4.3.0"
+	],
+	"registryDependencies": [
+		"./particle-metadata.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n  export const meta = defineParticleMeta({\n    components: [\"button\", \"menu\"],\n    id: \"p-menu-5\",\n    interactive: true,\n    responsive: false,\n    title: \"Menu with link\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { buttonVariants, Menu } from \"@coss-sv/ui\";\n</script>\n\n<Menu.Root\n  ><Menu.Trigger class={buttonVariants({ variant: \"outline\" })}>Open menu</Menu.Trigger><Menu.Popup\n    ><Menu.LinkItem href=\"/docs\">Docs</Menu.LinkItem><Menu.LinkItem href=\"/particles\"\n      >Particles</Menu.LinkItem\n    ></Menu.Popup\n  ></Menu.Root\n>\n",
+			"type": "registry:block",
+			"target": "p-menu-5.svelte"
+		}
+	]
+}

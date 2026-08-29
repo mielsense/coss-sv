@@ -1,0 +1,20 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "p-select-12",
+	"type": "registry:block",
+	"description": "COSS select example.",
+	"dependencies": [
+		"@coss-sv/ui",
+		"@hugeicons/core-free-icons@4.3.0"
+	],
+	"registryDependencies": [
+		"./particle-metadata.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n  export const meta = defineParticleMeta({\n    components: [\"select\"],\n    containerClass: \"**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64\",\n    id: \"p-select-12\",\n    interactive: true,\n    responsive: false,\n    title: \"Select with disabled items\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { Select } from \"@coss-sv/ui\";\n\n  const items = [\n    { disabled: false, label: \"Next.js\", value: \"next\" },\n    { disabled: false, label: \"Vite\", value: \"vite\" },\n    { disabled: true, label: \"Astro (coming soon)\", value: \"astro\" },\n    { disabled: true, label: \"Remix (coming soon)\", value: \"remix\" },\n    { disabled: false, label: \"Nuxt\", value: \"nuxt\" },\n  ];\n</script>\n\n<Select.Root aria-label=\"Select framework\" value=\"next\" {items}\n  ><Select.Trigger><Select.Value /></Select.Trigger><Select.Popup\n    >{#each items as item (item.value)}<Select.Item disabled={item.disabled} value={item.value}\n        >{item.label}</Select.Item\n      >{/each}</Select.Popup\n  ></Select.Root\n>\n",
+			"type": "registry:block",
+			"target": "p-select-12.svelte"
+		}
+	]
+}

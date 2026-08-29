@@ -1,0 +1,20 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "p-select-9",
+	"type": "registry:block",
+	"description": "COSS select example.",
+	"dependencies": [
+		"@coss-sv/ui",
+		"@hugeicons/core-free-icons@4.3.0"
+	],
+	"registryDependencies": [
+		"./particle-metadata.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n  export const meta = defineParticleMeta({\n    components: [\"select\"],\n    containerClass: \"**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64\",\n    id: \"p-select-9\",\n    interactive: true,\n    responsive: false,\n    title: \"Select options with icon\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { HugeiconsIcon, Select } from \"@coss-sv/ui\";\n  import { CodeIcon, GlobeIcon, Layers01Icon, ZapIcon } from \"@hugeicons/core-free-icons\";\n\n  const items = [\n    { icon: Layers01Icon, label: \"Components\", value: \"components\" },\n    { icon: ZapIcon, label: \"Performance\", value: \"performance\" },\n    { icon: GlobeIcon, label: \"Network\", value: \"network\" },\n    { icon: CodeIcon, label: \"Development\", value: \"development\" },\n  ];\n  type Item = (typeof items)[number];\n</script>\n\n<Select.Root\n  aria-label=\"Select category\"\n  value={items[0]}\n  itemToStringValue={(item: Item) => item.value}\n>\n  <Select.Trigger\n    ><Select.Value\n      >{#snippet children(item: Item | null)}{#if item}<span class=\"flex items-center gap-2\"\n            ><HugeiconsIcon aria-hidden=\"true\" icon={item.icon} strokeWidth={2} /><span\n              class=\"truncate\">{item.label}</span\n            ></span\n          >{/if}{/snippet}</Select.Value\n    ></Select.Trigger\n  >\n  <Select.Popup\n    >{#each items as item (item.value)}<Select.Item value={item}\n        ><span class=\"flex items-center gap-2\"\n          ><HugeiconsIcon aria-hidden=\"true\" icon={item.icon} strokeWidth={2} /><span\n            class=\"truncate\">{item.label}</span\n          ></span\n        ></Select.Item\n      >{/each}</Select.Popup\n  ></Select.Root\n>\n",
+			"type": "registry:block",
+			"target": "p-select-9.svelte"
+		}
+	]
+}

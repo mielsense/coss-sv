@@ -1,0 +1,20 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "p-select-22",
+	"type": "registry:block",
+	"description": "COSS select example.",
+	"dependencies": [
+		"@coss-sv/ui",
+		"@hugeicons/core-free-icons@4.3.0"
+	],
+	"registryDependencies": [
+		"./particle-metadata.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n  export const meta = defineParticleMeta({\n    components: [\"select\"],\n    containerClass: \"**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64\",\n    id: \"p-select-22\",\n    interactive: true,\n    responsive: false,\n    title: \"Select with custom border and background\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { Select } from \"@coss-sv/ui\";\n\n  const items = [\n    { label: \"Next.js\", value: \"next\" },\n    { label: \"Vite\", value: \"vite\" },\n    { label: \"Astro\", value: \"astro\" },\n  ] as const;\n</script>\n\n<Select.Root aria-label=\"Select framework\" value=\"next\" {items}\n  ><Select.Trigger class=\"border-transparent bg-muted shadow-none before:hidden\"\n    ><Select.Value /></Select.Trigger\n  ><Select.Popup\n    >{#each items as item (item.value)}<Select.Item value={item.value}>{item.label}</Select.Item\n      >{/each}</Select.Popup\n  ></Select.Root\n>\n",
+			"type": "registry:block",
+			"target": "p-select-22.svelte"
+		}
+	]
+}

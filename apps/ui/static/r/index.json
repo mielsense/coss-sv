@@ -459,6 +459,214 @@
 		"relativeUrl": "p-alert-dialog-2.json"
 	},
 	{
+		"name": "p-autocomplete-1",
+		"type": "registry:block",
+		"description": "COSS autocomplete example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-autocomplete-1.json"
+	},
+	{
+		"name": "p-autocomplete-10",
+		"type": "registry:block",
+		"description": "COSS autocomplete example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-autocomplete-10.json"
+	},
+	{
+		"name": "p-autocomplete-11",
+		"type": "registry:block",
+		"description": "COSS autocomplete example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-autocomplete-11.json"
+	},
+	{
+		"name": "p-autocomplete-12",
+		"type": "registry:block",
+		"description": "COSS autocomplete example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-autocomplete-12.json"
+	},
+	{
+		"name": "p-autocomplete-13",
+		"type": "registry:block",
+		"description": "COSS autocomplete example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-autocomplete-13.json"
+	},
+	{
+		"name": "p-autocomplete-14",
+		"type": "registry:block",
+		"description": "COSS autocomplete example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-autocomplete-14.json"
+	},
+	{
+		"name": "p-autocomplete-15",
+		"type": "registry:block",
+		"description": "COSS autocomplete example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-autocomplete-15.json"
+	},
+	{
+		"name": "p-autocomplete-16",
+		"type": "registry:block",
+		"description": "COSS autocomplete example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-autocomplete-16.json"
+	},
+	{
+		"name": "p-autocomplete-2",
+		"type": "registry:block",
+		"description": "COSS autocomplete example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-autocomplete-2.json"
+	},
+	{
+		"name": "p-autocomplete-3",
+		"type": "registry:block",
+		"description": "COSS autocomplete example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-autocomplete-3.json"
+	},
+	{
+		"name": "p-autocomplete-4",
+		"type": "registry:block",
+		"description": "COSS autocomplete example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-autocomplete-4.json"
+	},
+	{
+		"name": "p-autocomplete-5",
+		"type": "registry:block",
+		"description": "COSS autocomplete example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-autocomplete-5.json"
+	},
+	{
+		"name": "p-autocomplete-6",
+		"type": "registry:block",
+		"description": "COSS autocomplete example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-autocomplete-6.json"
+	},
+	{
+		"name": "p-autocomplete-7",
+		"type": "registry:block",
+		"description": "COSS autocomplete example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-autocomplete-7.json"
+	},
+	{
+		"name": "p-autocomplete-8",
+		"type": "registry:block",
+		"description": "COSS autocomplete example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-autocomplete-8.json"
+	},
+	{
+		"name": "p-autocomplete-9",
+		"type": "registry:block",
+		"description": "COSS autocomplete example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-autocomplete-9.json"
+	},
+	{
 		"name": "p-breadcrumb-1",
 		"type": "registry:block",
 		"description": "COSS breadcrumb example.",
@@ -1743,6 +1951,396 @@
 		"relativeUrl": "p-collapsible-1.json"
 	},
 	{
+		"name": "p-combobox-1",
+		"type": "registry:block",
+		"description": "COSS combobox example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-combobox-1.json"
+	},
+	{
+		"name": "p-combobox-10",
+		"type": "registry:block",
+		"description": "COSS combobox example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-combobox-10.json"
+	},
+	{
+		"name": "p-combobox-11",
+		"type": "registry:block",
+		"description": "COSS combobox example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-combobox-11.json"
+	},
+	{
+		"name": "p-combobox-12",
+		"type": "registry:block",
+		"description": "COSS combobox example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-combobox-12.json"
+	},
+	{
+		"name": "p-combobox-13",
+		"type": "registry:block",
+		"description": "COSS combobox example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-combobox-13.json"
+	},
+	{
+		"name": "p-combobox-14",
+		"type": "registry:block",
+		"description": "COSS combobox example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-combobox-14.json"
+	},
+	{
+		"name": "p-combobox-15",
+		"type": "registry:block",
+		"description": "COSS combobox example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-combobox-15.json"
+	},
+	{
+		"name": "p-combobox-16",
+		"type": "registry:block",
+		"description": "COSS combobox example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-combobox-16.json"
+	},
+	{
+		"name": "p-combobox-17",
+		"type": "registry:block",
+		"description": "COSS combobox example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-combobox-17.json"
+	},
+	{
+		"name": "p-combobox-18",
+		"type": "registry:block",
+		"description": "COSS combobox example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-combobox-18.json"
+	},
+	{
+		"name": "p-combobox-19",
+		"type": "registry:block",
+		"description": "COSS combobox example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-combobox-19.json"
+	},
+	{
+		"name": "p-combobox-2",
+		"type": "registry:block",
+		"description": "COSS combobox example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-combobox-2.json"
+	},
+	{
+		"name": "p-combobox-20",
+		"type": "registry:block",
+		"description": "COSS combobox example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-combobox-20.json"
+	},
+	{
+		"name": "p-combobox-3",
+		"type": "registry:block",
+		"description": "COSS combobox example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-combobox-3.json"
+	},
+	{
+		"name": "p-combobox-4",
+		"type": "registry:block",
+		"description": "COSS combobox example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-combobox-4.json"
+	},
+	{
+		"name": "p-combobox-5",
+		"type": "registry:block",
+		"description": "COSS combobox example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-combobox-5.json"
+	},
+	{
+		"name": "p-combobox-6",
+		"type": "registry:block",
+		"description": "COSS combobox example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-combobox-6.json"
+	},
+	{
+		"name": "p-combobox-7",
+		"type": "registry:block",
+		"description": "COSS combobox example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-combobox-7.json"
+	},
+	{
+		"name": "p-combobox-8",
+		"type": "registry:block",
+		"description": "COSS combobox example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-combobox-8.json"
+	},
+	{
+		"name": "p-combobox-9",
+		"type": "registry:block",
+		"description": "COSS combobox example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-combobox-9.json"
+	},
+	{
+		"name": "p-command-1",
+		"type": "registry:block",
+		"description": "COSS command example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-command-1.json"
+	},
+	{
+		"name": "p-command-2",
+		"type": "registry:block",
+		"description": "COSS command example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-command-2.json"
+	},
+	{
+		"name": "p-context-menu-1",
+		"type": "registry:block",
+		"description": "COSS context-menu example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-context-menu-1.json"
+	},
+	{
+		"name": "p-context-menu-2",
+		"type": "registry:block",
+		"description": "COSS context-menu example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-context-menu-2.json"
+	},
+	{
+		"name": "p-context-menu-3",
+		"type": "registry:block",
+		"description": "COSS context-menu example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-context-menu-3.json"
+	},
+	{
+		"name": "p-context-menu-4",
+		"type": "registry:block",
+		"description": "COSS context-menu example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-context-menu-4.json"
+	},
+	{
+		"name": "p-context-menu-5",
+		"type": "registry:block",
+		"description": "COSS context-menu example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-context-menu-5.json"
+	},
+	{
+		"name": "p-context-menu-6",
+		"type": "registry:block",
+		"description": "COSS context-menu example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-context-menu-6.json"
+	},
+	{
+		"name": "p-context-menu-7",
+		"type": "registry:block",
+		"description": "COSS context-menu example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-context-menu-7.json"
+	},
+	{
+		"name": "p-context-menu-8",
+		"type": "registry:block",
+		"description": "COSS context-menu example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-context-menu-8.json"
+	},
+	{
 		"name": "p-date-picker-1",
 		"type": "registry:block",
 		"description": "COSS date-picker example.",
@@ -2215,6 +2813,123 @@
 		"relativeUrl": "p-frame-4.json"
 	},
 	{
+		"name": "p-menu-1",
+		"type": "registry:block",
+		"description": "COSS menu example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-menu-1.json"
+	},
+	{
+		"name": "p-menu-2",
+		"type": "registry:block",
+		"description": "COSS menu example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-menu-2.json"
+	},
+	{
+		"name": "p-menu-3",
+		"type": "registry:block",
+		"description": "COSS menu example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-menu-3.json"
+	},
+	{
+		"name": "p-menu-4",
+		"type": "registry:block",
+		"description": "COSS menu example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-menu-4.json"
+	},
+	{
+		"name": "p-menu-5",
+		"type": "registry:block",
+		"description": "COSS menu example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-menu-5.json"
+	},
+	{
+		"name": "p-menu-6",
+		"type": "registry:block",
+		"description": "COSS menu example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-menu-6.json"
+	},
+	{
+		"name": "p-menu-7",
+		"type": "registry:block",
+		"description": "COSS menu example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-menu-7.json"
+	},
+	{
+		"name": "p-menu-8",
+		"type": "registry:block",
+		"description": "COSS menu example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-menu-8.json"
+	},
+	{
+		"name": "p-menu-9",
+		"type": "registry:block",
+		"description": "COSS menu example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-menu-9.json"
+	},
+	{
 		"name": "p-navigation-1",
 		"type": "registry:block",
 		"description": "COSS navigation example.",
@@ -2555,6 +3270,305 @@
 			"local:particle-metadata"
 		],
 		"relativeUrl": "p-scroll-area-5.json"
+	},
+	{
+		"name": "p-select-1",
+		"type": "registry:block",
+		"description": "COSS select example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-select-1.json"
+	},
+	{
+		"name": "p-select-10",
+		"type": "registry:block",
+		"description": "COSS select example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-select-10.json"
+	},
+	{
+		"name": "p-select-11",
+		"type": "registry:block",
+		"description": "COSS select example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-select-11.json"
+	},
+	{
+		"name": "p-select-12",
+		"type": "registry:block",
+		"description": "COSS select example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-select-12.json"
+	},
+	{
+		"name": "p-select-13",
+		"type": "registry:block",
+		"description": "COSS select example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-select-13.json"
+	},
+	{
+		"name": "p-select-14",
+		"type": "registry:block",
+		"description": "COSS select example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-select-14.json"
+	},
+	{
+		"name": "p-select-15",
+		"type": "registry:block",
+		"description": "COSS select example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-select-15.json"
+	},
+	{
+		"name": "p-select-16",
+		"type": "registry:block",
+		"description": "COSS select example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-select-16.json"
+	},
+	{
+		"name": "p-select-17",
+		"type": "registry:block",
+		"description": "COSS select example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-select-17.json"
+	},
+	{
+		"name": "p-select-18",
+		"type": "registry:block",
+		"description": "COSS select example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-select-18.json"
+	},
+	{
+		"name": "p-select-19",
+		"type": "registry:block",
+		"description": "COSS select example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-select-19.json"
+	},
+	{
+		"name": "p-select-2",
+		"type": "registry:block",
+		"description": "COSS select example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-select-2.json"
+	},
+	{
+		"name": "p-select-20",
+		"type": "registry:block",
+		"description": "COSS select example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-select-20.json"
+	},
+	{
+		"name": "p-select-21",
+		"type": "registry:block",
+		"description": "COSS select example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-select-21.json"
+	},
+	{
+		"name": "p-select-22",
+		"type": "registry:block",
+		"description": "COSS select example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-select-22.json"
+	},
+	{
+		"name": "p-select-23",
+		"type": "registry:block",
+		"description": "COSS select example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-select-23.json"
+	},
+	{
+		"name": "p-select-3",
+		"type": "registry:block",
+		"description": "COSS select example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-select-3.json"
+	},
+	{
+		"name": "p-select-4",
+		"type": "registry:block",
+		"description": "COSS select example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-select-4.json"
+	},
+	{
+		"name": "p-select-5",
+		"type": "registry:block",
+		"description": "COSS select example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-select-5.json"
+	},
+	{
+		"name": "p-select-6",
+		"type": "registry:block",
+		"description": "COSS select example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-select-6.json"
+	},
+	{
+		"name": "p-select-7",
+		"type": "registry:block",
+		"description": "COSS select example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-select-7.json"
+	},
+	{
+		"name": "p-select-8",
+		"type": "registry:block",
+		"description": "COSS select example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-select-8.json"
+	},
+	{
+		"name": "p-select-9",
+		"type": "registry:block",
+		"description": "COSS select example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-select-9.json"
 	},
 	{
 		"name": "p-separator-1",
@@ -3642,6 +4656,19 @@
 			"local:particle-metadata"
 		],
 		"relativeUrl": "p-toggle-group-9.json"
+	},
+	{
+		"name": "p-toolbar-1",
+		"type": "registry:block",
+		"description": "COSS toolbar example.",
+		"dependencies": [
+			"@coss-sv/ui",
+			"@hugeicons/core-free-icons@4.3.0"
+		],
+		"registryDependencies": [
+			"local:particle-metadata"
+		],
+		"relativeUrl": "p-toolbar-1.json"
 	},
 	{
 		"name": "p-tooltip-1",

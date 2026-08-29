@@ -1,0 +1,20 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "p-combobox-18",
+	"type": "registry:block",
+	"description": "COSS combobox example.",
+	"dependencies": [
+		"@coss-sv/ui",
+		"@hugeicons/core-free-icons@4.3.0"
+	],
+	"registryDependencies": [
+		"./particle-metadata.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n  export const meta = defineParticleMeta({\n    components: [\"combobox\", \"select\"],\n    containerClass: \"**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64\",\n    id: \"p-combobox-18\",\n    interactive: true,\n    responsive: false,\n    title: \"Combobox with select trigger\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { Combobox, HugeiconsIcon, Select } from \"@coss-sv/ui\";\n  import { Search01Icon } from \"@hugeicons/core-free-icons\";\n\n  const items = [\n    { label: \"Apple\", value: \"apple\" },\n    { label: \"Banana\", value: \"banana\" },\n    { label: \"Orange\", value: \"orange\" },\n    { label: \"Grape\", value: \"grape\" },\n    { label: \"Strawberry\", value: \"strawberry\" },\n    { label: \"Mango\", value: \"mango\" },\n    { label: \"Pineapple\", value: \"pineapple\" },\n    { label: \"Kiwi\", value: \"kiwi\" },\n    { label: \"Peach\", value: \"peach\" },\n    { label: \"Pear\", value: \"pear\" },\n  ] as const;\n  type Item = (typeof items)[number];\n</script>\n\n<Combobox.Root autoHighlight {items}>\n  <Combobox.Trigger class={Select.selectTriggerClass}\n    ><Combobox.Value placeholder=\"Select a fruit\" /></Combobox.Trigger\n  >\n  <Combobox.Popup aria-label=\"Select a fruit\">\n    <div class=\"border-b p-2\">\n      <Combobox.Input\n        class=\"rounded-md before:rounded-[calc(var(--radius-md)-1px)]\"\n        placeholder=\"Search fruits...\"\n        showTrigger={false}\n      >\n        {#snippet startAddon()}<HugeiconsIcon\n            aria-hidden=\"true\"\n            icon={Search01Icon}\n            strokeWidth={2}\n          />{/snippet}\n      </Combobox.Input>\n    </div>\n    <Combobox.Empty>No items found.</Combobox.Empty><Combobox.List\n      ><Combobox.Collection>\n        {#snippet children(item: Item)}<Combobox.Item value={item}>{item.label}</Combobox.Item\n          >{/snippet}\n      </Combobox.Collection></Combobox.List\n    >\n  </Combobox.Popup>\n</Combobox.Root>\n",
+			"type": "registry:block",
+			"target": "p-combobox-18.svelte"
+		}
+	]
+}
