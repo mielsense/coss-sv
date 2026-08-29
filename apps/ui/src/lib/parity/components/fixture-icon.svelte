@@ -1,19 +1,20 @@
 <script module lang="ts">
+  import type { HugeiconData, HugeiconsIconProps } from "@coss-sv/ui";
   import {
     Add01Icon,
     AlertCircleIcon,
     ArrowDown01Icon,
     ArrowLeft01Icon,
     ArrowRight01Icon,
+    ArrowTurnBackwardIcon,
     ArrowUp01Icon,
     Bookmark02Icon,
     BookOpen01Icon,
-    Cancel01Icon,
-    CopyIcon,
-    ArrowTurnBackwardIcon,
     BoxIcon,
-    Delete02Icon,
+    Cancel01Icon,
     ChevronDownIcon,
+    CopyIcon,
+    Delete02Icon,
     DollarSignIcon,
     Download01Icon,
     FloppyDiskIcon,
@@ -26,7 +27,7 @@
     MinusSignIcon,
     MoreHorizontalIcon,
     NextIcon,
-    Notification02Icon,
+    Notification01Icon,
     PanelsTopLeftIcon,
     PauseIcon,
     PencilIcon,
@@ -57,7 +58,6 @@
     VolumeHighIcon,
     VolumeMute02Icon,
   } from "@hugeicons/core-free-icons";
-  import type { HugeiconData, HugeiconsIconProps } from "@coss-sv/ui";
 
   const icons = {
     "alert-circle": AlertCircleIcon,
@@ -68,7 +68,7 @@
     "arrow-left": ArrowLeft01Icon,
     "arrow-right": ArrowRight01Icon,
     "arrow-up": ArrowUp01Icon,
-    bell: Notification02Icon,
+    bell: Notification01Icon,
     bookmark: Bookmark02Icon,
     bold: TextBoldIcon,
     book: BookOpen01Icon,

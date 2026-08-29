@@ -33,12 +33,12 @@ import {
   InformationCircleIcon,
   LayersIcon,
   Link01Icon,
+  Location01Icon,
   Mail01Icon,
-  MapPinIcon,
   MinusSignIcon,
   MoreHorizontalIcon,
   NextIcon,
-  Notification02Icon,
+  Notification01Icon,
   PanelsTopLeftIcon,
   PauseIcon,
   PencilIcon,
@@ -135,7 +135,7 @@ const semanticIconData = {
   "arrow-left": ArrowLeft01Icon,
   "arrow-right": ArrowRight01Icon,
   "arrow-up": ArrowUp01Icon,
-  bell: Notification02Icon,
+  bell: Notification01Icon,
   bookmark: Bookmark02Icon,
   bold: TextBoldIcon,
   book: BookOpen01Icon,
@@ -197,7 +197,7 @@ const officialIconData = {
   CornerDownLeftIcon,
   GlobeIcon,
   LayersIcon,
-  MapPinIcon,
+  Location01Icon,
   Search01Icon,
   SparklesIcon,
   UnfoldMoreIcon,
@@ -215,7 +215,7 @@ const fixtureIconContracts = {
   "alert.svelte": [site('component:FixtureIcon:name="info-circle"', 1, "info-circle")],
   "autocomplete.svelte": [
     site("component:HugeiconsIcon:icon={Search01Icon}", 1, "Search01Icon"),
-    site("component:HugeiconsIcon:icon={MapPinIcon}", 1, "MapPinIcon"),
+    site("component:HugeiconsIcon:icon={Location01Icon}", 1, "Location01Icon"),
   ],
   "badge.svelte": [site('component:FixtureIcon:name="check"', 1, "check")],
   "button.svelte": [
@@ -460,7 +460,7 @@ const fixtureIconContracts = {
 } as const satisfies Record<(typeof migratedFixtures)[number], readonly SiteContract[]>;
 
 const directCoreImports = {
-  "autocomplete.svelte": ["MapPinIcon", "Search01Icon"],
+  "autocomplete.svelte": ["Location01Icon", "Search01Icon"],
   "combobox.svelte": ["Cancel01Icon", "Search01Icon", "UnfoldMoreIcon"],
   "command.svelte": [
     "ArrowDown02Icon",
@@ -532,10 +532,10 @@ function extractIconSites(source: string): Map<string, number> {
   return sites;
 }
 
-function extractCoreImports(source: string): string[] {
+function extractNamedImports(source: string, moduleName: string): string[] {
   const imports = new Set<string>();
   walkAst(parse(source, { modern: true }), (node) => {
-    if (node.type !== "ImportDeclaration" || node.source?.value !== "@hugeicons/core-free-icons") {
+    if (node.type !== "ImportDeclaration" || node.source?.value !== moduleName) {
       return;
     }
     for (const specifier of node.specifiers ?? []) {
@@ -650,8 +650,10 @@ describe("parity fixture icon migration", () => {
   it("imports every direct fixture dataset from the official core package", () => {
     for (const [fileName, expectedImports] of Object.entries(directCoreImports)) {
       const source = readFileSync(resolve(fixtureRoot, fileName), "utf8");
-      expect(extractCoreImports(source), fileName).toEqual([...expectedImports].sort());
-      expect(source, fileName).toContain('import { HugeiconsIcon } from "@coss-sv/ui"');
+      expect(extractNamedImports(source, "@hugeicons/core-free-icons"), fileName).toEqual(
+        [...expectedImports].sort(),
+      );
+      expect(extractNamedImports(source, "@coss-sv/ui"), fileName).toContain("HugeiconsIcon");
     }
 
     const selectSource = normalizeSource(

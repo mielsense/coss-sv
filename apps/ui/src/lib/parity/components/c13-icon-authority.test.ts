@@ -7,7 +7,7 @@ import SelectFixture from "./select.svelte";
 const fixtureRoot = import.meta.dirname;
 
 const iconContracts = {
-  "autocomplete.svelte": ["MapPinIcon", "Search01Icon"],
+  "autocomplete.svelte": ["Location01Icon", "Search01Icon"],
   "combobox.svelte": ["Cancel01Icon", "Search01Icon", "UnfoldMoreIcon"],
   "command.svelte": [
     "ArrowDown02Icon",

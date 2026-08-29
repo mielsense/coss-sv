@@ -1,7 +1,6 @@
 <script lang="ts">
-  import { Button, Field, Form, Label, Spinner } from "@coss-sv/ui";
-  import { MapPinIcon, Search01Icon } from "@hugeicons/core-free-icons";
-  import { HugeiconsIcon } from "@coss-sv/ui";
+  import { Button, Field, Form, HugeiconsIcon, Label, Spinner } from "@coss-sv/ui";
+  import { Location01Icon, Search01Icon } from "@hugeicons/core-free-icons";
   import * as Autocomplete from "../../../../../../packages/ui/dist/components/ui/autocomplete/index.js";
 
   type Item = { label: string; value: string };
@@ -136,7 +135,7 @@
 {/snippet}
 
 {#snippet mapPinIcon()}
-  <HugeiconsIcon aria-hidden="true" icon={MapPinIcon} strokeWidth={2} />
+  <HugeiconsIcon aria-hidden="true" icon={Location01Icon} strokeWidth={2} />
 {/snippet}
 
 <div class="fixture">

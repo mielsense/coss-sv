@@ -38,7 +38,9 @@ projects, settings, package, inbox, save, currency, and percent. All render with
 COSS uses two different share glyphs. Context Menu and Drawer use the upload-style `ShareIcon`,
 which maps to `Share03Icon`. Tooltip uses the three-node `Share2Icon`, which maps to
 `Share08Icon`. The Input Group password control maps `EyeOffIcon` to the slashed
-`ViewOffSlashIcon` rather than the unslashed closed-eye glyph.
+`ViewOffSlashIcon` rather than the unslashed closed-eye glyph. The address Autocomplete pin maps
+to the two-node `Location01Icon`, and the detached Popover bell maps to `Notification01Icon` with
+its closed body and clapper.
 
 No source under `reference/packages/ui/**` was read or used.
 
