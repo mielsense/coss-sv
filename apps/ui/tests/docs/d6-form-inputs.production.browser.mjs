@@ -78,6 +78,23 @@ async function inspectFieldValidityPreview() {
   const browser = await chromium.launch({ headless: true });
   try {
     const page = await browser.newPage({ viewport: { height: 900, width: 1440 } });
+    await page.goto(`${baseUrl}/preview/p-field-5?theme=light&width=desktop&timers=real`, {
+      waitUntil: "networkidle",
+    });
+
+    const preview = page.locator('[data-slot="preview"]');
+    await preview.waitFor({ state: "visible" });
+    const defaultGeometry = await preview.evaluate((element) => ({
+      maxWidth: getComputedStyle(element).maxWidth,
+      width: element.getBoundingClientRect().width,
+    }));
+    assert.equal(defaultGeometry.maxWidth, "256px", "standalone p-field-5 should keep max-w-64");
+    assert.equal(
+      Math.round(defaultGeometry.width),
+      256,
+      "standalone p-field-5 should render at 16rem",
+    );
+
     const parameters = new URLSearchParams({
       theme: "light",
       width: "desktop",
@@ -86,7 +103,6 @@ async function inspectFieldValidityPreview() {
     });
     await page.goto(`${baseUrl}/preview/p-field-5?${parameters}`, { waitUntil: "networkidle" });
 
-    const preview = page.locator('[data-slot="preview"]');
     await preview.waitFor({ state: "visible" });
 
     const geometry = await preview.evaluate((element) => ({

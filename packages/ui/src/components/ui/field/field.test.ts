@@ -3,6 +3,7 @@ import { describe, expect, test } from "vitest";
 import FieldSsrFixture from "./field.ssr-fixture.svelte";
 import FieldControlRelationshipsSsrFixture from "./field-control-relationships.ssr-fixture.svelte";
 import FieldExplicitControlsSsrFixture from "./field-explicit-controls.ssr-fixture.svelte";
+import FieldFieldsetAssociationSsrFixture from "./field-fieldset-association.ssr-fixture.svelte";
 import FieldFieldsetSsrFixture from "./field-fieldset.ssr-fixture.svelte";
 import FieldGeneratedFieldsetSsrFixture from "./field-generated-fieldset.ssr-fixture.svelte";
 import FieldLabelPolymorphismSsrFixture from "./field-label-polymorphism.ssr-fixture.svelte";
@@ -59,6 +60,19 @@ describe("Field SSR contract", () => {
     expect(legendId).toBeTruthy();
     expect(fieldset).toContain(`aria-labelledby="${legendId}"`);
     expect(body.match(/<fieldset/g)).toHaveLength(1);
+  });
+
+  test("omits dangling fieldset associations without an explicit root legend id", () => {
+    const body = render(FieldFieldsetAssociationSsrFixture).body;
+    const withoutLegend = body.match(/<fieldset[^>]*data-testid="field-without-legend"[^>]*>/)?.[0];
+    const withCustomLegend = body.match(
+      /<fieldset[^>]*data-testid="field-with-custom-legend"[^>]*>/,
+    )?.[0];
+    const customLegend = body.match(/<div[^>]*data-testid="custom-field-legend"[^>]*>/)?.[0];
+
+    expect(withoutLegend).not.toContain("aria-labelledby");
+    expect(withCustomLegend).not.toContain("aria-labelledby");
+    expect(customLegend).toContain('id="custom-field-legend"');
   });
 
   test("allocates the seeded id once and restores the previous control on cleanup", () => {

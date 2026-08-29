@@ -4,8 +4,8 @@
 
   export type FieldsetRootProps = ComponentProps<typeof FieldsetPrimitive.Root> & {
     /**
-     * Hydration-stable ID shared with an explicitly identified `Fieldset.Legend`.
-     * The generated default is used by a Legend without an explicit ID.
+     * Hydration-stable ID shared with `Fieldset.Legend` when the relationship must exist in SSR.
+     * Pass the same explicit ID to the Legend.
      */
     legendId?: string;
   };
@@ -14,11 +14,10 @@
 <script lang="ts">
   import { createFieldsetCompositionContext } from "./context.svelte.js";
 
-  const uid = $props.id();
   let {
     class: className,
     disabled = false,
-    legendId = `${uid}-legend`,
+    legendId,
     ref = $bindable(null),
     ...props
   }: FieldsetRootProps = $props();

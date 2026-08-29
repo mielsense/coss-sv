@@ -9,8 +9,8 @@
      */
     controlId?: string;
     /**
-     * Hydration-stable ID shared with an explicitly identified `Fieldset.Legend` when `as` is
-     * `"fieldset"`. The generated default is used by a Legend without an explicit ID.
+     * Hydration-stable ID shared with `Fieldset.Legend` when `as` is `"fieldset"` and the
+     * relationship must exist in SSR. Pass the same explicit ID to the Legend.
      */
     legendId?: string;
   };
@@ -28,7 +28,7 @@
     class: className,
     controlId = `${uid}-control`,
     disabled = false,
-    legendId = `${uid}-legend`,
+    legendId,
     ref = $bindable(null),
     ...props
   }: FieldRootProps = $props();

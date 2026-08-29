@@ -1,5 +1,6 @@
 import { render } from "svelte/server";
 import { describe, expect, test } from "vitest";
+import FieldsetAssociationSsrFixture from "./fieldset-association.ssr-fixture.svelte";
 import FieldsetSsrFixture from "./fieldset.ssr-fixture.svelte";
 import * as Fieldset from "./index.js";
 
@@ -30,5 +31,20 @@ describe("Fieldset SSR contract", () => {
     expect(Fieldset.Legend).toBeTypeOf("function");
     expect(Fieldset.Fieldset).toBe(Fieldset.Root);
     expect(Fieldset.FieldsetLegend).toBe(Fieldset.Legend);
+  });
+
+  test("omits dangling server associations without an explicit root legend id", () => {
+    const body = render(FieldsetAssociationSsrFixture).body;
+    const withoutLegend = body.match(
+      /<fieldset[^>]*data-testid="fieldset-without-legend"[^>]*>/,
+    )?.[0];
+    const withCustomLegend = body.match(
+      /<fieldset[^>]*data-testid="fieldset-with-custom-legend"[^>]*>/,
+    )?.[0];
+    const customLegend = body.match(/<div[^>]*data-testid="custom-fieldset-legend"[^>]*>/)?.[0];
+
+    expect(withoutLegend).not.toContain("aria-labelledby");
+    expect(withCustomLegend).not.toContain("aria-labelledby");
+    expect(customLegend).toContain('id="custom-fieldset-legend"');
   });
 });
