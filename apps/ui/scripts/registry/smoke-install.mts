@@ -482,7 +482,7 @@ async function productionRegistryItems(): Promise<ProductionRegistryIndexItem[]>
   const items = JSON.parse(
     await readFile(resolve(appRoot, "static/r/index.json"), "utf8"),
   ) as ProductionRegistryIndexItem[];
-  return items.filter(({ type }) => type === "registry:ui");
+  return items.filter(({ name, type }) => type === "registry:ui" && name !== "ui");
 }
 
 async function verifyInstalledProductionRegistry(
@@ -534,6 +534,7 @@ const registryRoot = resolve(temporaryRoot, "registry-author");
 const registryOutput = resolve(registryRoot, "static/r");
 const fixtureRoot = resolve(temporaryRoot, "consumer");
 const productionFixtureRoot = resolve(temporaryRoot, "production-consumer");
+const productionBundleFixtureRoot = resolve(temporaryRoot, "production-bundle-consumer");
 const storeRoot = resolve(temporaryRoot, "pnpm-store");
 const environment = isolatedEnvironment(temporaryRoot);
 let server: Server | undefined;
@@ -658,6 +659,42 @@ try {
     quiet: true,
   });
 
+  await mkdir(productionBundleFixtureRoot, { recursive: true });
+  await writeConsumerFixture(productionBundleFixtureRoot);
+  await run(
+    "pnpm",
+    ["install", "--ignore-workspace", "--frozen-lockfile=false", "--store-dir", storeRoot],
+    { cwd: productionBundleFixtureRoot, env: environment, quiet: true },
+  );
+  await runLocalShadcn(
+    [
+      "add",
+      `${productionRegistryServer.baseUrl}/ui.json`,
+      "-c",
+      productionBundleFixtureRoot,
+      "--yes",
+      "--overwrite",
+      "--no-deps-install",
+    ],
+    { env: environment, quiet: true },
+  );
+  await run(
+    "pnpm",
+    ["install", "--ignore-workspace", "--frozen-lockfile=false", "--store-dir", storeRoot],
+    { cwd: productionBundleFixtureRoot, env: environment, quiet: true },
+  );
+  await verifyInstalledProductionRegistry(productionBundleFixtureRoot, productionItems);
+  await run("pnpm", ["exec", "svelte-check", "--tsconfig", "./tsconfig.json"], {
+    cwd: productionBundleFixtureRoot,
+    env: environment,
+    quiet: true,
+  });
+  await run("pnpm", ["exec", "vite", "build"], {
+    cwd: productionBundleFixtureRoot,
+    env: environment,
+    quiet: true,
+  });
+
   const privateSmokeArtifacts = findPrivateSmokeArtifacts(
     await readdir(resolve(appRoot, "static/r")),
   );
@@ -667,7 +704,7 @@ try {
     );
   }
   console.log(
-    `Bundle-first and ${productionItems.length}-item production registry installs, svelte-check, and builds passed.`,
+    `Private bundle, ${productionItems.length}-item production batch, and complete UI bundle installs, svelte-check, and builds passed.`,
   );
 } finally {
   await closeServer(server);
