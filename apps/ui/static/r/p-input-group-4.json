@@ -1,0 +1,17 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "p-input-group-4",
+	"type": "registry:block",
+	"description": "COSS input-group example.",
+	"registryDependencies": [
+		"./particle-metadata.json",
+		"./input-group.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n  export const meta = defineParticleMeta({\n    components: [\"input-group\"],\n    containerClass: \"**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64\",\n    id: \"p-input-group-4\",\n    interactive: true,\n    responsive: false,\n    title: \"Input group with end text\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import * as InputGroup from \"$COMPONENTS$/ui/input-group/index.js\";\n</script>\n\n<InputGroup.Root\n  ><InputGroup.Input aria-label=\"Choose a username\" placeholder=\"Choose a username\" type=\"text\" />\n  <InputGroup.Addon align=\"inline-end\"\n    ><InputGroup.Text>@coss.com</InputGroup.Text></InputGroup.Addon\n  ></InputGroup.Root\n>\n",
+			"type": "registry:block",
+			"target": "p-input-group-4.svelte"
+		}
+	]
+}

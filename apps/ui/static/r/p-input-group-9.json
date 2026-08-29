@@ -1,0 +1,18 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "p-input-group-9",
+	"type": "registry:block",
+	"description": "COSS input-group example.",
+	"registryDependencies": [
+		"./particle-metadata.json",
+		"./button.json",
+		"./input-group.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n  export const meta = defineParticleMeta({\n    components: [\"button\", \"input-group\"],\n    containerClass: \"**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64\",\n    id: \"p-input-group-9\",\n    interactive: true,\n    responsive: false,\n    title: \"Input group with button\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { Button } from \"$COMPONENTS$/ui/button/index.js\";\n  import * as InputGroup from \"$COMPONENTS$/ui/input-group/index.js\";\n</script>\n\n<InputGroup.Root\n  ><InputGroup.Input placeholder=\"Type to search…\" type=\"search\" />\n  <InputGroup.Addon align=\"inline-end\"\n    ><Button size=\"xs\" variant=\"secondary\">Search</Button></InputGroup.Addon\n  ></InputGroup.Root\n>\n",
+			"type": "registry:block",
+			"target": "p-input-group-9.svelte"
+		}
+	]
+}

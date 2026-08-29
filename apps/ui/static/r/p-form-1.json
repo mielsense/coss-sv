@@ -1,0 +1,20 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "p-form-1",
+	"type": "registry:block",
+	"description": "COSS form example.",
+	"registryDependencies": [
+		"./particle-metadata.json",
+		"./button.json",
+		"./field.json",
+		"./form.json",
+		"./input.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\n  export const meta = defineParticleMeta({\n    components: [\"button\", \"field\", \"form\", \"input\"],\n    containerClass: \"**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64\",\n    id: \"p-form-1\",\n    interactive: true,\n    responsive: false,\n    title: \"Input in a form\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { Button } from \"$COMPONENTS$/ui/button/index.js\";\n  import * as Field from \"$COMPONENTS$/ui/field/index.js\";\n  import { Form } from \"$COMPONENTS$/ui/form/index.js\";\n  import { Input } from \"$COMPONENTS$/ui/input/index.js\";\n\n  let loading = $state(false);\n\n  async function submit(event: SubmitEvent) {\n    event.preventDefault();\n    const formData = new FormData(event.currentTarget as HTMLFormElement);\n    loading = true;\n    await new Promise((resolve) => setTimeout(resolve, 800));\n    loading = false;\n    alert(`Email: ${formData.get(\"email\") || \"\"}`);\n  }\n</script>\n\n<Form class=\"flex w-full max-w-64 flex-col gap-4\" onsubmit={submit}>\n  <Field.Root name=\"email\">\n    <Field.Label>Email</Field.Label>\n    <Input placeholder=\"you@example.com\" required type=\"email\" />\n    <Field.Error>Please enter a valid email.</Field.Error>\n  </Field.Root>\n  <Button {loading} type=\"submit\">Submit</Button>\n</Form>\n",
+			"type": "registry:block",
+			"target": "p-form-1.svelte"
+		}
+	]
+}

@@ -1,0 +1,22 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "p-group-10",
+	"type": "registry:block",
+	"description": "COSS group example.",
+	"dependencies": [
+		"@hugeicons/core-free-icons@4.3.0"
+	],
+	"registryDependencies": [
+		"./particle-metadata.json",
+		"./button.json",
+		"./group.json",
+		"./hugeicons-icon.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n  export const meta = defineParticleMeta({\n    components: [\"button\", \"group\"],\n    id: \"p-group-10\",\n    interactive: true,\n    responsive: false,\n    title: \"Nested groups\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { Button } from \"$COMPONENTS$/ui/button/index.js\";\n  import * as Group from \"$COMPONENTS$/ui/group/index.js\";\n  import HugeiconsIcon from \"$LIB$/hugeicons-icon.svelte\";\n  import { ArrowLeft01Icon, ArrowRight01Icon } from \"@hugeicons/core-free-icons\";\n</script>\n\n<Group.Root aria-label=\"Pagination\">\n  <Group.Root aria-label=\"Page numbers\">\n    {#each [1, 2, 3, 4, 5] as page (page)}\n      {#if page > 1}\n        <Group.Separator />\n      {/if}\n      <Button class=\"min-w-8\" variant=\"outline\">{page}</Button>\n    {/each}\n  </Group.Root>\n  <Group.Root aria-label=\"Navigation\">\n    <Button aria-label=\"Previous\" size=\"icon\" variant=\"outline\">\n      <HugeiconsIcon aria-hidden=\"true\" icon={ArrowLeft01Icon} strokeWidth={2} />\n    </Button>\n    <Group.Separator />\n    <Button aria-label=\"Next\" size=\"icon\" variant=\"outline\">\n      <HugeiconsIcon aria-hidden=\"true\" icon={ArrowRight01Icon} strokeWidth={2} />\n    </Button>\n  </Group.Root>\n</Group.Root>\n",
+			"type": "registry:block",
+			"target": "p-group-10.svelte"
+		}
+	]
+}

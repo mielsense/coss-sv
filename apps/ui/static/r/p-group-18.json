@@ -1,0 +1,19 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "p-group-18",
+	"type": "registry:block",
+	"description": "COSS group example.",
+	"registryDependencies": [
+		"./particle-metadata.json",
+		"./group.json",
+		"./input.json",
+		"./select.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n  export const meta = defineParticleMeta({\n    components: [\"group\", \"input\", \"select\"],\n    id: \"p-group-18\",\n    interactive: true,\n    responsive: false,\n    title: \"Group with select and input\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import * as Group from \"$COMPONENTS$/ui/group/index.js\";\n  import { Input } from \"$COMPONENTS$/ui/input/index.js\";\n  import * as Select from \"$COMPONENTS$/ui/select/index.js\";\n\n  const protocols = [\n    { label: \"https://\", value: \"https\" },\n    { label: \"http://\", value: \"http\" },\n    { label: \"ftp://\", value: \"ftp\" },\n    { label: \"sftp://\", value: \"sftp\" },\n  ];\n  let protocol = $state(\"https\");\n</script>\n\n<Group.Root aria-label=\"URL input\">\n  <Select.Root bind:value={protocol} items={protocols}>\n    <Select.Trigger class=\"w-fit min-w-none\"><Select.Value /></Select.Trigger>\n    <Select.Popup\n      >{#each protocols as item (item.value)}\n        <Select.Item value={item.value}>{item.label}</Select.Item>\n      {/each}</Select.Popup\n    >\n  </Select.Root>\n  <Group.Separator />\n  <Input aria-label=\"IP address\" placeholder=\"192.168.1.1\" type=\"text\" />\n</Group.Root>\n",
+			"type": "registry:block",
+			"target": "p-group-18.svelte"
+		}
+	]
+}

@@ -1,0 +1,23 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "p-input-9",
+	"type": "registry:block",
+	"description": "COSS input example.",
+	"dependencies": [
+		"@hugeicons/core-free-icons@4.3.0"
+	],
+	"registryDependencies": [
+		"./particle-metadata.json",
+		"./button.json",
+		"./input-group.json",
+		"./tooltip.json",
+		"./hugeicons-icon.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\n  export const meta = defineParticleMeta({\n    components: [\"button\", \"input-group\", \"tooltip\"],\n    containerClass: \"**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64\",\n    id: \"p-input-9\",\n    interactive: true,\n    responsive: false,\n    title: \"Password input with toggle visibility\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { buttonVariants } from \"$COMPONENTS$/ui/button/index.js\";\n  import HugeiconsIcon from \"$LIB$/hugeicons-icon.svelte\";\n  import * as InputGroup from \"$COMPONENTS$/ui/input-group/index.js\";\n  import * as Tooltip from \"$COMPONENTS$/ui/tooltip/index.js\";\n  import { ViewIcon, ViewOffIcon } from \"@hugeicons/core-free-icons\";\n\n  let showPassword = $state(false);\n</script>\n\n<InputGroup.Root>\n  <InputGroup.Input\n    aria-label=\"Password with toggle visibility\"\n    placeholder=\"Enter your password\"\n    type={showPassword ? \"text\" : \"password\"}\n  />\n  <InputGroup.Addon align=\"inline-end\">\n    <Tooltip.Root>\n      <Tooltip.Trigger\n        aria-label={showPassword ? \"Hide password\" : \"Show password\"}\n        class={buttonVariants({ size: \"icon-xs\", variant: \"ghost\" })}\n        onclick={() => (showPassword = !showPassword)}\n      >\n        <HugeiconsIcon\n          aria-hidden=\"true\"\n          icon={showPassword ? ViewOffIcon : ViewIcon}\n          strokeWidth={2}\n        />\n      </Tooltip.Trigger>\n      <Tooltip.Popup>{showPassword ? \"Hide password\" : \"Show password\"}</Tooltip.Popup>\n    </Tooltip.Root>\n  </InputGroup.Addon>\n</InputGroup.Root>\n",
+			"type": "registry:block",
+			"target": "p-input-9.svelte"
+		}
+	]
+}

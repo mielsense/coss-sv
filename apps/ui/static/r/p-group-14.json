@@ -1,0 +1,24 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "p-group-14",
+	"type": "registry:block",
+	"description": "COSS group example.",
+	"dependencies": [
+		"@hugeicons/core-free-icons@4.3.0"
+	],
+	"registryDependencies": [
+		"./particle-metadata.json",
+		"./button.json",
+		"./group.json",
+		"./number-field.json",
+		"./select.json",
+		"./hugeicons-icon.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n  export const meta = defineParticleMeta({\n    components: [\"button\", \"group\", \"number-field\", \"select\"],\n    id: \"p-group-14\",\n    interactive: true,\n    responsive: false,\n    title: \"Group with select\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { Button } from \"$COMPONENTS$/ui/button/index.js\";\n  import * as Group from \"$COMPONENTS$/ui/group/index.js\";\n  import HugeiconsIcon from \"$LIB$/hugeicons-icon.svelte\";\n  import * as NumberField from \"$COMPONENTS$/ui/number-field/index.js\";\n  import * as Select from \"$COMPONENTS$/ui/select/index.js\";\n  import { ArrowRight01Icon } from \"@hugeicons/core-free-icons\";\n\n  interface Currency {\n    value: string;\n    label: string;\n  }\n  const currencies: Currency[] = [\n    { label: \"US Dollar\", value: \"$\" },\n    { label: \"Euro\", value: \"€\" },\n    { label: \"British Pound\", value: \"£\" },\n  ];\n  let currency = $state<Currency | null>(currencies[0]);\n</script>\n\n<Group.Root aria-label=\"Payment amount\">\n  <Group.Root aria-label=\"Amount input\">\n    <Select.Root\n      bind:value={currency}\n      items={currencies.map((item) => ({ label: item.label, value: item }))}\n      itemToStringLabel={(item) => item.label}\n      itemToStringValue={(item) => item.value}\n    >\n      <Select.Trigger class=\"w-fit min-w-none\">\n        <Select.Value>\n          {#snippet children(value: Currency | null)}\n            {value?.value}\n          {/snippet}\n        </Select.Value>\n      </Select.Trigger>\n      <Select.Popup class=\"min-w-48\">\n        {#each currencies as item (item.value)}\n          <Select.Item value={item}>{item.value} <span class=\"ms-1\">{item.label}</span></Select.Item\n          >\n        {/each}\n      </Select.Popup>\n    </Select.Root>\n    <Group.Separator />\n    <NumberField.Root\n      aria-label=\"Enter the amount\"\n      class=\"gap-0\"\n      defaultValue={10}\n      delegate={numberGroup}\n    >\n      <NumberField.Input class=\"text-left\" />\n    </NumberField.Root>\n  </Group.Root>\n  <Group.Root aria-label=\"Submit\">\n    <Button aria-label=\"Send\" size=\"icon\" variant=\"outline\">\n      <HugeiconsIcon aria-hidden=\"true\" icon={ArrowRight01Icon} strokeWidth={2} />\n    </Button>\n  </Group.Root>\n</Group.Root>\n\n{#snippet numberGroup(props: NumberField.NumberFieldGroupProps)}\n  <NumberField.Group {...props} />\n{/snippet}\n",
+			"type": "registry:block",
+			"target": "p-group-14.svelte"
+		}
+	]
+}

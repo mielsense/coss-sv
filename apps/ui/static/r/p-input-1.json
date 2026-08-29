@@ -1,0 +1,17 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "p-input-1",
+	"type": "registry:block",
+	"description": "COSS input example.",
+	"registryDependencies": [
+		"./particle-metadata.json",
+		"./input.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\n  export const meta = defineParticleMeta({\n    components: [\"input\"],\n    containerClass: \"**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64\",\n    id: \"p-input-1\",\n    interactive: true,\n    responsive: false,\n    title: \"Basic input\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { Input } from \"$COMPONENTS$/ui/input/index.js\";\n</script>\n\n<Input aria-label=\"Enter text\" placeholder=\"Enter text\" type=\"text\" />\n",
+			"type": "registry:block",
+			"target": "p-input-1.svelte"
+		}
+	]
+}

@@ -1,0 +1,23 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "p-input-8",
+	"type": "registry:block",
+	"description": "COSS input example.",
+	"dependencies": [
+		"@hugeicons/core-free-icons@4.3.0"
+	],
+	"registryDependencies": [
+		"./particle-metadata.json",
+		"./button.json",
+		"./input-group.json",
+		"./popover.json",
+		"./hugeicons-icon.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\n  export const meta = defineParticleMeta({\n    components: [\"button\", \"input-group\", \"popover\"],\n    containerClass: \"**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64\",\n    id: \"p-input-8\",\n    interactive: true,\n    responsive: false,\n    title: \"Input with start text and end tooltip\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { buttonVariants } from \"$COMPONENTS$/ui/button/index.js\";\n  import HugeiconsIcon from \"$LIB$/hugeicons-icon.svelte\";\n  import * as InputGroup from \"$COMPONENTS$/ui/input-group/index.js\";\n  import * as Popover from \"$COMPONENTS$/ui/popover/index.js\";\n  import { InformationCircleIcon } from \"@hugeicons/core-free-icons\";\n</script>\n\n<InputGroup.Root>\n  <InputGroup.Input\n    aria-label=\"Set your URL\"\n    class=\"*:[input]:ps-0!\"\n    placeholder=\"coss.com\"\n    type=\"text\"\n  />\n  <InputGroup.Addon>https://</InputGroup.Addon>\n  <InputGroup.Addon align=\"inline-end\">\n    <Popover.Root>\n      <Popover.Trigger\n        aria-label=\"More info\"\n        class={buttonVariants({ size: \"icon-xs\", variant: \"ghost\" })}\n        openOnHover\n      >\n        <HugeiconsIcon aria-hidden=\"true\" icon={InformationCircleIcon} strokeWidth={2} />\n      </Popover.Trigger>\n      <Popover.Popup side=\"top\" tooltipStyle><p>The URL of your website</p></Popover.Popup>\n    </Popover.Root>\n  </InputGroup.Addon>\n</InputGroup.Root>\n",
+			"type": "registry:block",
+			"target": "p-input-8.svelte"
+		}
+	]
+}

@@ -1,0 +1,19 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "p-fieldset-1",
+	"type": "registry:block",
+	"description": "COSS fieldset example.",
+	"registryDependencies": [
+		"./particle-metadata.json",
+		"./field.json",
+		"./fieldset.json",
+		"./input.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\n  export const meta = defineParticleMeta({\n    components: [\"field\", \"fieldset\", \"input\"],\n    containerClass: \"**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64\",\n    id: \"p-fieldset-1\",\n    interactive: true,\n    responsive: false,\n    title: \"Fieldset with multiple fields\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import * as Field from \"$COMPONENTS$/ui/field/index.js\";\n  import * as Fieldset from \"$COMPONENTS$/ui/fieldset/index.js\";\n  import { Input } from \"$COMPONENTS$/ui/input/index.js\";\n\n  const uid = $props.id();\n  const legendId = `${uid}-legend`;\n</script>\n\n<Fieldset.Root class=\"flex w-full flex-col gap-6\" {legendId}>\n  <Fieldset.Legend id={legendId}>Billing Details</Fieldset.Legend>\n  <Field.Root>\n    <Field.Label>Company</Field.Label>\n    <Input placeholder=\"Enter company name\" type=\"text\" />\n    <Field.Description>The name that will appear on invoices.</Field.Description>\n  </Field.Root>\n  <Field.Root>\n    <Field.Label>Tax ID</Field.Label>\n    <Input placeholder=\"Enter tax identification number\" type=\"text\" />\n    <Field.Description>Your business tax identification number.</Field.Description>\n  </Field.Root>\n</Fieldset.Root>\n",
+			"type": "registry:block",
+			"target": "p-fieldset-1.svelte"
+		}
+	]
+}

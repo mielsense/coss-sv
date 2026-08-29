@@ -1,0 +1,18 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "p-field-16",
+	"type": "registry:block",
+	"description": "COSS field example.",
+	"registryDependencies": [
+		"./particle-metadata.json",
+		"./field.json",
+		"./slider.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\n  export const meta = defineParticleMeta({\n    components: [\"field\", \"slider\"],\n    containerClass: \"**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64\",\n    id: \"p-field-16\",\n    interactive: true,\n    responsive: false,\n    title: \"Field with slider\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import * as Field from \"$COMPONENTS$/ui/field/index.js\";\n  import * as Slider from \"$COMPONENTS$/ui/slider/index.js\";\n</script>\n\n<Field.Root class=\"items-stretch gap-3\">\n  <Field.Label>Country</Field.Label>\n  <Slider.Root aria-label=\"Country\" defaultValue={50} />\n  <Field.Description>This is an optional field</Field.Description>\n</Field.Root>\n",
+			"type": "registry:block",
+			"target": "p-field-16.svelte"
+		}
+	]
+}

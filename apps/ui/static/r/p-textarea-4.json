@@ -1,0 +1,17 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "p-textarea-4",
+	"type": "registry:block",
+	"description": "COSS textarea example.",
+	"registryDependencies": [
+		"./particle-metadata.json",
+		"./textarea.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\n  export const meta = defineParticleMeta({\n    components: [\"textarea\"],\n    containerClass: \"**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64\",\n    id: \"p-textarea-4\",\n    interactive: true,\n    responsive: false,\n    title: \"Disabled textarea\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { Textarea } from \"$COMPONENTS$/ui/textarea/index.js\";\n</script>\n\n<Textarea disabled placeholder=\"Can't type here\" />\n",
+			"type": "registry:block",
+			"target": "p-textarea-4.svelte"
+		}
+	]
+}

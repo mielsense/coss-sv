@@ -1,0 +1,17 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "p-number-field-2",
+	"type": "registry:block",
+	"description": "COSS number-field example.",
+	"registryDependencies": [
+		"./particle-metadata.json",
+		"./number-field.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n  export const meta = defineParticleMeta({\n    components: [\"number-field\"],\n    containerClass: \"**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64\",\n    id: \"p-number-field-2\",\n    interactive: true,\n    responsive: false,\n    title: \"Small number field\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import * as NumberField from \"$COMPONENTS$/ui/number-field/index.js\";\n</script>\n\n<NumberField.Root defaultValue={0} size=\"sm\"\n  ><NumberField.Group\n    ><NumberField.Decrement /><NumberField.Input /><NumberField.Increment /></NumberField.Group\n  ></NumberField.Root\n>\n",
+			"type": "registry:block",
+			"target": "p-number-field-2.svelte"
+		}
+	]
+}

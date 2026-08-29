@@ -1,0 +1,18 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "p-otp-field-6",
+	"type": "registry:block",
+	"description": "COSS otp-field example.",
+	"registryDependencies": [
+		"./particle-metadata.json",
+		"./otp-field.json",
+		"./field.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n  export const meta = defineParticleMeta({\n    components: [\"field\", \"otp-field\"],\n    id: \"p-otp-field-6\",\n    interactive: true,\n    responsive: false,\n    title: \"OTP field with custom sanitization\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import * as Field from \"$COMPONENTS$/ui/field/index.js\";\n  import * as OTPField from \"$COMPONENTS$/ui/otp-field/index.js\";\n\n  const length = 6;\n  let focusedIndex = $state(0);\n  let invalidPulse = $state(0);\n  let statusMessage = $state(\"\");\n  let timer: ReturnType<typeof setTimeout> | undefined;\n  let skipClear = false;\n  const activeInvalidIndex = $derived(invalidPulse > 0 ? focusedIndex : -1);\n  function normalizeTierCode(value: string) {\n    return value.replace(/[^0-3]/g, \"\");\n  }\n  function clearInvalid() {\n    clearTimeout(timer);\n    timer = undefined;\n    invalidPulse = 0;\n    statusMessage = \"\";\n  }\n  function changed() {\n    if (skipClear) {\n      skipClear = false;\n      return;\n    }\n    clearInvalid();\n  }\n  function invalid(value: string) {\n    skipClear = true;\n    invalidPulse += 1;\n    statusMessage = `Unsupported characters were ignored from ${value}.`;\n    clearTimeout(timer);\n    timer = setTimeout(() => {\n      timer = undefined;\n      invalidPulse = 0;\n    }, 400);\n  }\n</script>\n\n<Field.Root class=\"items-center\">\n  <Field.Label>Tier code</Field.Label>\n  <OTPField.Root\n    inputmode=\"numeric\"\n    {length}\n    normalizeValue={normalizeTierCode}\n    validationType=\"none\"\n    onValueChange={changed}\n    onValueInvalid={invalid}\n  >\n    {#each Array(length) as _, index (index)}\n      <OTPField.Input\n        aria-invalid={activeInvalidIndex === index && invalidPulse > 0 ? true : undefined}\n        aria-label={`Character ${index + 1} of ${length}`}\n        onfocus={() => (focusedIndex = index)}\n      />\n    {/each}\n  </OTPField.Root>\n  <Field.Description>Digits 0-3 only.</Field.Description>\n  <span aria-live=\"polite\" class=\"sr-only\">{statusMessage}</span>\n</Field.Root>\n",
+			"type": "registry:block",
+			"target": "p-otp-field-6.svelte"
+		}
+	]
+}

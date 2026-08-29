@@ -1,0 +1,24 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "p-input-group-12",
+	"type": "registry:block",
+	"description": "COSS input-group example.",
+	"dependencies": [
+		"@hugeicons/core-free-icons@4.3.0"
+	],
+	"registryDependencies": [
+		"./particle-metadata.json",
+		"./button.json",
+		"./input-group.json",
+		"./label.json",
+		"./popover.json",
+		"./hugeicons-icon.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n  export const meta = defineParticleMeta({\n    components: [\"button\", \"input-group\", \"label\", \"popover\"],\n    containerClass: \"**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64\",\n    id: \"p-input-group-12\",\n    interactive: true,\n    responsive: false,\n    title: \"Input group with inner label\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { buttonVariants } from \"$COMPONENTS$/ui/button/index.js\";\n  import HugeiconsIcon from \"$LIB$/hugeicons-icon.svelte\";\n  import * as InputGroup from \"$COMPONENTS$/ui/input-group/index.js\";\n  import { Label } from \"$COMPONENTS$/ui/label/index.js\";\n  import * as Popover from \"$COMPONENTS$/ui/popover/index.js\";\n  import { InformationCircleIcon } from \"@hugeicons/core-free-icons\";\n</script>\n\n<InputGroup.Root\n  ><InputGroup.Input id=\"email-1\" placeholder=\"team@coss.com\" type=\"email\" />\n  <InputGroup.Addon align=\"block-start\"\n    ><Label class=\"text-foreground\" for=\"email-1\">Email</Label><Popover.Root\n      ><Popover.Trigger\n        class={buttonVariants({ size: \"icon-xs\", variant: \"ghost\", class: \"-m-1 ml-auto\" })}\n        openOnHover\n        ><HugeiconsIcon\n          aria-hidden=\"true\"\n          icon={InformationCircleIcon}\n          strokeWidth={2}\n        /></Popover.Trigger\n      ><Popover.Popup side=\"top\" tooltipStyle\n        ><p>We'll use this to send you notifications</p></Popover.Popup\n      ></Popover.Root\n    ></InputGroup.Addon\n  ></InputGroup.Root\n>\n",
+			"type": "registry:block",
+			"target": "p-input-group-12.svelte"
+		}
+	]
+}

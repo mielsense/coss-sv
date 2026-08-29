@@ -1,0 +1,23 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "p-group-13",
+	"type": "registry:block",
+	"description": "COSS group example.",
+	"dependencies": [
+		"@hugeicons/core-free-icons@4.3.0"
+	],
+	"registryDependencies": [
+		"./particle-metadata.json",
+		"./button.json",
+		"./group.json",
+		"./menu.json",
+		"./hugeicons-icon.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n  export const meta = defineParticleMeta({\n    components: [\"button\", \"group\", \"menu\"],\n    id: \"p-group-13\",\n    interactive: true,\n    responsive: false,\n    title: \"Group with menu\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { Button, buttonVariants } from \"$COMPONENTS$/ui/button/index.js\";\n  import * as Group from \"$COMPONENTS$/ui/group/index.js\";\n  import HugeiconsIcon from \"$LIB$/hugeicons-icon.svelte\";\n  import * as Menu from \"$COMPONENTS$/ui/menu/index.js\";\n  import {\n    ArrowDown01Icon,\n    Download01Icon,\n    Edit01Icon,\n    Share01Icon,\n  } from \"@hugeicons/core-free-icons\";\n</script>\n\n<Group.Root aria-label=\"Subscription actions\">\n  <Button>Subscribe</Button>\n  <Group.Separator class=\"bg-primary/72\" />\n  <Menu.Root>\n    <Menu.Trigger\n      aria-label=\"Copy options\"\n      class={buttonVariants({ size: \"icon\", variant: \"default\" })}\n    >\n      <HugeiconsIcon aria-hidden=\"true\" class=\"size-4\" icon={ArrowDown01Icon} strokeWidth={2} />\n    </Menu.Trigger>\n    <Menu.Popup align=\"end\">\n      <Menu.Item\n        ><HugeiconsIcon aria-hidden=\"true\" icon={Share01Icon} strokeWidth={2} />\n        Share link</Menu.Item\n      >\n      <Menu.Item\n        ><HugeiconsIcon aria-hidden=\"true\" icon={Download01Icon} strokeWidth={2} />\n        Download</Menu.Item\n      >\n      <Menu.Item\n        ><HugeiconsIcon aria-hidden=\"true\" icon={Edit01Icon} strokeWidth={2} />\n        Duplicate</Menu.Item\n      >\n    </Menu.Popup>\n  </Menu.Root>\n</Group.Root>\n",
+			"type": "registry:block",
+			"target": "p-group-13.svelte"
+		}
+	]
+}

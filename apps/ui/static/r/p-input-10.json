@@ -1,0 +1,23 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "p-input-10",
+	"type": "registry:block",
+	"description": "COSS input example.",
+	"dependencies": [
+		"@hugeicons/core-free-icons@4.3.0"
+	],
+	"registryDependencies": [
+		"./particle-metadata.json",
+		"./button.json",
+		"./input-group.json",
+		"./popover.json",
+		"./hugeicons-icon.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\n  export const meta = defineParticleMeta({\n    components: [\"button\", \"input-group\", \"popover\"],\n    containerClass: \"**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64\",\n    id: \"p-input-10\",\n    interactive: true,\n    responsive: false,\n    title: \"Input group mimicking a URL bar\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { Button, buttonVariants } from \"$COMPONENTS$/ui/button/index.js\";\n  import HugeiconsIcon from \"$LIB$/hugeicons-icon.svelte\";\n  import * as InputGroup from \"$COMPONENTS$/ui/input-group/index.js\";\n  import * as Popover from \"$COMPONENTS$/ui/popover/index.js\";\n  import { InformationCircleIcon, StarIcon } from \"@hugeicons/core-free-icons\";\n\n  let isFavorite = $state(false);\n</script>\n\n<InputGroup.Root class=\"[--radius-lg:9999px] [--radius:9999rem]\">\n  <Popover.Root>\n    <InputGroup.Addon>\n      <Popover.Trigger class={buttonVariants({ size: \"icon-xs\", variant: \"secondary\" })}>\n        <HugeiconsIcon aria-hidden=\"true\" icon={InformationCircleIcon} strokeWidth={2} />\n      </Popover.Trigger>\n    </InputGroup.Addon>\n    <Popover.Popup align=\"start\" alignOffset={-5} class=\"w-64\" sideOffset={6}>\n      <Popover.Title class=\"text-sm\">Your connection is not secure.</Popover.Title>\n      <Popover.Description>\n        You should not enter any sensitive information on this site.\n      </Popover.Description>\n    </Popover.Popup>\n  </Popover.Root>\n  <InputGroup.Addon class=\"pl-1.5 text-muted-foreground\">https://</InputGroup.Addon>\n  <InputGroup.Input aria-label=\"Url\" class=\"*:[input]:ps-1!\" type=\"text\" />\n  <InputGroup.Addon align=\"inline-end\">\n    <Button\n      aria-label={isFavorite ? \"Remove from favorites\" : \"Add to favorites\"}\n      onclick={() => (isFavorite = !isFavorite)}\n      size=\"icon-xs\"\n      variant=\"ghost\"\n    >\n      <HugeiconsIcon\n        aria-hidden=\"true\"\n        class=\"data-[favorite=true]:fill-primary data-[favorite=true]:stroke-primary\"\n        data-favorite={isFavorite}\n        icon={StarIcon}\n        strokeWidth={2}\n      />\n    </Button>\n  </InputGroup.Addon>\n</InputGroup.Root>\n",
+			"type": "registry:block",
+			"target": "p-input-10.svelte"
+		}
+	]
+}

@@ -1,0 +1,23 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "p-input-group-19",
+	"type": "registry:block",
+	"description": "COSS input-group example.",
+	"dependencies": [
+		"@hugeicons/core-free-icons@4.3.0"
+	],
+	"registryDependencies": [
+		"./particle-metadata.json",
+		"./button.json",
+		"./input-group.json",
+		"./toggle.json",
+		"./hugeicons-icon.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n  export const meta = defineParticleMeta({\n    components: [\"button\", \"input-group\", \"toggle\"],\n    containerClass: \"**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-80\",\n    id: \"p-input-group-19\",\n    interactive: true,\n    responsive: false,\n    title: \"Mini editor built with input group and toggle\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { Button } from \"$COMPONENTS$/ui/button/index.js\";\n  import HugeiconsIcon from \"$LIB$/hugeicons-icon.svelte\";\n  import * as InputGroup from \"$COMPONENTS$/ui/input-group/index.js\";\n  import { Toggle } from \"$COMPONENTS$/ui/toggle/index.js\";\n  import { Link01Icon, TextBoldIcon, TextItalicIcon } from \"@hugeicons/core-free-icons\";\n</script>\n\n<InputGroup.Root>\n  <InputGroup.Textarea placeholder=\"Tell us about yourself…\" />\n  <InputGroup.Addon align=\"block-start\" class=\"gap-1 rounded-t-lg border-b bg-muted/72 p-2!\">\n    <Toggle aria-label=\"Toggle bold\" size=\"sm\"\n      ><HugeiconsIcon aria-hidden=\"true\" icon={TextBoldIcon} strokeWidth={2} /></Toggle\n    >\n    <Toggle aria-label=\"Toggle italic\" size=\"sm\"\n      ><HugeiconsIcon aria-hidden=\"true\" icon={TextItalicIcon} strokeWidth={2} /></Toggle\n    >\n    <Button aria-label=\"Link\" size=\"icon-sm\" variant=\"ghost\"\n      ><HugeiconsIcon aria-hidden=\"true\" icon={Link01Icon} strokeWidth={2} /></Button\n    >\n  </InputGroup.Addon>\n</InputGroup.Root>\n",
+			"type": "registry:block",
+			"target": "p-input-group-19.svelte"
+		}
+	]
+}

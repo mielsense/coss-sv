@@ -1,0 +1,23 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "p-input-group-29",
+	"type": "registry:block",
+	"description": "COSS input-group example.",
+	"dependencies": [
+		"@hugeicons/core-free-icons@4.3.0"
+	],
+	"registryDependencies": [
+		"./particle-metadata.json",
+		"./button.json",
+		"./input-group.json",
+		"./tooltip.json",
+		"./hugeicons-icon.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n  export const meta = defineParticleMeta({\n    components: [\"button\", \"input-group\", \"tooltip\"],\n    containerClass: \"**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-80\",\n    id: \"p-input-group-29\",\n    interactive: true,\n    responsive: false,\n    title: \"Chat input with voice and send buttons\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { buttonVariants } from \"$COMPONENTS$/ui/button/index.js\";\n  import HugeiconsIcon from \"$LIB$/hugeicons-icon.svelte\";\n  import * as InputGroup from \"$COMPONENTS$/ui/input-group/index.js\";\n  import * as Tooltip from \"$COMPONENTS$/ui/tooltip/index.js\";\n  import { ArrowRight01Icon, Mic01Icon } from \"@hugeicons/core-free-icons\";\n</script>\n\n<InputGroup.Root>\n  <InputGroup.Textarea placeholder=\"Type a message…\" />\n  <InputGroup.Addon align=\"block-end\">\n    <Tooltip.Root>\n      <Tooltip.Trigger\n        aria-label=\"Voice message\"\n        class={buttonVariants({ size: \"icon-sm\", variant: \"ghost\", class: \"rounded-full\" })}\n      >\n        <HugeiconsIcon aria-hidden=\"true\" icon={Mic01Icon} strokeWidth={2} />\n      </Tooltip.Trigger>\n      <Tooltip.Popup>Record voice message</Tooltip.Popup>\n    </Tooltip.Root>\n    <InputGroup.Text class=\"ml-auto text-muted-foreground text-xs\"\n      >Press Enter to send</InputGroup.Text\n    >\n    <Tooltip.Root>\n      <Tooltip.Trigger\n        aria-label=\"Send message\"\n        class={buttonVariants({ size: \"icon-sm\", variant: \"default\", class: \"rounded-full\" })}\n      >\n        <HugeiconsIcon aria-hidden=\"true\" icon={ArrowRight01Icon} strokeWidth={2} />\n      </Tooltip.Trigger>\n      <Tooltip.Popup>Send</Tooltip.Popup>\n    </Tooltip.Root>\n  </InputGroup.Addon>\n</InputGroup.Root>\n",
+			"type": "registry:block",
+			"target": "p-input-group-29.svelte"
+		}
+	]
+}

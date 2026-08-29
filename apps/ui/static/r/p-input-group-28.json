@@ -1,0 +1,23 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "p-input-group-28",
+	"type": "registry:block",
+	"description": "COSS input-group example.",
+	"dependencies": [
+		"@hugeicons/core-free-icons@4.3.0"
+	],
+	"registryDependencies": [
+		"./particle-metadata.json",
+		"./button.json",
+		"./input-group.json",
+		"./tooltip.json",
+		"./hugeicons-icon.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n  export const meta = defineParticleMeta({\n    components: [\"button\", \"input-group\", \"tooltip\"],\n    containerClass: \"**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-80\",\n    id: \"p-input-group-28\",\n    interactive: true,\n    responsive: false,\n    title: \"Message composer with attachment buttons\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { Button, buttonVariants } from \"$COMPONENTS$/ui/button/index.js\";\n  import HugeiconsIcon from \"$LIB$/hugeicons-icon.svelte\";\n  import * as InputGroup from \"$COMPONENTS$/ui/input-group/index.js\";\n  import * as Tooltip from \"$COMPONENTS$/ui/tooltip/index.js\";\n  import { Attachment01Icon, Image01Icon } from \"@hugeicons/core-free-icons\";\n</script>\n\n<InputGroup.Root>\n  <InputGroup.Textarea placeholder=\"Compose your message…\" rows={4} />\n  <InputGroup.Addon align=\"block-end\" class=\"justify-between\">\n    <Tooltip.Provider>\n      <div class=\"flex gap-1\">\n        <Tooltip.Root>\n          <Tooltip.Trigger\n            aria-label=\"Attach file\"\n            class={buttonVariants({ size: \"icon-sm\", variant: \"ghost\" })}\n          >\n            <HugeiconsIcon aria-hidden=\"true\" icon={Attachment01Icon} strokeWidth={2} />\n          </Tooltip.Trigger>\n          <Tooltip.Popup>Attach file</Tooltip.Popup>\n        </Tooltip.Root>\n        <Tooltip.Root>\n          <Tooltip.Trigger\n            aria-label=\"Insert image\"\n            class={buttonVariants({ size: \"icon-sm\", variant: \"ghost\" })}\n          >\n            <HugeiconsIcon aria-hidden=\"true\" icon={Image01Icon} strokeWidth={2} />\n          </Tooltip.Trigger>\n          <Tooltip.Popup>Insert image</Tooltip.Popup>\n        </Tooltip.Root>\n      </div>\n    </Tooltip.Provider>\n    <Button size=\"sm\">Send</Button>\n  </InputGroup.Addon>\n</InputGroup.Root>\n",
+			"type": "registry:block",
+			"target": "p-input-group-28.svelte"
+		}
+	]
+}

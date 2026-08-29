@@ -1,0 +1,18 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "p-field-11",
+	"type": "registry:block",
+	"description": "COSS field example.",
+	"registryDependencies": [
+		"./particle-metadata.json",
+		"./field.json",
+		"./select.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\n  export const meta = defineParticleMeta({\n    components: [\"field\", \"select\"],\n    containerClass: \"**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64\",\n    id: \"p-field-11\",\n    interactive: true,\n    responsive: false,\n    title: \"Field with select\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import * as Field from \"$COMPONENTS$/ui/field/index.js\";\n  import * as Select from \"$COMPONENTS$/ui/select/index.js\";\n\n  const items = [\n    { label: \"Select a country\", value: null },\n    { label: \"United States\", value: \"us\" },\n    { label: \"United Kingdom\", value: \"uk\" },\n    { label: \"Canada\", value: \"ca\" },\n    { label: \"Australia\", value: \"au\" },\n  ];\n</script>\n\n<Field.Root>\n  <Field.Label>Country</Field.Label>\n  <Select.Root {items}>\n    <Select.Trigger><Select.Value /></Select.Trigger>\n    <Select.Popup>\n      {#each items as item (item.value)}\n        <Select.Item value={item.value}>{item.label}</Select.Item>\n      {/each}\n    </Select.Popup>\n  </Select.Root>\n  <Field.Description>This is an optional field</Field.Description>\n</Field.Root>\n",
+			"type": "registry:block",
+			"target": "p-field-11.svelte"
+		}
+	]
+}

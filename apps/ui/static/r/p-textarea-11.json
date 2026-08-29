@@ -1,0 +1,18 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "p-textarea-11",
+	"type": "registry:block",
+	"description": "COSS textarea example.",
+	"registryDependencies": [
+		"./particle-metadata.json",
+		"./field.json",
+		"./textarea.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\n  export const meta = defineParticleMeta({\n    components: [\"field\", \"textarea\"],\n    containerClass: \"**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64\",\n    id: \"p-textarea-11\",\n    interactive: true,\n    responsive: false,\n    title: \"Textarea with characters remaining counter\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import * as Field from \"$COMPONENTS$/ui/field/index.js\";\n  import { Textarea } from \"$COMPONENTS$/ui/textarea/index.js\";\n\n  const maxLength = 280;\n  let value = $state(\"\");\n</script>\n\n<Field.Root>\n  <Textarea aria-label=\"Message\" {maxLength} bind:value placeholder=\"Type your message here\" />\n  <Field.Description>\n    <span class=\"tabular-nums\">{maxLength - value.length}</span>\n    characters left\n  </Field.Description>\n</Field.Root>\n",
+			"type": "registry:block",
+			"target": "p-textarea-11.svelte"
+		}
+	]
+}

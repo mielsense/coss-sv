@@ -1,0 +1,23 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "p-input-group-26",
+	"type": "registry:block",
+	"description": "COSS input-group example.",
+	"dependencies": [
+		"@hugeicons/core-free-icons@4.3.0"
+	],
+	"registryDependencies": [
+		"./particle-metadata.json",
+		"./button.json",
+		"./input-group.json",
+		"./label.json",
+		"./hugeicons-icon.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n  export const meta = defineParticleMeta({\n    components: [\"button\", \"input-group\", \"label\"],\n    containerClass: \"**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64\",\n    id: \"p-input-group-26\",\n    interactive: true,\n    responsive: false,\n    title: \"Password input with strength indicator\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { Button } from \"$COMPONENTS$/ui/button/index.js\";\n  import HugeiconsIcon from \"$LIB$/hugeicons-icon.svelte\";\n  import * as InputGroup from \"$COMPONENTS$/ui/input-group/index.js\";\n  import { Label } from \"$COMPONENTS$/ui/label/index.js\";\n  import { Cancel01Icon, Tick01Icon, ViewIcon, ViewOffIcon } from \"@hugeicons/core-free-icons\";\n\n  const id = $props.id();\n  const requirements = [\n    { regex: /.{8,}/, text: \"At least 8 characters\" },\n    { regex: /[0-9]/, text: \"At least 1 number\" },\n    { regex: /[a-z]/, text: \"At least 1 lowercase letter\" },\n    { regex: /[A-Z]/, text: \"At least 1 uppercase letter\" },\n  ];\n  let password = $state(\"\");\n  let visible = $state(false);\n  const strength = $derived(\n    requirements.map((requirement) => ({\n      met: requirement.regex.test(password),\n      text: requirement.text,\n    })),\n  );\n  const score = $derived(strength.filter((requirement) => requirement.met).length);\n  function strengthColor(value: number) {\n    if (value === 0) return \"bg-border\";\n    if (value <= 1) return \"bg-red-500\";\n    if (value <= 2) return \"bg-orange-500\";\n    if (value === 3) return \"bg-amber-500\";\n    return \"bg-emerald-500\";\n  }\n  function strengthText(value: number) {\n    if (value === 0) return \"Enter a password\";\n    if (value <= 2) return \"Weak password\";\n    if (value === 3) return \"Medium password\";\n    return \"Strong password\";\n  }\n</script>\n\n<div class=\"flex flex-col gap-3\">\n  <div class=\"flex flex-col gap-2\">\n    <Label for={id}>Password</Label>\n    <InputGroup.Root>\n      <InputGroup.Input\n        aria-describedby=\"{id}-description\"\n        {id}\n        bind:value={password}\n        placeholder=\"Password\"\n        type={visible ? \"text\" : \"password\"}\n      />\n      <InputGroup.Addon align=\"inline-end\">\n        <Button\n          aria-label={visible ? \"Hide password\" : \"Show password\"}\n          onclick={() => (visible = !visible)}\n          size=\"icon-xs\"\n          variant=\"ghost\"\n        >\n          <HugeiconsIcon\n            aria-hidden=\"true\"\n            icon={visible ? ViewOffIcon : ViewIcon}\n            strokeWidth={2}\n          />\n        </Button>\n      </InputGroup.Addon>\n    </InputGroup.Root>\n  </div>\n  <div\n    aria-label=\"Password strength\"\n    aria-valuemax={4}\n    aria-valuemin={0}\n    aria-valuenow={score}\n    class=\"h-1 w-full overflow-hidden rounded-full bg-border\"\n    role=\"progressbar\"\n    tabindex=\"-1\"\n  >\n    <div\n      class=\"h-full {strengthColor(score)} transition-all duration-500 ease-out\"\n      style:width=\"{(score / 4) * 100}%\"\n    ></div>\n  </div>\n  <p class=\"font-medium text-foreground text-sm\" id=\"{id}-description\">\n    {strengthText(score)}. Must contain:\n  </p>\n  <ul aria-label=\"Password requirements\" class=\"flex flex-col gap-1.5\">\n    {#each strength as requirement (requirement.text)}\n      <li class=\"flex items-center gap-2\">\n        <HugeiconsIcon\n          aria-hidden=\"true\"\n          class=\"size-4 {requirement.met ? 'text-emerald-500' : 'text-muted-foreground/80'}\"\n          icon={requirement.met ? Tick01Icon : Cancel01Icon}\n          strokeWidth={2}\n        />\n        <span class=\"text-xs {requirement.met ? 'text-emerald-600' : 'text-muted-foreground'}\">\n          {requirement.text}\n          <span class=\"sr-only\"\n            >{requirement.met ? \" - Requirement met\" : \" - Requirement not met\"}</span\n          >\n        </span>\n      </li>\n    {/each}\n  </ul>\n</div>\n",
+			"type": "registry:block",
+			"target": "p-input-group-26.svelte"
+		}
+	]
+}

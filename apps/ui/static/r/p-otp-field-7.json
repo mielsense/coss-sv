@@ -1,0 +1,18 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "p-otp-field-7",
+	"type": "registry:block",
+	"description": "COSS otp-field example.",
+	"registryDependencies": [
+		"./particle-metadata.json",
+		"./otp-field.json",
+		"./field.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n  export const meta = defineParticleMeta({\n    components: [\"field\", \"otp-field\"],\n    id: \"p-otp-field-7\",\n    interactive: true,\n    responsive: false,\n    title: \"OTP field with auto validation\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import * as Field from \"$COMPONENTS$/ui/field/index.js\";\n  import * as OTPField from \"$COMPONENTS$/ui/otp-field/index.js\";\n\n  const length = 6;\n  let value = $state(\"\");\n  let invalid = $state(false);\n  const valid = $derived(value.length === length && value === \"123456\");\n  function changed(next: string) {\n    value = next;\n    invalid = next.length === length ? next !== \"123456\" : false;\n  }\n</script>\n\n<Field.Root class=\"items-center\">\n  <Field.Label>Verification code</Field.Label>\n  <OTPField.Root {length} {value} onValueChange={changed}>\n    {#each Array(length) as _, index (index)}\n      <OTPField.Input\n        aria-invalid={invalid || undefined}\n        aria-label={`Character ${index + 1} of ${length}`}\n      />\n    {/each}\n  </OTPField.Root>\n  {#if !valid && !invalid}\n    <Field.Description>Enter `123456` to pass validation.</Field.Description>\n  {/if}\n  {#if invalid}\n    <Field.Error match={true}>Code must be 123456.</Field.Error>\n  {/if}\n  {#if valid}\n    <Field.Description>Code verified.</Field.Description>\n  {/if}\n</Field.Root>\n",
+			"type": "registry:block",
+			"target": "p-otp-field-7.svelte"
+		}
+	]
+}

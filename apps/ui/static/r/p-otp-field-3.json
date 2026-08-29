@@ -1,0 +1,17 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "p-otp-field-3",
+	"type": "registry:block",
+	"description": "COSS otp-field example.",
+	"registryDependencies": [
+		"./particle-metadata.json",
+		"./otp-field.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n  export const meta = defineParticleMeta({\n    components: [\"otp-field\"],\n    id: \"p-otp-field-3\",\n    interactive: true,\n    responsive: false,\n    title: \"OTP field with separator\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import * as OTPField from \"$COMPONENTS$/ui/otp-field/index.js\";\n\n  const length = 6;\n</script>\n\n<OTPField.Root aria-label=\"Verification code\" {length}>\n  {#each Array(3) as _, index (index)}\n    <OTPField.Input aria-label={index === 0 ? undefined : `Character ${index + 1} of ${length}`} />\n  {/each}\n  <OTPField.Separator />\n  {#each Array(3) as _, index (index)}\n    <OTPField.Input aria-label={`Character ${index + 4} of ${length}`} />\n  {/each}\n</OTPField.Root>\n",
+			"type": "registry:block",
+			"target": "p-otp-field-3.svelte"
+		}
+	]
+}

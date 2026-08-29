@@ -1,0 +1,23 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "p-group-3",
+	"type": "registry:block",
+	"description": "COSS group example.",
+	"dependencies": [
+		"@hugeicons/core-free-icons@4.3.0"
+	],
+	"registryDependencies": [
+		"./particle-metadata.json",
+		"./button.json",
+		"./group.json",
+		"./menu.json",
+		"./hugeicons-icon.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\n  export const meta = defineParticleMeta({\n    components: [\"button\", \"group\", \"menu\"],\n    id: \"p-group-3\",\n    interactive: true,\n    responsive: false,\n    title: \"Small group\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { Button, buttonVariants } from \"$COMPONENTS$/ui/button/index.js\";\n  import * as Group from \"$COMPONENTS$/ui/group/index.js\";\n  import HugeiconsIcon from \"$LIB$/hugeicons-icon.svelte\";\n  import * as Menu from \"$COMPONENTS$/ui/menu/index.js\";\n  import {\n    Archive01Icon,\n    Delete02Icon,\n    Edit01Icon,\n    Files01Icon,\n    Film01Icon,\n    MoreHorizontalIcon,\n    Share01Icon,\n  } from \"@hugeicons/core-free-icons\";\n</script>\n\n<Group.Root aria-label=\"File actions\">\n  <Button size=\"sm\" variant=\"outline\">\n    <HugeiconsIcon aria-hidden=\"true\" icon={Files01Icon} strokeWidth={2} />\n    Files\n  </Button>\n  <Group.Separator />\n  <Button size=\"sm\" variant=\"outline\">\n    <HugeiconsIcon aria-hidden=\"true\" icon={Film01Icon} strokeWidth={2} />\n    Media\n  </Button>\n  <Group.Separator />\n  <Menu.Root>\n    <Menu.Trigger aria-label=\"Menu\" class={buttonVariants({ size: \"icon-sm\", variant: \"outline\" })}>\n      <HugeiconsIcon aria-hidden=\"true\" class=\"size-4\" icon={MoreHorizontalIcon} strokeWidth={2} />\n    </Menu.Trigger>\n    <Menu.Popup align=\"end\">\n      <Menu.Item\n        ><HugeiconsIcon aria-hidden=\"true\" icon={Edit01Icon} strokeWidth={2} />\n        Edit</Menu.Item\n      >\n      <Menu.Item\n        ><HugeiconsIcon aria-hidden=\"true\" icon={Archive01Icon} strokeWidth={2} />\n        Archive</Menu.Item\n      >\n      <Menu.Item\n        ><HugeiconsIcon aria-hidden=\"true\" icon={Share01Icon} strokeWidth={2} />\n        Share</Menu.Item\n      >\n      <Menu.Item variant=\"destructive\"\n        ><HugeiconsIcon aria-hidden=\"true\" icon={Delete02Icon} strokeWidth={2} />\n        Delete</Menu.Item\n      >\n    </Menu.Popup>\n  </Menu.Root>\n</Group.Root>\n",
+			"type": "registry:block",
+			"target": "p-group-3.svelte"
+		}
+	]
+}

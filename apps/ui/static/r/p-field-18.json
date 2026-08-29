@@ -1,0 +1,22 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "p-field-18",
+	"type": "registry:block",
+	"description": "COSS field example.",
+	"registryDependencies": [
+		"./particle-metadata.json",
+		"./button.json",
+		"./checkbox.json",
+		"./field.json",
+		"./form.json",
+		"./input.json",
+		"./select.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\n  export const meta = defineParticleMeta({\n    components: [\"button\", \"checkbox\", \"field\", \"form\", \"input\", \"select\"],\n    containerClass: \"**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64\",\n    id: \"p-field-18\",\n    interactive: true,\n    responsive: false,\n    title: \"Complete form built with field\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { Button } from \"$COMPONENTS$/ui/button/index.js\";\n  import { Checkbox } from \"$COMPONENTS$/ui/checkbox/index.js\";\n  import * as Field from \"$COMPONENTS$/ui/field/index.js\";\n  import { Form } from \"$COMPONENTS$/ui/form/index.js\";\n  import { Input } from \"$COMPONENTS$/ui/input/index.js\";\n  import * as Select from \"$COMPONENTS$/ui/select/index.js\";\n\n  const roles = [\n    { label: \"Select your role\", value: null },\n    { label: \"Developer\", value: \"developer\" },\n    { label: \"Designer\", value: \"designer\" },\n    { label: \"Product Manager\", value: \"manager\" },\n    { label: \"Other\", value: \"other\" },\n  ];\n  let loading = $state(false);\n\n  async function submit(event: SubmitEvent) {\n    event.preventDefault();\n    const formData = new FormData(event.currentTarget as HTMLFormElement);\n    loading = true;\n    await new Promise((resolve) => setTimeout(resolve, 800));\n    loading = false;\n    alert(\n      `Full name: ${formData.get(\"fullName\") || \"\"}\\nEmail: ${formData.get(\"email\") || \"\"}\\nRole: ${formData.get(\"role\") || \"\"}\\nNewsletter: ${formData.get(\"newsletter\")}`,\n    );\n  }\n</script>\n\n<Form class=\"flex w-full flex-col gap-4\" onsubmit={submit}>\n  <Field.Root name=\"fullName\">\n    <Field.Label>Full Name <span class=\"text-destructive\">*</span></Field.Label>\n    <Input placeholder=\"John Doe\" required type=\"text\" />\n    <Field.Error>Please enter a valid name.</Field.Error>\n  </Field.Root>\n  <Field.Root name=\"email\">\n    <Field.Label>Email <span class=\"text-destructive\">*</span></Field.Label>\n    <Input placeholder=\"john@example.com\" required type=\"email\" />\n    <Field.Error>Please enter a valid email.</Field.Error>\n  </Field.Root>\n  <Field.Root name=\"role\">\n    <Field.Label>Role</Field.Label>\n    <Select.Root items={roles}>\n      <Select.Trigger><Select.Value /></Select.Trigger>\n      <Select.Popup>\n        {#each roles.slice(1) as role (role.value)}\n          <Select.Item value={role.value}>{role.label}</Select.Item>\n        {/each}\n      </Select.Popup>\n    </Select.Root>\n    <Field.Description>This is an optional field</Field.Description>\n  </Field.Root>\n  <Field.Root name=\"newsletter\">\n    <div class=\"flex items-center gap-2\">\n      <Checkbox />\n      <Field.Label class=\"cursor-pointer\">Subscribe to newsletter</Field.Label>\n    </div>\n  </Field.Root>\n  <Button {loading} type=\"submit\">Submit</Button>\n</Form>\n",
+			"type": "registry:block",
+			"target": "p-field-18.svelte"
+		}
+	]
+}

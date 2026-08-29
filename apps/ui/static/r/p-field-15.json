@@ -1,0 +1,18 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "p-field-15",
+	"type": "registry:block",
+	"description": "COSS field example.",
+	"registryDependencies": [
+		"./particle-metadata.json",
+		"./field.json",
+		"./switch.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\n  export const meta = defineParticleMeta({\n    components: [\"field\", \"switch\"],\n    id: \"p-field-15\",\n    interactive: true,\n    responsive: false,\n    title: \"Field with toggle switch\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import * as Field from \"$COMPONENTS$/ui/field/index.js\";\n  import { Switch } from \"$COMPONENTS$/ui/switch/index.js\";\n</script>\n\n<Field.Root>\n  <Field.Label\n    ><Switch />\n    Email notifications</Field.Label\n  >\n</Field.Root>\n",
+			"type": "registry:block",
+			"target": "p-field-15.svelte"
+		}
+	]
+}

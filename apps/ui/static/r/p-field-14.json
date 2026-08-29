@@ -1,0 +1,19 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "p-field-14",
+	"type": "registry:block",
+	"description": "COSS field example.",
+	"registryDependencies": [
+		"./particle-metadata.json",
+		"./field.json",
+		"./fieldset.json",
+		"./radio-group.json"
+	],
+	"files": [
+		{
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\n  export const meta = defineParticleMeta({\n    components: [\"field\", \"fieldset\", \"radio-group\"],\n    containerClass: \"**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64\",\n    id: \"p-field-14\",\n    interactive: true,\n    responsive: false,\n    title: \"Field with radio group\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import * as Field from \"$COMPONENTS$/ui/field/index.js\";\n  import * as Fieldset from \"$COMPONENTS$/ui/fieldset/index.js\";\n  import * as RadioGroup from \"$COMPONENTS$/ui/radio-group/index.js\";\n\n  const uid = $props.id();\n  const legendId = `${uid}-legend`;\n</script>\n\n<Field.Root as=\"fieldset\" class=\"gap-2\" name=\"plan\" {legendId}>\n  <Fieldset.Legend id={legendId} class=\"font-medium text-sm\">Choose Plan</Fieldset.Legend>\n  <RadioGroup.Root defaultValue=\"free\">\n    <Field.Item><Field.Label><RadioGroup.Item value=\"free\" /> Free</Field.Label></Field.Item>\n    <Field.Item><Field.Label><RadioGroup.Item value=\"pro\" /> Pro</Field.Label></Field.Item>\n    <Field.Item>\n      <Field.Label><RadioGroup.Item value=\"enterprise\" /> Enterprise</Field.Label>\n    </Field.Item>\n  </RadioGroup.Root>\n  <Field.Description>Select the plan that fits your needs.</Field.Description>\n</Field.Root>\n",
+			"type": "registry:block",
+			"target": "p-field-14.svelte"
+		}
+	]
+}
