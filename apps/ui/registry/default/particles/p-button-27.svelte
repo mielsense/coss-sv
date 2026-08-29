@@ -1,19 +1,18 @@
 <script module lang="ts">
-import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
 
-export const meta = defineParticleMeta({
-  components: ["button", "group"],
-  id: "p-button-27",
-  interactive: true,
-  responsive: false,
-  title: "QR sign-in group",
-});
+  export const meta = defineParticleMeta({
+    components: ["button", "group"],
+    id: "p-button-27",
+    interactive: true,
+    responsive: false,
+    title: "QR sign-in group",
+  });
 </script>
 
 <script lang="ts">
-import { Button, Group } from "@coss-sv/ui";
-import { QrCodeIcon } from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/svelte";
+  import { Button, Group, HugeiconsIcon } from "@coss-sv/ui";
+  import { QrCodeIcon } from "@hugeicons/core-free-icons";
 </script>
 
 <Group.Root

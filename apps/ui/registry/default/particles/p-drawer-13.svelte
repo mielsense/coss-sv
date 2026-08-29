@@ -10,15 +10,14 @@
 </script>
 
 <script lang="ts">
-  import { buttonVariants, Drawer, drawerMenuItemVariants, Menu } from "@coss-sv/ui";
+  import { buttonVariants, Drawer, drawerMenuItemVariants, HugeiconsIcon, Menu } from "@coss-sv/ui";
   import {
     CopyIcon,
     Delete02Icon,
     MoreHorizontalIcon,
     PencilIcon,
-    Share08Icon,
+    Share03Icon,
   } from "@hugeicons/core-free-icons";
-  import { HugeiconsIcon } from "@hugeicons/svelte";
   import { MediaQuery } from "svelte/reactivity";
 
   const isMobile = new MediaQuery("(max-width: 799px)", false);
@@ -44,7 +43,7 @@
               <HugeiconsIcon aria-hidden="true" icon={CopyIcon} strokeWidth={2} />Duplicate
             </Drawer.Close>
             <Drawer.Close class={drawerMenuItemVariants()}>
-              <HugeiconsIcon aria-hidden="true" icon={Share08Icon} strokeWidth={2} />Share
+              <HugeiconsIcon aria-hidden="true" icon={Share03Icon} strokeWidth={2} />Share
             </Drawer.Close>
           </Drawer.MenuGroup>
           <Drawer.MenuSeparator />
@@ -131,7 +130,7 @@
         </Menu.Item><Menu.Item>
           <HugeiconsIcon aria-hidden="true" icon={CopyIcon} strokeWidth={2} />Duplicate
         </Menu.Item><Menu.Item>
-          <HugeiconsIcon aria-hidden="true" icon={Share08Icon} strokeWidth={2} />Share
+          <HugeiconsIcon aria-hidden="true" icon={Share03Icon} strokeWidth={2} />Share
         </Menu.Item>
       </Menu.Group>
       <Menu.Separator /><Menu.CheckboxItem>Shuffle</Menu.CheckboxItem><Menu.CheckboxItem>

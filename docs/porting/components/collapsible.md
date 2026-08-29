@@ -36,3 +36,7 @@ Chevron meaning through Hugeicons. `p-frame-2` keeps the same nested Collapsible
 `apps/ui/tests/docs/d4-disclosure.test.ts` locks metadata, source syntax, icon authority, and preview
 order. `tests/e2e/d4-disclosure-docs.spec.ts` checks both disclosure routes and exercises the
 Collapsible with Space.
+
+## Central Hugeicons renderer migration
+
+The p-collapsible-1 registry sources keep their audited Hugeicons core glyph data, two-pixel strokes, classes, and ARIA attributes. They now render that data with the public SSR-safe HugeiconsIcon exported by @coss-sv/ui. The focused ownership test enumerates each migrated particle, rejects the framework-specific renderer, checks every icon invocation, and verifies server-rendered SVG geometry.

@@ -1,46 +1,45 @@
 <script module lang="ts">
-import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
 
-export const meta = defineParticleMeta({
-  components: ["toggle-group", "tooltip"],
-  id: "p-toggle-group-9",
-  interactive: true,
-  responsive: false,
-  title: "Toggle group with tooltips",
-});
+  export const meta = defineParticleMeta({
+    components: ["toggle-group", "tooltip"],
+    id: "p-toggle-group-9",
+    interactive: true,
+    responsive: false,
+    title: "Toggle group with tooltips",
+  });
 </script>
 
 <script lang="ts">
-import { ToggleGroup, Tooltip } from "@coss-sv/ui";
-import { TextBoldIcon, TextItalicIcon, TextUnderlineIcon } from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/svelte";
-import { tick } from "svelte";
+  import { HugeiconsIcon, ToggleGroup, Tooltip } from "@coss-sv/ui";
+  import { TextBoldIcon, TextItalicIcon, TextUnderlineIcon } from "@hugeicons/core-free-icons";
+  import { tick } from "svelte";
 
-const tools = [
-  { icon: TextBoldIcon, label: "Toggle bold", value: "bold" },
-  { icon: TextItalicIcon, label: "Toggle italic", value: "italic" },
-  { icon: TextUnderlineIcon, label: "Toggle underline", value: "underline" },
-] as const;
-type ToolValue = (typeof tools)[number]["value"];
+  const tools = [
+    { icon: TextBoldIcon, label: "Toggle bold", value: "bold" },
+    { icon: TextItalicIcon, label: "Toggle italic", value: "italic" },
+    { icon: TextUnderlineIcon, label: "Toggle underline", value: "underline" },
+  ] as const;
+  type ToolValue = (typeof tools)[number]["value"];
 
-const uid = $props.id();
-let anchors = $state<Record<ToolValue, HTMLElement | null>>({
-  bold: null,
-  italic: null,
-  underline: null,
-});
-const tooltipHandles: Record<ToolValue, Tooltip.Handle> = {
-  bold: new Tooltip.Handle(),
-  italic: new Tooltip.Handle(),
-  underline: new Tooltip.Handle(),
-};
+  const uid = $props.id();
+  let anchors = $state<Record<ToolValue, HTMLElement | null>>({
+    bold: null,
+    italic: null,
+    underline: null,
+  });
+  const tooltipHandles: Record<ToolValue, Tooltip.Handle> = {
+    bold: new Tooltip.Handle(),
+    italic: new Tooltip.Handle(),
+    underline: new Tooltip.Handle(),
+  };
 
-async function openTooltipOnFocus(value: ToolValue, target: HTMLElement) {
-  await tick();
-  if (document.activeElement === target) {
-    tooltipHandles[value].open(`${uid}-${value}-trigger`);
+  async function openTooltipOnFocus(value: ToolValue, target: HTMLElement) {
+    await tick();
+    if (document.activeElement === target) {
+      tooltipHandles[value].open(`${uid}-${value}-trigger`);
+    }
   }
-}
 </script>
 
 <Tooltip.Provider>

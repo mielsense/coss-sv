@@ -1,19 +1,18 @@
 <script module lang="ts">
-import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
 
-export const meta = defineParticleMeta({
-  components: ["button"],
-  id: "p-button-20",
-  interactive: true,
-  responsive: false,
-  title: "Back link button",
-});
+  export const meta = defineParticleMeta({
+    components: ["button"],
+    id: "p-button-20",
+    interactive: true,
+    responsive: false,
+    title: "Back link button",
+  });
 </script>
 
 <script lang="ts">
-import { Button } from "@coss-sv/ui";
-import { ArrowLeft01Icon } from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/svelte";
+  import { Button, HugeiconsIcon } from "@coss-sv/ui";
+  import { ArrowLeft01Icon } from "@hugeicons/core-free-icons";
 </script>
 
 <Button variant="link"

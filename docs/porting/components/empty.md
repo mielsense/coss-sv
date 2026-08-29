@@ -54,3 +54,7 @@ responsive widths, checks its deterministic links, and rejects browser errors an
 requests. The focused Empty Playwright gate covers axe.
 
 Accepted component deviations: none.
+
+## Central Hugeicons renderer migration
+
+The p-empty-1 registry sources keep their audited Hugeicons core glyph data, two-pixel strokes, classes, and ARIA attributes. They now render that data with the public SSR-safe HugeiconsIcon exported by @coss-sv/ui. The focused ownership test enumerates each migrated particle, rejects the framework-specific renderer, checks every icon invocation, and verifies server-rendered SVG geometry.

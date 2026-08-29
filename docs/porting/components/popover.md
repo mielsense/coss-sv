@@ -61,3 +61,7 @@ Manual visual inspection is pending because no Codex in-app Browser instance was
 - Preserved feedback, close-control, detached-payload, and occurrence-selection examples. The page order is `p-popover-1`, `p-popover-2`, D5-owned `p-input-group-7`, then `p-popover-3`; `p-popover-4` remains an assigned registry example.
 - Hugeicons replace upstream close, notification, profile, and chevron icons with two-pixel strokes. D7 tests cover SSR, compilation, selection, disabled actions, and detached payload transitions.
 - The Codex in-app Browser runtime was unavailable in this worktree. Chrome was not used; headless production-browser coverage passed, and independent parity review must repeat manual inspection after integration.
+
+## Central Hugeicons renderer migration
+
+The p-popover-2, p-popover-3, and p-popover-4 registry sources keep their audited Hugeicons core glyph data, two-pixel strokes, classes, and ARIA attributes. They now render that data with the public SSR-safe HugeiconsIcon exported by @coss-sv/ui. The focused ownership test enumerates each migrated particle, rejects the framework-specific renderer, checks every icon invocation, and verifies server-rendered SVG geometry.

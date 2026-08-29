@@ -1,25 +1,24 @@
 <script module lang="ts">
-import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
 
-export const meta = defineParticleMeta({
-  components: ["toggle-group"],
-  id: "p-toggle-group-2",
-  interactive: true,
-  responsive: false,
-  title: "Small toggle group",
-});
+  export const meta = defineParticleMeta({
+    components: ["toggle-group"],
+    id: "p-toggle-group-2",
+    interactive: true,
+    responsive: false,
+    title: "Small toggle group",
+  });
 </script>
 
 <script lang="ts">
-import { ToggleGroup } from "@coss-sv/ui";
-import { TextBoldIcon, TextItalicIcon, TextUnderlineIcon } from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/svelte";
+  import { HugeiconsIcon, ToggleGroup } from "@coss-sv/ui";
+  import { TextBoldIcon, TextItalicIcon, TextUnderlineIcon } from "@hugeicons/core-free-icons";
 
-const tools = [
-  { icon: TextBoldIcon, label: "Toggle bold", value: "bold" },
-  { icon: TextItalicIcon, label: "Toggle italic", value: "italic" },
-  { icon: TextUnderlineIcon, label: "Toggle underline", value: "underline" },
-];
+  const tools = [
+    { icon: TextBoldIcon, label: "Toggle bold", value: "bold" },
+    { icon: TextItalicIcon, label: "Toggle italic", value: "italic" },
+    { icon: TextUnderlineIcon, label: "Toggle underline", value: "underline" },
+  ];
 </script>
 
 <ToggleGroup.Root defaultValue={["bold"]} size="sm">

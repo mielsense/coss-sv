@@ -1,27 +1,26 @@
 <script module lang="ts">
-import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
-export const meta = defineParticleMeta({
-  components: ["button", "fieldset", "label", "number-field", "slider"],
-  id: "p-slider-21",
-  interactive: true,
-  responsive: true,
-  title: "Object position",
-  containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64",
-});
+  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  export const meta = defineParticleMeta({
+    components: ["button", "fieldset", "label", "number-field", "slider"],
+    id: "p-slider-21",
+    interactive: true,
+    responsive: true,
+    title: "Object position",
+    containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64",
+  });
 </script>
 
 <script lang="ts">
-import { Button, Fieldset, Label, NumberField, Slider } from "@coss-sv/ui";
-import { RotateLeft01Icon } from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/svelte";
+  import { Button, Fieldset, HugeiconsIcon, Label, NumberField, Slider } from "@coss-sv/ui";
+  import { RotateLeft01Icon } from "@hugeicons/core-free-icons";
 
-const min = -10;
-const max = 10;
-type Axis = "x" | "y" | "z";
-let values = $state<Record<Axis, number>>({ x: -2, y: 4, z: 2 });
-function updateValue(axis: Axis, next: number | null) {
-  values = { ...values, [axis]: next ?? 0 };
-}
+  const min = -10;
+  const max = 10;
+  type Axis = "x" | "y" | "z";
+  let values = $state<Record<Axis, number>>({ x: -2, y: 4, z: 2 });
+  function updateValue(axis: Axis, next: number | null) {
+    values = { ...values, [axis]: next ?? 0 };
+  }
 </script>
 
 <Fieldset.Root class="flex w-full flex-col gap-4">
@@ -35,7 +34,8 @@ function updateValue(axis: Axis, next: number | null) {
           class="flex-1"
           {max}
           {min}
-          onValueChange={(next) => updateValue(axis as Axis, Array.isArray(next) ? (next[0] ?? 0) : next)}
+          onValueChange={(next) =>
+            updateValue(axis as Axis, Array.isArray(next) ? (next[0] ?? 0) : next)}
           value={values[axis as Axis]}
         />
         <NumberField.Root
@@ -51,7 +51,7 @@ function updateValue(axis: Axis, next: number | null) {
       </div>
     {/each}
   </div>
-  <Button class="w-full" onclick={() => values = { x: 0, y: 0, z: 0 }} variant="outline"
+  <Button class="w-full" onclick={() => (values = { x: 0, y: 0, z: 0 })} variant="outline"
     ><HugeiconsIcon
       aria-hidden="true"
       class="-ms-1 opacity-60"

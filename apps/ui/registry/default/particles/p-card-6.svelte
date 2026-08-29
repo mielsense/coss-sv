@@ -1,42 +1,42 @@
 <script module lang="ts">
-import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
 
-export const meta = defineParticleMeta({
-  components: ["button", "card", "field", "form", "input", "select"],
-  containerClass:
-    "**:data-[slot=preview]:w-full **:data-[slot=preview]:flex **:data-[slot=preview]:justify-center",
-  id: "p-card-6",
-  interactive: true,
-  responsive: true,
-  title: "Framed card with header and footer",
-});
+  export const meta = defineParticleMeta({
+    components: ["button", "card", "field", "form", "input", "select"],
+    containerClass:
+      "**:data-[slot=preview]:w-full **:data-[slot=preview]:flex **:data-[slot=preview]:justify-center",
+    id: "p-card-6",
+    interactive: true,
+    responsive: true,
+    title: "Framed card with header and footer",
+  });
 </script>
 
 <script lang="ts">
-import {
-  Button,
-  Card,
-  CardFrame,
-  CardFrameDescription,
-  CardFrameFooter,
-  CardFrameHeader,
-  CardFrameTitle,
-  CardPanel,
-  Field,
-  Form,
-  Input,
-  Select,
-} from "@coss-sv/ui";
-import { AlertCircleIcon } from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/svelte";
+  import {
+    Button,
+    Card,
+    CardFrame,
+    CardFrameDescription,
+    CardFrameFooter,
+    CardFrameHeader,
+    CardFrameTitle,
+    CardPanel,
+    Field,
+    Form,
+    HugeiconsIcon,
+    Input,
+    Select,
+  } from "@coss-sv/ui";
+  import { AlertCircleIcon } from "@hugeicons/core-free-icons";
 
-const frameworkOptions = [
-  { label: "Next.js", value: "next" },
-  { label: "Vite", value: "vite" },
-  { label: "Remix", value: "remix" },
-  { label: "Astro", value: "astro" },
-];
-let framework = $state("next");
+  const frameworkOptions = [
+    { label: "Next.js", value: "next" },
+    { label: "Vite", value: "vite" },
+    { label: "Remix", value: "remix" },
+    { label: "Astro", value: "astro" },
+  ];
+  let framework = $state("next");
 </script>
 
 <CardFrame class="w-full max-w-xs">

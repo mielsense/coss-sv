@@ -1,25 +1,24 @@
 <script module lang="ts">
-import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
 
-export const meta = defineParticleMeta({
-  components: ["toggle"],
-  id: "p-toggle-7",
-  interactive: true,
-  responsive: false,
-  title: "Icon toggle group",
-});
+  export const meta = defineParticleMeta({
+    components: ["toggle"],
+    id: "p-toggle-7",
+    interactive: true,
+    responsive: false,
+    title: "Icon toggle group",
+  });
 </script>
 
 <script lang="ts">
-import { Toggle } from "@coss-sv/ui";
-import { TextBoldIcon, TextItalicIcon, TextUnderlineIcon } from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/svelte";
+  import { HugeiconsIcon, Toggle } from "@coss-sv/ui";
+  import { TextBoldIcon, TextItalicIcon, TextUnderlineIcon } from "@hugeicons/core-free-icons";
 
-const tools = [
-  { icon: TextBoldIcon, label: "Toggle bold" },
-  { icon: TextItalicIcon, label: "Toggle italic" },
-  { icon: TextUnderlineIcon, label: "Toggle underline" },
-];
+  const tools = [
+    { icon: TextBoldIcon, label: "Toggle bold" },
+    { icon: TextItalicIcon, label: "Toggle italic" },
+    { icon: TextUnderlineIcon, label: "Toggle underline" },
+  ];
 </script>
 
 <div class="flex items-center gap-1">

@@ -1,173 +1,180 @@
 <script module lang="ts">
-import { defineParticleMeta, type ParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta, type ParticleMeta } from "$lib/registry/particle-metadata.js";
 
-const particleMeta = {
-  components: [
-    "button",
-    "checkbox",
-    "checkbox-group",
-    "combobox",
-    "label",
-    "popover",
-    "select",
-    "switch",
-    "tooltip",
-  ],
-  colSpan: 2,
-  containerClass: "**:data-[slot=preview]:w-full sm:**:data-[slot=preview]:max-w-4xl",
-  id: "p-switch-7",
-  iframeHeight: 540,
-  interactive: true,
-  responsive: true,
-  title: "Weekly availability 7",
-} satisfies ParticleMeta & { readonly colSpan: 2 };
+  const particleMeta = {
+    components: [
+      "button",
+      "checkbox",
+      "checkbox-group",
+      "combobox",
+      "label",
+      "popover",
+      "select",
+      "switch",
+      "tooltip",
+    ],
+    colSpan: 2,
+    containerClass: "**:data-[slot=preview]:w-full sm:**:data-[slot=preview]:max-w-4xl",
+    id: "p-switch-7",
+    iframeHeight: 540,
+    interactive: true,
+    responsive: true,
+    title: "Weekly availability 7",
+  } satisfies ParticleMeta & { readonly colSpan: 2 };
 
-export const meta = defineParticleMeta(particleMeta);
+  export const meta = defineParticleMeta(particleMeta);
 </script>
 
 <script lang="ts">
-import {
-  buttonVariants,
-  CheckboxGroup,
-  Combobox,
-  cn,
-  Label,
-  Popover,
-  Select,
-  Switch,
-  Tooltip,
-} from "@coss-sv/ui";
-import {
-  Add01Icon,
-  Cancel01Icon,
-  Copy01Icon,
-  Search01Icon,
-  UnfoldMoreIcon,
-} from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/svelte";
+  import {
+    buttonVariants,
+    CheckboxGroup,
+    Combobox,
+    cn,
+    HugeiconsIcon,
+    Label,
+    Popover,
+    Select,
+    Switch,
+    Tooltip,
+  } from "@coss-sv/ui";
+  import {
+    Add01Icon,
+    Cancel01Icon,
+    Copy01Icon,
+    Search01Icon,
+    UnfoldMoreIcon,
+  } from "@hugeicons/core-free-icons";
 
-const days = [
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday",
-  "Sunday",
-] as const;
-type Day = (typeof days)[number];
-type TimeRange = { id: number; start: string; end: string };
-const timeOptions = Array.from({ length: 96 }, (_, i) => {
-  const hours = Math.floor(i / 4);
-  const minutes = (i % 4) * 15;
-  const period = hours < 12 ? "AM" : "PM";
-  const displayHours = hours % 12 === 0 ? 12 : hours % 12;
-  return `${displayHours}:${minutes.toString().padStart(2, "0")} ${period}`;
-});
-const timeIndex = (time: string) => timeOptions.indexOf(time);
-let rangeId = 0;
-const createRange = (start: string, end: string): TimeRange => ({ end, id: ++rangeId, start });
-const defaultAvailability: Record<Day, TimeRange[]> = {
-  Friday: [createRange("9:00 AM", "5:00 PM")],
-  Monday: [createRange("9:00 AM", "5:00 PM")],
-  Saturday: [],
-  Sunday: [],
-  Thursday: [createRange("9:00 AM", "5:00 PM")],
-  Tuesday: [createRange("9:00 AM", "1:00 PM"), createRange("3:00 PM", "5:00 PM")],
-  Wednesday: [createRange("9:00 AM", "5:00 PM")],
-};
-let availability = $state<Record<Day, TimeRange[]>>(defaultAvailability);
-let copyOpen = $state<Record<Day, boolean>>({
-  Monday: false,
-  Tuesday: false,
-  Wednesday: false,
-  Thursday: false,
-  Friday: false,
-  Saturday: false,
-  Sunday: false,
-});
-let selectedCopyDays = $state<Record<Day, string[]>>({
-  Monday: [],
-  Tuesday: [],
-  Wednesday: [],
-  Thursday: [],
-  Friday: [],
-  Saturday: [],
-  Sunday: [],
-});
+  const days = [
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+    "Sunday",
+  ] as const;
+  type Day = (typeof days)[number];
+  type TimeRange = { id: number; start: string; end: string };
+  const timeOptions = Array.from({ length: 96 }, (_, i) => {
+    const hours = Math.floor(i / 4);
+    const minutes = (i % 4) * 15;
+    const period = hours < 12 ? "AM" : "PM";
+    const displayHours = hours % 12 === 0 ? 12 : hours % 12;
+    return `${displayHours}:${minutes.toString().padStart(2, "0")} ${period}`;
+  });
+  const timeIndex = (time: string) => timeOptions.indexOf(time);
+  let rangeId = 0;
+  const createRange = (start: string, end: string): TimeRange => ({ end, id: ++rangeId, start });
+  const defaultAvailability: Record<Day, TimeRange[]> = {
+    Friday: [createRange("9:00 AM", "5:00 PM")],
+    Monday: [createRange("9:00 AM", "5:00 PM")],
+    Saturday: [],
+    Sunday: [],
+    Thursday: [createRange("9:00 AM", "5:00 PM")],
+    Tuesday: [createRange("9:00 AM", "1:00 PM"), createRange("3:00 PM", "5:00 PM")],
+    Wednesday: [createRange("9:00 AM", "5:00 PM")],
+  };
+  let availability = $state<Record<Day, TimeRange[]>>(defaultAvailability);
+  let copyOpen = $state<Record<Day, boolean>>({
+    Monday: false,
+    Tuesday: false,
+    Wednesday: false,
+    Thursday: false,
+    Friday: false,
+    Saturday: false,
+    Sunday: false,
+  });
+  let selectedCopyDays = $state<Record<Day, string[]>>({
+    Monday: [],
+    Tuesday: [],
+    Wednesday: [],
+    Thursday: [],
+    Friday: [],
+    Saturday: [],
+    Sunday: [],
+  });
 
-function setDayRanges(day: Day, ranges: TimeRange[]) {
-  availability[day].splice(0, availability[day].length, ...ranges);
-}
-function toggleDay(day: Day, enabled: boolean) {
-  setDayRanges(day, enabled ? [createRange("9:00 AM", "5:00 PM")] : []);
-}
-function addRange(day: Day) {
-  const ranges = availability[day];
-  const lastRange = ranges[ranges.length - 1];
-  if (!lastRange) {
-    setDayRanges(day, [createRange("9:00 AM", "5:00 PM")]);
-    return;
+  function setDayRanges(day: Day, ranges: TimeRange[]) {
+    availability[day].splice(0, availability[day].length, ...ranges);
   }
-  const startIndex = Math.min(timeIndex(lastRange.end) + 4, timeOptions.length - 2);
-  const endIndex = Math.min(startIndex + 4, timeOptions.length - 1);
-  setDayRanges(day, [
-    ...ranges,
-    createRange(timeOptions[startIndex] ?? "", timeOptions[endIndex] ?? ""),
-  ]);
-}
-function removeRange(day: Day, id: number) {
-  setDayRanges(
-    day,
-    availability[day].filter((range) => range.id !== id),
-  );
-}
-function updateStart(day: Day, id: number, start: string) {
-  const range = availability[day].find((candidate) => candidate.id === id);
-  if (!range) return;
-  if (timeIndex(start) >= timeIndex(range.end)) {
-    range.end = timeOptions[Math.min(timeIndex(start) + 4, timeOptions.length - 1)] ?? range.end;
+  function toggleDay(day: Day, enabled: boolean) {
+    setDayRanges(day, enabled ? [createRange("9:00 AM", "5:00 PM")] : []);
   }
-  range.start = start;
-}
-function updateEnd(day: Day, id: number, end: string) {
-  const range = availability[day].find((candidate) => candidate.id === id);
-  if (range) range.end = end;
-}
-function copyTo(source: Day, targets: Day[]) {
-  for (const target of targets) {
+  function addRange(day: Day) {
+    const ranges = availability[day];
+    const lastRange = ranges[ranges.length - 1];
+    if (!lastRange) {
+      setDayRanges(day, [createRange("9:00 AM", "5:00 PM")]);
+      return;
+    }
+    const startIndex = Math.min(timeIndex(lastRange.end) + 4, timeOptions.length - 2);
+    const endIndex = Math.min(startIndex + 4, timeOptions.length - 1);
+    setDayRanges(day, [
+      ...ranges,
+      createRange(timeOptions[startIndex] ?? "", timeOptions[endIndex] ?? ""),
+    ]);
+  }
+  function removeRange(day: Day, id: number) {
     setDayRanges(
-      target,
-      availability[source].map((range) => createRange(range.start, range.end)),
+      day,
+      availability[day].filter((range) => range.id !== id),
     );
   }
-}
-function setCopyOpen(day: Day, open: boolean) {
-  if (open) selectedCopyDays = { ...selectedCopyDays, [day]: [] };
-}
-function toggleCopy(day: Day, event: MouseEvent) {
-  event.stopPropagation();
-  const open = !copyOpen[day];
-  if (open) selectedCopyDays = { ...selectedCopyDays, [day]: [] };
-  copyOpen = { ...copyOpen, [day]: open };
-}
-function setSelectedCopyDays(day: Day, value: readonly string[]) {
-  selectedCopyDays = { ...selectedCopyDays, [day]: [...value] };
-}
-function applyCopy(day: Day) {
-  copyTo(day, selectedCopyDays[day] as Day[]);
-  copyOpen = { ...copyOpen, [day]: false };
-}
+  function updateStart(day: Day, id: number, start: string) {
+    const range = availability[day].find((candidate) => candidate.id === id);
+    if (!range) return;
+    if (timeIndex(start) >= timeIndex(range.end)) {
+      range.end = timeOptions[Math.min(timeIndex(start) + 4, timeOptions.length - 1)] ?? range.end;
+    }
+    range.start = start;
+  }
+  function updateEnd(day: Day, id: number, end: string) {
+    const range = availability[day].find((candidate) => candidate.id === id);
+    if (range) range.end = end;
+  }
+  function copyTo(source: Day, targets: Day[]) {
+    for (const target of targets) {
+      setDayRanges(
+        target,
+        availability[source].map((range) => createRange(range.start, range.end)),
+      );
+    }
+  }
+  function setCopyOpen(day: Day, open: boolean) {
+    if (open) selectedCopyDays = { ...selectedCopyDays, [day]: [] };
+  }
+  function toggleCopy(day: Day, event: MouseEvent) {
+    event.stopPropagation();
+    const open = !copyOpen[day];
+    if (open) selectedCopyDays = { ...selectedCopyDays, [day]: [] };
+    copyOpen = { ...copyOpen, [day]: open };
+  }
+  function setSelectedCopyDays(day: Day, value: readonly string[]) {
+    selectedCopyDays = { ...selectedCopyDays, [day]: [...value] };
+  }
+  function applyCopy(day: Day) {
+    copyTo(day, selectedCopyDays[day] as Day[]);
+    copyOpen = { ...copyOpen, [day]: false };
+  }
 </script>
 
 {#snippet searchIcon()}
   <HugeiconsIcon aria-hidden="true" icon={Search01Icon} strokeWidth={2} />
 {/snippet}
-{#snippet timeCombobox(ariaLabel: string, items: string[], value: string, onChange: (time: string) => void)}
+{#snippet timeCombobox(
+  ariaLabel: string,
+  items: string[],
+  value: string,
+  onChange: (time: string) => void,
+)}
   <Combobox.Root
     autoHighlight
     {items}
-    onValueChange={(time) => { if (typeof time === "string") onChange(time); }}
+    onValueChange={(time) => {
+      if (typeof time === "string") onChange(time);
+    }}
     {value}
   >
     <Combobox.Trigger
@@ -232,9 +239,16 @@ function applyCopy(day: Day) {
             {:else}
               {#each ranges as range (range.id)}
                 <div class="flex items-center gap-2">
-                  {@render timeCombobox(`${day} start time`, timeOptions, range.start, (start) => updateStart(day, range.id, start))}
+                  {@render timeCombobox(`${day} start time`, timeOptions, range.start, (start) =>
+                    updateStart(day, range.id, start),
+                  )}
                   <span aria-hidden="true" class="text-muted-foreground">–</span>
-                  {@render timeCombobox(`${day} end time`, timeOptions.slice(timeIndex(range.start) + 1), range.end, (end) => updateEnd(day, range.id, end))}
+                  {@render timeCombobox(
+                    `${day} end time`,
+                    timeOptions.slice(timeIndex(range.start) + 1),
+                    range.end,
+                    (end) => updateEnd(day, range.id, end),
+                  )}
                   <Tooltip.Root disableHoverablePopup>
                     <Tooltip.Trigger
                       aria-label={`Delete ${range.start} to ${range.end} on ${day}`}

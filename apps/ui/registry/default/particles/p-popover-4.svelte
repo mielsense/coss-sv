@@ -10,9 +10,17 @@
 </script>
 
 <script lang="ts">
-  import { Badge, Button, buttonVariants, CheckboxGroup, Group, Label, Popover } from "@coss-sv/ui";
+  import {
+    Badge,
+    Button,
+    buttonVariants,
+    CheckboxGroup,
+    Group,
+    HugeiconsIcon,
+    Label,
+    Popover,
+  } from "@coss-sv/ui";
   import { ArrowDown01Icon } from "@hugeicons/core-free-icons";
-  import { HugeiconsIcon } from "@hugeicons/svelte";
 
   const occurrences = [
     { date: "Wed, Jul 15", id: "occurrence-1", time: "9:00 – 9:30am" },

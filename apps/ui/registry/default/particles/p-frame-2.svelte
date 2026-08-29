@@ -1,20 +1,19 @@
 <script module lang="ts">
-import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
 
-export const meta = defineParticleMeta({
-  components: ["button", "collapsible", "frame"],
-  containerClass: "**:data-[slot=preview]:w-full",
-  id: "p-frame-2",
-  interactive: true,
-  responsive: true,
-  title: "Frame with collapsible content and delete button",
-});
+  export const meta = defineParticleMeta({
+    components: ["button", "collapsible", "frame"],
+    containerClass: "**:data-[slot=preview]:w-full",
+    id: "p-frame-2",
+    interactive: true,
+    responsive: true,
+    title: "Frame with collapsible content and delete button",
+  });
 </script>
 
 <script lang="ts">
-import { Button, Collapsible, Frame, FrameHeader, FramePanel } from "@coss-sv/ui";
-import { ChevronDownIcon, TrashIcon } from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/svelte";
+  import { Button, Collapsible, Frame, FrameHeader, FramePanel, HugeiconsIcon } from "@coss-sv/ui";
+  import { ChevronDownIcon, TrashIcon } from "@hugeicons/core-free-icons";
 </script>
 
 <Frame class="w-full">

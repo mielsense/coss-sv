@@ -10,9 +10,8 @@
 </script>
 
 <script lang="ts">
-  import { ToggleGroup, Tooltip, toggleVariants } from "@coss-sv/ui";
+  import { HugeiconsIcon, ToggleGroup, Tooltip, toggleVariants } from "@coss-sv/ui";
   import { BoldIcon, ItalicIcon, UnderlineIcon } from "@hugeicons/core-free-icons";
-  import { HugeiconsIcon } from "@hugeicons/svelte";
   import type { Snippet } from "svelte";
 
   const tooltipHandle = new Tooltip.Handle<Snippet>();

@@ -72,3 +72,7 @@ Browser binding returned unavailable. The coordinator and both exact-tip reviewe
 manual source-versus-target comparison; this record does not claim that pass as completed.
 
 Accepted component deviations: none.
+
+## Central Hugeicons renderer migration
+
+The p-card-1, p-card-3, p-card-4, p-card-6, p-card-7, p-card-8, p-card-10, and p-card-11 registry sources keep their audited Hugeicons core glyph data, two-pixel strokes, classes, and ARIA attributes. They now render that data with the public SSR-safe HugeiconsIcon exported by @coss-sv/ui. The focused ownership test enumerates each migrated particle, rejects the framework-specific renderer, checks every icon invocation, and verifies server-rendered SVG geometry.

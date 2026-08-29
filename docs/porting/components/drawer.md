@@ -62,3 +62,7 @@ Drawer close, menu selection, and nested-menu affordances now use `Cancel01Icon`
 - The responsive examples use Svelte's `MediaQuery` with the same 799-pixel maximum and false server fallback as COSS `useMediaQuery("max-md")`. Only the active Drawer or Dialog/Menu branch is mounted. Crossing the breakpoint while an overlay is open unmounts the inactive mobile or desktop overlay, clears its portal and focus trap, and returns to a closed branch if the viewport crosses back. Hugeicons replace upstream Lucide action icons with two-pixel strokes.
 - D7 tests cover inventory, source restrictions, SSR, page order, MDsveX compilation, APIs, and open-overlay breakpoint transitions in both directions.
 - The Codex in-app Browser runtime was unavailable in this worktree. Chrome was not used; headless production-browser coverage passed, and independent parity review must repeat manual inspection after integration.
+
+## Central Hugeicons renderer migration
+
+The p-drawer-13 registry sources keep their audited Hugeicons core glyph data, two-pixel strokes, classes, and ARIA attributes. They now render that data with the public SSR-safe HugeiconsIcon exported by @coss-sv/ui. The focused ownership test enumerates each migrated particle, rejects the framework-specific renderer, checks every icon invocation, and verifies server-rendered SVG geometry.

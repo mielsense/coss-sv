@@ -1,25 +1,24 @@
 <script module lang="ts">
-import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
 
-export const meta = defineParticleMeta({
-  components: ["button"],
-  id: "p-button-22",
-  interactive: true,
-  responsive: false,
-  title: "Directional pad",
-});
+  export const meta = defineParticleMeta({
+    components: ["button"],
+    id: "p-button-22",
+    interactive: true,
+    responsive: false,
+    title: "Directional pad",
+  });
 </script>
 
 <script lang="ts">
-import { Button } from "@coss-sv/ui";
-import {
-  ArrowDown01Icon,
-  ArrowLeft01Icon,
-  ArrowRight01Icon,
-  ArrowUp01Icon,
-  CircleIcon,
-} from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/svelte";
+  import { Button, HugeiconsIcon } from "@coss-sv/ui";
+  import {
+    ArrowDown01Icon,
+    ArrowLeft01Icon,
+    ArrowRight01Icon,
+    ArrowUp01Icon,
+    CircleIcon,
+  } from "@hugeicons/core-free-icons";
 </script>
 
 <div class="inline-grid w-fit grid-cols-3 gap-1">

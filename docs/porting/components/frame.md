@@ -47,3 +47,7 @@ uses Hugeicons for its Chevron and Trash controls. The D4 inventory test locks m
 order. The D4 route test opens all four particles in light and dark, uses the mobile width for the
 responsive particles, and rejects console errors and external requests. The focused Frame
 Playwright gate covers axe, including its documented upstream dark contrast exception.
+
+## Central Hugeicons renderer migration
+
+The p-frame-2 registry sources keep their audited Hugeicons core glyph data, two-pixel strokes, classes, and ARIA attributes. They now render that data with the public SSR-safe HugeiconsIcon exported by @coss-sv/ui. The focused ownership test enumerates each migrated particle, rejects the framework-specific renderer, checks every icon invocation, and verifies server-rendered SVG geometry.

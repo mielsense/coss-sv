@@ -43,3 +43,7 @@ page order. The D4 route test opens both routes in light and dark, includes mobi
 responsive particle, and blocks external requests while preview timers stay manual. The focused
 Skeleton Playwright gate covers axe and motion behavior independently of the manual-timer route
 guard.
+
+## Central Hugeicons renderer migration
+
+The p-skeleton-1 registry sources keep their audited Hugeicons core glyph data, two-pixel strokes, classes, and ARIA attributes. They now render that data with the public SSR-safe HugeiconsIcon exported by @coss-sv/ui. The focused ownership test enumerates each migrated particle, rejects the framework-specific renderer, checks every icon invocation, and verifies server-rendered SVG geometry.
