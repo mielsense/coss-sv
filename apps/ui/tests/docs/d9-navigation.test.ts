@@ -117,7 +117,27 @@ describe("D9 date, navigation, and table documentation", () => {
   test.each(expectedParticles)("server-renders %s", (id) => {
     const module = particleModules[`../../registry/default/particles/${id}.svelte`];
     expect(module).toBeDefined();
-    expect(() => render(module?.default as Component)).not.toThrow();
+    const body = render(module?.default as Component).body;
+
+    if (source(`apps/ui/registry/default/particles/${id}.svelte`).includes("HugeiconsIcon")) {
+      expect(body).toMatch(/<(?:path|circle|ellipse|rect)\b/);
+      expect(body).toContain('stroke-width="2"');
+    }
+  });
+
+  test("compiles the Breadcrumb usage fence with actual named package exports", () => {
+    const page = source("apps/ui/content/docs/components/breadcrumb.svx");
+    const usage = /## Usage\s+```svelte\n([\s\S]*?)\n```/.exec(page)?.[1];
+    expect(usage).toBeDefined();
+    expect(() => compile(usage ?? "", { generate: "server", runes: true })).not.toThrow();
+
+    const packageImport = /import\s*\{([\s\S]*?)\}\s*from "@coss-sv\/ui";/.exec(usage ?? "")?.[1];
+    expect(packageImport).toBeDefined();
+    for (const [, component] of (usage ?? "").matchAll(
+      /<(Breadcrumb(?:List|Item|Link|Page|Separator|Ellipsis)?)\b/g,
+    )) {
+      expect(packageImport).toMatch(new RegExp(`\\b${component}\\b`));
+    }
   });
 
   test.each(Array.from({ length: 7 }, (_, index) => `p-breadcrumb-${index + 1}`))(
@@ -201,6 +221,43 @@ describe("D9 date, navigation, and table documentation", () => {
     expect(source("apps/ui/registry/default/particles/p-tabs-1.svelte")).toMatch(
       /<Tabs\.Root\s+defaultValue="tab-1"/,
     );
+  });
+
+  test("keeps COSS controlled selection guards for date and range shortcuts", () => {
+    for (const id of ["p-calendar-20", "p-calendar-21"]) {
+      const particle = source(`apps/ui/registry/default/particles/${id}.svelte`);
+      expect(particle).not.toMatch(/bind:selected/);
+      expect(particle).toContain("selected={date}");
+      expect(particle).toMatch(/onSelect=\{\(newDate\)\s*=>\s*\{\s*if \(newDate\)/s);
+    }
+  });
+
+  test("uses native unavailable pagination buttons in the two complete data tables", () => {
+    for (const id of ["p-table-4", "p-table-8"]) {
+      const particle = source(`apps/ui/registry/default/particles/${id}.svelte`);
+      for (const part of ["Previous", "Next"]) {
+        const element = new RegExp(`<Pagination\\.${part}([\\s\\S]*?)/>`).exec(particle)?.[1];
+        expect(element).toBeDefined();
+        expect(element).toContain('as="button"');
+        expect(element).toContain('type="button"');
+        expect(element).toMatch(/disabled=\{!table\.getCan(?:Previous|Next)Page\(\)\}/);
+        expect(element).toMatch(/aria-disabled=\{!table\.getCan(?:Previous|Next)Page\(\)\}/);
+      }
+    }
+  });
+
+  test("uses the SSR-safe package icon renderer with an explicit COSS stroke width", () => {
+    for (const id of expectedParticles) {
+      const particle = source(`apps/ui/registry/default/particles/${id}.svelte`);
+      expect(particle).not.toContain('from "@hugeicons/svelte"');
+      if (!particle.includes("<HugeiconsIcon")) continue;
+      expect(particle).toMatch(
+        /import\s*\{[\s\S]*?\bHugeiconsIcon\b[\s\S]*?\}\s*from "@coss-sv\/ui";/,
+      );
+      for (const icon of particle.matchAll(/<HugeiconsIcon\b([\s\S]*?)(?:\/>|>)/g)) {
+        expect(icon[1]).toContain("strokeWidth={2}");
+      }
+    }
   });
 
   test("preserves exact date-fns display semantics and the complete editable-time algorithm", async () => {

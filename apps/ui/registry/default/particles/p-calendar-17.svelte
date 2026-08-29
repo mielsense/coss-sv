@@ -11,8 +11,7 @@
 
 <script lang="ts">
   import { Calendar03Icon } from "@hugeicons/core-free-icons";
-  import { HugeiconsIcon } from "@hugeicons/svelte";
-  import { Calendar, Field, InputGroup } from "@coss-sv/ui";
+  import { Calendar, Field, HugeiconsIcon, InputGroup } from "@coss-sv/ui";
   const today = new Date(2026, 7, 28, 12);
   let date = $state<Date | undefined>(today);
   let month = $state(today);
@@ -45,7 +44,11 @@
         value={inputValue}
         oninput={(event) => updateDate(event.currentTarget.value)}
       /><InputGroup.Addon
-        ><HugeiconsIcon icon={Calendar03Icon} aria-hidden="true" /></InputGroup.Addon
+        ><HugeiconsIcon
+          icon={Calendar03Icon}
+          aria-hidden="true"
+          strokeWidth={2}
+        /></InputGroup.Addon
       ></InputGroup.Root
     ></Field.Root
   >

@@ -12,7 +12,7 @@
 
 <script lang="ts">
   import { UnfoldMoreIcon } from "@hugeicons/core-free-icons";
-  import { HugeiconsIcon } from "@hugeicons/svelte";
+  import { HugeiconsIcon } from "@coss-sv/ui";
   import { Calendar, cn, Popover, Select } from "@coss-sv/ui";
   import { formatDatePpp } from "../lib/date-format.js";
   const today = new Date(2026, 7, 28, 12);

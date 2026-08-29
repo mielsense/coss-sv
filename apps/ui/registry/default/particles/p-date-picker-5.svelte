@@ -12,7 +12,7 @@
 
 <script lang="ts">
   import { Calendar03Icon } from "@hugeicons/core-free-icons";
-  import { HugeiconsIcon } from "@hugeicons/svelte";
+  import { HugeiconsIcon } from "@coss-sv/ui";
   import { buttonVariants, Calendar, InputGroup, Popover } from "@coss-sv/ui";
   const today = new Date(2026, 7, 28, 12);
   let date = $state<Date | undefined>();
@@ -44,7 +44,7 @@
       ><Popover.Trigger
         aria-label="Select date"
         class={buttonVariants({ size: "icon-xs", variant: "ghost" })}
-        ><HugeiconsIcon icon={Calendar03Icon} aria-hidden="true" /></Popover.Trigger
+        ><HugeiconsIcon icon={Calendar03Icon} aria-hidden="true" strokeWidth={2} /></Popover.Trigger
       ></InputGroup.Addon
     ></InputGroup.Root
   ><Popover.Popup align="start" alignOffset={-4} sideOffset={8}

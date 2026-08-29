@@ -26,3 +26,7 @@ Particle 8 uses one native button as the Popover trigger. It composes the packag
 trigger and icon classes directly, with no nested Select button, second button role, or extra tab
 stop. The coordinator-owned registry entries for particles 1, 3, 4, 6, and 8 must request only
 `local:date-format` for this helper.
+
+All nine particles now import `HugeiconsIcon` from `@coss-sv/ui`. Each icon keeps its official
+`@hugeicons/core-free-icons` data and passes `strokeWidth={2}`. The D9 SSR inventory test requires a
+real path, circle, ellipse, or rectangle node and the two-pixel stroke before hydration.

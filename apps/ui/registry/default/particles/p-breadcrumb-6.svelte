@@ -17,9 +17,9 @@
     BreadcrumbList,
     BreadcrumbPage,
     BreadcrumbSeparator,
+    HugeiconsIcon,
   } from "@coss-sv/ui";
   import { Home01Icon } from "@hugeicons/core-free-icons";
-  import { HugeiconsIcon } from "@hugeicons/svelte";
 </script>
 
 <Breadcrumb

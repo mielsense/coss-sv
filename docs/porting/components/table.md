@@ -69,3 +69,9 @@ complete usage, each public table-part heading, prop table, and code sample, all
 their source prose, the Svelte TanStack adapter guidance, and the dated changelog entry. The text is
 unchanged except for framework syntax, compound Svelte names, package commands, and local
 documentation routes.
+
+Particles 4 and 8 now give unavailable previous and next controls native `disabled` state and
+`type="button"`, while retaining the source's `aria-disabled` state. Production coverage verifies
+that the first-page previous button is disabled, has the non-submit type, and is absent from the tab
+sequence. Their official Hugeicons data now renders through the SSR-safe package renderer with an
+explicit two-pixel stroke.

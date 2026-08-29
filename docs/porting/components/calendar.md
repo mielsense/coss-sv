@@ -163,3 +163,9 @@ Its controlled Autocomplete uses Svelte's function binding, `bind:value={() => t
 handleTimeChange}`, which matches Shards' getter/setter contract and prevents its internal raw-input
 write from replacing the formatted value. The production browser test verifies full focus selection,
 `615` to `6:15` while typing, the `06:15` result option, keyboard movement, and `06:15` after blur.
+
+Particles 20 and 21 pass `selected` with guarded `onSelect` callbacks instead of binding selection.
+This matches the COSS state contract: an undefined proposal from reselecting the current single date
+or one-day range does not clear the current value. Production browser coverage exercises both paths.
+Every D9-owned calendar icon uses the package's SSR-safe Hugeicons renderer with the official icon
+data and an explicit two-pixel stroke.

@@ -12,7 +12,7 @@
 
 <script lang="ts">
   import { Calendar03Icon } from "@hugeicons/core-free-icons";
-  import { HugeiconsIcon } from "@hugeicons/svelte";
+  import { HugeiconsIcon } from "@coss-sv/ui";
   import { Badge, buttonVariants, Calendar, Popover } from "@coss-sv/ui";
   const today = new Date(2026, 7, 28, 12);
   let dates = $state<Date[] | undefined>();
@@ -22,8 +22,12 @@
 
 <Popover.Root
   ><Popover.Trigger class={buttonVariants({ class: "w-full justify-start", variant: "outline" })}
-    ><HugeiconsIcon class="shrink-0" icon={Calendar03Icon} aria-hidden="true" /><span
-      class="flex flex-wrap gap-1"
+    ><HugeiconsIcon
+      class="shrink-0"
+      icon={Calendar03Icon}
+      aria-hidden="true"
+      strokeWidth={2}
+    /><span class="flex flex-wrap gap-1"
       >{#if dates?.length}{#each dates.slice(0, 3) as selected (selected.toISOString())}<Badge
             variant="secondary">{format(selected)}</Badge
           >{/each}{#if dates.length > 3}<Badge variant="secondary">+{dates.length - 3}</Badge

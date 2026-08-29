@@ -12,7 +12,7 @@
 
 <script lang="ts">
   import { Calendar03Icon } from "@hugeicons/core-free-icons";
-  import { HugeiconsIcon } from "@hugeicons/svelte";
+  import { HugeiconsIcon } from "@coss-sv/ui";
   import { buttonVariants, Calendar, Popover, type DateRange } from "@coss-sv/ui";
   const today = new Date(2026, 7, 28, 12);
   let date = $state<DateRange | undefined>();
@@ -24,9 +24,11 @@
 
 <Popover.Root
   ><Popover.Trigger class={buttonVariants({ class: "w-full justify-start", variant: "outline" })}
-    ><HugeiconsIcon icon={Calendar03Icon} aria-hidden="true" />{#if date?.from}{format(
-        date.from,
-      )}{#if date.to}
+    ><HugeiconsIcon
+      icon={Calendar03Icon}
+      aria-hidden="true"
+      strokeWidth={2}
+    />{#if date?.from}{format(date.from)}{#if date.to}
         - {format(date.to)}{/if}{:else}<span>Pick a date range</span>{/if}</Popover.Trigger
   ><Popover.Popup
     ><Calendar

@@ -16,7 +16,15 @@ description: Displays the path to the current resource using a hierarchy of link
 
 ```svelte
 <script lang="ts">
-  import { Breadcrumb } from "@coss-sv/ui";
+  import {
+    Breadcrumb,
+    BreadcrumbEllipsis,
+    BreadcrumbItem,
+    BreadcrumbLink,
+    BreadcrumbList,
+    BreadcrumbPage,
+    BreadcrumbSeparator,
+  } from "@coss-sv/ui";
 </script>
 
 <Breadcrumb>

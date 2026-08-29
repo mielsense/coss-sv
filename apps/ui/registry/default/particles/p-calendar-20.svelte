@@ -21,7 +21,7 @@
     { label: "Last year", date: new Date(2025, 7, 28, 12) },
   ];
   let month = $state(today);
-  let date = $state<Date | undefined>(today);
+  let date = $state(today);
 </script>
 
 <div class="flex max-sm:flex-col">
@@ -43,7 +43,10 @@
     disabled={[{ after: today }]}
     mode="single"
     bind:month
-    bind:selected={date}
+    onSelect={(newDate) => {
+      if (newDate) date = newDate;
+    }}
+    selected={date}
     {today}
   />
 </div>

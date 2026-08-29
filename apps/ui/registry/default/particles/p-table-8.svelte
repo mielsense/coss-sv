@@ -29,7 +29,7 @@
     tableFeatures,
     type ColumnDef,
   } from "@tanstack/svelte-table";
-  import { HugeiconsIcon } from "@hugeicons/svelte";
+  import { HugeiconsIcon } from "@coss-sv/ui";
   import {
     Badge,
     Checkbox,
@@ -450,10 +450,12 @@
                       aria-hidden="true"
                       class="size-4 shrink-0 opacity-80"
                       icon={ArrowUp01Icon}
+                      strokeWidth={2}
                     />{:else if header.column.getIsSorted() === "desc"}<HugeiconsIcon
                       aria-hidden="true"
                       class="size-4 shrink-0 opacity-80"
                       icon={ArrowDown01Icon}
+                      strokeWidth={2}
                     />{/if}</button
                 >{:else}{header.column.columnDef.header}{/if}</Table.Head
             >{/each}</Table.Row
@@ -512,9 +514,11 @@
                   class="font-normal tabular-nums"
                   size="lg"
                   variant="outline"
-                  ><HugeiconsIcon icon={AirplaneTakeOff01Icon} aria-hidden="true" /><span
-                    >{row.original.terminal}</span
-                  ></Badge
+                  ><HugeiconsIcon
+                    icon={AirplaneTakeOff01Icon}
+                    aria-hidden="true"
+                    strokeWidth={2}
+                  /><span>{row.original.terminal}</span></Badge
                 >{:else}{row.original.gate}{/if}</Table.Cell
             >{/each}</Table.Row
         >{:else}<Table.Row
@@ -549,16 +553,20 @@
               aria-disabled={!table.getCanPreviousPage()}
               class="sm:*:[svg]:hidden"
               as="button"
+              disabled={!table.getCanPreviousPage()}
               onclick={() => table.getCanPreviousPage() && table.previousPage()}
               size="sm"
+              type="button"
             /></Pagination.Item
           ><Pagination.Item
             ><Pagination.Next
               aria-disabled={!table.getCanNextPage()}
               class="sm:*:[svg]:hidden"
               as="button"
+              disabled={!table.getCanNextPage()}
               onclick={() => table.getCanNextPage() && table.nextPage()}
               size="sm"
+              type="button"
             /></Pagination.Item
           ></Pagination.Content
         ></Pagination.Root

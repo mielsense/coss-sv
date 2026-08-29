@@ -17,11 +17,11 @@
     BreadcrumbList,
     BreadcrumbPage,
     BreadcrumbSeparator,
+    HugeiconsIcon,
     buttonVariants,
     Menu,
   } from "@coss-sv/ui";
   import { FolderLibraryIcon } from "@hugeicons/core-free-icons";
-  import { HugeiconsIcon } from "@hugeicons/svelte";
 </script>
 
 <Breadcrumb

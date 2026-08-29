@@ -56,3 +56,8 @@ parts that the Svelte modules had not imported. Each particle now imports every 
 the package's actual public named-export API. A serial production-preview test opens all seven before
 continuing through the complete 64-particle D9 inventory and requires HTTP 200 plus the preview-ready
 marker for every route.
+
+The second repair compiles the page's Svelte usage fence separately and verifies that its package
+import names every Breadcrumb part used in the example. All D9 Breadcrumb particle icons now use
+the SSR-safe `HugeiconsIcon` export from `@coss-sv/ui`; server-rendered particles contain the
+official icon nodes and an explicit two-pixel stroke before hydration.

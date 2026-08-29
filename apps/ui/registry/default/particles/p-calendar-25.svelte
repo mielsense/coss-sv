@@ -95,8 +95,7 @@
 
 <script lang="ts">
   import { Clock01Icon } from "@hugeicons/core-free-icons";
-  import { HugeiconsIcon } from "@hugeicons/svelte";
-  import { Autocomplete, Calendar, Field } from "@coss-sv/ui";
+  import { Autocomplete, Calendar, Field, HugeiconsIcon } from "@coss-sv/ui";
   const times = Array.from(
     { length: 96 },
     (_, index) =>
@@ -140,7 +139,7 @@
   }
 </script>
 
-{#snippet clock()}<HugeiconsIcon icon={Clock01Icon} aria-hidden="true" />{/snippet}
+{#snippet clock()}<HugeiconsIcon icon={Clock01Icon} aria-hidden="true" strokeWidth={2} />{/snippet}
 
 <div class="flex w-fit flex-col gap-2">
   <Calendar

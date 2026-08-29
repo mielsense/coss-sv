@@ -52,7 +52,10 @@
     disabled={[{ after: today }]}
     mode="range"
     bind:month
-    bind:selected={date}
+    onSelect={(newDate) => {
+      if (newDate) date = newDate;
+    }}
+    selected={date}
     {today}
   />
 </div>

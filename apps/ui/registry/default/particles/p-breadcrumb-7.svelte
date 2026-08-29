@@ -16,10 +16,10 @@
     BreadcrumbLink,
     BreadcrumbList,
     BreadcrumbSeparator,
+    HugeiconsIcon,
     Select,
   } from "@coss-sv/ui";
   import { Database01Icon } from "@hugeicons/core-free-icons";
-  import { HugeiconsIcon } from "@hugeicons/svelte";
   const items = [
     { label: "Orion", value: "orion" },
     { label: "Sigma", value: "sigma" },

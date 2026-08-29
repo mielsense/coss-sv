@@ -103,6 +103,25 @@ try {
   await openParticle("p-calendar-19");
   await page.getByText("Friday, 28", { exact: true }).waitFor();
 
+  await openParticle("p-calendar-20");
+  const selectedDate = page.locator('[data-calendar-date="2026-08-28"]');
+  await selectedDate.click();
+  assert.match(await selectedDate.getAttribute("aria-label"), /August 28th, 2026, selected$/);
+
+  await openParticle("p-calendar-21");
+  await page.getByRole("button", { name: "Today", exact: true }).click();
+  const selectedRangeDate = page.locator('[data-calendar-date="2026-08-28"]');
+  await selectedRangeDate.click();
+  assert.match(await selectedRangeDate.getAttribute("aria-label"), /August 28th, 2026, selected$/);
+
+  for (const id of ["p-table-4", "p-table-8"]) {
+    await openParticle(id);
+    const previous = page.getByRole("button", { name: /previous/i });
+    assert.equal(await previous.isDisabled(), true);
+    assert.equal(await previous.getAttribute("type"), "button");
+    assert.equal(await previous.getAttribute("tabindex"), null);
+  }
+
   await openParticle("p-calendar-25");
   const time = page.getByRole("combobox", { name: "Enter time" });
   await time.focus();
