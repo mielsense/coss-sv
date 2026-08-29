@@ -43,7 +43,7 @@ describe("documentation components", () => {
     expect(body).toContain('data-preview-presentation="true"');
     expect(body).toContain('data-align="start"');
     expect(body).toContain(
-      "/preview/p-accordion-1?theme=dark&amp;width=mobile&amp;align=start&amp;timers=real",
+      "/preview/p-accordion-1?theme=dark&amp;width=mobile&amp;align=start&amp;reducedMotion=no-preference&amp;timers=real",
     );
     expect(body).toContain(">Code<");
     expect(body).toContain("Copy to clipboard");

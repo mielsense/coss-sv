@@ -88,7 +88,7 @@ try {
   await frame.waitFor();
   assert.equal(
     await frame.getAttribute("src"),
-    "/preview/_fixture?theme=light&width=mobile&align=start&timers=real",
+    "/preview/_fixture?theme=light&width=mobile&align=start&reducedMotion=no-preference&timers=real",
   );
   assert.equal(await frame.getAttribute("data-preview-width"), "mobile");
   const alignment = await presentation.evaluate((element) => {
@@ -194,7 +194,7 @@ try {
       document
         .querySelector('[data-preview-contract="interactive"] iframe')
         ?.getAttribute("src") ===
-      "/preview/_fixture?theme=dark&width=mobile&align=start&timers=real",
+      "/preview/_fixture?theme=dark&width=mobile&align=start&reducedMotion=no-preference&timers=real",
   );
 
   const sourcePanel = card.locator("[data-source-panel]");
@@ -319,7 +319,7 @@ try {
   assert.equal(await hiddenCode.getByRole("tab").count(), 0);
   assert.equal(
     await hiddenCode.getByTitle("Hidden code contract preview").getAttribute("src"),
-    "/preview/_fixture?theme=light&width=tablet&align=center&timers=real",
+    "/preview/_fixture?theme=light&width=tablet&align=center&reducedMotion=no-preference&timers=real",
   );
 } finally {
   await browser.close();

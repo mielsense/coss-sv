@@ -30,6 +30,7 @@ describe("documentation preview presentation", () => {
     const preview = frameDocument?.querySelector<HTMLIFrameElement>("iframe");
 
     expect(preview?.getAttribute("src")).toContain("theme=light");
+    expect(preview?.getAttribute("src")).toContain("reducedMotion=no-preference");
     frameDocument?.documentElement.classList.add("dark");
     await tick();
     await new Promise((resolve) => setTimeout(resolve, 0));

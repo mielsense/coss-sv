@@ -1,56 +1,72 @@
 <script lang="ts">
-import type { HTMLAttributes } from "svelte/elements";
-import {
-  type PreviewTheme,
-  type PreviewWidth,
-  previewWidths,
-} from "../../routes/preview/[name]/preview-contract.js";
+  import type { HTMLAttributes } from "svelte/elements";
+  import {
+    type PreviewReducedMotion,
+    type PreviewTheme,
+    type PreviewWidth,
+    previewWidths,
+  } from "../../routes/preview/[name]/preview-contract.js";
 
-type Props = HTMLAttributes<HTMLElement> & {
-  iframeHeight?: number;
-  name: string;
-  theme?: PreviewTheme;
-  title?: string;
-};
-
-let { class: className, iframeHeight = 450, name, theme, title = name, ...rest }: Props = $props();
-let width = $state<PreviewWidth>("desktop");
-let fullscreen = $state(false);
-let siteTheme = $state<PreviewTheme>("light");
-let presentation: HTMLElement;
-
-const resolvedTheme = $derived(theme ?? siteTheme);
-const previewUrl = $derived(
-  `/preview/${encodeURIComponent(name)}?theme=${resolvedTheme}&width=${width}&timers=real`,
-);
-
-function trackPresentation(node: HTMLElement) {
-  const ownerDocument = node.ownerDocument;
-  const updateFullscreen = () => {
-    fullscreen = ownerDocument.fullscreenElement === node;
-  };
-  const updateTheme = () => {
-    siteTheme = ownerDocument.documentElement.classList.contains("dark") ? "dark" : "light";
+  type Props = HTMLAttributes<HTMLElement> & {
+    iframeHeight?: number;
+    name: string;
+    reducedMotion?: PreviewReducedMotion;
+    theme?: PreviewTheme;
+    title?: string;
   };
 
-  ownerDocument.addEventListener("fullscreenchange", updateFullscreen);
-  ownerDocument.addEventListener("coss-sv:themechange", updateTheme);
-  updateFullscreen();
-  updateTheme();
+  let {
+    class: className,
+    iframeHeight = 450,
+    name,
+    reducedMotion = "no-preference",
+    theme,
+    title = name,
+    ...rest
+  }: Props = $props();
+  let width = $state<PreviewWidth>("desktop");
+  let fullscreen = $state(false);
+  let siteTheme = $state<PreviewTheme>("light");
+  let presentation: HTMLElement;
 
-  return () => {
-    ownerDocument.removeEventListener("fullscreenchange", updateFullscreen);
-    ownerDocument.removeEventListener("coss-sv:themechange", updateTheme);
-  };
-}
+  const resolvedTheme = $derived(theme ?? siteTheme);
+  const previewUrl = $derived.by(() => {
+    const parameters = new URLSearchParams({
+      theme: resolvedTheme,
+      width,
+      reducedMotion,
+      timers: "real",
+    });
+    return `/preview/${encodeURIComponent(name)}?${parameters.toString()}`;
+  });
 
-async function toggleFullscreen(): Promise<void> {
-  if (presentation.ownerDocument.fullscreenElement === presentation) {
-    await presentation.ownerDocument.exitFullscreen();
-    return;
+  function trackPresentation(node: HTMLElement) {
+    const ownerDocument = node.ownerDocument;
+    const updateFullscreen = () => {
+      fullscreen = ownerDocument.fullscreenElement === node;
+    };
+    const updateTheme = () => {
+      siteTheme = ownerDocument.documentElement.classList.contains("dark") ? "dark" : "light";
+    };
+
+    ownerDocument.addEventListener("fullscreenchange", updateFullscreen);
+    ownerDocument.addEventListener("coss-sv:themechange", updateTheme);
+    updateFullscreen();
+    updateTheme();
+
+    return () => {
+      ownerDocument.removeEventListener("fullscreenchange", updateFullscreen);
+      ownerDocument.removeEventListener("coss-sv:themechange", updateTheme);
+    };
   }
-  await presentation.requestFullscreen();
-}
+
+  async function toggleFullscreen(): Promise<void> {
+    if (presentation.ownerDocument.fullscreenElement === presentation) {
+      await presentation.ownerDocument.exitFullscreen();
+      return;
+    }
+    await presentation.requestFullscreen();
+  }
 </script>
 
 <section
@@ -122,117 +138,117 @@ async function toggleFullscreen(): Promise<void> {
 </section>
 
 <style>
-.preview-presentation {
-  position: relative;
-  display: flex;
-  min-width: 0;
-  flex-direction: column;
-  gap: 0.5rem;
-}
+  .preview-presentation {
+    position: relative;
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
 
-.preview-presentation-toolbar {
-  display: flex;
-  min-height: 2rem;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 0.5rem;
-}
+  .preview-presentation-toolbar {
+    display: flex;
+    min-height: 2rem;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.5rem;
+  }
 
-.preview-size-controls {
-  display: flex;
-  align-items: center;
-  padding: 0.125rem;
-  border: 1px solid var(--site-border);
-  border-radius: 0.625rem;
-  background: var(--site-panel);
-}
+  .preview-size-controls {
+    display: flex;
+    align-items: center;
+    padding: 0.125rem;
+    border: 1px solid var(--site-border);
+    border-radius: 0.625rem;
+    background: var(--site-panel);
+  }
 
-.preview-size-controls legend {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-}
+  .preview-size-controls legend {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+  }
 
-.preview-presentation button {
-  display: inline-flex;
-  width: 1.75rem;
-  height: 1.75rem;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-  border: 0;
-  border-radius: 0.5rem;
-  background: transparent;
-  color: var(--site-muted);
-  cursor: pointer;
-}
+  .preview-presentation button {
+    display: inline-flex;
+    width: 1.75rem;
+    height: 1.75rem;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: 0;
+    border-radius: 0.5rem;
+    background: transparent;
+    color: var(--site-muted);
+    cursor: pointer;
+  }
 
-.preview-presentation button:hover,
-.preview-presentation button[aria-pressed="true"] {
-  background: var(--site-accent);
-  color: var(--site-foreground);
-}
+  .preview-presentation button:hover,
+  .preview-presentation button[aria-pressed="true"] {
+    background: var(--site-accent);
+    color: var(--site-foreground);
+  }
 
-.preview-presentation button:focus-visible {
-  outline: 2px solid var(--site-primary);
-  outline-offset: 2px;
-}
+  .preview-presentation button:focus-visible {
+    outline: 2px solid var(--site-primary);
+    outline-offset: 2px;
+  }
 
-.preview-presentation svg {
-  width: 1rem;
-  height: 1rem;
-  fill: none;
-  stroke: currentColor;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke-width: 1.75;
-}
+  .preview-presentation svg {
+    width: 1rem;
+    height: 1rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.75;
+  }
 
-.preview-presentation .preview-fullscreen-control {
-  border: 1px solid var(--site-border);
-  background: var(--site-panel);
-}
+  .preview-presentation .preview-fullscreen-control {
+    border: 1px solid var(--site-border);
+    background: var(--site-panel);
+  }
 
-.preview-presentation-frame {
-  position: relative;
-  display: flex;
-  width: 100%;
-  height: var(--preview-height);
-  min-width: 0;
-  justify-content: center;
-  overflow: hidden;
-  border: 1px solid var(--site-border);
-  border-radius: 0.75rem;
-  background: var(--site-panel);
-}
+  .preview-presentation-frame {
+    position: relative;
+    display: flex;
+    width: 100%;
+    height: var(--preview-height);
+    min-width: 0;
+    justify-content: center;
+    overflow: hidden;
+    border: 1px solid var(--site-border);
+    border-radius: 0.75rem;
+    background: var(--site-panel);
+  }
 
-.preview-presentation iframe {
-  display: block;
-  height: var(--preview-height);
-  max-width: 100%;
-  flex: 0 0 auto;
-  border: 0;
-  background: var(--site-background);
-}
+  .preview-presentation iframe {
+    display: block;
+    height: var(--preview-height);
+    max-width: 100%;
+    flex: 0 0 auto;
+    border: 0;
+    background: var(--site-background);
+  }
 
-.preview-presentation:fullscreen {
-  box-sizing: border-box;
-  width: 100%;
-  height: 100%;
-  padding: 0.5rem;
-  background: var(--site-background);
-}
+  .preview-presentation:fullscreen {
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    padding: 0.5rem;
+    background: var(--site-background);
+  }
 
-.preview-presentation:fullscreen .preview-presentation-frame {
-  height: auto;
-  flex: 1;
-}
+  .preview-presentation:fullscreen .preview-presentation-frame {
+    height: auto;
+    flex: 1;
+  }
 
-.preview-presentation:fullscreen iframe {
-  height: 100%;
-}
+  .preview-presentation:fullscreen iframe {
+    height: 100%;
+  }
 </style>

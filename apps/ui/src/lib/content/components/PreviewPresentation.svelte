@@ -2,6 +2,7 @@
   import type { HTMLAttributes } from "svelte/elements";
   import {
     type PreviewAlignment,
+    type PreviewReducedMotion,
     type PreviewTheme,
     type PreviewWidth,
     previewWidths,
@@ -11,6 +12,7 @@
     align?: PreviewAlignment;
     iframeHeight?: number;
     name: string;
+    reducedMotion?: PreviewReducedMotion;
     theme?: PreviewTheme | undefined;
     title?: string;
     width?: PreviewWidth;
@@ -21,6 +23,7 @@
     class: className,
     iframeHeight = 450,
     name,
+    reducedMotion = "no-preference",
     theme,
     title = name,
     width = "desktop",
@@ -28,9 +31,16 @@
   }: Props = $props();
   let siteTheme = $state<PreviewTheme>("light");
   const resolvedTheme = $derived(theme ?? siteTheme);
-  const previewUrl = $derived(
-    `/preview/${encodeURIComponent(name)}?theme=${resolvedTheme}&width=${width}&align=${align}&timers=real`,
-  );
+  const previewUrl = $derived.by(() => {
+    const parameters = new URLSearchParams({
+      theme: resolvedTheme,
+      width,
+      align,
+      reducedMotion,
+      timers: "real",
+    });
+    return `/preview/${encodeURIComponent(name)}?${parameters.toString()}`;
+  });
 
   function trackSiteTheme(node: HTMLElement) {
     const ownerDocument = node.ownerDocument;

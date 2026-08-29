@@ -141,7 +141,7 @@ try {
   await productionPreview.waitFor();
   assert.equal(
     await productionPreview.getAttribute("src"),
-    "/preview/p-button-1?theme=light&width=desktop&timers=real",
+    "/preview/p-button-1?theme=light&width=desktop&reducedMotion=no-preference&timers=real",
   );
   const selectedViewportBackground = await page
     .getByRole("button", { name: "Desktop preview" })
@@ -157,7 +157,7 @@ try {
   );
   assert.equal(
     await productionPreview.getAttribute("src"),
-    "/preview/p-button-1?theme=dark&width=desktop&timers=real",
+    "/preview/p-button-1?theme=dark&width=desktop&reducedMotion=no-preference&timers=real",
   );
 
   await page.goto(`${baseUrl}/docs/preview/preview-card`);
@@ -165,7 +165,7 @@ try {
   await interactivePreview.waitFor();
   assert.equal(
     await interactivePreview.getAttribute("src"),
-    "/preview/preview-card?theme=dark&width=desktop&timers=real",
+    "/preview/preview-card?theme=dark&width=desktop&reducedMotion=no-preference&timers=real",
   );
   const interactiveFrame = interactivePreview.contentFrame();
   await interactiveFrame.getByRole("button", { name: "coss.com/ui" }).hover();
