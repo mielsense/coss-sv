@@ -62,6 +62,10 @@ export function validateWorkspace(root = process.cwd()) {
     if (packageSection.join("\n") !== "apps/*\npackages/*") {
       issues.push("workspace package globs must be exactly apps/* and packages/*");
     }
+
+    if (!/^ {2}cookie: 0\.7\.2$/m.test(workspace)) {
+      issues.push("workspace must override cookie with patched version 0.7.2");
+    }
   }
 
   if (!existsSync(turboPath)) {
