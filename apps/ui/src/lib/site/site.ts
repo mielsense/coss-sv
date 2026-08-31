@@ -21,7 +21,4 @@ export const hooksNavigation = [
   { href: "/docs/hooks/use-copy-to-clipboard", label: "useCopyToClipboard" },
 ] as const;
 
-export const resourcesNavigation = [
-  { href: "/llms.txt", label: "llms.txt" },
-  { href: "https://coss.com/origin", label: "coss.com origin" },
-] as const;
+export const resourcesNavigation = [{ href: "/llms.txt", label: "llms.txt" }] as const;

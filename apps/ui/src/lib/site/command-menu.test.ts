@@ -8,10 +8,7 @@ describe("COSS command and mobile navigation parity", () => {
       { href: "/docs/hooks/use-media-query", label: "useMediaQuery" },
       { href: "/docs/hooks/use-copy-to-clipboard", label: "useCopyToClipboard" },
     ]);
-    expect(resourcesNavigation).toEqual([
-      { href: "/llms.txt", label: "llms.txt" },
-      { href: "https://coss.com/origin", label: "coss.com origin" },
-    ]);
+    expect(resourcesNavigation).toEqual([{ href: "/llms.txt", label: "llms.txt" }]);
   });
 
   test("uses the inspected Shards command-palette behavior rather than a native dialog", async () => {
