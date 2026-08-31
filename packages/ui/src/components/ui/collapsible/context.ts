@@ -1,4 +1,4 @@
-import type { Collapsible as ShardsCollapsible } from "@shardsui/svelte";
+import type { Collapsible as ShardsCollapsible } from "@shardsui/svelte/collapsible";
 import { type ComponentProps, createContext, type Snippet } from "svelte";
 
 type ShardsCollapsibleTriggerProps = ComponentProps<typeof ShardsCollapsible.Trigger>;

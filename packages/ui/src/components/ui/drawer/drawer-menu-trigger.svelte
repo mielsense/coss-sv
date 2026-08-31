@@ -4,9 +4,9 @@
 </script>
 
 <script lang="ts">
-  import { ChevronRightIcon } from "@hugeicons/core-free-icons";
-  import HugeiconsIcon from "$lib/hugeicons-icon.svelte";
-  import { cn } from "$lib/utils.js";
+  import ChevronRightIcon from "@hugeicons/core-free-icons/ChevronRightIcon";
+  import HugeiconsIcon from "@/hugeicons-icon.svelte";
+  import { cn } from "@/utils.js";
   import Trigger from "./drawer-trigger.svelte";
 
   let {

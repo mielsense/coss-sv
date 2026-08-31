@@ -1,4 +1,4 @@
-export { Collapsible as CollapsiblePrimitive } from "@shardsui/svelte";
+export { Collapsible as CollapsiblePrimitive } from "@shardsui/svelte/collapsible";
 export type { CollapsiblePanelProps } from "./collapsible-panel.svelte";
 export {
   default as CollapsibleContent,

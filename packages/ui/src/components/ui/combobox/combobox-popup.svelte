@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import type { Combobox as ShardsCombobox } from "@shardsui/svelte";
+  import type { Combobox as ShardsCombobox } from "@shardsui/svelte/combobox";
   import type { ComponentProps } from "svelte";
   type P = ComponentProps<typeof ShardsCombobox.Positioner>;
   export type ComboboxPopupProps = ComponentProps<typeof ShardsCombobox.Popup> & {
@@ -13,8 +13,8 @@
 </script>
 
 <script lang="ts">
-  import { Combobox as C } from "@shardsui/svelte";
-  import { cn } from "$lib/utils.js";
+  import { Combobox as C } from "@shardsui/svelte/combobox";
+  import { cn } from "@/utils.js";
   import { getComboboxWrapperContext } from "./context.svelte.js";
   let {
     align = "start",

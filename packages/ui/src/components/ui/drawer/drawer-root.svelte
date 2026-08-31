@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import type { Drawer as ShardsP } from "@shardsui/svelte";
+  import type { Drawer as ShardsP } from "@shardsui/svelte/drawer";
   import type { ComponentProps, Snippet } from "svelte";
   import type { DrawerPosition } from "./context.js";
   type PrimitiveRootProps = ComponentProps<typeof ShardsP.Root>;
@@ -14,7 +14,7 @@
 </script>
 
 <script lang="ts" generics="Payload = unknown">
-  import { Drawer as P } from "@shardsui/svelte";
+  import { Drawer as P } from "@shardsui/svelte/drawer";
   import { setDrawerPositionContext } from "./context.js";
   let {
     open = $bindable(false),

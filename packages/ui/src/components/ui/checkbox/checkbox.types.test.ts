@@ -1,5 +1,5 @@
 import { expect, test } from "vitest";
-import type { CheckboxProps } from "./index.js";
+import type { CheckboxChangeEventDetails, CheckboxProps } from "./index.js";
 
 test("types Checkbox controlled state, form semantics, callbacks, native attributes, and refs", () => {
   const props = {
@@ -9,7 +9,10 @@ test("types Checkbox controlled state, form semantics, callbacks, native attribu
     form: "settings",
     indeterminate: false,
     name: "terms",
-    onCheckedChange: (_checked: boolean) => undefined,
+    defaultChecked: true,
+    onCheckedChange: (_checked: boolean, details: CheckboxChangeEventDetails) => {
+      details.cancel();
+    },
     onclick: (_event: MouseEvent) => undefined,
     readOnly: false,
     ref: null,
@@ -18,5 +21,5 @@ test("types Checkbox controlled state, form semantics, callbacks, native attribu
   } satisfies CheckboxProps;
 
   expect(props.name).toBe("terms");
-  expect(props.onCheckedChange(true)).toBeUndefined();
+  expect(props.defaultChecked).toBe(true);
 });

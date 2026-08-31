@@ -1,5 +1,5 @@
 <script lang="ts" generics="Payload = unknown">
-  import { Tooltip as TooltipPrimitive } from "@shardsui/svelte";
+  import { Tooltip as TooltipPrimitive } from "@shardsui/svelte/tooltip";
   import { untrack } from "svelte";
   import { getTooltipHandleContext } from "./context.js";
   import type { TooltipTriggerProps } from "./tooltip.types.js";

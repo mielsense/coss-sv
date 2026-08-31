@@ -6,6 +6,10 @@
   let groupRef = $state<HTMLElement | null>(null);
   let fixedValue = $state<readonly string[]>(["bold"]);
   let declinedWrites = $state(0);
+  let canceledItemChanges = $state(0);
+  let canceledGroupChanges = $state(0);
+  let canceledDetails = $state("none");
+  let groupCanceledChanges = $state(0);
 </script>
 
 <ToggleGroup.Root
@@ -18,6 +22,36 @@
   <ToggleGroup.Item aria-label="Single bold" value="bold">Bold</ToggleGroup.Item>
   <ToggleGroup.Item aria-label="Single italic" value="italic">Italic</ToggleGroup.Item>
   <ToggleGroup.Item aria-label="Single underline" value="underline">Underline</ToggleGroup.Item>
+</ToggleGroup.Root>
+
+<ToggleGroup.Root
+  aria-label="Item canceled formatting"
+  defaultValue={["bold"]}
+  onValueChange={() => (canceledGroupChanges += 1)}
+>
+  <ToggleGroup.Item aria-label="Item canceled bold" value="bold">Bold</ToggleGroup.Item>
+  <ToggleGroup.Item
+    aria-label="Item canceled italic"
+    onPressedChange={(_pressed, details) => {
+      canceledItemChanges += 1;
+      details.allowPropagation();
+      details.cancel();
+      canceledDetails = `${details.reason}:${details.event.type}:${details.isPropagationAllowed}`;
+    }}
+    value="italic">Italic</ToggleGroup.Item
+  >
+</ToggleGroup.Root>
+
+<ToggleGroup.Root
+  aria-label="Group canceled formatting"
+  defaultValue={["bold"]}
+  onValueChange={(_value, details) => {
+    groupCanceledChanges += 1;
+    details.cancel();
+  }}
+>
+  <ToggleGroup.Item aria-label="Group canceled bold" value="bold">Bold</ToggleGroup.Item>
+  <ToggleGroup.Item aria-label="Group canceled italic" value="italic">Italic</ToggleGroup.Item>
 </ToggleGroup.Root>
 
 <ToggleGroup.Root
@@ -60,3 +94,7 @@
 <output data-testid="multiple-value">{multipleValue.join(",")}</output>
 <output data-testid="group-ref">{groupRef?.tagName ?? "missing"}</output>
 <output data-testid="declined-writes">{declinedWrites}</output>
+<output data-testid="canceled-item-changes">{canceledItemChanges}</output>
+<output data-testid="canceled-group-changes">{canceledGroupChanges}</output>
+<output data-testid="canceled-details">{canceledDetails}</output>
+<output data-testid="group-canceled-changes">{groupCanceledChanges}</output>

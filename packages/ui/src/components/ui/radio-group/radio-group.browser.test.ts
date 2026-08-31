@@ -118,6 +118,18 @@ describe("Radio Group browser contract", () => {
     expect(new FormData(form ?? undefined).get("rejected-contact")).toBe("email");
   });
 
+  test("exposes native cancelable change details and restores the selected radio", async () => {
+    render(RadioGroupFixture);
+    const one = page.getByRole("radio", { name: "Canceled one" });
+    const two = page.getByRole("radio", { name: "Canceled two" });
+
+    document.querySelector<HTMLElement>('[data-testid="canceled-two"]')?.click();
+
+    await expect.element(one).toHaveAttribute("aria-checked", "true");
+    await expect.element(two).toHaveAttribute("aria-checked", "false");
+    await expect.element(page.getByTestId("canceled-details")).toHaveTextContent("none:click:true");
+  });
+
   test("hydrates the exact empty server-equivalent root without warnings", async () => {
     const warning = vi.spyOn(console, "warn").mockImplementation(() => undefined);
     const target = document.createElement("div");

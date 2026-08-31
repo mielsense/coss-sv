@@ -1,4 +1,4 @@
-export { Meter as MeterPrimitive } from "@shardsui/svelte";
+export { Meter as MeterPrimitive } from "@shardsui/svelte/meter";
 export type { MeterIndicatorProps } from "./meter-indicator.svelte";
 export { default as Indicator, default as MeterIndicator } from "./meter-indicator.svelte";
 export type { MeterLabelProps } from "./meter-label.svelte";

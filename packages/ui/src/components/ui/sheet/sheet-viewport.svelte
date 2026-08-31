@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import type { Dialog as ShardsP } from "@shardsui/svelte";
+  import type { Dialog as ShardsP } from "@shardsui/svelte/dialog";
   import type { ComponentProps } from "svelte";
   export type SheetSide = "right" | "left" | "top" | "bottom";
   export type SheetVariant = "default" | "inset";
@@ -10,8 +10,8 @@
 </script>
 
 <script lang="ts">
-  import { Dialog as P } from "@shardsui/svelte";
-  import { cn } from "$lib/utils.js";
+  import { Dialog as P } from "@shardsui/svelte/dialog";
+  import { cn } from "@/utils.js";
   let {
     class: className,
     ref = $bindable(null),

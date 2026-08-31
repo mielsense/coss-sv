@@ -1,4 +1,4 @@
-import { Dialog as SheetPrimitive } from "@shardsui/svelte";
+import { Dialog as SheetPrimitive } from "@shardsui/svelte/dialog";
 export { SheetPrimitive };
 export const Root: typeof SheetPrimitive.Root = SheetPrimitive.Root;
 export const Sheet: typeof Root = Root;

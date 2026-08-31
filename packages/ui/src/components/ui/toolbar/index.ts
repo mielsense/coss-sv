@@ -1,4 +1,4 @@
-export { Toolbar as ToolbarPrimitive } from "@shardsui/svelte";
+export { Toolbar as ToolbarPrimitive } from "@shardsui/svelte/toolbar";
 export type {
   ToolbarButtonProps,
   ToolbarGroupProps,

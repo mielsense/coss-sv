@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import type { Select as ShardsSelect } from "@shardsui/svelte";
+  import type { Select as ShardsSelect } from "@shardsui/svelte/select";
   import type { ComponentProps } from "svelte";
   export type SelectPartKind = "group" | "group-label" | "label" | "separator";
   export type SelectPartProps = ComponentProps<typeof ShardsSelect.Group> & {
@@ -8,8 +8,8 @@
 </script>
 
 <script lang="ts">
-  import { Select as S } from "@shardsui/svelte";
-  import { cn } from "$lib/utils.js";
+  import { Select as S } from "@shardsui/svelte/select";
+  import { cn } from "@/utils.js";
   let { class: className, kind, ref = $bindable(null), ...props }: SelectPartProps = $props();
   const classes = $derived(
     cn(

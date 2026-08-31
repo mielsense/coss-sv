@@ -1,4 +1,4 @@
-import { Popover as PopoverPrimitive } from "@shardsui/svelte";
+import { Popover as PopoverPrimitive } from "@shardsui/svelte/popover";
 
 export const Handle = PopoverPrimitive.Handle;
 export function PopoverCreateHandle<Payload = unknown>() {

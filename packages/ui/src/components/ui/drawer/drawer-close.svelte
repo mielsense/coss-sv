@@ -15,7 +15,7 @@
 </script>
 
 <script lang="ts" generics="Tag extends keyof SvelteHTMLElements = 'button'">
-  import { Dialog as P } from "@shardsui/svelte";
+  import { Dialog as P } from "@shardsui/svelte/dialog";
   import type { Component } from "svelte";
 
   const ClosePrimitive = P.Close as unknown as Component<Record<string, unknown>, object, "ref">;

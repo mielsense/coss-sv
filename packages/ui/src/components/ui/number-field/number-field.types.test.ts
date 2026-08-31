@@ -6,6 +6,7 @@ import type {
   NumberFieldGroupProps,
   NumberFieldInputProps,
   NumberFieldRootProps,
+  NumberFieldScrubAreaProps,
 } from "./index.js";
 
 test("types bindable state, callbacks, formatting, native attributes, snippets, and refs", () => {
@@ -21,6 +22,7 @@ test("types bindable state, callbacks, formatting, native attributes, snippets, 
     allowOutOfRange: true,
     allowWheelScrub: true,
     largeStep: 10,
+    inputRef: null,
     onValueChange: (value: number | null, details: NumberFieldChangeEventDetails) =>
       `${value}:${details.reason}`,
     onValueCommitted: (value: number | null, details: NumberFieldCommitEventDetails) =>
@@ -66,6 +68,14 @@ test("types bindable state, callbacks, formatting, native attributes, snippets, 
     "aria-valuetext": null,
   } satisfies NumberFieldInputProps;
   expect(removedAria["aria-valuenow"]).toBeNull();
+
+  const scrub = {
+    direction: "vertical",
+    label: "Quantity",
+    pixelSensitivity: 4,
+    teleportDistance: 32,
+  } satisfies NumberFieldScrubAreaProps;
+  expect(scrub.direction).toBe("vertical");
 
   const invalid = {
     // @ts-expect-error size names are limited to the COSS contract.

@@ -1,4 +1,4 @@
-import type { Menu as ShardsMenu } from "@shardsui/svelte";
+import type { Menu as ShardsMenu } from "@shardsui/svelte/menu";
 import type { ComponentProps, Snippet } from "svelte";
 import type { HTMLButtonAttributes, SvelteHTMLElements } from "svelte/elements";
 

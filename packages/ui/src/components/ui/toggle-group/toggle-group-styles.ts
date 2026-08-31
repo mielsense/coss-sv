@@ -1,5 +1,5 @@
 import type { ClassValue } from "clsx";
-import { cn } from "$lib/utils.js";
+import { cn } from "@/utils.js";
 import type { ToggleSize, ToggleVariant } from "../toggle/toggle-variants.js";
 
 export type ToggleGroupStyleOptions = {

@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import type { Collapsible as ShardsCollapsible } from "@shardsui/svelte";
+  import type { Collapsible as ShardsCollapsible } from "@shardsui/svelte/collapsible";
   import type { ComponentProps } from "svelte";
 
   export type CollapsibleRootProps = Omit<ComponentProps<typeof ShardsCollapsible.Root>, "open"> & {
@@ -9,7 +9,7 @@
 </script>
 
 <script lang="ts">
-  import { Collapsible as CollapsiblePrimitive } from "@shardsui/svelte";
+  import { Collapsible as CollapsiblePrimitive } from "@shardsui/svelte/collapsible";
   import { untrack } from "svelte";
   import CollapsibleProvider from "./collapsible-provider.svelte";
 

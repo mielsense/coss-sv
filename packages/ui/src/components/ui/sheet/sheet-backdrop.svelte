@@ -4,8 +4,8 @@
 </script>
 
 <script lang="ts">
-  import { Dialog as P } from "@shardsui/svelte";
-  import { cn } from "$lib/utils.js";
+  import { Dialog as P } from "@shardsui/svelte/dialog";
+  import { cn } from "@/utils.js";
   let { class: className, ref = $bindable(null), ...props }: SheetBackdropProps = $props();
 </script>
 

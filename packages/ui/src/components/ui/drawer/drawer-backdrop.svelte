@@ -4,8 +4,8 @@
 </script>
 
 <script lang="ts">
-  import { Drawer as P } from "@shardsui/svelte";
-  import { cn } from "$lib/utils.js";
+  import { Drawer as P } from "@shardsui/svelte/drawer";
+  import { cn } from "@/utils.js";
   let { class: className, ref = $bindable(null), ...props }: DrawerBackdropProps = $props();
 </script>
 

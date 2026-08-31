@@ -1,4 +1,4 @@
-import type { PreviewCard as PreviewCardPrimitive } from "@shardsui/svelte";
+import type { PreviewCard as PreviewCardPrimitive } from "@shardsui/svelte/preview-card";
 import type { Snippet } from "svelte";
 import type { HTMLAnchorAttributes } from "svelte/elements";
 

@@ -1,9 +1,9 @@
-<script lang="ts">
-  import CardPart, { type CardProps } from "./card-part.svelte";
+<script lang="ts" generics="Tag extends import('./card-part.svelte').CardTag = 'div'">
+  import CardPart, { type CardProps, forwardCardProps } from "./card-part.svelte";
 
   const baseClass =
     "flex-1 p-6 in-[[data-slot=card]:has(>[data-slot=card-header]:not(.border-b))]:pt-0 in-[[data-slot=card]:has(>[data-slot=card-footer]:not(.border-t))]:pb-0";
-  let { ref = $bindable(null), ...props }: CardProps = $props();
+  let { ref = $bindable(null), ...props }: CardProps<Tag> = $props();
 </script>
 
-<CardPart bind:ref {baseClass} dataSlot="card-panel" {...props} />
+<CardPart bind:ref {baseClass} dataSlot="card-panel" {...forwardCardProps(props)} />

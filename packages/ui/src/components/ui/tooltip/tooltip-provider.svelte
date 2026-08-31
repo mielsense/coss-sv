@@ -1,11 +1,11 @@
 <script module lang="ts">
-  import type { Tooltip as ShardsTooltip } from "@shardsui/svelte";
+  import type { Tooltip as ShardsTooltip } from "@shardsui/svelte/tooltip";
   import type { ComponentProps } from "svelte";
   export type TooltipProviderProps = ComponentProps<typeof ShardsTooltip.Provider>;
 </script>
 
 <script lang="ts">
-  import { Tooltip as TooltipPrimitive } from "@shardsui/svelte";
+  import { Tooltip as TooltipPrimitive } from "@shardsui/svelte/tooltip";
   import {
     createTooltipAttachmentProviderContext,
     setTooltipAttachmentProviderContext,

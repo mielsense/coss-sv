@@ -1,6 +1,7 @@
 <script lang="ts">
-  import { ContextMenu as ContextMenuPrimitive } from "@shardsui/svelte";
-  import { cn } from "$lib/utils.js";
+  import { ContextMenu as ContextMenuPrimitive } from "@shardsui/svelte/context-menu";
+  import { untrack } from "svelte";
+  import { cn } from "@/utils.js";
   import type { ContextMenuPopupProps } from "./context-menu.types.js";
   import { getContextMenuIdContext } from "./id-context.svelte.js";
 
@@ -22,16 +23,14 @@
   const alignOffsetProps = $derived(alignOffset === undefined ? {} : { alignOffset });
   const anchorProps = $derived(anchor === undefined ? {} : { anchor });
   const menuIds = getContextMenuIdContext();
-  const popupId = $derived(id ?? menuIds.popupId);
+  const popupId = $derived(id ?? menuIds.defaultPopupId);
 
-  function registerInitialPopupId(): void {
-    if (id !== undefined) menuIds.setPopupId(id);
-  }
-
-  registerInitialPopupId();
+  const initialPopupId = untrack(() => id);
+  if (initialPopupId !== undefined) menuIds.setPopupId(initialPopupId);
 
   $effect.pre(() => {
     menuIds.setPopupId(popupId);
+    return () => menuIds.setPopupId(undefined);
   });
 </script>
 

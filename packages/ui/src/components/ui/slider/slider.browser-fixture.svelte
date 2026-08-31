@@ -14,6 +14,8 @@
   let attempted = $state("");
   let collisionNone = $state<readonly number[]>([20, 40]);
   let collisionSwap = $state<readonly number[]>([20, 40]);
+  let canceledChanged = $state("");
+  let canceledCommits = $state(0);
 
   function recordChanged(value: number | readonly number[]) {
     changed = Array.isArray(value) ? value.join(",") : String(value);
@@ -142,3 +144,19 @@
   />
 </div>
 <output data-testid="collision-swap-state">{collisionSwap.join(",")}</output>
+
+<Slider.Root
+  aria-label="Canceled level"
+  data-testid="canceled-root"
+  defaultValue={25}
+  onValueChange={(_value, details) => {
+    details.allowPropagation();
+    details.cancel();
+    canceledChanged = `${details.reason}:${details.event.type}:${details.activeThumbIndex}:${details.isPropagationAllowed}`;
+  }}
+  onValueCommitted={() => (canceledCommits += 1)}
+>
+  <Slider.Value data-testid="canceled-output" />
+</Slider.Root>
+<output data-testid="canceled-changed">{canceledChanged}</output>
+<output data-testid="canceled-commits">{canceledCommits}</output>

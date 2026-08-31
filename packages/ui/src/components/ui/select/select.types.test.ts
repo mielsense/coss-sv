@@ -16,8 +16,10 @@ test("types single and multiple values, trigger sizes, value snippets, alignment
   const children = createRawSnippet(() => ({ render: () => "Next.js" }));
   const single = {
     "aria-label": "Framework",
+    defaultOpen: true,
+    defaultValue: "next",
     items: ["next"],
-    onValueChange: (_value: string | null) => undefined,
+    onValueChange: (_value: string | null, details) => details.cancel(),
     value: "next",
   } satisfies SelectRootProps<string>;
   const multiple = {
@@ -59,6 +61,10 @@ test("types single and multiple values, trigger sizes, value snippets, alignment
   expectTypeOf(single.value).toEqualTypeOf<string>();
   expectTypeOf(multiple.value).toEqualTypeOf<string[]>();
   expectTypeOf(single.onValueChange).parameter(0).toEqualTypeOf<string | null>();
+  expectTypeOf(single.onValueChange).parameter(1).toMatchTypeOf<{
+    isCanceled: boolean;
+    reason: string;
+  }>();
   expectTypeOf(multiple.onValueChange).parameter(0).toEqualTypeOf<string[]>();
 });
 

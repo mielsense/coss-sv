@@ -1,23 +1,63 @@
 <script module lang="ts">
   import type { Snippet } from "svelte";
-  import type { HTMLAttributes } from "svelte/elements";
+  import type { HTMLAttributes, HTMLInputAttributes } from "svelte/elements";
   import type { OTPValidationType } from "./otp-field-machine.js";
 
   export type OTPFieldSize = "default" | "lg";
-  export type OTPFieldRootProps = Omit<HTMLAttributes<HTMLDivElement>, "children"> & {
-    autocomplete?: string;
+  export type OTPFieldChangeReason = "input-change" | "input-clear" | "input-paste" | "keyboard";
+  export type OTPFieldInvalidReason = "input-change" | "input-paste";
+  export type OTPFieldCompleteReason = "input-change" | "input-paste";
+  export type OTPFieldEventForReason<Reason extends string> = Reason extends "input-paste"
+    ? ClipboardEvent
+    : Reason extends "keyboard"
+      ? KeyboardEvent
+      : InputEvent | Event;
+  export type OTPFieldChangeEventDetails<
+    Reason extends OTPFieldChangeReason = OTPFieldChangeReason,
+  > = Reason extends OTPFieldChangeReason
+    ? {
+        allowPropagation(): void;
+        cancel(): void;
+        event: OTPFieldEventForReason<Reason>;
+        isCanceled: boolean;
+        isPropagationAllowed: boolean;
+        reason: Reason;
+        trigger: Element | undefined;
+      }
+    : never;
+  export type OTPFieldInvalidEventDetails<
+    Reason extends OTPFieldInvalidReason = OTPFieldInvalidReason,
+  > = Reason extends OTPFieldInvalidReason
+    ? { event: OTPFieldEventForReason<Reason>; reason: Reason }
+    : never;
+  export type OTPFieldCompleteEventDetails<
+    Reason extends OTPFieldCompleteReason = OTPFieldCompleteReason,
+  > = Reason extends OTPFieldCompleteReason
+    ? { event: OTPFieldEventForReason<Reason>; reason: Reason }
+    : never;
+
+  type InputMode = "decimal" | "email" | "none" | "numeric" | "search" | "tel" | "text" | "url";
+
+  export type OTPFieldRootProps = Omit<HTMLAttributes<HTMLDivElement>, "children" | "id"> & {
+    autoComplete?: HTMLInputAttributes["autocomplete"];
+    autocomplete?: HTMLInputAttributes["autocomplete"];
+    autoSubmit?: boolean;
     children?: Snippet;
     defaultValue?: string;
     disabled?: boolean;
     form?: string;
-    inputmode?: "decimal" | "email" | "none" | "numeric" | "search" | "tel" | "text" | "url";
+    id?: string;
+    inputMode?: InputMode;
+    inputmode?: InputMode;
     length: number;
     mask?: boolean;
     name?: string;
     normalizeValue?: (value: string) => string;
-    onComplete?: (value: string) => void;
-    onValueChange?: (value: string) => void;
-    onValueInvalid?: (value: string) => void;
+    /** @deprecated Use `onValueComplete`. */
+    onComplete?: (value: string, eventDetails: OTPFieldCompleteEventDetails) => void;
+    onValueChange?: (value: string, eventDetails: OTPFieldChangeEventDetails) => void;
+    onValueComplete?: (value: string, eventDetails: OTPFieldCompleteEventDetails) => void;
+    onValueInvalid?: (value: string, eventDetails: OTPFieldInvalidEventDetails) => void;
     readonly?: boolean;
     readOnly?: boolean;
     ref?: HTMLDivElement | null;
@@ -31,35 +71,42 @@
 <script lang="ts">
   import { untrack } from "svelte";
   import type { Attachment } from "svelte/attachments";
-  import { cn } from "$lib/utils.js";
+  import { cn } from "@/utils.js";
   import { getFieldRelationshipContext } from "../field/relationship-context.svelte.js";
   import type { OTPFieldSlot } from "./context.js";
   import { setOTPFieldContext } from "./context.js";
-  import { getFieldRelationships, observeFieldRelationships } from "./field-relationships.js";
   import {
     normalizeOTPValue,
     normalizeOTPValueWithDetails,
     replaceOTPRange,
   } from "./otp-field-machine.js";
 
+  const uid = $props.id();
+  const parentFieldRelationships = getFieldRelationshipContext();
+
   let {
     "aria-describedby": ariaDescribedBy,
     "aria-invalid": ariaInvalid,
     "aria-label": ariaLabel,
     "aria-labelledby": ariaLabelledBy,
-    autocomplete = "one-time-code",
+    autoComplete,
+    autocomplete,
+    autoSubmit = false,
     children,
     class: className,
     defaultValue = "",
     disabled = false,
     form,
-    inputmode = "numeric",
+    id: idProp,
+    inputMode,
+    inputmode,
     length,
     mask = false,
     name,
     normalizeValue,
     onComplete,
     onValueChange,
+    onValueComplete,
     onValueInvalid,
     readonly = false,
     readOnly = false,
@@ -73,15 +120,25 @@
 
   let activeIndex = $state(0);
   let slotVersion = $state(0);
+  let nativeInput = $state<HTMLInputElement | null>(null);
   const slots: OTPFieldSlot[] = [];
+  const id = $derived(idProp ?? parentFieldRelationships?.resolveDefaultControlId(uid) ?? uid);
   const isReadonly = $derived(readonly || readOnly);
+  const isDisabled = $derived(disabled || (parentFieldRelationships?.disabled ?? false));
+  const effectiveName = $derived(name ?? parentFieldRelationships?.name);
+  const effectiveInvalid = $derived(
+    ariaInvalid !== undefined ? ariaInvalid : parentFieldRelationships?.invalid ? true : undefined,
+  );
+  const effectiveAutocomplete = $derived(autoComplete ?? autocomplete ?? "one-time-code");
+  const effectiveInputMode = $derived(
+    inputMode ?? inputmode ?? (validationType === "numeric" ? "numeric" : "text"),
+  );
   const normalizedValue = $derived(
     normalizeOTPValue(value, length, validationType, normalizeValue),
   );
   const initialValue = untrack(() =>
     normalizeOTPValue(defaultValue, length, validationType, normalizeValue),
   );
-  const parentFieldRelationships = getFieldRelationshipContext();
   const resolvedLabelledBy = $derived(
     ariaLabel !== undefined || ariaLabelledBy !== undefined
       ? ariaLabelledBy
@@ -90,24 +147,81 @@
   const resolvedDescribedBy = $derived(
     ariaDescribedBy !== undefined ? ariaDescribedBy : parentFieldRelationships?.describedBy,
   );
+  const validationPattern = $derived(
+    validationType === "numeric"
+      ? `[0-9]{${length}}`
+      : validationType === "alpha"
+        ? `[A-Za-z]{${length}}`
+        : validationType === "alphanumeric"
+          ? `[A-Za-z0-9]{${length}}`
+          : undefined,
+  );
 
-  function clean(raw: string): string {
+  function eventTrigger(event: Event): Element | undefined {
+    return event.currentTarget instanceof Element ? event.currentTarget : undefined;
+  }
+
+  function createChangeDetails(
+    reason: OTPFieldChangeReason,
+    event: Event,
+  ): OTPFieldChangeEventDetails {
+    const details = {
+      allowPropagation() {
+        details.isPropagationAllowed = true;
+      },
+      cancel() {
+        details.isCanceled = true;
+      },
+      event,
+      isCanceled: false,
+      isPropagationAllowed: false,
+      reason,
+      trigger: eventTrigger(event),
+    } as OTPFieldChangeEventDetails;
+    return details;
+  }
+
+  function complete(next: string, event: Event, reason: OTPFieldCompleteReason): void {
+    const details = { event, reason } as OTPFieldCompleteEventDetails;
+    onValueComplete?.(next, details);
+    onComplete?.(next, details);
+    if (!autoSubmit) return;
+    if (nativeInput) nativeInput.value = next;
+    nativeInput?.form?.requestSubmit();
+  }
+
+  function update(
+    next: string,
+    event: Event,
+    reason: OTPFieldChangeReason,
+    completeSamePaste = false,
+  ): void {
+    const normalized = normalizeOTPValue(next, length, validationType, normalizeValue);
+    if (normalizedValue === normalized) {
+      if (completeSamePaste && normalized.length === length)
+        complete(normalized, event, "input-paste");
+      return;
+    }
+    const details = createChangeDetails(reason, event);
+    onValueChange?.(normalized, details);
+    if (details.isCanceled) return;
+    value = normalized;
+    if (normalized.length === length && (reason === "input-change" || reason === "input-paste")) {
+      complete(normalized, event, reason);
+    }
+  }
+
+  function clean(raw: string, event: Event, reason: OTPFieldInvalidReason): string {
     const [accepted, didRejectCharacters] = normalizeOTPValueWithDetails(
       raw,
       length,
       validationType,
       normalizeValue,
     );
-    if (didRejectCharacters) onValueInvalid?.(raw);
+    if (didRejectCharacters) {
+      onValueInvalid?.(raw, { event, reason } as OTPFieldInvalidEventDetails);
+    }
     return accepted;
-  }
-
-  function update(next: string): void {
-    const normalized = normalizeOTPValue(next, length, validationType, normalizeValue);
-    if (normalizedValue === normalized) return;
-    value = normalized;
-    onValueChange?.(normalized);
-    if (normalized.length === length) onComplete?.(normalized);
   }
 
   function focus(index: number): void {
@@ -132,6 +246,39 @@
     slotVersion += 1;
   }
 
+  function removeAt(index: number, event: Event): void {
+    update(normalizedValue.slice(0, index) + normalizedValue.slice(index + 1), event, "keyboard");
+  }
+
+  function replaceAt(
+    raw: string,
+    slot: OTPFieldSlot,
+    event: Event,
+    reason: "input-change" | "input-paste",
+  ): void {
+    if (isDisabled || isReadonly) return;
+    const index = slots.indexOf(slot);
+    if (index < 0) return;
+    if (!raw) {
+      update(
+        normalizedValue.slice(0, index) + normalizedValue.slice(index + 1),
+        event,
+        "input-clear",
+      );
+      focus(index);
+      return;
+    }
+    const accepted = clean(raw, event, reason);
+    if (!accepted) return;
+    update(
+      replaceOTPRange(normalizedValue, accepted, index, length),
+      event,
+      reason,
+      reason === "input-paste",
+    );
+    focus(Math.min(length - 1, index + accepted.length));
+  }
+
   const formReset: Attachment<HTMLDivElement> = (node) => {
     let resetTimer: ReturnType<typeof setTimeout> | undefined;
     const owner = form
@@ -142,7 +289,7 @@
     const reset = () => {
       clearTimeout(resetTimer);
       resetTimer = setTimeout(() => {
-        update(initialValue);
+        value = initialValue;
         reorderSlots();
         for (const [index, slot] of slots.entries()) {
           if (slot.element) slot.element.value = initialValue[index] ?? "";
@@ -157,70 +304,24 @@
     };
   };
 
-  const fieldRelationships: Attachment<HTMLDivElement> = (node) => {
-    let managedLabel: string | undefined;
-    let managedDescription: string | undefined;
-
-    const sync = () => {
-      const relationships = getFieldRelationships(node);
-      if (!relationships) return;
-
-      const nextLabel =
-        ariaLabel !== undefined || ariaLabelledBy !== undefined
-          ? undefined
-          : relationships.labelledBy;
-      if (nextLabel && node.getAttribute("aria-labelledby") !== nextLabel)
-        node.setAttribute("aria-labelledby", nextLabel);
-      else if (managedLabel && node.getAttribute("aria-labelledby") === managedLabel)
-        node.removeAttribute("aria-labelledby");
-      managedLabel = nextLabel;
-
-      const nextDescription = ariaDescribedBy !== undefined ? undefined : relationships.describedBy;
-      if (nextDescription && node.getAttribute("aria-describedby") !== nextDescription)
-        node.setAttribute("aria-describedby", nextDescription);
-      else if (managedDescription && node.getAttribute("aria-describedby") === managedDescription)
-        node.removeAttribute("aria-describedby");
-      managedDescription = nextDescription;
-    };
-
-    const stop = observeFieldRelationships(node, sync);
-    sync();
-    return () => {
-      stop();
-      if (managedLabel && node.getAttribute("aria-labelledby") === managedLabel)
-        node.removeAttribute("aria-labelledby");
-      if (managedDescription && node.getAttribute("aria-describedby") === managedDescription)
-        node.removeAttribute("aria-describedby");
-    };
-  };
-
   setOTPFieldContext({
     get activeIndex() {
       return activeIndex;
     },
-    get ariaDescribedBy() {
-      return ariaDescribedBy;
-    },
     get ariaInvalid() {
-      return ariaInvalid;
-    },
-    get ariaLabel() {
-      return ariaLabel;
-    },
-    get ariaLabelledBy() {
-      return ariaLabelledBy;
+      return effectiveInvalid;
     },
     get autocomplete() {
-      return autocomplete;
+      return effectiveAutocomplete;
     },
     get disabled() {
-      return disabled;
+      return isDisabled;
     },
-    get form() {
-      return form;
+    get id() {
+      return id;
     },
     get inputMode() {
-      return inputmode;
+      return effectiveInputMode;
     },
     get length() {
       return length;
@@ -231,34 +332,36 @@
     get readonly() {
       return isReadonly;
     },
-    get required() {
-      return required;
-    },
     get validationType() {
       return validationType;
+    },
+    clear(event) {
+      if (isDisabled || isReadonly) return;
+      update("", event, "keyboard");
+      focus(0);
     },
     createSlot() {
       const slot: OTPFieldSlot = { key: Symbol("otp-field-slot"), element: null };
       slots.push(slot);
       return slot;
     },
-    delete(slot, backward) {
-      if (disabled || isReadonly) return;
+    delete(slot, backward, event) {
+      if (isDisabled || isReadonly) return;
       const index = slots.indexOf(slot);
       if (index < 0) return;
       const existing = normalizedValue[index] ?? "";
       if (backward && existing) {
-        update(normalizedValue.slice(0, index) + normalizedValue.slice(index + 1));
+        removeAt(index, event);
         focus(Math.max(0, index - 1));
         return;
       }
       if (backward && index > 0) {
         const target = index - 1;
-        update(normalizedValue.slice(0, target) + normalizedValue.slice(target + 1));
+        removeAt(target, event);
         focus(target);
         return;
       }
-      update(normalizedValue.slice(0, index) + normalizedValue.slice(index + 1));
+      removeAt(index, event);
       focus(index);
     },
     focus,
@@ -266,14 +369,11 @@
       slotVersion;
       return slots.indexOf(slot);
     },
-    insert(raw, slot) {
-      if (disabled || isReadonly) return;
-      const index = slots.indexOf(slot);
-      if (index < 0) return;
-      const accepted = clean(raw);
-      if (!accepted) return;
-      update(replaceOTPRange(normalizedValue, accepted, index, length));
-      focus(Math.min(length - 1, index + accepted.length));
+    input(raw, slot, event) {
+      replaceAt(raw, slot, event, "input-change");
+    },
+    paste(raw, slot, event) {
+      replaceAt(raw, slot, event, "input-paste");
     },
     register(slot, input) {
       slot.element = input;
@@ -290,11 +390,15 @@
       return normalizedValue[index] ?? "";
     },
   });
+
+  function focusFirstInput(event: Event): void {
+    event.preventDefault();
+    focus(0);
+  }
 </script>
 
 <!-- biome-ignore lint/a11y/useSemanticElements: COSS and Base UI expose the segmented inputs through a div group. -->
 <div
-  {@attach fieldRelationships}
   {@attach formReset}
   bind:this={ref}
   aria-describedby={resolvedDescribedBy}
@@ -304,14 +408,30 @@
     "flex items-center gap-2 has-disabled:opacity-64 has-disabled:**:data-[slot=otp-field-input]:shadow-none has-disabled:**:data-[slot=otp-field-input]:before:shadow-none!",
     className,
   )}
-  data-disabled={disabled ? "" : undefined}
+  data-disabled={isDisabled ? "" : undefined}
   data-size={size}
   data-slot="otp-field"
   role="group"
   {...props}
 >
   {@render children?.()}
-  {#if name}
-    <input type="hidden" {name} value={normalizedValue} {disabled} {form} />
-  {/if}
+  <input
+    bind:this={nativeInput}
+    aria-hidden="true"
+    autocomplete={effectiveAutocomplete}
+    class="pointer-events-none absolute size-px overflow-hidden whitespace-nowrap [clip-path:inset(50%)] [clip:rect(0_0_0_0)]"
+    disabled={isDisabled}
+    {form}
+    inputmode={effectiveInputMode}
+    maxlength={length}
+    minlength={length}
+    name={effectiveName}
+    oninvalid={focusFirstInput}
+    pattern={validationPattern}
+    readonly={isReadonly}
+    {required}
+    tabindex="-1"
+    type="text"
+    value={normalizedValue}
+  />
 </div>

@@ -1,4 +1,4 @@
-import { Dialog as DialogPrimitive } from "@shardsui/svelte";
+import { Dialog as DialogPrimitive } from "@shardsui/svelte/dialog";
 
 export { DialogPrimitive };
 export const Root: typeof DialogPrimitive.Root = DialogPrimitive.Root;

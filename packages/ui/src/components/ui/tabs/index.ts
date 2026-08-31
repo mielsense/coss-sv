@@ -1,6 +1,10 @@
-export type { TabsActivationDirection, TabsOrientation, TabsValue } from "@shardsui/svelte";
-export { Tabs as TabsPrimitive } from "@shardsui/svelte";
+export type { TabsActivationDirection, TabsOrientation } from "@shardsui/svelte/tabs";
+export { Tabs as TabsPrimitive } from "@shardsui/svelte/tabs";
 export type { TabsListStyleContext } from "./context.js";
+export type {
+  TabsChangeEventDetails,
+  TabsChangeEventReason,
+} from "./tabs-change-details.js";
 export type { TabsIndicatorProps } from "./tabs-indicator.svelte";
 export {
   default as Indicator,
@@ -27,6 +31,7 @@ export {
 export type { TabsSize, TabsVariant } from "./tabs-styles.js";
 export { tabsItemLayoutClassName, tabsItemSizeClassNames } from "./tabs-styles.js";
 export type { TabsTabProps } from "./tabs-tab.svelte";
+export type { TabsValue } from "./tabs-value.js";
 export {
   default as Tab,
   default as TabsTab,

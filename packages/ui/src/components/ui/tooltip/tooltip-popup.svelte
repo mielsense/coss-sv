@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import type { Tooltip as ShardsTooltip } from "@shardsui/svelte";
+  import type { Tooltip as ShardsTooltip } from "@shardsui/svelte/tooltip";
   import type { ComponentProps, Snippet } from "svelte";
 
   type PopupProps = ComponentProps<typeof ShardsTooltip.Popup>;
@@ -16,8 +16,8 @@
 </script>
 
 <script lang="ts">
-  import { Tooltip as TooltipPrimitive } from "@shardsui/svelte";
-  import { cn } from "$lib/utils.js";
+  import { Tooltip as TooltipPrimitive } from "@shardsui/svelte/tooltip";
+  import { cn } from "@/utils.js";
   import { getTooltipHandleContext } from "./context.js";
 
   const uid = $props.id();

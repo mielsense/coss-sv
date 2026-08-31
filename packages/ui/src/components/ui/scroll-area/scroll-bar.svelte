@@ -1,13 +1,13 @@
 <script module lang="ts">
-  import type { ScrollArea as ShardsScrollArea } from "@shardsui/svelte";
+  import type { ScrollArea as ShardsScrollArea } from "@shardsui/svelte/scroll-area";
   import type { ComponentProps } from "svelte";
 
   export type ScrollBarProps = Omit<ComponentProps<typeof ShardsScrollArea.Scrollbar>, "children">;
 </script>
 
 <script lang="ts">
-  import { ScrollArea as ScrollAreaPrimitive } from "@shardsui/svelte";
-  import { cn } from "$lib/utils.js";
+  import { ScrollArea as ScrollAreaPrimitive } from "@shardsui/svelte/scroll-area";
+  import { cn } from "@/utils.js";
 
   let {
     class: className,

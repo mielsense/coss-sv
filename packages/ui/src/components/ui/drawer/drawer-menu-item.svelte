@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { cn } from "$lib/utils.js";
+  import { cn } from "@/utils.js";
   import type { Snippet } from "svelte";
   import type { HTMLButtonAttributes } from "svelte/elements";
 

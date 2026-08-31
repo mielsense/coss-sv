@@ -19,8 +19,8 @@
 </script>
 
 <script lang="ts">
-  import { Dialog as DialogPrimitive } from "@shardsui/svelte";
-  import { cn } from "$lib/utils.js";
+  import { Dialog as DialogPrimitive } from "@shardsui/svelte/dialog";
+  import { cn } from "@/utils.js";
   let { class: className, ref = $bindable(null), ...props }: DialogViewportProps = $props();
 </script>
 

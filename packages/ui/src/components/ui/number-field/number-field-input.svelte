@@ -11,10 +11,10 @@
 </script>
 
 <script lang="ts">
-  import { Input as ShardsInput } from "@shardsui/svelte";
+  import { Input as ShardsInput } from "@shardsui/svelte/input";
   import { type Component, untrack } from "svelte";
   import type { Attachment } from "svelte/attachments";
-  import { cn } from "$lib/utils.js";
+  import { cn } from "@/utils.js";
   import { reconcileAriaRelationship } from "../field/reconcile-aria-relationship.js";
   import { getFieldRelationshipContext } from "../field/relationship-context.svelte.js";
   import { getNumberFieldContext } from "./context.js";
@@ -92,6 +92,7 @@
       | "aria-invalid"
       | "aria-label"
       | "aria-labelledby"
+      | "aria-required"
       | "aria-valuemax"
       | "aria-valuemin"
       | "aria-valuenow"
@@ -116,6 +117,7 @@
     if (invalid !== undefined) attributes["aria-invalid"] = invalid;
     if (computedLabel !== undefined) attributes["aria-label"] = computedLabel;
     if (computedLabelledBy !== undefined) attributes["aria-labelledby"] = computedLabelledBy;
+    if (context.required) attributes["aria-required"] = true;
     if (valueMax !== undefined) attributes["aria-valuemax"] = valueMax;
     if (valueMin !== undefined) attributes["aria-valuemin"] = valueMin;
     if (valueNow !== undefined) attributes["aria-valuenow"] = valueNow;
@@ -166,7 +168,7 @@
 
   function handleKeydown(event: KeyboardEvent): void {
     onkeydown?.(event as Parameters<NonNullable<typeof onkeydown>>[0]);
-    if (event.defaultPrevented) return;
+    if (event.defaultPrevented || event.ctrlKey) return;
     const multiplier = event.key === "ArrowUp" ? 1 : event.key === "ArrowDown" ? -1 : 0;
     if (multiplier !== 0) {
       event.preventDefault();
@@ -182,7 +184,7 @@
 
   function handleWheel(event: WheelEvent): void {
     onwheel?.(event as Parameters<NonNullable<typeof onwheel>>[0]);
-    if (event.defaultPrevented) return;
+    if (event.defaultPrevented || event.ctrlKey) return;
     if (context.allowWheel && document.activeElement === event.currentTarget) {
       event.preventDefault();
       context.stepBy(event.deltaY < 0 ? 1 : -1, event, "wheel");
@@ -209,12 +211,9 @@
   )}
   data-slot="number-field-input"
   disabled={context.disabled}
-  form={context.form}
   id={context.id}
   inputmode={context.inputMode}
-  name={context.name}
   readonly={context.readonly}
-  required={context.required}
   {role}
   spellcheck={false}
   type="text"

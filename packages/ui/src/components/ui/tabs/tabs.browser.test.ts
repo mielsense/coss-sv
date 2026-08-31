@@ -4,6 +4,7 @@ import { page, userEvent } from "vitest/browser";
 import { render } from "vitest-browser-svelte";
 import TabsFixture from "./tabs.browser-fixture.svelte";
 import TabsDefaultFixture from "./tabs-default.browser-fixture.svelte";
+import TabsEventsFixture from "./tabs-events.browser-fixture.svelte";
 import TabsRoot from "./tabs-root.svelte";
 
 afterEach(() => {
@@ -117,5 +118,70 @@ describe("Tabs browser contract", () => {
     await view.rerender({ defaultValue: "one" });
     await expect.element(two).toHaveAttribute("aria-selected", "true");
     await expect.element(one).toHaveAttribute("aria-selected", "false");
+  });
+
+  test("provides cancelable native event details for user changes", async () => {
+    render(TabsEventsFixture);
+
+    await page.getByRole("tab", { name: "Cancel two" }).click();
+
+    await expect
+      .element(page.getByRole("tab", { name: "Cancel one" }))
+      .toHaveAttribute("aria-selected", "true");
+    await expect.element(page.getByTestId("cancel-value")).toHaveTextContent("unset");
+    await expect
+      .element(page.getByTestId("cancel-details"))
+      .toHaveTextContent(/^cancel-two:none:right:click:Cancel two:true$/);
+  });
+
+  test("reports non-blocking reasons for automatic selection, disabled tabs, and removed tabs", async () => {
+    render(TabsEventsFixture);
+    const changes = page.getByTestId("automatic-changes");
+
+    await expect
+      .element(changes)
+      .toHaveTextContent(/^automatic-one:initial:none:base-ui:none:true$/);
+
+    await page.getByRole("tab", { name: "Automatic two" }).click();
+    await expect
+      .element(page.getByRole("tab", { name: "Automatic two" }))
+      .toHaveAttribute("aria-selected", "true");
+    await page.getByTestId("disable-second").click();
+    await expect
+      .element(changes)
+      .toHaveTextContent(/automatic-one:disabled:none:base-ui:none:true$/);
+    await expect
+      .element(page.getByRole("tab", { name: "Automatic one" }))
+      .toHaveAttribute("aria-selected", "true");
+
+    await page.getByTestId("disable-second").click();
+    await page.getByRole("tab", { name: "Automatic two" }).click();
+    await page.getByTestId("remove-second").click();
+    await expect
+      .element(changes)
+      .toHaveTextContent(/automatic-one:missing:none:base-ui:none:true$/);
+    await expect
+      .element(page.getByRole("tab", { name: "Automatic one" }))
+      .toHaveAttribute("aria-selected", "true");
+  });
+
+  test("preserves explicit null defaults and object identity values", async () => {
+    render(TabsEventsFixture);
+
+    await expect
+      .element(page.getByRole("tab", { name: "Null one" }))
+      .toHaveAttribute("aria-selected", "false");
+    await expect
+      .element(page.getByRole("tab", { name: "Null two" }))
+      .toHaveAttribute("aria-selected", "false");
+    await expect.element(page.getByTestId("null-changes")).toHaveTextContent("0");
+
+    await expect
+      .element(page.getByRole("tab", { name: "Object one" }))
+      .toHaveAttribute("aria-selected", "true");
+    await page.getByRole("tab", { name: "Object two" }).click();
+    await expect
+      .element(page.getByRole("tab", { name: "Object two" }))
+      .toHaveAttribute("aria-selected", "true");
   });
 });

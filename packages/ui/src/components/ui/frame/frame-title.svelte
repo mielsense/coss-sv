@@ -9,7 +9,7 @@
 </script>
 
 <script lang="ts">
-  import { cn } from "$lib/utils.js";
+  import { cn } from "@/utils.js";
 
   let { children, class: className, ref = $bindable(null), ...props }: FrameTitleProps = $props();
 </script>

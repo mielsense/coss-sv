@@ -3,6 +3,7 @@ import { afterEach, describe, expect, test, vi } from "vitest";
 import { page, userEvent } from "vitest/browser";
 import { render } from "vitest-browser-svelte";
 import Calendar from "./calendar.svelte";
+import CalendarComponentsFixture from "./calendar-components.browser-fixture.svelte";
 import CalendarFixture from "./calendar.browser-fixture.svelte";
 import { CALENDAR_SSR_FIXTURE_GZIP_BASE64 } from "./calendar.ssr-fixture.js";
 import type { CalendarSingleProps } from "./calendar.types.js";
@@ -14,6 +15,55 @@ afterEach(() => {
 });
 
 describe("Calendar browser contract", () => {
+  test("delegates every DayPicker host without nested duplicate elements", async () => {
+    render(CalendarComponentsFixture);
+    const root = page.getByTestId("all-calendar-components").element();
+
+    for (const attribute of [
+      "data-custom-root",
+      "data-custom-months",
+      "data-custom-month",
+      "data-custom-month-caption",
+      "data-custom-caption-label",
+      "data-custom-dropdown-nav",
+      "data-custom-select",
+      "data-custom-option",
+      "data-custom-chevron",
+      "data-custom-nav",
+      "data-custom-previous",
+      "data-custom-next",
+      "data-custom-month-grid",
+      "data-custom-weekdays",
+      "data-custom-week-number-header",
+      "data-custom-weekday",
+      "data-custom-weeks",
+      "data-custom-week",
+      "data-custom-week-number",
+      "data-custom-day",
+      "data-custom-day-button",
+      "data-custom-footer",
+    ]) {
+      expect(root.querySelector(`[${attribute}]`), attribute).not.toBeNull();
+    }
+    expect(root.querySelectorAll("button button")).toHaveLength(0);
+    expect(root.querySelectorAll("td td")).toHaveLength(0);
+    expect(root.querySelectorAll("th th")).toHaveLength(0);
+
+    const next = root.querySelector<HTMLButtonElement>("[data-custom-next]");
+    if (!next) throw new Error("Custom next-month button was not rendered");
+    await next.click();
+    await expect
+      .poll(() => root.querySelector("[data-custom-month-grid]")?.getAttribute("aria-label"))
+      .toBe("February 2026");
+
+    const generic = page.getByTestId("generic-calendar-dropdown").element();
+    expect(generic.querySelectorAll("[data-custom-dropdown]")).toHaveLength(2);
+    const specific = page.getByTestId("specific-calendar-dropdowns").element();
+    expect(specific.querySelector("[data-custom-months-dropdown]")).not.toBeNull();
+    expect(specific.querySelector("[data-custom-years-dropdown]")).not.toBeNull();
+    expect(specific.querySelector("[data-custom-dropdown]")).toBeNull();
+  });
+
   test("selects single, multiple, and range values while blocking unavailable days", async () => {
     render(CalendarFixture);
     const calendar = page.getByTestId("interactive-calendar");
@@ -240,7 +290,7 @@ describe("Calendar browser contract", () => {
     expect(targets[0]?.disabled).toBe(false);
   });
 
-  test("keeps ignored controlled values rendered while bound values update", async () => {
+  test("keeps ignored controlled values rendered while parent-managed values update", async () => {
     render(CalendarFixture);
 
     const controlledSelection = page.getByTestId("controlled-selection-calendar");
@@ -287,9 +337,7 @@ describe("Calendar browser contract", () => {
 
     const bareMonth = page.getByTestId("month-without-callback-calendar");
     await bareMonth.getByRole("button", { name: "Go to the Next Month" }).click();
-    await expect
-      .element(bareMonth.getByRole("grid", { name: "February 2026" }))
-      .toBeInTheDocument();
+    await expect.element(bareMonth.getByRole("grid", { name: "January 2026" })).toBeInTheDocument();
 
     const dynamicSelectionRoot = page.getByTestId("dynamic-selection-calendar");
     await dynamicSelectionRoot
@@ -353,13 +401,14 @@ describe("Calendar browser contract", () => {
       .toHaveTextContent(
         "single:2025-12-29:12|multiple:2025-12-30:12|range:2025-12-31–2025-12-31:12:12",
       );
+    const noonSingleRoot = page.getByTestId("noon-single-calendar").element();
     await expect
-      .element(
-        page
-          .getByTestId("noon-single-calendar")
-          .getByRole("button", { name: "Monday, December 29th, 2025, selected", exact: true }),
+      .poll(() =>
+        Array.from(noonSingleRoot.querySelectorAll<HTMLElement>("[data-selected=true]")).map(
+          (cell) => cell.querySelector("button")?.getAttribute("aria-label"),
+        ),
       )
-      .toBeInTheDocument();
+      .toEqual(["Monday, December 29th, 2025, selected"]);
 
     await page
       .getByTestId("opposite-single-calendar")
@@ -416,15 +465,15 @@ describe("Calendar browser contract", () => {
     if (!firstMonth) throw new Error("Reverse-month fixture did not render a month dropdown");
     firstMonth.value = "1";
     firstMonth.dispatchEvent(new Event("change", { bubbles: true }));
-    await expect.poll(() => grids()[0]?.getAttribute("aria-label")).toBe("February 2027");
-    expect(grids()[1]?.getAttribute("aria-label")).toBe("January 2027");
+    await expect.poll(() => grids()[0]?.getAttribute("aria-label")).toBe("March 2027");
+    expect(grids()[1]?.getAttribute("aria-label")).toBe("February 2027");
 
     const firstYear = root.querySelector<HTMLSelectElement>('select[aria-label="Choose the Year"]');
     if (!firstYear) throw new Error("Reverse-month fixture did not render a year dropdown");
     firstYear.value = "2028";
     firstYear.dispatchEvent(new Event("change", { bubbles: true }));
-    await expect.poll(() => grids()[0]?.getAttribute("aria-label")).toBe("February 2028");
-    expect(grids()[1]?.getAttribute("aria-label")).toBe("January 2028");
+    await expect.poll(() => grids()[0]?.getAttribute("aria-label")).toBe("April 2028");
+    expect(grids()[1]?.getAttribute("aria-label")).toBe("March 2028");
   });
 
   test("hydrates the server-rendered time-zone calendar at a frozen date boundary", async () => {
@@ -432,10 +481,10 @@ describe("Calendar browser contract", () => {
     vi.setSystemTime(new Date("2026-01-01T01:30:00.000Z"));
     const warning = vi.spyOn(console, "warn").mockImplementation(() => undefined);
     const props = {
-      defaultSelected: new Date("2025-12-30T20:00:00.000Z"),
       defaultMonth: new Date("2026-01-01T01:30:00.000Z"),
       mode: "single",
       noonSafe: true,
+      selected: new Date("2025-12-30T20:00:00.000Z"),
       timeZone: "America/Los_Angeles",
     } satisfies CalendarSingleProps;
     const target = document.createElement("div");
@@ -478,8 +527,8 @@ describe("Calendar browser contract", () => {
       const todayCell = target.querySelector<HTMLElement>('[data-today="true"]');
       expect(todayCell).not.toBeNull();
       expect(todayCell?.getAttribute("data-day")).toBe("2025-12-31");
-      const defaultSelectedCell = target.querySelector<HTMLElement>('[data-day="2025-12-30"]');
-      expect(defaultSelectedCell).toHaveAttribute("data-selected", "true");
+      const selectedCell = target.querySelector<HTMLElement>('[data-day="2025-12-30"]');
+      expect(selectedCell).toHaveAttribute("data-selected", "true");
       const todayButton = todayCell?.querySelector<HTMLButtonElement>("button");
       if (!todayButton)
         throw new Error("Hydrated time-zone calendar did not render today's button");

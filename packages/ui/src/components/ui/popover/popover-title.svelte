@@ -1,12 +1,12 @@
 <script module lang="ts">
-  import type { Popover as ShardsPopover } from "@shardsui/svelte";
+  import type { Popover as ShardsPopover } from "@shardsui/svelte/popover";
   import type { ComponentProps } from "svelte";
   export type PopoverTitleProps = ComponentProps<typeof ShardsPopover.Title>;
 </script>
 
 <script lang="ts">
-  import { Popover as PopoverPrimitive } from "@shardsui/svelte";
-  import { cn } from "$lib/utils.js";
+  import { Popover as PopoverPrimitive } from "@shardsui/svelte/popover";
+  import { cn } from "@/utils.js";
 
   let {
     class: className,

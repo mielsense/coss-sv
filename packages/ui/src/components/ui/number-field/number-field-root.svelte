@@ -73,6 +73,7 @@
     form?: string;
     format?: Intl.NumberFormatOptions;
     id?: string;
+    inputRef?: HTMLInputElement | null;
     locale?: string | string[];
     largeStep?: number;
     max?: number;
@@ -96,7 +97,7 @@
   import { untrack } from "svelte";
   import type { Attachment } from "svelte/attachments";
   import { createAttachmentKey } from "svelte/attachments";
-  import { cn } from "$lib/utils.js";
+  import { cn } from "@/utils.js";
   import { getFieldRelationshipContext } from "../field/relationship-context.svelte.js";
   import { setNumberFieldContext } from "./context.js";
   import {
@@ -126,6 +127,7 @@
     form,
     format,
     id: idProp,
+    inputRef = $bindable(null),
     locale,
     largeStep = 10,
     max,
@@ -158,12 +160,17 @@
     return parseInputValue(raw);
   });
   const isReadonly = $derived(readonly || readOnly);
+  const isDisabled = $derived(disabled || (relationships?.disabled ?? false));
+  const effectiveName = $derived(name ?? relationships?.name);
+  const effectiveAriaInvalid = $derived(
+    ariaInvalid !== undefined ? ariaInvalid : relationships?.invalid ? true : undefined,
+  );
   const inputMode = $derived(
     format?.style === "percent" || Number.isInteger(interactionStep) ? "numeric" : "decimal",
   );
 
   function parseInputValue(nextRaw: string): number | null {
-    const parsed = parseNumber(nextRaw, numberLocale);
+    const parsed = parseNumber(nextRaw, numberLocale, format);
     return parsed !== null && format?.style === "percent" ? parsed / 100 : parsed;
   }
 
@@ -274,22 +281,24 @@
     multiplier: number,
     event: KeyboardEvent | MouseEvent | WheelEvent,
     reason: "decrement-press" | "increment-press" | "keyboard" | "wheel",
-  ): void {
-    if (disabled || isReadonly) return;
+    shouldCommit = true,
+  ): boolean {
+    if (isDisabled || isReadonly) return false;
     const amount = event.altKey ? smallStep : event.shiftKey ? largeStep : interactionStep;
     const direction = multiplier > 0 ? 1 : -1;
     const base = parseInputValue(raw) ?? value ?? (multiplier > 0 ? (min ?? 0) : (max ?? 0));
-    if (
+    const changed =
       updateValue(base + amount * multiplier, reason, event, {
         direction,
         nearest: event.altKey,
         step: amount,
-      }) === "changed"
-    ) {
+      }) === "changed";
+    if (changed) {
       dirtyInput = false;
-      onValueCommitted?.(value, createCommitDetails(reason, event));
+      if (shouldCommit) onValueCommitted?.(value, createCommitDetails(reason, event));
     }
     input?.focus();
+    return changed;
   }
 
   $effect(() => {
@@ -304,7 +313,7 @@
       return ariaDescribedBy;
     },
     get ariaInvalid() {
-      return ariaInvalid;
+      return effectiveAriaInvalid;
     },
     get ariaLabel() {
       return ariaLabel;
@@ -316,13 +325,13 @@
       return ariaValue;
     },
     get canDecrement() {
-      return !disabled && !isReadonly && (value === null || min === undefined || value > min);
+      return !isDisabled && !isReadonly && (value === null || min === undefined || value > min);
     },
     get canIncrement() {
-      return !disabled && !isReadonly && (value === null || max === undefined || value < max);
+      return !isDisabled && !isReadonly && (value === null || max === undefined || value < max);
     },
     get disabled() {
-      return disabled;
+      return isDisabled;
     },
     get defaultAccessibleName() {
       return idProp === undefined ? "Number field" : undefined;
@@ -349,7 +358,7 @@
       return min;
     },
     get name() {
-      return name;
+      return effectiveName;
     },
     get readonly() {
       return isReadonly;
@@ -364,6 +373,12 @@
       return size;
     },
     commit,
+    commitStep(event, reason) {
+      onValueCommitted?.(value, createCommitDetails(reason, event));
+    },
+    focusInput() {
+      input?.focus();
+    },
     registerInput(node) {
       input = node;
     },
@@ -374,7 +389,7 @@
       };
     },
     scrub(delta, event) {
-      if (disabled || isReadonly || delta === 0) return;
+      if (isDisabled || isReadonly || delta === 0) return;
       const direction = delta > 0 ? 1 : -1;
       const base = parseInputValue(raw) ?? value ?? (delta > 0 ? (min ?? 0) : (max ?? 0));
       updateValue(base + interactionStep * delta, "scrub", event, {
@@ -383,7 +398,7 @@
       });
     },
     setBoundary(next, event) {
-      if (disabled || isReadonly) return;
+      if (isDisabled || isReadonly) return;
       if (updateValue(next, "keyboard", event) === "changed") {
         dirtyInput = false;
         onValueCommitted?.(value, createCommitDetails("keyboard", event));
@@ -405,10 +420,14 @@
     };
   };
   const rootClass = "flex w-full flex-col items-start gap-2";
+  function focusDisplayInput(event: Event): void {
+    event.preventDefault();
+    input?.focus();
+  }
+
   const delegateProps = $derived({
     ...props,
-    ...(children ? { children } : {}),
-    "data-disabled": disabled ? "" : undefined,
+    "data-disabled": isDisabled ? "" : undefined,
     "data-size": size,
     "data-slot": "number-field",
     class: cn(rootClass, className),
@@ -416,17 +435,39 @@
   } satisfies NumberFieldGroupProps);
 </script>
 
+{#snippet rootChildren()}
+  <input
+    bind:this={inputRef}
+    aria-hidden="true"
+    class="pointer-events-none absolute size-px overflow-hidden whitespace-nowrap [clip-path:inset(50%)] [clip:rect(0_0_0_0)]"
+    data-slot="number-field-native-input"
+    disabled={isDisabled}
+    {form}
+    max={max ?? undefined}
+    min={min ?? undefined}
+    name={effectiveName}
+    oninvalid={focusDisplayInput}
+    readonly={isReadonly}
+    {required}
+    step={step === "any" ? "any" : step}
+    tabindex="-1"
+    type="number"
+    value={value ?? ""}
+  />
+  {@render children?.()}
+{/snippet}
+
 {#if delegate}
-  {@render delegate(delegateProps)}
+  {@render delegate({ ...delegateProps, children: rootChildren })}
 {:else}
   <div
     bind:this={ref}
     class={cn(rootClass, className)}
-    data-disabled={disabled ? "" : undefined}
+    data-disabled={isDisabled ? "" : undefined}
     data-size={size}
     data-slot="number-field"
     {...props}
   >
-    {@render children?.()}
+    {@render rootChildren()}
   </div>
 {/if}

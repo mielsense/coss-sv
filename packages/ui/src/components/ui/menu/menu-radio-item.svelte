@@ -1,8 +1,8 @@
 <script lang="ts">
-  import { Tick02Icon } from "@hugeicons/core-free-icons";
-  import HugeiconsIcon from "$lib/hugeicons-icon.svelte";
-  import { Menu as MenuPrimitive } from "@shardsui/svelte";
-  import { cn } from "$lib/utils.js";
+  import Tick02Icon from "@hugeicons/core-free-icons/Tick02Icon";
+  import HugeiconsIcon from "@/hugeicons-icon.svelte";
+  import { Menu as MenuPrimitive } from "@shardsui/svelte/menu";
+  import { cn } from "@/utils.js";
   import type { MenuRadioItemProps } from "./menu.types.js";
 
   const itemClass =

@@ -94,32 +94,53 @@ export {
   buttonVariants,
 } from "./components/ui/button/index.js";
 export type {
+  CalendarCaptionLabelProps,
   CalendarChevronContext,
   CalendarClassNames,
   CalendarComponents,
   CalendarDayButtonProps,
   CalendarDayContext,
   CalendarDayModel,
+  CalendarDayProps,
   CalendarDropdownContext,
   CalendarDropdownNavContext,
   CalendarFormatterOptions,
   CalendarFormatters,
+  CalendarFooterProps,
   CalendarLabels,
   CalendarLocale,
   CalendarMode,
   CalendarModifiers,
+  CalendarMonthCaptionProps,
+  CalendarMonthGridProps,
+  CalendarMonthModel,
+  CalendarMonthProps,
+  CalendarMonthsProps,
   CalendarMultipleProps,
   CalendarMultipleRequiredProps,
+  CalendarNavProps,
+  CalendarNavigationButtonProps,
+  CalendarNumerals,
+  CalendarOptionProps,
   CalendarProps,
   CalendarRangeProps,
   CalendarRangeRequiredProps,
   CalendarSelectEvent,
   CalendarSelection,
+  CalendarRootComponentProps,
+  CalendarSelectProps,
+  CalendarStyle,
+  CalendarStyles,
   CalendarSingleProps,
   CalendarSingleRequiredProps,
+  CalendarWeekdayProps,
+  CalendarWeekdaysProps,
   CalendarWeekModel,
+  CalendarWeekNumberHeaderProps,
   CalendarWeekNumberContext,
   CalendarWeekNumberProps,
+  CalendarWeekProps,
+  CalendarWeeksProps,
   CaptionLayout,
   DateMatcher,
   DateRange,
@@ -144,6 +165,7 @@ export {
 } from "./components/ui/card/index.js";
 export {
   Checkbox,
+  type CheckboxChangeEventDetails,
   CheckboxPrimitive,
   type CheckboxProps,
 } from "./components/ui/checkbox/index.js";
@@ -569,6 +591,7 @@ export {
 } from "./components/ui/progress/index.js";
 export * as RadioGroup from "./components/ui/radio-group/index.js";
 export {
+  type RadioGroupChangeEventDetails,
   RadioGroupItem,
   type RadioGroupItemProps,
   RadioGroupPrimitive,
@@ -629,6 +652,9 @@ export {
   Indicator as SliderIndicator,
   Label as SliderLabel,
   type SliderControlProps,
+  type SliderChangeEventDetails,
+  type SliderChangeEventReason,
+  type SliderCommitEventDetails,
   type SliderIndicatorProps,
   type SliderLabelProps,
   SliderPrimitive,
@@ -643,7 +669,12 @@ export {
   Track as SliderTrack,
 } from "./components/ui/slider/index.js";
 export { Spinner, type SpinnerProps } from "./components/ui/spinner/index.js";
-export { Switch, SwitchPrimitive, type SwitchProps } from "./components/ui/switch/index.js";
+export {
+  Switch,
+  type SwitchChangeEventDetails,
+  SwitchPrimitive,
+  type SwitchProps,
+} from "./components/ui/switch/index.js";
 export * as Table from "./components/ui/table/index.js";
 export {
   Root as TableRoot,
@@ -667,6 +698,8 @@ export {
 export * as Tabs from "./components/ui/tabs/index.js";
 export {
   type TabsActivationDirection,
+  type TabsChangeEventDetails,
+  type TabsChangeEventReason,
   TabsContent,
   TabsIndicator,
   type TabsIndicatorProps,
@@ -697,6 +730,7 @@ export {
 export * as Toast from "./components/ui/toast/index.js";
 export {
   Toggle,
+  type ToggleChangeEventDetails,
   TogglePrimitive,
   type ToggleProps,
   type ToggleSize,
@@ -706,6 +740,7 @@ export {
 } from "./components/ui/toggle/index.js";
 export * as ToggleGroup from "./components/ui/toggle-group/index.js";
 export {
+  type ToggleGroupChangeEventDetails,
   ToggleGroupItem,
   type ToggleGroupItemProps,
   ToggleGroupPrimitive,

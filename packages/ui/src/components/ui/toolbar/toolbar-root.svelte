@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { Toolbar as ToolbarPrimitive } from "@shardsui/svelte";
-  import { cn } from "$lib/utils.js";
+  import { Toolbar as ToolbarPrimitive } from "@shardsui/svelte/toolbar";
+  import { cn } from "@/utils.js";
   import type { ToolbarRootProps } from "./toolbar.types.js";
 
   let { class: className, ref = $bindable(null), ...props }: ToolbarRootProps = $props();

@@ -1,4 +1,4 @@
-import type { Popover as PopoverPrimitive } from "@shardsui/svelte";
+import type { Popover as PopoverPrimitive } from "@shardsui/svelte/popover";
 import type { Snippet } from "svelte";
 import type { HTMLButtonAttributes } from "svelte/elements";
 

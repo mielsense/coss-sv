@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import type { Combobox as ShardsCombobox } from "@shardsui/svelte";
+  import type { Combobox as ShardsCombobox } from "@shardsui/svelte/combobox";
   import type { ComponentProps } from "svelte";
   export type ComboboxChipsInputProps = Omit<
     ComponentProps<typeof ShardsCombobox.Input>,
@@ -10,8 +10,8 @@
 </script>
 
 <script lang="ts">
-  import { Combobox as C } from "@shardsui/svelte";
-  import { cn } from "$lib/utils.js";
+  import { Combobox as C } from "@shardsui/svelte/combobox";
+  import { cn } from "@/utils.js";
   let {
     class: className,
     ref = $bindable(null),

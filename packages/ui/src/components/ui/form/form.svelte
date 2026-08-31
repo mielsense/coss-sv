@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { Form as FormPrimitive } from "@shardsui/svelte";
+  import { Form as FormPrimitive } from "@shardsui/svelte/form";
   import type { ComponentProps } from "svelte";
 
   export type FormProps = ComponentProps<typeof FormPrimitive>;

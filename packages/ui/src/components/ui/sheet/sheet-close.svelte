@@ -4,7 +4,7 @@
 </script>
 
 <script lang="ts">
-  import { Dialog as P } from "@shardsui/svelte";
+  import { Dialog as P } from "@shardsui/svelte/dialog";
   import type { Component } from "svelte";
   const ClosePrimitive = P.Close as unknown as Component<SheetCloseProps, object, "ref">;
   let { ref = $bindable(null), ...props }: SheetCloseProps = $props();

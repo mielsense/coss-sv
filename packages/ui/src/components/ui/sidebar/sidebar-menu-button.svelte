@@ -27,7 +27,7 @@
 </script>
 
 <script lang="ts">
-  import { cn } from "$lib/utils.js";
+  import { cn } from "@/utils.js";
   import * as Tooltip from "../tooltip/index.js";
   import { useSidebar } from "./context.js";
 

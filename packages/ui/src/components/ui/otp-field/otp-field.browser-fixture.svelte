@@ -4,7 +4,10 @@
 
   let value = $state("");
   let complete = $state("");
+  let completeCount = $state(0);
+  let completeReason = $state("");
   let changes = $state(0);
+  let changeReason = $state("");
   let invalidValue = $state("");
   let normalizedInvalidValue = $state("");
   let normalizedValue = $state("");
@@ -15,16 +18,26 @@
   let initialInvalidReports = $state(0);
   let fieldInvalid = $state(false);
   let firstFieldSlotMounted = $state(true);
+  let autoSubmitCount = $state(0);
+  let cancelledValue = $state("");
 </script>
 
 <form data-testid="otp-form" onsubmit={(event) => event.preventDefault()}>
   <OTPField.Root
     bind:value
     aria-label="Verification code"
+    id="verification-code"
     length={6}
     name="code"
-    onComplete={(next) => (complete = next)}
-    onValueChange={() => (changes += 1)}
+    onValueChange={(_next, details) => {
+      changes += 1;
+      changeReason = `${details.reason}:${details.event.type}`;
+    }}
+    onValueComplete={(next, details) => {
+      complete = next;
+      completeCount += 1;
+      completeReason = `${details.reason}:${details.event.type}`;
+    }}
     required
   >
     {#each Array(3) as _, index (index)}
@@ -37,6 +50,35 @@
   </OTPField.Root>
   <button type="submit">Submit</button>
 </form>
+
+<form
+  data-testid="auto-submit-form"
+  onsubmit={(event) => {
+    event.preventDefault();
+    autoSubmitCount += 1;
+  }}
+>
+  <OTPField.Root autoSubmit aria-label="Auto submit code" length={2} name="auto-code">
+    <OTPField.Input data-testid="auto-submit-first" />
+    <OTPField.Input />
+  </OTPField.Root>
+</form>
+
+<OTPField.Root
+  bind:value={cancelledValue}
+  aria-label="Cancelled code"
+  length={2}
+  onValueChange={(_next, details) => details.cancel()}
+>
+  <OTPField.Input data-testid="cancelled-otp" />
+  <OTPField.Input />
+</OTPField.Root>
+
+<OTPField.Root aria-label="RTL code" dir="rtl" length={3}>
+  <OTPField.Input data-testid="rtl-first" />
+  <OTPField.Input data-testid="rtl-second" />
+  <OTPField.Input data-testid="rtl-third" />
+</OTPField.Root>
 
 <OTPField.Root aria-label="Recovery code" length={4} validationType="alphanumeric">
   {#each Array(4) as _, index (index)}
@@ -149,6 +191,16 @@
   {/if}
 </Field.Root>
 
+<form data-testid="field-owned-otp-form">
+  <Field.Root name="field-owned-code">
+    <Field.Label>Field-owned code</Field.Label>
+    <OTPField.Root length={2} required>
+      <OTPField.Input data-testid="field-owned-first" />
+      <OTPField.Input />
+    </OTPField.Root>
+  </Field.Root>
+</form>
+
 <Field.Root>
   <Field.Label data-testid="dynamic-field-otp-label">Dynamic security code</Field.Label>
   <OTPField.Root length={2}>
@@ -201,10 +253,14 @@
   <OTPField.Input />
 </OTPField.Root>
 
-<output data-testid="otp-state">{value}:{complete}:{changes}</output>
+<output data-testid="otp-state">
+  {value}:{complete}:{changes}:{changeReason}:{completeCount}:{completeReason}
+</output>
 <output data-testid="otp-invalid-state">{invalidValue}</output>
 <output data-testid="normalized-state">{normalizedValue}:{normalizedInvalidValue}</output>
 <output data-testid="reset-state">{resetValue}</output>
 <output data-testid="normalized-reset-state">{normalizedResetValue}</output>
 <output data-testid="controlled-state">{controlledValue}</output>
 <output data-testid="initial-invalid-reports">{initialInvalidReports}</output>
+<output data-testid="auto-submit-state">{autoSubmitCount}</output>
+<output data-testid="cancelled-state">{cancelledValue}</output>

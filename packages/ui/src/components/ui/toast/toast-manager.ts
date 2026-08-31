@@ -2,8 +2,8 @@ import type {
   ToastManagerUpdateOptions as PrimitiveToastManagerUpdateOptions,
   ToastManagerAddOptions,
   ToastObject,
-} from "@shardsui/svelte";
-import { Toast as ToastPrimitive } from "@shardsui/svelte";
+} from "@shardsui/svelte/toast";
+import { Toast as ToastPrimitive } from "@shardsui/svelte/toast";
 
 export type ToastManagerUpdateOptions<Data extends object = object> = {
   [Key in keyof PrimitiveToastManagerUpdateOptions<Data>]?:

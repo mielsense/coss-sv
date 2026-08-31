@@ -1,15 +1,15 @@
 <script module lang="ts">
-  import type { Collapsible as ShardsCollapsible } from "@shardsui/svelte";
+  import type { Collapsible as ShardsCollapsible } from "@shardsui/svelte/collapsible";
   import type { ComponentProps } from "svelte";
 
   export type CollapsiblePanelProps = ComponentProps<typeof ShardsCollapsible.Panel>;
 </script>
 
 <script lang="ts">
-  import { Collapsible as CollapsiblePrimitive } from "@shardsui/svelte";
+  import { Collapsible as CollapsiblePrimitive } from "@shardsui/svelte/collapsible";
   import type { Attachment } from "svelte/attachments";
   import { createAttachmentKey } from "svelte/attachments";
-  import { cn } from "$lib/utils.js";
+  import { cn } from "@/utils.js";
   import { getCollapsibleDelegateContext } from "./context.js";
 
   const uid = $props.id();

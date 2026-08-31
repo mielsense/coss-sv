@@ -8,7 +8,7 @@
 </script>
 
 <script lang="ts" generics="Value = unknown, Multiple extends boolean | undefined = false">
-  import { Combobox as ComboboxPrimitive } from "@shardsui/svelte";
+  import { Combobox as ComboboxPrimitive } from "@shardsui/svelte/combobox";
 
   let { children: child, placeholder }: ComboboxValueProps<Value, Multiple> = $props();
 </script>

@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import type { Dialog as ShardsDialog } from "@shardsui/svelte";
+  import type { Dialog as ShardsDialog } from "@shardsui/svelte/dialog";
   import type { ComponentProps } from "svelte";
 
   type PrimitivePopupProps = ComponentProps<typeof ShardsDialog.Popup>;
@@ -12,10 +12,10 @@
 </script>
 
 <script lang="ts">
-  import { Cancel01Icon } from "@hugeicons/core-free-icons";
-  import HugeiconsIcon from "$lib/hugeicons-icon.svelte";
-  import { Dialog as DialogPrimitive } from "@shardsui/svelte";
-  import { cn } from "$lib/utils.js";
+  import Cancel01Icon from "@hugeicons/core-free-icons/Cancel01Icon";
+  import HugeiconsIcon from "@/hugeicons-icon.svelte";
+  import { Dialog as DialogPrimitive } from "@shardsui/svelte/dialog";
+  import { cn } from "@/utils.js";
   import { buttonVariants } from "../button/button.svelte";
   import DialogBackdrop from "./dialog-backdrop.svelte";
   import DialogViewport from "./dialog-viewport.svelte";

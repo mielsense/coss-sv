@@ -4,7 +4,7 @@
 </script>
 
 <script lang="ts">
-  import { AlertDialog as P } from "@shardsui/svelte";
+  import { AlertDialog as P } from "@shardsui/svelte/alert-dialog";
   import type { Component } from "svelte";
   const ClosePrimitive = P.Close as unknown as Component<AlertDialogCloseProps, object, "ref">;
   let { ref = $bindable(null), ...props }: AlertDialogCloseProps = $props();

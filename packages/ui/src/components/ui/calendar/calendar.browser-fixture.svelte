@@ -69,6 +69,11 @@
   function ignoreDynamicMonth(value: Date): void {
     dynamicMonthCallback = localDateKey(value);
   }
+
+  function updateDynamicMonth(value: Date): void {
+    dynamicMonth = value;
+    dynamicMonthCallback = localDateKey(value);
+  }
 </script>
 
 {#snippet customDayButton(props: CalendarDayButtonProps)}
@@ -121,7 +126,7 @@
   <Calendar
     aria-label="Interactive calendar"
     data-testid="interactive-calendar"
-    bind:month
+    {month}
     bind:selected={singleSelected}
     captionLayout="dropdown"
     disabled={[new Date(2026, 0, 18, 12)]}
@@ -147,7 +152,7 @@
   <Calendar
     aria-label="Interactive calendar"
     data-testid="interactive-calendar"
-    bind:month
+    {month}
     bind:selected={multipleSelected}
     captionLayout="dropdown"
     disabled={[new Date(2026, 0, 18, 12)]}
@@ -169,7 +174,7 @@
   <Calendar
     aria-label="Interactive calendar"
     data-testid="interactive-calendar"
-    bind:month
+    {month}
     bind:selected={rangeSelected}
     captionLayout="dropdown"
     disabled={[new Date(2026, 0, 18, 12)]}
@@ -222,7 +227,7 @@
 <output data-testid="bound-selection">{selectionText(boundSelection)}</output>
 
 <div data-testid="bound-month-calendar">
-  <Calendar bind:month={boundMonth} />
+  <Calendar month={boundMonth} onMonthChange={(value) => (boundMonth = value)} />
 </div>
 <output data-testid="bound-month"> {boundMonth.getFullYear()}-{boundMonth.getMonth() + 1} </output>
 
@@ -270,8 +275,9 @@
 </button>
 <div data-testid="dynamic-month-calendar">
   <Calendar
-    {...dynamicMonthControlled ? { onMonthChange: ignoreDynamicMonth } : {}}
-    bind:month={dynamicMonth}
+    {...dynamicMonthControlled
+      ? { month: dynamicMonth, onMonthChange: ignoreDynamicMonth }
+      : { onMonthChange: updateDynamicMonth }}
     defaultMonth={new Date(2026, 0, 1, 12)}
   />
 </div>
@@ -419,7 +425,7 @@
   />
 </div>
 
-<!-- svelte-ignore a11y_no_noninteractive_element_interactions: this wrapper records whether Calendar handled keys escape its grid. -->
+<!-- svelte-ignore a11y_no_noninteractive_element_interactions: this fixture records whether Calendar stops handled grid keys before they reach an ancestor. -->
 <div onkeydown={() => (ancestorKeyCount += 1)} role="application">
   <div data-testid="keyboard-propagation-calendar">
     <Calendar defaultMonth={new Date(2026, 0, 1)} disableNavigation mode="single" />

@@ -1,13 +1,13 @@
 <script module lang="ts">
-  import type { Avatar as ShardsAvatar } from "@shardsui/svelte";
+  import type { Avatar as ShardsAvatar } from "@shardsui/svelte/avatar";
   import type { ComponentProps } from "svelte";
 
   export type AvatarFallbackProps = ComponentProps<typeof ShardsAvatar.Fallback>;
 </script>
 
 <script lang="ts">
-  import { Avatar as AvatarPrimitive } from "@shardsui/svelte";
-  import { cn } from "$lib/utils.js";
+  import { Avatar as AvatarPrimitive } from "@shardsui/svelte/avatar";
+  import { cn } from "@/utils.js";
 
   const baseClass = "flex size-full items-center justify-center rounded-full bg-muted";
 

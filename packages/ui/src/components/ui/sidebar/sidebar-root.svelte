@@ -16,7 +16,7 @@
 </script>
 
 <script lang="ts">
-  import { cn } from "$lib/utils.js";
+  import { cn } from "@/utils.js";
   import * as Drawer from "../drawer/index.js";
   import { useSidebar } from "./context.js";
 

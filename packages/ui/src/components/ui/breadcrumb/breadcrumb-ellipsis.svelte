@@ -9,8 +9,8 @@
 </script>
 
 <script lang="ts">
-  import { MoreHorizontalIcon } from "@hugeicons/core-free-icons";
-  import HugeiconsIcon from "$lib/hugeicons-icon.svelte";
+  import MoreHorizontalIcon from "@hugeicons/core-free-icons/MoreHorizontalIcon";
+  import HugeiconsIcon from "@/hugeicons-icon.svelte";
 
   let { children: _children, ref = $bindable(null), ...props }: BreadcrumbEllipsisProps = $props();
 </script>

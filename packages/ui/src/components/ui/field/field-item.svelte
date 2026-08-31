@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { Field as FieldPrimitive } from "@shardsui/svelte";
+  import { Field as FieldPrimitive } from "@shardsui/svelte/field";
   import type { ComponentProps } from "svelte";
 
   export type FieldItemProps = ComponentProps<typeof FieldPrimitive.Item> & {
@@ -9,7 +9,7 @@
 </script>
 
 <script lang="ts">
-  import { cn } from "$lib/utils.js";
+  import { cn } from "@/utils.js";
   import FieldRelationshipProvider from "./field-relationship-provider.svelte";
 
   const uid = $props.id();

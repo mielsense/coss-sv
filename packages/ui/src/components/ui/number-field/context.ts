@@ -26,6 +26,8 @@ export interface NumberFieldContext {
   readonly size: "default" | "lg" | "sm";
   readonly scrubLabelId: string | undefined;
   commit(event: Event, reason?: "input-blur" | "keyboard" | "scrub"): void;
+  commitStep(event: Event, reason: "decrement-press" | "increment-press"): void;
+  focusInput(): void;
   registerInput(input: HTMLInputElement | null): void;
   registerScrubLabelId(id: string): () => void;
   scrub(delta: number, event: PointerEvent): void;
@@ -36,7 +38,8 @@ export interface NumberFieldContext {
     multiplier: number,
     event: KeyboardEvent | MouseEvent | WheelEvent,
     reason: "decrement-press" | "increment-press" | "keyboard" | "wheel",
-  ): void;
+    commit?: boolean,
+  ): boolean;
 }
 
 export const [getNumberFieldContext, setNumberFieldContext] = createContext<NumberFieldContext>();

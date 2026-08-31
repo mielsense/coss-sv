@@ -19,6 +19,16 @@
   />
   <label for="fixture-switch">Marketing emails</label>
   <Switch aria-label="Controlled on" checked data-testid="controlled-on" />
+  <Switch aria-label="Default on" data-testid="default-on" defaultChecked />
+  <Switch
+    aria-label="Canceled switch"
+    data-testid="canceled"
+    onCheckedChange={(_next, details) => {
+      details.allowPropagation();
+      details.cancel();
+      callbackValue = `${details.reason}:${details.event.type}:${details.isPropagationAllowed}`;
+    }}
+  />
   <Switch aria-label="Disabled" data-testid="disabled" disabled />
   <button type="submit">Submit</button>
 </form>

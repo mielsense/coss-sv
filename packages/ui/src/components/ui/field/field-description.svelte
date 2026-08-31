@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { Field as FieldPrimitive } from "@shardsui/svelte";
+  import { Field as FieldPrimitive } from "@shardsui/svelte/field";
   import type { ComponentProps } from "svelte";
 
   export type FieldDescriptionProps = ComponentProps<typeof FieldPrimitive.Description>;
@@ -7,7 +7,7 @@
 
 <script lang="ts">
   import { untrack } from "svelte";
-  import { cn } from "$lib/utils.js";
+  import { cn } from "@/utils.js";
   import { getFieldRelationshipContext } from "./relationship-context.svelte.js";
 
   const uid = $props.id();

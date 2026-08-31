@@ -1,4 +1,4 @@
-import { PreviewCard as PreviewCardPrimitive } from "@shardsui/svelte";
+import { PreviewCard as PreviewCardPrimitive } from "@shardsui/svelte/preview-card";
 
 export const Handle = PreviewCardPrimitive.Handle;
 export function PreviewCardCreateHandle<Payload = unknown>() {

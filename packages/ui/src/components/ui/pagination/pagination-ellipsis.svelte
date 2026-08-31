@@ -10,9 +10,9 @@
 </script>
 
 <script lang="ts">
-  import { MoreHorizontalIcon } from "@hugeicons/core-free-icons";
-  import HugeiconsIcon from "$lib/hugeicons-icon.svelte";
-  import { cn } from "$lib/utils.js";
+  import MoreHorizontalIcon from "@hugeicons/core-free-icons/MoreHorizontalIcon";
+  import HugeiconsIcon from "@/hugeicons-icon.svelte";
+  import { cn } from "@/utils.js";
 
   let {
     children: _children,

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { ContextMenu as ContextMenuPrimitive } from "@shardsui/svelte";
+  import { ContextMenu as ContextMenuPrimitive } from "@shardsui/svelte/context-menu";
   import type { ContextMenuTriggerProps } from "./context-menu.types.js";
   import { getContextMenuIdContext } from "./id-context.svelte.js";
 

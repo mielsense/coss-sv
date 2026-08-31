@@ -1,22 +1,30 @@
 <script module lang="ts">
-  import type { Autocomplete as ShardsAutocomplete } from "@shardsui/svelte";
+  import type { Autocomplete as ShardsAutocomplete } from "@shardsui/svelte/autocomplete";
   import type { ComponentProps } from "svelte";
   export type AutocompleteClearProps = ComponentProps<typeof ShardsAutocomplete.Clear>;
 </script>
 
 <script lang="ts">
-  import { Cancel01Icon } from "@hugeicons/core-free-icons";
-  import { Autocomplete as AutocompletePrimitive } from "@shardsui/svelte";
-  import HugeiconsIcon from "$lib/hugeicons-icon.svelte";
-  import { cn } from "$lib/utils.js";
+  import Cancel01Icon from "@hugeicons/core-free-icons/Cancel01Icon";
+  import { Autocomplete as AutocompletePrimitive } from "@shardsui/svelte/autocomplete";
+  import HugeiconsIcon from "@/hugeicons-icon.svelte";
+  import { getSelectionChangeContext } from "@/selection-change-context.js";
+  import { cn } from "@/utils.js";
 
   let {
     "aria-label": ariaLabel = "Clear",
     class: className,
     children: child,
+    onclick,
     ref = $bindable(null),
     ...props
   }: AutocompleteClearProps = $props();
+  const change = getSelectionChangeContext();
+
+  function handleClick(event: Parameters<NonNullable<AutocompleteClearProps["onclick"]>>[0]): void {
+    change?.prepare("clear-press", event);
+    onclick?.(event);
+  }
 </script>
 
 <AutocompletePrimitive.Clear
@@ -27,6 +35,7 @@
     className,
   )}
   data-slot="autocomplete-clear"
+  onclick={handleClick}
   {...props}
 >
   {#snippet children(state)}

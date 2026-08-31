@@ -1,11 +1,15 @@
-export { Radio as RadioPrimitive, RadioGroup as RadioGroupPrimitive } from "@shardsui/svelte";
+export { Radio as RadioPrimitive } from "@shardsui/svelte/radio";
+export { RadioGroup as RadioGroupPrimitive } from "@shardsui/svelte/radio-group";
 export type { RadioGroupItemProps } from "./radio-group-item.svelte";
 export {
   default as Item,
   default as Radio,
   default as RadioGroupItem,
 } from "./radio-group-item.svelte";
-export type { RadioGroupRootProps } from "./radio-group-root.svelte";
+export type {
+  RadioGroupChangeEventDetails,
+  RadioGroupRootProps,
+} from "./radio-group-root.svelte";
 export {
   default as RadioGroup,
   default as RadioGroupRoot,

@@ -5,7 +5,7 @@
 </script>
 
 <script lang="ts">
-  import { cn } from "$lib/utils.js";
+  import { cn } from "@/utils.js";
   import { getDrawerPositionContext } from "./context.js";
   import DrawerPart from "./drawer-part.svelte";
   let {

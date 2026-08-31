@@ -7,8 +7,8 @@
 </script>
 
 <script lang="ts">
-  import { Drawer as P } from "@shardsui/svelte";
-  import { cn } from "$lib/utils.js";
+  import { Drawer as P } from "@shardsui/svelte/drawer";
+  import { cn } from "@/utils.js";
   import DrawerPart from "./drawer-part.svelte";
   let {
     allowSelection = true,

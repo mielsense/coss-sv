@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import type { Menu as ShardsMenu } from "@shardsui/svelte";
+  import type { Menu as ShardsMenu } from "@shardsui/svelte/menu";
   import type { ComponentProps } from "svelte";
 
   export type MenuRadioGroupProps<Value = unknown> = Omit<
@@ -13,7 +13,7 @@
 </script>
 
 <script lang="ts" generics="Value = unknown">
-  import { Menu as MenuPrimitive } from "@shardsui/svelte";
+  import { Menu as MenuPrimitive } from "@shardsui/svelte/menu";
   import { type Component, untrack } from "svelte";
 
   const RadioGroupPrimitive = MenuPrimitive.RadioGroup as Component<

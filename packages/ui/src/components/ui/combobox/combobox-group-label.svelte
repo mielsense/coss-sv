@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import type { Combobox as P } from "@shardsui/svelte";
+  import type { Combobox as P } from "@shardsui/svelte/combobox";
   import type { ComponentProps } from "svelte";
   export type ComboboxGroupLabelProps = ComponentProps<typeof P.GroupLabel>;
 </script>

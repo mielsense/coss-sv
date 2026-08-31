@@ -1,13 +1,13 @@
 <script module lang="ts">
-  import type { Autocomplete as ShardsAutocomplete } from "@shardsui/svelte";
+  import type { Autocomplete as ShardsAutocomplete } from "@shardsui/svelte/autocomplete";
   import type { ComponentProps } from "svelte";
   export type AutocompleteListProps = ComponentProps<typeof ShardsAutocomplete.List>;
 </script>
 
 <script lang="ts">
-  import { Autocomplete as AutocompletePrimitive } from "@shardsui/svelte";
+  import { Autocomplete as AutocompletePrimitive } from "@shardsui/svelte/autocomplete";
   import ScrollArea from "../scroll-area/scroll-area.svelte";
-  import { cn } from "$lib/utils.js";
+  import { cn } from "@/utils.js";
   let {
     class: className,
     children: child,

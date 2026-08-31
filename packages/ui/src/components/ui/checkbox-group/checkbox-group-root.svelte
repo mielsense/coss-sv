@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import type { CheckboxGroup as ShardsCheckboxGroup } from "@shardsui/svelte";
+  import type { CheckboxGroup as ShardsCheckboxGroup } from "@shardsui/svelte/checkbox-group";
   import type { ComponentProps } from "svelte";
   import type { CheckboxGroupChangeEventDetails } from "./change-event-details.js";
 
@@ -17,9 +17,9 @@
 </script>
 
 <script lang="ts" generics="Value extends string = string">
-  import { CheckboxGroup as CheckboxGroupPrimitive } from "@shardsui/svelte";
+  import { CheckboxGroup as CheckboxGroupPrimitive } from "@shardsui/svelte/checkbox-group";
   import { untrack } from "svelte";
-  import { cn } from "$lib/utils.js";
+  import { cn } from "@/utils.js";
   import { createCheckboxGroupChangeEventDetails } from "./change-event-details.js";
   import { setCheckboxGroupContext } from "./context.js";
 

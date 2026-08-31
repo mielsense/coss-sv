@@ -52,6 +52,14 @@ describe("Toggle browser contract", () => {
     await declined.click();
     await expect.element(declined).toHaveAttribute("aria-pressed", "false");
     await expect.element(page.getByTestId("controlled-writes")).toHaveTextContent("1");
+
+    await expect
+      .element(page.getByTestId("default-toggle"))
+      .toHaveAttribute("aria-pressed", "true");
+    await page.getByTestId("canceled-toggle").click();
+    await expect
+      .element(page.getByTestId("canceled-toggle"))
+      .toHaveAttribute("aria-pressed", "false");
   });
 
   test("hydrates exact server-equivalent toggle markup without a mismatch", async () => {

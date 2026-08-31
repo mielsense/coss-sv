@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { Drawer as DrawerPrimitive } from "@shardsui/svelte";
-  import { cn } from "$lib/utils.js";
+  import { Drawer as DrawerPrimitive } from "@shardsui/svelte/drawer";
+  import { cn } from "@/utils.js";
   import type { DrawerPanelProps } from "./drawer-panel.svelte";
   import DrawerPart from "./drawer-part.svelte";
 

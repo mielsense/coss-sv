@@ -1,4 +1,4 @@
-export { Fieldset as FieldsetPrimitive } from "@shardsui/svelte";
+export { Fieldset as FieldsetPrimitive } from "@shardsui/svelte/fieldset";
 export type { FieldsetLegendProps } from "./fieldset-legend.svelte";
 export {
   default as FieldsetLegend,

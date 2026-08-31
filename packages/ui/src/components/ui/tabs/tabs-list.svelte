@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import type { Tabs as ShardsTabs } from "@shardsui/svelte";
+  import type { Tabs as ShardsTabs } from "@shardsui/svelte/tabs";
   import type { ComponentProps } from "svelte";
   import type { TabsSize, TabsVariant } from "./tabs-styles.js";
 
@@ -10,8 +10,8 @@
 </script>
 
 <script lang="ts">
-  import { Tabs as TabsPrimitive } from "@shardsui/svelte";
-  import { cn } from "$lib/utils.js";
+  import { Tabs as TabsPrimitive } from "@shardsui/svelte/tabs";
+  import { cn } from "@/utils.js";
   import { setTabsListStyleContext } from "./context.js";
   import TabsIndicator from "./tabs-indicator.svelte";
 

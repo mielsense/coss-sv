@@ -168,7 +168,11 @@ export interface CalendarMonthModel {
 
 export function buildCalendarMonth(
   month: Date,
-  options: CalendarDateOptions & { fixedWeeks?: boolean; weekStartsOn?: number } = {},
+  options: CalendarDateOptions & {
+    broadcastCalendar?: boolean;
+    fixedWeeks?: boolean;
+    weekStartsOn?: number;
+  } = {},
 ): CalendarMonthModel {
   const value = startOfCalendarMonth(month, options);
   const weekStartsOn = (((options.weekStartsOn ?? 0) % 7) + 7) % 7;
@@ -176,7 +180,12 @@ export function buildCalendarMonth(
   const firstDate = addCalendarDays(value, -firstOffset, options);
   const lastOfMonth = createCalendarDate(value.getFullYear(), value.getMonth() + 1, 0, options);
   const naturalCells = firstOffset + lastOfMonth.getDate();
-  const cellCount = options.fixedWeeks ? 42 : Math.ceil(naturalCells / 7) * 7;
+  let cellCount = options.fixedWeeks ? 42 : Math.ceil(naturalCells / 7) * 7;
+  if (options.broadcastCalendar) {
+    const fifthWeekEnd = addCalendarDays(firstDate, 34, options);
+    const broadcastWeeks = fifthWeekEnd.getMonth() === value.getMonth() ? 5 : 4;
+    cellCount = options.fixedWeeks ? 35 : broadcastWeeks * 7;
+  }
   const weeks: CalendarMonthModel["weeks"] = [];
 
   for (let offset = 0; offset < cellCount; offset += 7) {
@@ -200,28 +209,28 @@ function addToRange(
   const max = options.max ?? 0;
   let range: DateRange | undefined;
 
-  if (!from && !to) range = min > 0 ? { from: date } : { from: date, to: date };
+  if (!from && !to) range = min > 0 ? { from: date, to: undefined } : { from: date, to: date };
   else if (from && !to) {
     if (isSameCalendarDay(from, date)) {
       if (min === 0) range = { from, to: date };
-      else range = options.required ? { from } : undefined;
+      else range = options.required ? { from, to: undefined } : undefined;
     } else if (compareCalendarDays(date, from) < 0) range = { from: date, to: from };
     else range = { from, to: date };
   } else if (from && to) {
     if (isSameCalendarDay(from, date) && isSameCalendarDay(to, date)) {
       range = options.required ? { from, to } : undefined;
     } else if (isSameCalendarDay(from, date)) {
-      range = min > 0 ? { from } : { from, to: date };
+      range = min > 0 ? { from, to: undefined } : { from, to: date };
     } else if (isSameCalendarDay(to, date)) {
-      range = min > 0 ? { from: date } : { from: date, to: date };
+      range = min > 0 ? { from: date, to: undefined } : { from: date, to: date };
     } else if (compareCalendarDays(date, from) < 0) range = { from: date, to };
     else range = { from, to: date };
   }
 
   if (range?.from && range.to) {
     const diff = differenceInCalendarDays(range.to, range.from);
-    if (max > 0 && diff > max) range = { from: date };
-    else if (min > 1 && diff < min) range = { from: date };
+    if (max > 0 && diff > max) range = { from: date, to: undefined };
+    else if (min > 1 && diff < min) range = { from: date, to: undefined };
   }
   return range;
 }
@@ -268,7 +277,7 @@ export function resolveCanonicalSelection(
   );
   if (options.resetOnSelect && (isFullRange || !range?.from)) {
     if (!options.required && isClickingSingleDayRange) return undefined;
-    return { from: nextDate };
+    return { from: nextDate, to: undefined };
   }
   return addToRange(nextDate, range, options);
 }

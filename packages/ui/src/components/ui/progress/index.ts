@@ -1,5 +1,5 @@
-export type { ProgressStatus } from "@shardsui/svelte";
-export { Progress as ProgressPrimitive } from "@shardsui/svelte";
+export type { ProgressStatus } from "@shardsui/svelte/progress";
+export { Progress as ProgressPrimitive } from "@shardsui/svelte/progress";
 export type { ProgressIndicatorProps } from "./progress-indicator.svelte";
 export { default as Indicator, default as ProgressIndicator } from "./progress-indicator.svelte";
 export type { ProgressLabelProps } from "./progress-label.svelte";

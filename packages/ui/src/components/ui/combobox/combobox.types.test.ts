@@ -19,9 +19,12 @@ import type {
 test("types single and multiple values, input synchronization, native attributes, and portal props", () => {
   const children = createRawSnippet(() => ({ render: () => "Apple" }));
   const single = {
+    defaultInputValue: "Ap",
+    defaultOpen: true,
+    defaultValue: "Apple",
     items: ["Apple"],
-    onInputValueChange: (_value: string) => undefined,
-    onValueChange: (_value: string | null) => undefined,
+    onInputValueChange: (_value: string, details) => details.cancel(),
+    onValueChange: (_value: string | null, details) => details.cancel(),
     value: "Apple",
   } satisfies ComboboxRootProps<string>;
   const multiple = {
@@ -55,6 +58,10 @@ test("types single and multiple values, input synchronization, native attributes
   expect(value.children).toBe(valueChildren);
   expect(multipleValue.children).toBe(multipleValueChildren);
   expectTypeOf(single.onValueChange).parameter(0).toEqualTypeOf<string | null>();
+  expectTypeOf(single.onValueChange).parameter(1).toMatchTypeOf<{
+    isCanceled: boolean;
+    reason: string;
+  }>();
   expectTypeOf(multiple.onValueChange).parameter(0).toEqualTypeOf<string[]>();
 });
 

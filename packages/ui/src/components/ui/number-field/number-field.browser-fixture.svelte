@@ -6,6 +6,7 @@
   let value = $state<number | null>(1.5);
   let changes = $state(0);
   let inputRef = $state<HTMLInputElement | null>(null);
+  let nativeInputRef = $state<HTMLInputElement | null>(null);
   let delegatedRef = $state<HTMLDivElement | null>(null);
   let cursorRef = $state<SVGSVGElement | null>(null);
   let showRemountWheel = $state(true);
@@ -23,6 +24,9 @@
   let boundaryChanges = $state(0);
   let boundaryCommits = $state(0);
   let boundaryReason = $state("");
+  let holdValue = $state<number | null>(0);
+  let holdCommits = $state(0);
+  let verticalScrubValue = $state<number | null>(0);
   const removedNumberAria = {
     "aria-describedby": null,
     "aria-labelledby": null,
@@ -89,6 +93,28 @@
   onValueCommitted={() => (boundaryCommits += 1)}
 >
   <NumberField.Group><NumberField.Input data-testid="boundary-number" /></NumberField.Group>
+</NumberField.Root>
+
+<NumberField.Root
+  bind:value={holdValue}
+  aria-label="Hold number"
+  onValueCommitted={() => (holdCommits += 1)}
+>
+  <NumberField.Group>
+    <NumberField.Input data-testid="hold-number" />
+    <NumberField.Increment data-testid="hold-number-increment" />
+  </NumberField.Group>
+</NumberField.Root>
+
+<NumberField.Root bind:value={verticalScrubValue} aria-label="Vertical scrub number">
+  <NumberField.ScrubArea
+    data-testid="vertical-scrub-area"
+    direction="vertical"
+    label="Vertical scrub"
+    pixelSensitivity={4}
+    teleportDistance={32}
+  />
+  <NumberField.Group><NumberField.Input data-testid="vertical-scrub-number" /></NumberField.Group>
 </NumberField.Root>
 
 <NumberField.Root aria-invalid={true} aria-label="Invalid number" defaultValue={2} readonly>
@@ -300,6 +326,23 @@
   </NumberField.Root>
 </form>
 
+<form data-testid="native-number-form">
+  <NumberField.Root
+    bind:inputRef={nativeInputRef}
+    allowOutOfRange
+    aria-label="Native price"
+    defaultValue={12.5}
+    format={{ currency: "USD", style: "currency" }}
+    max={20}
+    min={10}
+    name="price"
+    required
+    step={0.5}
+  >
+    <NumberField.Group><NumberField.Input data-testid="native-number-display" /></NumberField.Group>
+  </NumberField.Root>
+</form>
+
 <NumberField.Root allowWheel aria-label="Cancelled wheel" defaultValue={1}>
   <NumberField.Group>
     <NumberField.Input
@@ -323,6 +366,7 @@
 {/if}
 
 <output data-testid="number-state">{value}:{changes}:{inputRef?.tagName ?? "missing"}</output>
+<output data-testid="native-number-ref">{nativeInputRef?.type ?? "missing"}</output>
 <output data-testid="delegate-ref">{delegatedRef?.dataset.slot ?? "missing"}</output>
 <NumberField.CursorGrowIcon
   bind:ref={cursorRef}
@@ -336,3 +380,5 @@
 </output>
 <output data-testid="step-state">{stepValue}:{stepReason}</output>
 <output data-testid="scrub-handler-state">{scrubMoves}:{scrubUps}</output>
+<output data-testid="hold-state">{holdValue}:{holdCommits}</output>
+<output data-testid="vertical-scrub-state">{verticalScrubValue}</output>

@@ -6,9 +6,9 @@
 </script>
 
 <script lang="ts">
-  import { ArrowHorizontalIcon } from "@hugeicons/core-free-icons";
-  import HugeiconsIcon from "$lib/hugeicons-icon.svelte";
-  import { cn } from "$lib/utils.js";
+  import ArrowHorizontalIcon from "@hugeicons/core-free-icons/ArrowHorizontalIcon";
+  import HugeiconsIcon from "@/hugeicons-icon.svelte";
+  import { cn } from "@/utils.js";
 
   let {
     class: className,

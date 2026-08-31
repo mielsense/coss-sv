@@ -1,4 +1,4 @@
-import { Tooltip as TooltipPrimitive } from "@shardsui/svelte";
+import { Tooltip as TooltipPrimitive } from "@shardsui/svelte/tooltip";
 
 export type { TooltipTriggerAttachmentOptions } from "./create-trigger-attachment.svelte.js";
 export { createTriggerAttachment } from "./create-trigger-attachment.svelte.js";

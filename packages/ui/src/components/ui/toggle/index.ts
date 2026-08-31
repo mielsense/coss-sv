@@ -1,5 +1,5 @@
-export { Toggle as TogglePrimitive } from "@shardsui/svelte";
-export type { ToggleProps } from "./toggle.svelte";
+export { Toggle as TogglePrimitive } from "@shardsui/svelte/toggle";
+export type { ToggleChangeEventDetails, ToggleProps } from "./toggle.svelte";
 export { default as Toggle } from "./toggle.svelte";
 export type {
   ToggleSize,

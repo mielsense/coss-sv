@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { Fieldset as FieldsetPrimitive } from "@shardsui/svelte";
+  import { Fieldset as FieldsetPrimitive } from "@shardsui/svelte/fieldset";
   import type { ComponentProps } from "svelte";
 
   export type FieldsetRootProps = ComponentProps<typeof FieldsetPrimitive.Root> & {

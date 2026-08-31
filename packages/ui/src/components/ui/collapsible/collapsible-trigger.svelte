@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import type { Collapsible as ShardsCollapsible } from "@shardsui/svelte";
+  import type { Collapsible as ShardsCollapsible } from "@shardsui/svelte/collapsible";
   import type { ComponentProps, Snippet } from "svelte";
   import type { ButtonProps } from "../button/button.svelte";
   import type { CollapsibleState } from "./context.js";
@@ -35,7 +35,7 @@
 </script>
 
 <script lang="ts">
-  import { Collapsible as CollapsiblePrimitive } from "@shardsui/svelte";
+  import { Collapsible as CollapsiblePrimitive } from "@shardsui/svelte/collapsible";
   import type { Component } from "svelte";
   import { getCollapsibleDelegateContext } from "./context.js";
   import { makeShardsEventPreventable } from "./event-preventable.js";

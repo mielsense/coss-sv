@@ -62,6 +62,30 @@ describe("Toggle Group browser contract", () => {
     await expect.element(page.getByTestId("declined-writes")).toHaveTextContent("1");
   });
 
+  test("shares cancelable native event details and suppresses canceled item and group changes", async () => {
+    render(ToggleGroupFixture);
+
+    await page.getByLabelText("Item canceled italic").click();
+    await expect
+      .element(page.getByLabelText("Item canceled bold"))
+      .toHaveAttribute("aria-pressed", "true");
+    await expect
+      .element(page.getByLabelText("Item canceled italic"))
+      .toHaveAttribute("aria-pressed", "false");
+    await expect.element(page.getByTestId("canceled-item-changes")).toHaveTextContent("1");
+    await expect.element(page.getByTestId("canceled-group-changes")).toHaveTextContent("0");
+    await expect.element(page.getByTestId("canceled-details")).toHaveTextContent("none:click:true");
+
+    await page.getByLabelText("Group canceled italic").click();
+    await expect
+      .element(page.getByLabelText("Group canceled bold"))
+      .toHaveAttribute("aria-pressed", "true");
+    await expect
+      .element(page.getByLabelText("Group canceled italic"))
+      .toHaveAttribute("aria-pressed", "false");
+    await expect.element(page.getByTestId("group-canceled-changes")).toHaveTextContent("1");
+  });
+
   test("hydrates exact server-equivalent root markup without a mismatch", async () => {
     const warning = vi.spyOn(console, "warn").mockImplementation(() => undefined);
     const target = document.createElement("div");

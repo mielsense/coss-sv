@@ -26,8 +26,10 @@ describe("Accordion SSR contract", () => {
   test("uses the free Hugeicons chevron without copied Lucide or inline icon source", () => {
     const source = readFileSync(new URL("./accordion-trigger.svelte", import.meta.url), "utf8");
 
-    expect(source).toContain('import { ChevronDownIcon } from "@hugeicons/core-free-icons";');
-    expect(source).toContain('import HugeiconsIcon from "$lib/hugeicons-icon.svelte";');
+    expect(source).toContain(
+      'import ChevronDownIcon from "@hugeicons/core-free-icons/ChevronDownIcon";',
+    );
+    expect(source).toContain('import HugeiconsIcon from "@/hugeicons-icon.svelte";');
     expect(source).toContain("icon={ChevronDownIcon}");
     expect(source).toContain("strokeWidth={2}");
     expect(source).not.toMatch(/lucide|<svg\b|<path\b/i);

@@ -1,4 +1,4 @@
-export { Accordion as AccordionPrimitive } from "@shardsui/svelte";
+export { Accordion as AccordionPrimitive } from "@shardsui/svelte/accordion";
 export type { AccordionHeaderProps } from "./accordion-header.svelte";
 export {
   default as AccordionHeader,

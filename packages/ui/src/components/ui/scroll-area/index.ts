@@ -1,4 +1,4 @@
-import { ScrollArea as ScrollAreaPrimitive } from "@shardsui/svelte";
+import { ScrollArea as ScrollAreaPrimitive } from "@shardsui/svelte/scroll-area";
 
 export { ScrollAreaPrimitive };
 export const Root: typeof ScrollAreaPrimitive.Root = ScrollAreaPrimitive.Root;

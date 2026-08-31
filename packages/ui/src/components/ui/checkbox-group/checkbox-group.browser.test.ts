@@ -124,7 +124,7 @@ describe("Checkbox Group browser contract", () => {
     expect(formInputs().map((input) => input.checked)).toEqual([true, false]);
     await expect
       .element(page.getByTestId("canceled-details"))
-      .toHaveTextContent("next+vite:none:click:missing:true:true");
+      .toHaveTextContent("next+vite:none:click:checkbox:true:true");
 
     await parent.click();
     await expect.element(page.getByTestId("canceled-writes")).toHaveTextContent("0");
@@ -136,7 +136,7 @@ describe("Checkbox Group browser contract", () => {
     await expect
       .element(page.getByTestId("canceled-details"))
       .toHaveTextContent(
-        "next+vite:none:click:missing:true:true,next+vite:none:click:missing:true:true",
+        "next+vite:none:click:checkbox:true:true,next+vite:none:click:checkbox:true:true",
       );
   });
 

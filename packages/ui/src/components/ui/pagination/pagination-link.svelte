@@ -25,7 +25,7 @@
 </script>
 
 <script lang="ts">
-  import { cn } from "$lib/utils.js";
+  import { cn } from "@/utils.js";
   import { buttonVariants } from "../button/button.svelte";
 
   let {
@@ -34,7 +34,7 @@
     children,
     class: className,
     delegate,
-    isActive = false,
+    isActive,
     ref = $bindable(null),
     size = "icon",
     ...props

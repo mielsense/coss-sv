@@ -1,16 +1,31 @@
 import { createRawSnippet } from "svelte";
 import { expect, expectTypeOf, test } from "vitest";
-import type { OTPFieldInputProps, OTPFieldRootProps } from "./index.js";
+import type {
+  OTPFieldChangeEventDetails,
+  OTPFieldCompleteEventDetails,
+  OTPFieldInputProps,
+  OTPFieldInvalidEventDetails,
+  OTPFieldRootProps,
+} from "./index.js";
 
 test("types length, value binding, validation callbacks, native input props, and refs", () => {
   const root = {
     children: createRawSnippet(() => ({ render: () => "slots" })),
+    autoComplete: "one-time-code",
+    autoSubmit: true,
     form: "verification-form",
+    id: "verification-code",
+    inputMode: "numeric",
     length: 6,
     normalizeValue: (value: string) => value.toUpperCase(),
-    onComplete: (value: string) => value,
-    onValueChange: (value: string) => value,
-    onValueInvalid: (value: string) => value,
+    onValueChange: (value: string, details: OTPFieldChangeEventDetails) => {
+      details.cancel();
+      return value;
+    },
+    onValueComplete: (value: string, details: OTPFieldCompleteEventDetails) =>
+      `${value}:${details.reason}`,
+    onValueInvalid: (value: string, details: OTPFieldInvalidEventDetails) =>
+      `${value}:${details.reason}`,
     size: "lg",
     validationType: "alphanumeric",
     value: "A7C9XZ",

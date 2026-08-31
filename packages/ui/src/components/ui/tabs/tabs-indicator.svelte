@@ -1,13 +1,13 @@
 <script module lang="ts">
-  import type { Tabs as ShardsTabs } from "@shardsui/svelte";
+  import type { Tabs as ShardsTabs } from "@shardsui/svelte/tabs";
   import type { ComponentProps } from "svelte";
 
   export type TabsIndicatorProps = ComponentProps<typeof ShardsTabs.Indicator>;
 </script>
 
 <script lang="ts">
-  import { Tabs as TabsPrimitive } from "@shardsui/svelte";
-  import { cn } from "$lib/utils.js";
+  import { Tabs as TabsPrimitive } from "@shardsui/svelte/tabs";
+  import { cn } from "@/utils.js";
   import { getTabsListStyleContext } from "./context.js";
 
   let { class: className, ref = $bindable(null), ...props }: TabsIndicatorProps = $props();

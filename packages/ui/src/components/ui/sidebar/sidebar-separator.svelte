@@ -5,7 +5,7 @@
 </script>
 
 <script lang="ts">
-  import { cn } from "$lib/utils.js";
+  import { cn } from "@/utils.js";
   import Separator from "../separator/separator.svelte";
 
   let { class: className, ref = $bindable(null), ...props }: SidebarSeparatorProps = $props();

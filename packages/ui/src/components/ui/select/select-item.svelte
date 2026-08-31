@@ -1,21 +1,29 @@
 <script module lang="ts">
-  import type { Select as ShardsSelect } from "@shardsui/svelte";
+  import type { Select as ShardsSelect } from "@shardsui/svelte/select";
   import type { ComponentProps } from "svelte";
   export type SelectItemProps = ComponentProps<typeof ShardsSelect.Item>;
 </script>
 
 <script lang="ts">
-  import { Tick02Icon } from "@hugeicons/core-free-icons";
-  import { Select as S } from "@shardsui/svelte";
-  import HugeiconsIcon from "$lib/hugeicons-icon.svelte";
-  import { cn } from "$lib/utils.js";
+  import Tick02Icon from "@hugeicons/core-free-icons/Tick02Icon";
+  import { Select as S } from "@shardsui/svelte/select";
+  import HugeiconsIcon from "@/hugeicons-icon.svelte";
+  import { getSelectionChangeContext } from "@/selection-change-context.js";
+  import { cn } from "@/utils.js";
 
   let {
     children: child,
     class: className,
+    onclick,
     ref = $bindable(null),
     ...props
   }: SelectItemProps = $props();
+  const change = getSelectionChangeContext();
+
+  function handleClick(event: Parameters<NonNullable<SelectItemProps["onclick"]>>[0]): void {
+    change?.prepare("item-press", event);
+    onclick?.(event);
+  }
 </script>
 
 <S.Item
@@ -25,6 +33,7 @@
     className,
   )}
   data-slot="select-item"
+  onclick={handleClick}
   {...props}
   >{#snippet children(state)}
     <S.ItemIndicator class="col-start-1"

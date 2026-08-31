@@ -4,7 +4,11 @@ import { page, userEvent } from "vitest/browser";
 import { render } from "vitest-browser-svelte";
 import OTPFieldFixture from "./otp-field.browser-fixture.svelte";
 import OTPFieldHydrationFixture from "./otp-field.hydration-fixture.svelte";
-import { otpFieldHydrationHtml } from "./otp-field.hydration-html.js";
+import {
+  otpFieldDefaultRootHtml,
+  otpFieldEmptyRootHtml,
+  otpFieldHydrationHtml,
+} from "./otp-field.hydration-html.js";
 import OTPFieldRoot from "./otp-field-root.svelte";
 
 afterEach(() => {
@@ -29,6 +33,14 @@ describe("OTPField browser contract", () => {
     expect(slots[1]?.tabIndex).toBe(-1);
     expect(slots[0]?.hasAttribute("aria-label")).toBe(false);
     expect(slots[0]?.hasAttribute("aria-labelledby")).toBe(false);
+    expect(slots.map((slot) => slot.id)).toEqual([
+      "verification-code",
+      "verification-code-2",
+      "verification-code-3",
+      "verification-code-4",
+      "verification-code-5",
+      "verification-code-6",
+    ]);
 
     slots[0]?.focus();
     await userEvent.keyboard("12");
@@ -46,11 +58,22 @@ describe("OTPField browser contract", () => {
     slots[2]?.dispatchEvent(
       new ClipboardEvent("paste", { bubbles: true, clipboardData: transfer }),
     );
-    await expect.element(page.getByTestId("otp-state")).toHaveTextContent("123456:123456:");
+    await expect
+      .element(page.getByTestId("otp-state"))
+      .toHaveTextContent("123456:123456:3:input-paste:paste:1:input-paste:paste");
     expect(slots.map((slot) => slot.value)).toEqual(["1", "2", "3", "4", "5", "6"]);
 
     const form = document.querySelector<HTMLFormElement>('[data-testid="otp-form"]');
     expect(new FormData(form ?? undefined).getAll("code")).toEqual(["123456"]);
+
+    const sameValue = new DataTransfer();
+    sameValue.setData("text/plain", "123456");
+    slots[0]?.dispatchEvent(
+      new ClipboardEvent("paste", { bubbles: true, clipboardData: sameValue }),
+    );
+    await expect
+      .element(page.getByTestId("otp-state"))
+      .toHaveTextContent("123456:123456:3:input-paste:paste:2:input-paste:paste");
   });
 
   test("supports arrows, replacement, Backspace, Delete, and partial paste", async () => {
@@ -79,6 +102,23 @@ describe("OTPField browser contract", () => {
     );
     await expect.element(slots[1] as HTMLInputElement).toHaveValue("8");
     expect(slots.map((slot) => slot.value)).toEqual(["1", "8", "7", "", "", ""]);
+
+    slots[2]?.focus();
+    await userEvent.keyboard("{Control>}{Backspace}{/Control}");
+    expect(slots.map((slot) => slot.value)).toEqual(["", "", "", "", "", ""]);
+
+    const rtl = [
+      await page.getByTestId("rtl-first").element(),
+      await page.getByTestId("rtl-second").element(),
+      await page.getByTestId("rtl-third").element(),
+    ];
+    rtl[1]?.focus();
+    await userEvent.keyboard("{ArrowLeft}");
+    expect(document.activeElement).toBe(rtl[2]);
+    await userEvent.keyboard("{ArrowUp}");
+    expect(document.activeElement).toBe(rtl[1]);
+    await userEvent.keyboard("{Control>}{ArrowRight}{/Control}");
+    expect(document.activeElement).toBe(rtl[0]);
   });
 
   test("supports alphanumeric, disabled, read-only, and accessibility semantics", async () => {
@@ -104,9 +144,11 @@ describe("OTPField browser contract", () => {
     ).toBe("aB");
 
     const disabled = document.querySelector('[aria-label="Disabled code"]');
-    expect(disabled?.querySelectorAll("input:disabled")).toHaveLength(2);
+    expect(disabled?.querySelectorAll('[data-slot="otp-field-input"]:disabled')).toHaveLength(2);
     const readOnly = document.querySelector('[aria-label="Read only code"]');
-    const readOnlySlots = Array.from(readOnly?.querySelectorAll<HTMLInputElement>("input") ?? []);
+    const readOnlySlots = Array.from(
+      readOnly?.querySelectorAll<HTMLInputElement>('[data-slot="otp-field-input"]') ?? [],
+    );
     expect(readOnlySlots.every((slot) => slot.readOnly)).toBe(true);
     readOnlySlots[0]?.focus();
     await userEvent.keyboard("9");
@@ -169,6 +211,10 @@ describe("OTPField browser contract", () => {
     await userEvent.click(normalized);
     await userEvent.keyboard("a");
     await expect.element(page.getByTestId("normalized-state")).toHaveTextContent("A:");
+
+    await userEvent.click(page.getByTestId("cancelled-otp"));
+    await userEvent.keyboard("1");
+    await expect.element(page.getByTestId("cancelled-state")).toHaveTextContent("");
   });
 
   test("reconciles dynamic slots and native internal and external forms", async () => {
@@ -202,8 +248,8 @@ describe("OTPField browser contract", () => {
     const externalSecond = document.querySelector<HTMLInputElement>(
       '[data-testid="external-second"]',
     );
-    expect(externalFirst?.form).toBe(external);
-    expect(externalSecond?.form).toBe(external);
+    expect(externalFirst?.form).toBeNull();
+    expect(externalSecond?.form).toBeNull();
     expect(new FormData(external ?? undefined).getAll("external-code")).toEqual(["12"]);
     externalFirst?.focus();
     await userEvent.keyboard("9");
@@ -214,10 +260,36 @@ describe("OTPField browser contract", () => {
 
     const slots = primarySlots();
     expect(slots[0]?.form).toBe(document.querySelector('[data-testid="otp-form"]'));
-    expect(slots[0]?.required).toBe(true);
+    expect(slots[0]?.required).toBe(false);
+    const validationInput = document.querySelector<HTMLInputElement>(
+      '[aria-label="Verification code"] > input[aria-hidden="true"]',
+    );
+    expect(validationInput?.form).toBe(document.querySelector('[data-testid="otp-form"]'));
+    expect(validationInput?.required).toBe(true);
+    expect(validationInput?.minLength).toBe(6);
+    expect(validationInput?.maxLength).toBe(6);
+    expect(validationInput?.pattern).toBe("[0-9]{6}");
     expect(
       document.querySelector<HTMLFormElement>('[data-testid="otp-form"]')?.checkValidity(),
     ).toBe(false);
+
+    const fieldOwnedForm = document.querySelector<HTMLFormElement>(
+      '[data-testid="field-owned-otp-form"]',
+    );
+    const fieldOwnedNative = fieldOwnedForm?.querySelector<HTMLInputElement>(
+      '[data-slot="otp-field"] > input[aria-hidden="true"]',
+    );
+    expect(fieldOwnedNative?.name).toBe("field-owned-code");
+    expect(fieldOwnedForm?.checkValidity()).toBe(false);
+  });
+
+  test("submits the owning form after completion", async () => {
+    render(OTPFieldFixture);
+    await userEvent.click(page.getByTestId("auto-submit-first"));
+    await userEvent.keyboard("12");
+    await expect.element(page.getByTestId("auto-submit-state")).toHaveTextContent("1");
+    const form = document.querySelector<HTMLFormElement>('[data-testid="auto-submit-form"]');
+    expect(new FormData(form ?? undefined).get("auto-code")).toBe("12");
   });
 
   test("normalizes default, controlled, reset, and submitted values without initial invalid reports", async () => {
@@ -270,7 +342,7 @@ describe("OTPField browser contract", () => {
   test("hydrates its SSR root without a mismatch", async () => {
     const warning = vi.spyOn(console, "warn").mockImplementation(() => undefined);
     const target = document.createElement("div");
-    target.innerHTML = `<!--[--><div aria-label="Code" class="flex items-center gap-2 has-disabled:opacity-64 has-disabled:**:data-[slot=otp-field-input]:shadow-none has-disabled:**:data-[slot=otp-field-input]:before:shadow-none!" data-size="default" data-slot="otp-field" role="group"><!----> <!--[-1--><!--]--></div><!--]-->`;
+    target.innerHTML = otpFieldEmptyRootHtml;
     document.body.append(target);
     const component = hydrate(OTPFieldRoot, {
       props: { "aria-label": "Code", length: 2 },
@@ -285,7 +357,7 @@ describe("OTPField browser contract", () => {
   test("hydrates a normalized initial hidden value without a mismatch", async () => {
     const warning = vi.spyOn(console, "warn").mockImplementation(() => undefined);
     const target = document.createElement("div");
-    target.innerHTML = `<!--[--><div aria-label="Default code" class="flex items-center gap-2 has-disabled:opacity-64 has-disabled:**:data-[slot=otp-field-input]:shadow-none has-disabled:**:data-[slot=otp-field-input]:before:shadow-none!" data-size="default" data-slot="otp-field" role="group"><!----> <!--[0--><input type="hidden" name="default-code" value="12"><!--]--></div><!--]-->`;
+    target.innerHTML = otpFieldDefaultRootHtml;
     document.body.append(target);
     const component = hydrate(OTPFieldRoot, {
       props: {

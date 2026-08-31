@@ -19,6 +19,16 @@
   />
   <label for="fixture-checkbox">Accept terms</label>
   <Checkbox aria-label="Indeterminate" data-testid="indeterminate" indeterminate />
+  <Checkbox aria-label="Default checked" data-testid="default-checked" defaultChecked />
+  <Checkbox
+    aria-label="Canceled checkbox"
+    data-testid="canceled"
+    onCheckedChange={(_next, details) => {
+      details.allowPropagation();
+      details.cancel();
+      callbackValue = `${details.reason}:${details.event.type}:${details.isPropagationAllowed}`;
+    }}
+  />
   <Checkbox aria-label="Disabled" data-testid="disabled" disabled />
   <button type="submit">Submit</button>
 </form>

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Toast as ToastPrimitive } from "@shardsui/svelte";
+  import { Toast as ToastPrimitive } from "@shardsui/svelte/toast";
   import { buttonVariants } from "../button/index.js";
   import { getToastReplayClass, type ToastData, type ToastPortalProps } from "./toast.types.js";
   import ToastIcon from "./toast-icon.svelte";

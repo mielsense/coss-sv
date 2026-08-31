@@ -3,15 +3,18 @@ import { createContext } from "svelte";
 export class ContextMenuIdState {
   #readOpen: () => boolean;
   #readPopupId: () => string;
-  #writePopupId: (id: string) => void;
+  #readDefaultPopupId: () => string;
+  #writePopupId: (id: string | undefined) => void;
 
   constructor(
     readOpen: () => boolean,
     readPopupId: () => string,
-    writePopupId: (id: string) => void,
+    readDefaultPopupId: () => string,
+    writePopupId: (id: string | undefined) => void,
   ) {
     this.#readOpen = readOpen;
     this.#readPopupId = readPopupId;
+    this.#readDefaultPopupId = readDefaultPopupId;
     this.#writePopupId = writePopupId;
   }
 
@@ -23,7 +26,11 @@ export class ContextMenuIdState {
     return this.#readPopupId();
   }
 
-  setPopupId(id: string): void {
+  get defaultPopupId(): string {
+    return this.#readDefaultPopupId();
+  }
+
+  setPopupId(id: string | undefined): void {
     this.#writePopupId(id);
   }
 }

@@ -1,4 +1,4 @@
-import { createContext } from "svelte";
+import { getContext, hasContext, setContext } from "svelte";
 
 export class FieldRelationshipState {
   #defaultControlId: string;
@@ -8,6 +8,9 @@ export class FieldRelationshipState {
   #writeLabelId: (id: string | undefined) => void;
   #writeDescribedBy: (ids: string | undefined) => void;
   #writeControlId: (id: string | undefined) => void;
+  #readDisabled: () => boolean;
+  #readInvalid: () => boolean;
+  #readName: () => string | undefined;
   #initialControlIds: string[] = [];
   #controlRegistrations: { id: string; token: symbol }[] = [];
   #initialLabelId: string | undefined;
@@ -20,6 +23,9 @@ export class FieldRelationshipState {
     writeLabelId: (id: string | undefined) => void,
     readDescribedBy: () => string | undefined,
     writeDescribedBy: (ids: string | undefined) => void,
+    readName: () => string | undefined = () => undefined,
+    readDisabled: () => boolean = () => false,
+    readInvalid: () => boolean = () => false,
   ) {
     this.#defaultControlId = defaultControlId;
     this.#readControlId = readControlId;
@@ -28,6 +34,9 @@ export class FieldRelationshipState {
     this.#writeLabelId = writeLabelId;
     this.#readDescribedBy = readDescribedBy;
     this.#writeDescribedBy = writeDescribedBy;
+    this.#readName = readName;
+    this.#readDisabled = readDisabled;
+    this.#readInvalid = readInvalid;
   }
 
   get controlId(): string | undefined {
@@ -47,6 +56,18 @@ export class FieldRelationshipState {
 
   get describedBy(): string | undefined {
     return this.#readDescribedBy();
+  }
+
+  get disabled(): boolean {
+    return this.#readDisabled();
+  }
+
+  get invalid(): boolean {
+    return this.#readInvalid();
+  }
+
+  get name(): string | undefined {
+    return this.#readName();
   }
 
   get labelledBy(): string | undefined {
@@ -119,21 +140,16 @@ export class FieldRelationshipState {
   }
 }
 
-const [getRequiredFieldRelationshipContext, setFieldRelationshipContext] =
-  createContext<FieldRelationshipState>();
+const fieldRelationshipContextKey = Symbol("coss-field-relationship");
 
-export { setFieldRelationshipContext };
+export function setFieldRelationshipContext(
+  context: FieldRelationshipState,
+): FieldRelationshipState {
+  return setContext(fieldRelationshipContextKey, context);
+}
 
 export function getFieldRelationshipContext(): FieldRelationshipState | undefined {
-  try {
-    return getRequiredFieldRelationshipContext();
-  } catch (error) {
-    if (
-      error instanceof Error &&
-      (error.name === "Svelte error" || error.message.includes("/e/missing_context"))
-    ) {
-      return undefined;
-    }
-    throw error;
-  }
+  return hasContext(fieldRelationshipContextKey)
+    ? getContext<FieldRelationshipState>(fieldRelationshipContextKey)
+    : undefined;
 }

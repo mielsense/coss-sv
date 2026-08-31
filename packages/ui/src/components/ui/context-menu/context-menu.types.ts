@@ -1,4 +1,4 @@
-import type { ContextMenu as ShardsContextMenu } from "@shardsui/svelte";
+import type { ContextMenu as ShardsContextMenu } from "@shardsui/svelte/context-menu";
 import type { ComponentProps, Snippet } from "svelte";
 import type { SvelteHTMLElements } from "svelte/elements";
 import type {

@@ -1,5 +1,5 @@
 import { spawnSync } from "node:child_process";
-import { mkdtemp, rm } from "node:fs/promises";
+import { mkdtemp, readFile, readdir, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import process from "node:process";
@@ -33,10 +33,28 @@ const forbiddenPatterns = [
   /(?:^|\/)shardsui(?:\/|$)/,
   /(?:^|\/)\.worktrees(?:\/|$)/,
   /(?:^|\/)src(?:\/|$)/,
+  /(?:^|\/)[^/]*\.(?:test|spec)\.[^/]+$/,
+  /(?:^|\/)[^/]*fixture[^/]*(?:\/|$)/i,
+  /(?:^|\/)__snapshots__(?:\/|$)/,
+  /\.snap$/,
   /\.gitkeep$/,
 ];
 const forbidden = files.filter((file) => forbiddenPatterns.some((pattern) => pattern.test(file)));
-const undeclared = files.filter((file) => file !== "package.json" && !file.startsWith("dist/"));
+const declaredRootFiles = new Set([
+  "LICENSE",
+  "NOTICE.md",
+  "THIRD_PARTY_NOTICES.md",
+  "package.json",
+]);
+const undeclared = files.filter(
+  (file) => !declaredRootFiles.has(file) && !file.startsWith("dist/"),
+);
+const componentNames = (
+  await readdir(path.join(packageRoot, "src/components/ui"), { withFileTypes: true })
+)
+  .filter((entry) => entry.isDirectory())
+  .map((entry) => entry.name)
+  .sort();
 const required = [
   "dist/index.d.ts",
   "dist/index.js",
@@ -44,10 +62,30 @@ const required = [
   "dist/lib/utils.js",
   "dist/styles/globals.css",
   "package.json",
+  "LICENSE",
+  "NOTICE.md",
+  "THIRD_PARTY_NOTICES.md",
+  ...componentNames.flatMap((name) => [
+    `dist/components/ui/${name}/index.d.ts`,
+    `dist/components/ui/${name}/index.js`,
+  ]),
 ];
 const missing = required.filter((file) => !files.includes(file));
+const publishedSourceFiles = files.filter((file) => /^dist\/.*\.(?:d\.ts|js|svelte)$/.test(file));
+const leakedAliases = [];
+for (const file of publishedSourceFiles) {
+  const source = await readFile(path.join(packageRoot, file), "utf8");
+  if (/from\s*["'](?:@\/|\$lib\/)|import\s*\(\s*["'](?:@\/|\$lib\/)/.test(source)) {
+    leakedAliases.push(file);
+  }
+}
 
-if (forbidden.length > 0 || undeclared.length > 0 || missing.length > 0) {
+if (
+  forbidden.length > 0 ||
+  undeclared.length > 0 ||
+  missing.length > 0 ||
+  leakedAliases.length > 0
+) {
   if (forbidden.length > 0) {
     console.error(`Forbidden package files:\n${forbidden.join("\n")}`);
   }
@@ -56,6 +94,9 @@ if (forbidden.length > 0 || undeclared.length > 0 || missing.length > 0) {
   }
   if (missing.length > 0) {
     console.error(`Missing package files:\n${missing.join("\n")}`);
+  }
+  if (leakedAliases.length > 0) {
+    console.error(`Published files retain private aliases:\n${leakedAliases.join("\n")}`);
   }
   process.exit(1);
 }

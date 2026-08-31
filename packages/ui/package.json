@@ -1,14 +1,43 @@
 {
   "name": "@coss-sv/ui",
   "version": "0.0.0",
-  "description": "Svelte 5 components adapted from the COSS UI library",
+  "description": "High-fidelity Svelte 5 components adapted from the COSS UI library.",
   "license": "MIT",
+  "author": "Miel",
+  "homepage": "https://coss-sv.vercel.app",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mielsense/coss-sv.git",
+    "directory": "packages/ui"
+  },
+  "bugs": {
+    "url": "https://github.com/mielsense/coss-sv/issues"
+  },
+  "keywords": [
+    "components",
+    "coss",
+    "shards-ui",
+    "svelte",
+    "svelte5",
+    "tailwindcss"
+  ],
+  "engines": {
+    "node": ">=22.18 <25"
+  },
   "type": "module",
   "svelte": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
     "dist",
-    "!dist/**/.gitkeep"
+    "LICENSE",
+    "NOTICE.md",
+    "THIRD_PARTY_NOTICES.md",
+    "!dist/**/.gitkeep",
+    "!dist/**/*.test.*",
+    "!dist/**/*.spec.*",
+    "!dist/**/*fixture*",
+    "!dist/**/__snapshots__/**",
+    "!dist/**/*.snap"
   ],
   "sideEffects": [
     "**/*.css"
@@ -42,7 +71,7 @@
     "pack:check": "pnpm build && publint --strict && node ./scripts/check-pack.mjs",
     "prepack": "pnpm build",
     "test": "pnpm build && pnpm test:unit",
-    "test:unit": "vitest run"
+    "test:unit": "vitest run --project ssr && vitest run --project browser"
   },
   "peerDependencies": {
     "svelte": "^5.56.0"

@@ -9,7 +9,7 @@
 </script>
 
 <script lang="ts">
-  import { cn } from "$lib/utils.js";
+  import { cn } from "@/utils.js";
   import ScrollArea from "../scroll-area/scroll-area.svelte";
 
   let {

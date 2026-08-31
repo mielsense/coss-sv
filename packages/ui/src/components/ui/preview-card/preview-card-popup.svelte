@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import type { PreviewCard as ShardsPreviewCard } from "@shardsui/svelte";
+  import type { PreviewCard as ShardsPreviewCard } from "@shardsui/svelte/preview-card";
   import type { ComponentProps, Snippet } from "svelte";
 
   type PopupProps = ComponentProps<typeof ShardsPreviewCard.Popup>;
@@ -16,8 +16,8 @@
 </script>
 
 <script lang="ts">
-  import { PreviewCard as PreviewCardPrimitive } from "@shardsui/svelte";
-  import { cn } from "$lib/utils.js";
+  import { PreviewCard as PreviewCardPrimitive } from "@shardsui/svelte/preview-card";
+  import { cn } from "@/utils.js";
 
   let {
     align = "center",

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Toolbar as P } from "@shardsui/svelte";
+  import { Toolbar as P } from "@shardsui/svelte/toolbar";
   import type { ToolbarButtonProps } from "./toolbar.types.js";
 
   let { ref = $bindable(null), ...props }: ToolbarButtonProps = $props();

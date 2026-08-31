@@ -1,5 +1,5 @@
-export type { ImageLoadingStatus } from "@shardsui/svelte";
-export { Avatar as AvatarPrimitive } from "@shardsui/svelte";
+export type { ImageLoadingStatus } from "@shardsui/svelte/avatar";
+export { Avatar as AvatarPrimitive } from "@shardsui/svelte/avatar";
 export type { AvatarFallbackProps } from "./avatar-fallback.svelte";
 export {
   default as AvatarFallback,

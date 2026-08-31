@@ -1,17 +1,18 @@
-import { fileURLToPath } from "node:url";
 import { svelte } from "@sveltejs/vite-plugin-svelte";
 import { playwright } from "@vitest/browser-playwright";
 import { defineConfig } from "vitest/config";
+import { hugeiconsSubpathImports } from "../../scripts/vite/hugeicons-subpath-imports.js";
+import { packageAliases } from "./aliases.js";
 
 export default defineConfig({
-  plugins: [svelte()],
+  plugins: [hugeiconsSubpathImports(), svelte()],
   optimizeDeps: {
-    include: ["@shardsui/svelte", "tailwind-merge"],
+    exclude: ["@hugeicons/core-free-icons"],
+    include: ["tailwind-merge"],
+    noDiscovery: true,
   },
   resolve: {
-    alias: {
-      $lib: fileURLToPath(new URL("./src/lib", import.meta.url)),
-    },
+    alias: packageAliases,
   },
   test: {
     expect: {
@@ -22,6 +23,8 @@ export default defineConfig({
         extends: "./vite.config.ts",
         test: {
           name: "browser",
+          fileParallelism: false,
+          maxWorkers: 1,
           browser: {
             commands: {
               renderSlider: async ({ project }, value: number | readonly number[]) => {
@@ -54,7 +57,9 @@ export default defineConfig({
           name: "ssr",
           environment: "node",
           exclude: ["tests/**/*.browser.test.ts", "src/**/*.browser.test.ts"],
+          fileParallelism: false,
           include: ["tests/**/*.test.ts", "src/**/*.test.ts"],
+          maxWorkers: 1,
         },
       },
     ],

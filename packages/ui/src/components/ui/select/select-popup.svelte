@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import type { Select as ShardsSelect } from "@shardsui/svelte";
+  import type { Select as ShardsSelect } from "@shardsui/svelte/select";
   import type { ComponentProps, Snippet } from "svelte";
 
   type P = ComponentProps<typeof ShardsSelect.Positioner>;
@@ -16,11 +16,12 @@
 </script>
 
 <script lang="ts">
-  import { ChevronDownIcon, ChevronUpIcon } from "@hugeicons/core-free-icons";
-  import { Select as S } from "@shardsui/svelte";
+  import ChevronDownIcon from "@hugeicons/core-free-icons/ChevronDownIcon";
+  import ChevronUpIcon from "@hugeicons/core-free-icons/ChevronUpIcon";
+  import { Select as S } from "@shardsui/svelte/select";
   import { tick } from "svelte";
-  import HugeiconsIcon from "$lib/hugeicons-icon.svelte";
-  import { cn } from "$lib/utils.js";
+  import HugeiconsIcon from "@/hugeicons-icon.svelte";
+  import { cn } from "@/utils.js";
   import { getSelectWrapperContext } from "./context.svelte.js";
 
   let {
@@ -38,54 +39,60 @@
   }: SelectPopupProps = $props();
   const context = getSelectWrapperContext();
   let positioner = $state<HTMLElement | null>(null);
-  let alignDelta = $state(0);
-  let sideDelta = $state(0);
   const anchorProps = $derived(anchor === undefined ? {} : { anchor });
-  const positionerStyle = $derived(
-    alignItemWithTrigger && (alignDelta !== 0 || sideDelta !== 0)
-      ? `translate: ${alignDelta}px ${sideDelta}px`
-      : undefined,
-  );
+  let alignDelta = 0;
+  let sideDelta = 0;
+
   function frame() {
     return new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
   }
+
+  function resetAlignment(pos: HTMLElement): void {
+    alignDelta = 0;
+    sideDelta = 0;
+    pos.style.removeProperty("translate");
+  }
+
+  function selectedAlignment(
+    trigger: HTMLElement,
+    pos: HTMLElement,
+  ): { x: number; y: number } | undefined {
+    if (pos.hidden || pos.style.opacity === "0" || pos.style.transform === "") return;
+    const item = pos.querySelector<HTMLElement>('[role="option"][aria-selected="true"]');
+    const triggerLabel = trigger.querySelector<HTMLElement>('[data-slot="select-value"]');
+    const itemLabel = item?.querySelector<HTMLElement>(".col-start-2");
+    if (!item || !triggerLabel || !itemLabel) return;
+    const triggerRect = trigger.getBoundingClientRect();
+    const itemRect = item.getBoundingClientRect();
+    const triggerLabelRect = triggerLabel.getBoundingClientRect();
+    const itemLabelRect = itemLabel.getBoundingClientRect();
+    const rtl = getComputedStyle(pos).direction === "rtl";
+    return {
+      x: rtl
+        ? triggerLabelRect.right - itemLabelRect.right
+        : triggerLabelRect.left - itemLabelRect.left,
+      y: triggerRect.top + triggerRect.height / 2 - (itemRect.top + itemRect.height / 2),
+    };
+  }
+
   async function alignSelected(cancelled: () => boolean) {
     const trigger = context.triggerRef;
     const pos = positioner;
     if (!trigger || !pos) return;
-    for (let attempt = 0; attempt < 3; attempt += 1) {
+
+    let corrections = 0;
+    for (let frameCount = 0; frameCount < 30 && corrections < 3; frameCount += 1) {
       await tick();
       await frame();
       if (cancelled()) return;
-      if (pos.hidden || pos.style.opacity === "0" || pos.style.transform === "") continue;
-      const item = pos.querySelector<HTMLElement>('[role="option"][aria-selected="true"]');
-      const triggerLabel = trigger.querySelector<HTMLElement>('[data-slot="select-value"]');
-      const itemLabel = item?.querySelector<HTMLElement>(".col-start-2");
-      if (!item || !triggerLabel || !itemLabel) return;
-      const tr = trigger.getBoundingClientRect();
-      const ir = item.getBoundingClientRect();
-      const tl = triggerLabel.getBoundingClientRect();
-      const il = itemLabel.getBoundingClientRect();
-      const y = tr.top + tr.height / 2 - (ir.top + ir.height / 2);
-      const rtl = getComputedStyle(pos).direction === "rtl";
-      const x = rtl ? tl.right - il.right : tl.left - il.left;
+      const alignment = selectedAlignment(trigger, pos);
+      if (!alignment) continue;
+      const { x, y } = alignment;
       if (Math.abs(y) <= 0.5 && Math.abs(x) <= 0.5) return;
-      const needsX = Math.abs(x) > 0.5;
-      const needsY = Math.abs(y) > 0.5;
-      const previousRect = pos.getBoundingClientRect();
       if (Math.abs(y) > 0.5) sideDelta += y;
       if (Math.abs(x) > 0.5) alignDelta += x;
-      await tick();
-      let movedX = !needsX;
-      let movedY = !needsY;
-      for (let wait = 0; wait < 8 && (!movedX || !movedY); wait += 1) {
-        await frame();
-        if (cancelled()) return;
-        const nextRect = pos.getBoundingClientRect();
-        movedX ||= Math.abs(nextRect.left - previousRect.left) > 0.5;
-        movedY ||= Math.abs(nextRect.top - previousRect.top) > 0.5;
-      }
-      if (!movedX || !movedY) return;
+      pos.style.translate = `${alignDelta}px ${sideDelta}px`;
+      corrections += 1;
     }
   }
   $effect(() => {
@@ -94,12 +101,10 @@
     const pos = positioner;
     void context.value;
     if (!open || !trigger || !pos || !alignItemWithTrigger) {
-      if (!open) {
-        alignDelta = 0;
-        sideDelta = 0;
-      }
+      if (pos) resetAlignment(pos);
       return;
     }
+    resetAlignment(pos);
     let cancelled = false;
     void alignSelected(() => cancelled);
     return () => {
@@ -119,7 +124,6 @@
     data-slot="select-positioner"
     {side}
     {sideOffset}
-    style={positionerStyle}
     ><S.Popup
       bind:ref
       class="origin-(--transform-origin) text-foreground outline-none"

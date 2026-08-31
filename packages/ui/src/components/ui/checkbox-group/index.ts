@@ -1,4 +1,4 @@
-export { CheckboxGroup as CheckboxGroupPrimitive } from "@shardsui/svelte";
+export { CheckboxGroup as CheckboxGroupPrimitive } from "@shardsui/svelte/checkbox-group";
 export type { CheckboxGroupChangeEventDetails } from "./change-event-details.js";
 export type { CheckboxGroupItemProps } from "./checkbox-group-item.svelte";
 export {

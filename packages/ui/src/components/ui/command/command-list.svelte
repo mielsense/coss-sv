@@ -4,7 +4,7 @@
 </script>
 
 <script lang="ts">
-  import { cn } from "$lib/utils.js";
+  import { cn } from "@/utils.js";
   import List from "../autocomplete/autocomplete-list.svelte";
   let { class: className, ...props }: CommandListProps = $props();
 </script>

@@ -59,6 +59,7 @@
   </Select.Popup>
 </Select.Root>
 <output data-testid="select-identity">{personIdentity}</output>
+<output data-testid="select-person-value">{person?.name ?? "none"}</output>
 
 <Select.Root
   items={people.map((item) => ({ label: item.name, value: item }))}

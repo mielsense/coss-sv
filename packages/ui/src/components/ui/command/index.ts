@@ -1,4 +1,5 @@
-import { Autocomplete as A, Dialog as D } from "@shardsui/svelte";
+import { Autocomplete as A } from "@shardsui/svelte/autocomplete";
+import { Dialog as D } from "@shardsui/svelte/dialog";
 
 export type { CommandRootProps } from "./command-root.svelte";
 export { default as Root, default as Command } from "./command-root.svelte";
@@ -7,8 +8,11 @@ export const Collection: typeof A.Collection = A.Collection;
 export const CommandCollection: typeof A.Collection = Collection;
 export const Value: typeof A.Value = A.Value;
 export const CommandValue: typeof A.Value = Value;
-export const DialogRoot: typeof D.Root = D.Root;
-export const CommandDialog: typeof D.Root = DialogRoot;
+export type {
+  CommandDialogChangeEventDetails,
+  CommandDialogRootProps,
+} from "./command-dialog-root.svelte";
+export { default as DialogRoot, default as CommandDialog } from "./command-dialog-root.svelte";
 export const DialogPortal: typeof D.Portal = D.Portal;
 export const CommandDialogPortal: typeof D.Portal = DialogPortal;
 export const Handle: typeof D.Handle = D.Handle;

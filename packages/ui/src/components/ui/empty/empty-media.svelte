@@ -10,7 +10,7 @@
 </script>
 
 <script lang="ts">
-  import { cn } from "$lib/utils.js";
+  import { cn } from "@/utils.js";
 
   const baseClass =
     "flex shrink-0 items-center justify-center [&_svg]:pointer-events-none [&_svg]:shrink-0";

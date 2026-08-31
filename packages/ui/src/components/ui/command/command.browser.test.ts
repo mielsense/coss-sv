@@ -2,10 +2,18 @@ import { afterEach, describe, expect, test } from "vitest";
 import { page, userEvent } from "vitest/browser";
 import { cleanup, render } from "vitest-browser-svelte";
 import Fixture from "./command.browser-fixture.svelte";
+import DefaultFixture from "./command-dialog-default.browser-fixture.svelte";
 
 afterEach(cleanup);
 
 describe("Command browser contract", () => {
+  test("supports an uncontrolled default-open dialog", async () => {
+    render(DefaultFixture);
+    await expect
+      .element(page.getByRole("dialog", { name: "Default command dialog" }))
+      .toBeVisible();
+  });
+
   test("opens in a dialog, filters grouped commands, navigates with active descendant, selects, and restores focus", async () => {
     render(Fixture);
     const trigger = page.getByRole("button", { name: "Open Command Palette" });

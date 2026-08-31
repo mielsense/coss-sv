@@ -11,10 +11,16 @@ import { clampValue, createNumberLocale, parseNumber } from "./number-field-mach
 const text = (value: string) => createRawSnippet(() => ({ render: () => value }));
 
 describe("NumberField number contract", () => {
+  test("reuses locale metadata instead of rebuilding Intl formatters per field", () => {
+    expect(createNumberLocale("en-US")).toBe(createNumberLocale("en-US"));
+    expect(createNumberLocale(["fr-FR", "en-US"])).toBe(createNumberLocale(["fr-FR", "en-US"]));
+  });
+
   test("parses locale decimal and grouping separators", () => {
     expect(parseNumber("1.234,5", createNumberLocale("de-DE"))).toBe(1234.5);
     expect(parseNumber("-1,250.75", createNumberLocale("en-US"))).toBe(-1250.75);
     expect(parseNumber("$1,250.75", createNumberLocale("en-US"))).toBe(1250.75);
+    expect(parseNumber("abc12", createNumberLocale("en-US"))).toBeNull();
     expect(parseNumber("-", createNumberLocale("en-US"))).toBeNull();
     expect(parseNumber("1.", createNumberLocale("en-US"))).toBe(1);
   });
@@ -43,6 +49,7 @@ describe("NumberField number contract", () => {
     expect(body).toContain('role="group"');
     expect(body).toContain('data-slot="number-field-group"');
     expect(body).toContain('role="spinbutton"');
+    expect(body).toContain('type="number"');
     expect(body).toContain('aria-roledescription="Number field"');
     expect(body).toContain('aria-valuenow="2"');
     expect(body).toContain('aria-valuemin="0"');

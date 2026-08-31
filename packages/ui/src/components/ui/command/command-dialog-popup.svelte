@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import type { Dialog as ShardsDialog } from "@shardsui/svelte";
+  import type { Dialog as ShardsDialog } from "@shardsui/svelte/dialog";
   import type { ComponentProps } from "svelte";
   export type CommandDialogPopupProps = ComponentProps<typeof ShardsDialog.Popup> & {
     portalProps?: ComponentProps<typeof ShardsDialog.Portal>;
@@ -7,8 +7,8 @@
 </script>
 
 <script lang="ts">
-  import { Dialog as D } from "@shardsui/svelte";
-  import { cn } from "$lib/utils.js";
+  import { Dialog as D } from "@shardsui/svelte/dialog";
+  import { cn } from "@/utils.js";
   import Backdrop from "./command-dialog-backdrop.svelte";
   import Viewport from "./command-dialog-viewport.svelte";
   let {

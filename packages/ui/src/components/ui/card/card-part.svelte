@@ -1,18 +1,72 @@
 <script module lang="ts">
   import type { Snippet } from "svelte";
-  import type { SvelteHTMLElements } from "svelte/elements";
+  import type { HTMLAttributes } from "svelte/elements";
 
-  export type CardProps = Omit<SvelteHTMLElements["div"], "children"> & {
-    as?: keyof HTMLElementTagNameMap;
+  export type CardTag =
+    | "a"
+    | "address"
+    | "article"
+    | "aside"
+    | "blockquote"
+    | "button"
+    | "details"
+    | "dialog"
+    | "div"
+    | "fieldset"
+    | "figcaption"
+    | "figure"
+    | "footer"
+    | "form"
+    | "h1"
+    | "h2"
+    | "h3"
+    | "h4"
+    | "h5"
+    | "h6"
+    | "header"
+    | "li"
+    | "main"
+    | "nav"
+    | "ol"
+    | "p"
+    | "section"
+    | "span"
+    | "summary"
+    | "ul";
+
+  export type CardProps<Tag extends CardTag = "div"> = Omit<
+    HTMLAttributes<HTMLElement>,
+    "children" | "ref"
+  > & {
+    as?: Tag;
     children?: Snippet;
+    disabled?: boolean | null;
+    href?: string | null;
+    name?: string | null;
     ref?: HTMLElement | null;
+    rel?: string | null;
+    target?: string | null;
+    type?: string | null;
+    value?: string | string[] | number | null;
   };
+
+  export function forwardCardProps(props: unknown): Record<string, unknown> {
+    return props as Record<string, unknown>;
+  }
 </script>
 
 <script lang="ts">
-  import { cn } from "$lib/utils.js";
+  import type { ClassValue } from "clsx";
+  import { cn } from "@/utils.js";
 
-  type Props = CardProps & { baseClass: string; dataSlot: string };
+  type Props = Record<string, unknown> & {
+    as?: CardTag;
+    baseClass: string;
+    children?: Snippet;
+    class?: ClassValue;
+    dataSlot: string;
+    ref?: HTMLElement | null;
+  };
   let {
     as = "div",
     baseClass,

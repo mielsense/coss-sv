@@ -1,5 +1,5 @@
 import type { ClassValue } from "clsx";
-import { cn } from "$lib/utils.js";
+import { cn } from "@/utils.js";
 
 export type ToggleSize = "default" | "lg" | "sm";
 export type ToggleVariant = "default" | "outline";

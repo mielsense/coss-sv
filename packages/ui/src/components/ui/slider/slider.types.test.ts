@@ -1,6 +1,8 @@
 import { createRawSnippet } from "svelte";
 import { expect, test } from "vitest";
 import type {
+  SliderChangeEventDetails,
+  SliderCommitEventDetails,
   SliderControlProps,
   SliderRootProps,
   SliderThumbProps,
@@ -14,7 +16,12 @@ test("types scalar, range, bindable, state snippet, ref, and part contracts", ()
     defaultValue: 30,
     max: 100,
     min: 0,
-    onValueChange: (value: number | readonly number[]) => value,
+    onValueChange: (value: number | readonly number[], details: SliderChangeEventDetails) => {
+      details.cancel();
+      return value;
+    },
+    onValueCommitted: (value: number | readonly number[], details: SliderCommitEventDetails) =>
+      details.reason && value,
     ref: null,
     value: 20,
   } satisfies SliderRootProps;

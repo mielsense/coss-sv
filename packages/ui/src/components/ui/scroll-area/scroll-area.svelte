@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import type { ScrollArea as ShardsScrollArea } from "@shardsui/svelte";
+  import type { ScrollArea as ShardsScrollArea } from "@shardsui/svelte/scroll-area";
   import type { ComponentProps, Snippet } from "svelte";
 
   type ShardsRootProps = ComponentProps<typeof ShardsScrollArea.Root>;
@@ -15,8 +15,8 @@
 </script>
 
 <script lang="ts">
-  import { ScrollArea as ScrollAreaPrimitive } from "@shardsui/svelte";
-  import { cn } from "$lib/utils.js";
+  import { ScrollArea as ScrollAreaPrimitive } from "@shardsui/svelte/scroll-area";
+  import { cn } from "@/utils.js";
   import ScrollBar from "./scroll-bar.svelte";
 
   let {

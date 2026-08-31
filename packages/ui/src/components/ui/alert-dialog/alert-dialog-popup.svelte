@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import type { AlertDialog as ShardsP } from "@shardsui/svelte";
+  import type { AlertDialog as ShardsP } from "@shardsui/svelte/alert-dialog";
   import type { ComponentProps } from "svelte";
   export type AlertDialogPopupProps = ComponentProps<typeof ShardsP.Popup> & {
     bottomStickOnMobile?: boolean;
@@ -8,8 +8,8 @@
 </script>
 
 <script lang="ts">
-  import { AlertDialog as P } from "@shardsui/svelte";
-  import { cn } from "$lib/utils.js";
+  import { AlertDialog as P } from "@shardsui/svelte/alert-dialog";
+  import { cn } from "@/utils.js";
   import Backdrop from "./alert-dialog-backdrop.svelte";
   import Viewport from "./alert-dialog-viewport.svelte";
   let {

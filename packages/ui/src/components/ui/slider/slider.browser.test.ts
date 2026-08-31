@@ -200,6 +200,20 @@ describe("Slider browser contract", () => {
     }
   });
 
+  test("cancels native input changes and suppresses their commit callback", async () => {
+    render(SliderFixture);
+    const input = inputFor("canceled-root");
+    input.value = "70";
+    input.dispatchEvent(new Event("input", { bubbles: true }));
+
+    await expect.element(page.getByTestId("canceled-output")).toHaveTextContent("25");
+    expect(input.value).toBe("25");
+    await expect
+      .element(page.getByTestId("canceled-changed"))
+      .toHaveTextContent("input-change:input:0:true");
+    await expect.element(page.getByTestId("canceled-commits")).toHaveTextContent("0");
+  });
+
   test("hydrates scalar and range roots without mismatch warnings", async () => {
     const warning = vi.spyOn(console, "warn").mockImplementation(() => undefined);
     const cases = [

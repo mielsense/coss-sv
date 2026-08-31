@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import type { Checkbox as ShardsP } from "@shardsui/svelte";
+  import type { Checkbox as ShardsP } from "@shardsui/svelte/checkbox";
   import type { ComponentProps } from "svelte";
   export type DrawerMenuCheckboxItemProps = ComponentProps<typeof ShardsP.Root> & {
     defaultChecked?: boolean;
@@ -8,11 +8,11 @@
 </script>
 
 <script lang="ts">
-  import { Tick02Icon } from "@hugeicons/core-free-icons";
-  import HugeiconsIcon from "$lib/hugeicons-icon.svelte";
-  import { Checkbox as P } from "@shardsui/svelte";
+  import Tick02Icon from "@hugeicons/core-free-icons/Tick02Icon";
+  import HugeiconsIcon from "@/hugeicons-icon.svelte";
+  import { Checkbox as P } from "@shardsui/svelte/checkbox";
   import { untrack } from "svelte";
-  import { cn } from "$lib/utils.js";
+  import { cn } from "@/utils.js";
 
   let {
     checked = $bindable(),

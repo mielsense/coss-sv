@@ -4,8 +4,8 @@
 </script>
 
 <script lang="ts">
-  import { AlertDialog as P } from "@shardsui/svelte";
-  import { cn } from "$lib/utils.js";
+  import { AlertDialog as P } from "@shardsui/svelte/alert-dialog";
+  import { cn } from "@/utils.js";
   let { class: className, ref = $bindable(null), ...props }: AlertDialogViewportProps = $props();
 </script>
 

@@ -1,4 +1,4 @@
-export { ContextMenu as ContextMenuPrimitive } from "@shardsui/svelte";
+export { ContextMenu as ContextMenuPrimitive } from "@shardsui/svelte/context-menu";
 export type {
   ContextMenuCheckboxItemProps,
   ContextMenuGroupLabelProps,
@@ -75,7 +75,7 @@ export {
 } from "./context-menu-sub-trigger.svelte";
 export { default as ContextMenuTrigger, default as Trigger } from "./context-menu-trigger.svelte";
 
-import { ContextMenu as ContextMenuPrimitive } from "@shardsui/svelte";
+import { ContextMenu as ContextMenuPrimitive } from "@shardsui/svelte/context-menu";
 export const Portal: typeof ContextMenuPrimitive.Portal = ContextMenuPrimitive.Portal;
 export const ContextMenuPortal: typeof ContextMenuPrimitive.Portal = ContextMenuPrimitive.Portal;
 export const Positioner: typeof ContextMenuPrimitive.Positioner = ContextMenuPrimitive.Positioner;

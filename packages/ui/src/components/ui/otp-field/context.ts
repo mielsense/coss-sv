@@ -1,27 +1,25 @@
 import { createContext } from "svelte";
-import type { HTMLAttributes } from "svelte/elements";
+import type { HTMLAttributes, HTMLInputAttributes } from "svelte/elements";
 import type { OTPValidationType } from "./otp-field-machine.js";
 
 export interface OTPFieldContext {
   readonly activeIndex: number;
-  readonly ariaDescribedBy: HTMLAttributes<HTMLDivElement>["aria-describedby"];
   readonly ariaInvalid: HTMLAttributes<HTMLDivElement>["aria-invalid"];
-  readonly ariaLabel: HTMLAttributes<HTMLDivElement>["aria-label"];
-  readonly ariaLabelledBy: HTMLAttributes<HTMLDivElement>["aria-labelledby"];
-  readonly autocomplete: string | undefined;
+  readonly autocomplete: HTMLInputAttributes["autocomplete"];
   readonly disabled: boolean;
-  readonly form: string | undefined;
+  readonly id: string;
   readonly inputMode: "decimal" | "email" | "none" | "numeric" | "search" | "tel" | "text" | "url";
   readonly length: number;
   readonly mask: boolean;
   readonly readonly: boolean;
-  readonly required: boolean;
   readonly validationType: OTPValidationType;
+  clear(event: KeyboardEvent): void;
   createSlot(): OTPFieldSlot;
-  delete(slot: OTPFieldSlot, backward: boolean): void;
+  delete(slot: OTPFieldSlot, backward: boolean, event: KeyboardEvent): void;
   focus(index: number): void;
   indexOf(slot: OTPFieldSlot): number;
-  insert(raw: string, slot: OTPFieldSlot): void;
+  input(raw: string, slot: OTPFieldSlot, event: InputEvent | Event): void;
+  paste(raw: string, slot: OTPFieldSlot, event: ClipboardEvent): void;
   register(slot: OTPFieldSlot, input: HTMLInputElement | null): void;
   unregister(slot: OTPFieldSlot): void;
   valueAt(slot: OTPFieldSlot): string;

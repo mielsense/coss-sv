@@ -2,7 +2,7 @@
   import type { ClassValue } from "clsx";
   import type { Snippet } from "svelte";
   import type { SvelteHTMLElements } from "svelte/elements";
-  import { cn } from "$lib/utils.js";
+  import { cn } from "@/utils.js";
 
   export type ButtonVariant =
     | "default"
@@ -88,7 +88,7 @@
 </script>
 
 <script lang="ts">
-  import { Button as ButtonPrimitive } from "@shardsui/svelte";
+  import { Button as ButtonPrimitive } from "@shardsui/svelte/button";
   import type { Component } from "svelte";
   import type { HTMLAnchorAttributes } from "svelte/elements";
   import Spinner from "../spinner/spinner.svelte";

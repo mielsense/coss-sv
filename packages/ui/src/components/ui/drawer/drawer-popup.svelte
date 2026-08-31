@@ -1,5 +1,6 @@
 <script module lang="ts">
-  import type { Dialog as ShardsDialog, Drawer as ShardsDrawer } from "@shardsui/svelte";
+  import type { Dialog as ShardsDialog } from "@shardsui/svelte/dialog";
+  import type { Drawer as ShardsDrawer } from "@shardsui/svelte/drawer";
   import type { ComponentProps } from "svelte";
   import type { DrawerPosition } from "./context.js";
   import type { DrawerVariant } from "./drawer-viewport.svelte";
@@ -13,10 +14,11 @@
 </script>
 
 <script lang="ts">
-  import { Cancel01Icon } from "@hugeicons/core-free-icons";
-  import HugeiconsIcon from "$lib/hugeicons-icon.svelte";
-  import { Dialog as D, Drawer as P } from "@shardsui/svelte";
-  import { cn } from "$lib/utils.js";
+  import Cancel01Icon from "@hugeicons/core-free-icons/Cancel01Icon";
+  import HugeiconsIcon from "@/hugeicons-icon.svelte";
+  import { Dialog as D } from "@shardsui/svelte/dialog";
+  import { Drawer as P } from "@shardsui/svelte/drawer";
+  import { cn } from "@/utils.js";
   import { buttonVariants } from "../button/button.svelte";
   import { getDrawerPositionContext } from "./context.js";
   import Backdrop from "./drawer-backdrop.svelte";

@@ -14,7 +14,7 @@
 </script>
 
 <script lang="ts">
-  import { Dialog as DialogPrimitive } from "@shardsui/svelte";
+  import { Dialog as DialogPrimitive } from "@shardsui/svelte/dialog";
   import type { Component } from "svelte";
   const ClosePrimitive = DialogPrimitive.Close as unknown as Component<
     DialogCloseProps,

@@ -22,10 +22,8 @@ describe("selection component icon authority", () => {
     for (const [relativePath, icons] of Object.entries(iconContracts)) {
       const source = readFileSync(resolve(sourceRoot, relativePath), "utf8");
 
-      expect(source, relativePath).toContain(
-        'import HugeiconsIcon from "$lib/hugeicons-icon.svelte"',
-      );
-      expect(source, relativePath).toContain('from "@hugeicons/core-free-icons"');
+      expect(source, relativePath).toContain('import HugeiconsIcon from "@/hugeicons-icon.svelte"');
+      expect(source, relativePath).toContain('from "@hugeicons/core-free-icons/');
       expect(source, relativePath).not.toMatch(
         /@hugeicons\/svelte|lucide(?:-react|-svelte)?|<svg\b|<path\b/i,
       );

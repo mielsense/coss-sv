@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import type { Select as ShardsSelect } from "@shardsui/svelte";
+  import type { Select as ShardsSelect } from "@shardsui/svelte/select";
   import type { ComponentProps, Snippet } from "svelte";
 
   type BaseProps = Omit<ComponentProps<typeof ShardsSelect.Value>, "children" | "placeholder">;
@@ -13,8 +13,8 @@
 </script>
 
 <script lang="ts" generics="Value = unknown, Multiple extends boolean | undefined = false">
-  import { Select as S } from "@shardsui/svelte";
-  import { cn } from "$lib/utils.js";
+  import { Select as S } from "@shardsui/svelte/select";
+  import { cn } from "@/utils.js";
 
   let {
     children: child,

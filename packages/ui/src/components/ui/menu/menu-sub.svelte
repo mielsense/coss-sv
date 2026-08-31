@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Menu as MenuPrimitive } from "@shardsui/svelte";
+  import { Menu as MenuPrimitive } from "@shardsui/svelte/menu";
   import { untrack } from "svelte";
   import type { MenuSubProps } from "./menu.types.js";
 

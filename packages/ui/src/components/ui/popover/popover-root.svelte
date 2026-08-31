@@ -1,5 +1,5 @@
 <script lang="ts" generics="Payload = unknown">
-  import { Popover as PopoverPrimitive } from "@shardsui/svelte";
+  import { Popover as PopoverPrimitive } from "@shardsui/svelte/popover";
   import { untrack } from "svelte";
   import type { PopoverRootProps } from "./popover.types.js";
 

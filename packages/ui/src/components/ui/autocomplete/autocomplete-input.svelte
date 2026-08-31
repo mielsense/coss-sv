@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import type { Autocomplete as ShardsAutocomplete } from "@shardsui/svelte";
+  import type { Autocomplete as ShardsAutocomplete } from "@shardsui/svelte/autocomplete";
   import type { ComponentProps, Snippet } from "svelte";
 
   export type AutocompleteInputSize = "sm" | "default" | "lg" | number;
@@ -19,10 +19,11 @@
 </script>
 
 <script lang="ts">
-  import { UnfoldMoreIcon } from "@hugeicons/core-free-icons";
-  import { Autocomplete as AutocompletePrimitive } from "@shardsui/svelte";
-  import HugeiconsIcon from "$lib/hugeicons-icon.svelte";
-  import { cn } from "$lib/utils.js";
+  import UnfoldMoreIcon from "@hugeicons/core-free-icons/UnfoldMoreIcon";
+  import { Autocomplete as AutocompletePrimitive } from "@shardsui/svelte/autocomplete";
+  import HugeiconsIcon from "@/hugeicons-icon.svelte";
+  import { getSelectionChangeContext } from "@/selection-change-context.js";
+  import { cn } from "@/utils.js";
   import AutocompleteClear from "./autocomplete-clear.svelte";
   import AutocompleteTrigger from "./autocomplete-trigger.svelte";
 
@@ -36,6 +37,8 @@
   let {
     class: className,
     clearProps = {},
+    oninput,
+    onkeydown,
     ref = $bindable(null),
     showClear = false,
     showTrigger = false,
@@ -44,6 +47,7 @@
     triggerProps = {},
     ...props
   }: AutocompleteInputProps = $props();
+  const change = getSelectionChangeContext();
 
   const nativeSize = $derived(typeof size === "number" ? size : undefined);
   const innerClass = $derived(
@@ -66,6 +70,21 @@
     ),
   );
   const adornmentPosition = $derived(size === "sm" ? "end-0" : "end-0.5");
+
+  function handleInput(event: Parameters<NonNullable<AutocompleteInputProps["oninput"]>>[0]): void {
+    change?.prepare("input-change", event);
+    oninput?.(event);
+  }
+
+  function handleKeydown(
+    event: Parameters<NonNullable<AutocompleteInputProps["onkeydown"]>>[0],
+  ): void {
+    if (event.key === "Escape") change?.prepare("escape-key", event);
+    else if (["ArrowDown", "ArrowUp", "Enter"].includes(event.key)) {
+      change?.prepare("list-navigation", event);
+    }
+    onkeydown?.(event);
+  }
 </script>
 
 <AutocompletePrimitive.InputGroup
@@ -86,6 +105,8 @@
       bind:ref
       class={innerClass}
       data-slot="autocomplete-input"
+      oninput={handleInput}
+      onkeydown={handleKeydown}
       size={nativeSize}
       {...props}
     />

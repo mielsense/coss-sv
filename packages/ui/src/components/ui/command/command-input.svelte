@@ -5,9 +5,9 @@
 </script>
 
 <script lang="ts">
-  import { Search01Icon } from "@hugeicons/core-free-icons";
-  import HugeiconsIcon from "$lib/hugeicons-icon.svelte";
-  import { cn } from "$lib/utils.js";
+  import Search01Icon from "@hugeicons/core-free-icons/Search01Icon";
+  import HugeiconsIcon from "@/hugeicons-icon.svelte";
+  import { cn } from "@/utils.js";
   import AutocompleteInput from "../autocomplete/autocomplete-input.svelte";
 
   let { class: className, ...props }: CommandInputProps = $props();

@@ -1,8 +1,17 @@
-import { Autocomplete as AutocompletePrimitive } from "@shardsui/svelte";
+import { Autocomplete as AutocompletePrimitive } from "@shardsui/svelte/autocomplete";
 
 export { AutocompletePrimitive };
-export const Root: typeof AutocompletePrimitive.Root = AutocompletePrimitive.Root;
-export const Autocomplete: typeof AutocompletePrimitive.Root = Root;
+export type {
+  AutocompleteChangeEventDetails,
+  AutocompleteChangeEventReason,
+  AutocompleteHighlightEventDetails,
+  AutocompleteRootProps,
+} from "./autocomplete-root.svelte";
+export {
+  default as Root,
+  default as Autocomplete,
+  default as AutocompleteRoot,
+} from "./autocomplete-root.svelte";
 export const Portal: typeof AutocompletePrimitive.Portal = AutocompletePrimitive.Portal;
 export const Backdrop: typeof AutocompletePrimitive.Backdrop = AutocompletePrimitive.Backdrop;
 export const Positioner: typeof AutocompletePrimitive.Positioner = AutocompletePrimitive.Positioner;

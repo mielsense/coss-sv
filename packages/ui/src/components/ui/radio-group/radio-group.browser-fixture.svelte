@@ -10,6 +10,7 @@
   let preventedClicks = $state(0);
   let rejectedValue = $state("email");
   let rejectedWrites = $state(0);
+  let canceledDetails = $state("none");
 
   function submit(event: SubmitEvent) {
     event.preventDefault();
@@ -72,6 +73,19 @@
   <button type="submit">Submit</button>
 </form>
 
+<RadioGroup.Root
+  aria-label="Canceled group"
+  defaultValue="one"
+  onValueChange={(_value, details) => {
+    details.allowPropagation();
+    details.cancel();
+    canceledDetails = `${details.reason}:${details.event.type}:${details.isPropagationAllowed}`;
+  }}
+>
+  <RadioGroup.Item aria-label="Canceled one" value="one" />
+  <RadioGroup.Item aria-label="Canceled two" data-testid="canceled-two" value="two" />
+</RadioGroup.Root>
+
 <RadioGroup.Root aria-label="Disabled group" defaultValue="one" disabled>
   <RadioGroup.Item aria-label="Disabled one" value="one" />
   <RadioGroup.Item aria-label="Disabled two" value="two" />
@@ -122,3 +136,4 @@
 <output data-testid="prevented-clicks">{preventedClicks}</output>
 <output data-testid="rejected-value">{rejectedValue}</output>
 <output data-testid="rejected-writes">{rejectedWrites}</output>
+<output data-testid="canceled-details">{canceledDetails}</output>

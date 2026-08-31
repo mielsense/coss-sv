@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { Menu as MenuPrimitive } from "@shardsui/svelte";
-  import { cn } from "$lib/utils.js";
+  import { Menu as MenuPrimitive } from "@shardsui/svelte/menu";
+  import { cn } from "@/utils.js";
   import type { MenuPopupProps } from "./menu.types.js";
 
   const popupClass =

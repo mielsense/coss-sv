@@ -6,7 +6,7 @@
   import {
     type ToastManager as PrimitiveToastManager,
     Toast as ToastPrimitive,
-  } from "@shardsui/svelte";
+  } from "@shardsui/svelte/toast";
   import AnchoredToastStack from "./anchored-toast-stack.svelte";
   import type { AnchoredToastProviderProps } from "./toast.types.js";
   import type { ToastManager } from "./toast-manager.js";

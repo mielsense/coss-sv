@@ -1,5 +1,5 @@
 import { expect, test } from "vitest";
-import type { SwitchProps } from "./index.js";
+import type { SwitchChangeEventDetails, SwitchProps } from "./index.js";
 
 test("types Switch controlled state, form semantics, callbacks, native attributes, and refs", () => {
   const props = {
@@ -8,7 +8,10 @@ test("types Switch controlled state, form semantics, callbacks, native attribute
     disabled: false,
     form: "settings",
     name: "marketing",
-    onCheckedChange: (_checked: boolean) => undefined,
+    defaultChecked: true,
+    onCheckedChange: (_checked: boolean, details: SwitchChangeEventDetails) => {
+      details.cancel();
+    },
     onclick: (_event: MouseEvent) => undefined,
     readOnly: false,
     ref: null,
@@ -17,5 +20,5 @@ test("types Switch controlled state, form semantics, callbacks, native attribute
   } satisfies SwitchProps;
 
   expect(props.name).toBe("marketing");
-  expect(props.onCheckedChange(true)).toBeUndefined();
+  expect(props.defaultChecked).toBe(true);
 });

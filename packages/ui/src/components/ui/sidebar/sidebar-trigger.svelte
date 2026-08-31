@@ -7,8 +7,8 @@
 
 <script lang="ts">
   import SidebarLeftIcon from "@hugeicons/core-free-icons/SidebarLeftIcon";
-  import HugeiconsIcon from "$lib/hugeicons-icon.svelte";
-  import { cn } from "$lib/utils.js";
+  import HugeiconsIcon from "@/hugeicons-icon.svelte";
+  import { cn } from "@/utils.js";
   import Button from "../button/button.svelte";
   import { useSidebar } from "./context.js";
 

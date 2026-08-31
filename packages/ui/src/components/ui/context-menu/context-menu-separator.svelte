@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { ContextMenu as P } from "@shardsui/svelte";
-  import { cn } from "$lib/utils.js";
+  import { ContextMenu as P } from "@shardsui/svelte/context-menu";
+  import { cn } from "@/utils.js";
   import type { ContextMenuSeparatorProps } from "./context-menu.types.js";
 
   let { class: className, ref = $bindable(null), ...props }: ContextMenuSeparatorProps = $props();

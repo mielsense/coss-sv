@@ -30,6 +30,12 @@ describe("Switch browser contract", () => {
     await userEvent.keyboard("{Enter}");
     await expect.element(control).toHaveAttribute("aria-checked", "true");
     await expect.element(page.getByTestId("controlled-on")).toHaveAttribute("aria-checked", "true");
+    await expect.element(page.getByTestId("default-on")).toHaveAttribute("aria-checked", "true");
+    document.querySelector<HTMLElement>('[data-testid="canceled"]')?.click();
+    await expect.element(page.getByTestId("canceled")).toHaveAttribute("aria-checked", "false");
+    await expect
+      .element(page.getByTestId("switch-state"))
+      .toHaveTextContent("true:none:click:true:SPAN");
     await expect.element(page.getByTestId("disabled")).toHaveAttribute("aria-disabled", "true");
     document.querySelector<HTMLElement>('[data-testid="disabled"]')?.click();
     await expect.element(page.getByTestId("disabled")).toHaveAttribute("aria-checked", "false");

@@ -1,6 +1,6 @@
 import { createRawSnippet } from "svelte";
 import { expect, expectTypeOf, test } from "vitest";
-import type { ToggleProps, ToggleSize, ToggleVariant } from "./index.js";
+import type { ToggleChangeEventDetails, ToggleProps, ToggleSize, ToggleVariant } from "./index.js";
 
 test("types the COSS style props and transparent Shards contract", () => {
   expectTypeOf<ToggleSize>().toEqualTypeOf<"default" | "lg" | "sm">();
@@ -15,7 +15,10 @@ test("types the COSS style props and transparent Shards contract", () => {
     class: "custom-toggle",
     disabled: false,
     onclick: (_event: MouseEvent) => undefined,
-    onPressedChange: (_pressed: boolean) => undefined,
+    defaultPressed: true,
+    onPressedChange: (_pressed: boolean, details: ToggleChangeEventDetails) => {
+      details.cancel();
+    },
     pressed: true,
     ref: null,
     size: "lg",

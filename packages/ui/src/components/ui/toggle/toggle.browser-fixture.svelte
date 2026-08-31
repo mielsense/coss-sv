@@ -32,6 +32,20 @@
   Polymorphic
 </Toggle>
 
+<Toggle aria-label="Default toggle" data-testid="default-toggle" defaultPressed>Default</Toggle>
+
+<Toggle
+  aria-label="Canceled toggle"
+  data-testid="canceled-toggle"
+  onPressedChange={(_next, details) => {
+    details.allowPropagation();
+    details.cancel();
+    callbackValues.push(details.isPropagationAllowed);
+  }}
+>
+  Canceled
+</Toggle>
+
 <Toggle
   aria-label="Declined toggle"
   bind:pressed={() => controlled, () => (controlledWrites += 1)}

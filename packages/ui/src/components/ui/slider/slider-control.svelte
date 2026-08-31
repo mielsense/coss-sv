@@ -1,12 +1,12 @@
 <script module lang="ts">
-  import type { Slider as ShardsSlider } from "@shardsui/svelte";
+  import type { Slider as ShardsSlider } from "@shardsui/svelte/slider";
   import type { ComponentProps } from "svelte";
   export type SliderControlProps = ComponentProps<typeof ShardsSlider.Control>;
 </script>
 
 <script lang="ts">
-  import { Slider as SliderPrimitive } from "@shardsui/svelte";
-  import { cn } from "$lib/utils.js";
+  import { Slider as SliderPrimitive } from "@shardsui/svelte/slider";
+  import { cn } from "@/utils.js";
 
   let { class: className, ref = $bindable(null), ...props }: SliderControlProps = $props();
 

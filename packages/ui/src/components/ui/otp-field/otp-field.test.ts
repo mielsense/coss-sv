@@ -60,7 +60,11 @@ describe("OTPField contract", () => {
     expect(body).toContain('data-slot="otp-field"');
     expect(body).toContain('aria-label="Verification code"');
     expect(body).toContain("flex items-center gap-2");
-    expect(body).toContain('type="hidden"');
+    expect(body).toContain('aria-hidden="true"');
+    expect(body).toContain('type="text"');
+    expect(body).toContain('minlength="6"');
+    expect(body).toContain('maxlength="6"');
+    expect(body).toContain('pattern="[0-9]{6}"');
     expect(body).toContain('name="code"');
   });
 
@@ -73,7 +77,8 @@ describe("OTPField contract", () => {
 
     expect(slot).toContain('data-slot="separator"');
     expect(slot).toContain('role="separator"');
-    expect(slot).not.toContain('aria-hidden="true"');
+    const separator = slot.match(/<div[^>]*data-slot="separator"[^>]*>/)?.[0];
+    expect(separator).not.toContain('aria-hidden="true"');
     expect(slot).toContain("h-0.5");
     expect(slot).toContain("w-3");
     expect(slot).toMatch(

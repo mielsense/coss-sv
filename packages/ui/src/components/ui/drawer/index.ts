@@ -1,4 +1,5 @@
-import { Dialog as DialogPrimitive, Drawer as DrawerPrimitive } from "@shardsui/svelte";
+import { Dialog as DialogPrimitive } from "@shardsui/svelte/dialog";
+import { Drawer as DrawerPrimitive } from "@shardsui/svelte/drawer";
 export { DrawerPrimitive };
 export { default as Root, default as Drawer } from "./drawer-root.svelte";
 export type { DrawerRootProps } from "./drawer-root.svelte";

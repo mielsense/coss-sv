@@ -33,10 +33,12 @@ describe("package icon authority", () => {
     const source = readFileSync(resolve(sourceRoot, relativePath), "utf8");
 
     expect(source).toContain("@hugeicons/core-free-icons");
-    expect(source).toContain("$lib/hugeicons-icon.svelte");
+    expect(source).toContain("@/hugeicons-icon.svelte");
     expect(source).toContain("<HugeiconsIcon");
     if (relativePath === "spinner/spinner.svelte") {
       expect(source).toContain("strokeWidth={Number(computedStrokeWidth)}");
+    } else if (relativePath === "checkbox/checkbox.svelte") {
+      expect(source).toContain("strokeWidth={3}");
     } else {
       expect(source).toContain("strokeWidth={2}");
     }

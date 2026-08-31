@@ -4,7 +4,10 @@ import { page, userEvent } from "vitest/browser";
 import { render } from "vitest-browser-svelte";
 import NumberFieldFixture from "./number-field.browser-fixture.svelte";
 import NumberFieldFieldHydrationFixture from "./number-field-field.hydration-fixture.svelte";
-import { numberFieldHydrationHtml } from "./number-field-field.hydration-html.js";
+import {
+  numberFieldEmptyRootHtml,
+  numberFieldHydrationHtml,
+} from "./number-field-field.hydration-html.js";
 import NumberFieldRoot from "./number-field-root.svelte";
 
 afterEach(() => {
@@ -23,7 +26,7 @@ describe("NumberField browser contract", () => {
     await expect.element(input).toHaveAttribute("aria-valuemax", "3");
     await expect.element(input).toHaveAttribute("aria-valuetext", "1,5");
     await expect.element(input).toHaveAttribute("inputmode", "decimal");
-    await expect.element(input).toHaveAttribute("required");
+    await expect.element(input).toHaveAttribute("aria-required", "true");
     await expect.element(page.getByTestId("number-state")).toHaveTextContent("1.5:0:INPUT");
 
     await userEvent.click(page.getByTestId("increment"));
@@ -62,7 +65,7 @@ describe("NumberField browser contract", () => {
     await expect.element(input).toHaveValue("-1,25");
 
     const form = document.querySelector<HTMLFormElement>('[data-testid="number-form"]');
-    expect(new FormData(form ?? undefined).get("quantity")).toBe("-1,25");
+    expect(new FormData(form ?? undefined).get("quantity")).toBe("-1.25");
     await expect.element(page.getByTestId("number-state")).toHaveTextContent("-1.25:");
   });
 
@@ -179,8 +182,8 @@ describe("NumberField browser contract", () => {
     render(NumberFieldFixture);
     const invalid = document.querySelector<HTMLInputElement>('[data-testid="invalid-fill-number"]');
     if (!invalid) throw new Error("invalid fill number missing");
-    invalid.value = "abc";
-    invalid.dispatchEvent(new InputEvent("input", { bubbles: true, data: "c" }));
+    invalid.value = "abc12";
+    invalid.dispatchEvent(new InputEvent("input", { bubbles: true, data: "2" }));
     expect(invalid.value).toBe("0");
     await expect.element(page.getByTestId("unnamed-number")).toHaveAccessibleName("Number field");
     await expect
@@ -194,6 +197,33 @@ describe("NumberField browser contract", () => {
         .querySelector<HTMLFormElement>('[data-testid="required-number-form"]')
         ?.checkValidity(),
     ).toBe(false);
+
+    const nativeForm = document.querySelector<HTMLFormElement>(
+      '[data-testid="native-number-form"]',
+    );
+    const nativeInput = nativeForm?.querySelector<HTMLInputElement>('input[type="number"]');
+    const nativeDisplay = document.querySelector<HTMLInputElement>(
+      '[data-testid="native-number-display"]',
+    );
+    expect(nativeInput).toBeTruthy();
+    expect(nativeDisplay).toBeTruthy();
+    expect(nativeInput?.name).toBe("price");
+    expect(nativeInput?.min).toBe("10");
+    expect(nativeInput?.max).toBe("20");
+    expect(nativeInput?.step).toBe("0.5");
+    expect(nativeInput?.required).toBe(true);
+    expect(nativeDisplay?.name).toBe("");
+    expect(new FormData(nativeForm ?? undefined).get("price")).toBe("12.5");
+    await expect.element(page.getByTestId("native-number-ref")).toHaveTextContent("number");
+
+    if (!nativeDisplay) throw new Error("native number display missing");
+    nativeDisplay.focus();
+    nativeDisplay.value = "12.25";
+    nativeDisplay.dispatchEvent(new InputEvent("input", { bubbles: true, data: "5" }));
+    await Promise.resolve();
+    expect(nativeInput?.value).toBe("12.25");
+    expect(nativeInput?.validity.stepMismatch).toBe(true);
+    expect(nativeForm?.checkValidity()).toBe(false);
 
     const delegated = document.querySelector<HTMLDivElement>('[data-testid="delegated-number"]');
     expect(
@@ -245,6 +275,11 @@ describe("NumberField browser contract", () => {
     wheel?.focus();
     wheel?.dispatchEvent(
       new WheelEvent("wheel", { bubbles: true, cancelable: true, deltaY: -100 }),
+    );
+    await expect.element(page.getByTestId("wheel-number")).toHaveValue("3");
+
+    wheel?.dispatchEvent(
+      new WheelEvent("wheel", { bubbles: true, cancelable: true, ctrlKey: true, deltaY: -100 }),
     );
     await expect.element(page.getByTestId("wheel-number")).toHaveValue("3");
 
@@ -325,6 +360,46 @@ describe("NumberField browser contract", () => {
     await expect.element(page.getByTestId("scrub-handler-state")).toHaveTextContent("1:1");
   });
 
+  test("repeats held step buttons, commits once on release, and supports vertical scrub sensitivity", async () => {
+    render(NumberFieldFixture);
+    const increment = document.querySelector<HTMLButtonElement>(
+      '[data-testid="hold-number-increment"]',
+    );
+    if (!increment) throw new Error("hold increment missing");
+    increment.dispatchEvent(
+      new PointerEvent("pointerdown", { bubbles: true, button: 0, pointerId: 7 }),
+    );
+    await new Promise((resolve) => setTimeout(resolve, 540));
+    increment.dispatchEvent(new PointerEvent("pointerup", { bubbles: true, pointerId: 7 }));
+    const [heldValue, commits] = (await page.getByTestId("hold-state").element()).textContent
+      ?.trim()
+      .split(":") ?? ["0", "0"];
+    expect(Number(heldValue)).toBeGreaterThanOrEqual(2);
+    expect(commits).toBe("1");
+
+    const scrub = document.querySelector<HTMLSpanElement>('[data-testid="vertical-scrub-area"]');
+    if (!scrub) throw new Error("vertical scrub area missing");
+    scrub.dispatchEvent(
+      new PointerEvent("pointerdown", {
+        bubbles: true,
+        clientX: 40,
+        clientY: 100,
+        pointerId: 8,
+      }),
+    );
+    scrub.dispatchEvent(
+      new PointerEvent("pointermove", {
+        bubbles: true,
+        clientX: 40,
+        clientY: 92,
+        pointerId: 8,
+      }),
+    );
+    scrub.dispatchEvent(new PointerEvent("pointerup", { bubbles: true, pointerId: 8 }));
+    await expect.element(page.getByTestId("vertical-scrub-state")).toHaveTextContent("2");
+    expect(scrub.className).toContain("cursor-ns-resize");
+  });
+
   test("does not commit boundary no-ops and reports Home and End as keyboard changes", async () => {
     render(NumberFieldFixture);
     const input = page.getByTestId("boundary-number");
@@ -341,7 +416,7 @@ describe("NumberField browser contract", () => {
   test("hydrates its SSR root without a mismatch", async () => {
     const warning = vi.spyOn(console, "warn").mockImplementation(() => undefined);
     const target = document.createElement("div");
-    target.innerHTML = `<!--[--><!--$s1--><!--[-1--><div class="flex w-full flex-col items-start gap-2" data-size="default" data-slot="number-field"><!----></div><!--]--><!--]-->`;
+    target.innerHTML = numberFieldEmptyRootHtml;
     document.body.append(target);
     const component = hydrate(NumberFieldRoot, { target });
     expect(target.querySelector('[data-slot="number-field"]')).not.toBeNull();

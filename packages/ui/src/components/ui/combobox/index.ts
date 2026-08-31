@@ -1,7 +1,12 @@
-import { Combobox as ComboboxPrimitive } from "@shardsui/svelte";
+import { Combobox as ComboboxPrimitive } from "@shardsui/svelte/combobox";
 export { ComboboxPrimitive };
 export { default as Root, default as Combobox } from "./combobox-root.svelte";
-export type { ComboboxRootProps } from "./combobox-root.svelte";
+export type {
+  ComboboxChangeEventDetails,
+  ComboboxChangeEventReason,
+  ComboboxHighlightEventDetails,
+  ComboboxRootProps,
+} from "./combobox-root.svelte";
 export const Portal: typeof ComboboxPrimitive.Portal = ComboboxPrimitive.Portal;
 export const Backdrop: typeof ComboboxPrimitive.Backdrop = ComboboxPrimitive.Backdrop;
 export const Positioner: typeof ComboboxPrimitive.Positioner = ComboboxPrimitive.Positioner;

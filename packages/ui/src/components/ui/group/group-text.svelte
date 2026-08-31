@@ -18,7 +18,7 @@
 <script lang="ts">
   import type { Attachment } from "svelte/attachments";
   import { createAttachmentKey } from "svelte/attachments";
-  import { cn } from "$lib/utils.js";
+  import { cn } from "@/utils.js";
 
   let {
     as = "div",

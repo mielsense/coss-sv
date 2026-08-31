@@ -1,11 +1,10 @@
 <script module lang="ts">
-  import type { Autocomplete as ShardsAutocomplete } from "@shardsui/svelte";
-  import type { ComponentProps } from "svelte";
-  export type CommandRootProps = ComponentProps<typeof ShardsAutocomplete.Root>;
+  import type { AutocompleteRootProps } from "../autocomplete/autocomplete-root.svelte";
+  export type CommandRootProps<Item = unknown> = AutocompleteRootProps<Item>;
 </script>
 
-<script lang="ts">
-  import { Autocomplete as A } from "@shardsui/svelte";
+<script lang="ts" generics="Item = unknown">
+  import AutocompleteRoot from "../autocomplete/autocomplete-root.svelte";
   let {
     autoHighlight = "always",
     children,
@@ -13,7 +12,9 @@
     keepHighlight = true,
     open = true,
     ...props
-  }: CommandRootProps = $props();
+  }: CommandRootProps<Item> = $props();
 </script>
 
-<A.Root {autoHighlight} {inline} {keepHighlight} {open} {...props}>{@render children?.()}</A.Root>
+<AutocompleteRoot {autoHighlight} {inline} {keepHighlight} {open} {...props}
+  >{@render children?.()}</AutocompleteRoot
+>

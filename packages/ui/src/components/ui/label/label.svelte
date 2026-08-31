@@ -11,7 +11,7 @@
 </script>
 
 <script lang="ts">
-  import { cn } from "$lib/utils.js";
+  import { cn } from "@/utils.js";
 
   const baseClass =
     "inline-flex items-center gap-2 font-medium text-base/4.5 text-foreground sm:text-sm/4";

@@ -1,12 +1,12 @@
 <script module lang="ts">
-  import type { Autocomplete as ShardsAutocomplete } from "@shardsui/svelte";
+  import type { Autocomplete as ShardsAutocomplete } from "@shardsui/svelte/autocomplete";
   import type { ComponentProps } from "svelte";
   export type CommandEmptyProps = ComponentProps<typeof ShardsAutocomplete.Empty>;
 </script>
 
 <script lang="ts">
-  import { Autocomplete as A } from "@shardsui/svelte";
-  import { cn } from "$lib/utils.js";
+  import { Autocomplete as A } from "@shardsui/svelte/autocomplete";
+  import { cn } from "@/utils.js";
   let { class: className, ref = $bindable(null), ...props }: CommandEmptyProps = $props();
 </script>
 

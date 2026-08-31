@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import type { Drawer as ShardsP } from "@shardsui/svelte";
+  import type { Drawer as ShardsP } from "@shardsui/svelte/drawer";
   import type { ComponentProps } from "svelte";
   import type { DrawerPosition } from "./context.js";
   export type DrawerVariant = "default" | "straight" | "inset";
@@ -10,8 +10,8 @@
 </script>
 
 <script lang="ts">
-  import { Drawer as P } from "@shardsui/svelte";
-  import { cn } from "$lib/utils.js";
+  import { Drawer as P } from "@shardsui/svelte/drawer";
+  import { cn } from "@/utils.js";
   let {
     class: className,
     position,

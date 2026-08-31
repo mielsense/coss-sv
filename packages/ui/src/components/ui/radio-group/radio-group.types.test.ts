@@ -1,6 +1,10 @@
 import { createRawSnippet } from "svelte";
 import { expect, expectTypeOf, test } from "vitest";
-import type { RadioGroupItemProps, RadioGroupRootProps } from "./index.js";
+import type {
+  RadioGroupChangeEventDetails,
+  RadioGroupItemProps,
+  RadioGroupRootProps,
+} from "./index.js";
 
 test("types generic values, form semantics, callbacks, native attributes, refs, and snippets", () => {
   const children = createRawSnippet(() => ({ render: () => "content" }));
@@ -11,7 +15,10 @@ test("types generic values, form semantics, callbacks, native attributes, refs, 
     disabled: false,
     form: "settings",
     name: "framework",
-    onValueChange: (value) => value,
+    onValueChange: (value, details: RadioGroupChangeEventDetails) => {
+      details.cancel();
+      return value;
+    },
     readOnly: false,
     ref: null,
     required: true,
@@ -28,7 +35,6 @@ test("types generic values, form semantics, callbacks, native attributes, refs, 
   } satisfies RadioGroupItemProps<"next" | "vite">;
 
   expect(root.defaultValue).toBe("vite");
-  expect(root.onValueChange("next")).toBe("next");
   expect(item.value).toBe("vite");
 
   const invalid = {

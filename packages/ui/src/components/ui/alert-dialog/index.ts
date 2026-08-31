@@ -1,4 +1,4 @@
-import { AlertDialog as AlertDialogPrimitive } from "@shardsui/svelte";
+import { AlertDialog as AlertDialogPrimitive } from "@shardsui/svelte/alert-dialog";
 export { AlertDialogPrimitive };
 export const Root: typeof AlertDialogPrimitive.Root = AlertDialogPrimitive.Root;
 export const AlertDialog: typeof Root = Root;

@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import type { Accordion as ShardsAccordion } from "@shardsui/svelte";
+  import type { Accordion as ShardsAccordion } from "@shardsui/svelte/accordion";
   import type { ComponentProps, Snippet } from "svelte";
 
   export type AccordionRootState<Value = unknown> = {
@@ -19,7 +19,7 @@
 </script>
 
 <script lang="ts" generics="Value = unknown">
-  import { Accordion as AccordionPrimitive } from "@shardsui/svelte";
+  import { Accordion as AccordionPrimitive } from "@shardsui/svelte/accordion";
   import { untrack } from "svelte";
 
   let {

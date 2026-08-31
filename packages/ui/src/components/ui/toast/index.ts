@@ -1,10 +1,10 @@
-import { Toast as ToastPrimitive } from "@shardsui/svelte";
+import { Toast as ToastPrimitive } from "@shardsui/svelte/toast";
 
 export type {
   ToastManagerAddOptions,
   ToastManagerPositionerProps,
   ToastObject,
-} from "@shardsui/svelte";
+} from "@shardsui/svelte/toast";
 export type { AnchoredToastProviderProps } from "./anchored-toast-provider.svelte";
 export {
   default as AnchoredProvider,

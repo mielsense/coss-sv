@@ -1,13 +1,13 @@
 <script module lang="ts">
-  import type { Combobox as ShardsCombobox } from "@shardsui/svelte";
+  import type { Combobox as ShardsCombobox } from "@shardsui/svelte/combobox";
   import type { ComponentProps } from "svelte";
   export type ComboboxListProps = ComponentProps<typeof ShardsCombobox.List>;
 </script>
 
 <script lang="ts">
-  import { Combobox as C } from "@shardsui/svelte";
+  import { Combobox as C } from "@shardsui/svelte/combobox";
   import ScrollArea from "../scroll-area/scroll-area.svelte";
-  import { cn } from "$lib/utils.js";
+  import { cn } from "@/utils.js";
   let {
     children: child,
     class: className,

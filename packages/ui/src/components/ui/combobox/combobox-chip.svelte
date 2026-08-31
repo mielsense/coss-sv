@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import type { Combobox as ShardsCombobox } from "@shardsui/svelte";
+  import type { Combobox as ShardsCombobox } from "@shardsui/svelte/combobox";
   import type { ComponentProps } from "svelte";
   export type ComboboxChipProps = ComponentProps<typeof ShardsCombobox.Chip> & {
     removeProps?: ComponentProps<typeof ShardsCombobox.ChipRemove>;
@@ -7,7 +7,7 @@
 </script>
 
 <script lang="ts">
-  import { Combobox as C } from "@shardsui/svelte";
+  import { Combobox as C } from "@shardsui/svelte/combobox";
   import ComboboxChipRemove from "./combobox-chip-remove.svelte";
   let {
     children: child,

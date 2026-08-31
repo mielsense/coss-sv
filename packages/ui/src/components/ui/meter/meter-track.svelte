@@ -1,12 +1,12 @@
 <script module lang="ts">
-  import type { Meter as ShardsMeter } from "@shardsui/svelte";
+  import type { Meter as ShardsMeter } from "@shardsui/svelte/meter";
   import type { ComponentProps } from "svelte";
   export type MeterTrackProps = ComponentProps<typeof ShardsMeter.Track>;
 </script>
 
 <script lang="ts">
-  import { Meter as MeterPrimitive } from "@shardsui/svelte";
-  import { cn } from "$lib/utils.js";
+  import { Meter as MeterPrimitive } from "@shardsui/svelte/meter";
+  import { cn } from "@/utils.js";
 
   let { class: className, ref = $bindable(null), ...props }: MeterTrackProps = $props();
   const classes = $derived(cn("block h-2 w-full overflow-hidden bg-input", className));

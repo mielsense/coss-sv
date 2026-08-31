@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import type { ContextMenu as ShardsContextMenu } from "@shardsui/svelte";
+  import type { ContextMenu as ShardsContextMenu } from "@shardsui/svelte/context-menu";
   import type { ComponentProps } from "svelte";
   export type ContextMenuGroupLabelProps = ComponentProps<typeof ShardsContextMenu.GroupLabel> & {
     inset?: boolean;
@@ -7,8 +7,8 @@
 </script>
 
 <script lang="ts">
-  import { ContextMenu as P } from "@shardsui/svelte";
-  import { cn } from "$lib/utils.js";
+  import { ContextMenu as P } from "@shardsui/svelte/context-menu";
+  import { cn } from "@/utils.js";
 
   let {
     class: className,

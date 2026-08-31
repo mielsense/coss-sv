@@ -1,5 +1,5 @@
 <script lang="ts" generics="Payload = unknown">
-  import { Menu as MenuPrimitive } from "@shardsui/svelte";
+  import { Menu as MenuPrimitive } from "@shardsui/svelte/menu";
   import { untrack } from "svelte";
   import type { MenuRootProps } from "./menu.types.js";
 

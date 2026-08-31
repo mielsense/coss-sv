@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import type { Fieldset as FieldsetPrimitive } from "@shardsui/svelte";
+  import type { Fieldset as FieldsetPrimitive } from "@shardsui/svelte/fieldset";
   import type { ComponentProps } from "svelte";
 
   export type FieldsetLegendProps = ComponentProps<typeof FieldsetPrimitive.Legend>;
@@ -7,7 +7,7 @@
 
 <script lang="ts">
   import type { Attachment } from "svelte/attachments";
-  import { cn } from "$lib/utils.js";
+  import { cn } from "@/utils.js";
   import { getFieldsetCompositionContext } from "./context.svelte.js";
 
   const uid = $props.id();

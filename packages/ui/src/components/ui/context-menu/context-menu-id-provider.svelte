@@ -18,6 +18,7 @@
     new ContextMenuIdState(
       () => open(),
       () => popupId ?? defaultPopupId,
+      () => defaultPopupId,
       (next) => {
         popupId = next;
       },

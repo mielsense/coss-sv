@@ -1,5 +1,5 @@
 <script lang="ts" generics="Payload = unknown">
-  import { Popover as PopoverPrimitive } from "@shardsui/svelte";
+  import { Popover as PopoverPrimitive } from "@shardsui/svelte/popover";
   import type { PopoverTriggerProps } from "./popover.types.js";
 
   let { children: child, ref = $bindable(null), ...props }: PopoverTriggerProps<Payload> = $props();

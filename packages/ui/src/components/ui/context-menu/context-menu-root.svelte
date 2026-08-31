@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { ContextMenu as ContextMenuPrimitive } from "@shardsui/svelte";
+  import { ContextMenu as ContextMenuPrimitive } from "@shardsui/svelte/context-menu";
   import { untrack } from "svelte";
   import ContextMenuIdProvider from "./context-menu-id-provider.svelte";
   import type { ContextMenuRootProps } from "./context-menu.types.js";

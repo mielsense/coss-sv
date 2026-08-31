@@ -1,14 +1,14 @@
 <script module lang="ts">
-  import type { Radio as ShardsP } from "@shardsui/svelte";
+  import type { Radio as ShardsP } from "@shardsui/svelte/radio";
   import type { ComponentProps } from "svelte";
   export type DrawerMenuRadioItemProps = ComponentProps<typeof ShardsP.Root> & { value: string };
 </script>
 
 <script lang="ts">
-  import { Tick02Icon } from "@hugeicons/core-free-icons";
-  import HugeiconsIcon from "$lib/hugeicons-icon.svelte";
-  import { Radio as P } from "@shardsui/svelte";
-  import { cn } from "$lib/utils.js";
+  import Tick02Icon from "@hugeicons/core-free-icons/Tick02Icon";
+  import HugeiconsIcon from "@/hugeicons-icon.svelte";
+  import { Radio as P } from "@shardsui/svelte/radio";
+  import { cn } from "@/utils.js";
 
   let {
     children: child,

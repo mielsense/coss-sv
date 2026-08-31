@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import type { RadioGroup as ShardsP } from "@shardsui/svelte";
+  import type { RadioGroup as ShardsP } from "@shardsui/svelte/radio-group";
   import type { ComponentProps } from "svelte";
   export type DrawerMenuRadioGroupProps<Value = unknown> = Omit<
     ComponentProps<typeof ShardsP>,
@@ -12,9 +12,9 @@
 </script>
 
 <script lang="ts" generics="Value = unknown">
-  import { RadioGroup as P } from "@shardsui/svelte";
+  import { RadioGroup as P } from "@shardsui/svelte/radio-group";
   import { untrack } from "svelte";
-  import { cn } from "$lib/utils.js";
+  import { cn } from "@/utils.js";
   let {
     class: className,
     defaultValue,

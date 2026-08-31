@@ -1,7 +1,11 @@
-import { Select as SelectPrimitive } from "@shardsui/svelte";
+import { Select as SelectPrimitive } from "@shardsui/svelte/select";
 export { SelectPrimitive };
 export { default as Root, default as Select } from "./select-root.svelte";
-export type { SelectRootProps } from "./select-root.svelte";
+export type {
+  SelectChangeEventDetails,
+  SelectChangeEventReason,
+  SelectRootProps,
+} from "./select-root.svelte";
 export const Portal: typeof SelectPrimitive.Portal = SelectPrimitive.Portal;
 export const Positioner: typeof SelectPrimitive.Positioner = SelectPrimitive.Positioner;
 export const Backdrop: typeof SelectPrimitive.Backdrop = SelectPrimitive.Backdrop;

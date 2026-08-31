@@ -32,6 +32,14 @@ describe("Checkbox browser contract", () => {
     await expect
       .element(page.getByTestId("indeterminate"))
       .toHaveAttribute("aria-checked", "mixed");
+    await expect
+      .element(page.getByTestId("default-checked"))
+      .toHaveAttribute("aria-checked", "true");
+    await page.getByTestId("canceled").click();
+    await expect.element(page.getByTestId("canceled")).toHaveAttribute("aria-checked", "false");
+    await expect
+      .element(page.getByTestId("checkbox-state"))
+      .toHaveTextContent("false:none:click:true:SPAN");
     await expect.element(page.getByTestId("disabled")).toHaveAttribute("aria-disabled", "true");
     document.querySelector<HTMLElement>('[data-testid="disabled"]')?.click();
     await expect.element(page.getByTestId("disabled")).toHaveAttribute("aria-checked", "false");

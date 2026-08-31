@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { cn } from "$lib/utils.js";
+  import { cn } from "@/utils.js";
   import type { MenuShortcutProps } from "./menu.types.js";
 
   let { children, class: className, ref = $bindable(null), ...props }: MenuShortcutProps = $props();

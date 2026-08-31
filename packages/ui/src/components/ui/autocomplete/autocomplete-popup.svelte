@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import type { Autocomplete as ShardsAutocomplete } from "@shardsui/svelte";
+  import type { Autocomplete as ShardsAutocomplete } from "@shardsui/svelte/autocomplete";
   import type { ComponentProps } from "svelte";
   type PositionerProps = ComponentProps<typeof ShardsAutocomplete.Positioner>;
   export type AutocompletePopupProps = ComponentProps<typeof ShardsAutocomplete.Popup> & {
@@ -13,8 +13,8 @@
 </script>
 
 <script lang="ts">
-  import { Autocomplete as AutocompletePrimitive } from "@shardsui/svelte";
-  import { cn } from "$lib/utils.js";
+  import { Autocomplete as AutocompletePrimitive } from "@shardsui/svelte/autocomplete";
+  import { cn } from "@/utils.js";
   let {
     align = "start",
     alignOffset,

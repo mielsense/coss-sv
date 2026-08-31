@@ -13,7 +13,7 @@
 </script>
 
 <script lang="ts">
-  import { cn } from "$lib/utils.js";
+  import { cn } from "@/utils.js";
   import Skeleton from "../skeleton/skeleton.svelte";
 
   const uid = $props.id();

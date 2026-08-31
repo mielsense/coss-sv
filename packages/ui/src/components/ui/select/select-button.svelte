@@ -9,9 +9,9 @@
 </script>
 
 <script lang="ts">
-  import { UnfoldMoreIcon } from "@hugeicons/core-free-icons";
-  import HugeiconsIcon from "$lib/hugeicons-icon.svelte";
-  import { cn } from "$lib/utils.js";
+  import UnfoldMoreIcon from "@hugeicons/core-free-icons/UnfoldMoreIcon";
+  import HugeiconsIcon from "@/hugeicons-icon.svelte";
+  import { cn } from "@/utils.js";
   import { selectTriggerClass, selectTriggerIconClassName } from "./select-trigger.svelte";
 
   let {

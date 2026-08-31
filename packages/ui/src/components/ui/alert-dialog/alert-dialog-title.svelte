@@ -1,12 +1,12 @@
 <script module lang="ts">
-  import type { AlertDialog as ShardsP } from "@shardsui/svelte";
+  import type { AlertDialog as ShardsP } from "@shardsui/svelte/alert-dialog";
   import type { ComponentProps } from "svelte";
   export type AlertDialogTitleProps = ComponentProps<typeof ShardsP.Title>;
 </script>
 
 <script lang="ts">
-  import { AlertDialog as P } from "@shardsui/svelte";
-  import { cn } from "$lib/utils.js";
+  import { AlertDialog as P } from "@shardsui/svelte/alert-dialog";
+  import { cn } from "@/utils.js";
   let { class: className, ref = $bindable(null), ...props }: AlertDialogTitleProps = $props();
 </script>
 

@@ -1,12 +1,12 @@
 <script module lang="ts">
-  import type { Select as ShardsSelect } from "@shardsui/svelte";
+  import type { Select as ShardsSelect } from "@shardsui/svelte/select";
   import type { ComponentProps } from "svelte";
   export type SelectLabelProps = ComponentProps<typeof ShardsSelect.Label>;
 </script>
 
 <script lang="ts">
-  import { Select as P } from "@shardsui/svelte";
-  import { cn } from "$lib/utils.js";
+  import { Select as P } from "@shardsui/svelte/select";
+  import { cn } from "@/utils.js";
   let { class: className, ref = $bindable(null), ...props }: SelectLabelProps = $props();
 </script>
 

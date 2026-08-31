@@ -39,6 +39,7 @@
     dropdowns:
       "w-full flex items-center text-base sm:text-sm justify-center h-(--cell-size) gap-1.5 *:[span]:font-medium",
     focused: "rdp-focused",
+    footer: "rdp-footer",
     hidden: "invisible",
     month: "w-full",
     month_caption:
@@ -66,10 +67,12 @@
 </script>
 
 <script lang="ts">
-  import { ArrowLeft01Icon, ArrowRight01Icon, ArrowUpDownIcon } from "@hugeicons/core-free-icons";
+  import ArrowLeft01Icon from "@hugeicons/core-free-icons/ArrowLeft01Icon";
+  import ArrowRight01Icon from "@hugeicons/core-free-icons/ArrowRight01Icon";
+  import ArrowUpDownIcon from "@hugeicons/core-free-icons/ArrowUpDownIcon";
   import { tick, untrack } from "svelte";
-  import HugeiconsIcon from "$lib/hugeicons-icon.svelte";
-  import { cn } from "$lib/utils.js";
+  import HugeiconsIcon from "@/hugeicons-icon.svelte";
+  import { cn } from "@/utils.js";
   import type { CalendarDateOptions } from "./calendar.utils.js";
   import type {
     CalendarDayButtonProps,
@@ -78,6 +81,7 @@
     CalendarDropdownContext,
     CalendarLocale,
     CalendarModifiers,
+    CalendarMonthModel,
     CalendarProps,
     CalendarSelection,
     CalendarWeekModel,
@@ -90,8 +94,8 @@
     buildCalendarMonth,
     compareCalendarDays,
     differenceInCalendarDays,
-    differenceInCalendarMonths,
     getCalendarWeekNumber,
+    getIsoWeekNumber,
     getRangeFlags,
     isDateMatched,
     isSameCalendarDay,
@@ -102,9 +106,12 @@
   } from "./calendar.utils.js";
 
   const defaultLocale: CalendarLocale = { code: "en-US", options: { weekStartsOn: 0 } };
+  const wrapperDefaultFormatters = {};
 
   let {
+    animate = false,
     autoFocus = false,
+    broadcastCalendar = false,
     captionLayout = "label",
     class: className,
     className: legacyClassName,
@@ -112,15 +119,18 @@
     components = {},
     day,
     defaultMonth,
-    defaultSelected,
     disableNavigation = false,
     disabled,
     endMonth,
     excludeDisabled = false,
     fixedWeeks = false,
-    formatters = {},
+    firstWeekContainsDate,
+    footer,
+    formatters = wrapperDefaultFormatters,
+    hidden,
     hideNavigation = false,
     hideWeekdays = false,
+    ISOWeek = false,
     labels = {},
     lang: rootLang,
     locale = defaultLocale,
@@ -130,8 +140,12 @@
     minDate,
     mode = "single",
     modifiers = {},
-    month = $bindable(),
+    modifiersClassNames = {},
+    modifiersStyles = {},
+    month,
+    navLayout,
     noonSafe = false,
+    numerals = "latn",
     numberOfMonths = 1,
     onDayBlur,
     onDayClick,
@@ -153,11 +167,14 @@
     showOutsideDays = true,
     showWeekNumber = false,
     startMonth,
+    style: rootStyle,
+    styles = {},
     timeZone,
     today: todayProp,
     unavailable,
     weekNumber,
     weekStartsOn,
+    dir: rootDir,
     ...props
   }: CalendarProps = $props();
 
@@ -170,9 +187,7 @@
       instanceNow: now,
     };
   });
-  const initialSelected = untrack(() =>
-    normalizeSelection(onSelect ? selected : (selected ?? defaultSelected), initialDateOptions),
-  );
+  const initialSelected = untrack(() => selected);
   const selectionControlled = $derived(onSelect !== undefined);
   const initialMonth = untrack(() => {
     const anchor = month
@@ -194,21 +209,41 @@
   let didAutoFocus = $state(false);
 
   const dateOptions = $derived<CalendarDateOptions>({ noonSafe, timeZone });
-  const monthControlled = $derived(onMonthChange !== undefined);
+  const monthControlled = $derived(month !== undefined);
   const localeCode = $derived(locale.code ?? "en-US");
   const monthYearOrder = $derived(yearFirstLocales.has(localeCode) ? "year-first" : "month-first");
-  const effectiveWeekStartsOn = $derived(weekStartsOn ?? locale.options?.weekStartsOn ?? 0);
+  const effectiveWeekStartsOn = $derived(
+    ISOWeek || broadcastCalendar ? 1 : (weekStartsOn ?? locale.options?.weekStartsOn ?? 0),
+  );
+  const effectiveFirstWeekContainsDate = $derived(
+    !broadcastCalendar && ISOWeek
+      ? 4
+      : (firstWeekContainsDate ?? locale.options?.firstWeekContainsDate ?? 1),
+  );
   const currentToday = $derived(normalizeCalendarDate(todayProp ?? instanceNow, dateOptions));
   const monthCount = $derived(Math.max(1, Math.floor(numberOfMonths)));
+  const hasYearDropdown = $derived(
+    captionLayout === "dropdown" || captionLayout === "dropdown-years",
+  );
   const normalizedStartMonth = $derived(
     startMonth
       ? startOfCalendarMonth(normalizeCalendarDate(startMonth, dateOptions), dateOptions)
-      : undefined,
+      : hasYearDropdown
+        ? startOfCalendarMonth(
+            normalizeCalendarDate(new Date(currentToday.getFullYear() - 100, 0, 1), dateOptions),
+            dateOptions,
+          )
+        : undefined,
   );
   const normalizedEndMonth = $derived(
     endMonth
       ? startOfCalendarMonth(normalizeCalendarDate(endMonth, dateOptions), dateOptions)
-      : undefined,
+      : hasYearDropdown
+        ? startOfCalendarMonth(
+            normalizeCalendarDate(new Date(currentToday.getFullYear(), 11, 1), dateOptions),
+            dateOptions,
+          )
+        : undefined,
   );
   const latestDisplayMonth = $derived(
     normalizedEndMonth
@@ -236,14 +271,18 @@
   });
   const renderedSelection = $derived.by(() => {
     if (!selectionControlled) return uncontrolledSelection;
-    return isSameSelectionValue(selected, emittedSelection)
-      ? emittedSelection
-      : normalizeSelection(selected, dateOptions);
+    return isSameSelectionValue(selected, emittedSelection) ? emittedSelection : selected;
   });
+  const comparisonSelection = $derived(
+    renderedSelection === emittedSelection
+      ? renderedSelection
+      : normalizeSelection(renderedSelection, dateOptions),
+  );
   const displayedMonths = $derived.by(() => {
     const values = Array.from({ length: monthCount }, (_, index) =>
       buildCalendarMonth(addCalendarMonths(displayMonth, index, dateOptions), {
         ...dateOptions,
+        broadcastCalendar,
         fixedWeeks,
         weekStartsOn: effectiveWeekStartsOn,
       }),
@@ -260,7 +299,53 @@
     }
     return result;
   });
-  const formatterOptions = $derived({ locale, localeCode, timeZone });
+
+  function mergeStyles(...values: Array<string | null | undefined>): string | undefined {
+    const merged = values
+      .map((value) => value?.trim())
+      .filter((value): value is string => Boolean(value))
+      .map((value) => (value.endsWith(";") ? value : `${value};`))
+      .join("");
+    return merged || undefined;
+  }
+  const formatterOptions = $derived({
+    firstWeekContainsDate: effectiveFirstWeekContainsDate,
+    locale,
+    localeCode,
+    numerals,
+    timeZone,
+    weekStartsOn: effectiveWeekStartsOn,
+  });
+  const hasCustomFormatters = $derived(formatters !== wrapperDefaultFormatters);
+  const intlFormatters = $derived.by(() => ({
+    caption: new Intl.DateTimeFormat(localeCode, {
+      month: "long",
+      numberingSystem: numerals,
+      year: "numeric",
+    }),
+    day: new Intl.NumberFormat(localeCode, { numberingSystem: numerals, useGrouping: false }),
+    fullDate: new Intl.DateTimeFormat(localeCode, {
+      day: "numeric",
+      month: "long",
+      numberingSystem: numerals,
+      weekday: "long",
+      year: "numeric",
+    }),
+    month: new Intl.DateTimeFormat(localeCode, { month: "long", numberingSystem: numerals }),
+    monthShort: new Intl.DateTimeFormat("default", {
+      month: "short",
+      numberingSystem: numerals,
+    }),
+    weekday: new Intl.DateTimeFormat(localeCode, {
+      numberingSystem: numerals,
+      weekday: "long",
+    }),
+    weekdayShort: new Intl.DateTimeFormat(localeCode, {
+      numberingSystem: numerals,
+      weekday: "short",
+    }),
+    year: new Intl.NumberFormat(localeCode, { numberingSystem: numerals, useGrouping: false }),
+  }));
   const weekdayDates = $derived(
     Array.from({ length: 7 }, (_, index) =>
       addCalendarDays(new Date(2026, 0, 4), effectiveWeekStartsOn + index, dateOptions),
@@ -283,15 +368,21 @@
         week.map((entry) => ({ ...entry, displayMonth: calendarMonth.value })),
       ),
     );
-    const focusable = days.filter(
-      (entry) =>
-        !entry.outside &&
-        !dateState(entry.date, entry.displayMonth, false, renderedSelection, currentToday).disabled,
-    );
+    const focusable = days.filter((entry) => {
+      if (entry.outside) return false;
+      const state = dateState(
+        entry.date,
+        entry.displayMonth,
+        false,
+        comparisonSelection,
+        currentToday,
+      );
+      return !state.disabled && !state.hidden;
+    });
     const candidates = [
       focusedDate,
       lastFocusedDate,
-      selectedAnchor(renderedSelection),
+      selectedAnchor(comparisonSelection),
       currentToday,
     ];
     for (const candidate of candidates) {
@@ -300,15 +391,6 @@
       }
     }
     return focusable[0]?.date;
-  });
-
-  $effect(() => {
-    if (monthControlled || !month) return;
-    const externalMonth =
-      emittedMonth?.getTime() === month.getTime()
-        ? emittedMonth
-        : normalizeCalendarDate(month, dateOptions);
-    uncontrolledMonth = startOfCalendarMonth(externalMonth, dateOptions);
   });
 
   function normalizeSelection(
@@ -361,7 +443,6 @@
     emittedMonth = value;
     if (!isControlled) {
       uncontrolledMonth = value;
-      month = value;
     }
     onMonthChange?.(value);
   }
@@ -396,7 +477,9 @@
 
   function customModifierNames(dateValue: Date): string[] {
     return Object.entries(modifiers)
-      .filter(([, matcher]) => isDateMatched(dateValue, matcher, dateOptions))
+      .filter(
+        ([, matcher]) => matcher !== undefined && isDateMatched(dateValue, matcher, dateOptions),
+      )
       .map(([name]) => name);
   }
 
@@ -407,6 +490,15 @@
     selectionValue: CalendarSelection,
     todayValue: Date,
   ): CalendarDayContext {
+    const dateMonth = startOfCalendarMonth(dateValue, dateOptions);
+    const hiddenDate =
+      isDateMatched(dateValue, hidden, dateOptions) ||
+      (outside && !showOutsideDays) ||
+      Boolean(
+        outside &&
+          ((normalizedStartMonth && compareCalendarDays(dateMonth, normalizedStartMonth) < 0) ||
+            (normalizedEndMonth && compareCalendarDays(dateMonth, normalizedEndMonth) > 0)),
+      );
     const unavailableDate = isDateMatched(dateValue, unavailable, dateOptions);
     const disabledDate =
       !isOutsideAllowed(dateValue) ||
@@ -416,6 +508,7 @@
     return {
       date: dateValue,
       displayMonth: modelMonth,
+      hidden: hiddenDate,
       outside,
       selected: isSelectedDate(mode, dateValue, selectionValue),
       disabled: disabledDate,
@@ -432,6 +525,7 @@
     const values: CalendarModifiers = {
       disabled: state.disabled,
       focused: Boolean(focusTargetDate && isSameCalendarDay(state.date, focusedDate)),
+      hidden: state.hidden,
       outside: state.outside,
       range_end: state.rangeEnd,
       range_middle: state.rangeMiddle,
@@ -447,14 +541,18 @@
   function selectionContainsDisabled(range: DateRange): boolean {
     if (!range.from || !range.to) return false;
     const span = Math.abs(differenceInCalendarDays(range.to, range.from));
-    return Array.from({ length: span + 1 }, (_, index) =>
-      addCalendarDays(range.from as Date, index, dateOptions),
-    ).some(
-      (dateValue) =>
+    const direction = compareCalendarDays(range.to, range.from) >= 0 ? 1 : -1;
+    for (let index = 0; index <= span; index += 1) {
+      const dateValue = addCalendarDays(range.from, index * direction, dateOptions);
+      if (
         !isOutsideAllowed(dateValue) ||
         isDateMatched(dateValue, disabled, dateOptions) ||
-        isDateMatched(dateValue, unavailable, dateOptions),
-    );
+        isDateMatched(dateValue, unavailable, dateOptions)
+      ) {
+        return true;
+      }
+    }
+    return false;
   }
 
   function selectDate(dateValue: Date, state: CalendarDayContext, event: MouseEvent): void {
@@ -470,6 +568,10 @@
       resetOnSelect,
     };
     let next = resolveCanonicalSelection(mode, triggerDate, renderedSelection, selectionOptions);
+    if (mode === "multiple" && next === renderedSelection) {
+      onDayClick?.(triggerDate, modifierValues, event);
+      return;
+    }
     if (
       mode === "range" &&
       excludeDisabled &&
@@ -479,7 +581,7 @@
       next.to &&
       selectionContainsDisabled(next)
     ) {
-      next = { from: triggerDate };
+      next = { from: triggerDate, to: undefined };
     }
     if (!selectionControlled) {
       uncontrolledSelection = next;
@@ -503,41 +605,97 @@
   function caption(monthValue: Date): string {
     return (
       formatters.formatCaption?.(monthValue, formatterOptions) ??
-      new Intl.DateTimeFormat(localeCode, { month: "long", year: "numeric" }).format(monthValue)
+      formatters.formatMonthCaption?.(monthValue, formatterOptions) ??
+      intlFormatters.caption.format(monthValue)
     );
   }
 
   function monthDropdownLabel(monthValue: Date): string {
     return (
       formatters.formatMonthDropdown?.(monthValue, formatterOptions) ??
-      new Intl.DateTimeFormat(localeCode, { month: "short" }).format(monthValue)
+      (hasCustomFormatters
+        ? intlFormatters.month.format(monthValue)
+        : intlFormatters.monthShort.format(monthValue))
     );
   }
 
   function yearDropdownLabel(year: number): string {
-    return formatters.formatYearDropdown?.(year, formatterOptions) ?? String(year);
+    const dateValue = new Date(year, 0, 1);
+    return (
+      formatters.formatYearDropdown?.(dateValue, formatterOptions) ??
+      formatters.formatYearCaption?.(dateValue, formatterOptions) ??
+      intlFormatters.year.format(year)
+    );
   }
 
   function weekdayLabel(dateValue: Date): string {
     return (
       formatters.formatWeekdayName?.(dateValue, formatterOptions) ??
-      new Intl.DateTimeFormat(localeCode, { weekday: "short" }).format(dateValue).slice(0, 2)
+      intlFormatters.weekdayShort.format(dateValue).slice(0, 2)
     );
   }
 
   function fullWeekdayLabel(dateValue: Date): string {
-    return new Intl.DateTimeFormat(localeCode, { weekday: "long" }).format(dateValue);
+    return (
+      labels.labelWeekday?.(dateValue, formatterOptions) ?? intlFormatters.weekday.format(dateValue)
+    );
   }
 
   function dayLabel(dateValue: Date): string {
-    return formatters.formatDay?.(dateValue, formatterOptions) ?? String(dateValue.getDate());
+    return (
+      formatters.formatDay?.(dateValue, formatterOptions) ??
+      intlFormatters.day.format(dateValue.getDate())
+    );
+  }
+
+  function weekNumberLabel(week: number): string {
+    return (
+      formatters.formatWeekNumber?.(week, formatterOptions) ??
+      new Intl.NumberFormat(localeCode, {
+        minimumIntegerDigits: 2,
+        numberingSystem: numerals,
+        useGrouping: false,
+      }).format(week)
+    );
+  }
+
+  function calendarWeekNumber(dateValue: Date): number {
+    return ISOWeek && !broadcastCalendar
+      ? getIsoWeekNumber(dateValue)
+      : getCalendarWeekNumber(dateValue, {
+          firstWeekContainsDate: effectiveFirstWeekContainsDate,
+          weekStartsOn: effectiveWeekStartsOn,
+        });
+  }
+
+  function componentMonthModel(
+    monthValue: Date,
+    weeks: ReadonlyArray<ReadonlyArray<{ date: Date; outside: boolean }>>,
+  ): CalendarMonthModel {
+    return {
+      date: monthValue,
+      weeks: weeks.map((entries) => ({
+        days: entries.map((entry) => ({
+          date: entry.date,
+          displayMonth: monthValue,
+          outside: entry.outside,
+        })),
+        weekNumber: calendarWeekNumber(entries[0]?.date ?? monthValue),
+      })),
+    };
+  }
+
+  function weekNumberHeaderLabel(): string {
+    return formatters.formatWeekNumberHeader?.(formatterOptions) ?? "";
   }
 
   function accessibleDayLabel(
     state: CalendarDayContext,
     modifierValues: CalendarModifiers,
   ): string {
-    const custom = labels.labelDayButton?.(state.date, modifierValues);
+    const custom =
+      labels.labelDayButton?.(state.date, modifierValues) ??
+      labels.labelDay?.(state.date, modifierValues);
     if (custom) return custom;
     const dateValue = state.date;
     let label: string;
@@ -552,15 +710,10 @@
         if (digit === 3) suffix = "rd";
       }
       const weekday = fullWeekdayLabel(dateValue);
-      const monthName = new Intl.DateTimeFormat(localeCode, { month: "long" }).format(dateValue);
-      label = `${weekday}, ${monthName} ${dayValue}${suffix}, ${dateValue.getFullYear()}`;
+      const monthName = intlFormatters.month.format(dateValue);
+      label = `${weekday}, ${monthName} ${dayValue}${suffix}, ${intlFormatters.year.format(dateValue.getFullYear())}`;
     } else {
-      label = new Intl.DateTimeFormat(localeCode, {
-        day: "numeric",
-        month: "long",
-        weekday: "long",
-        year: "numeric",
-      }).format(dateValue);
+      label = intlFormatters.fullDate.format(dateValue);
     }
     if (state.today) label = `Today, ${label}`;
     if (state.selected) label = `${label}, selected`;
@@ -584,7 +737,7 @@
 
   function yearOptions(): CalendarDropdownContext["options"] {
     const first = normalizedStartMonth?.getFullYear() ?? displayMonth.getFullYear() - 100;
-    const last = normalizedEndMonth?.getFullYear() ?? displayMonth.getFullYear() + 100;
+    const last = normalizedEndMonth?.getFullYear() ?? instanceNow.getFullYear();
     const values = Array.from({ length: Math.max(0, last - first + 1) }, (_, index) => {
       const year = first + index;
       return { label: yearDropdownLabel(year), value: year };
@@ -593,15 +746,13 @@
   }
 
   function changeCaptionMonth(value: number, captionMonth: Date): void {
-    const monthOffset = differenceInCalendarMonths(captionMonth, displayMonth);
     const changedCaption = new Date(captionMonth.getFullYear(), value, 1);
-    setMonth(addCalendarMonths(changedCaption, -monthOffset, dateOptions));
+    setMonth(changedCaption);
   }
 
   function changeCaptionYear(value: number, captionMonth: Date): void {
-    const monthOffset = differenceInCalendarMonths(captionMonth, displayMonth);
     const changedCaption = new Date(value, captionMonth.getMonth(), 1);
-    setMonth(addCalendarMonths(changedCaption, -monthOffset, dateOptions));
+    setMonth(changedCaption);
   }
 
   function onNativeDropdownChange(event: Event, handler: (value: number) => void): void {
@@ -634,15 +785,14 @@
     let found: Date | undefined;
     for (let attempts = 0; attempts <= 365; attempts += 1) {
       if (!isWithinNavigation(target)) break;
-      if (
-        !dateState(
-          target,
-          startOfCalendarMonth(target, dateOptions),
-          false,
-          renderedSelection,
-          currentToday,
-        ).disabled
-      ) {
+      const targetState = dateState(
+        target,
+        startOfCalendarMonth(target, dateOptions),
+        false,
+        comparisonSelection,
+        currentToday,
+      );
+      if (!targetState.disabled && !targetState.hidden) {
         found = target;
         break;
       }
@@ -688,7 +838,7 @@
     let searchDirection = 1;
     let searchStep: FocusStep = "day";
     const rtl =
-      (props.dir ?? getComputedStyle(event.currentTarget as HTMLElement).direction) === "rtl";
+      (rootDir ?? getComputedStyle(event.currentTarget as HTMLElement).direction) === "rtl";
     if (event.key === "ArrowLeft") {
       searchDirection = rtl ? 1 : -1;
       next = event.shiftKey
@@ -754,13 +904,20 @@
     return !outside && Boolean(focusTargetDate && isSameCalendarDay(dateValue, focusTargetDate));
   }
 
+  function attachRoot(element: HTMLDivElement): () => void {
+    ref = element;
+    return () => {
+      if (ref === element) ref = null;
+    };
+  }
+
   $effect(() => {
     if (selectionControlled) return;
     if (selected !== undefined) {
       hadExternalSelection = true;
       uncontrolledSelection = isSameSelectionValue(selected, emittedSelection)
         ? emittedSelection
-        : normalizeSelection(selected, dateOptions);
+        : selected;
     } else if (hadExternalSelection) {
       uncontrolledSelection = undefined;
     }
@@ -773,192 +930,263 @@
   });
 </script>
 
-<div
-  bind:this={ref}
-  class={cn(
-    resolvedClassNames.root,
-    "w-fit [--cell-size:--spacing(10)] sm:[--cell-size:--spacing(9)]",
-    className,
-    legacyClassName,
-  )}
-  data-mode={mode}
-  data-multiple-months={monthCount > 1 || undefined}
-  data-required={required || undefined}
-  data-slot="calendar"
-  data-week-numbers={showWeekNumber || undefined}
-  lang={rootLang ?? localeCode}
-  {...props}
->
-  <div class={resolvedClassNames.months} data-slot="calendar-months">
-    {#if !hideNavigation}
-      <nav class={resolvedClassNames.nav} data-slot="calendar-nav">
-        <button
-          aria-disabled={!canGoPrevious || undefined}
-          aria-label={labels.labelPrevious?.(canGoPrevious ? previousMonth : undefined) ??
-            "Go to the Previous Month"}
-          class={resolvedClassNames.button_previous}
-          onclick={goPrevious}
-          tabindex={canGoPrevious ? undefined : -1}
-          type="button"
-        >
+{#snippet rootChildren()}
+  {#snippet previousButton(orientation: "left" | "right")}
+    {#snippet children()}
+      {#if components.Chevron}
+        {@render components.Chevron({
+          class: resolvedClassNames.chevron ?? "",
+          disabled: !canGoPrevious || undefined,
+          orientation,
+          size: 24,
+          style: styles.chevron,
+        })}
+      {:else}
+        <HugeiconsIcon
+          aria-hidden="true"
+          class={cn(resolvedClassNames.chevron, "rtl:rotate-180")}
+          icon={ArrowLeft01Icon}
+          strokeWidth={2}
+        />
+      {/if}
+    {/snippet}
+    {const buttonAttributes = {
+      "aria-disabled": !canGoPrevious || undefined,
+      "aria-label":
+        labels.labelPrevious?.(canGoPrevious ? previousMonth : undefined) ??
+        "Go to the Previous Month",
+      class: resolvedClassNames.button_previous,
+      "data-animated-button": animate || undefined,
+      onclick: goPrevious,
+      style: styles.button_previous,
+      tabindex: canGoPrevious ? undefined : -1,
+      type: "button" as const,
+    }}
+    {const buttonProps = { ...buttonAttributes, children }}
+    {#if components.PreviousMonthButton}
+      {@render components.PreviousMonthButton(buttonProps)}
+    {:else}
+      <button {...buttonAttributes} type="button">{@render children()}</button>
+    {/if}
+  {/snippet}
+
+  {#snippet nextButton(orientation: "left" | "right")}
+    {#snippet children()}
+      {#if components.Chevron}
+        {@render components.Chevron({
+          class: resolvedClassNames.chevron ?? "",
+          disabled: !canGoNext || undefined,
+          orientation,
+          size: 24,
+          style: styles.chevron,
+        })}
+      {:else}
+        <HugeiconsIcon
+          aria-hidden="true"
+          class={cn(resolvedClassNames.chevron, "rtl:rotate-180")}
+          icon={ArrowRight01Icon}
+          strokeWidth={2}
+        />
+      {/if}
+    {/snippet}
+    {const buttonAttributes = {
+      "aria-disabled": !canGoNext || undefined,
+      "aria-label": labels.labelNext?.(canGoNext ? nextMonth : undefined) ?? "Go to the Next Month",
+      class: resolvedClassNames.button_next,
+      "data-animated-button": animate || undefined,
+      onclick: goNext,
+      style: styles.button_next,
+      tabindex: canGoNext ? undefined : -1,
+      type: "button" as const,
+    }}
+    {const buttonProps = { ...buttonAttributes, children }}
+    {#if components.NextMonthButton}
+      {@render components.NextMonthButton(buttonProps)}
+    {:else}
+      <button {...buttonAttributes} type="button">{@render children()}</button>
+    {/if}
+  {/snippet}
+
+  {#snippet navigation()}
+    {#snippet children()}
+      {@render previousButton("left")}
+      {@render nextButton("right")}
+    {/snippet}
+    {const navAttributes = {
+      "aria-label": labels.labelNav?.() ?? "Calendar Navigation",
+      class: resolvedClassNames.nav,
+      "data-animated-nav": animate || undefined,
+      "data-slot": "calendar-nav",
+      style: styles.nav,
+    }}
+    {const navProps = {
+      ...navAttributes,
+      children,
+      nextMonth: canGoNext ? nextMonth : undefined,
+      onNextClick: () => goNext(),
+      onPreviousClick: () => goPrevious(),
+      previousMonth: canGoPrevious ? previousMonth : undefined,
+    }}
+    {#if components.Nav}
+      {@render components.Nav(navProps)}
+    {:else}
+      <nav {...navAttributes}>{@render children()}</nav>
+    {/if}
+  {/snippet}
+
+  {#snippet captionLabel(value: string, live: boolean)}
+    {#snippet children()}
+      {value}
+    {/snippet}
+    {const labelAttributes = {
+      "aria-live": live ? ("polite" as const) : undefined,
+      class: resolvedClassNames.caption_label,
+      role: live ? ("status" as const) : undefined,
+      style: styles.caption_label,
+    }}
+    {#if components.CaptionLabel}
+      {@render components.CaptionLabel({ ...labelAttributes, children })}
+    {:else}
+      <span {...labelAttributes}>{@render children()}</span>
+    {/if}
+  {/snippet}
+
+  {#snippet dropdownControl(dropdownContext: CalendarDropdownContext)}
+    {const dropdownOverride =
+      dropdownContext.kind === "month"
+        ? (components.MonthsDropdown ?? components.Dropdown)
+        : (components.YearsDropdown ?? components.Dropdown)}
+    {#if dropdownOverride}
+      {@render dropdownOverride(dropdownContext)}
+    {:else}
+      {#snippet optionsChildren()}
+        {#each dropdownContext.options as option (option.value)}
+          {#snippet optionChildren()}
+            {option.label}
+          {/snippet}
+          {const optionAttributes = { disabled: option.disabled, value: option.value }}
+          {#if components.Option}
+            {@render components.Option({
+              ...optionAttributes,
+              children: optionChildren,
+              label: option.label,
+            })}
+          {:else}
+            <option {...optionAttributes}>{@render optionChildren()}</option>
+          {/if}
+        {/each}
+      {/snippet}
+      {const selectAttributes = {
+        "aria-label": dropdownContext["aria-label"],
+        class: resolvedClassNames.dropdown,
+        disabled: dropdownContext.disabled,
+        onchange: (event: Event) => onNativeDropdownChange(event, dropdownContext.onChange),
+        style: styles.dropdown,
+        value: dropdownContext.value,
+      }}
+      <span
+        class={cn(
+          resolvedClassNames.dropdown_root,
+          dropdownContext.kind === "month"
+            ? resolvedClassNames.months_dropdown
+            : resolvedClassNames.years_dropdown,
+        )}
+        data-disabled={dropdownContext.disabled || undefined}
+        style={mergeStyles(
+          styles.dropdown_root,
+          dropdownContext.kind === "month" ? styles.months_dropdown : styles.years_dropdown,
+        )}
+      >
+        {#if components.Select}
+          {@render components.Select({ ...selectAttributes, children: optionsChildren })}
+        {:else}
+          <select {...selectAttributes}>{@render optionsChildren()}</select>
+        {/if}
+        {const selectedLabel =
+          dropdownContext.options.find((option) => option.value === dropdownContext.value)?.label ??
+          ""}
+        {#snippet selectedLabelChildren()}
+          {selectedLabel}
           {#if components.Chevron}
             {@render components.Chevron({
               class: resolvedClassNames.chevron ?? "",
-              orientation: "left",
+              orientation: "down",
+              size: 18,
+              style: styles.chevron,
             })}
           {:else}
             <HugeiconsIcon
               aria-hidden="true"
-              class={cn(resolvedClassNames.chevron, "rtl:rotate-180")}
-              icon={ArrowLeft01Icon}
+              class={resolvedClassNames.chevron ?? ""}
+              icon={ArrowUpDownIcon}
               strokeWidth={2}
             />
           {/if}
-        </button>
-        <button
-          aria-disabled={!canGoNext || undefined}
-          aria-label={labels.labelNext?.(canGoNext ? nextMonth : undefined) ??
-            "Go to the Next Month"}
-          class={resolvedClassNames.button_next}
-          onclick={goNext}
-          tabindex={canGoNext ? undefined : -1}
-          type="button"
-        >
-          {#if components.Chevron}
-            {@render components.Chevron({
-              class: resolvedClassNames.chevron ?? "",
-              orientation: "right",
-            })}
-          {:else}
-            <HugeiconsIcon
-              aria-hidden="true"
-              class={cn(resolvedClassNames.chevron, "rtl:rotate-180")}
-              icon={ArrowRight01Icon}
-              strokeWidth={2}
-            />
-          {/if}
-        </button>
-      </nav>
+        {/snippet}
+        {const captionLabelProps = {
+          "aria-hidden": true,
+          class: resolvedClassNames.caption_label,
+          children: selectedLabelChildren,
+          style: styles.caption_label,
+        }}
+        {#if components.CaptionLabel}
+          {@render components.CaptionLabel(captionLabelProps)}
+        {:else}
+          <span aria-hidden="true" class={captionLabelProps.class} style={captionLabelProps.style}>
+            {@render selectedLabelChildren()}
+          </span>
+        {/if}
+      </span>
+    {/if}
+  {/snippet}
+
+  {#snippet monthsChildren()}
+    {#if !hideNavigation && navLayout === undefined}
+      {@render navigation()}
     {/if}
 
-    {#each displayedMonths as calendarMonth (dateKey(calendarMonth.value))}
-      <section class={resolvedClassNames.month} data-slot="calendar-month">
-        <header class={resolvedClassNames.month_caption} data-slot="month-caption">
+    {#each displayedMonths as calendarMonth, displayIndex (dateKey(calendarMonth.value))}
+      {#snippet monthChildren()}
+        {#if !hideNavigation && navLayout === "around" && displayIndex === 0}
+          {@render previousButton(rootDir === "rtl" ? "right" : "left")}
+        {/if}
+        {#snippet monthCaptionChildren()}
           {#if captionLayout === "label"}
-            <span class={resolvedClassNames.caption_label} role="status" aria-live="polite">
-              {caption(calendarMonth.value)}
-            </span>
+            {@render captionLabel(caption(calendarMonth.value), true)}
           {:else}
             {#snippet monthDropdownControl()}
               {#if captionLayout === "dropdown" || captionLayout === "dropdown-months"}
                 {const dropdownContext: CalendarDropdownContext = {
-                  "aria-label":
-                    labels.labelMonthDropdown?.(calendarMonth.value) ?? "Choose the Month",
+                  "aria-label": labels.labelMonthDropdown?.(formatterOptions) ?? "Choose the Month",
+                  class: resolvedClassNames.dropdown,
                   disabled: disableNavigation,
                   kind: "month",
                   onChange: (value) => changeCaptionMonth(value, calendarMonth.value),
                   options: monthOptions(calendarMonth.value),
+                  style: styles.dropdown,
                   value: calendarMonth.value.getMonth(),
                 }}
-                {#if components.Dropdown}
-                  {@render components.Dropdown(dropdownContext)}
-                {:else}
-                  <span
-                    class={cn(resolvedClassNames.dropdown_root, resolvedClassNames.months_dropdown)}
-                  >
-                    <select
-                      aria-label={dropdownContext["aria-label"]}
-                      class={resolvedClassNames.dropdown}
-                      disabled={dropdownContext.disabled}
-                      onchange={(event) => onNativeDropdownChange(event, dropdownContext.onChange)}
-                      value={dropdownContext.value}
-                    >
-                      {#each dropdownContext.options as option (option.value)}
-                        <option disabled={option.disabled} value={option.value}>
-                          {option.label}
-                        </option>
-                      {/each}
-                    </select>
-                    <span aria-hidden="true" class={resolvedClassNames.caption_label}>
-                      {dropdownContext.options.find(
-                        (option) => option.value === dropdownContext.value,
-                      )?.label}
-                      {#if components.Chevron}
-                        {@render components.Chevron({
-                          class: resolvedClassNames.chevron ?? "",
-                          orientation: "down",
-                        })}
-                      {:else}
-                        <HugeiconsIcon
-                          aria-hidden="true"
-                          class={resolvedClassNames.chevron ?? ""}
-                          icon={ArrowUpDownIcon}
-                          strokeWidth={2}
-                        />
-                      {/if}
-                    </span>
-                  </span>
-                {/if}
+                {@render dropdownControl(dropdownContext)}
               {:else}
-                <span class={resolvedClassNames.caption_label}
-                  >{monthDropdownLabel(calendarMonth.value)}</span
-                >
+                {@render captionLabel(monthDropdownLabel(calendarMonth.value), false)}
               {/if}
             {/snippet}
 
             {#snippet yearDropdownControl()}
               {#if captionLayout === "dropdown" || captionLayout === "dropdown-years"}
                 {const dropdownContext: CalendarDropdownContext = {
-                  "aria-label":
-                    labels.labelYearDropdown?.(calendarMonth.value.getFullYear()) ??
-                    "Choose the Year",
+                  "aria-label": labels.labelYearDropdown?.(formatterOptions) ?? "Choose the Year",
+                  class: resolvedClassNames.dropdown,
                   disabled: disableNavigation,
                   kind: "year",
                   onChange: (value) => changeCaptionYear(value, calendarMonth.value),
                   options: yearOptions(),
+                  style: styles.dropdown,
                   value: calendarMonth.value.getFullYear(),
                 }}
-                {#if components.Dropdown}
-                  {@render components.Dropdown(dropdownContext)}
-                {:else}
-                  <span
-                    class={cn(resolvedClassNames.dropdown_root, resolvedClassNames.years_dropdown)}
-                  >
-                    <select
-                      aria-label={dropdownContext["aria-label"]}
-                      class={resolvedClassNames.dropdown}
-                      disabled={dropdownContext.disabled}
-                      onchange={(event) => onNativeDropdownChange(event, dropdownContext.onChange)}
-                      value={dropdownContext.value}
-                    >
-                      {#each dropdownContext.options as option (option.value)}
-                        <option disabled={option.disabled} value={option.value}>
-                          {option.label}
-                        </option>
-                      {/each}
-                    </select>
-                    <span aria-hidden="true" class={resolvedClassNames.caption_label}>
-                      {dropdownContext.value}
-                      {#if components.Chevron}
-                        {@render components.Chevron({
-                          class: resolvedClassNames.chevron ?? "",
-                          orientation: "down",
-                        })}
-                      {:else}
-                        <HugeiconsIcon
-                          aria-hidden="true"
-                          class={resolvedClassNames.chevron ?? ""}
-                          icon={ArrowUpDownIcon}
-                          strokeWidth={2}
-                        />
-                      {/if}
-                    </span>
-                  </span>
-                {/if}
+                {@render dropdownControl(dropdownContext)}
               {:else}
-                <span class={resolvedClassNames.caption_label}
-                  >{calendarMonth.value.getFullYear()}</span
-                >
+                {@render captionLabel(yearDropdownLabel(calendarMonth.value.getFullYear()), false)}
               {/if}
             {/snippet}
 
@@ -978,67 +1206,109 @@
               {@render components.DropdownNav({
                 children: dropdownControls,
                 class: resolvedClassNames.dropdowns,
+                style: styles.dropdowns,
               })}
             {:else}
-              <div class={resolvedClassNames.dropdowns}>{@render dropdownControls()}</div>
+              <div class={resolvedClassNames.dropdowns} style={styles.dropdowns}>
+                {@render dropdownControls()}
+              </div>
             {/if}
           {/if}
-        </header>
+        {/snippet}
+        {const monthCaptionAttributes = {
+          class: resolvedClassNames.month_caption,
+          "data-animated-caption": animate || undefined,
+          "data-slot": "month-caption",
+          style: styles.month_caption,
+        }}
+        {#if components.MonthCaption}
+          {@render components.MonthCaption({
+            ...monthCaptionAttributes,
+            calendarMonth: componentMonthModel(calendarMonth.value, calendarMonth.weeks),
+            children: monthCaptionChildren,
+            displayIndex,
+          })}
+        {:else}
+          <div {...monthCaptionAttributes}>{@render monthCaptionChildren()}</div>
+        {/if}
+        {#if !hideNavigation && navLayout === "around" && displayIndex === monthCount - 1}
+          {@render nextButton(rootDir === "rtl" ? "left" : "right")}
+        {/if}
+        {#if !hideNavigation && navLayout === "after" && displayIndex === monthCount - 1}
+          {@render navigation()}
+        {/if}
 
-        <table
-          aria-label={caption(calendarMonth.value)}
-          aria-multiselectable={mode === "multiple" || mode === "range" ? "true" : undefined}
-          class={resolvedClassNames.month_grid}
-          data-slot="calendar-grid"
-          role="grid"
-        >
+        {#snippet monthGridChildren()}
           {#if !hideWeekdays}
-            <thead aria-hidden="true">
-              <tr class={resolvedClassNames.weekdays}>
-                {#if showWeekNumber}
-                  <th
-                    aria-label={labels.labelWeekNumberHeader?.() ?? "Week Number"}
-                    class={resolvedClassNames.week_number_header}
-                    scope="col"
-                  >
-                    #
-                  </th>
+            {#snippet weekdaysChildren()}
+              {#if showWeekNumber}
+                {#snippet weekNumberHeaderChildren()}
+                  {weekNumberHeaderLabel()}
+                {/snippet}
+                {const weekNumberHeaderAttributes = {
+                  "aria-label": labels.labelWeekNumberHeader?.() ?? "Week Number",
+                  class: resolvedClassNames.week_number_header,
+                  scope: "col" as const,
+                  style: styles.week_number_header,
+                }}
+                {#if components.WeekNumberHeader}
+                  {@render components.WeekNumberHeader({
+                    ...weekNumberHeaderAttributes,
+                    children: weekNumberHeaderChildren,
+                  })}
+                {:else}
+                  <th {...weekNumberHeaderAttributes}>{@render weekNumberHeaderChildren()}</th>
                 {/if}
-                {#each weekdayDates as weekday (weekday.getDay())}
-                  <th
-                    aria-label={fullWeekdayLabel(weekday)}
-                    class={resolvedClassNames.weekday}
-                    scope="col"
-                  >
-                    {weekdayLabel(weekday)}
-                  </th>
-                {/each}
-              </tr>
-            </thead>
+              {/if}
+              {#each weekdayDates as weekday (weekday.getDay())}
+                {#snippet weekdayChildren()}
+                  {weekdayLabel(weekday)}
+                {/snippet}
+                {const weekdayAttributes = {
+                  "aria-label": fullWeekdayLabel(weekday),
+                  class: resolvedClassNames.weekday,
+                  scope: "col" as const,
+                  style: styles.weekday,
+                }}
+                {#if components.Weekday}
+                  {@render components.Weekday({
+                    ...weekdayAttributes,
+                    children: weekdayChildren,
+                    weekday,
+                  })}
+                {:else}
+                  <th {...weekdayAttributes}>{@render weekdayChildren()}</th>
+                {/if}
+              {/each}
+            {/snippet}
+            {const weekdaysAttributes = {
+              class: resolvedClassNames.weekdays,
+              "data-animated-weekdays": animate || undefined,
+              style: styles.weekdays,
+            }}
+            {#if components.Weekdays}
+              {@render components.Weekdays({ ...weekdaysAttributes, children: weekdaysChildren })}
+            {:else}
+              <thead aria-hidden="true">
+                <tr {...weekdaysAttributes}>{@render weekdaysChildren()}</tr>
+              </thead>
+            {/if}
           {/if}
-          <tbody class={resolvedClassNames.weeks}>
+          {#snippet weeksChildren()}
             {#each calendarMonth.weeks as weekDates (dateKey(weekDates[0]?.date ?? calendarMonth.value))}
-              <tr class={resolvedClassNames.week}>
+              {const weekValue = calendarWeekNumber(weekDates[0]?.date ?? calendarMonth.value)}
+              {const weekModel: CalendarWeekModel = {
+                days: weekDates.map((entry) => ({
+                  date: entry.date,
+                  displayMonth: calendarMonth.value,
+                  outside: entry.outside,
+                })),
+                weekNumber: weekValue,
+              }}
+              {#snippet weekChildren()}
                 {#if showWeekNumber}
-                  {const weekValue = getCalendarWeekNumber(
-                    weekDates[0]?.date ?? calendarMonth.value,
-                    {
-                      ...(locale.options?.firstWeekContainsDate
-                        ? { firstWeekContainsDate: locale.options.firstWeekContainsDate }
-                        : {}),
-                      weekStartsOn: effectiveWeekStartsOn,
-                    },
-                  )}
-                  {const weekModel: CalendarWeekModel = {
-                    days: weekDates.map((entry) => ({
-                      date: entry.date,
-                      displayMonth: calendarMonth.value,
-                      outside: entry.outside,
-                    })),
-                    weekNumber: weekValue,
-                  }}
                   {#snippet weekNumberChildren()}
-                    {weekValue}
+                    {weekNumberLabel(weekValue)}
                   {/snippet}
                   {const weekNumberAttributes = {
                     "aria-label": labels.labelWeekNumber?.(weekValue) ?? `Week ${weekValue}`,
@@ -1046,6 +1316,7 @@
                     "data-slot": "week-number",
                     role: "rowheader" as const,
                     scope: "row" as const,
+                    style: styles.week_number,
                   }}
                   {const weekNumberProps: CalendarWeekNumberProps = {
                     ...weekNumberAttributes,
@@ -1073,49 +1344,55 @@
                       calendarDay.date,
                       calendarMonth.value,
                       calendarDay.outside,
-                      renderedSelection,
+                      comparisonSelection,
                       currentToday,
                     ),
                   )}
                   {const modifierNames = $derived(customModifierNames(calendarDay.date))}
                   {const modifierValues = $derived(dayModifiers(state, modifierNames))}
+                  {const activeModifierNames = $derived(
+                    Object.entries(modifierValues)
+                      .filter(([, active]) => active)
+                      .map(([name]) => name),
+                  )}
                   {const dayClass = $derived(
                     cn(
                       resolvedClassNames.day,
-                      state.disabled && resolvedClassNames.disabled,
-                      modifierValues.focused && resolvedClassNames.focused,
-                      state.outside && resolvedClassNames.outside,
-                      state.selected && resolvedClassNames.selected,
-                      state.today && resolvedClassNames.today,
-                      state.rangeStart && resolvedClassNames.range_start,
-                      state.rangeMiddle && resolvedClassNames.range_middle,
-                      state.rangeEnd && resolvedClassNames.range_end,
-                      modifierNames.map((name) => resolvedClassNames[name]),
+                      activeModifierNames.map(
+                        (name) => modifiersClassNames[name] ?? resolvedClassNames[name],
+                      ),
                     ),
                   )}
-                  <td
-                    aria-selected={state.selected ? "true" : undefined}
-                    class={dayClass}
-                    data-day={dateKey(calendarDay.date)}
-                    data-disabled={state.disabled ? "true" : undefined}
-                    data-focused={modifierValues.focused ? "true" : undefined}
-                    data-month={state.outside
+                  {const dayStyle = $derived(
+                    mergeStyles(
+                      styles.day,
+                      ...activeModifierNames.map((name) => modifiersStyles[name]),
+                    ),
+                  )}
+                  {const dayModel: CalendarDayModel = {
+                    date: calendarDay.date,
+                    displayMonth: calendarMonth.value,
+                    outside: calendarDay.outside,
+                  }}
+                  {const dayAttributes = $derived({
+                    "aria-selected": state.selected ? ("true" as const) : undefined,
+                    class: dayClass,
+                    "data-day": dateKey(calendarDay.date),
+                    "data-disabled": state.disabled ? "true" : undefined,
+                    "data-focused": modifierValues.focused ? "true" : undefined,
+                    "data-hidden": state.hidden ? "true" : undefined,
+                    "data-month": state.outside
                       ? dateKey(startOfCalendarMonth(calendarDay.date, dateOptions)).slice(0, 7)
-                      : undefined}
-                    data-outside={state.outside ? "true" : undefined}
-                    data-selected={state.selected ? "true" : undefined}
-                    data-today={state.today ? "true" : undefined}
-                    data-unavailable={state.unavailable ? "true" : undefined}
-                    role="gridcell"
-                  >
-                    {#if state.outside && !showOutsideDays}
-                      <span
-                        aria-hidden="true"
-                        class={cn(resolvedClassNames.hidden, resolvedClassNames.day_button)}
-                      >
-                        {dayLabel(calendarDay.date)}
-                      </span>
-                    {:else}
+                      : undefined,
+                    "data-outside": state.outside ? "true" : undefined,
+                    "data-selected": state.selected ? "true" : undefined,
+                    "data-today": state.today ? "true" : undefined,
+                    "data-unavailable": state.unavailable ? "true" : undefined,
+                    role: "gridcell" as const,
+                    style: dayStyle,
+                  })}
+                  {#snippet dayCellChildren()}
+                    {#if !state.hidden}
                       {#snippet dayButtonChildren()}
                         {#if day}
                           {@render day(state)}
@@ -1123,11 +1400,6 @@
                           {dayLabel(calendarDay.date)}
                         {/if}
                       {/snippet}
-                      {const dayModel: CalendarDayModel = {
-                        date: calendarDay.date,
-                        displayMonth: calendarMonth.value,
-                        outside: calendarDay.outside,
-                      }}
                       {const buttonAttributes = $derived({
                         "aria-disabled":
                           state.disabled && isFocusTarget(calendarDay.date, state.outside)
@@ -1155,6 +1427,7 @@
                           onDayMouseLeave?.(calendarDay.date, modifierValues, event),
                         tabindex: isFocusTarget(calendarDay.date, state.outside) ? 0 : -1,
                         type: "button" as const,
+                        style: styles.day_button,
                       })}
                       {const buttonProps: CalendarDayButtonProps = $derived({
                         ...buttonAttributes,
@@ -1170,13 +1443,137 @@
                         </button>
                       {/if}
                     {/if}
-                  </td>
+                  {/snippet}
+                  {#if components.Day}
+                    {@render components.Day({
+                      ...dayAttributes,
+                      children: dayCellChildren,
+                      day: dayModel,
+                      modifiers: modifierValues,
+                    })}
+                  {:else}
+                    <td {...dayAttributes}>{@render dayCellChildren()}</td>
+                  {/if}
                 {/each}
-              </tr>
+              {/snippet}
+              {const weekAttributes = {
+                class: resolvedClassNames.week,
+                style: styles.week,
+              }}
+              {#if components.Week}
+                {@render components.Week({
+                  ...weekAttributes,
+                  children: weekChildren,
+                  week: weekModel,
+                })}
+              {:else}
+                <tr {...weekAttributes}>{@render weekChildren()}</tr>
+              {/if}
             {/each}
-          </tbody>
-        </table>
-      </section>
+          {/snippet}
+          {const weeksAttributes = {
+            class: resolvedClassNames.weeks,
+            "data-animated-weeks": animate || undefined,
+            style: styles.weeks,
+          }}
+          {#if components.Weeks}
+            {@render components.Weeks({ ...weeksAttributes, children: weeksChildren })}
+          {:else}
+            <tbody {...weeksAttributes}>{@render weeksChildren()}</tbody>
+          {/if}
+        {/snippet}
+        {const monthGridAttributes = {
+          "aria-label":
+            labels.labelGrid?.(calendarMonth.value, formatterOptions) ??
+            caption(calendarMonth.value),
+          "aria-multiselectable":
+            mode === "multiple" || mode === "range" ? ("true" as const) : undefined,
+          class: resolvedClassNames.month_grid,
+          "data-slot": "calendar-grid",
+          role: "grid" as const,
+          style: styles.month_grid,
+        }}
+        {#if components.MonthGrid}
+          {@render components.MonthGrid({ ...monthGridAttributes, children: monthGridChildren })}
+        {:else}
+          <table {...monthGridAttributes}>{@render monthGridChildren()}</table>
+        {/if}
+      {/snippet}
+      {const monthAttributes = {
+        class: resolvedClassNames.month,
+        "data-animated-month": animate || undefined,
+        "data-slot": "calendar-month",
+        style: styles.month,
+      }}
+      {#if components.Month}
+        {@render components.Month({
+          ...monthAttributes,
+          calendarMonth: componentMonthModel(calendarMonth.value, calendarMonth.weeks),
+          children: monthChildren,
+          displayIndex,
+        })}
+      {:else}
+        <div {...monthAttributes}>{@render monthChildren()}</div>
+      {/if}
     {/each}
-  </div>
-</div>
+  {/snippet}
+  {const monthsAttributes = {
+    class: resolvedClassNames.months,
+    "data-slot": "calendar-months",
+    style: styles.months,
+  }}
+  {#if components.Months}
+    {@render components.Months({ ...monthsAttributes, children: monthsChildren })}
+  {:else}
+    <div {...monthsAttributes}>{@render monthsChildren()}</div>
+  {/if}
+  {#if footer}
+    {#snippet footerChildren()}
+      {#if typeof footer === "function"}
+        {@render footer()}
+      {:else}
+        {footer}
+      {/if}
+    {/snippet}
+    {const footerAttributes = {
+      "aria-live": "polite" as const,
+      class: resolvedClassNames.footer,
+      role: "status" as const,
+      style: styles.footer,
+    }}
+    {#if components.Footer}
+      {@render components.Footer({ ...footerAttributes, children: footerChildren })}
+    {:else}
+      <div {...footerAttributes}>{@render footerChildren()}</div>
+    {/if}
+  {/if}
+{/snippet}
+
+{const rootAttributes = {
+  class: cn(
+    resolvedClassNames.root,
+    "w-fit [--cell-size:--spacing(10)] sm:[--cell-size:--spacing(9)]",
+    className,
+    legacyClassName,
+  ),
+  "data-mode": mode,
+  "data-broadcast-calendar": broadcastCalendar || undefined,
+  "data-multiple-months": monthCount > 1 || undefined,
+  "data-nav-layout": navLayout,
+  "data-required": required || undefined,
+  "data-slot": "calendar",
+  "data-week-numbers": showWeekNumber || undefined,
+  dir: rootDir,
+  lang: rootLang ?? localeCode,
+  style: mergeStyles(styles.root, rootStyle),
+  ...props,
+}}
+{#if components.Root}
+  {@render components.Root({
+    ...rootAttributes,
+    children: rootChildren,
+    rootRef: attachRoot,
+  })}
+{:else}
+  <div bind:this={ref} {...rootAttributes}>{@render rootChildren()}</div>
+{/if}

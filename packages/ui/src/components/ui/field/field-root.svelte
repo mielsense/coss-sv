@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { Field as FieldPrimitive } from "@shardsui/svelte";
+  import { Field as FieldPrimitive } from "@shardsui/svelte/field";
   import type { ComponentProps } from "svelte";
 
   export type FieldRootProps = ComponentProps<typeof FieldPrimitive.Root> & {
@@ -17,7 +17,7 @@
 </script>
 
 <script lang="ts">
-  import { cn } from "$lib/utils.js";
+  import { cn } from "@/utils.js";
   import { createFieldsetCompositionContext } from "../fieldset/context.svelte.js";
   import FieldRelationshipProvider from "./field-relationship-provider.svelte";
 
@@ -28,7 +28,9 @@
     class: className,
     controlId = `${uid}-control`,
     disabled = false,
+    invalid,
     legendId,
+    name,
     ref = $bindable(null),
     ...props
   }: FieldRootProps = $props();
@@ -48,12 +50,20 @@
   const nativeFieldsetAttributes = $derived(
     as === "fieldset" && disabled ? { DISABLED: true } : {},
   );
+  const fieldNameAttributes = $derived.by<{ name?: string }>(() =>
+    name === undefined ? {} : { name },
+  );
+  const fieldInvalidAttributes = $derived.by<{ invalid?: boolean }>(() =>
+    invalid === undefined ? {} : { invalid },
+  );
 </script>
 
 <FieldPrimitive.Root
   {as}
   bind:ref
   {disabled}
+  {...fieldNameAttributes}
+  {...fieldInvalidAttributes}
   aria-labelledby={as === "fieldset" ? fieldsetContext.legendId : undefined}
   data-slot="field"
   class={cn("flex flex-col items-start gap-2", className)}
@@ -63,8 +73,11 @@
   {#snippet children(state)}
     <FieldRelationshipProvider
       bind:describedBy={relationshipDescribedBy}
+      disabled={state.disabled}
+      invalid={invalid === true}
       bind:labelId={relationshipLabelId}
       defaultControlId={controlId}
+      {name}
     >
       {@render child?.(state)}
     </FieldRelationshipProvider>

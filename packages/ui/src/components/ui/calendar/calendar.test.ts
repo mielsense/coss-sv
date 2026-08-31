@@ -95,6 +95,9 @@ describe("Calendar date model", () => {
     expect(
       resolveSelection("range", day3, { from: day1, to: day2 }, { resetOnSelect: true }),
     ).toEqual({ from: day3 });
+    expect(Object.hasOwn(resolveSelection("range", day1, undefined, { min: 2 }) ?? {}, "to")).toBe(
+      true,
+    );
   });
 
   test("normalizes instants to the requested time-zone day and noon-safe anchor", () => {
@@ -156,17 +159,17 @@ describe("Calendar date model", () => {
 });
 
 describe("Calendar SSR contract", () => {
-  test("treats selection as controlled whenever onSelect is present", () => {
+  test("uses selected as the controlled value whenever onSelect is present", () => {
     const body = render(SingleCalendar, {
       props: {
         defaultMonth: new Date(2026, 0, 1),
-        defaultSelected: new Date(2026, 0, 15),
         mode: "single",
         onSelect: () => undefined,
+        selected: new Date(2026, 0, 15),
       },
     }).body;
 
-    expect(body).not.toMatch(/data-day="2026-01-15"[^>]*data-selected="true"/);
+    expect(body).toMatch(/data-day="2026-01-15"[^>]*data-selected="true"/);
   });
 
   test("computes default today per instance and honors a controllable today prop", () => {
@@ -243,7 +246,8 @@ describe("Calendar SSR contract", () => {
     expect(body).toContain("rdp-weekdays");
     expect(body).toContain("rdp-weeks");
     expect(body).toContain("rdp-week");
-    expect(body).toContain('role="status" aria-live="polite"');
+    expect(body).toContain('role="status"');
+    expect(body).toContain('aria-live="polite"');
     expect(body).toContain('<thead aria-hidden="true">');
     expect(body).toContain('aria-label="Monday"');
     expect(body).toContain('aria-label="Thursday, January 15th, 2026, selected"');
@@ -274,6 +278,39 @@ describe("Calendar SSR contract", () => {
     expect(body).toContain('data-slot="week-number"');
     expect(body).toContain("invisible");
     expect(body).toContain("data-custom-day");
+  });
+
+  test("renders hidden days, modifier styles, numeral formatting, and the footer live region", () => {
+    const { body } = render(SingleCalendar, {
+      props: {
+        defaultMonth: january,
+        footer: "Choose a departure date",
+        formatters: {
+          formatWeekNumberHeader: () => "Wk",
+        },
+        hidden: new Date(2026, 0, 15),
+        modifiers: { payday: new Date(2026, 0, 16) },
+        modifiersClassNames: { payday: "is-payday" },
+        modifiersStyles: { payday: "color: rgb(1 2 3)" },
+        numerals: "arab",
+        showWeekNumber: true,
+        styles: { footer: "margin-top: 1rem", root: "outline: 0" },
+      },
+    });
+
+    const hiddenCell = body.match(/<td[^>]*data-day="2026-01-15"[^>]*>(.*?)<\/td>/s)?.[1];
+    expect(hiddenCell?.replaceAll(/<!--[\s\S]*?-->/g, "")).toBe("");
+    expect(body).toMatch(/data-day="2026-01-15"[^>]*data-hidden="true"/);
+    expect(body).toMatch(/class="[^"]*is-payday[^"]*"[^>]*data-day="2026-01-16"/);
+    expect(body).toMatch(/data-day="2026-01-16"[^>]*style="color: rgb\(1 2 3\);"/);
+    expect(body).toContain("Wk");
+    expect(body).toContain("٠١");
+    expect(body).toMatch(/class="rdp-footer"[^>]*role="status"/);
+    expect(body).toMatch(/<div[^>]*aria-live="polite"[^>]*class="rdp-footer"/);
+    expect(body).toContain('style="margin-top: 1rem"');
+    expect(body.indexOf("Choose a departure date")).toBeGreaterThan(
+      body.indexOf('data-slot="calendar-months"'),
+    );
   });
 
   test("rotates both default navigation glyphs in RTL without changing Chevron replacements", () => {
@@ -311,7 +348,7 @@ describe("Calendar SSR contract", () => {
     });
 
     expect(body).toContain("janvier 2026");
-    expect(body).toContain(">lu</th>");
+    expect(body).toMatch(/<th[^>]*aria-label="lundi"[^>]*>[\s\S]*?lu[\s\S]*?<\/th>/);
     expect(body).toContain('aria-label="vendredi 2 janvier 2026"');
     expect(body).toContain('aria-label="vendredi 2 janvier 2026"');
   });

@@ -2,6 +2,7 @@ import { createRawSnippet } from "svelte";
 import { expect, expectTypeOf, test } from "vitest";
 import type {
   TabsIndicatorProps,
+  TabsChangeEventDetails,
   TabsListProps,
   TabsPanelProps,
   TabsRootProps,
@@ -14,7 +15,13 @@ test("types every tabs part, values, variants, sizes, bindings, callbacks, refs,
   const root = {
     children,
     defaultValue: "one",
-    onValueChange: (value) => value,
+    onValueChange: (value, details) => {
+      expectTypeOf(value).toEqualTypeOf<TabsValue>();
+      expectTypeOf(details).toEqualTypeOf<TabsChangeEventDetails>();
+      details.allowPropagation();
+      details.cancel();
+      return details.activationDirection;
+    },
     orientation: "vertical",
     ref: null,
     value: "two",
@@ -37,5 +44,17 @@ test("types every tabs part, values, variants, sizes, bindings, callbacks, refs,
   expect(indicator.ref).toBe(null);
   expect(panel.value).toBe(null);
   expectTypeOf(root.value).toEqualTypeOf<string>();
-  expectTypeOf<TabsValue>().toEqualTypeOf<string | number | null>();
+  expectTypeOf<TabsValue>().toEqualTypeOf<unknown>();
+  expectTypeOf({ value: { id: 1 } } satisfies TabsTabProps<{ id: number }>).toMatchTypeOf<
+    TabsTabProps<{ id: number }>
+  >();
+  expectTypeOf({ value: { id: 1 } } satisfies TabsPanelProps<{ id: number }>).toMatchTypeOf<
+    TabsPanelProps<{ id: number }>
+  >();
+  expectTypeOf({ defaultValue: null } satisfies TabsRootProps<object>).toMatchTypeOf<
+    TabsRootProps<object>
+  >();
+  expectTypeOf<TabsChangeEventDetails["reason"]>().toEqualTypeOf<
+    "disabled" | "initial" | "missing" | "none"
+  >();
 });

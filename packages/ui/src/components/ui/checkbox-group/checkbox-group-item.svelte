@@ -78,8 +78,12 @@
     onclick?.(event);
   }
 
-  function handleParentCheckedChange(next: boolean) {
-    onCheckedChange?.(next);
+  function handleParentCheckedChange(
+    next: boolean,
+    details: Parameters<NonNullable<CheckboxProps["onCheckedChange"]>>[1],
+  ) {
+    onCheckedChange?.(next, details);
+    if (details.isCanceled) return;
     group.toggleParent();
   }
 

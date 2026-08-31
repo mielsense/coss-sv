@@ -1,13 +1,13 @@
 <script module lang="ts">
-  import type { Meter as ShardsMeter } from "@shardsui/svelte";
+  import type { Meter as ShardsMeter } from "@shardsui/svelte/meter";
   import type { ComponentProps } from "svelte";
 
   export type MeterRootProps = ComponentProps<typeof ShardsMeter.Root>;
 </script>
 
 <script lang="ts">
-  import { Meter as MeterPrimitive } from "@shardsui/svelte";
-  import { cn } from "$lib/utils.js";
+  import { Meter as MeterPrimitive } from "@shardsui/svelte/meter";
+  import { cn } from "@/utils.js";
   import MeterIndicator from "./meter-indicator.svelte";
   import MeterTrack from "./meter-track.svelte";
 

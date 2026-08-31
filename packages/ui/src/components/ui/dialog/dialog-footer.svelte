@@ -4,7 +4,7 @@
 </script>
 
 <script lang="ts">
-  import { cn } from "$lib/utils.js";
+  import { cn } from "@/utils.js";
   import DialogPart from "./dialog-part.svelte";
   let {
     class: className,

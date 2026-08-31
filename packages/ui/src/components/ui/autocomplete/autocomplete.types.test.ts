@@ -7,6 +7,7 @@ import type {
   AutocompleteInputProps,
   AutocompleteItemProps,
   AutocompletePopupProps,
+  AutocompleteRootProps,
   AutocompleteRowProps,
   AutocompleteSeparatorProps,
   AutocompleteStatusProps,
@@ -31,9 +32,21 @@ test("types autocomplete native attributes, composed input options, portal props
     disabled: false,
     value: { id: "apple" },
   } satisfies AutocompleteItemProps;
+  const root = {
+    defaultOpen: true,
+    defaultValue: "Ap",
+    items: [{ id: "apple", label: "Apple" }],
+    itemToStringValue: (value: { id: string; label: string }) => value.label,
+    onValueChange: (_value: string, details) => details.cancel(),
+  } satisfies AutocompleteRootProps<{ id: string; label: string }>;
   expect(input.size).toBe("lg");
   expect(popup.sideOffset).toBe(8);
   expect(item.disabled).toBe(false);
+  expect(root.defaultValue).toBe("Ap");
+  expectTypeOf(root.onValueChange).parameter(1).toMatchTypeOf<{
+    isCanceled: boolean;
+    reason: string;
+  }>();
 });
 
 test("types refs for every delegated autocomplete part", () => {

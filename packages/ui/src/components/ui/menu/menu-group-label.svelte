@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import type { Menu as ShardsMenu } from "@shardsui/svelte";
+  import type { Menu as ShardsMenu } from "@shardsui/svelte/menu";
   import type { ComponentProps } from "svelte";
   export type MenuGroupLabelProps = ComponentProps<typeof ShardsMenu.GroupLabel> & {
     inset?: boolean;
@@ -7,8 +7,8 @@
 </script>
 
 <script lang="ts">
-  import { Menu as MenuPrimitive } from "@shardsui/svelte";
-  import { cn } from "$lib/utils.js";
+  import { Menu as MenuPrimitive } from "@shardsui/svelte/menu";
+  import { cn } from "@/utils.js";
 
   let { class: className, inset, ref = $bindable(null), ...props }: MenuGroupLabelProps = $props();
 </script>

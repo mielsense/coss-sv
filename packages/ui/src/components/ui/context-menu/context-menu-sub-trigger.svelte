@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import type { ContextMenu as ShardsContextMenu } from "@shardsui/svelte";
+  import type { ContextMenu as ShardsContextMenu } from "@shardsui/svelte/context-menu";
   import type { ComponentProps } from "svelte";
   export type ContextMenuSubTriggerProps = ComponentProps<
     typeof ShardsContextMenu.SubmenuTrigger
@@ -9,10 +9,10 @@
 </script>
 
 <script lang="ts">
-  import { ChevronRightIcon } from "@hugeicons/core-free-icons";
-  import HugeiconsIcon from "$lib/hugeicons-icon.svelte";
-  import { ContextMenu as P } from "@shardsui/svelte";
-  import { cn } from "$lib/utils.js";
+  import ChevronRightIcon from "@hugeicons/core-free-icons/ChevronRightIcon";
+  import HugeiconsIcon from "@/hugeicons-icon.svelte";
+  import { ContextMenu as P } from "@shardsui/svelte/context-menu";
+  import { cn } from "@/utils.js";
   import { getContextMenuIdContext } from "./id-context.svelte.js";
 
   const triggerClass =

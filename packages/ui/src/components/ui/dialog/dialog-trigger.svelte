@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import type { Dialog as ShardsDialog } from "@shardsui/svelte";
+  import type { Dialog as ShardsDialog } from "@shardsui/svelte/dialog";
   import type { ComponentProps } from "svelte";
   type PrimitiveTriggerProps = ComponentProps<typeof ShardsDialog.Trigger>;
   export type DialogTriggerProps<Payload = unknown> = Omit<
@@ -13,7 +13,7 @@
 </script>
 
 <script lang="ts" generics="Payload = unknown">
-  import { Dialog as DialogPrimitive } from "@shardsui/svelte";
+  import { Dialog as DialogPrimitive } from "@shardsui/svelte/dialog";
   let { ref = $bindable(null), ...props }: DialogTriggerProps<Payload> = $props();
 </script>
 

@@ -1,4 +1,5 @@
-export { ToggleGroup as ToggleGroupPrimitive } from "@shardsui/svelte";
+export { ToggleGroup as ToggleGroupPrimitive } from "@shardsui/svelte/toggle-group";
+export type { ToggleGroupChangeEventDetails } from "./change-event-details.js";
 export type { ToggleGroupStyleContext } from "./context.js";
 export type { ToggleGroupItemProps } from "./toggle-group-item.svelte";
 export {

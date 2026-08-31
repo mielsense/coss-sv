@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import type { ContextMenu as ShardsContextMenu } from "@shardsui/svelte";
+  import type { ContextMenu as ShardsContextMenu } from "@shardsui/svelte/context-menu";
   import type { ComponentProps } from "svelte";
   export type ContextMenuRadioGroupProps<Value = unknown> = Omit<
     ComponentProps<typeof ShardsContextMenu.RadioGroup>,
@@ -8,7 +8,7 @@
 </script>
 
 <script lang="ts" generics="Value = unknown">
-  import { ContextMenu as P } from "@shardsui/svelte";
+  import { ContextMenu as P } from "@shardsui/svelte/context-menu";
   import { type Component, untrack } from "svelte";
 
   const RadioGroupPrimitive = P.RadioGroup as Component<

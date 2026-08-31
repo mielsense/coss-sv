@@ -14,10 +14,10 @@
 </script>
 
 <script lang="ts">
-  import { Input as InputPrimitive } from "@shardsui/svelte";
+  import { Input as InputPrimitive } from "@shardsui/svelte/input";
   import { type Component, untrack } from "svelte";
   import type { Attachment } from "svelte/attachments";
-  import { cn } from "$lib/utils.js";
+  import { cn } from "@/utils.js";
   import { reconcileAriaRelationship } from "../field/reconcile-aria-relationship.js";
   import { getFieldRelationshipContext } from "../field/relationship-context.svelte.js";
 

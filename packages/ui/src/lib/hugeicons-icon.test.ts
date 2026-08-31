@@ -1,4 +1,5 @@
-import { AlertCircleIcon, Tick02Icon } from "@hugeicons/core-free-icons";
+import AlertCircleIcon from "@hugeicons/core-free-icons/AlertCircleIcon";
+import Tick02Icon from "@hugeicons/core-free-icons/Tick02Icon";
 import { createRawSnippet } from "svelte";
 import { render } from "svelte/server";
 import { describe, expect, test } from "vitest";

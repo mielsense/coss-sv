@@ -65,6 +65,7 @@ describe("Pagination SSR contract", () => {
     expect(active).toContain('target="_self"');
     expect(active).toContain("border-input");
     expect(inactive).not.toContain("aria-current");
+    expect(inactive).not.toContain("data-active");
     expect(inactive).toContain("border-transparent");
   });
 

@@ -6,7 +6,7 @@
   import {
     type ToastManager as PrimitiveToastManager,
     Toast as ToastPrimitive,
-  } from "@shardsui/svelte";
+  } from "@shardsui/svelte/toast";
   import type { ToastProviderProps } from "./toast.types.js";
   import type { ToastManager } from "./toast-manager.js";
   import { toastManager as defaultManager } from "./toast-managers.js";

@@ -2,6 +2,7 @@ import { createRawSnippet } from "svelte";
 import { expect, expectTypeOf, test } from "vitest";
 import type {
   CalendarDayButtonProps,
+  CalendarComponents,
   CalendarMultipleProps,
   CalendarMultipleRequiredProps,
   CalendarProps,
@@ -85,6 +86,7 @@ test("types full replacement DayButton and WeekNumber host props", () => {
     modifiers: {
       disabled: false,
       focused: true,
+      hidden: false,
       outside: false,
       range_end: false,
       range_middle: false,
@@ -108,4 +110,35 @@ test("types full replacement DayButton and WeekNumber host props", () => {
 
   expect(dayButton.day.date).toBe(date);
   expect(weekNumber.week.weekNumber).toBe(3);
+});
+
+test("exposes every DayPicker 10 replacement component key", () => {
+  expectTypeOf<keyof CalendarComponents>().toEqualTypeOf<
+    | "CaptionLabel"
+    | "Chevron"
+    | "Day"
+    | "DayButton"
+    | "Dropdown"
+    | "DropdownNav"
+    | "Footer"
+    | "Month"
+    | "MonthCaption"
+    | "MonthGrid"
+    | "Months"
+    | "MonthsDropdown"
+    | "Nav"
+    | "NextMonthButton"
+    | "Option"
+    | "PreviousMonthButton"
+    | "Root"
+    | "Select"
+    | "Week"
+    | "Weekday"
+    | "Weekdays"
+    | "WeekNumber"
+    | "WeekNumberHeader"
+    | "Weeks"
+    | "YearsDropdown"
+  >();
+  expect(true).toBe(true);
 });

@@ -2,7 +2,7 @@
   import type { ClassValue } from "clsx";
   import type { Snippet } from "svelte";
   import type { SvelteHTMLElements } from "svelte/elements";
-  import { cn } from "$lib/utils.js";
+  import { cn } from "@/utils.js";
 
   export type BadgeVariant =
     | "default"

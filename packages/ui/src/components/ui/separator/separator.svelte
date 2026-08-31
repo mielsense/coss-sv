@@ -1,7 +1,7 @@
 <!-- biome-ignore-all lint/a11y/useSemanticElements: COSS and Shards use a configurable element rather than a fixed hr. -->
 <!-- biome-ignore-all lint/a11y/useAriaPropsForRole: A non-focusable separator only requires aria-orientation. -->
 <script module lang="ts">
-  import type { Separator as ShardsSeparator } from "@shardsui/svelte";
+  import type { Separator as ShardsSeparator } from "@shardsui/svelte/separator";
   import type { ComponentProps, Snippet } from "svelte";
 
   export type SeparatorOrientation = "horizontal" | "vertical";
@@ -12,8 +12,8 @@
 </script>
 
 <script lang="ts">
-  import { Separator as SeparatorPrimitive } from "@shardsui/svelte";
-  import { cn } from "$lib/utils.js";
+  import { Separator as SeparatorPrimitive } from "@shardsui/svelte/separator";
+  import { cn } from "@/utils.js";
 
   const baseClass =
     "shrink-0 bg-border data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full data-[orientation=vertical]:w-px data-[orientation=vertical]:not-[[class^='h-']]:not-[[class*='_h-']]:self-stretch";

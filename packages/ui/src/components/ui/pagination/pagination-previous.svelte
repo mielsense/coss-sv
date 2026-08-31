@@ -5,9 +5,9 @@
 </script>
 
 <script lang="ts">
-  import { ChevronLeftIcon } from "@hugeicons/core-free-icons";
-  import HugeiconsIcon from "$lib/hugeicons-icon.svelte";
-  import { cn } from "$lib/utils.js";
+  import ChevronLeftIcon from "@hugeicons/core-free-icons/ChevronLeftIcon";
+  import HugeiconsIcon from "@/hugeicons-icon.svelte";
+  import { cn } from "@/utils.js";
   import PaginationLink from "./pagination-link.svelte";
 
   let {

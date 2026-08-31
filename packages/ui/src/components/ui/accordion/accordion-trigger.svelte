@@ -1,15 +1,15 @@
 <script module lang="ts">
-  import type { Accordion as ShardsAccordion } from "@shardsui/svelte";
+  import type { Accordion as ShardsAccordion } from "@shardsui/svelte/accordion";
   import type { ComponentProps } from "svelte";
 
   export type AccordionTriggerProps = ComponentProps<typeof ShardsAccordion.Trigger>;
 </script>
 
 <script lang="ts">
-  import { ChevronDownIcon } from "@hugeicons/core-free-icons";
-  import { Accordion as AccordionPrimitive } from "@shardsui/svelte";
-  import HugeiconsIcon from "$lib/hugeicons-icon.svelte";
-  import { cn } from "$lib/utils.js";
+  import ChevronDownIcon from "@hugeicons/core-free-icons/ChevronDownIcon";
+  import { Accordion as AccordionPrimitive } from "@shardsui/svelte/accordion";
+  import HugeiconsIcon from "@/hugeicons-icon.svelte";
+  import { cn } from "@/utils.js";
 
   let {
     children: child,

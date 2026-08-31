@@ -1,5 +1,5 @@
 <script lang="ts" generics="Payload = unknown">
-  import { Menu as MenuPrimitive } from "@shardsui/svelte";
+  import { Menu as MenuPrimitive } from "@shardsui/svelte/menu";
   import type { MenuTriggerProps } from "./menu.types.js";
 
   let { children: child, ref = $bindable(null), ...props }: MenuTriggerProps<Payload> = $props();

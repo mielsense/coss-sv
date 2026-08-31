@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import type { Combobox as ShardsCombobox } from "@shardsui/svelte";
+  import type { Combobox as ShardsCombobox } from "@shardsui/svelte/combobox";
   import type { ComponentProps, Snippet } from "svelte";
   export type ComboboxInputSize = "sm" | "default" | "lg" | number;
   export type ComboboxInputProps = Omit<
@@ -18,10 +18,12 @@
 </script>
 
 <script lang="ts">
-  import { Cancel01Icon, UnfoldMoreIcon } from "@hugeicons/core-free-icons";
-  import { Combobox as C } from "@shardsui/svelte";
-  import HugeiconsIcon from "$lib/hugeicons-icon.svelte";
-  import { cn } from "$lib/utils.js";
+  import Cancel01Icon from "@hugeicons/core-free-icons/Cancel01Icon";
+  import UnfoldMoreIcon from "@hugeicons/core-free-icons/UnfoldMoreIcon";
+  import { Combobox as C } from "@shardsui/svelte/combobox";
+  import HugeiconsIcon from "@/hugeicons-icon.svelte";
+  import { getSelectionChangeContext } from "@/selection-change-context.js";
+  import { cn } from "@/utils.js";
   import ComboboxClear from "./combobox-clear.svelte";
   import ComboboxTrigger from "./combobox-trigger.svelte";
 
@@ -34,6 +36,8 @@
   let {
     class: className,
     clearProps = {},
+    oninput,
+    onkeydown,
     ref = $bindable(null),
     showClear = false,
     showTrigger = true,
@@ -42,6 +46,7 @@
     triggerProps = {},
     ...props
   }: ComboboxInputProps = $props();
+  const change = getSelectionChangeContext();
   const nativeSize = $derived(typeof size === "number" ? size : undefined);
   const innerClass = $derived(
     cn(
@@ -53,6 +58,7 @@
   const composedControlClass = $derived(
     cn(
       controlClass,
+      "has-disabled:opacity-100",
       startAddon &&
         "data-[size=sm]:*:data-[slot=combobox-input]:ps-[calc(--spacing(7.5)-1px)] *:data-[slot=combobox-input]:ps-[calc(--spacing(8.5)-1px)] sm:data-[size=sm]:*:data-[slot=combobox-input]:ps-[calc(--spacing(7)-1px)] sm:*:data-[slot=combobox-input]:ps-[calc(--spacing(8)-1px)]",
       (showTrigger || showClear) &&
@@ -63,6 +69,19 @@
     ),
   );
   const adornmentPosition = $derived(size === "sm" ? "end-0" : "end-0.5");
+
+  function handleInput(event: Parameters<NonNullable<ComboboxInputProps["oninput"]>>[0]): void {
+    change?.prepare("input-change", event);
+    oninput?.(event);
+  }
+
+  function handleKeydown(event: Parameters<NonNullable<ComboboxInputProps["onkeydown"]>>[0]): void {
+    if (event.key === "Escape") change?.prepare("escape-key", event);
+    else if (["ArrowDown", "ArrowUp", "Enter"].includes(event.key)) {
+      change?.prepare("list-navigation", event);
+    }
+    onkeydown?.(event);
+  }
 </script>
 
 <C.InputGroup
@@ -83,6 +102,8 @@
       bind:ref
       class={innerClass}
       data-slot="combobox-input"
+      oninput={handleInput}
+      onkeydown={handleKeydown}
       size={nativeSize}
       {...props}
     /></span

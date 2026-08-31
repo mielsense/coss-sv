@@ -1,4 +1,4 @@
-import { Menu as MenuPrimitive } from "@shardsui/svelte";
+import { Menu as MenuPrimitive } from "@shardsui/svelte/menu";
 
 export { MenuPrimitive };
 export const Handle = MenuPrimitive.Handle;

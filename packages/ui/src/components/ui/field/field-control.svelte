@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { Field as FieldPrimitive } from "@shardsui/svelte";
+  import { Field as FieldPrimitive } from "@shardsui/svelte/field";
   import type { ComponentProps } from "svelte";
 
   export type FieldControlProps = ComponentProps<typeof FieldPrimitive.Control>;

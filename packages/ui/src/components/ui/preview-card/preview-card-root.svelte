@@ -1,5 +1,5 @@
 <script lang="ts" generics="Payload = unknown">
-  import { PreviewCard as PreviewCardPrimitive } from "@shardsui/svelte";
+  import { PreviewCard as PreviewCardPrimitive } from "@shardsui/svelte/preview-card";
   import { untrack } from "svelte";
   import type { PreviewCardRootProps } from "./preview-card.types.js";
 

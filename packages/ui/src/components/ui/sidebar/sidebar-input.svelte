@@ -6,7 +6,7 @@
 </script>
 
 <script lang="ts">
-  import { cn } from "$lib/utils.js";
+  import { cn } from "@/utils.js";
   import Input from "../input/input.svelte";
 
   let { class: className, ref = $bindable(null), ...props }: SidebarInputProps = $props();

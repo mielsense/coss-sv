@@ -1,21 +1,29 @@
 <script module lang="ts">
-  import type { Combobox as ShardsCombobox } from "@shardsui/svelte";
+  import type { Combobox as ShardsCombobox } from "@shardsui/svelte/combobox";
   import type { ComponentProps } from "svelte";
   export type ComboboxItemProps = ComponentProps<typeof ShardsCombobox.Item>;
 </script>
 
 <script lang="ts">
-  import { Tick02Icon } from "@hugeicons/core-free-icons";
-  import { Combobox as C } from "@shardsui/svelte";
-  import HugeiconsIcon from "$lib/hugeicons-icon.svelte";
-  import { cn } from "$lib/utils.js";
+  import Tick02Icon from "@hugeicons/core-free-icons/Tick02Icon";
+  import { Combobox as C } from "@shardsui/svelte/combobox";
+  import HugeiconsIcon from "@/hugeicons-icon.svelte";
+  import { getSelectionChangeContext } from "@/selection-change-context.js";
+  import { cn } from "@/utils.js";
 
   let {
     children: child,
     class: className,
+    onclick,
     ref = $bindable(null),
     ...props
   }: ComboboxItemProps = $props();
+  const change = getSelectionChangeContext();
+
+  function handleClick(event: Parameters<NonNullable<ComboboxItemProps["onclick"]>>[0]): void {
+    change?.prepare("item-press", event);
+    onclick?.(event);
+  }
 </script>
 
 <C.Item
@@ -25,6 +33,7 @@
     className,
   )}
   data-slot="combobox-item"
+  onclick={handleClick}
   {...props}
   >{#snippet children(state)}
     <C.ItemIndicator class="col-start-1"

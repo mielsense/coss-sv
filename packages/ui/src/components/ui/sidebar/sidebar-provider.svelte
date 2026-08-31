@@ -15,7 +15,7 @@
 <script lang="ts">
   import { untrack } from "svelte";
   import { MediaQuery } from "svelte/reactivity";
-  import { cn } from "$lib/utils.js";
+  import { cn } from "@/utils.js";
   import { setSidebarContext } from "./context.js";
 
   const SIDEBAR_COOKIE_NAME = "sidebar_state";

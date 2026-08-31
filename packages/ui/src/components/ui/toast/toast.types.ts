@@ -1,7 +1,7 @@
 import type {
   ToastManager as PrimitiveToastManager,
   Toast as ToastPrimitive,
-} from "@shardsui/svelte";
+} from "@shardsui/svelte/toast";
 import type { ComponentProps, Snippet } from "svelte";
 import type { HTMLAttributes } from "svelte/elements";
 import type { ToastManager } from "./toast-manager.js";

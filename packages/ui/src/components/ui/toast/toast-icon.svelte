@@ -1,12 +1,10 @@
 <script lang="ts">
-  import {
-    Alert02Icon,
-    AlertCircleIcon,
-    CheckmarkCircle02Icon,
-    InformationCircleIcon,
-    Loading02Icon,
-  } from "@hugeicons/core-free-icons";
-  import HugeiconsIcon from "$lib/hugeicons-icon.svelte";
+  import Alert02Icon from "@hugeicons/core-free-icons/Alert02Icon";
+  import AlertCircleIcon from "@hugeicons/core-free-icons/AlertCircleIcon";
+  import CheckmarkCircle02Icon from "@hugeicons/core-free-icons/CheckmarkCircle02Icon";
+  import InformationCircleIcon from "@hugeicons/core-free-icons/InformationCircleIcon";
+  import Loading02Icon from "@hugeicons/core-free-icons/Loading02Icon";
+  import HugeiconsIcon from "@/hugeicons-icon.svelte";
 
   let { type }: { type: string } = $props();
   const icon = $derived(

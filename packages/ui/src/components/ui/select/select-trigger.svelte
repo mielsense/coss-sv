@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import type { Select as ShardsSelect } from "@shardsui/svelte";
+  import type { Select as ShardsSelect } from "@shardsui/svelte/select";
   import type { ComponentProps } from "svelte";
   export type SelectTriggerSize = "sm" | "default" | "lg";
   export type SelectTriggerProps = ComponentProps<typeof ShardsSelect.Trigger> & {
@@ -11,23 +11,32 @@
 </script>
 
 <script lang="ts">
-  import { UnfoldMoreIcon } from "@hugeicons/core-free-icons";
-  import { Select as S } from "@shardsui/svelte";
-  import HugeiconsIcon from "$lib/hugeicons-icon.svelte";
-  import { cn } from "$lib/utils.js";
+  import UnfoldMoreIcon from "@hugeicons/core-free-icons/UnfoldMoreIcon";
+  import { Select as S } from "@shardsui/svelte/select";
+  import HugeiconsIcon from "@/hugeicons-icon.svelte";
+  import { getSelectionChangeContext } from "@/selection-change-context.js";
+  import { cn } from "@/utils.js";
   import { getSelectWrapperContext } from "./context.svelte.js";
 
   let {
     children: child,
     class: className,
+    onclick,
     ref = $bindable(null),
     size = "default",
     ...props
   }: SelectTriggerProps = $props();
   const context = getSelectWrapperContext();
+  const change = getSelectionChangeContext();
+
   function setRef(el: HTMLElement | null) {
     ref = el;
     context.triggerRef = el;
+  }
+
+  function handleClick(event: Parameters<NonNullable<SelectTriggerProps["onclick"]>>[0]): void {
+    change?.prepare("trigger-press", event);
+    onclick?.(event);
   }
 </script>
 
@@ -41,6 +50,7 @@
     className,
   )}
   data-slot="select-trigger"
+  onclick={handleClick}
   {...props}
   >{#snippet children(state)}
     {@render child?.(state)}

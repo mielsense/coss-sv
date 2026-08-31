@@ -1,6 +1,7 @@
 import { createRawSnippet } from "svelte";
 import { expect, expectTypeOf, test } from "vitest";
 import type {
+  ToggleGroupChangeEventDetails,
   ToggleGroupItemProps,
   ToggleGroupRootProps,
   ToggleGroupSeparatorProps,
@@ -15,7 +16,10 @@ test("types root selection, item toggles, separators, callbacks, refs, and snipp
     disabled: false,
     loopFocus: false,
     multiple: true,
-    onValueChange: (value) => value,
+    onValueChange: (value, details: ToggleGroupChangeEventDetails) => {
+      details.cancel();
+      return value;
+    },
     orientation: "vertical",
     ref: null,
     size: "lg",
@@ -26,7 +30,10 @@ test("types root selection, item toggles, separators, callbacks, refs, and snipp
     "aria-label": "Toggle bold",
     children,
     disabled: false,
-    onPressedChange: (pressed) => pressed,
+    onPressedChange: (pressed, details) => {
+      details.cancel();
+      return pressed;
+    },
     pressed: true,
     ref: null,
     value: "bold",

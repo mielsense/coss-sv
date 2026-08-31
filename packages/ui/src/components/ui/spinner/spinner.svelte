@@ -14,9 +14,9 @@
 </script>
 
 <script lang="ts">
-  import { Loading02Icon } from "@hugeicons/core-free-icons";
-  import HugeiconsIcon from "$lib/hugeicons-icon.svelte";
-  import { cn } from "$lib/utils.js";
+  import Loading02Icon from "@hugeicons/core-free-icons/Loading02Icon";
+  import HugeiconsIcon from "@/hugeicons-icon.svelte";
+  import { cn } from "@/utils.js";
 
   let {
     absoluteStrokeWidth = false,

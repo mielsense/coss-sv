@@ -1,12 +1,12 @@
 <script module lang="ts">
-  import type { Progress as ShardsProgress } from "@shardsui/svelte";
+  import type { Progress as ShardsProgress } from "@shardsui/svelte/progress";
   import type { ComponentProps } from "svelte";
   export type ProgressTrackProps = ComponentProps<typeof ShardsProgress.Track>;
 </script>
 
 <script lang="ts">
-  import { Progress as ProgressPrimitive } from "@shardsui/svelte";
-  import { cn } from "$lib/utils.js";
+  import { Progress as ProgressPrimitive } from "@shardsui/svelte/progress";
+  import { cn } from "@/utils.js";
 
   let { class: className, ref = $bindable(null), ...props }: ProgressTrackProps = $props();
   const classes = $derived(
