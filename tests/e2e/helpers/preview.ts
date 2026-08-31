@@ -17,6 +17,7 @@ type ExternalRequestGuard = {
 
 export const fixedClockTime = "2026-01-15T12:00:00.000Z";
 export const localPreviewOrigins = createLocalPreviewOrigins(targetPreviewPort);
+export const previewSansFont = '14px "Cal Sans"';
 
 const deterministicPages = new WeakMap<Page, ExternalRequestGuard>();
 
@@ -163,6 +164,14 @@ export async function openReadyPreview(
   if (!response?.ok()) {
     throw new Error(`Preview request failed with ${response?.status() ?? "no response"}.`);
   }
+
+  await page.evaluate(async (font) => {
+    await document.fonts.load(font);
+    await document.fonts.ready;
+    if (!document.fonts.check(font)) {
+      throw new Error(`Preview font failed to load: ${font}`);
+    }
+  }, previewSansFont);
 
   const ready = page.locator('[data-preview-ready="true"]');
   await ready.waitFor({ state: "visible" });

@@ -7,6 +7,7 @@ import {
   monitorConsole,
   openReadyPreview,
   prepareDeterministicPage,
+  previewSansFont,
   previewViewportHeights,
   runKeyboardTrace,
 } from "./helpers/preview.js";
@@ -45,6 +46,7 @@ test.describe("preview harness", () => {
     const previewNow = await frame.getAttribute("data-preview-now");
     expect(previewNow).toBeTruthy();
     expect(await page.evaluate(() => Date.now())).toBe(Date.parse(previewNow ?? ""));
+    expect(await page.evaluate((font) => document.fonts.check(font), previewSansFont)).toBe(true);
 
     const button = page.getByRole("button", { name: "Advance count" });
     await button.focus();
