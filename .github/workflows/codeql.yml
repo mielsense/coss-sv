@@ -15,6 +15,7 @@ permissions:
 jobs:
   analyze:
     name: analyze javascript and typescript
+    if: ${{ github.event.repository.private == false || vars.CODEQL_PRIVATE_ENABLED == 'true' }}
     runs-on: ubuntu-latest
     timeout-minutes: 30
     permissions:
