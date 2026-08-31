@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
 
   export const meta = defineParticleMeta({
     components: ["button", "input-group", "tooltip"],
@@ -13,7 +13,8 @@
 
 <script lang="ts">
   import { buttonVariants, HugeiconsIcon, InputGroup, Tooltip } from "@coss-sv/ui";
-  import { ViewIcon, ViewOffIcon } from "@hugeicons/core-free-icons";
+  import ViewIcon from "@hugeicons/core-free-icons/ViewIcon";
+  import ViewOffIcon from "@hugeicons/core-free-icons/ViewOffIcon";
 
   let showPassword = $state(false);
 </script>

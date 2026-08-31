@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
   export const meta = defineParticleMeta({
     components: ["button", "field", "fieldset", "form", "slider"],
     id: "p-slider-23",
@@ -12,14 +12,16 @@
 
 <script lang="ts">
   import { Button, Field, Fieldset, Form, Slider } from "@coss-sv/ui";
+  import { createDemoDelay } from "../lib/demo-delay.js";
 
+  const delay = createDemoDelay();
   let loading = $state(false);
   let value = $state<number | readonly number[]>([25, 75]);
   async function submit(event: SubmitEvent) {
     event.preventDefault();
     const formData = new FormData(event.currentTarget as HTMLFormElement);
     loading = true;
-    await new Promise((resolve) => setTimeout(resolve, 800));
+    if (!(await delay())) return;
     loading = false;
     window.alert(`Volume: ${formData.getAll("volume").join(", ")}`);
   }

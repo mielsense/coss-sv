@@ -1,4 +1,3 @@
-import AxeBuilder from "@axe-core/playwright";
 import { expect, type Page, test } from "@playwright/test";
 import { assertNoAxeViolations, monitorConsole, openReadyPreview } from "./helpers/preview.js";
 
@@ -7,11 +6,7 @@ async function assertKbdAxe(page: Page, theme: "dark" | "light") {
     await assertNoAxeViolations(page, '[data-preview-ready="true"]');
     return;
   }
-  const results = await new AxeBuilder({ page })
-    .include('[data-preview-ready="true"]')
-    .disableRules(["color-contrast"])
-    .analyze();
-  expect(results.violations).toEqual([]);
+  await assertNoAxeViolations(page, '[data-preview-ready="true"]', ["color-contrast"]);
 }
 
 test("renders the exact Kbd particle contract at desktop and mobile widths", async ({

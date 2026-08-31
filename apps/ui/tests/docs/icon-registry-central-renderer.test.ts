@@ -2,66 +2,64 @@ import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { type HugeiconData, HugeiconsIcon } from "@coss-sv/ui";
-import {
-  Add01Icon,
-  AlertCircleIcon,
-  ArrowDown01Icon,
-  ArrowLeft01Icon,
-  ArrowRight01Icon,
-  ArrowTurnBackwardIcon,
-  ArrowUp01Icon,
-  BoldIcon,
-  Bookmark01Icon,
-  BookOpen01Icon,
-  BoxIcon,
-  Cancel01Icon,
-  ChevronDownIcon,
-  CircleIcon,
-  Copy01Icon,
-  CopyIcon,
-  Delete02Icon,
-  Download01Icon,
-  Facebook01Icon,
-  Folder01Icon,
-  Github01Icon,
-  GoogleIcon,
-  House01Icon,
-  InboxIcon,
-  ItalicIcon,
-  Link01Icon,
-  Mail01Icon,
-  Menu01Icon,
-  MinusSignIcon,
-  MoreHorizontalIcon,
-  NewTwitterIcon,
-  Notification01Icon,
-  PanelsTopLeftIcon,
-  PencilIcon,
-  PlusSignIcon,
-  PrinterIcon,
-  QrCodeIcon,
-  RotateLeft01Icon,
-  Route01Icon,
-  Search01Icon,
-  Settings01Icon,
-  Share03Icon,
-  Share08Icon,
-  ShieldAlertIcon,
-  StarIcon,
-  TextBoldIcon,
-  TextItalicIcon,
-  TextUnderlineIcon,
-  ThumbsUpIcon,
-  Tick01Icon,
-  TrashIcon,
-  UnderlineIcon,
-  UnfoldMoreIcon,
-  UserIcon,
-  UserRoundPlusIcon,
-  UsersRoundIcon,
-  VolumeHighIcon,
-  VolumeMute02Icon,
-} from "@hugeicons/core-free-icons";
+import Add01Icon from "@hugeicons/core-free-icons/Add01Icon";
+import AlertCircleIcon from "@hugeicons/core-free-icons/AlertCircleIcon";
+import ArrowDown01Icon from "@hugeicons/core-free-icons/ArrowDown01Icon";
+import ArrowLeft01Icon from "@hugeicons/core-free-icons/ArrowLeft01Icon";
+import ArrowRight01Icon from "@hugeicons/core-free-icons/ArrowRight01Icon";
+import ArrowTurnBackwardIcon from "@hugeicons/core-free-icons/ArrowTurnBackwardIcon";
+import ArrowUp01Icon from "@hugeicons/core-free-icons/ArrowUp01Icon";
+import BoldIcon from "@hugeicons/core-free-icons/BoldIcon";
+import Bookmark01Icon from "@hugeicons/core-free-icons/Bookmark01Icon";
+import BookOpen01Icon from "@hugeicons/core-free-icons/BookOpen01Icon";
+import BoxIcon from "@hugeicons/core-free-icons/BoxIcon";
+import Cancel01Icon from "@hugeicons/core-free-icons/Cancel01Icon";
+import ChevronDownIcon from "@hugeicons/core-free-icons/ChevronDownIcon";
+import CircleIcon from "@hugeicons/core-free-icons/CircleIcon";
+import Copy01Icon from "@hugeicons/core-free-icons/Copy01Icon";
+import CopyIcon from "@hugeicons/core-free-icons/CopyIcon";
+import Delete02Icon from "@hugeicons/core-free-icons/Delete02Icon";
+import Download01Icon from "@hugeicons/core-free-icons/Download01Icon";
+import Facebook01Icon from "@hugeicons/core-free-icons/Facebook01Icon";
+import Folder01Icon from "@hugeicons/core-free-icons/Folder01Icon";
+import Github01Icon from "@hugeicons/core-free-icons/Github01Icon";
+import GoogleIcon from "@hugeicons/core-free-icons/GoogleIcon";
+import House01Icon from "@hugeicons/core-free-icons/House01Icon";
+import InboxIcon from "@hugeicons/core-free-icons/InboxIcon";
+import ItalicIcon from "@hugeicons/core-free-icons/ItalicIcon";
+import Link01Icon from "@hugeicons/core-free-icons/Link01Icon";
+import Mail01Icon from "@hugeicons/core-free-icons/Mail01Icon";
+import Menu01Icon from "@hugeicons/core-free-icons/Menu01Icon";
+import MinusSignIcon from "@hugeicons/core-free-icons/MinusSignIcon";
+import MoreHorizontalIcon from "@hugeicons/core-free-icons/MoreHorizontalIcon";
+import NewTwitterIcon from "@hugeicons/core-free-icons/NewTwitterIcon";
+import Notification01Icon from "@hugeicons/core-free-icons/Notification01Icon";
+import PanelsTopLeftIcon from "@hugeicons/core-free-icons/PanelsTopLeftIcon";
+import PencilIcon from "@hugeicons/core-free-icons/PencilIcon";
+import PlusSignIcon from "@hugeicons/core-free-icons/PlusSignIcon";
+import PrinterIcon from "@hugeicons/core-free-icons/PrinterIcon";
+import QrCodeIcon from "@hugeicons/core-free-icons/QrCodeIcon";
+import RotateLeft01Icon from "@hugeicons/core-free-icons/RotateLeft01Icon";
+import Route01Icon from "@hugeicons/core-free-icons/Route01Icon";
+import Search01Icon from "@hugeicons/core-free-icons/Search01Icon";
+import Settings01Icon from "@hugeicons/core-free-icons/Settings01Icon";
+import Share03Icon from "@hugeicons/core-free-icons/Share03Icon";
+import Share08Icon from "@hugeicons/core-free-icons/Share08Icon";
+import ShieldAlertIcon from "@hugeicons/core-free-icons/ShieldAlertIcon";
+import StarIcon from "@hugeicons/core-free-icons/StarIcon";
+import TextBoldIcon from "@hugeicons/core-free-icons/TextBoldIcon";
+import TextItalicIcon from "@hugeicons/core-free-icons/TextItalicIcon";
+import TextUnderlineIcon from "@hugeicons/core-free-icons/TextUnderlineIcon";
+import ThumbsUpIcon from "@hugeicons/core-free-icons/ThumbsUpIcon";
+import Tick01Icon from "@hugeicons/core-free-icons/Tick01Icon";
+import TrashIcon from "@hugeicons/core-free-icons/TrashIcon";
+import UnderlineIcon from "@hugeicons/core-free-icons/UnderlineIcon";
+import UnfoldMoreIcon from "@hugeicons/core-free-icons/UnfoldMoreIcon";
+import UserIcon from "@hugeicons/core-free-icons/UserIcon";
+import UserRoundPlusIcon from "@hugeicons/core-free-icons/UserRoundPlusIcon";
+import UsersRoundIcon from "@hugeicons/core-free-icons/UsersRoundIcon";
+import VolumeHighIcon from "@hugeicons/core-free-icons/VolumeHighIcon";
+import VolumeMute02Icon from "@hugeicons/core-free-icons/VolumeMute02Icon";
 import type { Component } from "svelte";
 import { render } from "svelte/server";
 import { describe, expect, test } from "vitest";
@@ -400,26 +398,23 @@ const iconContract = {
   },
 } satisfies Record<OwnedParticle, ParticleIconContract>;
 
-const particleModules = import.meta.glob<{ default: Component }>(
-  [
-    "../../registry/default/particles/p-button-{13,14,15,16,19,20,21,22,23,24,26,27,30,31,35,36,37,38,39,40}.svelte",
-    "../../registry/default/particles/p-card-{1,3,4,6,7,8,10,11}.svelte",
-    "../../registry/default/particles/p-collapsible-1.svelte",
-    "../../registry/default/particles/p-drawer-13.svelte",
-    "../../registry/default/particles/p-empty-1.svelte",
-    "../../registry/default/particles/p-frame-2.svelte",
-    "../../registry/default/particles/p-popover-{2,3,4}.svelte",
-    "../../registry/default/particles/p-preview-card-1.svelte",
-    "../../registry/default/particles/p-skeleton-1.svelte",
-    "../../registry/default/particles/p-slider-{11,14,21}.svelte",
-    "../../registry/default/particles/p-switch-{7,8,9}.svelte",
-    "../../registry/default/particles/p-tabs-{6,7,8,9,11,12,13}.svelte",
-    "../../registry/default/particles/p-toggle-{3,7,8}.svelte",
-    "../../registry/default/particles/p-toggle-group-{1,2,3,4,5,6,7,8,9}.svelte",
-    "../../registry/default/particles/p-tooltip-{2,3,4}.svelte",
-  ],
-  { eager: true },
-);
+const particleLoaders = import.meta.glob<{ default: Component }>([
+  "../../registry/default/particles/p-button-{13,14,15,16,19,20,21,22,23,24,26,27,30,31,35,36,37,38,39,40}.svelte",
+  "../../registry/default/particles/p-card-{1,3,4,6,7,8,10,11}.svelte",
+  "../../registry/default/particles/p-collapsible-1.svelte",
+  "../../registry/default/particles/p-drawer-13.svelte",
+  "../../registry/default/particles/p-empty-1.svelte",
+  "../../registry/default/particles/p-frame-2.svelte",
+  "../../registry/default/particles/p-popover-{2,3,4}.svelte",
+  "../../registry/default/particles/p-preview-card-1.svelte",
+  "../../registry/default/particles/p-skeleton-1.svelte",
+  "../../registry/default/particles/p-slider-{11,14,21}.svelte",
+  "../../registry/default/particles/p-switch-{7,8,9}.svelte",
+  "../../registry/default/particles/p-tabs-{6,7,8,9,11,12,13}.svelte",
+  "../../registry/default/particles/p-toggle-{3,7,8}.svelte",
+  "../../registry/default/particles/p-toggle-group-{1,2,3,4,5,6,7,8,9}.svelte",
+  "../../registry/default/particles/p-tooltip-{2,3,4}.svelte",
+]);
 
 function particleSource(id: OwnedParticle): string {
   return readFileSync(
@@ -446,15 +441,13 @@ function sourceIconBindings(source: string): string[] {
 }
 
 function sourceCoreIconImports(source: string): string[] {
-  const imported = source.match(
-    /import\s*\{([^}]*)\}\s*from\s*["']@hugeicons\/core-free-icons["'];/,
-  )?.[1];
-  expect(imported).toBeDefined();
-  return (imported ?? "")
-    .split(",")
-    .map((name) => name.trim())
-    .filter(Boolean)
-    .sort();
+  const imports = [
+    ...source.matchAll(
+      /import\s+([A-Za-z0-9]+Icon)\s+from\s+["']@hugeicons\/core-free-icons\/([A-Za-z0-9]+Icon)["'];/g,
+    ),
+  ];
+  expect(imports.length).toBeGreaterThan(0);
+  return imports.map((match) => match[1] ?? "").sort();
 }
 
 function officialIcon(name: IconName): HugeiconData {
@@ -468,7 +461,7 @@ describe("owned registry particle Hugeicons renderer migration", () => {
     expect(ownedParticles).toHaveLength(65);
     expect(Object.values(iconContract).flatMap(({ sites }) => sites)).toHaveLength(113);
     expect(Object.keys(iconContract).sort()).toEqual([...ownedParticles].sort());
-    expect(Object.keys(particleModules).sort()).toEqual(
+    expect(Object.keys(particleLoaders).sort()).toEqual(
       ownedParticles.map((id) => `../../registry/default/particles/${id}.svelte`).sort(),
     );
   });
@@ -503,9 +496,10 @@ describe("owned registry particle Hugeicons renderer migration", () => {
     expect(sourceCoreIconImports(source)).toEqual(expectedIcons);
   });
 
-  test.each(ownedParticles)("server-renders %s through the central icon renderer", (id) => {
-    const module = particleModules[`../../registry/default/particles/${id}.svelte`];
-    expect(module).toBeDefined();
+  test.each(ownedParticles)("server-renders %s through the central icon renderer", async (id) => {
+    const load = particleLoaders[`../../registry/default/particles/${id}.svelte`];
+    expect(load).toBeDefined();
+    const module = await load?.();
     const body = render(module?.default as Component).body;
     if (clientRevealedIconParticles.has(id)) {
       expect(body).not.toContain("<svg");

@@ -7,37 +7,34 @@ description: A component for displaying keyboard keys and shortcuts.
 
 ## Installation
 
-<InstallCommand
-  pnpm="pnpm add @coss-sv/ui"
-  shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/kbd.json"
-/>
+<InstallCommand shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/kbd.json" />
 
 ## Usage
 
 ```svelte
 <script lang="ts">
-  import { Kbd, KbdGroup } from "@coss-sv/ui/components/ui/kbd";
+  import * as Kbd from "@/components/ui/kbd/index.js";
 </script>
 ```
 
 Single key:
 
 ```svelte
-<Kbd>K</Kbd>
+<Kbd.Root>K</Kbd.Root>
 ```
 
 Multiple keys:
 
 ```svelte
-<KbdGroup>
-  <Kbd>⌘</Kbd>
-  <Kbd>K</Kbd>
-</KbdGroup>
+<Kbd.Group>
+  <Kbd.Root>⌘</Kbd.Root>
+  <Kbd.Root>K</Kbd.Root>
+</Kbd.Group>
 ```
 
 ## API Reference
 
-### Kbd
+### Kbd.Root
 
 Displays a single keyboard key. Native `kbd` attributes pass to the element.
 
@@ -45,7 +42,7 @@ Displays a single keyboard key. Native `kbd` attributes pass to the element.
 | ------- | -------- | ------- |
 | `class` | `string` |         |
 
-### KbdGroup
+### Kbd.Group
 
 Groups multiple keyboard keys for key combinations.
 
@@ -57,7 +54,4 @@ Groups multiple keyboard keys for key combinations.
 
 ### Input Group
 
-<ComponentPreview
-  name="p-input-group-11"
-  className="[&_.preview>*]:w-full [&_.preview>*]:max-w-64"
-/>
+<ComponentPreview name="p-input-group-11" class="[&_.preview>*]:w-full [&_.preview>*]:max-w-64" />

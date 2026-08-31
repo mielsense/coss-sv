@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
 
   export const meta = defineParticleMeta({
     components: ["button"],
@@ -12,12 +12,10 @@
 
 <script lang="ts">
   import { Button, HugeiconsIcon } from "@coss-sv/ui";
-  import {
-    Facebook01Icon,
-    Github01Icon,
-    GoogleIcon,
-    NewTwitterIcon,
-  } from "@hugeicons/core-free-icons";
+  import Facebook01Icon from "@hugeicons/core-free-icons/Facebook01Icon";
+  import Github01Icon from "@hugeicons/core-free-icons/Github01Icon";
+  import GoogleIcon from "@hugeicons/core-free-icons/GoogleIcon";
+  import NewTwitterIcon from "@hugeicons/core-free-icons/NewTwitterIcon";
 
   const providers = [
     { icon: GoogleIcon, label: "Google" },

@@ -10,10 +10,7 @@ links:
 
 ## Installation
 
-<InstallCommand
-  pnpm="pnpm add @coss-sv/ui"
-  shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/combobox.json"
-/>
+<InstallCommand shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/combobox.json" />
 
 ## Usage
 
@@ -21,7 +18,7 @@ links:
 
 ```svelte
 <script lang="ts">
-  import * as Combobox from "@coss-sv/ui/components/ui/combobox";
+  import * as Combobox from "@/components/ui/combobox/index.js";
 </script>
 ```
 
@@ -54,7 +51,7 @@ links:
 
 ```svelte
 <script lang="ts">
-  import * as Combobox from "@coss-sv/ui/components/ui/combobox";
+  import * as Combobox from "@/components/ui/combobox/index.js";
 </script>
 ```
 

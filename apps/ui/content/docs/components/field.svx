@@ -10,16 +10,14 @@ links:
 
 ## Installation
 
-<InstallCommand
-  pnpm="pnpm add @coss-sv/ui"
-  shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/field.json"
-/>
+<InstallCommand shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/field.json" />
 
 ## Usage
 
 ```svelte
 <script lang="ts">
-  import { Field, Input } from "@coss-sv/ui";
+  import * as Field from "@/components/ui/field/index.js";
+  import { Input } from "@/components/ui/input/index.js";
 </script>
 
 <Field.Root>

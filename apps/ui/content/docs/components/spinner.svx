@@ -7,16 +7,13 @@ description: An indicator that can be used to show a loading state.
 
 ## Installation
 
-<InstallCommand
-  pnpm="pnpm add @coss-sv/ui"
-  shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/spinner.json"
-/>
+<InstallCommand shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/spinner.json" />
 
 ## Usage
 
 ```svelte
 <script lang="ts">
-  import { Spinner } from "@coss-sv/ui/components/ui/spinner";
+  import { Spinner } from "@/components/ui/spinner/index.js";
 </script>
 
 <Spinner />

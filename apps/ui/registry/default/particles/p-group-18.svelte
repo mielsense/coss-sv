@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
   export const meta = defineParticleMeta({
     components: ["group", "input", "select"],
     id: "p-group-18",
@@ -24,11 +24,11 @@
 <Group.Root aria-label="URL input">
   <Select.Root bind:value={protocol} items={protocols}>
     <Select.Trigger class="w-fit min-w-none"><Select.Value /></Select.Trigger>
-    <Select.Popup
-      >{#each protocols as item (item.value)}
+    <Select.Popup>
+      {#each protocols as item (item.value)}
         <Select.Item value={item.value}>{item.label}</Select.Item>
-      {/each}</Select.Popup
-    >
+      {/each}
+    </Select.Popup>
   </Select.Root>
   <Group.Separator />
   <Input aria-label="IP address" placeholder="192.168.1.1" type="text" />

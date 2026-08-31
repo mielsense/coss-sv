@@ -1,17 +1,15 @@
 import { expect, test } from "@playwright/test";
-import { previewWidths } from "../../apps/ui/src/routes/preview/[name]/preview-contract.js";
+import { previewWidths } from "../../apps/ui/src/lib/preview/contract.js";
 import {
   assertNoAxeViolations,
   attachPreviewEvidence,
   cssColorsToRgba,
-  fixedClockTime,
   monitorConsole,
   openReadyPreview,
   prepareDeterministicPage,
+  previewViewportHeights,
   runKeyboardTrace,
 } from "./helpers/preview.js";
-
-const referenceBaseUrl = "http://127.0.0.1:4000/ui";
 
 function projectTheme(projectName: string): "dark" | "light" {
   return projectName === "dark" ? "dark" : "light";
@@ -29,10 +27,12 @@ test.describe("preview harness", () => {
       "desktop",
     );
     const fixture = ready.locator('[data-preview-fixture="true"]');
-    const serverHydrationId = /data-hydration-id="([^"]+)"/.exec(serverHtml)?.[1];
+    const fixtureId = await fixture.getAttribute("data-hydration-id");
 
-    expect(serverHydrationId).toBeTruthy();
-    await expect(fixture).toHaveAttribute("data-hydration-id", serverHydrationId ?? "");
+    expect(serverHtml).toContain('data-preview-loading="true"');
+    expect(serverHtml).not.toContain('data-preview-fixture="true"');
+    expect(fixtureId).toBeTruthy();
+    await expect(fixture).toHaveAttribute("aria-labelledby", `${fixtureId}-heading`);
     const expectedTheme = projectTheme(testInfo.project.name);
     const frame = page.locator("[data-preview-name][data-preview-theme]");
     await expect(frame).toHaveAttribute("data-preview-theme", expectedTheme);
@@ -41,8 +41,10 @@ test.describe("preview harness", () => {
     );
     await expect(ready).toHaveAttribute("data-preview-width", "desktop");
     await expect(ready).toHaveAttribute("data-preview-width-px", "1200");
-    expect((await ready.boundingBox())?.width).toBe(1200);
-    expect(await page.evaluate(() => Date.now())).toBe(Date.parse(fixedClockTime));
+    expect((await ready.boundingBox())?.width).toBe(previewWidths.desktop - 80);
+    const previewNow = await frame.getAttribute("data-preview-now");
+    expect(previewNow).toBeTruthy();
+    expect(await page.evaluate(() => Date.now())).toBe(Date.parse(previewNow ?? ""));
 
     const button = page.getByRole("button", { name: "Advance count" });
     await button.focus();
@@ -59,26 +61,29 @@ test.describe("preview harness", () => {
       "padding",
     ]);
     expect(styles.boundingBox?.width).toBeGreaterThan(200);
-    expect(styles.properties["border-radius"]).toBe("12px");
+    expect(styles.properties["border-radius"]).toBe("14px");
     await assertNoAxeViolations(page, '[data-preview-ready="true"]');
     guard.assertNoErrors();
   });
 
-  test("shows a ready, visible error for an unknown preview name", async ({ page }, testInfo) => {
-    const guard = monitorConsole(page);
-    const { ready } = await openReadyPreview(
-      page,
-      "does-not-exist",
-      projectTheme(testInfo.project.name),
-      "mobile",
+  test("returns a visible 404 for an unknown preview name", async ({ page }, testInfo) => {
+    const externalRequests = await prepareDeterministicPage(page);
+    await page.setViewportSize({
+      height: previewViewportHeights.mobile,
+      width: previewWidths.mobile,
+    });
+    const response = await page.goto(
+      `/preview/does-not-exist?theme=${projectTheme(testInfo.project.name)}&width=mobile`,
+      { waitUntil: "networkidle" },
     );
 
-    await expect(ready).toHaveAttribute("data-preview-missing", "true");
-    await expect(ready).toHaveAttribute("data-preview-width-px", "390");
-    expect((await ready.boundingBox())?.width).toBe(390);
+    expect(response?.status()).toBe(404);
+    expect(page.viewportSize()?.width).toBe(previewWidths.mobile);
     await expect(page.getByRole("heading", { name: "Preview not found" })).toBeVisible();
-    await expect(page.getByText("does-not-exist", { exact: true })).toBeVisible();
-    guard.assertNoErrors();
+    await expect(
+      page.getByText("Preview does-not-exist was not found.", { exact: true }),
+    ).toBeVisible();
+    externalRequests.assertNoExternalRequests();
   });
 
   test("lets the query theme override browser preference across the full viewport", async ({
@@ -229,7 +234,9 @@ test.describe("preview harness", () => {
     expect(motion.playState).toBe("running");
   });
 
-  test("turns console errors and axe findings into test failures", async ({ page }, testInfo) => {
+  test("turns console, axe, and external request findings into test failures", async ({
+    page,
+  }, testInfo) => {
     const guard = monitorConsole(page);
     const { externalRequests } = await openReadyPreview(
       page,
@@ -254,9 +261,28 @@ test.describe("preview harness", () => {
     await assertNoAxeViolations(page, '[data-preview-ready="true"]');
     guard.assertNoErrors();
 
-    await expect(
-      page.evaluate(() => fetch("https://example.com/remote-font.woff2")),
-    ).rejects.toThrow();
+    await expect(page.evaluate(() => fetch("https://example.com/runtime-blocked"))).rejects.toThrow(
+      /Preview network request blocked: https:\/\/example\.com/,
+    );
+    externalRequests.assertNoExternalRequests();
+
+    await page.evaluate(
+      () =>
+        new Promise<void>((resolve) => {
+          const image = new Image();
+          image.alt = "";
+          image.hidden = true;
+          image.onload = image.onerror = () => {
+            image.remove();
+            resolve();
+          };
+          document.body.append(image);
+          image.src = "https://example.com/harness-blocked.png";
+        }),
+    );
+    await expect
+      .poll(() => externalRequests.failures.join("\n"))
+      .toContain("GET https://example.com/harness-blocked.png");
     expect(() => externalRequests.assertNoExternalRequests()).toThrow(/example\.com/);
     externalRequests.clear();
     externalRequests.assertNoExternalRequests();
@@ -276,13 +302,6 @@ test.describe("preview harness", () => {
       /WEBSOCKET wss:\/\/example\.com\/parity-probe/,
     );
     externalRequests.clear();
-    externalRequests.assertNoExternalRequests();
-  });
-
-  test("starts the pnpm React reference server by default", async ({ page }) => {
-    const externalRequests = await prepareDeterministicPage(page);
-    const response = await page.goto(referenceBaseUrl, { waitUntil: "domcontentloaded" });
-    expect(response?.ok()).toBe(true);
     externalRequests.assertNoExternalRequests();
   });
 

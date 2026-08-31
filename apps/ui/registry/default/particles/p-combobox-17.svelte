@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
   export const meta = defineParticleMeta({
     components: ["combobox", "select"],
     containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64",
@@ -12,7 +12,7 @@
 
 <script lang="ts">
   import { Combobox, HugeiconsIcon, Select } from "@coss-sv/ui";
-  import { Search01Icon } from "@hugeicons/core-free-icons";
+  import Search01Icon from "@hugeicons/core-free-icons/Search01Icon";
 
   const timezones = Intl.supportedValuesOf("timeZone")
     .map((timezone) => {
@@ -37,9 +37,9 @@
 </script>
 
 <Combobox.Root autoHighlight items={timezones}>
-  <Combobox.Trigger class={Select.selectTriggerClass}
-    ><Combobox.Value placeholder="Select timezone" /></Combobox.Trigger
-  >
+  <Combobox.Trigger class={Select.selectTriggerClass}>
+    <Combobox.Value placeholder="Select timezone" />
+  </Combobox.Trigger>
   <Combobox.Popup aria-label="Select timezone">
     <div class="border-b p-2">
       <Combobox.Input
@@ -54,11 +54,12 @@
           />{/snippet}
       </Combobox.Input>
     </div>
-    <Combobox.Empty>No timezones found.</Combobox.Empty><Combobox.List
-      ><Combobox.Collection>
-        {#snippet children(item: Timezone)}<Combobox.Item value={item}>{item.label}</Combobox.Item
-          >{/snippet}
-      </Combobox.Collection></Combobox.List
-    >
+    <Combobox.Empty>No timezones found.</Combobox.Empty><Combobox.List>
+      <Combobox.Collection>
+        {#snippet children(item: Timezone)}<Combobox.Item value={item}>
+            {item.label}
+          </Combobox.Item>{/snippet}
+      </Combobox.Collection>
+    </Combobox.List>
   </Combobox.Popup>
 </Combobox.Root>

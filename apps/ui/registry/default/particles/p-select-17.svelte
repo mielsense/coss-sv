@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
   export const meta = defineParticleMeta({
     components: ["select"],
     containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64",
@@ -47,25 +47,24 @@
   aria-label="Select country"
   value={allItems.find((item) => item.value === "ca")}
   itemToStringValue={(item: Item) => item.value}
-  ><Select.Trigger
-    ><Select.Value
-      >{#snippet children(item: Item | null)}{#if item}<span class="flex items-center gap-2"
-            ><span class="text-base leading-none">{item.flag}</span><span class="truncate"
-              >{item.label}</span
-            ></span
-          >{/if}{/snippet}</Select.Value
-    ></Select.Trigger
-  ><Select.Popup
-    >{#each countries as group, index (group.continent)}<Select.Group
-        >{#if index > 0}<Select.Separator />{/if}<Select.GroupLabel
-          >{group.continent}</Select.GroupLabel
-        >{#each group.items as item (item.value)}<Select.Item value={item}
-            ><span class="flex items-center gap-2"
-              ><span class="text-base leading-none">{item.flag}</span><span class="truncate"
-                >{item.label}</span
-              ></span
-            ></Select.Item
-          >{/each}</Select.Group
-      >{/each}</Select.Popup
-  ></Select.Root
 >
+  <Select.Trigger>
+    <Select.Value>
+      {#snippet children(item: Item | null)}{#if item}<span class="flex items-center gap-2">
+            <span class="text-base leading-none">{item.flag}</span>
+            <span class="truncate">{item.label}</span>
+          </span>{/if}{/snippet}
+    </Select.Value>
+  </Select.Trigger><Select.Popup>
+    {#each countries as group, index (group.continent)}<Select.Group>
+        {#if index > 0}<Select.Separator />{/if}<Select.GroupLabel>
+          {group.continent}
+        </Select.GroupLabel>{#each group.items as item (item.value)}<Select.Item value={item}>
+            <span class="flex items-center gap-2">
+              <span class="text-base leading-none">{item.flag}</span>
+              <span class="truncate">{item.label}</span>
+            </span>
+          </Select.Item>{/each}
+      </Select.Group>{/each}
+  </Select.Popup>
+</Select.Root>

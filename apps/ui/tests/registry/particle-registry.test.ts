@@ -1,6 +1,7 @@
 import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { describe, expect, test } from "vitest";
+import { registryHooks } from "../../registry/registry-hooks.js";
 import { registryLibs } from "../../registry/registry-libs.js";
 import { registryParticles } from "../../registry/registry-particles.js";
 import { registrySupport } from "../../registry/registry-support.js";
@@ -17,6 +18,44 @@ type GeneratedRegistryItem = {
 };
 
 describe("documentation particle registry", () => {
+  test("publishes the documented Svelte helpers", async () => {
+    expect(registryHooks).toContainEqual(
+      expect.objectContaining({
+        files: [
+          expect.objectContaining({
+            path: "registry/default/hooks/use-media-query.svelte.ts",
+            type: "registry:hook",
+          }),
+        ],
+        name: "use-media-query",
+        type: "registry:hook",
+      }),
+    );
+    expect(registryHooks).toContainEqual(
+      expect.objectContaining({
+        files: [
+          expect.objectContaining({
+            path: "registry/default/hooks/use-copy-to-clipboard.svelte.ts",
+            type: "registry:hook",
+          }),
+        ],
+        name: "use-copy-to-clipboard",
+        type: "registry:hook",
+      }),
+    );
+
+    for (const id of ["p-group-2", "p-input-group-8"]) {
+      expect(registryParticles.find(({ name }) => name === id)?.registryDependencies, id).toContain(
+        "local:use-copy-to-clipboard",
+      );
+      const source = await readFile(
+        resolve(appRoot, `registry/default/particles/${id}.svelte`),
+        "utf8",
+      );
+      expect(source, id).toContain('from "../hooks/use-copy-to-clipboard.svelte.js"');
+    }
+  });
+
   test("installs the date formatter at the alias imported by date-picker particles", async () => {
     const dateFormat = registryLibs.find(({ name }) => name === "date-format");
     expect(dateFormat).toEqual(
@@ -56,13 +95,13 @@ describe("documentation particle registry", () => {
       ) as GeneratedRegistryItem;
 
     const button = await generated("p-button-1");
-    expect(button.files[0]?.content).toContain('from "$COMPONENTS$/ui/button/index.js"');
+    expect(button.files[0]?.content).toContain('from "$UI$/button/index.js"');
     expect(button.registryDependencies).toContain("./button.json");
 
     const datePicker = await generated("p-date-picker-1");
     expect(datePicker.files[0]?.content).toContain('from "$LIB$/date-format.js"');
     expect(datePicker.files[0]?.content).toContain('from "$LIB$/hugeicons-icon.svelte"');
-    expect(datePicker.files[0]?.content).toContain('from "$COMPONENTS$/ui/calendar/index.js"');
+    expect(datePicker.files[0]?.content).toContain('from "$UI$/calendar/index.js"');
     expect(datePicker.files[0]?.content).not.toContain("@coss-sv/ui");
     expect(datePicker.registryDependencies).toEqual(
       expect.arrayContaining([

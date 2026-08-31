@@ -1,12 +1,10 @@
 <script lang="ts">
   import { Avatar, Button, Field, Form, HugeiconsIcon } from "@coss-sv/ui";
-  import {
-    CableIcon,
-    CodeXmlIcon,
-    GlobeIcon,
-    LayersIcon,
-    ZapIcon,
-  } from "@hugeicons/core-free-icons";
+  import CableIcon from "@hugeicons/core-free-icons/CableIcon";
+  import CodeXmlIcon from "@hugeicons/core-free-icons/CodeXmlIcon";
+  import GlobeIcon from "@hugeicons/core-free-icons/GlobeIcon";
+  import LayersIcon from "@hugeicons/core-free-icons/Layers01Icon";
+  import ZapIcon from "@hugeicons/core-free-icons/ZapIcon";
   import * as Select from "../../../../../../packages/ui/dist/components/ui/select/index.js";
 
   const frameworks = [

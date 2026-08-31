@@ -10,16 +10,13 @@ links:
 
 ## Installation
 
-<InstallCommand
-  pnpm="pnpm add @coss-sv/ui"
-  shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/collapsible.json"
-/>
+<InstallCommand shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/collapsible.json" />
 
 ## Usage
 
 ```svelte
 <script lang="ts">
-  import * as Collapsible from "@coss-sv/ui/components/ui/collapsible";
+  import * as Collapsible from "@/components/ui/collapsible/index.js";
 </script>
 
 <Collapsible.Root>

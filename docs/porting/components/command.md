@@ -7,7 +7,7 @@
 - `reference/apps/ui/registry/default/particles/p-command-1.tsx`
 - `reference/apps/ui/registry/default/particles/p-command-2.tsx`
 
-The complete wrapper, documentation page, and both direct command particles were read from the MIT-designated `reference/apps/ui/**` subtree. All indirect command importers were inventoried and inspected. No source from `reference/packages/ui/**` was used.
+The complete wrapper, documentation page, and both direct command particles were read from the MIT-designated `reference/apps/ui/**` subtree. All indirect command importers were inventoried and inspected. No source from the excluded COSS package subtree was used.
 
 The two particles cover dialog command palettes, grouped apps and actions, filtering, shortcuts, keyboard invocation, empty results, selection, footers, and an asynchronous AI mode with loading and reference-link states.
 

@@ -31,10 +31,7 @@ Segmented controls are provided as particles. Install the implementation and siz
 
 For example, install the default Radio Group version with:
 
-<InstallCommand
-  pnpm="pnpm add @coss-sv/ui"
-  shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/p-radio-group-8.json"
-/>
+<InstallCommand shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/p-radio-group-8.json" />
 
 The CLI installs the shared `segmented-control` styling library and the required primitive automatically.
 
@@ -54,7 +51,7 @@ The library exports a root class, an item recipe, and a shared item layout class
     segmentedControlItemLayoutClassName,
     segmentedControlItemVariants,
     segmentedControlRootClassName,
-  } from "@coss-sv/ui/lib/segmented-control";
+  } from "@/segmented-control.js";
 </script>
 ```
 

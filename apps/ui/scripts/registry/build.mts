@@ -2,6 +2,7 @@ import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { basename, dirname, join, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 import {
+  type RegistryAliases,
   type RegistryDefinition,
   type ValidatedRegistry,
   type ValidationOptions,
@@ -25,6 +26,38 @@ export type StagedRegistry = {
   sourcePaths: string[];
 };
 
+const registryAliasKeys = ["ui", "components", "utils", "hooks", "lib"] as const;
+
+function builderAlias(key: (typeof registryAliasKeys)[number]): string {
+  return `__COSS_REGISTRY_${key.toUpperCase()}__`;
+}
+
+export function prepareSourceForRegistryBuild(source: string, aliases: RegistryAliases): string {
+  let prepared = source;
+  const configured = registryAliasKeys
+    .flatMap((key) => (aliases[key] ? [{ alias: aliases[key], key }] : []))
+    .sort((left, right) => right.alias.length - left.alias.length);
+
+  for (const { alias, key } of configured) {
+    const marker = builderAlias(key);
+    if (prepared.includes(marker)) {
+      throw new Error(`Registry source contains the reserved build marker ${marker}`);
+    }
+    if (key === "lib" && alias === "@") {
+      prepared = prepared.replaceAll("@/", `${marker}/`);
+    } else {
+      prepared = prepared.replaceAll(alias, marker);
+    }
+  }
+  return prepared;
+}
+
+function prepareAliasesForRegistryBuild(aliases: RegistryAliases): RegistryAliases {
+  return Object.fromEntries(
+    registryAliasKeys.flatMap((key) => (aliases[key] ? [[key, builderAlias(key)]] : [])),
+  );
+}
+
 export async function withStagedRegistry<Result>(
   validated: ValidatedRegistry,
   registryDirectory: string,
@@ -38,6 +71,8 @@ export async function withStagedRegistry<Result>(
     const sourceRoot = resolve(root, "sources");
     await mkdir(sourceRoot, { mode: 0o700 });
     const manifest = structuredClone(validated.manifest);
+    const authoredAliases = manifest.aliases ?? {};
+    manifest.aliases = prepareAliasesForRegistryBuild(authoredAliases);
     const sourcePaths: string[] = [];
     const stagedSources = new Set<string>();
 
@@ -56,11 +91,13 @@ export async function withStagedRegistry<Result>(
       await mkdir(stagedDirectory, { recursive: true, mode: 0o700 });
       const stagedPath = resolve(stagedDirectory, basename(file.path));
       const item = manifest.items[source.itemIndex];
-      const bytes =
+      const sourceText = Buffer.from(source.bytes).toString("utf8");
+      const transformedSource =
         item?.type === "registry:block" && basename(file.path).startsWith("p-")
-          ? transformParticleSource(Buffer.from(source.bytes).toString("utf8"), uiExports)
-          : source.bytes;
-      await writeFile(stagedPath, bytes, { flag: "wx", mode: 0o400 });
+          ? transformParticleSource(sourceText, uiExports)
+          : sourceText;
+      const preparedSource = prepareSourceForRegistryBuild(transformedSource, authoredAliases);
+      await writeFile(stagedPath, preparedSource, { flag: "wx", mode: 0o400 });
       file.path = stagedPath;
       sourcePaths.push(stagedPath);
       stagedSources.add(sourceKey);

@@ -29,7 +29,7 @@
 
   @media (width < 40rem) {
     .skeleton-review-shell {
-      padding-inline: 2.5625rem;
+      padding-inline: 1.0625rem;
     }
   }
 </style>

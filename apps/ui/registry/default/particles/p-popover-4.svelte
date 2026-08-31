@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
   export const meta = defineParticleMeta({
     components: ["badge", "button", "checkbox", "checkbox-group", "group", "label", "popover"],
     id: "p-popover-4",
@@ -20,7 +20,7 @@
     Label,
     Popover,
   } from "@coss-sv/ui";
-  import { ChevronDownIcon } from "@hugeicons/core-free-icons";
+  import ChevronDownIcon from "@hugeicons/core-free-icons/ChevronDownIcon";
 
   const occurrences = [
     { date: "Wed, Jul 15", id: "occurrence-1", time: "9:00 – 9:30am" },

@@ -13,7 +13,7 @@
 	],
 	"files": [
 		{
-			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\n  export const meta = defineParticleMeta({\n    components: [\"alert\"],\n    id: \"p-alert-7\",\n    interactive: false,\n    responsive: true,\n    title: \"Alert example 7\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { Alert, AlertDescription, AlertTitle } from \"$COMPONENTS$/ui/alert/index.js\";\n  import HugeiconsIcon from \"$LIB$/hugeicons-icon.svelte\";\n  import { AlertCircleIcon } from \"@hugeicons/core-free-icons\";\n</script>\n\n<Alert variant=\"error\"\n  ><HugeiconsIcon aria-hidden=\"true\" icon={AlertCircleIcon} strokeWidth={2} /><AlertTitle\n    >Heads up!</AlertTitle\n  ><AlertDescription>Describe what can be done about it here.</AlertDescription></Alert\n>\n",
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\n  export const meta = defineParticleMeta({\n    components: [\"alert\"],\n    id: \"p-alert-7\",\n    interactive: false,\n    responsive: true,\n    title: \"Alert example 7\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { Alert, AlertDescription, AlertTitle } from \"$UI$/alert/index.js\";\n  import HugeiconsIcon from \"$LIB$/hugeicons-icon.svelte\";\n  import AlertCircleIcon from \"@hugeicons/core-free-icons/AlertCircleIcon\";\n</script>\n\n<Alert variant=\"error\">\n  <HugeiconsIcon aria-hidden=\"true\" icon={AlertCircleIcon} strokeWidth={2} /><AlertTitle>\n    Heads up!\n  </AlertTitle><AlertDescription>Describe what can be done about it here.</AlertDescription>\n</Alert>\n",
 			"type": "registry:block",
 			"target": "p-alert-7.svelte"
 		}

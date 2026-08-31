@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
   export const meta = defineParticleMeta({
     components: ["badge", "button", "input-group", "menu"],
     containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64",
@@ -12,7 +12,7 @@
 
 <script lang="ts">
   import { Badge, buttonVariants, HugeiconsIcon, InputGroup, Menu } from "@coss-sv/ui";
-  import { MoreHorizontalIcon } from "@hugeicons/core-free-icons";
+  import MoreHorizontalIcon from "@hugeicons/core-free-icons/MoreHorizontalIcon";
 </script>
 
 <InputGroup.Root>

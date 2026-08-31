@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
   export const meta = defineParticleMeta({
     components: ["field", "otp-field"],
     id: "p-otp-field-10",
@@ -22,7 +22,8 @@
       <OTPField.Input aria-label={`Character ${index + 1} of ${length}`} />
     {/each}
   </OTPField.Root>
-  <Field.Description
-    >Use <code class="font-mono text-foreground">mask</code> to obscure the code on shared screens.</Field.Description
-  >
+  <Field.Description>
+    Use <code class="font-mono text-foreground">mask</code>
+    to obscure the code on shared screens.
+  </Field.Description>
 </Field.Root>

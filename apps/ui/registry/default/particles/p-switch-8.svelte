@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta, type ParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta, type ParticleMeta } from "@/registry/particle-metadata.js";
 
   const particleMeta = {
     components: [
@@ -37,13 +37,11 @@
     Switch,
     Tooltip,
   } from "@coss-sv/ui";
-  import {
-    Add01Icon,
-    ArrowRight01Icon,
-    Cancel01Icon,
-    Copy01Icon,
-    Search01Icon,
-  } from "@hugeicons/core-free-icons";
+  import Add01Icon from "@hugeicons/core-free-icons/Add01Icon";
+  import ArrowRight01Icon from "@hugeicons/core-free-icons/ArrowRight01Icon";
+  import Cancel01Icon from "@hugeicons/core-free-icons/Cancel01Icon";
+  import Copy01Icon from "@hugeicons/core-free-icons/Copy01Icon";
+  import Search01Icon from "@hugeicons/core-free-icons/Search01Icon";
 
   const days = [
     "Monday",
@@ -238,13 +236,9 @@
                       updateStart(day, range.id, start),
                     )}
                     <Group.Separator />
-                    <Group.Text aria-hidden="true" class="px-2"
-                      ><HugeiconsIcon
-                        class="size-3.5"
-                        icon={ArrowRight01Icon}
-                        strokeWidth={2}
-                      /></Group.Text
-                    >
+                    <Group.Text aria-hidden="true" class="px-2">
+                      <HugeiconsIcon class="size-3.5" icon={ArrowRight01Icon} strokeWidth={2} />
+                    </Group.Text>
                     <Group.Separator />
                     {@render timeCombobox(
                       `${day} end time`,

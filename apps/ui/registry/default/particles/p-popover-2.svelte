@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
   export const meta = defineParticleMeta({
     components: ["button", "popover"],
     id: "p-popover-2",
@@ -11,7 +11,7 @@
 
 <script lang="ts">
   import { buttonVariants, HugeiconsIcon, Popover } from "@coss-sv/ui";
-  import { Cancel01Icon } from "@hugeicons/core-free-icons";
+  import Cancel01Icon from "@hugeicons/core-free-icons/Cancel01Icon";
 </script>
 
 <Popover.Root>

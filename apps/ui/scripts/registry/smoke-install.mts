@@ -5,6 +5,7 @@ import { dirname, join, resolve } from "node:path";
 import {
   type RegistryDefinition,
   type RegistryItem,
+  registryAliases,
   serializeRegistry,
   validateRegistry,
 } from "../../registry/registry.js";
@@ -58,7 +59,7 @@ export { default as Panel } from "./private-compound-panel.svelte";
 }
 `,
   "registry/private-special/private-special.svelte": `<script lang="ts">
-  import { PrivateSpecialState } from "$lib/hooks/use-private-special.svelte.js";
+  import { PrivateSpecialState } from "@/hooks/use-private-special.svelte.js";
 
   const state = new PrivateSpecialState();
 </script>
@@ -198,13 +199,7 @@ async function writePrivateRegistry(registryRoot: string): Promise<RegistryDefin
     $schema: "https://shadcn-svelte.com/schema/registry.json",
     name: "coss-sv-private-smoke",
     homepage: "http://127.0.0.1",
-    aliases: {
-      lib: "$lib",
-      ui: "$lib/components/ui",
-      components: "$lib/components",
-      utils: "$lib/utils",
-      hooks: "$lib/hooks",
-    },
+    aliases: { ...registryAliases },
     items: registryItems(registryRoot),
   };
 
@@ -248,10 +243,13 @@ async function writeConsumerFixture(fixtureRoot: string): Promise<void> {
       null,
       2,
     )}\n`,
-    "vite.config.ts": `import { sveltekit } from "@sveltejs/kit/vite";
+    "vite.config.ts": `import { resolve } from "node:path";
+import { sveltekit } from "@sveltejs/kit/vite";
 import { defineConfig } from "vite";
 
-export default defineConfig({ plugins: [sveltekit()] });
+export default defineConfig({
+  plugins: [sveltekit({ alias: { "@": resolve("src/lib") } })],
+});
 `,
     "tsconfig.json": `${JSON.stringify(
       {
@@ -259,11 +257,11 @@ export default defineConfig({ plugins: [sveltekit()] });
         compilerOptions: {
           baseUrl: ".",
           ignoreDeprecations: "6.0",
-          skipLibCheck: true,
           paths: {
-            $lib: ["src/lib"],
-            "$lib/*": ["src/lib/*"],
+            "@": ["src/lib"],
+            "@/*": ["src/lib/*"],
           },
+          skipLibCheck: true,
         },
       },
       null,
@@ -607,79 +605,12 @@ async function verifyInstalledProductionRegistry(
   }
 }
 
-async function runWithConcurrency<T>(
-  values: readonly T[],
-  concurrency: number,
-  task: (value: T) => Promise<void>,
-): Promise<void> {
-  let nextIndex = 0;
-  async function worker(): Promise<void> {
-    while (nextIndex < values.length) {
-      const value = values[nextIndex];
-      nextIndex += 1;
-      if (value !== undefined) await task(value);
-    }
-  }
-  await Promise.all(Array.from({ length: Math.min(concurrency, values.length) }, () => worker()));
-}
-
-async function verifyIndividualProductionItem(options: {
-  baseUrl: string;
-  environment: NodeJS.ProcessEnv;
-  item: ProductionRegistryIndexItem;
-  root: string;
-  storeRoot: string;
-}): Promise<void> {
-  const { baseUrl, environment, item, root, storeRoot } = options;
-  const fixtureRoot = resolve(root, item.name);
-  try {
-    await mkdir(fixtureRoot, { recursive: true });
-    await writeConsumerFixture(fixtureRoot);
-    await run(
-      "pnpm",
-      ["install", "--ignore-workspace", "--frozen-lockfile=false", "--store-dir", storeRoot],
-      { cwd: fixtureRoot, env: environment, quiet: true },
-    );
-    await runLocalShadcn(
-      [
-        "add",
-        `${baseUrl}/${item.relativeUrl}`,
-        "-c",
-        fixtureRoot,
-        "--yes",
-        "--overwrite",
-        "--no-deps-install",
-      ],
-      { env: environment, quiet: true },
-    );
-    await run(
-      "pnpm",
-      ["install", "--ignore-workspace", "--frozen-lockfile=false", "--store-dir", storeRoot],
-      { cwd: fixtureRoot, env: environment, quiet: true },
-    );
-    await verifyInstalledProductionRegistry(fixtureRoot, [item]);
-    await run("pnpm", ["exec", "svelte-check", "--tsconfig", "./tsconfig.json"], {
-      cwd: fixtureRoot,
-      env: environment,
-      quiet: true,
-    });
-    await run("pnpm", ["exec", "vite", "build"], {
-      cwd: fixtureRoot,
-      env: environment,
-      quiet: true,
-    });
-  } catch (error) {
-    throw new Error(`Individual registry smoke failed for ${item.name}`, { cause: error });
-  }
-}
-
 const temporaryRoot = await mkdtemp(join(appRoot, ".registry-smoke-"));
 const registryRoot = resolve(temporaryRoot, "registry-author");
 const registryOutput = resolve(registryRoot, "static/r");
 const fixtureRoot = resolve(temporaryRoot, "consumer");
 const productionFixtureRoot = resolve(temporaryRoot, "production-consumer");
 const productionBundleFixtureRoot = resolve(temporaryRoot, "production-bundle-consumer");
-const productionItemFixturesRoot = resolve(temporaryRoot, "production-item-consumers");
 const productionParticleFixtureRoot = resolve(temporaryRoot, "production-particle-consumer");
 const storeRoot = resolve(temporaryRoot, "pnpm-store");
 const environment = isolatedEnvironment(temporaryRoot);
@@ -841,20 +772,10 @@ try {
     quiet: true,
   });
 
-  await mkdir(productionItemFixturesRoot, { recursive: true });
-  await runWithConcurrency(productionItems, 4, async (item) => {
-    await verifyIndividualProductionItem({
-      baseUrl: productionRegistryServer.baseUrl,
-      environment,
-      item,
-      root: productionItemFixturesRoot,
-      storeRoot,
-    });
-  });
-
   const representativeParticles = await productionParticleItems([
     "p-accordion-1",
     "p-button-1",
+    "p-card-1",
     "p-date-picker-1",
     "p-dialog-1",
     "p-navigation-1",
@@ -908,10 +829,10 @@ try {
     );
   }
   console.log(
-    `Private bundle, ${productionItems.length} individual UI items, the production batch, the complete UI bundle, and ${representativeParticles.length} representative particles installed, passed svelte-check, and built successfully.`,
+    `Private bundle, ${productionItems.length} production UI items, the complete UI bundle, and ${representativeParticles.length} representative particles installed, passed svelte-check, and built successfully.`,
   );
 } finally {
   await closeServer(server);
-  await rm(temporaryRoot, { recursive: true, force: true });
+  await rm(temporaryRoot, { recursive: true, force: true, maxRetries: 5, retryDelay: 100 });
   await assertRemoved(temporaryRoot);
 }

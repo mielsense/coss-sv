@@ -7,67 +7,60 @@ description: Displays the path to the current resource using a hierarchy of link
 
 ## Installation
 
-<InstallCommand
-  pnpm="pnpm add @coss-sv/ui"
-  shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/breadcrumb.json"
-/>
+<InstallCommand shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/breadcrumb.json" />
 
 ## Usage
 
 ```svelte
 <script lang="ts">
-  import {
-    Breadcrumb,
-    BreadcrumbEllipsis,
-    BreadcrumbItem,
-    BreadcrumbLink,
-    BreadcrumbList,
-    BreadcrumbPage,
-    BreadcrumbSeparator,
-  } from "@coss-sv/ui";
+  import * as Breadcrumb from "@/components/ui/breadcrumb/index.js";
 </script>
 
-<Breadcrumb>
-  <BreadcrumbList>
-    <BreadcrumbItem><BreadcrumbLink href="/">Home</BreadcrumbLink></BreadcrumbItem>
-    <BreadcrumbSeparator />
-    <BreadcrumbItem><BreadcrumbEllipsis /></BreadcrumbItem>
-    <BreadcrumbItem><BreadcrumbLink href="/docs">Components</BreadcrumbLink></BreadcrumbItem>
-    <BreadcrumbSeparator />
-    <BreadcrumbItem><BreadcrumbPage>Breadcrumb</BreadcrumbPage></BreadcrumbItem>
-  </BreadcrumbList>
-</Breadcrumb>
+<Breadcrumb.Root>
+  <Breadcrumb.List>
+    <Breadcrumb.Item><Breadcrumb.Link href="/">Home</Breadcrumb.Link></Breadcrumb.Item>
+    <Breadcrumb.Separator />
+    <Breadcrumb.Item><Breadcrumb.Ellipsis /></Breadcrumb.Item>
+    <Breadcrumb.Item><Breadcrumb.Link href="/docs">Components</Breadcrumb.Link></Breadcrumb.Item>
+    <Breadcrumb.Separator />
+    <Breadcrumb.Item><Breadcrumb.Page>Breadcrumb</Breadcrumb.Page></Breadcrumb.Item>
+  </Breadcrumb.List>
+</Breadcrumb.Root>
 ```
 
 ## API Reference
 
 This is a custom Svelte component, not a Shards wrapper.
 
-### Breadcrumb
+### Breadcrumb.Root
 
 Root navigation container with `aria-label="breadcrumb"`.
 
-### BreadcrumbList
+### Breadcrumb.List
 
 Ordered list container for breadcrumb items.
 
-### BreadcrumbItem
+### Breadcrumb.Item
 
 Individual breadcrumb item container.
 
-### BreadcrumbLink
+### Breadcrumb.Link
 
 Link element for navigable breadcrumb items. Use `as` when another native element is required.
 
-### BreadcrumbPage
+| Prop | Type                          | Default | Description              |
+| ---- | ----------------------------- | ------- | ------------------------ |
+| `as` | `keyof HTMLElementTagNameMap` | `"a"`   | Native element to render |
+
+### Breadcrumb.Page
 
 Non-interactive element representing the current page. Includes `aria-current="page"`.
 
-### BreadcrumbSeparator
+### Breadcrumb.Separator
 
 Separator between breadcrumb items. Defaults to a Hugeicons chevron and accepts custom children.
 
-### BreadcrumbEllipsis
+### Breadcrumb.Ellipsis
 
 Ellipsis indicator for collapsed breadcrumb items.
 

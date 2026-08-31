@@ -7,16 +7,13 @@ description: A date picker component with range and multi-select support.
 
 ## Installation
 
-<InstallCommand
-  pnpm="pnpm add @coss-sv/ui"
-  shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/calendar.json"
-/>
+<InstallCommand shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/calendar.json" />
 
 ## Usage
 
 ```svelte
 <script lang="ts">
-  import { Calendar } from "@coss-sv/ui";
+  import { Calendar } from "@/components/ui/calendar/index.js";
 </script>
 
 <Calendar />
@@ -27,6 +24,10 @@ description: A date picker component with range and multi-select support.
 `Calendar` is the Svelte calendar implementation used by COSS for Svelte. It preserves the COSS
 calendar grid, styling, keyboard navigation, locale handling, and single, multiple, and range
 selection contracts.
+
+### Calendar
+
+A calendar component for date selection.
 
 | Prop              | Type                                                             | Default    | Description                                  |
 | ----------------- | ---------------------------------------------------------------- | ---------- | -------------------------------------------- |
@@ -39,6 +40,9 @@ selection contracts.
 | `endMonth`        | `Date`                                                           |            | Last navigable month.                        |
 | `classNames`      | `CalendarClassNames`                                             |            | Adds classes to calendar parts.              |
 | `components`      | `CalendarComponents`                                             |            | Svelte snippets that replace calendar parts. |
+
+For the full contract, use the exported `CalendarProps` type from
+`@/components/ui/calendar/index.js`.
 
 ### Customizing Cell Size
 
@@ -76,3 +80,9 @@ Calendar with the COSS Select component for month and year navigation.
 Calendar with a searchable COSS Combobox for month and year navigation.
 
 <ComponentPreview name="p-calendar-6" />
+
+## Changelog
+
+- [July 26, 2026](/docs/changelog#react-daypicker-10) — The pinned COSS reference upgraded to
+  **React DayPicker 10** and moved from **`react-day-picker`** to **`@daypicker/react`**. This
+  Svelte port preserves the resulting COSS behavior and styling without shipping React.

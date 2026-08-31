@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
 
   export const meta = defineParticleMeta({
     components: ["field", "textarea"],
@@ -16,7 +16,9 @@
 </script>
 
 <Field.Root>
-  <Field.Label>Message <span class="text-destructive-foreground">*</span></Field.Label>
+  <Field.Label>
+    Message <span class="text-destructive-foreground">*</span>
+  </Field.Label>
   <Textarea placeholder="Type your message here" required />
   <Field.Error>Please fill out this field.</Field.Error>
 </Field.Root>

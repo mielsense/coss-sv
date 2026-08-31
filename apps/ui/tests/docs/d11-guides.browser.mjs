@@ -16,7 +16,7 @@ const guides = [
   ["/docs/get-started", "Get Started"],
   ["/docs/styling", "Styling"],
   ["/docs/radix-migration", "Migrating from shadcn-svelte and Bits UI"],
-  ["/docs/skills", "Skills"],
+  ["/docs/skills", "Agent Skill"],
   ["/docs/changelog", "Changelog"],
   ["/docs/roadmap", "Roadmap"],
   ["/docs/hooks/use-media-query", "useMediaQuery"],
@@ -90,7 +90,7 @@ try {
     assert.equal(response?.status(), 200, `${route} should return 200`);
     await page.getByRole("heading", { level: 1, name: heading, exact: true }).waitFor();
     await page.getByRole("button", { name: "Copy Markdown", exact: true }).waitFor();
-    assert.equal(await page.locator(".docs-frame").count(), 1);
+    assert.equal(await page.locator("[data-docs-frame]").count(), 1);
   }
 
   await page.goto(`${baseUrl}/docs/get-started`);
@@ -99,21 +99,19 @@ try {
     copyMarkdown
       .locator("svg path")
       .evaluateAll((paths) => paths.map((path) => path.getAttribute("d")));
+  const copiedPath = "M5 14L8.5 17.5L19 6.5";
+  const showsCopiedIcon = async () => (await iconPaths()).includes(copiedPath);
   const initialIcon = await iconPaths();
   await copyMarkdown.click();
   assert.equal(await copyMarkdown.innerText(), "Copy Markdown");
-  const copiedIcon = await iconPaths();
-  assert.notDeepEqual(copiedIcon, initialIcon, "successful copy should swap only the icon");
+  assert.equal(await showsCopiedIcon(), true, "successful copy should swap only the icon");
   assert.match(await page.evaluate(() => navigator.clipboard.readText()), /^# Get Started/m);
   await page.waitForTimeout(1_200);
   await copyMarkdown.click();
   await page.waitForTimeout(1_000);
-  assert.deepEqual(
-    await iconPaths(),
-    copiedIcon,
-    "a repeated copy should restart the two-second feedback timer",
-  );
+  assert.equal(await showsCopiedIcon(), true, "a repeated copy should restart the feedback timer");
   await page.waitForTimeout(1_100);
+  assert.equal(await showsCopiedIcon(), false);
   assert.deepEqual(await iconPaths(), initialIcon);
 
   await copyMarkdown.click();
@@ -187,7 +185,7 @@ try {
   await page.setViewportSize({ height: 844, width: 390 });
   await page.waitForFunction(() => document.documentElement.clientWidth === 390);
   assert.equal((await demo.getByText("false", { exact: true }).count()) > 0, true);
-  assert.equal(await page.locator(".docs-frame").count(), 1);
+  assert.equal(await page.locator("[data-docs-frame]").count(), 1);
 
   await page.goto(`${baseUrl}/credits`);
   const creditsArticle = page.locator("article");
@@ -212,6 +210,49 @@ try {
 
   const guideMarkdown = await context.request.get(`${baseUrl}/docs/get-started.md`);
   assert.doesNotMatch(await guideMarkdown.text(), /CopyMarkdownButton/);
+
+  const canonicalSkill = await context.request.get(`${baseUrl}/skill.md`);
+  const discoveredSkill = await context.request.get(
+    `${baseUrl}/.well-known/agent-skills/coss-svelte/SKILL.md`,
+  );
+  const legacySkill = await context.request.get(
+    `${baseUrl}/.well-known/skills/coss-svelte/skill.md`,
+  );
+  for (const response of [canonicalSkill, discoveredSkill, legacySkill]) {
+    assert.equal(response.status(), 200);
+    assert.match(response.headers()["content-type"], /^text\/markdown/);
+  }
+  assert.equal(await discoveredSkill.text(), await canonicalSkill.text());
+  assert.equal(await legacySkill.text(), await canonicalSkill.text());
+
+  const agentIndex = await context.request.get(`${baseUrl}/.well-known/agent-skills/index.json`);
+  const legacyIndex = await context.request.get(`${baseUrl}/.well-known/skills/index.json`);
+  assert.equal(agentIndex.status(), 200);
+  assert.equal(legacyIndex.status(), 200);
+  assert.match(agentIndex.headers()["content-type"], /^application\/json/);
+  assert.match(legacyIndex.headers()["content-type"], /^application\/json/);
+  assert.deepEqual((await agentIndex.json()).skills[0], {
+    description:
+      "Install and compose COSS for Svelte components with the registry, Svelte 5, and Shards UI.",
+    name: "coss-svelte",
+    type: "skill-md",
+    url: "/.well-known/agent-skills/coss-svelte/SKILL.md",
+  });
+  assert.deepEqual((await legacyIndex.json()).skills[0], {
+    description:
+      "Install and compose COSS for Svelte components with the registry, Svelte 5, and Shards UI.",
+    files: ["skill.md"],
+    name: "coss-svelte",
+  });
+
+  for (const reference of ["component-catalog.md", "implementation-guide.md"]) {
+    const response = await context.request.get(
+      `${baseUrl}/.well-known/agent-skills/coss-svelte/references/${reference}`,
+    );
+    assert.equal(response.status(), 200, `${reference} should return 200`);
+    assert.match(response.headers()["content-type"], /^text\/markdown/);
+    assert.match(await response.text(), /^# /);
+  }
 
   assert.deepEqual(diagnostics, []);
 } finally {

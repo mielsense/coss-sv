@@ -10,16 +10,13 @@ links:
 
 ## Installation
 
-<InstallCommand
-  pnpm="pnpm add @coss-sv/ui"
-  shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/popover.json"
-/>
+<InstallCommand shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/popover.json" />
 
 ## Usage
 
 ```svelte
 <script lang="ts">
-  import * as Popover from "@coss-sv/ui/components/ui/popover";
+  import * as Popover from "@/components/ui/popover/index.js";
 </script>
 
 <Popover.Root>

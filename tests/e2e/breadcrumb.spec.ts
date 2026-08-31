@@ -1,13 +1,13 @@
-import AxeBuilder from "@axe-core/playwright";
 import { expect, type Page, test } from "@playwright/test";
-import { monitorConsole, openReadyPreview, runKeyboardTrace } from "./helpers/preview.js";
+import {
+  assertNoAxeViolations,
+  monitorConsole,
+  openReadyPreview,
+  runKeyboardTrace,
+} from "./helpers/preview.js";
 
 async function assertBreadcrumbAxe(page: Page) {
-  const results = await new AxeBuilder({ page })
-    .include('[data-preview-ready="true"]')
-    .disableRules(["button-name"])
-    .analyze();
-  expect(results.violations).toEqual([]);
+  await assertNoAxeViolations(page, '[data-preview-ready="true"]', ["button-name"]);
 }
 
 test("renders the complete Breadcrumb contract at desktop and mobile widths", async ({

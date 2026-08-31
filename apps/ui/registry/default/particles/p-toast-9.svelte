@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
 
   export const meta = defineParticleMeta({
     components: ["button", "toast"],
@@ -12,8 +12,9 @@
 
 <script lang="ts">
   import { Button, HugeiconsIcon, Toast } from "@coss-sv/ui";
-  import { Download01Icon } from "@hugeicons/core-free-icons";
+  import Download01Icon from "@hugeicons/core-free-icons/Download01Icon";
 
+  const toastManager = new Toast.Manager();
   let generating = $state(false);
   let progress = $state(0);
   let controller: AbortController | null = null;
@@ -36,7 +37,7 @@
     controller = new AbortController();
     const activeController = controller;
     try {
-      await Toast.toastManager.promise(
+      await toastManager.promise(
         new Promise((resolve, reject) => {
           const shouldSucceed = Math.random() > 0.2;
           const timer = setTimeout(
@@ -84,14 +85,14 @@
   }
 </script>
 
-<Toast.Provider
-  ><Button disabled={generating} onclick={download} variant="outline"
-    >{#if generating}Loading… <span class="tabular-nums"
-        >{progress.toString().padStart(2, " ")}%</span
-      >{:else}<HugeiconsIcon
+<Toast.Provider {toastManager}>
+  <Button disabled={generating} onclick={download} variant="outline">
+    {#if generating}Loading… <span class="tabular-nums">
+        {progress.toString().padStart(2, " ")}%
+      </span>{:else}<HugeiconsIcon
         aria-hidden="true"
         icon={Download01Icon}
         strokeWidth={2}
-      />Download{/if}</Button
-  ></Toast.Provider
->
+      />Download{/if}
+  </Button>
+</Toast.Provider>

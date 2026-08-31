@@ -72,7 +72,21 @@ if (!baseUrl) {
 
 const browser = await chromium.launch({ headless: true });
 const context = await browser.newContext({ viewport: { height: 900, width: 1440 } });
-const page = await context.newPage();
+let activePreview = "runtime fixture";
+const diagnostics = [];
+function observe(pageToObserve) {
+  pageToObserve.on("pageerror", (error) => diagnostics.push(`${activePreview}: ${error.message}`));
+  pageToObserve.on("console", (message) => {
+    if (
+      (message.type() === "error" && !message.text().startsWith("Failed to load resource:")) ||
+      (message.type() === "warning" && message.text().includes("[svelte]"))
+    ) {
+      diagnostics.push(`${activePreview}: ${message.text()}`);
+    }
+  });
+  return pageToObserve;
+}
+let page = observe(await context.newPage());
 
 try {
   const configurations = [
@@ -189,12 +203,30 @@ try {
 
   assert.notEqual(themeColors.get("light"), themeColors.get("dark"));
 
-  if (particleIds[0]) {
-    const id = particleIds[0];
-    const response = await page.goto(`${baseUrl}/preview/${id}?theme=light&width=desktop`);
-    assert.equal(response?.status(), 200);
+  for (const [index, id] of particleIds.entries()) {
+    if (index > 0 && index % 25 === 0) {
+      await page.close();
+      page = observe(await context.newPage());
+    }
+    activePreview = id;
+    const response = await page.goto(
+      `${baseUrl}/preview/${id}?theme=light&width=desktop&reducedMotion=reduce&timers=manual`,
+    );
+    assert.equal(response?.status(), 200, `${id} route status`);
+    try {
+      await page
+        .locator("[data-preview-ready='true'], [data-preview-load-error='true']")
+        .waitFor({ timeout: 60_000 });
+    } catch (error) {
+      throw new Error(`${id} did not finish loading its preview`, { cause: error });
+    }
+    assert.equal(
+      await page.locator("[data-preview-load-error='true']").count(),
+      0,
+      `${id} must load without a preview error`,
+    );
     const surface = page.locator("[data-preview-ready='true']");
-    await surface.waitFor();
+    assert.equal(await surface.count(), 1, `${id} exposes one ready surface`);
     const links = await surface.evaluate((element) => ({
       install: element.getAttribute("data-preview-install-command"),
       registry: element.getAttribute("data-preview-registry-href"),
@@ -207,9 +239,17 @@ try {
       source: `https://github.com/mielsense/coss-sv/blob/main/apps/ui/registry/default/particles/${id}.svelte`,
     });
     assert.equal((await page.request.get(`${baseUrl}${registryHref}`)).status(), 200);
+    if ((index + 1) % 50 === 0) {
+      console.log(`Validated ${index + 1}/${particleIds.length} particle previews.`);
+    }
   }
 
-  const missing = await page.goto(`${baseUrl}/preview/p-not-yet-ported?theme=light&width=desktop`);
+  assert.deepEqual(diagnostics, [], "particle previews must not emit runtime errors");
+
+  activePreview = "missing preview";
+  const missing = await page.goto(
+    `${baseUrl}/preview/p-not-yet-ported?theme=light&width=desktop&reducedMotion=reduce&timers=manual`,
+  );
   assert.equal(missing?.status(), 404);
   await page.getByRole("heading", { name: "Preview not found" }).waitFor();
 } finally {

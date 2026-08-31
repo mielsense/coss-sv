@@ -1,7 +1,7 @@
 <!-- biome-ignore-all lint/a11y/noHeaderScope: Table.Head renders a native th element. -->
 <script lang="ts">
   import { Badge } from "../../../../../../packages/ui/dist/components/ui/badge/index.js";
-  import { CardFrame } from "../../../../../../packages/ui/dist/components/ui/card/index.js";
+  import * as Card from "../../../../../../packages/ui/dist/components/ui/card/index.js";
   import { Frame } from "../../../../../../packages/ui/dist/components/ui/frame/index.js";
   import * as Table from "../../../../../../packages/ui/dist/components/ui/table/index.js";
 
@@ -65,7 +65,7 @@
 </div>
 
 <div class="w-full sm:max-w-4xl" data-particle="p-table-7">
-  <CardFrame class="w-full">
+  <Card.Frame class="w-full">
     <Table.Root variant="card">{@render projectTable()}</Table.Root>
-  </CardFrame>
+  </Card.Frame>
 </div>

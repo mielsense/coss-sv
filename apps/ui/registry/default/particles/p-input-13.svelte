@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
 
   export const meta = defineParticleMeta({
     components: ["input", "label"],
@@ -18,6 +18,8 @@
 </script>
 
 <div class="flex flex-col gap-2">
-  <Label for={id}>Email <span class="text-destructive">*</span></Label>
+  <Label for={id}>
+    Email <span class="text-destructive">*</span>
+  </Label>
   <Input {id} placeholder="Email" required type="email" />
 </div>

@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
 
   export const meta = defineParticleMeta({
     components: ["button", "toast"],
@@ -12,17 +12,21 @@
 
 <script lang="ts">
   import { Button, Toast } from "@coss-sv/ui";
+
+  const toastManager = new Toast.Manager();
 </script>
 
-<Toast.Provider
-  ><Button
+<Toast.Provider {toastManager}>
+  <Button
     onclick={() =>
-      Toast.toastManager.add({
+      toastManager.add({
         description: "Repeated clicks update this toast instead of stacking another.",
         id: "coss-demo-dedup-toast",
         title: "Saved",
         type: "success",
       })}
-    variant="outline">One Success Toast</Button
-  ></Toast.Provider
->
+    variant="outline"
+  >
+    One Success Toast
+  </Button>
+</Toast.Provider>

@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
 
   export const meta = defineParticleMeta({
     components: ["progress"],
@@ -15,9 +15,9 @@
   import { Progress } from "@coss-sv/ui";
 </script>
 
-<Progress.Root value={60}
-  ><div class="flex items-center justify-between gap-2">
+<Progress.Root value={60}>
+  <div class="flex items-center justify-between gap-2">
     <Progress.Label>Export data</Progress.Label><Progress.Value />
   </div>
-  <Progress.Track><Progress.Indicator /></Progress.Track></Progress.Root
->
+  <Progress.Track><Progress.Indicator /></Progress.Track>
+</Progress.Root>

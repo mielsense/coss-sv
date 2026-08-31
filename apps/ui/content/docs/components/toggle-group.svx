@@ -10,16 +10,13 @@ links:
 
 ## Installation
 
-<InstallCommand
-  pnpm="pnpm add @coss-sv/ui"
-  shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/toggle-group.json"
-/>
+<InstallCommand shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/toggle-group.json" />
 
 ## Usage
 
 ```svelte
 <script lang="ts">
-  import * as ToggleGroup from "@coss-sv/ui/components/ui/toggle-group";
+  import * as ToggleGroup from "@/components/ui/toggle-group/index.js";
 </script>
 
 <ToggleGroup.Root>

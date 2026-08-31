@@ -7,28 +7,13 @@ description: A simple table component for displaying tabular data.
 
 ## Installation
 
-<InstallCommand
-  pnpm="pnpm add @coss-sv/ui"
-  shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/table.json"
-/>
-
-For a manual installation:
-
-<Steps>
-
-<Step>Copy and paste the following code into your project.</Step>
-
-<ComponentSource name="table" title="components/ui/table.svelte" />
-
-<Step>Update the import paths to match your project setup.</Step>
-
-</Steps>
+<InstallCommand shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/table.json" />
 
 ## Usage
 
 ```svelte
 <script lang="ts">
-  import { Table } from "@coss-sv/ui";
+  import * as Table from "@/components/ui/table/index.js";
 </script>
 
 <Table.Root>

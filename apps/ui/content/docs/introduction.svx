@@ -3,12 +3,6 @@ title: Introduction
 description: A modern Svelte 5 component library built on Shards UI. Built for developers and AI.
 ---
 
-# Introduction
-
-A modern Svelte 5 component library built on Shards UI. Built for developers and AI.
-
-<CopyMarkdownButton url="/docs/index.md" />
-
 **COSS for Svelte** is a collection of beautifully designed, accessible, and composable components
 for Svelte 5 applications. Built on top of [Shards UI](https://shardsui.com) and styled with
 [Tailwind CSS](https://tailwindcss.com), it is designed for you to copy, paste, and own.

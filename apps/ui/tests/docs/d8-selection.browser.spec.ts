@@ -1,5 +1,7 @@
 import "../../src/tailwind.css";
-import "../../src/app.css";
+import "../../src/tailwind.css";
+import "../../src/styles/theme.css";
+import "../../src/styles/content.css";
 import { mount, tick, unmount } from "svelte";
 import { afterEach, describe, expect, test, vi } from "vitest";
 import { page, userEvent } from "vitest/browser";

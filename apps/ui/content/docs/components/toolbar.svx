@@ -10,17 +10,14 @@ links:
 
 ## Installation
 
-<InstallCommand
-  pnpm="pnpm add @coss-sv/ui"
-  shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/toolbar.json"
-/>
+<InstallCommand shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/toolbar.json" />
 
 ## Usage
 
 ```svelte
 <script lang="ts">
-  import * as ToggleGroup from "@coss-sv/ui/components/ui/toggle-group";
-  import * as Toolbar from "@coss-sv/ui/components/ui/toolbar";
+  import * as ToggleGroup from "@/components/ui/toggle-group/index.js";
+  import * as Toolbar from "@/components/ui/toolbar/index.js";
 </script>
 
 <Toolbar.Root aria-label="Formatting">

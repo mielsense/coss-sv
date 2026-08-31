@@ -9,7 +9,7 @@
 	],
 	"files": [
 		{
-			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\n  export const meta = defineParticleMeta({\n    components: [\"slider\"],\n    id: \"p-slider-6\",\n    interactive: true,\n    responsive: true,\n    title: \"Intensity slider\",\n    containerClass: \"**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import * as Slider from \"$COMPONENTS$/ui/slider/index.js\";\n</script>\n\n<div>\n  <div\n    aria-hidden=\"true\"\n    class=\"mb-3 flex w-full items-center justify-between gap-2 font-medium text-muted-foreground text-xs\"\n  >\n    <span>Low</span><span>High</span>\n  </div>\n  <Slider.Root aria-label=\"Intensity level from low to high\" defaultValue={50} step={10} />\n</div>\n",
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\n  export const meta = defineParticleMeta({\n    components: [\"slider\"],\n    id: \"p-slider-6\",\n    interactive: true,\n    responsive: true,\n    title: \"Intensity slider\",\n    containerClass: \"**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import * as Slider from \"$UI$/slider/index.js\";\n</script>\n\n<div>\n  <div\n    aria-hidden=\"true\"\n    class=\"mb-3 flex w-full items-center justify-between gap-2 font-medium text-muted-foreground text-xs\"\n  >\n    <span>Low</span>\n    <span>High</span>\n  </div>\n  <Slider.Root aria-label=\"Intensity level from low to high\" defaultValue={50} step={10} />\n</div>\n",
 			"type": "registry:block",
 			"target": "p-slider-6.svelte"
 		}

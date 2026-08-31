@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
 
   export const meta = defineParticleMeta({
     components: ["button"],
@@ -12,7 +12,7 @@
 
 <script lang="ts">
   import { Button, HugeiconsIcon } from "@coss-sv/ui";
-  import { Add01Icon } from "@hugeicons/core-free-icons";
+  import Add01Icon from "@hugeicons/core-free-icons/Add01Icon";
 
   let menuOpen = $state(false);
 </script>

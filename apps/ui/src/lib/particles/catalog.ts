@@ -1,7 +1,7 @@
 export type ParticleCatalogEntry = {
   categories: readonly string[];
   description: string;
-  meta?: { className?: string; colSpan?: number };
+  meta?: { className?: string; colSpan?: number; iframeHeight?: number };
   name: string;
   registryDependencies: readonly string[];
 };
@@ -1481,6 +1481,7 @@ export const particleCatalog = [
   {
     categories: ["dialog"],
     description: "Dialog with long content",
+    meta: { iframeHeight: 640 },
     name: "p-dialog-5",
     registryDependencies: ["@coss/button", "@coss/dialog"],
   },
@@ -1517,6 +1518,7 @@ export const particleCatalog = [
   {
     categories: ["drawer"],
     description: "Scrollable content with terms and conditions",
+    meta: { iframeHeight: 640 },
     name: "p-drawer-6",
     registryDependencies: ["@coss/button", "@coss/drawer"],
   },
@@ -1535,6 +1537,7 @@ export const particleCatalog = [
   {
     categories: ["drawer"],
     description: "Bottom drawer with snap points",
+    meta: { iframeHeight: 640 },
     name: "p-drawer-9",
     registryDependencies: ["@coss/button", "@coss/drawer"],
   },
@@ -2916,6 +2919,7 @@ export const particleCatalog = [
   {
     categories: ["sheet"],
     description: "Sheet position",
+    meta: { iframeHeight: 640 },
     name: "p-sheet-3",
     registryDependencies: ["@coss/button", "@coss/sheet"],
   },
@@ -3161,6 +3165,7 @@ export const particleCatalog = [
     meta: {
       className: "**:data-[slot=preview]:w-full sm:**:data-[slot=preview]:max-w-4xl",
       colSpan: 2,
+      iframeHeight: 540,
     },
     name: "p-switch-7",
     registryDependencies: [
@@ -3181,6 +3186,7 @@ export const particleCatalog = [
     meta: {
       className: "**:data-[slot=preview]:w-full sm:**:data-[slot=preview]:max-w-4xl",
       colSpan: 2,
+      iframeHeight: 540,
     },
     name: "p-switch-8",
     registryDependencies: [
@@ -3201,6 +3207,7 @@ export const particleCatalog = [
     meta: {
       className: "**:data-[slot=preview]:w-full sm:**:data-[slot=preview]:max-w-4xl",
       colSpan: 2,
+      iframeHeight: 540,
     },
     name: "p-switch-9",
     registryDependencies: [

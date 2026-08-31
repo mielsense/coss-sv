@@ -1,11 +1,9 @@
 <script lang="ts">
-  import {
-    ComputerIcon,
-    FullScreenIcon,
-    MinimizeScreenIcon,
-    SmartPhone01Icon,
-    Tablet01Icon,
-  } from "@hugeicons/core-free-icons";
+  import ComputerIcon from "@hugeicons/core-free-icons/ComputerIcon";
+  import FullScreenIcon from "@hugeicons/core-free-icons/FullScreenIcon";
+  import MinimizeScreenIcon from "@hugeicons/core-free-icons/MinimizeScreenIcon";
+  import SmartPhone01Icon from "@hugeicons/core-free-icons/SmartPhone01Icon";
+  import Tablet01Icon from "@hugeicons/core-free-icons/Tablet01Icon";
   import { HugeiconsIcon } from "@coss-sv/ui";
   import type { HTMLAttributes } from "svelte/elements";
   import {
@@ -13,7 +11,7 @@
     type PreviewTheme,
     type PreviewWidth,
     previewWidths,
-  } from "../../routes/preview/[name]/preview-contract.js";
+  } from "@/preview/contract.js";
 
   type Props = HTMLAttributes<HTMLElement> & {
     iframeHeight?: number;
@@ -36,6 +34,8 @@
   let fullscreen = $state(false);
   let siteTheme = $state<PreviewTheme>("light");
   let presentation: HTMLElement;
+  const controlClass =
+    "inline-flex size-7 cursor-pointer items-center justify-center rounded-lg border-0 bg-transparent p-0 text-site-muted hover:bg-site-accent hover:text-site-foreground focus-visible:outline-2 focus-visible:outline-site-primary focus-visible:outline-offset-2 aria-pressed:bg-site-accent aria-pressed:text-site-foreground";
 
   const resolvedTheme = $derived(theme ?? siteTheme);
   const previewUrl = $derived.by(() => {
@@ -79,18 +79,24 @@
 
 <section
   bind:this={presentation}
-  class={["preview-presentation", className]}
+  class={[
+    "group relative flex min-w-0 flex-col gap-2 fullscreen:h-full fullscreen:w-full fullscreen:bg-site-background fullscreen:p-2",
+    className,
+  ]}
   data-preview-presentation
   data-preview-theme={resolvedTheme}
   style:--preview-height={`${iframeHeight}px`}
   {...rest}
   {@attach trackPresentation}
 >
-  <div class="preview-presentation-toolbar">
-    <fieldset class="preview-size-controls">
-      <legend>Preview viewport</legend>
+  <div class="flex min-h-8 items-center justify-end gap-2">
+    <fieldset
+      class="flex items-center rounded-[0.625rem] border border-site-border bg-site-panel p-0.5"
+    >
+      <legend class="sr-only">Preview viewport</legend>
       {#each ["mobile", "tablet", "desktop"] as preset (preset)}
         <button
+          class={controlClass}
           type="button"
           aria-label={`${preset[0]?.toUpperCase()}${preset.slice(1)} preview`}
           aria-pressed={width === preset}
@@ -114,7 +120,7 @@
     </fieldset>
     <button
       type="button"
-      class="preview-fullscreen-control"
+      class={[controlClass, "border border-site-border bg-site-panel"]}
       aria-label={fullscreen ? "Exit fullscreen" : "View fullscreen"}
       aria-pressed={fullscreen}
       title={fullscreen ? "Exit fullscreen" : "View fullscreen"}
@@ -127,8 +133,11 @@
       {/if}
     </button>
   </div>
-  <div class="preview-presentation-frame">
+  <div
+    class="relative flex h-[var(--preview-height)] min-w-0 w-full justify-center overflow-hidden rounded-xl border border-site-border bg-site-panel group-fullscreen:h-auto group-fullscreen:flex-1"
+  >
     <iframe
+      class="block h-[var(--preview-height)] max-w-full flex-none border-0 bg-site-background group-fullscreen:h-full"
       src={previewUrl}
       title={`${title} preview`}
       data-preview-width={width}
@@ -136,109 +145,3 @@
     ></iframe>
   </div>
 </section>
-
-<style>
-  .preview-presentation {
-    position: relative;
-    display: flex;
-    min-width: 0;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  .preview-presentation-toolbar {
-    display: flex;
-    min-height: 2rem;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 0.5rem;
-  }
-
-  .preview-size-controls {
-    display: flex;
-    align-items: center;
-    padding: 0.125rem;
-    border: 1px solid var(--site-border);
-    border-radius: 0.625rem;
-    background: var(--site-panel);
-  }
-
-  .preview-size-controls legend {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-  }
-
-  .preview-presentation button {
-    display: inline-flex;
-    width: 1.75rem;
-    height: 1.75rem;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-    border: 0;
-    border-radius: 0.5rem;
-    background: transparent;
-    color: var(--site-muted);
-    cursor: pointer;
-  }
-
-  .preview-presentation button:hover,
-  .preview-presentation button[aria-pressed="true"] {
-    background: var(--site-accent);
-    color: var(--site-foreground);
-  }
-
-  .preview-presentation button:focus-visible {
-    outline: 2px solid var(--site-primary);
-    outline-offset: 2px;
-  }
-
-  .preview-presentation .preview-fullscreen-control {
-    border: 1px solid var(--site-border);
-    background: var(--site-panel);
-  }
-
-  .preview-presentation-frame {
-    position: relative;
-    display: flex;
-    width: 100%;
-    height: var(--preview-height);
-    min-width: 0;
-    justify-content: center;
-    overflow: hidden;
-    border: 1px solid var(--site-border);
-    border-radius: 0.75rem;
-    background: var(--site-panel);
-  }
-
-  .preview-presentation iframe {
-    display: block;
-    height: var(--preview-height);
-    max-width: 100%;
-    flex: 0 0 auto;
-    border: 0;
-    background: var(--site-background);
-  }
-
-  .preview-presentation:fullscreen {
-    box-sizing: border-box;
-    width: 100%;
-    height: 100%;
-    padding: 0.5rem;
-    background: var(--site-background);
-  }
-
-  .preview-presentation:fullscreen .preview-presentation-frame {
-    height: auto;
-    flex: 1;
-  }
-
-  .preview-presentation:fullscreen iframe {
-    height: 100%;
-  }
-</style>

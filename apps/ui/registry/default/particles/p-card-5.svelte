@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
 
   export const meta = defineParticleMeta({
     components: ["button", "card", "field", "form", "input", "select"],
@@ -13,19 +13,8 @@
 </script>
 
 <script lang="ts">
-  import {
-    Button,
-    Card,
-    CardFrame,
-    CardFrameDescription,
-    CardFrameHeader,
-    CardFrameTitle,
-    CardPanel,
-    Field,
-    Form,
-    Input,
-    Select,
-  } from "@coss-sv/ui";
+  import * as Card from "@coss-sv/ui/components/ui/card";
+  import { Button, Field, Form, Input, Select } from "@coss-sv/ui";
 
   const frameworkOptions = [
     { label: "Next.js", value: "next" },
@@ -36,13 +25,13 @@
   let framework = $state("next");
 </script>
 
-<CardFrame class="w-full max-w-xs">
-  <CardFrameHeader>
-    <CardFrameTitle>Create project</CardFrameTitle>
-    <CardFrameDescription>Deploy your new project in one-click.</CardFrameDescription>
-  </CardFrameHeader>
-  <Card>
-    <CardPanel>
+<Card.Frame class="w-full max-w-xs">
+  <Card.FrameHeader>
+    <Card.FrameTitle>Create project</Card.FrameTitle>
+    <Card.FrameDescription>Deploy your new project in one-click.</Card.FrameDescription>
+  </Card.FrameHeader>
+  <Card.Root>
+    <Card.Panel>
       <Form class="flex w-full flex-col gap-4">
         <Field.Root>
           <Field.Label>Name</Field.Label>
@@ -61,6 +50,6 @@
         </Field.Root>
         <Button class="w-full" type="submit">Deploy</Button>
       </Form>
-    </CardPanel>
-  </Card>
-</CardFrame>
+    </Card.Panel>
+  </Card.Root>
+</Card.Frame>

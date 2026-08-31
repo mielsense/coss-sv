@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
 
   export const meta = defineParticleMeta({
     components: ["tabs"],
@@ -12,7 +12,9 @@
 
 <script lang="ts">
   import { HugeiconsIcon, Tabs } from "@coss-sv/ui";
-  import { House01Icon, PanelsTopLeftIcon, Settings01Icon } from "@hugeicons/core-free-icons";
+  import House01Icon from "@hugeicons/core-free-icons/House01Icon";
+  import PanelsTopLeftIcon from "@hugeicons/core-free-icons/PanelsTopLeftIcon";
+  import Settings01Icon from "@hugeicons/core-free-icons/Settings01Icon";
 </script>
 
 <Tabs.Root class="items-center" defaultValue="tab-1">

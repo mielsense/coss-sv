@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
 
   export const meta = defineParticleMeta({
     components: ["button", "field", "input-group"],
@@ -13,7 +13,7 @@
 
 <script lang="ts">
   import { Button, Field, HugeiconsIcon, InputGroup } from "@coss-sv/ui";
-  import { ArrowRight01Icon } from "@hugeicons/core-free-icons";
+  import ArrowRight01Icon from "@hugeicons/core-free-icons/ArrowRight01Icon";
 </script>
 
 <Field.Root>

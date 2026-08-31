@@ -42,7 +42,8 @@
 		],
 		"registryDependencies": [
 			"local:hugeicons-icon",
-			"local:scroll-area"
+			"local:scroll-area",
+			"local:selection-change-context"
 		],
 		"relativeUrl": "autocomplete.json"
 	},
@@ -109,6 +110,14 @@
 		"relativeUrl": "card.json"
 	},
 	{
+		"name": "change-event-details",
+		"type": "registry:lib",
+		"description": "Creates cancelable COSS change callback details from native events.",
+		"dependencies": [],
+		"registryDependencies": [],
+		"relativeUrl": "change-event-details.json"
+	},
+	{
 		"name": "checkbox",
 		"type": "registry:ui",
 		"description": "Lets a user select or clear an option.",
@@ -117,6 +126,7 @@
 			"@shardsui/svelte@0.1.0-beta.0"
 		],
 		"registryDependencies": [
+			"local:change-event-details",
 			"local:hugeicons-icon"
 		],
 		"relativeUrl": "checkbox.json"
@@ -129,6 +139,7 @@
 			"@shardsui/svelte@0.1.0-beta.0"
 		],
 		"registryDependencies": [
+			"local:change-event-details",
 			"local:checkbox"
 		],
 		"relativeUrl": "checkbox-group.json"
@@ -155,7 +166,8 @@
 		],
 		"registryDependencies": [
 			"local:hugeicons-icon",
-			"local:scroll-area"
+			"local:scroll-area",
+			"local:selection-change-context"
 		],
 		"relativeUrl": "combobox.json"
 	},
@@ -194,6 +206,14 @@
 		"dependencies": [],
 		"registryDependencies": [],
 		"relativeUrl": "date-format.json"
+	},
+	{
+		"name": "demo-delay",
+		"type": "registry:lib",
+		"description": "Cancels simulated form delays when a particle preview is destroyed.",
+		"dependencies": [],
+		"registryDependencies": [],
+		"relativeUrl": "demo-delay.json"
 	},
 	{
 		"name": "dialog",
@@ -604,7 +624,8 @@
 			"local:autocomplete",
 			"local:button",
 			"local:field",
-			"local:form"
+			"local:form",
+			"local:demo-delay"
 		],
 		"relativeUrl": "p-autocomplete-13.json"
 	},
@@ -1753,7 +1774,8 @@
 		"dependencies": [],
 		"registryDependencies": [
 			"local:particle-metadata",
-			"local:calendar"
+			"local:calendar",
+			"local:date-format"
 		],
 		"relativeUrl": "p-calendar-10.json"
 	},
@@ -1811,7 +1833,8 @@
 		"registryDependencies": [
 			"local:particle-metadata",
 			"local:calendar",
-			"local:button"
+			"local:button",
+			"local:date-format"
 		],
 		"relativeUrl": "p-calendar-15.json"
 	},
@@ -1823,7 +1846,8 @@
 		"registryDependencies": [
 			"local:particle-metadata",
 			"local:calendar",
-			"local:button"
+			"local:button",
+			"local:date-format"
 		],
 		"relativeUrl": "p-calendar-16.json"
 	},
@@ -1839,7 +1863,8 @@
 			"local:calendar",
 			"local:field",
 			"local:input-group",
-			"local:hugeicons-icon"
+			"local:hugeicons-icon",
+			"local:date-format"
 		],
 		"relativeUrl": "p-calendar-17.json"
 	},
@@ -1892,7 +1917,8 @@
 		"registryDependencies": [
 			"local:particle-metadata",
 			"local:calendar",
-			"local:button"
+			"local:button",
+			"local:date-format"
 		],
 		"relativeUrl": "p-calendar-20.json"
 	},
@@ -1904,7 +1930,8 @@
 		"registryDependencies": [
 			"local:particle-metadata",
 			"local:calendar",
-			"local:button"
+			"local:button",
+			"local:date-format"
 		],
 		"relativeUrl": "p-calendar-21.json"
 	},
@@ -1915,7 +1942,8 @@
 		"dependencies": [],
 		"registryDependencies": [
 			"local:particle-metadata",
-			"local:calendar"
+			"local:calendar",
+			"local:date-format"
 		],
 		"relativeUrl": "p-calendar-22.json"
 	},
@@ -1926,7 +1954,8 @@
 		"dependencies": [],
 		"registryDependencies": [
 			"local:particle-metadata",
-			"local:calendar"
+			"local:calendar",
+			"local:date-format"
 		],
 		"relativeUrl": "p-calendar-23.json"
 	},
@@ -1937,7 +1966,8 @@
 		"dependencies": [],
 		"registryDependencies": [
 			"local:particle-metadata",
-			"local:calendar"
+			"local:calendar",
+			"local:date-format"
 		],
 		"relativeUrl": "p-calendar-24.json"
 	},
@@ -2010,7 +2040,8 @@
 		"dependencies": [],
 		"registryDependencies": [
 			"local:particle-metadata",
-			"local:calendar"
+			"local:calendar",
+			"local:date-format"
 		],
 		"relativeUrl": "p-calendar-7.json"
 	},
@@ -2021,7 +2052,8 @@
 		"dependencies": [],
 		"registryDependencies": [
 			"local:particle-metadata",
-			"local:calendar"
+			"local:calendar",
+			"local:date-format"
 		],
 		"relativeUrl": "p-calendar-8.json"
 	},
@@ -2292,7 +2324,8 @@
 			"local:button",
 			"local:checkbox",
 			"local:field",
-			"local:form"
+			"local:form",
+			"local:demo-delay"
 		],
 		"relativeUrl": "p-checkbox-5.json"
 	},
@@ -2360,7 +2393,8 @@
 			"local:checkbox-group",
 			"local:field",
 			"local:fieldset",
-			"local:form"
+			"local:form",
+			"local:demo-delay"
 		],
 		"relativeUrl": "p-checkbox-group-5.json"
 	},
@@ -2414,7 +2448,8 @@
 			"local:button",
 			"local:combobox",
 			"local:field",
-			"local:form"
+			"local:form",
+			"local:demo-delay"
 		],
 		"relativeUrl": "p-combobox-11.json"
 	},
@@ -2428,7 +2463,8 @@
 			"local:button",
 			"local:combobox",
 			"local:field",
-			"local:form"
+			"local:form",
+			"local:demo-delay"
 		],
 		"relativeUrl": "p-combobox-12.json"
 	},
@@ -2846,7 +2882,8 @@
 			"local:calendar",
 			"local:input-group",
 			"local:popover",
-			"local:hugeicons-icon"
+			"local:hugeicons-icon",
+			"local:date-format"
 		],
 		"relativeUrl": "p-date-picker-5.json"
 	},
@@ -3053,7 +3090,8 @@
 			"local:drawer",
 			"local:field",
 			"local:form",
-			"local:input"
+			"local:input",
+			"local:use-media-query"
 		],
 		"relativeUrl": "p-drawer-12.json"
 	},
@@ -3069,6 +3107,7 @@
 			"local:button",
 			"local:drawer",
 			"local:menu",
+			"local:use-media-query",
 			"local:hugeicons-icon"
 		],
 		"relativeUrl": "p-drawer-13.json"
@@ -3321,7 +3360,8 @@
 			"local:field",
 			"local:form",
 			"local:input",
-			"local:select"
+			"local:select",
+			"local:demo-delay"
 		],
 		"relativeUrl": "p-field-18.json"
 	},
@@ -3448,7 +3488,8 @@
 			"local:button",
 			"local:field",
 			"local:form",
-			"local:input"
+			"local:input",
+			"local:demo-delay"
 		],
 		"relativeUrl": "p-form-1.json"
 	},
@@ -3462,7 +3503,8 @@
 			"local:button",
 			"local:field",
 			"local:form",
-			"local:input"
+			"local:input",
+			"local:demo-delay"
 		],
 		"relativeUrl": "p-form-2.json"
 	},
@@ -3699,6 +3741,7 @@
 			"local:group",
 			"local:input",
 			"local:tooltip",
+			"local:use-copy-to-clipboard",
 			"local:hugeicons-icon"
 		],
 		"relativeUrl": "p-group-2.json"
@@ -4469,6 +4512,7 @@
 			"local:button",
 			"local:input-group",
 			"local:tooltip",
+			"local:use-copy-to-clipboard",
 			"local:hugeicons-icon"
 		],
 		"relativeUrl": "p-input-group-8.json"
@@ -4705,7 +4749,8 @@
 			"local:button",
 			"local:field",
 			"local:form",
-			"local:number-field"
+			"local:number-field",
+			"local:demo-delay"
 		],
 		"relativeUrl": "p-number-field-10.json"
 	},
@@ -5123,7 +5168,8 @@
 			"local:field",
 			"local:fieldset",
 			"local:form",
-			"local:radio-group"
+			"local:radio-group",
+			"local:demo-delay"
 		],
 		"relativeUrl": "p-radio-group-5.json"
 	},
@@ -5263,7 +5309,8 @@
 			"local:button",
 			"local:field",
 			"local:form",
-			"local:select"
+			"local:select",
+			"local:demo-delay"
 		],
 		"relativeUrl": "p-select-11.json"
 	},
@@ -5776,7 +5823,8 @@
 			"local:field",
 			"local:fieldset",
 			"local:form",
-			"local:slider"
+			"local:slider",
+			"local:demo-delay"
 		],
 		"relativeUrl": "p-slider-23.json"
 	},
@@ -5926,7 +5974,8 @@
 			"local:button",
 			"local:field",
 			"local:form",
-			"local:switch"
+			"local:switch",
+			"local:demo-delay"
 		],
 		"relativeUrl": "p-switch-5.json"
 	},
@@ -6456,7 +6505,8 @@
 			"local:button",
 			"local:field",
 			"local:form",
-			"local:textarea"
+			"local:textarea",
+			"local:demo-delay"
 		],
 		"relativeUrl": "p-textarea-6.json"
 	},
@@ -6635,6 +6685,7 @@
 			"local:button",
 			"local:toast",
 			"local:tooltip",
+			"local:use-copy-to-clipboard",
 			"local:hugeicons-icon"
 		],
 		"relativeUrl": "p-toast-7.json"
@@ -7027,7 +7078,9 @@
 		"dependencies": [
 			"@shardsui/svelte@0.1.0-beta.0"
 		],
-		"registryDependencies": [],
+		"registryDependencies": [
+			"local:change-event-details"
+		],
 		"relativeUrl": "radio-group.json"
 	},
 	{
@@ -7057,9 +7110,20 @@
 			"@shardsui/svelte@0.1.0-beta.0"
 		],
 		"registryDependencies": [
-			"local:hugeicons-icon"
+			"local:hugeicons-icon",
+			"local:selection-change-context"
 		],
 		"relativeUrl": "select.json"
+	},
+	{
+		"name": "selection-change-context",
+		"type": "registry:lib",
+		"description": "Shares native selection events with COSS-compatible root change callbacks.",
+		"dependencies": [],
+		"registryDependencies": [
+			"local:change-event-details"
+		],
+		"relativeUrl": "selection-change-context.json"
 	},
 	{
 		"name": "separator",
@@ -7122,7 +7186,9 @@
 		"dependencies": [
 			"@shardsui/svelte@0.1.0-beta.0"
 		],
-		"registryDependencies": [],
+		"registryDependencies": [
+			"local:change-event-details"
+		],
 		"relativeUrl": "slider.json"
 	},
 	{
@@ -7144,7 +7210,9 @@
 		"dependencies": [
 			"@shardsui/svelte@0.1.0-beta.0"
 		],
-		"registryDependencies": [],
+		"registryDependencies": [
+			"local:change-event-details"
+		],
 		"relativeUrl": "switch.json"
 	},
 	{
@@ -7162,7 +7230,9 @@
 		"dependencies": [
 			"@shardsui/svelte@0.1.0-beta.0"
 		],
-		"registryDependencies": [],
+		"registryDependencies": [
+			"local:change-event-details"
+		],
 		"relativeUrl": "tabs.json"
 	},
 	{
@@ -7196,7 +7266,9 @@
 		"dependencies": [
 			"@shardsui/svelte@0.1.0-beta.0"
 		],
-		"registryDependencies": [],
+		"registryDependencies": [
+			"local:change-event-details"
+		],
 		"relativeUrl": "toggle.json"
 	},
 	{
@@ -7207,6 +7279,7 @@
 			"@shardsui/svelte@0.1.0-beta.0"
 		],
 		"registryDependencies": [
+			"local:change-event-details",
 			"local:separator",
 			"local:toggle"
 		],
@@ -7294,5 +7367,21 @@
 			"local:tooltip"
 		],
 		"relativeUrl": "ui.json"
+	},
+	{
+		"name": "use-copy-to-clipboard",
+		"type": "registry:hook",
+		"description": "Copies text and exposes temporary success feedback.",
+		"dependencies": [],
+		"registryDependencies": [],
+		"relativeUrl": "use-copy-to-clipboard.json"
+	},
+	{
+		"name": "use-media-query",
+		"type": "registry:hook",
+		"description": "Creates reactive media queries from breakpoint shorthand or CSS queries.",
+		"dependencies": [],
+		"registryDependencies": [],
+		"relativeUrl": "use-media-query.json"
 	}
 ]

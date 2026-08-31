@@ -7,16 +7,13 @@ description: A native textarea element.
 
 ## Installation
 
-<InstallCommand
-  pnpm="pnpm add @coss-sv/ui"
-  shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/textarea.json"
-/>
+<InstallCommand shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/textarea.json" />
 
 ## Usage
 
 ```svelte
 <script lang="ts">
-  import { Textarea } from "@coss-sv/ui";
+  import { Textarea } from "@/components/ui/textarea/index.js";
 </script>
 
 <Textarea />

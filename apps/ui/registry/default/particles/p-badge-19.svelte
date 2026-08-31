@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
 
   export const meta = defineParticleMeta({
     components: ["badge", "checkbox"],
@@ -12,7 +12,7 @@
 
 <script lang="ts">
   import { Badge, Checkbox, HugeiconsIcon } from "@coss-sv/ui";
-  import { Tick01Icon } from "@hugeicons/core-free-icons";
+  import Tick01Icon from "@hugeicons/core-free-icons/Tick01Icon";
 
   const uid = $props.id();
   let checked = $state(true);
@@ -20,12 +20,14 @@
 
 <Badge
   class="relative outline-none has-focus-visible:border-ring has-data-unchecked:bg-muted has-data-unchecked:text-muted-foreground has-focus-visible:ring-[3px] has-focus-visible:ring-ring/50"
-  ><Checkbox bind:checked class="peer hidden" id={uid} /><HugeiconsIcon
+>
+  <Checkbox bind:checked class="peer hidden" id={uid} /><HugeiconsIcon
     aria-hidden="true"
     class="hidden peer-data-checked:block"
     icon={Tick01Icon}
     strokeWidth={2}
-  /><label class="cursor-pointer select-none after:absolute after:inset-0" for={uid}
-    >Selectable</label
-  ></Badge
->
+  />
+  <label class="cursor-pointer select-none after:absolute after:inset-0" for={uid}>
+    Selectable
+  </label>
+</Badge>

@@ -7,9 +7,9 @@ import {
   createMarkdownDocument,
   findDocumentationRecord,
 } from "../../src/lib/server/documentation-text.js";
-import { GET as getMarkdown } from "../../src/routes/docs/[...slug].md/+server.js";
-import { GET as getLlmsFull } from "../../src/routes/llms-full.txt/+server.js";
-import { GET as getLlms } from "../../src/routes/llms.txt/+server.js";
+import { GET as getMarkdown } from "../../src/routes/(site)/docs/[...slug].md/+server.js";
+import { GET as getLlmsFull } from "../../src/routes/(machine)/llms-full.txt/+server.js";
+import { GET as getLlms } from "../../src/routes/(machine)/llms.txt/+server.js";
 
 const appRoot = resolve(import.meta.dirname, "../..");
 const repositoryRoot = resolve(appRoot, "../..");

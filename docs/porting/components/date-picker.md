@@ -7,7 +7,7 @@
 - Direct permitted consumers under `reference/apps/ui/**`
 - Complete local Shards Popover, Field, Select, Combobox, and Input source directories, exported types, documentation, examples, fixtures, and tests
 
-No source under `reference/packages/ui/**` was used.
+No source from the excluded COSS package subtree was used.
 
 ## Port contract
 

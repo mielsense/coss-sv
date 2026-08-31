@@ -1,6 +1,8 @@
 <script lang="ts">
   import { Avatar, Badge, Button, Field, Form, HugeiconsIcon, Label } from "@coss-sv/ui";
-  import { Cancel01Icon, Search01Icon, UnfoldMoreIcon } from "@hugeicons/core-free-icons";
+  import Cancel01Icon from "@hugeicons/core-free-icons/Cancel01Icon";
+  import Search01Icon from "@hugeicons/core-free-icons/Search01Icon";
+  import UnfoldMoreIcon from "@hugeicons/core-free-icons/UnfoldMoreIcon";
   import * as Combobox from "../../../../../../packages/ui/dist/components/ui/combobox/index.js";
 
   type Item = { label: string; value: string };

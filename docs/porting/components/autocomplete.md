@@ -6,7 +6,7 @@
 - `reference/apps/ui/content/docs/components/autocomplete.mdx`
 - `reference/apps/ui/registry/default/particles/p-autocomplete-1.tsx` through `p-autocomplete-16.tsx`
 
-The registry wrapper, documentation page, and all sixteen direct particles were read in full from the MIT-designated `reference/apps/ui/**` subtree. The importer inventory was also checked for indirect autocomplete compositions. No source from `reference/packages/ui/**` was used.
+The registry wrapper, documentation page, and all sixteen direct particles were read in full from the MIT-designated `reference/apps/ui/**` subtree. The importer inventory was also checked for indirect autocomplete compositions. No source from the excluded COSS package subtree was used.
 
 The particles cover input sizes, disabled and invalid states, trigger and clear controls, leading add-ons, groups, object identity, custom filtering, async results, loading and empty status, controlled text, inline completion, and grid navigation.
 

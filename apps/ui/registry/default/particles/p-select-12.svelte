@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
   export const meta = defineParticleMeta({
     components: ["select"],
     containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64",
@@ -22,10 +22,10 @@
   ];
 </script>
 
-<Select.Root aria-label="Select framework" value="next" {items}
-  ><Select.Trigger><Select.Value /></Select.Trigger><Select.Popup
-    >{#each items as item (item.value)}<Select.Item disabled={item.disabled} value={item.value}
-        >{item.label}</Select.Item
-      >{/each}</Select.Popup
-  ></Select.Root
->
+<Select.Root aria-label="Select framework" value="next" {items}>
+  <Select.Trigger><Select.Value /></Select.Trigger><Select.Popup>
+    {#each items as item (item.value)}<Select.Item disabled={item.disabled} value={item.value}>
+        {item.label}
+      </Select.Item>{/each}
+  </Select.Popup>
+</Select.Root>

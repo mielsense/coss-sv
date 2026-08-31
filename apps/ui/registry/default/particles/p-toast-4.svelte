@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
 
   export const meta = defineParticleMeta({
     components: ["button", "toast"],
@@ -13,13 +13,15 @@
 <script lang="ts">
   import { Button, Toast } from "@coss-sv/ui";
 
+  const toastManager = new Toast.Manager();
+
   function perform() {
-    const id = Toast.toastManager.add({
+    const id = toastManager.add({
       actionProps: {
         children: "Undo",
         onclick: () => {
-          Toast.toastManager.close(id);
-          Toast.toastManager.add({
+          toastManager.close(id);
+          toastManager.add({
             description: "The action has been reverted.",
             title: "Action undone",
             type: "info",
@@ -34,4 +36,6 @@
   }
 </script>
 
-<Toast.Provider><Button onclick={perform} variant="outline">Perform Action</Button></Toast.Provider>
+<Toast.Provider {toastManager}>
+  <Button onclick={perform} variant="outline">Perform Action</Button>
+</Toast.Provider>

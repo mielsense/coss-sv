@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
 
   export const meta = defineParticleMeta({
     components: ["button", "card", "field", "form", "input"],
@@ -13,29 +13,20 @@
 </script>
 
 <script lang="ts">
-  import {
-    Button,
-    Card,
-    CardAction,
-    CardHeader,
-    CardPanel,
-    CardTitle,
-    Field,
-    Form,
-    Input,
-  } from "@coss-sv/ui";
+  import * as Card from "@coss-sv/ui/components/ui/card";
+  import { Button, Field, Form, Input } from "@coss-sv/ui";
 </script>
 
-<Card class="w-full max-w-xs">
-  <CardHeader>
-    <CardTitle>Login to your account</CardTitle>
-    <CardAction>
+<Card.Root class="w-full max-w-xs">
+  <Card.Header>
+    <Card.Title>Login to your account</Card.Title>
+    <Card.Action>
       <!-- svelte-ignore a11y_invalid_attribute -->
       <!-- biome-ignore lint/a11y/useValidAnchor: exact upstream example uses a placeholder link. -->
       <a class="text-muted-foreground text-sm leading-4.5 hover:underline" href="#">Sign up</a>
-    </CardAction>
-  </CardHeader>
-  <CardPanel>
+    </Card.Action>
+  </Card.Header>
+  <Card.Panel>
     <Form class="flex w-full flex-col gap-4">
       <Field.Root>
         <Field.Label>Email</Field.Label>
@@ -47,5 +38,5 @@
       </Field.Root>
       <Button class="w-full" type="submit">Login</Button>
     </Form>
-  </CardPanel>
-</Card>
+  </Card.Panel>
+</Card.Root>

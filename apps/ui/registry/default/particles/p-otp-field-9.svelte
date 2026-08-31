@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
   export const meta = defineParticleMeta({
     components: ["field", "otp-field"],
     id: "p-otp-field-9",
@@ -26,7 +26,7 @@
       />
     {/each}
   </OTPField.Root>
-  <Field.Description
-    >Placeholder hints stay visible until the focused slot is active.</Field.Description
-  >
+  <Field.Description>
+    Placeholder hints stay visible until the focused slot is active.
+  </Field.Description>
 </Field.Root>

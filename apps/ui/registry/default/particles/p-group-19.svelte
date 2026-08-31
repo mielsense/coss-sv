@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
   export const meta = defineParticleMeta({
     components: ["group", "input", "select"],
     id: "p-group-19",
@@ -25,10 +25,10 @@
   <Group.Separator />
   <Select.Root bind:value={domain} items={domains}>
     <Select.Trigger class="w-fit min-w-none"><Select.Value /></Select.Trigger>
-    <Select.Popup
-      >{#each domains as item (item.value)}
+    <Select.Popup>
+      {#each domains as item (item.value)}
         <Select.Item value={item.value}>{item.label}</Select.Item>
-      {/each}</Select.Popup
-    >
+      {/each}
+    </Select.Popup>
   </Select.Root>
 </Group.Root>

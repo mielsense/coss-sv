@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
 
   export const meta = defineParticleMeta({
     components: ["button", "toast"],
@@ -13,6 +13,7 @@
 <script lang="ts">
   import { Button, Toast } from "@coss-sv/ui";
 
+  const toastManager = new Toast.Manager();
   const texts = [
     "Short message.",
     "A bit longer message that spans two lines.",
@@ -22,13 +23,13 @@
   let count = $state(0);
   function create() {
     count += 1;
-    Toast.toastManager.add({
+    toastManager.add({
       description: texts[Math.floor(Math.random() * texts.length)],
       title: `Toast ${count} created`,
     });
   }
 </script>
 
-<Toast.Provider
-  ><Button onclick={create} variant="outline">With Varying Heights</Button></Toast.Provider
->
+<Toast.Provider {toastManager}>
+  <Button onclick={create} variant="outline">With Varying Heights</Button>
+</Toast.Provider>

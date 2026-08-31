@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
   export const meta = defineParticleMeta({
     components: ["avatar", "badge", "button", "combobox", "group"],
     id: "p-group-23",
@@ -19,12 +19,10 @@
     Group,
     HugeiconsIcon,
   } from "@coss-sv/ui";
-  import {
-    Cancel01Icon,
-    FilterIcon,
-    Search01Icon,
-    UnfoldMoreIcon,
-  } from "@hugeicons/core-free-icons";
+  import Cancel01Icon from "@hugeicons/core-free-icons/Cancel01Icon";
+  import FilterIcon from "@hugeicons/core-free-icons/FilterIcon";
+  import Search01Icon from "@hugeicons/core-free-icons/Search01Icon";
+  import UnfoldMoreIcon from "@hugeicons/core-free-icons/UnfoldMoreIcon";
 
   type FilterOption = { id: string; label: string; avatar?: string };
   const members: FilterOption[] = [
@@ -131,7 +129,8 @@
           {#snippet children(option: FilterOption)}
             <Combobox.Item value={option}>
               <div class="flex items-center gap-2">
-                {@render memberAvatar(option)}<span>{option.label}</span>
+                {@render memberAvatar(option)}
+                <span>{option.label}</span>
               </div>
             </Combobox.Item>
           {/snippet}

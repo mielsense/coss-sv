@@ -48,19 +48,26 @@ describe("D10 feedback and status documentation", () => {
 
   test.each(pages)("ports the %s page and route", (slug) => {
     const pagePath = resolve(appRoot, `content/docs/components/${slug}.svx`);
-    const routePath = resolve(appRoot, `src/routes/docs/components/${slug}/+page.svelte`);
-    const loaderPath = resolve(appRoot, `src/routes/docs/components/${slug}/+page.server.ts`);
+    const routePath = resolve(appRoot, `src/routes/(site)/docs/components/${slug}/+page.svelte`);
     expect(existsSync(pagePath)).toBe(true);
     expect(existsSync(routePath)).toBe(true);
-    expect(existsSync(loaderPath)).toBe(true);
+    expect(
+      existsSync(resolve(appRoot, `src/routes/(site)/docs/components/${slug}/+page.server.ts`)),
+    ).toBe(false);
     const page = readFileSync(pagePath, "utf8");
     expect(page).toContain("<InstallCommand");
     expect(page).toContain("pnpm dlx shadcn-svelte@latest add");
     expect(page).not.toMatch(/```(?:tsx|jsx)|@base-ui\/react|lucide-react|from ["']react/);
-    expect(readFileSync(routePath, "utf8")).toContain("data.documentation.metadata.title");
-    expect(readFileSync(loaderPath, "utf8")).toContain(
-      `generatedDocumentationRecord("components/${slug}")`,
+    expect(readFileSync(routePath, "utf8")).toContain(`$content/docs/components/${slug}.svx`);
+  });
+
+  test("uses one generated metadata loader for all documentation routes", () => {
+    const loader = readFileSync(
+      resolve(appRoot, "src/routes/(site)/docs/+layout.server.ts"),
+      "utf8",
     );
+    expect(loader).toContain("findGeneratedDocumentationRecord");
+    expect(loader).toContain("documentationSlug(url.pathname)");
   });
 
   test("keeps feedback semantics and async controls explicit", () => {
@@ -99,8 +106,10 @@ describe("D10 feedback and status documentation", () => {
       resolve(appRoot, "registry/default/particles/p-toast-8.svelte"),
       "utf8",
     );
-    expect(retry).toContain("Toast.anchoredToastManager.close(toastId)");
-    expect(retry).toContain("toastId = Toast.anchoredToastManager.add");
+    expect(retry).toContain("const toastManager = new Toast.Manager()");
+    expect(retry).toContain("toastManager.close(toastId)");
+    expect(retry).toContain("toastId = toastManager.add");
+    expect(retry).toContain("<Toast.AnchoredProvider {toastManager}");
 
     const promise = readFileSync(
       resolve(appRoot, "registry/default/particles/p-toast-9.svelte"),

@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
 
   export const meta = defineParticleMeta({
     components: ["button", "input-group", "popover"],
@@ -13,7 +13,8 @@
 
 <script lang="ts">
   import { Button, buttonVariants, HugeiconsIcon, InputGroup, Popover } from "@coss-sv/ui";
-  import { InformationCircleIcon, StarIcon } from "@hugeicons/core-free-icons";
+  import InformationCircleIcon from "@hugeicons/core-free-icons/InformationCircleIcon";
+  import StarIcon from "@hugeicons/core-free-icons/StarIcon";
 
   let isFavorite = $state(false);
 </script>

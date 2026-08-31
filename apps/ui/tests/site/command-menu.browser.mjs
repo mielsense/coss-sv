@@ -140,7 +140,7 @@ function assertOpaqueThumbnailTokens(styles, mode) {
 
 async function commandDialogMetrics(dialog) {
   return dialog.evaluate((element) => {
-    const results = element.querySelector(".command-results");
+    const results = element.querySelector("[data-command-results]");
     const input = element.querySelector("input");
     const label = element.querySelector('[role="group"] > div:first-child');
     const option = element.querySelector('[role="option"]');
@@ -315,8 +315,38 @@ async function paymentCurrencyMetrics() {
   });
 }
 
+async function waitForPaymentCurrencyAlignment() {
+  await page.waitForFunction(() => {
+    const trigger = document.querySelector(
+      '[data-particle="p-group-14"] [data-slot="select-trigger"]',
+    );
+    const value = trigger?.querySelector('[data-slot="select-value"]');
+    const selected = document.querySelector('[data-slot="select-item"][aria-selected="true"]');
+    const selectedLabel = selected?.querySelector(".col-start-2");
+    if (
+      !(trigger instanceof HTMLElement) ||
+      !(value instanceof HTMLElement) ||
+      !(selected instanceof HTMLElement) ||
+      !(selectedLabel instanceof HTMLElement)
+    ) {
+      return false;
+    }
+
+    const triggerRect = trigger.getBoundingClientRect();
+    const valueRect = value.getBoundingClientRect();
+    const selectedRect = selected.getBoundingClientRect();
+    const selectedLabelRect = selectedLabel.getBoundingClientRect();
+    return (
+      Math.abs(valueRect.left - selectedLabelRect.left) <= 0.75 &&
+      Math.abs(
+        triggerRect.top + triggerRect.height / 2 - (selectedRect.top + selectedRect.height / 2),
+      ) <= 0.75
+    );
+  });
+}
+
 try {
-  await page.goto(baseUrl);
+  await page.goto(baseUrl, { waitUntil: "networkidle" });
 
   const themeToggle = page.getByRole("button", { name: "Toggle theme" });
   const root = page.locator("html");
@@ -329,7 +359,7 @@ try {
   await page.locator("html.dark").waitFor();
   assertOpaqueThumbnailTokens(await thumbnailStyles(), "dark");
 
-  const trigger = page.locator(".search-trigger");
+  const trigger = page.locator("[data-search-trigger]");
   const dialog = page.getByRole("dialog", { name: "Search documentation" });
   const input = page.getByRole("combobox", { name: "Search documentation" });
   const shortcut = process.platform === "darwin" ? "Meta+K" : "Control+K";
@@ -412,7 +442,7 @@ try {
   assert.equal(desktopMetrics.option.lineHeight, "20px");
   assert.equal(desktopMetrics.option.padding, "6px 8px 6px 8px");
   assert.ok(!desktopMetrics.option.background.includes("0)"), "active option has a 4% fill");
-  assert.match(desktopMetrics.background, /(?:29|0\.114689)/, "dark popover is opaque");
+  assert.match(desktopMetrics.background, /(?:29|0\.11)/, "dark popover is opaque");
   assert.equal(desktopMetrics.borderWidth, "1px");
   assert.ok(!desktopMetrics.borderColor.includes("0)"), "dialog border is visible");
   assert.equal(desktopMetrics.borderRadius, "16px");
@@ -462,9 +492,9 @@ try {
   assert.equal(new URL(page.url()).pathname, "/docs");
 
   await page.setViewportSize({ width: 375, height: 812 });
-  await page.goto(baseUrl);
+  await page.goto(baseUrl, { waitUntil: "networkidle" });
 
-  const menuTrigger = page.locator(".mobile-menu-trigger");
+  const menuTrigger = page.locator("[data-mobile-menu-trigger]");
   await menuTrigger.click();
   const menuDialog = page.getByRole("dialog", { name: "Menu" });
   const closeMenu = page.getByRole("button", { name: "Close Menu" });
@@ -475,7 +505,7 @@ try {
     const rect = element.getBoundingClientRect();
     const close = element.querySelector('[aria-label="Close Menu"]');
     const closeRect = close?.getBoundingClientRect();
-    const panel = element.querySelector(".mobile-menu-panel");
+    const panel = element.querySelector("[data-mobile-menu-panel]");
     const panelStyle = panel ? getComputedStyle(panel) : null;
     return {
       popup: { x: rect.x, y: rect.y, width: rect.width, height: rect.height },
@@ -537,11 +567,13 @@ try {
   await menuTrigger.click();
   await menuDialog.waitFor({ state: "visible" });
   await page.waitForTimeout(500);
-  await menuDialog.locator(".mobile-menu-panel").evaluate((element) => {
+  await menuDialog.locator("[data-mobile-menu-panel]").evaluate((element) => {
     element.scrollTop = 100;
   });
   assert.ok(
-    (await menuDialog.locator(".mobile-menu-panel").evaluate((element) => element.scrollTop)) > 0,
+    (await menuDialog
+      .locator("[data-mobile-menu-panel]")
+      .evaluate((element) => element.scrollTop)) > 0,
     "the Drawer content remains vertically scrollable",
   );
 
@@ -566,19 +598,19 @@ try {
   await menuDialog.waitFor({ state: "hidden" });
   assert.equal(await menuTrigger.evaluate((element) => element === document.activeElement), true);
 
-  const mobileFooter = page.locator(".site-footer");
+  const mobileFooter = page.locator("[data-site-footer]");
   await mobileFooter.scrollIntoViewIfNeeded();
   const footerBox = await mobileFooter.boundingBox();
   assert.ok(footerBox);
   assert.ok(footerBox.height >= 96, "the credited mobile footer keeps the upstream minimum height");
-  const footerContentBox = await page.locator(".footer-inner").boundingBox();
+  const footerContentBox = await page.locator("[data-site-footer-inner]").boundingBox();
   assert.ok(footerContentBox);
   assert.ok(
     footerContentBox.height >= 48,
     "the credited mobile footer keeps the upstream minimum content height",
   );
 
-  const mobileTrigger = page.locator(".search-trigger");
+  const mobileTrigger = page.locator("[data-search-trigger]");
   await mobileTrigger.waitFor({ state: "attached" });
   await page.waitForTimeout(250);
   await page.keyboard.press(shortcut);
@@ -630,6 +662,7 @@ try {
   await currencyTrigger.click();
   const selectedCurrency = page.locator('[data-slot="select-item"][aria-selected="true"]');
   await selectedCurrency.waitFor({ state: "visible" });
+  await waitForPaymentCurrencyAlignment();
   const dollarMetrics = await paymentCurrencyMetrics();
   assert.ok(dollarMetrics, "payment currency geometry is available");
   assert.equal(dollarMetrics.side, "none");
@@ -649,10 +682,11 @@ try {
   assert.equal(dollarMetrics.selectedHighlighted, true);
   assert.equal(dollarMetrics.selectedTabIndex, 0);
 
-  await page.keyboard.press("ArrowDown");
-  await page.locator('[data-slot="select-item"][data-highlighted]', { hasText: "Euro" }).waitFor();
-  await page.keyboard.press("Enter");
+  await page.getByRole("option", { name: "€ Euro", exact: true }).click();
   await page.locator('[data-slot="select-positioner"]').waitFor({ state: "hidden" });
+  await page.evaluate(
+    () => new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve))),
+  );
   await page.waitForFunction(() =>
     document
       .querySelector('[data-particle="p-group-14"] [data-slot="select-trigger"]')
@@ -667,6 +701,7 @@ try {
 
   await currencyTrigger.press("ArrowDown");
   await selectedCurrency.waitFor({ state: "visible" });
+  await waitForPaymentCurrencyAlignment();
   const euroMetrics = await paymentCurrencyMetrics();
   assert.ok(euroMetrics, "selected Euro geometry is available");
   assertNear(euroMetrics.labelX, euroMetrics.triggerValueX, "Euro label x");

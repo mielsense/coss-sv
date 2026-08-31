@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
 
   export const meta = defineParticleMeta({
     components: ["slider"],
@@ -21,6 +21,8 @@
     aria-label="Storage size reference values"
     class="mt-4 flex min-w-0 w-full items-center justify-between gap-1 border-0 p-0 font-medium text-muted-foreground text-xs"
   >
-    <span>5 GB</span><span>20 GB</span><span>35 GB</span>
+    <span>5 GB</span>
+    <span>20 GB</span>
+    <span>35 GB</span>
   </fieldset>
 </div>

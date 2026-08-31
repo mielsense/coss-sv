@@ -1,61 +1,71 @@
-import { type Component, mount } from "svelte";
+import { type Component, mount, unmount } from "svelte";
 import { afterEach, describe, expect, test } from "vitest";
 import { page, userEvent } from "vitest/browser";
 
-const particleModules = import.meta.glob(
-  [
-    "../../registry/default/particles/p-field-*.svelte",
-    "../../registry/default/particles/p-fieldset-*.svelte",
-    "../../registry/default/particles/p-form-*.svelte",
-    "../../registry/default/particles/p-group-*.svelte",
-    "../../registry/default/particles/p-input-*.svelte",
-    "../../registry/default/particles/p-input-group-*.svelte",
-    "../../registry/default/particles/p-number-field-*.svelte",
-    "../../registry/default/particles/p-otp-field-*.svelte",
-    "../../registry/default/particles/p-textarea-*.svelte",
-  ],
-  { eager: true },
-);
+const particleLoaders = import.meta.glob<{ default: Component }>([
+  "../../registry/default/particles/p-field-*.svelte",
+  "../../registry/default/particles/p-fieldset-*.svelte",
+  "../../registry/default/particles/p-form-*.svelte",
+  "../../registry/default/particles/p-group-*.svelte",
+  "../../registry/default/particles/p-input-*.svelte",
+  "../../registry/default/particles/p-input-group-*.svelte",
+  "../../registry/default/particles/p-number-field-*.svelte",
+  "../../registry/default/particles/p-otp-field-*.svelte",
+  "../../registry/default/particles/p-textarea-*.svelte",
+]);
 
-const particles = Object.entries(particleModules).sort(([left], [right]) =>
+const particles = Object.entries(particleLoaders).sort(([left], [right]) =>
   left.localeCompare(right),
 );
+const mountedComponents = new Set<ReturnType<typeof mount>>();
 
-function component(id: string): Component {
+async function component(id: string): Promise<Component> {
   const entry = particles.find(([path]) => path.endsWith(`/${id}.svelte`));
   if (!entry) throw new Error(`Missing D6 browser particle ${id}`);
-  return (entry[1] as { default: Component }).default;
+  return (await entry[1]()).default;
 }
 
 function render(component: Component, options: { target?: Element } = {}) {
-  return mount(component, { target: options.target ?? document.body });
+  const mounted = mount(component, { target: options.target ?? document.body });
+  mountedComponents.add(mounted);
+  return mounted;
 }
 
-afterEach(() => {
+async function dispose(mounted: ReturnType<typeof mount>): Promise<void> {
+  if (!mountedComponents.delete(mounted)) return;
+  await unmount(mounted);
+}
+
+afterEach(async () => {
+  for (const mounted of [...mountedComponents]) {
+    await dispose(mounted);
+  }
   document.documentElement.classList.remove("dark");
   document.body.innerHTML = "";
 });
 
 describe("D6 form and input browser parity", () => {
-  test("mounts the exact 124-particle inventory in light, dark, and narrow containers", () => {
-    expect(particles).toHaveLength(124);
+  test("mounts the exact 125-particle upstream inventory in light, dark, and narrow containers", async () => {
+    expect(particles).toHaveLength(125);
 
     for (const dark of [false, true]) {
       document.documentElement.classList.toggle("dark", dark);
-      for (const [path, module] of particles) {
+      for (const [path, load] of particles) {
         const target = document.createElement("div");
         target.style.width = "320px";
         document.body.append(target);
-        render((module as { default: Component }).default, { target });
+        const module = await load();
+        const mounted = render(module.default, { target });
         expect(target.childElementCount, path).toBeGreaterThan(0);
         expect(target.querySelector("[data-slot]"), path).not.toBeNull();
+        await dispose(mounted);
         target.remove();
       }
     }
   });
 
   test("keeps password visibility and clear-button behavior exact", async () => {
-    render(component("p-input-9"));
+    render(await component("p-input-9"));
     const password = page.getByLabelText("Password with toggle visibility");
     await expect.element(password).toHaveAttribute("type", "password");
     await page.getByRole("button", { name: "Show password" }).click();
@@ -63,7 +73,7 @@ describe("D6 form and input browser parity", () => {
     await expect.element(page.getByRole("button", { name: "Hide password" })).toBeInTheDocument();
 
     document.body.innerHTML = "";
-    render(component("p-input-group-22"));
+    render(await component("p-input-group-22"));
     const clearable = page.getByLabelText("Text input with clear button");
     await expect.element(clearable).toHaveValue("Clear me");
     await page.getByRole("button", { name: "Clear input" }).click();
@@ -72,7 +82,7 @@ describe("D6 form and input browser parity", () => {
   });
 
   test("keeps the badge and menu Input Group default editable", async () => {
-    render(component("p-input-group-18"));
+    render(await component("p-input-group-18"));
 
     const input = page.getByPlaceholder("Enter email");
     await expect.element(input).toHaveValue("hello@coss.com");
@@ -85,7 +95,7 @@ describe("D6 form and input browser parity", () => {
   });
 
   test("composes the textarea menu and tooltip onto one button", async () => {
-    render(component("p-input-group-17"));
+    render(await component("p-input-group-17"));
 
     const addFiles = page.getByRole("button", { name: "Add files" });
     const addFilesElement = addFiles.element();
@@ -123,7 +133,7 @@ describe("D6 form and input browser parity", () => {
   });
 
   test("supports number-field buttons, boundaries, and keyboard stepping", async () => {
-    render(component("p-number-field-7"));
+    render(await component("p-number-field-7"));
     const input = document.querySelector<HTMLInputElement>('[data-slot="number-field-input"]');
     expect(input).toBeInstanceOf(HTMLInputElement);
     expect(input).toHaveAttribute("role", "spinbutton");
@@ -142,7 +152,7 @@ describe("D6 form and input browser parity", () => {
   });
 
   test("supports OTP typing, roving focus, validation, and masking", async () => {
-    render(component("p-otp-field-7"));
+    render(await component("p-otp-field-7"));
     const slots = page.getByRole("textbox");
     await slots.nth(0).click();
     for (const digit of "654321") {
@@ -159,14 +169,14 @@ describe("D6 form and input browser parity", () => {
     await expect.element(slots.nth(0)).toHaveFocus();
 
     document.body.innerHTML = "";
-    render(component("p-otp-field-10"));
-    for (const input of document.querySelectorAll("input")) {
+    render(await component("p-otp-field-10"));
+    for (const input of document.querySelectorAll('[data-slot="otp-field-input"]')) {
       expect(input).toHaveAttribute("type", "password");
     }
   });
 
   test("keeps labels, descriptions, native validation, and form names connected", async () => {
-    render(component("p-field-1"));
+    render(await component("p-field-1"));
     const name = document.querySelector<HTMLInputElement>('[data-slot="input"]');
     const label = document.querySelector<HTMLLabelElement>('[data-slot="field-label"]');
     const description = document.querySelector<HTMLElement>('[data-slot="field-description"]');
@@ -185,7 +195,7 @@ describe("D6 form and input browser parity", () => {
       .toHaveAttribute("aria-describedby", description?.id ?? "");
 
     document.body.innerHTML = "";
-    render(component("p-form-1"));
+    render(await component("p-form-1"));
     const email = page.getByLabelText("Email");
     await page.getByRole("button", { name: "Submit" }).click();
     expect((email.element() as HTMLInputElement).validity.valueMissing).toBe(true);

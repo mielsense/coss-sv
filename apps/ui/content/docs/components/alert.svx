@@ -7,31 +7,28 @@ description: A callout for displaying important information.
 
 ## Installation
 
-<InstallCommand
-  pnpm="pnpm add @coss-sv/ui"
-  shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/alert.json"
-/>
+<InstallCommand shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/alert.json" />
 
 ## Usage
 
 ```svelte
 <script lang="ts">
-  import { Alert, AlertDescription, AlertTitle } from "@coss-sv/ui/components/ui/alert";
+  import * as Alert from "@/components/ui/alert/index.js";
 </script>
 
-<Alert>
-  <AlertTitle>Heads up!</AlertTitle>
-  <AlertDescription>
+<Alert.Root>
+  <Alert.Title>Heads up!</Alert.Title>
+  <Alert.Description>
     You can add components and dependencies to your app using the CLI.
-  </AlertDescription>
-</Alert>
+  </Alert.Description>
+</Alert.Root>
 ```
 
 ## API Reference
 
 This is a custom component, not a Shards UI wrapper.
 
-### Alert
+### Alert.Root
 
 Root container for the alert. Native `div` attributes pass to the rendered element.
 
@@ -39,15 +36,15 @@ Root container for the alert. Native `div` attributes pass to the rendered eleme
 | --------- | ---------------------------------------------------------- | ----------- | ------------------------------------------- |
 | `variant` | `"default" \| "error" \| "info" \| "success" \| "warning"` | `"default"` | Controls the alert styling and color scheme |
 
-### AlertTitle
+### Alert.Title
 
 Title text for the alert. Renders as a styled `div`.
 
-### AlertDescription
+### Alert.Description
 
 Description text for the alert. Renders as a styled `div` with muted foreground color.
 
-### AlertAction
+### Alert.Action
 
 Container for action buttons. Automatically positions to the right on larger screens.
 

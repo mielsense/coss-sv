@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
   export const meta = defineParticleMeta({
     components: ["combobox"],
     containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64",
@@ -74,17 +74,18 @@
 
 <Combobox.Root items={groups}>
   <Combobox.Input aria-label="Search tags" placeholder="e.g. feature" />
-  <Combobox.Popup
-    ><Combobox.Empty>No tags found.</Combobox.Empty><Combobox.List>
+  <Combobox.Popup>
+    <Combobox.Empty>No tags found.</Combobox.Empty><Combobox.List>
       {#each groups as group (group.value)}
-        <Combobox.Group items={group.items}
-          ><Combobox.GroupLabel>{group.value}</Combobox.GroupLabel><Combobox.Collection>
-            {#snippet children(tag: Tag)}<Combobox.Item value={tag}>{tag.label}</Combobox.Item
-              >{/snippet}
-          </Combobox.Collection></Combobox.Group
-        >
+        <Combobox.Group items={group.items}>
+          <Combobox.GroupLabel>{group.value}</Combobox.GroupLabel><Combobox.Collection>
+            {#snippet children(tag: Tag)}<Combobox.Item value={tag}>
+                {tag.label}
+              </Combobox.Item>{/snippet}
+          </Combobox.Collection>
+        </Combobox.Group>
         {#if group.value !== "Team"}<Combobox.Separator />{/if}
       {/each}
-    </Combobox.List></Combobox.Popup
-  >
+    </Combobox.List>
+  </Combobox.Popup>
 </Combobox.Root>

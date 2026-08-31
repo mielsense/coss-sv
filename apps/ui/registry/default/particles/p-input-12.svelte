@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
 
   export const meta = defineParticleMeta({
     components: ["input-group", "spinner"],
@@ -15,8 +15,8 @@
   import { InputGroup, Spinner } from "@coss-sv/ui";
 </script>
 
-<InputGroup.Root
-  ><InputGroup.Input disabled placeholder="Processing…" type="search" /><InputGroup.Addon
-    ><Spinner /></InputGroup.Addon
-  ></InputGroup.Root
->
+<InputGroup.Root>
+  <InputGroup.Input disabled placeholder="Processing…" type="search" /><InputGroup.Addon>
+    <Spinner />
+  </InputGroup.Addon>
+</InputGroup.Root>

@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
   export const meta = defineParticleMeta({
     components: ["breadcrumb"],
     id: "p-breadcrumb-2",
@@ -20,13 +20,14 @@
   } from "@coss-sv/ui";
 </script>
 
-<Breadcrumb
-  ><BreadcrumbList
-    ><BreadcrumbItem><BreadcrumbLink href="/">Home</BreadcrumbLink></BreadcrumbItem
-    ><BreadcrumbSeparator>/</BreadcrumbSeparator><BreadcrumbItem
-      ><BreadcrumbLink href="/docs/">Components</BreadcrumbLink></BreadcrumbItem
-    ><BreadcrumbSeparator>/</BreadcrumbSeparator><BreadcrumbItem
-      ><BreadcrumbPage>Breadcrumb</BreadcrumbPage></BreadcrumbItem
-    ></BreadcrumbList
-  ></Breadcrumb
->
+<Breadcrumb>
+  <BreadcrumbList>
+    <BreadcrumbItem>
+      <BreadcrumbLink href="/">Home</BreadcrumbLink>
+    </BreadcrumbItem><BreadcrumbSeparator>/</BreadcrumbSeparator><BreadcrumbItem>
+      <BreadcrumbLink href="/docs/">Components</BreadcrumbLink>
+    </BreadcrumbItem><BreadcrumbSeparator>/</BreadcrumbSeparator><BreadcrumbItem>
+      <BreadcrumbPage>Breadcrumb</BreadcrumbPage>
+    </BreadcrumbItem>
+  </BreadcrumbList>
+</Breadcrumb>

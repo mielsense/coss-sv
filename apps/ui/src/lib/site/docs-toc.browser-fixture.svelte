@@ -2,6 +2,14 @@
   import DocsToc from "./DocsToc.svelte";
 
   let replacement = $state(false);
+  const items = $derived(
+    replacement
+      ? [
+          { depth: 2, id: "replacement-heading", text: "Replacement heading" },
+          { depth: 3, id: "replacement-detail", text: "Replacement detail" },
+        ]
+      : [{ depth: 2, id: "initial-heading", text: "Initial heading" }],
+  );
 </script>
 
 <button type="button" onclick={() => (replacement = !replacement)}>Replace content</button>
@@ -13,4 +21,4 @@
     <h2 id="initial-heading">Initial heading</h2>
   {/if}
 </article>
-<DocsToc />
+<DocsToc {items} />

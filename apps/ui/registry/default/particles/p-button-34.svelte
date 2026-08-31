@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
 
   export const meta = defineParticleMeta({
     components: ["button"],
@@ -14,9 +14,10 @@
   import { Button } from "@coss-sv/ui";
 </script>
 
-<Button variant="outline"
-  ><span
+<Button variant="outline">
+  <span
     aria-hidden="true"
     class="relative size-2 rounded-full bg-emerald-500 before:absolute before:inset-0 before:animate-ping before:rounded-full before:bg-emerald-400 before:opacity-75"
-  ></span>Online</Button
->
+  ></span>
+  Online
+</Button>

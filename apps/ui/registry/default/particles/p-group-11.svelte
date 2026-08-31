@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
   export const meta = defineParticleMeta({
     components: ["badge", "button", "group", "popover"],
     id: "p-group-11",
@@ -11,7 +11,8 @@
 
 <script lang="ts">
   import { Badge, Button, buttonVariants, Group, HugeiconsIcon, Popover } from "@coss-sv/ui";
-  import { ArrowDown01Icon, GitForkIcon } from "@hugeicons/core-free-icons";
+  import ArrowDown01Icon from "@hugeicons/core-free-icons/ArrowDown01Icon";
+  import GitForkIcon from "@hugeicons/core-free-icons/GitForkIcon";
 </script>
 
 <Group.Root aria-label="Repository actions">

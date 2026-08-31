@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
   export const meta = defineParticleMeta({
     components: ["button", "field", "form", "input", "sheet"],
     id: "p-sheet-1",
@@ -32,8 +32,10 @@
         </Field.Root>
       </Sheet.Panel><Sheet.Footer>
         <Sheet.Close class={buttonVariants({ variant: "ghost" })}>Cancel</Sheet.Close><Button
-          type="submit">Save</Button
+          type="submit"
         >
+          Save
+        </Button>
       </Sheet.Footer>
     </Form>
   </Sheet.Popup>

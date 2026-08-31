@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
   export const meta = defineParticleMeta({
     components: ["badge", "checkbox", "frame", "table"],
     containerClass: "**:data-[slot=preview]:w-full sm:**:data-[slot=preview]:max-w-4xl",
@@ -66,53 +66,54 @@
   const total = currency(data.reduce((sum, row) => sum + row.budget, 0));
 </script>
 
-<Frame class="w-full"
-  ><Table.Root variant="card"
-    ><Table.Header
-      ><Table.Row
-        >{#each table.getHeaderGroups()[0]?.headers ?? [] as header (header.id)}<Table.Head
-            >{#if header.column.id === "select"}<Checkbox
+<Frame class="w-full">
+  <Table.Root variant="card">
+    <Table.Header>
+      <Table.Row>
+        {#each table.getHeaderGroups()[0]?.headers ?? [] as header (header.id)}<Table.Head>
+            {#if header.column.id === "select"}<Checkbox
                 aria-label="Select all"
                 checked={table.getIsAllRowsSelected()}
                 indeterminate={table.getIsSomeRowsSelected() && !table.getIsAllRowsSelected()}
                 onCheckedChange={(value) => table.toggleAllRowsSelected(Boolean(value))}
               />{:else if header.column.id === "budget"}<div class="text-right">
                 Budget
-              </div>{:else}{header.column.columnDef.header}{/if}</Table.Head
-          >{/each}</Table.Row
-      ></Table.Header
-    ><Table.Body
-      >{#each table.getRowModel().rows as row (row.id)}<Table.Row
+              </div>{:else}{header.column.columnDef.header}{/if}
+          </Table.Head>{/each}
+      </Table.Row>
+    </Table.Header><Table.Body>
+      {#each table.getRowModel().rows as row (row.id)}<Table.Row
           data-state={row.getIsSelected() ? "selected" : undefined}
-          >{#each row.getAllCells() as cell (cell.id)}<Table.Cell
-              >{#if cell.column.id === "select"}<Checkbox
+        >
+          {#each row.getAllCells() as cell (cell.id)}<Table.Cell>
+              {#if cell.column.id === "select"}<Checkbox
                   aria-label="Select row"
                   checked={row.getIsSelected()}
                   disabled={!row.getCanSelect()}
                   onCheckedChange={(value) => row.toggleSelected(Boolean(value))}
                 />{:else if cell.column.id === "project"}<div class="font-medium">
                   {row.original.project}
-                </div>{:else if cell.column.id === "status"}<Badge variant="outline"
-                  ><span
+                </div>{:else if cell.column.id === "status"}<Badge variant="outline">
+                  <span
                     aria-hidden="true"
                     class={`size-1.5 rounded-full ${statusColor(row.original.status)}`}
-                  ></span>{row.original.status}</Badge
-                >{:else if cell.column.id === "team"}{row.original.team}{:else}<div
+                  ></span>
+                  {row.original.status}
+                </Badge>{:else if cell.column.id === "team"}{row.original.team}{:else}<div
                   class="text-right"
                 >
                   {currency(row.original.budget)}
-                </div>{/if}</Table.Cell
-            >{/each}</Table.Row
-        >{:else}<Table.Row
-          ><Table.Cell class="h-24 text-center" colspan={columns.length}>No results.</Table.Cell
-          ></Table.Row
-        >{/each}</Table.Body
-    ><Table.Footer
-      ><Table.Row
-        ><Table.Cell colspan={4}>Total Budget</Table.Cell><Table.Cell class="text-right"
-          >{total}</Table.Cell
-        ></Table.Row
-      ></Table.Footer
-    ></Table.Root
-  ></Frame
->
+                </div>{/if}
+            </Table.Cell>{/each}
+        </Table.Row>{:else}<Table.Row>
+          <Table.Cell class="h-24 text-center" colspan={columns.length}>No results.</Table.Cell>
+        </Table.Row>{/each}
+    </Table.Body><Table.Footer>
+      <Table.Row>
+        <Table.Cell colspan={4}>Total Budget</Table.Cell><Table.Cell class="text-right">
+          {total}
+        </Table.Cell>
+      </Table.Row>
+    </Table.Footer>
+  </Table.Root>
+</Frame>

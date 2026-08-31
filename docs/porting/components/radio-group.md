@@ -13,7 +13,7 @@
 - Shards tests read in full: `radio-group.test.ts`, `radio-root.test.ts`, `radio-indicator.test.ts`, and every fixture under `shardsui/packages/shardsui/tests/radio-group/fixtures/` and `shardsui/packages/shardsui/tests/radio/fixtures/`
 - Shards API material read in full: `shardsui/docs/src/content/radio.md`, its hero demo, and the installed `@shardsui/svelte@0.1.0-beta.0` declarations for Radio and RadioGroup
 
-All COSS evidence came from the MIT-designated `reference/apps/ui/**` subtree. No source under `reference/packages/ui/**` was used.
+All COSS evidence came from the MIT-designated `reference/apps/ui/**` subtree. No source from the excluded COSS package subtree was used.
 
 ## COSS contract
 

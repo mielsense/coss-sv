@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
   export const meta = defineParticleMeta({
     components: ["button", "group", "tooltip"],
     id: "p-tooltip-4",
@@ -11,7 +11,9 @@
 
 <script lang="ts">
   import { buttonVariants, Group, HugeiconsIcon, Tooltip } from "@coss-sv/ui";
-  import { Link01Icon, Mail01Icon, Share08Icon } from "@hugeicons/core-free-icons";
+  import Link01Icon from "@hugeicons/core-free-icons/Link01Icon";
+  import Mail01Icon from "@hugeicons/core-free-icons/Mail01Icon";
+  import Share08Icon from "@hugeicons/core-free-icons/Share08Icon";
   import type { Snippet } from "svelte";
 
   const tooltipHandle = new Tooltip.Handle<Snippet>();

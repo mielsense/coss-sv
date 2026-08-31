@@ -10,7 +10,7 @@ The same exact-module import scan requires `@/registry/default/ui/label`, resolv
 
 The default element is a native `label` with `data-slot="label"`. The exact base classes are `inline-flex items-center gap-2 font-medium text-base/4.5 text-foreground sm:text-sm/4`. Consumer classes merge last. COSS also permits a rendered alternate element; examples use a `span` for non-interactive secondary copy and use native label activation through `htmlFor` elsewhere.
 
-The reference Label page's “With Checkbox” section names `checkbox-demo`, but no `checkbox-demo` particle exists under `reference/apps/ui/registry/default/particles/` and no registry source in the licensed subtree defines it. An exact `checkbox-demo` search finds only the dangling MDX reference and the upstream skill inventory. The port records the missing reference rather than substituting a different checkbox example as if it were the documented source; native label activation is proven from the existing `p-input-6` contract and the actual Label-importing checkbox particles remain part of the importer audit above.
+The reference Label page's “With Checkbox” section names `checkbox-demo`, but no `checkbox-demo` particle exists under `reference/apps/ui/registry/default/particles/` and no registry source in the licensed subtree defines it. An exact `checkbox-demo` search finds only the dangling MDX reference and the upstream skill inventory. The intended markup exactly matches the canonical `p-checkbox-1` particle: a `Label` wrapping `Checkbox` and the text “Accept terms and conditions.” The Svelte page uses that existing particle rather than inventing a 509th registry item.
 
 ## Shards inspected
 
@@ -34,6 +34,6 @@ The parity fixture keeps the `p-input-6` root class `flex flex-col items-start g
 
 ## D6 documentation port
 
-The Label page keeps the complete `p-input-6` example and its native `for`/`id` association. It also retains the upstream “With Checkbox” heading. Fresh full-tree inspection confirmed that `checkbox-demo` has no source under the permitted `reference/apps/ui/**` boundary, so the target omits only the dangling preview reference. It does not invent a replacement or use source outside the licensed subtree.
+The Label page keeps the complete `p-input-6` example and its native `for`/`id` association. It also retains the upstream “With Checkbox” heading and uses the canonical `p-checkbox-1` particle for that preview. Fresh full-tree inspection confirmed that `checkbox-demo` has no source under the permitted `reference/apps/ui/**` boundary, while `p-checkbox-1` is the licensed reference implementation of the documented composition.
 
-The D6 source test locks that single deviation: the heading remains, the target page contains no `checkbox-demo` reference, and the evidence record names the missing permitted source. All ten routes typecheck, and the page now participates in production builds without a fabricated registry entry.
+The D6 source test locks the identifier repair: the heading remains, the target page contains no `checkbox-demo` reference, and the preview resolves to `p-checkbox-1`. All ten routes typecheck, and the page participates in production builds without a fabricated registry entry.

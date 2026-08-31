@@ -9,7 +9,7 @@
 	],
 	"files": [
 		{
-			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\n  export const meta = defineParticleMeta({\n    components: [\"alert\"],\n    id: \"p-alert-1\",\n    interactive: false,\n    responsive: true,\n    title: \"Alert example 1\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { Alert, AlertDescription, AlertTitle } from \"$COMPONENTS$/ui/alert/index.js\";\n</script>\n\n<Alert\n  ><AlertTitle>Heads up!</AlertTitle><AlertDescription\n    ><p>Describe what can be done about it here.</p></AlertDescription\n  ></Alert\n>\n",
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\n  export const meta = defineParticleMeta({\n    components: [\"alert\"],\n    id: \"p-alert-1\",\n    interactive: false,\n    responsive: true,\n    title: \"Alert example 1\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { Alert, AlertDescription, AlertTitle } from \"$UI$/alert/index.js\";\n</script>\n\n<Alert>\n  <AlertTitle>Heads up!</AlertTitle><AlertDescription>\n    <p>Describe what can be done about it here.</p>\n  </AlertDescription>\n</Alert>\n",
 			"type": "registry:block",
 			"target": "p-alert-1.svelte"
 		}

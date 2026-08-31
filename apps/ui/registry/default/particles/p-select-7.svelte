@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
   export const meta = defineParticleMeta({
     components: ["select"],
     containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64",
@@ -31,18 +31,17 @@
 </script>
 
 <Select.Root aria-label="Select languages" multiple bind:value>
-  <Select.Trigger
-    ><Select.Value
-      >{#snippet children(selected)}{const selectedValues = Array.isArray(selected)
+  <Select.Trigger>
+    <Select.Value>
+      {#snippet children(selected)}{const selectedValues = Array.isArray(selected)
           ? (selected as Language[])
           : []}{const firstSelected = selectedValues.at(0)}{firstSelected
           ? languages[firstSelected] +
             (selectedValues.length > 1 ? ` (+${selectedValues.length - 1} more)` : "")
-          : "Select languages…"}{/snippet}</Select.Value
-    ></Select.Trigger
-  >
-  <Select.Popup alignItemWithTrigger={false}
-    >{#each values as item (item)}<Select.Item value={item}>{languages[item]}</Select.Item
-      >{/each}</Select.Popup
-  >
+          : "Select languages…"}{/snippet}
+    </Select.Value>
+  </Select.Trigger>
+  <Select.Popup alignItemWithTrigger={false}>
+    {#each values as item (item)}<Select.Item value={item}>{languages[item]}</Select.Item>{/each}
+  </Select.Popup>
 </Select.Root>

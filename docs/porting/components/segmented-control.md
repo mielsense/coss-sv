@@ -13,7 +13,7 @@
   fixtures, tests, and installed declarations
 
 All COSS evidence came from the MIT-designated `reference/apps/ui/**` subtree. No source under
-`reference/packages/ui/**` was used.
+the excluded COSS package subtree was used.
 
 ## Port contract
 

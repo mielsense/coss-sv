@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
   export const meta = defineParticleMeta({
     components: ["button", "group"],
     id: "p-group-9",
@@ -11,7 +11,8 @@
 
 <script lang="ts">
   import { Button, Group, HugeiconsIcon } from "@coss-sv/ui";
-  import { ZoomInIcon, ZoomOutIcon } from "@hugeicons/core-free-icons";
+  import ZoomInIcon from "@hugeicons/core-free-icons/ZoomInIcon";
+  import ZoomOutIcon from "@hugeicons/core-free-icons/ZoomOutIcon";
 </script>
 
 <Group.Root aria-label="Zoom controls" orientation="vertical">

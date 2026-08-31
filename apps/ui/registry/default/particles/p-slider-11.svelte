@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
   export const meta = defineParticleMeta({
     components: ["field", "slider"],
     id: "p-slider-11",
@@ -12,7 +12,8 @@
 
 <script lang="ts">
   import { Field, HugeiconsIcon, Slider } from "@coss-sv/ui";
-  import { VolumeHighIcon, VolumeMute02Icon } from "@hugeicons/core-free-icons";
+  import VolumeHighIcon from "@hugeicons/core-free-icons/VolumeHighIcon";
+  import VolumeMute02Icon from "@hugeicons/core-free-icons/VolumeMute02Icon";
 
   let value = $state<number | readonly number[]>(25);
 </script>

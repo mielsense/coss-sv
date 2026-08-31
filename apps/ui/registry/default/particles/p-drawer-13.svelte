@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
   export const meta = defineParticleMeta({
     components: ["button", "drawer", "menu"],
     id: "p-drawer-13",
@@ -11,13 +11,11 @@
 
 <script lang="ts">
   import { buttonVariants, Drawer, drawerMenuItemVariants, HugeiconsIcon, Menu } from "@coss-sv/ui";
-  import {
-    CopyIcon,
-    Delete02Icon,
-    MoreHorizontalIcon,
-    PencilIcon,
-    Share03Icon,
-  } from "@hugeicons/core-free-icons";
+  import CopyIcon from "@hugeicons/core-free-icons/CopyIcon";
+  import Delete02Icon from "@hugeicons/core-free-icons/Delete02Icon";
+  import MoreHorizontalIcon from "@hugeicons/core-free-icons/MoreHorizontalIcon";
+  import PencilIcon from "@hugeicons/core-free-icons/PencilIcon";
+  import Share03Icon from "@hugeicons/core-free-icons/Share03Icon";
   import { MediaQuery } from "svelte/reactivity";
 
   const isMobile = new MediaQuery("(max-width: 799px)", false);
@@ -151,9 +149,9 @@
         <Menu.SubTrigger>Add to Playlist</Menu.SubTrigger><Menu.SubPopup>
           <Menu.Item>Jazz</Menu.Item><Menu.Sub>
             <Menu.SubTrigger>Rock</Menu.SubTrigger><Menu.SubPopup>
-              <Menu.Item>Hard Rock</Menu.Item><Menu.Item>Soft Rock</Menu.Item><Menu.Item
-                >Classic Rock</Menu.Item
-              >
+              <Menu.Item>Hard Rock</Menu.Item><Menu.Item>Soft Rock</Menu.Item><Menu.Item>
+                Classic Rock
+              </Menu.Item>
               <Menu.Separator />
               {#each ["Metal", "Punk", "Grunge", "Alternative", "Indie", "Electronic"] as item}
                 <Menu.Item>{item}</Menu.Item>

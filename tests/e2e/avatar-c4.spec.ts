@@ -21,7 +21,7 @@ test("matches the COSS Avatar particle and image lifecycle", async ({ page }, te
   const theme = testInfo.project.name === "dark" ? "dark" : "light";
 
   for (const width of ["desktop", "mobile"] as const) {
-    const { ready } = await openReadyPreview(page, "avatar-c4", theme, width);
+    const { ready } = await openReadyPreview(page, "avatar-c4", theme, width, "real");
     const root = ready.locator('[data-particle="p-avatar-1"] [data-slot="avatar"]');
     const image = ready.locator('[data-testid="avatar-image"]');
     await expect(root).toHaveClass(/size-8/);

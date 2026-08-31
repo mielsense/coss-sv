@@ -10,16 +10,13 @@ links:
 
 ## Installation
 
-<InstallCommand
-  pnpm="pnpm add @coss-sv/ui"
-  shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/dialog.json"
-/>
+<InstallCommand shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/dialog.json" />
 
 ## Usage
 
 ```svelte
 <script lang="ts">
-  import * as Dialog from "@coss-sv/ui/components/ui/dialog";
+  import * as Dialog from "@/components/ui/dialog/index.js";
 </script>
 
 <Dialog.Root>

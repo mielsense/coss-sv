@@ -101,7 +101,10 @@ try {
   for (const id of particleIds) await openParticle(id);
 
   await openParticle("p-calendar-19");
-  await page.getByText("Friday, 28", { exact: true }).waitFor();
+  await page
+    .locator("[data-preview-ready='true']")
+    .getByText(/^(Sunday|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday), \d{1,2}$/)
+    .waitFor();
 
   await openParticle("p-calendar-20");
   const selectedDate = page.locator('[data-calendar-date="2026-08-28"]');
@@ -160,7 +163,12 @@ try {
   }
 
   await openParticle("p-date-picker-4");
-  await page.getByRole("button", { name: /August 28th, 2026/ }).waitFor();
+  const shortcutsTrigger = page.locator('[data-slot="popover-trigger"]');
+  await shortcutsTrigger.waitFor();
+  assert.match(
+    (await shortcutsTrigger.textContent())?.trim() ?? "",
+    /^[A-Z][a-z]+ \d{1,2}(?:st|nd|rd|th), \d{4}$/,
+  );
 } finally {
   await context.close();
   await browser.close();

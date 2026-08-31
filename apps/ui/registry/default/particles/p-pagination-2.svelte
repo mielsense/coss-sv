@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
   export const meta = defineParticleMeta({
     components: ["button", "pagination"],
     containerClass: "**:data-[slot=preview]:w-full",
@@ -16,28 +16,36 @@
   const totalPages = 10;
 </script>
 
-<Pagination.Root
-  ><Pagination.Content class="w-full justify-between gap-2"
-    ><Pagination.Item
-      >{#if currentPage === 1}<button
+<Pagination.Root>
+  <Pagination.Content class="w-full justify-between gap-2">
+    <Pagination.Item>
+      {#if currentPage === 1}<button
           class={buttonVariants({ variant: "outline" })}
           disabled
-          type="button">Previous</button
-        >{:else}<a
+          type="button"
+        >
+          Previous
+        </button>{:else}<a
           class={buttonVariants({ variant: "outline" })}
           href={`#page-${currentPage - 1}`}
-          onclick={() => (currentPage -= 1)}>Previous</a
-        >{/if}</Pagination.Item
-    ><Pagination.Item
-      >{#if currentPage === totalPages}<button
+          onclick={() => (currentPage -= 1)}
+        >
+          Previous
+        </a>{/if}
+    </Pagination.Item><Pagination.Item>
+      {#if currentPage === totalPages}<button
           class={buttonVariants({ variant: "outline" })}
           disabled
-          type="button">Next</button
-        >{:else}<a
+          type="button"
+        >
+          Next
+        </button>{:else}<a
           class={buttonVariants({ variant: "outline" })}
           href={`#page-${currentPage + 1}`}
-          onclick={() => (currentPage += 1)}>Next</a
-        >{/if}</Pagination.Item
-    ></Pagination.Content
-  ></Pagination.Root
->
+          onclick={() => (currentPage += 1)}
+        >
+          Next
+        </a>{/if}
+    </Pagination.Item>
+  </Pagination.Content>
+</Pagination.Root>

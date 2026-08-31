@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
   export const meta = defineParticleMeta({
     components: ["button", "input-group", "select", "tooltip"],
     containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-80",
@@ -12,7 +12,9 @@
 
 <script lang="ts">
   import { buttonVariants, HugeiconsIcon, InputGroup, Select, Tooltip } from "@coss-sv/ui";
-  import { Copy01Icon, Tick01Icon } from "@hugeicons/core-free-icons";
+  import Copy01Icon from "@hugeicons/core-free-icons/Copy01Icon";
+  import Tick01Icon from "@hugeicons/core-free-icons/Tick01Icon";
+  import { onDestroy } from "svelte";
 
   const languages = [
     { label: "JavaScript", value: "javascript" },
@@ -24,11 +26,20 @@
   let language = $state("javascript");
   let textarea: HTMLTextAreaElement | null = $state(null);
   let copied = $state(false);
+  let mounted = true;
+  let resetTimer: ReturnType<typeof setTimeout> | undefined;
   async function copy() {
     await navigator.clipboard.writeText(textarea?.value || "");
+    if (!mounted) return;
     copied = true;
-    setTimeout(() => (copied = false), 2000);
+    clearTimeout(resetTimer);
+    resetTimer = setTimeout(() => (copied = false), 2000);
   }
+
+  onDestroy(() => {
+    mounted = false;
+    clearTimeout(resetTimer);
+  });
 </script>
 
 <InputGroup.Root>
@@ -44,11 +55,11 @@
   >
     <Select.Root bind:value={language} items={languages}>
       <Select.Trigger class="w-fit" size="sm"><Select.Value /></Select.Trigger>
-      <Select.Popup
-        >{#each languages as item (item.value)}
+      <Select.Popup>
+        {#each languages as item (item.value)}
           <Select.Item value={item.value}>{item.label}</Select.Item>
-        {/each}</Select.Popup
-      >
+        {/each}
+      </Select.Popup>
     </Select.Root>
     <Tooltip.Root>
       <Tooltip.Trigger

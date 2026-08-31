@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
 
   export const meta = defineParticleMeta({
     components: ["button", "field", "form", "input"],
@@ -14,7 +14,9 @@
 <script lang="ts">
   import { Button, Field, Form, Input } from "@coss-sv/ui";
   import { z } from "zod";
+  import { createDemoDelay } from "../lib/demo-delay.js";
 
+  const delay = createDemoDelay();
   const schema = z.object({
     age: z.coerce
       .number({ message: "Please enter a number." })
@@ -30,7 +32,7 @@
     const formData = new FormData(event.currentTarget as HTMLFormElement);
     const result = schema.safeParse(Object.fromEntries(formData));
     loading = true;
-    await new Promise((resolve) => setTimeout(resolve, 800));
+    if (!(await delay())) return;
     errors = result.success ? {} : (z.flattenError(result.error).fieldErrors as Errors);
     loading = false;
     if (result.success) {

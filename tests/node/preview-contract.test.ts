@@ -1,9 +1,6 @@
 import { expect, test } from "vitest";
 
-import {
-  parsePreviewQuery,
-  previewWidths,
-} from "../../apps/ui/src/routes/preview/[name]/preview-contract.js";
+import { parsePreviewQuery, previewWidths } from "../../apps/ui/src/lib/preview/contract.js";
 
 test("accepts the exact deterministic theme and width contract", () => {
   expect(parsePreviewQuery(new URLSearchParams("theme=light&width=desktop"))).toEqual({
@@ -13,10 +10,10 @@ test("accepts the exact deterministic theme and width contract", () => {
     network: "blocked",
     now: "2026-08-26T12:00:00.000Z",
     ok: true,
-    reducedMotion: "reduce",
+    reducedMotion: "no-preference",
     seed: 20260826,
     theme: "light",
-    timers: "manual",
+    timers: "real",
     width: "desktop",
     widthPixels: previewWidths.desktop,
   });
@@ -27,10 +24,10 @@ test("accepts the exact deterministic theme and width contract", () => {
     network: "blocked",
     now: "2026-08-26T12:00:00.000Z",
     ok: true,
-    reducedMotion: "reduce",
+    reducedMotion: "no-preference",
     seed: 20260826,
     theme: "dark",
-    timers: "manual",
+    timers: "real",
     width: "mobile",
     widthPixels: previewWidths.mobile,
   });

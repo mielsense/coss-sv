@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
   export const meta = defineParticleMeta({
     components: ["button", "preview-card"],
     id: "p-preview-card-1",
@@ -11,7 +11,8 @@
 
 <script lang="ts">
   import { buttonVariants, HugeiconsIcon, PreviewCard } from "@coss-sv/ui";
-  import { ArrowTurnBackwardIcon, StarIcon } from "@hugeicons/core-free-icons";
+  import ArrowTurnBackwardIcon from "@hugeicons/core-free-icons/ArrowTurnBackwardIcon";
+  import StarIcon from "@hugeicons/core-free-icons/StarIcon";
 </script>
 
 <PreviewCard.Root>

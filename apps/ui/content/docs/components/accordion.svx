@@ -10,16 +10,13 @@ links:
 
 ## Installation
 
-<InstallCommand
-  pnpm="pnpm add @coss-sv/ui"
-  shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/accordion.json"
-/>
+<InstallCommand shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/accordion.json" />
 
 ## Usage
 
 ```svelte
 <script lang="ts">
-  import * as Accordion from "@coss-sv/ui/components/ui/accordion";
+  import * as Accordion from "@/components/ui/accordion/index.js";
 </script>
 
 <Accordion.Root>

@@ -13,7 +13,7 @@ the component:
 - `p-toggle-8.tsx`
 - `p-toast-1.tsx` through `p-toast-13.tsx`
 
-No file under `reference/packages/ui/**` was used.
+No file from the excluded COSS package subtree was used.
 
 ## COSS contract
 

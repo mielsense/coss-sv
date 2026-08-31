@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
 
   export const meta = defineParticleMeta({
     components: ["button", "checkbox", "field", "form", "input", "select"],
@@ -13,7 +13,9 @@
 
 <script lang="ts">
   import { Button, Checkbox, Field, Form, Input, Select } from "@coss-sv/ui";
+  import { createDemoDelay } from "../lib/demo-delay.js";
 
+  const delay = createDemoDelay();
   const roles = [
     { label: "Select your role", value: null },
     { label: "Developer", value: "developer" },
@@ -27,7 +29,7 @@
     event.preventDefault();
     const formData = new FormData(event.currentTarget as HTMLFormElement);
     loading = true;
-    await new Promise((resolve) => setTimeout(resolve, 800));
+    if (!(await delay())) return;
     loading = false;
     alert(
       `Full name: ${formData.get("fullName") || ""}\nEmail: ${formData.get("email") || ""}\nRole: ${formData.get("role") || ""}\nNewsletter: ${formData.get("newsletter")}`,
@@ -37,12 +39,16 @@
 
 <Form class="flex w-full flex-col gap-4" onsubmit={submit}>
   <Field.Root name="fullName">
-    <Field.Label>Full Name <span class="text-destructive">*</span></Field.Label>
+    <Field.Label>
+      Full Name <span class="text-destructive">*</span>
+    </Field.Label>
     <Input placeholder="John Doe" required type="text" />
     <Field.Error>Please enter a valid name.</Field.Error>
   </Field.Root>
   <Field.Root name="email">
-    <Field.Label>Email <span class="text-destructive">*</span></Field.Label>
+    <Field.Label>
+      Email <span class="text-destructive">*</span>
+    </Field.Label>
     <Input placeholder="john@example.com" required type="email" />
     <Field.Error>Please enter a valid email.</Field.Error>
   </Field.Root>

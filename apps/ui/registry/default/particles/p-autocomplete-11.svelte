@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
   export const meta = defineParticleMeta({
     components: ["autocomplete"],
     containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64",
@@ -62,8 +62,8 @@
         {/snippet}
       </Autocomplete.Collection>
     </Autocomplete.List>
-    {#if moreCount > 0}<Autocomplete.Status
-        >+{moreCount} more (keep typing to narrow down)</Autocomplete.Status
-      >{/if}
+    {#if moreCount > 0}<Autocomplete.Status>
+        +{moreCount} more (keep typing to narrow down)
+      </Autocomplete.Status>{/if}
   </Autocomplete.Popup>
 </Autocomplete.Root>

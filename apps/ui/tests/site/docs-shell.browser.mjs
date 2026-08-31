@@ -89,7 +89,7 @@ function assertNear(actual, expected, label, tolerance = 0.75) {
 
 try {
   await page.goto(`${baseUrl}/`);
-  await page.locator(".category-grid").waitFor();
+  await page.locator("[data-category-grid]").waitFor();
 
   const desktopHome = await page.evaluate(() => {
     const metrics = (selector) => {
@@ -99,16 +99,16 @@ try {
       return { x: rect.x, y: rect.y, width: rect.width, height: rect.height };
     };
     return {
-      card: metrics(".category-card"),
-      grid: metrics(".category-grid"),
-      heading: metrics(".hero h1"),
-      hero: metrics(".hero"),
-      categoryNames: [...document.querySelectorAll(".category-card h2")].map((item) =>
+      card: metrics("[data-category]"),
+      grid: metrics("[data-category-grid]"),
+      heading: metrics("[data-home-hero] h1"),
+      hero: metrics("[data-home-hero] .site-container > div"),
+      categoryNames: [...document.querySelectorAll("[data-category] h2")].map((item) =>
         item.textContent?.trim(),
       ),
-      headingText: document.querySelector(".hero h1")?.textContent?.trim(),
-      heroCopy: document.querySelector(".hero-copy")?.textContent?.trim(),
-      actions: [...document.querySelectorAll(".hero-actions a")].map((item) =>
+      headingText: document.querySelector("[data-home-hero] h1")?.textContent?.trim(),
+      heroCopy: document.querySelector("[data-home-copy]")?.textContent?.trim(),
+      actions: [...document.querySelectorAll("[data-home-actions] a")].map((item) =>
         item.textContent?.trim(),
       ),
     };
@@ -163,6 +163,13 @@ try {
   await page.goto(`${baseUrl}/docs/preview/preview-card`);
   const interactivePreview = page.getByTitle("preview-card preview");
   await interactivePreview.waitFor();
+  await page.waitForFunction(
+    () =>
+      document
+        .querySelector('iframe[title="preview-card preview"]')
+        ?.getAttribute("src")
+        ?.includes("theme=dark") ?? false,
+  );
   assert.equal(
     await interactivePreview.getAttribute("src"),
     "/preview/preview-card?theme=dark&width=desktop&reducedMotion=no-preference&timers=real",
@@ -172,7 +179,7 @@ try {
   await interactiveFrame.getByText("Beautifully designed components").waitFor({ state: "visible" });
 
   await page.goto(`${baseUrl}/docs`);
-  await page.locator(".docs-frame").waitFor();
+  await page.locator("[data-docs-frame]").waitFor();
 
   const geometry = await page.evaluate(() => {
     const metrics = (selector) => {
@@ -182,15 +189,15 @@ try {
       return { x: rect.x, y: rect.y, width: rect.width, height: rect.height };
     };
     return {
-      frame: metrics(".docs-frame"),
+      frame: metrics("[data-docs-frame]"),
       heading: metrics(".docs-content h1"),
-      sidebar: metrics(".docs-sidebar"),
-      sidebarContent: metrics(".docs-sidebar nav"),
-      sidebarGroup: metrics(".docs-sidebar section"),
-      sidebarLink: metrics(".docs-sidebar section a"),
+      sidebar: metrics("[data-docs-sidebar]"),
+      sidebarContent: metrics("[data-docs-sidebar-nav]"),
+      sidebarGroup: metrics("[data-docs-sidebar-group]"),
+      sidebarLink: metrics("[data-docs-sidebar-group] a"),
       headingFontSize: getComputedStyle(document.querySelector(".docs-content h1")).fontSize,
       headingLineHeight: getComputedStyle(document.querySelector(".docs-content h1")).lineHeight,
-      sidebarGroupPaddingLeft: getComputedStyle(document.querySelector(".docs-sidebar section"))
+      sidebarGroupPaddingLeft: getComputedStyle(document.querySelector("[data-docs-sidebar-group]"))
         .paddingLeft,
     };
   });
@@ -254,9 +261,9 @@ try {
       };
     };
     return {
-      heading: metrics(".error-page h1"),
-      description: metrics(".error-page > p"),
-      action: metrics(".error-page .site-button"),
+      heading: metrics("[data-error-page] h1"),
+      description: metrics("[data-error-page] > p"),
+      action: metrics("[data-error-action]"),
     };
   });
   assert.ok(desktopError.heading && desktopError.description && desktopError.action);
@@ -281,20 +288,29 @@ try {
   assert.equal(desktopError.action.lineHeight, "20px");
   const arrowTransition = await backHome.locator("svg").evaluate((element) => {
     const style = getComputedStyle(element);
-    return { property: style.transitionProperty, transform: style.transform };
+    return {
+      property: style.transitionProperty,
+      transform: style.transform,
+      translate: style.translate,
+    };
   });
-  assert.equal(arrowTransition.property, "transform");
+  assert.match(arrowTransition.property, /transform/);
   assert.equal(arrowTransition.transform, "none");
+  assert.equal(arrowTransition.translate, "none");
   await backHome.hover();
   await page.waitForTimeout(200);
-  assert.equal(
-    await backHome.locator("svg").evaluate((element) => getComputedStyle(element).transform),
-    "matrix(1, 0, 0, 1, -2, 0)",
+  const arrowMotion = await backHome.locator("svg").evaluate((element) => {
+    const style = getComputedStyle(element);
+    return { transform: style.transform, translate: style.translate };
+  });
+  assert.ok(
+    arrowMotion.transform === "matrix(1, 0, 0, 1, -2, 0)" ||
+      arrowMotion.translate.startsWith("-2px"),
   );
 
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto(`${baseUrl}/`);
-  await page.locator(".category-grid").waitFor();
+  await page.locator("[data-category-grid]").waitFor();
   const mobileHome = await page.evaluate(() => {
     const metrics = (selector) => {
       const element = document.querySelector(selector);
@@ -303,11 +319,11 @@ try {
       return { x: rect.x, y: rect.y, width: rect.width, height: rect.height };
     };
     return {
-      actions: metrics(".hero-actions"),
-      card: metrics(".category-card"),
-      grid: metrics(".category-grid"),
-      heading: metrics(".hero h1"),
-      hero: metrics(".hero"),
+      actions: metrics("[data-home-actions]"),
+      card: metrics("[data-category]"),
+      grid: metrics("[data-category-grid]"),
+      heading: metrics("[data-home-hero] h1"),
+      hero: metrics("[data-home-hero] .site-container > div"),
     };
   });
   assert.ok(
@@ -325,9 +341,9 @@ try {
   assertNear(mobileHome.card.width, 358, "mobile home category card width");
 
   await page.goto(`${baseUrl}/docs`);
-  assert.equal(await page.locator(".docs-sidebar").isVisible(), false);
-  assert.equal(await page.locator(".docs-toc").count(), 0);
-  const mobileColumn = await page.locator(".docs-column").boundingBox();
+  assert.equal(await page.locator("[data-docs-sidebar]").isVisible(), false);
+  assert.equal(await page.locator("[data-docs-toc]").isVisible(), false);
+  const mobileColumn = await page.locator("[data-docs-column]").boundingBox();
   assert.ok(mobileColumn);
   assertNear(mobileColumn.x, 0, "mobile docs column x");
   const mobileHeading = await page.locator(".docs-content h1").evaluate((element) => {
@@ -336,10 +352,10 @@ try {
   });
   assert.deepEqual(mobileHeading, { fontSize: "30px", lineHeight: "36px" });
 
-  const menuTrigger = page.locator(".mobile-menu-trigger");
+  const menuTrigger = page.locator("[data-mobile-menu-trigger]");
   await page.waitForTimeout(250);
   await menuTrigger.click();
-  const menuDialog = page.locator(".mobile-menu-dialog");
+  const menuDialog = page.locator("[data-mobile-menu-dialog]");
   await menuDialog.waitFor();
   assert.equal(await menuTrigger.getAttribute("aria-expanded"), "true");
   await page.keyboard.press("Escape");
@@ -363,9 +379,9 @@ try {
       };
     };
     return {
-      heading: metrics(".error-page h1"),
-      description: metrics(".error-page > p"),
-      action: metrics(".error-page .site-button"),
+      heading: metrics("[data-error-page] h1"),
+      description: metrics("[data-error-page] > p"),
+      action: metrics("[data-error-action]"),
     };
   });
   assert.ok(mobileError.heading && mobileError.description && mobileError.action);
@@ -381,9 +397,9 @@ try {
   assertNear(mobileError.description.height, 48, "mobile 404 description height");
   assert.equal(mobileError.description.fontSize, "16px");
   assert.equal(mobileError.description.lineHeight, "24px");
-  assertNear(mobileError.action.x, 117.633, "mobile 404 action x");
+  assertNear(mobileError.action.x, 118.633, "mobile 404 action x");
   assertNear(mobileError.action.y, 216, "mobile 404 action y");
-  assertNear(mobileError.action.width, 154.727, "mobile 404 action width");
+  assertNear(mobileError.action.width, 152.727, "mobile 404 action width");
   assertNear(mobileError.action.height, 40, "mobile 404 action height");
   assert.equal(mobileError.action.fontSize, "16px");
   assert.equal(mobileError.action.lineHeight, "24px");

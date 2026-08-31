@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
 
   export const meta = defineParticleMeta({
     components: ["button", "toast"],
@@ -12,19 +12,37 @@
 
 <script lang="ts">
   import { Button, Toast } from "@coss-sv/ui";
+  import { onDestroy } from "svelte";
+
+  const toastManager = new Toast.Manager();
+  let controller: AbortController | null = null;
+
+  onDestroy(() => controller?.abort());
 
   function run() {
-    void Toast.toastManager
+    controller?.abort();
+    controller = new AbortController();
+    const activeController = controller;
+
+    void toastManager
       .promise(
-        new Promise((resolve, reject) =>
-          setTimeout(
+        new Promise((resolve, reject) => {
+          const timer = setTimeout(
             () =>
               Math.random() > 0.3
                 ? resolve("Data loaded successfully")
                 : reject(new Error("Failed to load data")),
             2000,
-          ),
-        ),
+          );
+          activeController.signal.addEventListener(
+            "abort",
+            () => {
+              clearTimeout(timer);
+              reject(new DOMException("Cancelled", "AbortError"));
+            },
+            { once: true },
+          );
+        }),
         {
           loading: { description: "The promise is loading.", title: "Loading…" },
           success: (data) => ({
@@ -34,8 +52,13 @@
           error: { description: "Please try again.", title: "Something went wrong" },
         },
       )
-      .catch(() => undefined);
+      .catch(() => undefined)
+      .finally(() => {
+        if (controller === activeController) controller = null;
+      });
   }
 </script>
 
-<Toast.Provider><Button onclick={run} variant="outline">Run Promise</Button></Toast.Provider>
+<Toast.Provider {toastManager}>
+  <Button onclick={run} variant="outline">Run Promise</Button>
+</Toast.Provider>

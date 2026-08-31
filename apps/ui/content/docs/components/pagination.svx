@@ -7,16 +7,13 @@ description: A pagination with page navigation, next and previous links.
 
 ## Installation
 
-<InstallCommand
-  pnpm="pnpm add @coss-sv/ui"
-  shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/pagination.json"
-/>
+<InstallCommand shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/pagination.json" />
 
 ## Usage
 
 ```svelte
 <script lang="ts">
-  import { Pagination } from "@coss-sv/ui";
+  import * as Pagination from "@/components/ui/pagination/index.js";
 </script>
 
 <Pagination.Root>
@@ -47,7 +44,14 @@ Individual list item container.
 
 ### Pagination.Link
 
-Link for page numbers. `isActive` adds `aria-current="page"` and the active visual treatment.
+Link for page numbers. `isActive` adds `aria-current="page"` and the active visual treatment. Use
+`as` to render another native element.
+
+| Prop       | Type                          | Default  | Description                             |
+| ---------- | ----------------------------- | -------- | --------------------------------------- |
+| `isActive` | `boolean`                     |          | Highlights the link as the current page |
+| `size`     | `ButtonSize`                  | `"icon"` | Controls the link size                  |
+| `as`       | `keyof HTMLElementTagNameMap` | `"a"`    | Native element to render                |
 
 ### Pagination.Previous
 

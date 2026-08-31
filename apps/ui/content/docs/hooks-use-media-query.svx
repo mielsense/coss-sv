@@ -1,32 +1,70 @@
 ---
 title: useMediaQuery
-description: Use Svelte's reactive MediaQuery class for viewport, pointer, and preference queries.
+description: Reactive media query helper with Tailwind-like syntax.
 ---
 
-<p class="eyebrow">Svelte pattern</p>
+A Svelte helper that creates a reactive, SSR-safe media query. It builds on Svelte's `MediaQuery`
+class and preserves the Tailwind-like shorthand from COSS.
 
-# useMediaQuery
+## Installation
 
-<CopyMarkdownButton url="/docs/hooks/use-media-query.md" />
-
-The upstream React page documents a `useMediaQuery` hook with Tailwind-like shorthand. COSS for Svelte
-does not export a `useMediaQuery` hook. Svelte 5 already provides the reactive `MediaQuery` class in
-`svelte/reactivity`, so this port documents that native API instead of inventing a package export.
+<InstallCommand shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/use-media-query.json" />
 
 ## Usage
 
-### Breakpoints
+### Breakpoint shorthand
 
-Pass a complete CSS media query and provide `false` as the server fallback. Read `.current` in markup,
-`$derived`, or `$effect`.
+Use Tailwind variant syntax to match breakpoints. TypeScript provides full autocomplete. Read the
+reactive result through `.current`.
 
 ```svelte
 <script lang="ts">
-  import { MediaQuery } from "svelte/reactivity";
+  import { useMediaQuery } from "@/hooks/use-media-query.svelte.js";
 
-  const isDesktop = new MediaQuery("(min-width: 1024px)", false);
-  const isMobile = new MediaQuery("(max-width: 799px)", false);
-  const isTablet = new MediaQuery("(min-width: 800px) and (max-width: 1023px)", false);
+  // Min-width (breakpoint and above) — like md:
+  const isDesktop = useMediaQuery("md");
+
+  // Max-width (below breakpoint) — like max-md:
+  const isMobile = useMediaQuery("max-md");
+
+  // Range (between two breakpoints) — like md:max-lg:
+  const isTablet = useMediaQuery("md:max-lg");
+</script>
+```
+
+### Object API
+
+Use the object form when you need pointer detection or custom pixel values.
+
+```ts
+// Touch device detection
+const isTouch = useMediaQuery({ pointer: "coarse" });
+
+// Breakpoint + pointer combined
+const isMobileTouch = useMediaQuery({ max: "md", pointer: "coarse" });
+
+// Custom pixel values
+const isNarrow = useMediaQuery({ max: 600 });
+```
+
+### Raw media query
+
+Pass any valid CSS media query string as an escape hatch.
+
+```ts
+const prefersDark = useMediaQuery("(prefers-color-scheme: dark)");
+const prefersReducedMotion = useMediaQuery("(prefers-reduced-motion: reduce)");
+```
+
+### Conditional rendering
+
+The primary use case is mounting one component instead of another based on the viewport.
+
+```svelte
+<script lang="ts">
+  import { useMediaQuery } from "@/hooks/use-media-query.svelte.js";
+
+  const isDesktop = useMediaQuery("lg");
 </script>
 
 {#if isDesktop.current}
@@ -36,25 +74,9 @@ Pass a complete CSS media query and provide `false` as the server fallback. Read
 {/if}
 ```
 
-Use CSS container or media queries when only layout changes. Conditional rendering is appropriate
-when the component tree or behavior must differ.
-
-### Pointer and preference queries
-
-```svelte
-<script lang="ts">
-  import { MediaQuery } from "svelte/reactivity";
-
-  const isTouch = new MediaQuery("(pointer: coarse)", false);
-  const prefersDark = new MediaQuery("(prefers-color-scheme: dark)", false);
-  const prefersReducedMotion = new MediaQuery("(prefers-reduced-motion: reduce)", false);
-</script>
-```
-
 ## Breakpoints
 
-The upstream COSS hook used these values. Keep the queries in sync with the breakpoints in your
-Tailwind theme.
+The helper includes a static breakpoint map that must match your Tailwind config. Default values:
 
 | Name  | Value  |
 | ----- | ------ |
@@ -66,23 +88,51 @@ Tailwind theme.
 | `3xl` | 1600px |
 | `4xl` | 2000px |
 
-## SSR behavior
-
-The second constructor argument is the value used on the server. `false` matches the upstream hook's
-server behavior and prevents the server from guessing a viewport. A branch may change after hydration
-when the browser query is true, so prefer CSS when both branches contain important content.
-
-## Examples
-
-Resize the viewport to see the values update.
-
-<MediaQueryDemo />
+If you override breakpoints in your Tailwind CSS `@theme`, update `BREAKPOINTS` in the helper to
+match.
 
 ## API
 
 ```ts
-import { MediaQuery } from "svelte/reactivity";
+function useMediaQuery(query: BreakpointQuery | MediaQueryInput | string): MediaQuery;
+```
 
-const query = new MediaQuery("(min-width: 800px)", false);
-query.current; // boolean
+### String queries
+
+| Pattern           | Example                          | Matches                  |
+| ----------------- | -------------------------------- | ------------------------ |
+| `"{bp}"`          | `"md"`                           | Viewport ≥ breakpoint    |
+| `"max-{bp}"`      | `"max-md"`                       | Viewport &lt; breakpoint |
+| `"{bp}:max-{bp}"` | `"md:max-lg"`                    | Between two breakpoints  |
+| `"(...)"`         | `"(prefers-color-scheme: dark)"` | Raw CSS media query      |
+
+### Object queries
+
+| Property  | Type                   | Description                                               |
+| --------- | ---------------------- | --------------------------------------------------------- |
+| `min`     | `Breakpoint \| number` | Min-width breakpoint name or pixel value                  |
+| `max`     | `Breakpoint \| number` | Max-width breakpoint name or pixel value                  |
+| `pointer` | `"coarse" \| "fine"`   | Pointer type (`coarse` for touch, `fine` for mouse input) |
+
+### Return value
+
+Returns a reactive Svelte `MediaQuery`. Its `.current` property is `true` when the query matches and
+`false` otherwise. The server fallback is `false`.
+
+## Examples
+
+Resize the viewport to see values update in real time.
+
+<MediaQueryDemo />
+
+## Convenience export
+
+The helper also exports `useIsMobile` for parity with COSS and shadcn's `use-mobile` pattern:
+
+```svelte
+<script lang="ts">
+  import { useIsMobile } from "@/hooks/use-media-query.svelte.js";
+
+  const isMobile = useIsMobile(); // equivalent to useMediaQuery("max-md")
+</script>
 ```

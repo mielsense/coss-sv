@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
   export const meta = defineParticleMeta({
     components: ["avatar", "select"],
     containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64",
@@ -43,28 +43,36 @@
   aria-label="Select user"
   value={users[0]}
   itemToStringValue={(item: User) => item.value}
-  ><Select.Trigger
-    ><Select.Value
-      >{#snippet children(item: User | null)}{#if item}<span class="flex items-center gap-2"
-            ><Avatar.Root class="size-5"
-              ><Avatar.Image alt={item.label} src={item.avatar} /><Avatar.Fallback
-                class="text-[.625rem]">{item.initials}</Avatar.Fallback
-              ></Avatar.Root
-            ><span class="truncate">{item.label}</span></span
-          >{/if}{/snippet}</Select.Value
-    ></Select.Trigger
-  ><Select.Popup
-    ><Select.Group
-      ><Select.GroupLabel>Impersonate user</Select.GroupLabel
-      >{#each users as item (item.value)}<Select.Item value={item}
-          ><span class="flex items-center gap-2"
-            ><Avatar.Root class="size-5"
-              ><Avatar.Image alt={item.label} src={item.avatar} /><Avatar.Fallback
-                class="text-[10px]">{item.initials}</Avatar.Fallback
-              ></Avatar.Root
-            ><span class="truncate">{item.label}</span></span
-          ></Select.Item
-        >{/each}</Select.Group
-    ></Select.Popup
-  ></Select.Root
 >
+  <Select.Trigger>
+    <Select.Value>
+      {#snippet children(item: User | null)}{#if item}<span class="flex items-center gap-2">
+            <Avatar.Root class="size-5">
+              <Avatar.Image alt={item.label} src={item.avatar} /><Avatar.Fallback
+                class="text-[.625rem]"
+              >
+                {item.initials}
+              </Avatar.Fallback>
+            </Avatar.Root>
+            <span class="truncate">{item.label}</span>
+          </span>{/if}{/snippet}
+    </Select.Value>
+  </Select.Trigger><Select.Popup>
+    <Select.Group>
+      <Select.GroupLabel>
+        Impersonate user
+      </Select.GroupLabel>{#each users as item (item.value)}<Select.Item value={item}>
+          <span class="flex items-center gap-2">
+            <Avatar.Root class="size-5">
+              <Avatar.Image alt={item.label} src={item.avatar} /><Avatar.Fallback
+                class="text-[10px]"
+              >
+                {item.initials}
+              </Avatar.Fallback>
+            </Avatar.Root>
+            <span class="truncate">{item.label}</span>
+          </span>
+        </Select.Item>{/each}
+    </Select.Group>
+  </Select.Popup>
+</Select.Root>

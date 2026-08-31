@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
   export const meta = defineParticleMeta({
     components: ["button", "combobox", "field", "form"],
     containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64",
@@ -12,7 +12,9 @@
 
 <script lang="ts">
   import { Button, Combobox, Field, Form } from "@coss-sv/ui";
+  import { createDemoDelay } from "../lib/demo-delay.js";
 
+  const delay = createDemoDelay();
   const items = [
     { label: "Apple", value: "apple" },
     { label: "Banana", value: "banana" },
@@ -36,31 +38,32 @@
         items.find((item) => item.label === selectedItem)?.value ?? String(selectedItem),
     );
     loading = true;
-    await new Promise((resolve) => setTimeout(resolve, 800));
+    if (!(await delay())) return;
     loading = false;
     alert(`Favorite items: ${selectedValues.join(", ") || ""}`);
   }
 </script>
 
-<Form class="flex w-full max-w-64 flex-col gap-4" onsubmit={submit}
-  ><Field.Root name="items"
-    ><Field.Label>Favorite items</Field.Label>
+<Form class="flex w-full max-w-64 flex-col gap-4" onsubmit={submit}>
+  <Field.Root name="items">
+    <Field.Label>Favorite items</Field.Label>
     <Combobox.Root {items} multiple bind:value name="items" required>
       <Combobox.Chips>
-        {#each value as item (item.value)}<Combobox.Chip aria-label={item.label}
-            >{item.label}</Combobox.Chip
-          >{/each}
+        {#each value as item (item.value)}<Combobox.Chip aria-label={item.label}>
+            {item.label}
+          </Combobox.Chip>{/each}
         <Combobox.ChipsInput {...value.length ? {} : { placeholder: "Select items…" }} />
       </Combobox.Chips>
-      <Combobox.Popup
-        ><Combobox.Empty>No items found.</Combobox.Empty><Combobox.List
-          ><Combobox.Collection>
-            {#snippet children(item: Item)}<Combobox.Item value={item}>{item.label}</Combobox.Item
-              >{/snippet}
-          </Combobox.Collection></Combobox.List
-        ></Combobox.Popup
-      >
+      <Combobox.Popup>
+        <Combobox.Empty>No items found.</Combobox.Empty><Combobox.List>
+          <Combobox.Collection>
+            {#snippet children(item: Item)}<Combobox.Item value={item}>
+                {item.label}
+              </Combobox.Item>{/snippet}
+          </Combobox.Collection>
+        </Combobox.List>
+      </Combobox.Popup>
     </Combobox.Root>
-    <Field.Error>Please select at least one item.</Field.Error></Field.Root
-  ><Button {loading} type="submit">Submit</Button></Form
->
+    <Field.Error>Please select at least one item.</Field.Error>
+  </Field.Root><Button {loading} type="submit">Submit</Button>
+</Form>

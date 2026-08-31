@@ -9,7 +9,7 @@
 	],
 	"files": [
 		{
-			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\n  export const meta = defineParticleMeta({\n    components: [\"button\"],\n    id: \"p-button-12\",\n    interactive: true,\n    responsive: false,\n    title: \"Disabled button\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { Button } from \"$COMPONENTS$/ui/button/index.js\";\n</script>\n\n<Button disabled>Button</Button>\n",
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\n  export const meta = defineParticleMeta({\n    components: [\"button\"],\n    id: \"p-button-12\",\n    interactive: true,\n    responsive: false,\n    title: \"Disabled button\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { Button } from \"$UI$/button/index.js\";\n</script>\n\n<Button disabled>Button</Button>\n",
 			"type": "registry:block",
 			"target": "p-button-12.svelte"
 		}

@@ -2,76 +2,74 @@ import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { HugeiconsIcon } from "@coss-sv/ui";
-import {
-  Add01Icon,
-  AlertCircleIcon,
-  ArrowDown01Icon,
-  ArrowDown02Icon,
-  ArrowLeft02Icon,
-  ArrowRight02Icon,
-  ArrowUp01Icon,
-  ArrowUp02Icon,
-  Bookmark02Icon,
-  BookOpen01Icon,
-  BoxIcon,
-  CableIcon,
-  Cancel01Icon,
-  ChevronDownIcon,
-  ChevronUpIcon,
-  CircleQuestionMarkIcon,
-  CodeXmlIcon,
-  CopyIcon,
-  CornerDownLeftIcon,
-  CornerUpLeftIcon,
-  Delete02Icon,
-  DollarSignIcon,
-  Download01Icon,
-  FloppyDiskIcon,
-  Folder01Icon,
-  GlobeIcon,
-  House01Icon,
-  InboxIcon,
-  InformationCircleIcon,
-  LayersIcon,
-  Link01Icon,
-  Location01Icon,
-  Mail01Icon,
-  MinusSignIcon,
-  MoreHorizontalIcon,
-  NextIcon,
-  Notification01Icon,
-  PanelsTopLeftIcon,
-  PauseIcon,
-  PencilIcon,
-  PercentIcon,
-  PlayIcon,
-  PreviousIcon,
-  RotateCcwIcon,
-  Route01Icon,
-  Search01Icon,
-  SearchAddIcon,
-  SearchMinusIcon,
-  Settings01Icon,
-  Share03Icon,
-  Share08Icon,
-  SidebarLeftIcon,
-  SparklesIcon,
-  StarIcon,
-  TextAlignCenterIcon,
-  TextAlignLeftIcon,
-  TextAlignRightIcon,
-  TextBoldIcon,
-  TextItalicIcon,
-  TextUnderlineIcon,
-  Tick02Icon,
-  UnfoldMoreIcon,
-  UserIcon,
-  ViewIcon,
-  ViewOffSlashIcon,
-  VolumeHighIcon,
-  VolumeMute02Icon,
-  ZapIcon,
-} from "@hugeicons/core-free-icons";
+import Add01Icon from "@hugeicons/core-free-icons/Add01Icon";
+import AlertCircleIcon from "@hugeicons/core-free-icons/AlertCircleIcon";
+import ArrowDown01Icon from "@hugeicons/core-free-icons/ArrowDown01Icon";
+import ArrowDown02Icon from "@hugeicons/core-free-icons/ArrowDown02Icon";
+import ArrowLeft02Icon from "@hugeicons/core-free-icons/ArrowLeft02Icon";
+import ArrowRight02Icon from "@hugeicons/core-free-icons/ArrowRight02Icon";
+import ArrowUp01Icon from "@hugeicons/core-free-icons/ArrowUp01Icon";
+import ArrowUp02Icon from "@hugeicons/core-free-icons/ArrowUp02Icon";
+import Bookmark02Icon from "@hugeicons/core-free-icons/Bookmark02Icon";
+import BookOpen01Icon from "@hugeicons/core-free-icons/BookOpen01Icon";
+import BoxIcon from "@hugeicons/core-free-icons/BoxIcon";
+import CableIcon from "@hugeicons/core-free-icons/CableIcon";
+import Cancel01Icon from "@hugeicons/core-free-icons/Cancel01Icon";
+import ChevronDownIcon from "@hugeicons/core-free-icons/ChevronDownIcon";
+import ChevronUpIcon from "@hugeicons/core-free-icons/ChevronUpIcon";
+import CircleQuestionMarkIcon from "@hugeicons/core-free-icons/CircleQuestionMarkIcon";
+import CodeXmlIcon from "@hugeicons/core-free-icons/CodeXmlIcon";
+import CopyIcon from "@hugeicons/core-free-icons/CopyIcon";
+import CornerDownLeftIcon from "@hugeicons/core-free-icons/CornerDownLeftIcon";
+import CornerUpLeftIcon from "@hugeicons/core-free-icons/CornerUpLeftIcon";
+import Delete02Icon from "@hugeicons/core-free-icons/Delete02Icon";
+import DollarSignIcon from "@hugeicons/core-free-icons/DollarSignIcon";
+import Download01Icon from "@hugeicons/core-free-icons/Download01Icon";
+import FloppyDiskIcon from "@hugeicons/core-free-icons/FloppyDiskIcon";
+import Folder01Icon from "@hugeicons/core-free-icons/Folder01Icon";
+import GlobeIcon from "@hugeicons/core-free-icons/GlobeIcon";
+import House01Icon from "@hugeicons/core-free-icons/House01Icon";
+import InboxIcon from "@hugeicons/core-free-icons/InboxIcon";
+import InformationCircleIcon from "@hugeicons/core-free-icons/InformationCircleIcon";
+import LayersIcon from "@hugeicons/core-free-icons/Layers01Icon";
+import Link01Icon from "@hugeicons/core-free-icons/Link01Icon";
+import Location01Icon from "@hugeicons/core-free-icons/Location01Icon";
+import Mail01Icon from "@hugeicons/core-free-icons/Mail01Icon";
+import MinusSignIcon from "@hugeicons/core-free-icons/MinusSignIcon";
+import MoreHorizontalIcon from "@hugeicons/core-free-icons/MoreHorizontalIcon";
+import NextIcon from "@hugeicons/core-free-icons/NextIcon";
+import Notification01Icon from "@hugeicons/core-free-icons/Notification01Icon";
+import PanelsTopLeftIcon from "@hugeicons/core-free-icons/PanelsTopLeftIcon";
+import PauseIcon from "@hugeicons/core-free-icons/PauseIcon";
+import PencilIcon from "@hugeicons/core-free-icons/PencilIcon";
+import PercentIcon from "@hugeicons/core-free-icons/PercentIcon";
+import PlayIcon from "@hugeicons/core-free-icons/PlayIcon";
+import PreviousIcon from "@hugeicons/core-free-icons/PreviousIcon";
+import RotateCcwIcon from "@hugeicons/core-free-icons/RotateCcwIcon";
+import Route01Icon from "@hugeicons/core-free-icons/Route01Icon";
+import Search01Icon from "@hugeicons/core-free-icons/Search01Icon";
+import SearchAddIcon from "@hugeicons/core-free-icons/SearchAddIcon";
+import SearchMinusIcon from "@hugeicons/core-free-icons/SearchMinusIcon";
+import Settings01Icon from "@hugeicons/core-free-icons/Settings01Icon";
+import Share03Icon from "@hugeicons/core-free-icons/Share03Icon";
+import Share08Icon from "@hugeicons/core-free-icons/Share08Icon";
+import SidebarLeftIcon from "@hugeicons/core-free-icons/SidebarLeftIcon";
+import SparklesIcon from "@hugeicons/core-free-icons/SparklesIcon";
+import StarIcon from "@hugeicons/core-free-icons/StarIcon";
+import TextAlignCenterIcon from "@hugeicons/core-free-icons/TextAlignCenterIcon";
+import TextAlignLeftIcon from "@hugeicons/core-free-icons/TextAlignLeftIcon";
+import TextAlignRightIcon from "@hugeicons/core-free-icons/TextAlignRightIcon";
+import TextBoldIcon from "@hugeicons/core-free-icons/TextBoldIcon";
+import TextItalicIcon from "@hugeicons/core-free-icons/TextItalicIcon";
+import TextUnderlineIcon from "@hugeicons/core-free-icons/TextUnderlineIcon";
+import Tick02Icon from "@hugeicons/core-free-icons/Tick02Icon";
+import UnfoldMoreIcon from "@hugeicons/core-free-icons/UnfoldMoreIcon";
+import UserIcon from "@hugeicons/core-free-icons/UserIcon";
+import ViewIcon from "@hugeicons/core-free-icons/ViewIcon";
+import ViewOffSlashIcon from "@hugeicons/core-free-icons/ViewOffSlashIcon";
+import VolumeHighIcon from "@hugeicons/core-free-icons/VolumeHighIcon";
+import VolumeMute02Icon from "@hugeicons/core-free-icons/VolumeMute02Icon";
+import ZapIcon from "@hugeicons/core-free-icons/ZapIcon";
 import { parse } from "svelte/compiler";
 import { render } from "svelte/server";
 import { describe, expect, it } from "vitest";
@@ -341,10 +339,6 @@ const fixtureIconContracts = {
     site("render:trashIcon()", 1, "trash"),
   ],
   "number-field.svelte": [
-    site('component:FixtureIcon:name="unfold-more"', 1, "unfold-more"),
-    site('component:FixtureIcon:name="chevron-up"', 1, "chevron-up"),
-    site('component:FixtureIcon:name="check"', 1, "check"),
-    site('component:FixtureIcon:name="chevron-down"', 1, "chevron-down"),
     site('component:FixtureIcon:name="arrow-right"', 1, "arrow-right"),
     site('component:FixtureIcon:name="rotate-ccw"', 1, "rotate-ccw"),
   ],
@@ -653,7 +647,6 @@ const cossIconAuthority: readonly CossIconAuthorityContract[] = [
     sourceSite: "ui/select.tsx:scroll-up",
     targets: [
       packageTarget("components/ui/select/select-popup.svelte", "icon={ChevronUpIcon}"),
-      fixtureTarget("number-field.svelte", 'name="chevron-up"'),
       fixtureTarget("card.svelte", 'name="chevron-up"'),
       fixtureTarget("toolbar.svelte", 'direction === "up" ? "chevron-up" : "chevron-down"'),
     ],
@@ -667,7 +660,6 @@ const cossIconAuthority: readonly CossIconAuthorityContract[] = [
     sourceSite: "ui/select.tsx:scroll-down",
     targets: [
       packageTarget("components/ui/select/select-popup.svelte", "icon={ChevronDownIcon}"),
-      fixtureTarget("number-field.svelte", 'name="chevron-down"'),
       fixtureTarget("card.svelte", 'name="chevron-down"'),
       fixtureTarget("toolbar.svelte", 'direction === "up" ? "chevron-up" : "chevron-down"'),
     ],
@@ -752,6 +744,25 @@ function extractNamedImports(source: string, moduleName: string): string[] {
   return [...imports].sort();
 }
 
+function extractDefaultImportsFromSubpaths(source: string, moduleName: string): string[] {
+  const imports = new Set<string>();
+  walkAst(parse(source, { modern: true }), (node) => {
+    if (
+      node.type !== "ImportDeclaration" ||
+      typeof node.source?.value !== "string" ||
+      !node.source.value.startsWith(`${moduleName}/`)
+    ) {
+      return;
+    }
+    for (const specifier of node.specifiers ?? []) {
+      if (specifier.type === "ImportDefaultSpecifier" && specifier.local?.name) {
+        imports.add(specifier.local.name);
+      }
+    }
+  });
+  return [...imports].sort();
+}
+
 function parseAttributes(value: string): Record<string, string> {
   return Object.fromEntries(
     [...value.matchAll(/([\w:-]+)="([^"]*)"/g)].map((match) => [
@@ -798,7 +809,9 @@ describe("parity fixture icon migration", () => {
       "utf8",
     );
 
-    expect(source).toContain('import { ChevronDownIcon } from "@hugeicons/core-free-icons";');
+    expect(source).toContain(
+      'import ChevronDownIcon from "@hugeicons/core-free-icons/ChevronDownIcon";',
+    );
     expect(source).toContain("icon={ChevronDownIcon}");
     expect(source).not.toContain("ArrowDown01Icon");
   });
@@ -895,7 +908,7 @@ describe("parity fixture icon migration", () => {
     }
   });
 
-  it("binds all 204 icon component and snippet sites to exact official datasets", () => {
+  it("binds all 200 local icon component and snippet sites to exact official datasets", () => {
     let coveredSiteCount = 0;
 
     for (const fileName of migratedFixtures) {
@@ -925,7 +938,7 @@ describe("parity fixture icon migration", () => {
       }
     }
 
-    expect(coveredSiteCount).toBe(204);
+    expect(coveredSiteCount).toBe(200);
   });
 
   it("rejects changed or missing stroke-two bindings at every direct icon site", () => {
@@ -969,9 +982,11 @@ describe("parity fixture icon migration", () => {
   it("imports every direct fixture dataset from the official core package", () => {
     for (const [fileName, expectedImports] of Object.entries(directCoreImports)) {
       const source = readFileSync(resolve(fixtureRoot, fileName), "utf8");
-      expect(extractNamedImports(source, "@hugeicons/core-free-icons"), fileName).toEqual(
-        [...expectedImports].sort(),
-      );
+      expect(
+        extractDefaultImportsFromSubpaths(source, "@hugeicons/core-free-icons"),
+        fileName,
+      ).toEqual([...expectedImports].sort());
+      expect(extractNamedImports(source, "@hugeicons/core-free-icons"), fileName).toEqual([]);
       expect(extractNamedImports(source, "@coss-sv/ui"), fileName).toContain("HugeiconsIcon");
     }
 
@@ -1002,7 +1017,7 @@ describe("parity fixture icon migration", () => {
     expect(source).toContain(
       'import SidebarLeftIcon from "@hugeicons/core-free-icons/SidebarLeftIcon"',
     );
-    expect(source).toContain('import HugeiconsIcon from "$lib/hugeicons-icon.svelte"');
+    expect(source).toContain('import HugeiconsIcon from "@/hugeicons-icon.svelte"');
     expect(source).not.toContain("@hugeicons/svelte");
     expect(source).toContain("icon={SidebarLeftIcon}");
 

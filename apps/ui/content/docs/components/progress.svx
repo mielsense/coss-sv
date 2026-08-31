@@ -10,16 +10,13 @@ links:
 
 ## Installation
 
-<InstallCommand
-  pnpm="pnpm add @coss-sv/ui"
-  shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/progress.json"
-/>
+<InstallCommand shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/progress.json" />
 
 ## Usage
 
 ```svelte
 <script lang="ts">
-  import * as Progress from "@coss-sv/ui/components/ui/progress";
+  import * as Progress from "@/components/ui/progress/index.js";
 </script>
 
 <Progress.Root value={40} />

@@ -7,18 +7,15 @@ import { describe, expect, test } from "vitest";
 
 const appRoot = resolve(import.meta.dirname, "../..");
 const repositoryRoot = resolve(appRoot, "../..");
-const particleModules = import.meta.glob<{ default: Component }>(
-  [
-    "../../registry/default/particles/p-autocomplete-*.svelte",
-    "../../registry/default/particles/p-combobox-*.svelte",
-    "../../registry/default/particles/p-select-*.svelte",
-    "../../registry/default/particles/p-command-*.svelte",
-    "../../registry/default/particles/p-menu-*.svelte",
-    "../../registry/default/particles/p-context-menu-*.svelte",
-    "../../registry/default/particles/p-toolbar-*.svelte",
-  ],
-  { eager: true },
-);
+const particleLoaders = import.meta.glob<{ default: Component }>([
+  "../../registry/default/particles/p-autocomplete-*.svelte",
+  "../../registry/default/particles/p-combobox-*.svelte",
+  "../../registry/default/particles/p-select-*.svelte",
+  "../../registry/default/particles/p-command-*.svelte",
+  "../../registry/default/particles/p-menu-*.svelte",
+  "../../registry/default/particles/p-context-menu-*.svelte",
+  "../../registry/default/particles/p-toolbar-*.svelte",
+]);
 const expectedParticles = [
   ...Array.from({ length: 16 }, (_, index) => `p-autocomplete-${index + 1}`),
   ...Array.from({ length: 20 }, (_, index) => `p-combobox-${index + 1}`),
@@ -122,9 +119,9 @@ describe("D8 selection, command, and menu documentation", () => {
         .map((item) => item.particle)
         .sort(),
     ).toEqual([...expectedParticles].sort());
-    expect(Object.keys(particleModules)).toHaveLength(79);
+    expect(Object.keys(particleLoaders)).toHaveLength(79);
   });
-  test.each(expectedParticles)("ports and server-renders %s with exact metadata", (id) => {
+  test.each(expectedParticles)("ports and server-renders %s with exact metadata", async (id) => {
     const ownership = JSON.parse(source("docs/porting/docs-ownership.json")) as Ownership;
     const record = ownership.ownership.find((item) => item.particle === id);
     expect(record).toBeDefined();
@@ -141,8 +138,9 @@ describe("D8 selection, command, and menu documentation", () => {
     expect(particle).not.toMatch(
       /(?:lucide(?:-react|-svelte)?|<svg\b|@base-ui\/react|from\s+["']react)/i,
     );
-    const module = particleModules[`../../registry/default/particles/${id}.svelte`];
-    expect(module).toBeDefined();
+    const load = particleLoaders[`../../registry/default/particles/${id}.svelte`];
+    expect(load).toBeDefined();
+    const module = await load?.();
     expect(() => render(module?.default as Component)).not.toThrow();
   });
   test.each(Object.entries(expectedPreviews))(
@@ -158,7 +156,7 @@ describe("D8 selection, command, and menu documentation", () => {
       );
       expect(
         existsSync(
-          resolve(repositoryRoot, `apps/ui/src/routes/docs/components/${slug}/+page.svelte`),
+          resolve(repositoryRoot, `apps/ui/src/routes/(site)/docs/components/${slug}/+page.svelte`),
         ),
       ).toBe(true);
     },
@@ -232,11 +230,12 @@ describe("D8 selection, command, and menu documentation", () => {
     expect(pillCombobox).toContain('placeholder="Select a item..."');
   });
 
-  test("server-renders one hydration-stable ID for the labelled combobox control", () => {
+  test("server-renders one hydration-stable ID for the labelled combobox control", async () => {
     const particle = source("apps/ui/registry/default/particles/p-combobox-5.svelte");
     expect(particle).toContain("<Label for={id}>Fruits</Label>");
     expect(particle).toMatch(/<Combobox\.Input[\s\S]*?(?:id=\{id\}|\{id\})/);
-    const module = particleModules["../../registry/default/particles/p-combobox-5.svelte"];
+    const module =
+      await particleLoaders["../../registry/default/particles/p-combobox-5.svelte"]?.();
     const body = render(module?.default as Component).body;
     const labelFor = body.match(/<label[^>]*for="([^"]+)"/)?.[1];
     const inputId = body.match(/<input[^>]*id="([^"]+)"/)?.[1];
@@ -244,8 +243,9 @@ describe("D8 selection, command, and menu documentation", () => {
     expect(inputId).toBe(labelFor);
   });
 
-  test("uses the visible Field label as the multiple Combobox accessible name", () => {
-    const module = particleModules["../../registry/default/particles/p-combobox-12.svelte"];
+  test("uses the visible Field label as the multiple Combobox accessible name", async () => {
+    const module =
+      await particleLoaders["../../registry/default/particles/p-combobox-12.svelte"]?.();
     const body = render(module?.default as Component).body;
     expect(body).toContain("Favorite items");
     expect(body).not.toContain('aria-label="Select a item"');
@@ -271,7 +271,7 @@ describe("D8 selection, command, and menu documentation", () => {
     expect(toolbar).not.toContain('from "@hugeicons/svelte"');
   });
 
-  test("server-renders D8 UI icons through the shared Hugeicons renderer", () => {
+  test("server-renders D8 UI icons through the shared Hugeicons renderer", async () => {
     const iconParticles = [
       "p-autocomplete-14",
       "p-autocomplete-16",
@@ -308,14 +308,14 @@ describe("D8 selection, command, and menu documentation", () => {
         ),
     );
     for (const id of serverVisibleIconParticles) {
-      const module = particleModules[`../../registry/default/particles/${id}.svelte`];
+      const module = await particleLoaders[`../../registry/default/particles/${id}.svelte`]?.();
       const body = render(module?.default as Component).body;
       expect(body, `${id} SSR icon markup`).toContain("<svg");
       expect(body, `${id} SSR stroke width`).toContain('stroke-width="2"');
     }
   });
 
-  test("uses official Hugeicons text-alignment data in the toolbar", () => {
+  test("uses official Hugeicons text-alignment data in the toolbar", async () => {
     const toolbar = source("apps/ui/registry/default/particles/p-toolbar-1.svelte");
     expect(toolbar).toContain("TextAlignLeftIcon");
     expect(toolbar).toContain("TextAlignCenterIcon");
@@ -323,7 +323,7 @@ describe("D8 selection, command, and menu documentation", () => {
     expect(toolbar).not.toMatch(/AlignHorizontalCenterIcon|\bAlignLeftIcon\b|\bAlignRightIcon\b/);
     expect(toolbar).not.toMatch(/@hugeicons\/svelte|lucide(?:-react|-svelte)?|<svg\b|<path\b/i);
 
-    const module = particleModules["../../registry/default/particles/p-toolbar-1.svelte"];
+    const module = await particleLoaders["../../registry/default/particles/p-toolbar-1.svelte"]?.();
     const body = render(module?.default as Component).body;
     expect(body.match(/<svg/g)).toHaveLength(6);
     expect(body.match(/stroke-width="2"/g)?.length).toBeGreaterThanOrEqual(5);
@@ -373,9 +373,7 @@ describe("D8 selection, command, and menu documentation", () => {
 
   test("documents Toggle-composed toolbar controls instead of plain buttons", () => {
     const page = source("apps/ui/content/docs/components/toolbar.svx");
-    expect(page).toContain(
-      'import * as ToggleGroup from "@coss-sv/ui/components/ui/toggle-group";',
-    );
+    expect(page).toContain('import * as ToggleGroup from "@/components/ui/toggle-group/index.js";');
     expect(page).toContain('<ToggleGroup.Item value="bold">Bold</ToggleGroup.Item>');
     expect(page).toContain('<ToggleGroup.Item value="underline">Underline</ToggleGroup.Item>');
     expect(page).not.toContain("<Toolbar.Button>Bold</Toolbar.Button>");
@@ -425,7 +423,7 @@ describe("D8 selection, command, and menu documentation", () => {
       expect(source(path), typeName).toContain(`export type ${typeName}`);
     }
     expect(source("packages/ui/src/components/ui/command/index.ts")).toContain(
-      "export const DialogRoot: typeof D.Root = D.Root;",
+      'export { default as DialogRoot, default as CommandDialog } from "./command-dialog-root.svelte";',
     );
     expect(pages[3]).toContain("`Snippet<[{ payload: Payload \\| undefined }]>`");
   });

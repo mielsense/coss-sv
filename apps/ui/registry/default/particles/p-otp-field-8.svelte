@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
   export const meta = defineParticleMeta({
     components: ["field", "otp-field"],
     id: "p-otp-field-8",
@@ -22,8 +22,9 @@
       <OTPField.Input aria-label={`Character ${index + 1} of ${length}`} />
     {/each}
   </OTPField.Root>
-  <Field.Description
-    >Accept letters and numbers for backup codes such as
-    <code class="font-mono text-foreground">A7C9XZ</code>.</Field.Description
-  >
+  <Field.Description>
+    Accept letters and numbers for backup codes such as
+    <code class="font-mono text-foreground">A7C9XZ</code>
+    .
+  </Field.Description>
 </Field.Root>

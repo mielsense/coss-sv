@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
 
   export const meta = defineParticleMeta({
     components: ["checkbox", "checkbox-group", "label"],
@@ -54,9 +54,9 @@
   onValueChange={changeMain}
   value={mainValue}
 >
-  <Label id="user-permissions-caption"
-    ><CheckboxGroup.Item indeterminate={managementIsPartial} parent />User Permissions</Label
-  >
+  <Label id="user-permissions-caption">
+    <CheckboxGroup.Item indeterminate={managementIsPartial} parent />User Permissions
+  </Label>
   {#each main as permission (permission.value)}
     <Label class="ms-4"><CheckboxGroup.Item value={permission.value} />{permission.label}</Label>
   {/each}

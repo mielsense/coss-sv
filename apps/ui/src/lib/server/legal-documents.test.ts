@@ -1,8 +1,8 @@
 import { readFile } from "node:fs/promises";
 import { describe, expect, test } from "vitest";
-import { GET as getLicense } from "../../routes/LICENSE/+server.js";
-import { GET as getNotice } from "../../routes/NOTICE.md/+server.js";
-import { GET as getThirdPartyNotices } from "../../routes/THIRD_PARTY_NOTICES.md/+server.js";
+import { GET as getLicense } from "../../routes/(machine)/LICENSE/+server.js";
+import { GET as getNotice } from "../../routes/(machine)/NOTICE.md/+server.js";
+import { GET as getThirdPartyNotices } from "../../routes/(machine)/THIRD_PARTY_NOTICES.md/+server.js";
 
 const legalRoutes = [
   {

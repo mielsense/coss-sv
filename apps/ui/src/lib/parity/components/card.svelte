@@ -1,18 +1,6 @@
 <script lang="ts">
   import { Select } from "@shardsui/svelte/select";
-  import {
-    Card,
-    CardDescription,
-    CardFooter,
-    CardFrame,
-    CardFrameAction,
-    CardFrameDescription,
-    CardFrameHeader,
-    CardFrameTitle,
-    CardHeader,
-    CardPanel,
-    CardTitle,
-  } from "../../../../../../packages/ui/dist/components/ui/card/index.js";
+  import * as Card from "../../../../../../packages/ui/dist/components/ui/card/index.js";
   import {
     Empty,
     EmptyDescription,
@@ -43,12 +31,12 @@
 
 <div class="card-review-shell">
   <div class="card-particle-shell">
-    <Card class="w-full max-w-xs" data-anchor="p-card-1">
-      <CardHeader>
-        <CardTitle>Create project</CardTitle>
-        <CardDescription>Deploy your new project in one-click.</CardDescription>
-      </CardHeader>
-      <CardPanel>
+    <Card.Root class="w-full max-w-xs" data-anchor="p-card-1">
+      <Card.Header>
+        <Card.Title>Create project</Card.Title>
+        <Card.Description>Deploy your new project in one-click.</Card.Description>
+      </Card.Header>
+      <Card.Panel>
         <form
           class="flex w-full flex-col gap-4"
           data-slot="form"
@@ -132,29 +120,29 @@
           </div>
           <CossButton class="w-full" type="submit">Deploy</CossButton>
         </form>
-      </CardPanel>
-      <CardFooter>
+      </Card.Panel>
+      <Card.Footer>
         <div class="flex gap-1 text-muted-foreground text-xs">
           <FixtureIcon aria-hidden="true" class="size-3 h-lh shrink-0" name="alert-circle" />
           <p>This will take a few seconds to complete.</p>
         </div>
-      </CardFooter>
-    </Card>
+      </Card.Footer>
+    </Card.Root>
 
     <div class="card-frame-particle-shell">
-      <CardFrame class="w-full" data-anchor="p-card-11">
-        <CardFrameHeader>
-          <CardFrameTitle>Project</CardFrameTitle>
-          <CardFrameDescription>Manage your projects</CardFrameDescription>
-          <CardFrameAction>
+      <Card.Frame class="w-full" data-anchor="p-card-11">
+        <Card.FrameHeader>
+          <Card.FrameTitle>Project</Card.FrameTitle>
+          <Card.FrameDescription>Manage your projects</Card.FrameDescription>
+          <Card.FrameAction>
             <CossButton variant="outline">
               <FixtureIcon aria-hidden="true" name="plus" />
               Add
             </CossButton>
-          </CardFrameAction>
-        </CardFrameHeader>
-        <Card>
-          <CardPanel>
+          </Card.FrameAction>
+        </Card.FrameHeader>
+        <Card.Root>
+          <Card.Panel>
             <Empty>
               <EmptyHeader>
                 <EmptyMedia variant="icon">
@@ -164,9 +152,9 @@
                 <EmptyDescription>Get started by adding your first project.</EmptyDescription>
               </EmptyHeader>
             </Empty>
-          </CardPanel>
-        </Card>
-      </CardFrame>
+          </Card.Panel>
+        </Card.Root>
+      </Card.Frame>
     </div>
   </div>
 </div>

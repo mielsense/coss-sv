@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
 
   export const meta = defineParticleMeta({
     components: ["button", "toast"],
@@ -12,16 +12,20 @@
 
 <script lang="ts">
   import { Button, Toast } from "@coss-sv/ui";
+
+  const toastManager = new Toast.Manager();
 </script>
 
-<Toast.Provider
-  ><Button
+<Toast.Provider {toastManager}>
+  <Button
     onclick={() =>
-      Toast.toastManager.add({
+      toastManager.add({
         description: "Please wait while we process your request.",
         title: "Loading…",
         type: "loading",
       })}
-    variant="outline">Loading Toast</Button
-  ></Toast.Provider
->
+    variant="outline"
+  >
+    Loading Toast
+  </Button>
+</Toast.Provider>

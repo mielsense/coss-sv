@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
 
   export const meta = defineParticleMeta({
     components: ["meter"],
@@ -15,9 +15,9 @@
   import { Meter } from "@coss-sv/ui";
 </script>
 
-<Meter.Root value={75}
-  ><div class="flex items-center justify-between gap-2">
+<Meter.Root value={75}>
+  <div class="flex items-center justify-between gap-2">
     <Meter.Label>Storage usage</Meter.Label><Meter.Value />
   </div>
-  <Meter.Track><Meter.Indicator /></Meter.Track></Meter.Root
->
+  <Meter.Track><Meter.Indicator /></Meter.Track>
+</Meter.Root>

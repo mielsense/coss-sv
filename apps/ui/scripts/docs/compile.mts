@@ -7,12 +7,10 @@ import {
   type PageKind,
   type SourcePage,
 } from "../../src/lib/content/compiler.js";
-import { createParticleSourceLoader } from "../../src/lib/content/particle-source.js";
 
 type CompileDocumentationTreeOptions = {
   contentRoot: string;
   ownershipPath: string;
-  particleRoot?: string;
 };
 
 type OwnershipFile = {
@@ -28,6 +26,16 @@ type PageGroup = {
 const scriptDirectory = dirname(fileURLToPath(import.meta.url));
 const appRoot = resolve(scriptDirectory, "../..");
 const repositoryRoot = resolve(appRoot, "../..");
+const flatRootOrder = [
+  "introduction",
+  "get-started",
+  "styling",
+  "radix-migration",
+  "skills",
+  "changelog",
+  "roadmap",
+] as const;
+const flatHookOrder = ["hooks-use-media-query", "hooks-use-copy-to-clipboard"] as const;
 
 const groups: readonly PageGroup[] = [
   {
@@ -82,16 +90,31 @@ export async function compileDocumentationTree(
 
   const looseSources = readdirSync(options.contentRoot, { withFileTypes: true })
     .filter((entry) => entry.isFile() && [".md", ".svx"].includes(extname(entry.name)))
-    .map((entry) => entry.name)
-    .sort((left, right) => left.localeCompare(right));
-  for (const filename of looseSources) {
+    .map((entry) => entry.name);
+  const orderedLooseSources = (slugs: readonly string[]) =>
+    looseSources
+      .filter((filename) => slugs.includes(basename(filename, extname(filename))))
+      .sort(
+        (left, right) =>
+          slugs.indexOf(basename(left, extname(left))) -
+          slugs.indexOf(basename(right, extname(right))),
+      );
+  const appendLooseSource = (filename: string, kind: PageKind) => {
     const slug = basename(filename, extname(filename));
     pages.push({
-      kind: slug === "changelog" ? "changelog" : "root",
+      kind,
       slug,
       source: readFileSync(join(options.contentRoot, filename), "utf8"),
     });
     order.push(slug);
+  };
+
+  for (const filename of orderedLooseSources(flatRootOrder)) {
+    const slug = basename(filename, extname(filename));
+    appendLooseSource(
+      filename,
+      slug === "changelog" ? "changelog" : slug.includes("migration") ? "migration" : "root",
+    );
   }
 
   for (const group of groups) {
@@ -108,9 +131,19 @@ export async function compileDocumentationTree(
     }
   }
 
-  const particleRoot = options.particleRoot ?? join(appRoot, "registry/default/particles");
+  for (const filename of orderedLooseSources(flatHookOrder)) appendLooseSource(filename, "hook");
+
+  const knownLooseSources = new Set([
+    ...orderedLooseSources(flatRootOrder),
+    ...orderedLooseSources(flatHookOrder),
+  ]);
+  const unknownLooseSources = looseSources.filter((filename) => !knownLooseSources.has(filename));
+  if (unknownLooseSources.length > 0) {
+    throw new Error(`documentation metadata order omits: ${unknownLooseSources.sort().join(", ")}`);
+  }
+
   return compileDocs({
-    loadParticleSource: createParticleSourceLoader(particleRoot),
+    includeCodeBlocks: false,
     order,
     pages,
     particleIds: particleIds(options.ownershipPath),
@@ -118,7 +151,23 @@ export async function compileDocumentationTree(
 }
 
 export function serializeCompiledDocs(compiled: CompiledDocs): string {
-  return `${JSON.stringify({ version: 1, pages: compiled.pages }, null, 2)}\n`;
+  const pages = compiled.pages.map(({ kind, markdown, metadata, slug, tableOfContents }) => ({
+    kind,
+    markdown,
+    metadata,
+    slug,
+    tableOfContents,
+  }));
+  return `${JSON.stringify({ version: 1, pages }, null, 2)}\n`;
+}
+
+export function serializeCompiledDocsIndex(compiled: CompiledDocs): string {
+  const pages = compiled.pages.map(({ metadata, slug, tableOfContents }) => ({
+    metadata,
+    slug,
+    tableOfContents,
+  }));
+  return `${JSON.stringify({ version: 1, pages }, null, 2)}\n`;
 }
 
 async function runCli(): Promise<void> {
@@ -133,17 +182,27 @@ async function runCli(): Promise<void> {
     process.env.COSS_COMPILED_DOCS?.trim() ||
       join(appRoot, ".svelte-kit/generated/docs-content.json"),
   );
+  const indexOutputPath = resolve(
+    process.env.COSS_COMPILED_DOCS_INDEX?.trim() || join(dirname(outputPath), "docs-index.json"),
+  );
   const compiled = await compileDocumentationTree({ contentRoot, ownershipPath });
   const output = serializeCompiledDocs(compiled);
+  const indexOutput = serializeCompiledDocsIndex(compiled);
 
   if (process.argv.includes("--write")) {
     mkdirSync(dirname(outputPath), { recursive: true });
     writeFileSync(outputPath, output);
+    writeFileSync(indexOutputPath, indexOutput);
     process.stdout.write(`Compiled ${compiled.pages.length} documentation pages.\n`);
     return;
   }
   if (process.argv.includes("--check")) {
-    if (!existsSync(outputPath) || readFileSync(outputPath, "utf8") !== output) {
+    if (
+      !existsSync(outputPath) ||
+      readFileSync(outputPath, "utf8") !== output ||
+      !existsSync(indexOutputPath) ||
+      readFileSync(indexOutputPath, "utf8") !== indexOutput
+    ) {
       throw new Error("compiled documentation is stale; run the compiler with --write");
     }
     process.stdout.write(`Compiled documentation is current for ${compiled.pages.length} pages.\n`);

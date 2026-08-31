@@ -8,10 +8,9 @@
     InputGroup,
     Label,
     NumberField,
+    Select,
     Slider,
   } from "@coss-sv/ui";
-  import { Select } from "@shardsui/svelte/select";
-  import { tick } from "svelte";
   import FixtureIcon from "./fixture-icon.svelte";
 
   let controlled = $state<number | null>(25);
@@ -26,58 +25,7 @@
     { label: "Euro", value: "€" },
     { label: "British Pound", value: "£" },
   ];
-  let currency = $state(currencies[0]);
-  let currencyOpen = $state(false);
-  let currencyTrigger = $state<HTMLElement | null>(null);
-  let currencyPositioner = $state<HTMLElement | null>(null);
-  let currencySideOffset = $state(4);
-  let currencyAlignOffset = $state(0);
-  function currencyValue(item: unknown): string {
-    return item && typeof item === "object" && "value" in item ? String(item.value) : "";
-  }
-
-  function nextAnimationFrame(): Promise<void> {
-    return new Promise((resolve) => requestAnimationFrame(() => resolve()));
-  }
-
-  async function alignCurrencyItem(signal: AbortSignal): Promise<void> {
-    await tick();
-    for (let attempt = 0; attempt < 4 && !signal.aborted; attempt += 1) {
-      await nextAnimationFrame();
-      if (signal.aborted || !currencyTrigger || !currencyPositioner) return;
-
-      const triggerValue = currencyTrigger.querySelector<HTMLElement>('[data-slot="select-value"]');
-      const selectedItem = currencyPositioner.querySelector<HTMLElement>(
-        '[data-slot="select-item"][aria-selected="true"]',
-      );
-      const selectedLabel = selectedItem?.querySelector<HTMLElement>(".col-start-2");
-      if (!triggerValue || !selectedItem || !selectedLabel) continue;
-
-      const triggerRect = currencyTrigger.getBoundingClientRect();
-      const selectedRect = selectedItem.getBoundingClientRect();
-      const labelDelta =
-        triggerValue.getBoundingClientRect().left - selectedLabel.getBoundingClientRect().left;
-      const centerDelta =
-        triggerRect.top + triggerRect.height / 2 - (selectedRect.top + selectedRect.height / 2);
-
-      if (Math.abs(labelDelta) <= 0.5 && Math.abs(centerDelta) <= 0.5) return;
-      currencyAlignOffset += labelDelta;
-      currencySideOffset += centerDelta;
-    }
-  }
-
-  $effect(() => {
-    void currency;
-    if (!currencyOpen || !currencyTrigger || !currencyPositioner) {
-      currencyAlignOffset = 0;
-      currencySideOffset = 4;
-      return;
-    }
-
-    const controller = new AbortController();
-    void alignCurrencyItem(controller.signal);
-    return () => controller.abort();
-  });
+  let currency = $state.raw(currencies[0]);
   const prices = [
     80, 95, 110, 125, 130, 140, 145, 150, 155, 165, 175, 185, 195, 205, 215, 225, 235, 245, 255,
     260, 265, 270, 275, 280, 285, 290, 290, 295, 295, 295, 298, 299, 300, 305, 310, 315, 320, 325,
@@ -256,99 +204,27 @@
   <section data-particle="p-group-14">
     <Group.Root aria-label="Payment amount">
       <Group.Root aria-label="Amount input">
-        <!-- Private parity-only Shards Select; replace with the public C13 Select after integration. -->
         <Select.Root
-          bind:open={currencyOpen}
           bind:value={currency}
-          items={currencies}
-          itemToStringValue={currencyValue}
-          isItemEqualToValue={(item, selected) => currencyValue(item) === currencyValue(selected)}
+          isItemEqualToValue={(item, value) => item.value === value.value}
+          items={currencies.map((item) => ({ label: item.label, value: item }))}
+          itemToStringLabel={(item) => item.label}
+          itemToStringValue={(item) => item.value}
         >
-          <Select.Trigger
-            bind:ref={currencyTrigger}
-            class="relative inline-flex min-h-9 w-fit min-w-none select-none items-center justify-between gap-2 rounded-lg border border-input bg-background not-dark:bg-clip-padding px-[calc(--spacing(3)-1px)] text-left text-base text-foreground shadow-xs/5 outline-none ring-ring/24 transition-shadow before:pointer-events-none before:absolute before:inset-0 before:rounded-[calc(var(--radius-lg)-1px)] not-data-disabled:not-focus-visible:not-aria-invalid:not-data-pressed:before:shadow-[0_1px_--theme(--color-black/4%)] pointer-coarse:after:absolute pointer-coarse:after:size-full pointer-coarse:after:min-h-11 focus-visible:border-ring focus-visible:ring-[3px] aria-invalid:border-destructive/36 focus-visible:aria-invalid:border-destructive/64 focus-visible:aria-invalid:ring-destructive/16 data-disabled:pointer-events-none data-disabled:opacity-64 sm:min-h-8 sm:text-sm dark:bg-input/32 dark:aria-invalid:ring-destructive/24 dark:not-data-disabled:not-focus-visible:not-aria-invalid:not-data-pressed:before:shadow-[0_-1px_--theme(--color-white/6%)] [&_svg:not([class*='opacity-'])]:opacity-80 [&_svg:not([class*='size-'])]:size-4.5 sm:[&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:shrink-0 [[data-disabled],:focus-visible,[aria-invalid],[data-pressed]]:shadow-none"
-            data-slot="select-trigger"
-          >
-            <Select.Value
-              class="flex-1 truncate data-placeholder:text-muted-foreground"
-              data-slot="select-value"
-            >
-              {#snippet children(selected)}
-                {currencyValue(selected)}
+          <Select.Trigger class="w-fit min-w-none">
+            <Select.Value>
+              {#snippet children(value: (typeof currencies)[number] | null)}
+                {value?.value}
               {/snippet}
             </Select.Value>
-            <Select.Icon data-slot="select-icon">
-              <FixtureIcon
-                aria-hidden="true"
-                class="-me-1 size-4.5 opacity-80 sm:size-4"
-                name="unfold-more"
-              />
-            </Select.Icon>
           </Select.Trigger>
-          <Select.Portal>
-            <Select.Positioner
-              bind:ref={currencyPositioner}
-              align="start"
-              alignOffset={currencyAlignOffset}
-              class="z-50 select-none"
-              data-align="start"
-              data-side="none"
-              data-slot="select-positioner"
-              positionMethod="fixed"
-              sideOffset={currencySideOffset}
-            >
-              <Select.Popup
-                class="origin-(--transform-origin) text-foreground outline-none"
-                data-align="start"
-                data-side="none"
-                data-slot="select-popup"
+          <Select.Popup class="min-w-48">
+            {#each currencies as item (item.value)}
+              <Select.Item value={item}
+                >{item.value} <span class="ms-1">{item.label}</span></Select.Item
               >
-                <Select.ScrollUpArrow
-                  class="top-0 z-50 flex h-6 w-full cursor-default items-center justify-center before:pointer-events-none before:absolute before:inset-x-px before:top-px before:h-[200%] before:rounded-t-[calc(var(--radius-lg)-1px)] before:bg-linear-to-b before:from-50% before:from-popover"
-                  data-slot="select-scroll-up-arrow"
-                >
-                  <FixtureIcon
-                    aria-hidden="true"
-                    class="relative size-4.5 sm:size-4"
-                    name="chevron-up"
-                  />
-                </Select.ScrollUpArrow>
-                <div
-                  class="relative h-full min-w-(--anchor-width) rounded-lg border bg-popover not-dark:bg-clip-padding shadow-lg/5 before:pointer-events-none before:absolute before:inset-0 before:rounded-[calc(var(--radius-lg)-1px)] before:shadow-[0_1px_--theme(--color-black/4%)] dark:before:shadow-[0_-1px_--theme(--color-white/6%)]"
-                >
-                  <Select.List
-                    class="min-w-48 max-h-(--available-height) overflow-y-auto p-1"
-                    data-slot="select-list"
-                  >
-                    {#each currencies as item (item.value)}
-                      <Select.Item
-                        class="grid min-h-8 in-data-[side=none]:min-w-[calc(var(--anchor-width)+1.25rem)] cursor-default grid-cols-[1rem_1fr] items-center gap-2 rounded-sm py-1 ps-2 pe-4 text-base outline-none data-disabled:pointer-events-none data-highlighted:bg-accent data-highlighted:text-accent-foreground data-disabled:opacity-64 sm:min-h-7 sm:text-sm [&_svg:not([class*='size-'])]:size-4.5 sm:[&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:shrink-0"
-                        data-slot="select-item"
-                        value={item}
-                      >
-                        <Select.ItemIndicator class="col-start-1">
-                          <FixtureIcon aria-hidden="true" name="check" />
-                        </Select.ItemIndicator>
-                        <span class="col-start-2 min-w-0"
-                          >{item.value} <span class="ms-1">{item.label}</span></span
-                        >
-                      </Select.Item>
-                    {/each}
-                  </Select.List>
-                </div>
-                <Select.ScrollDownArrow
-                  class="bottom-0 z-50 flex h-6 w-full cursor-default items-center justify-center before:pointer-events-none before:absolute before:inset-x-px before:bottom-px before:h-[200%] before:rounded-b-[calc(var(--radius-lg)-1px)] before:bg-linear-to-t before:from-50% before:from-popover"
-                  data-slot="select-scroll-down-arrow"
-                >
-                  <FixtureIcon
-                    aria-hidden="true"
-                    class="relative size-4.5 sm:size-4"
-                    name="chevron-down"
-                  />
-                </Select.ScrollDownArrow>
-              </Select.Popup>
-            </Select.Positioner>
-          </Select.Portal>
+            {/each}
+          </Select.Popup>
         </Select.Root>
         <Group.Separator />
         <NumberField.Root

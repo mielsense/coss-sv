@@ -40,7 +40,7 @@
 			"target": "empty/empty-title.svelte"
 		},
 		{
-			"content": "export type { EmptyProps } from \"./empty.svelte\";\nexport { default as Empty } from \"./empty.svelte\";\nexport { default as EmptyContent } from \"./empty-content.svelte\";\nexport { default as EmptyDescription } from \"./empty-description.svelte\";\nexport { default as EmptyHeader } from \"./empty-header.svelte\";\nexport type { EmptyMediaProps, EmptyMediaVariant } from \"./empty-media.svelte\";\nexport { default as EmptyMedia } from \"./empty-media.svelte\";\nexport { default as EmptyTitle } from \"./empty-title.svelte\";\n",
+			"content": "export type { EmptyProps } from \"./empty.svelte\";\nexport { default as Empty, default as Root } from \"./empty.svelte\";\nexport { default as Content, default as EmptyContent } from \"./empty-content.svelte\";\nexport { default as Description, default as EmptyDescription } from \"./empty-description.svelte\";\nexport { default as EmptyHeader, default as Header } from \"./empty-header.svelte\";\nexport type { EmptyMediaProps, EmptyMediaVariant } from \"./empty-media.svelte\";\nexport { default as EmptyMedia, default as Media } from \"./empty-media.svelte\";\nexport { default as EmptyTitle, default as Title } from \"./empty-title.svelte\";\n",
 			"type": "registry:ui",
 			"target": "empty/index.ts"
 		}

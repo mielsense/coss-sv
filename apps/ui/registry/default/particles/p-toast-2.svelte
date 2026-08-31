@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
 
   export const meta = defineParticleMeta({
     components: ["button", "toast"],
@@ -12,6 +12,8 @@
 
 <script lang="ts">
   import { Button, Toast } from "@coss-sv/ui";
+
+  const toastManager = new Toast.Manager();
 
   const statuses = [
     {
@@ -41,11 +43,13 @@
   ] as const;
 </script>
 
-<Toast.Provider
-  ><div class="flex flex-wrap gap-2">
+<Toast.Provider {toastManager}>
+  <div class="flex flex-wrap gap-2">
     {#each statuses as status (status.type)}<Button
-        onclick={() => Toast.toastManager.add(status)}
-        variant="outline">{status.label}</Button
-      >{/each}
-  </div></Toast.Provider
->
+        onclick={() => toastManager.add(status)}
+        variant="outline"
+      >
+        {status.label}
+      </Button>{/each}
+  </div>
+</Toast.Provider>

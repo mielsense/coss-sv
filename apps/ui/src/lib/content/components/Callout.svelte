@@ -1,4 +1,7 @@
 <script lang="ts">
+  import InformationCircleIcon from "@hugeicons/core-free-icons/InformationCircleIcon";
+  import { HugeiconsIcon } from "@coss-sv/ui";
+  import * as Alert from "@coss-sv/ui/components/ui/alert";
   import type { Snippet } from "svelte";
 
   type Props = {
@@ -10,12 +13,10 @@
   let { children, title, variant = "info" }: Props = $props();
 </script>
 
-<aside
-  class="my-6 rounded-xl border px-4 py-3 text-sm text-muted-foreground"
-  data-variant={variant}
->
+<Alert.Root class="my-6 bg-muted/24" {variant}>
+  <HugeiconsIcon aria-hidden="true" icon={InformationCircleIcon} strokeWidth={2} />
   {#if title}
-    <p class="mb-1 font-medium text-foreground">{title}</p>
+    <Alert.Title>{title}</Alert.Title>
   {/if}
-  {@render children()}
-</aside>
+  <Alert.Description>{@render children()}</Alert.Description>
+</Alert.Root>

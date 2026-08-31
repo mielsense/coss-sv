@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
 
   export const meta = defineParticleMeta({
     components: ["button", "empty"],
@@ -21,7 +21,8 @@
     EmptyTitle,
     HugeiconsIcon,
   } from "@coss-sv/ui";
-  import { BookOpen01Icon, Route01Icon } from "@hugeicons/core-free-icons";
+  import BookOpen01Icon from "@hugeicons/core-free-icons/BookOpen01Icon";
+  import Route01Icon from "@hugeicons/core-free-icons/Route01Icon";
 </script>
 
 <Empty>

@@ -10,10 +10,12 @@ describe("Shiki multi-theme output", () => {
       expect(output).toContain(`--shiki-light${property}:`);
       expect(output).toContain(`--shiki-dark${property}:`);
     }
+    expect(output).toContain('<div class="docs-code-block">');
+    expect(output).toContain("<CopyButton value={");
   });
 
   test("maps every light and dark token variable to a rendered CSS property", async () => {
-    const css = await readFile(new URL("../../app.css", import.meta.url), "utf8");
+    const css = await readFile(new URL("../../styles/content.css", import.meta.url), "utf8");
     const mappings = [
       ["color", ""],
       ["font-style", "-font-style"],

@@ -1,155 +1,101 @@
 ---
 title: useCopyToClipboard
-description: Copy text with the Clipboard API and keep temporary feedback in local Svelte state.
+description: Copy text to the clipboard with temporary copied feedback.
 ---
 
-<p class="eyebrow">Svelte pattern</p>
+A Svelte utility that wraps the Clipboard API and resets its copied state after a timeout. It is
+useful for copy buttons that briefly confirm success.
 
-# useCopyToClipboard
+## Installation
 
-<CopyMarkdownButton url="/docs/hooks/use-copy-to-clipboard.md" />
+<InstallCommand shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/use-copy-to-clipboard.json" />
 
-The upstream React page provides a hook with copied state and a reset timeout. COSS for Svelte does
-not export a `useCopyToClipboard` hook. Clipboard state belongs to the component that presents the
-feedback, and Svelte's local state is enough for that job.
+## Usage
 
-## Basic
+### Basic
 
 ```svelte
-<button type="button" onclick={() => void navigator.clipboard.writeText("https://coss.com")}>
-  Copy
+<script lang="ts">
+  import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard.svelte.js";
+
+  let { text }: { text: string } = $props();
+  const clipboard = useCopyToClipboard();
+</script>
+
+<button onclick={() => clipboard.copyToClipboard(text)} type="button">
+  {clipboard.isCopied ? "Copied!" : "Copy"}
 </button>
 ```
 
-## Temporary feedback
+### Custom timeout
 
-Invalidate an earlier copy before starting the next one. The generation and abort signal prevent an
-old clipboard request from updating state after a later click or after the component unmounts.
-
-```svelte
-<script lang="ts">
-  import { onDestroy } from "svelte";
-
-  const timeout = 2000;
-  let copied = $state(false);
-  let timer: ReturnType<typeof setTimeout> | undefined;
-  let controller: AbortController | undefined;
-  let destroyed = false;
-  let generation = 0;
-
-  function isCurrent(operation: number, signal: AbortSignal): boolean {
-    return !destroyed && operation === generation && !signal.aborted;
-  }
-
-  function destroy(): void {
-    destroyed = true;
-    generation += 1;
-    controller?.abort();
-    controller = undefined;
-    clearTimeout(timer);
-  }
-
-  async function copy(value: string): Promise<void> {
-    if (destroyed || !value || !navigator.clipboard?.writeText) return;
-
-    const operation = ++generation;
-    controller?.abort();
-    const requestController = new AbortController();
-    controller = requestController;
-
-    await navigator.clipboard.writeText(value);
-    if (!isCurrent(operation, requestController.signal)) return;
-
-    clearTimeout(timer);
-    copied = true;
-    timer = setTimeout(() => {
-      if (!isCurrent(operation, requestController.signal)) return;
-      copied = false;
-      timer = undefined;
-    }, timeout);
-  }
-
-  onDestroy(destroy);
-</script>
-```
-
-Set no timer when the copied state should remain true until the component unmounts.
-
-## Callback after a successful copy
-
-Run a callback only after `writeText` resolves and the operation is still current. A rejected or
-invalidated clipboard request must not report a successful copy.
+`isCopied` resets after two seconds by default. Pass a different duration in milliseconds:
 
 ```ts
-await navigator.clipboard.writeText(value);
-if (!isCurrent(operation, requestController.signal)) return;
-copied = true;
-onCopy?.();
+const clipboard = useCopyToClipboard({ timeout: 3_000 });
 ```
 
-## With an icon swap
+Set `timeout` to `0` to keep `isCopied` true until the component unmounts.
 
-Use the shared SSR-safe renderer with Hugeicons data.
+### Callback on copy
+
+Run a callback after the clipboard write succeeds:
+
+```ts
+const clipboard = useCopyToClipboard({
+  onCopy: () => console.log("Copied to clipboard"),
+});
+```
+
+### With icon swap
+
+Swap an icon briefly to confirm the copy:
 
 ```svelte
 <script lang="ts">
-  import { Copy01Icon, Tick01Icon } from "@hugeicons/core-free-icons";
-  import { Button, HugeiconsIcon } from "@coss-sv/ui";
-  import { onDestroy } from "svelte";
+  import Copy01Icon from "@hugeicons/core-free-icons/Copy01Icon";
+  import Tick01Icon from "@hugeicons/core-free-icons/Tick01Icon";
+  import { Button } from "@/components/ui/button/index.js";
+  import HugeiconsIcon from "@/hugeicons-icon.svelte";
+  import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard.svelte.js";
 
-  let copied = $state(false);
-  let timer: ReturnType<typeof setTimeout> | undefined;
-  let controller: AbortController | undefined;
-  let destroyed = false;
-  let generation = 0;
-
-  function isCurrent(operation: number, signal: AbortSignal): boolean {
-    return !destroyed && operation === generation && !signal.aborted;
-  }
-
-  function destroy(): void {
-    destroyed = true;
-    generation += 1;
-    controller?.abort();
-    controller = undefined;
-    clearTimeout(timer);
-  }
-
-  async function copy(value: string): Promise<void> {
-    if (destroyed || !value || !navigator.clipboard?.writeText) return;
-
-    const operation = ++generation;
-    controller?.abort();
-    const requestController = new AbortController();
-    controller = requestController;
-
-    await navigator.clipboard.writeText(value);
-    if (!isCurrent(operation, requestController.signal)) return;
-
-    clearTimeout(timer);
-    copied = true;
-    timer = setTimeout(() => {
-      if (!isCurrent(operation, requestController.signal)) return;
-      copied = false;
-      timer = undefined;
-    }, 2_000);
-  }
-
-  onDestroy(destroy);
+  let { value }: { value: string } = $props();
+  const clipboard = useCopyToClipboard();
 </script>
 
 <Button
   aria-label="Copy to clipboard"
-  onclick={() => copy("https://coss.com")}
+  onclick={() => clipboard.copyToClipboard(value)}
   size="icon"
   variant="outline"
 >
-  <HugeiconsIcon aria-hidden="true" icon={copied ? Tick01Icon : Copy01Icon} strokeWidth={2} />
+  <HugeiconsIcon
+    aria-hidden="true"
+    icon={clipboard.isCopied ? Tick01Icon : Copy01Icon}
+    strokeWidth={2}
+  />
 </Button>
 ```
 
-## Error handling
+## API
 
-Clipboard access can fail when the page is not served from a secure context or the browser denies
-permission. Catch the error when the interface needs to report that failure. Do not flip the copied
-state until `writeText` resolves.
+```ts
+function useCopyToClipboard(options?: { timeout?: number; onCopy?: () => void }): {
+  copyToClipboard: (value: string) => void;
+  readonly isCopied: boolean;
+};
+```
+
+### Options
+
+| Property  | Type         | Default | Description                                                          |
+| --------- | ------------ | ------- | -------------------------------------------------------------------- |
+| `timeout` | `number`     | `2000`  | Milliseconds before copied feedback resets. Use `0` to keep it true. |
+| `onCopy`  | `() => void` | —       | Called after a successful clipboard write.                           |
+
+### Return value
+
+| Property          | Type                      | Description                                                     |
+| ----------------- | ------------------------- | --------------------------------------------------------------- |
+| `copyToClipboard` | `(value: string) => void` | Copies non-empty text when the Clipboard API is available.      |
+| `isCopied`        | `boolean`                 | True until the configured timeout ends after a successful copy. |

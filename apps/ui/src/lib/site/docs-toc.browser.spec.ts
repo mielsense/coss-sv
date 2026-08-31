@@ -4,7 +4,6 @@ import { page } from "vitest/browser";
 import DocsTocFixture from "./docs-toc.browser-fixture.svelte";
 
 type IntersectionCallback = ConstructorParameters<typeof IntersectionObserver>[0];
-type MutationCallback = ConstructorParameters<typeof MutationObserver>[0];
 
 class IntersectionObserverStub {
   static instances: IntersectionObserverStub[] = [];
@@ -32,42 +31,15 @@ class IntersectionObserverStub {
   unobserve(): void {}
 }
 
-class MutationObserverStub {
-  static instances: MutationObserverStub[] = [];
-  readonly callback: MutationCallback;
-  disconnected = false;
-
-  constructor(callback: MutationCallback) {
-    this.callback = callback;
-    MutationObserverStub.instances.push(this);
-  }
-
-  disconnect(): void {
-    this.disconnected = true;
-  }
-
-  observe(): void {}
-
-  takeRecords(): MutationRecord[] {
-    return [];
-  }
-
-  notify(): void {
-    this.callback([], this as unknown as MutationObserver);
-  }
-}
-
 afterEach(() => {
   document.body.innerHTML = "";
   IntersectionObserverStub.instances = [];
-  MutationObserverStub.instances = [];
   vi.restoreAllMocks();
 });
 
 describe("documentation table of contents", () => {
-  test("rebuilds relationships when the documentation content is replaced", async () => {
+  test("updates relationships when canonical documentation items change", async () => {
     vi.stubGlobal("IntersectionObserver", IntersectionObserverStub);
-    vi.stubGlobal("MutationObserver", MutationObserverStub);
     const view = mount(DocsTocFixture, { target: document.body });
 
     await expect
@@ -77,7 +49,6 @@ describe("documentation table of contents", () => {
     expect(firstIntersection?.observed.map((element) => element.id)).toEqual(["initial-heading"]);
 
     await page.getByRole("button", { name: "Replace content" }).click();
-    MutationObserverStub.instances[0]?.notify();
 
     await expect
       .element(page.getByRole("link", { name: "Replacement heading" }))
@@ -93,6 +64,5 @@ describe("documentation table of contents", () => {
 
     await unmount(view);
     expect(IntersectionObserverStub.instances[1]?.disconnected).toBe(true);
-    expect(MutationObserverStub.instances[0]?.disconnected).toBe(true);
   });
 });

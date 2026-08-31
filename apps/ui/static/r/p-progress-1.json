@@ -9,7 +9,7 @@
 	],
 	"files": [
 		{
-			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\n  export const meta = defineParticleMeta({\n    components: [\"progress\"],\n    id: \"p-progress-1\",\n    interactive: true,\n    responsive: false,\n    title: \"Animated progress\",\n    containerClass: \"**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import * as Progress from \"$COMPONENTS$/ui/progress/index.js\";\n  import { onMount } from \"svelte\";\n\n  let value = $state(20);\n  onMount(() => {\n    const interval = setInterval(\n      () => (value = Math.min(100, Math.round(value + Math.random() * 25))),\n      1000,\n    );\n    return () => clearInterval(interval);\n  });\n</script>\n\n<Progress.Root {value} />\n",
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\n  export const meta = defineParticleMeta({\n    components: [\"progress\"],\n    id: \"p-progress-1\",\n    interactive: true,\n    responsive: false,\n    title: \"Animated progress\",\n    containerClass: \"**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import * as Progress from \"$UI$/progress/index.js\";\n  import { onMount } from \"svelte\";\n\n  let value = $state(20);\n  onMount(() => {\n    const interval = setInterval(\n      () => (value = Math.min(100, Math.round(value + Math.random() * 25))),\n      1000,\n    );\n    return () => clearInterval(interval);\n  });\n</script>\n\n<Progress.Root {value} />\n",
 			"type": "registry:block",
 			"target": "p-progress-1.svelte"
 		}

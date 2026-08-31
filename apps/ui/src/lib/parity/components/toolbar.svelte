@@ -1,6 +1,6 @@
 <script lang="ts">
   import { buttonVariants, ToggleGroup, Toolbar, Tooltip } from "@coss-sv/ui";
-  import { Select as SelectPrimitive } from "@shardsui/svelte";
+  import { Select as SelectPrimitive } from "@shardsui/svelte/select";
   import { tick } from "svelte";
   import FixtureIcon, { type FixtureIconName } from "./fixture-icon.svelte";
 

@@ -10,7 +10,7 @@
 	],
 	"files": [
 		{
-			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\n  export const meta = defineParticleMeta({\n    components: [\"field\", \"input\"],\n    containerClass: \"**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64\",\n    id: \"p-field-2\",\n    interactive: true,\n    responsive: false,\n    title: \"Field with required indicator\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import * as Field from \"$COMPONENTS$/ui/field/index.js\";\n  import { Input } from \"$COMPONENTS$/ui/input/index.js\";\n</script>\n\n<Field.Root>\n  <Field.Label>Password <span class=\"text-destructive-foreground\">*</span></Field.Label>\n  <Input placeholder=\"Enter password\" required type=\"password\" />\n  <Field.Error>Please fill out this field.</Field.Error>\n</Field.Root>\n",
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\n  export const meta = defineParticleMeta({\n    components: [\"field\", \"input\"],\n    containerClass: \"**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64\",\n    id: \"p-field-2\",\n    interactive: true,\n    responsive: false,\n    title: \"Field with required indicator\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import * as Field from \"$UI$/field/index.js\";\n  import { Input } from \"$UI$/input/index.js\";\n</script>\n\n<Field.Root>\n  <Field.Label>\n    Password <span class=\"text-destructive-foreground\">*</span>\n  </Field.Label>\n  <Input placeholder=\"Enter password\" required type=\"password\" />\n  <Field.Error>Please fill out this field.</Field.Error>\n</Field.Root>\n",
 			"type": "registry:block",
 			"target": "p-field-2.svelte"
 		}

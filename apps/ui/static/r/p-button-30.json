@@ -13,7 +13,7 @@
 	],
 	"files": [
 		{
-			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\n  export const meta = defineParticleMeta({\n    components: [\"button\"],\n    id: \"p-button-30\",\n    interactive: true,\n    responsive: false,\n    title: \"Animated arrow button\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { Button } from \"$COMPONENTS$/ui/button/index.js\";\n  import HugeiconsIcon from \"$LIB$/hugeicons-icon.svelte\";\n  import { ArrowRight01Icon } from \"@hugeicons/core-free-icons\";\n</script>\n\n<Button\n  >Get Started<HugeiconsIcon\n    aria-hidden=\"true\"\n    class=\"transition-transform in-[[data-slot=button]:hover]:translate-x-0.5\"\n    icon={ArrowRight01Icon}\n    strokeWidth={2}\n  /></Button\n>\n",
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\n  export const meta = defineParticleMeta({\n    components: [\"button\"],\n    id: \"p-button-30\",\n    interactive: true,\n    responsive: false,\n    title: \"Animated arrow button\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { Button } from \"$UI$/button/index.js\";\n  import HugeiconsIcon from \"$LIB$/hugeicons-icon.svelte\";\n  import ArrowRight01Icon from \"@hugeicons/core-free-icons/ArrowRight01Icon\";\n</script>\n\n<Button>\n  Get Started<HugeiconsIcon\n    aria-hidden=\"true\"\n    class=\"transition-transform in-[[data-slot=button]:hover]:translate-x-0.5\"\n    icon={ArrowRight01Icon}\n    strokeWidth={2}\n  />\n</Button>\n",
 			"type": "registry:block",
 			"target": "p-button-30.svelte"
 		}

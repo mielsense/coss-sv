@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
   export const meta = defineParticleMeta({
     components: ["combobox"],
     containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64",
@@ -41,12 +41,13 @@
   value={timezones.find((item) => item.value === "Europe/London")}
 >
   <Combobox.Input aria-label="Select timezone" placeholder="Select timezone..." />
-  <Combobox.Popup
-    ><Combobox.Empty>No timezones found.</Combobox.Empty><Combobox.List
-      ><Combobox.Collection>
-        {#snippet children(item: Timezone)}<Combobox.Item value={item}>{item.label}</Combobox.Item
-          >{/snippet}
-      </Combobox.Collection></Combobox.List
-    ></Combobox.Popup
-  >
+  <Combobox.Popup>
+    <Combobox.Empty>No timezones found.</Combobox.Empty><Combobox.List>
+      <Combobox.Collection>
+        {#snippet children(item: Timezone)}<Combobox.Item value={item}>
+            {item.label}
+          </Combobox.Item>{/snippet}
+      </Combobox.Collection>
+    </Combobox.List>
+  </Combobox.Popup>
 </Combobox.Root>

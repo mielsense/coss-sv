@@ -5,7 +5,6 @@ import type { Component } from "svelte";
 import { compile, preprocess } from "svelte/compiler";
 import { render } from "svelte/server";
 import { describe, expect, test } from "vitest";
-import { highlightSource } from "../../src/lib/code/highlight.js";
 import {
   documentationComponents,
   modernizeDocumentationOutput,
@@ -13,9 +12,8 @@ import {
 
 const appRoot = resolve(import.meta.dirname, "../..");
 const repositoryRoot = resolve(appRoot, "../..");
-const particleModules = import.meta.glob<{ default: Component }>(
+const particleLoaders = import.meta.glob<{ default: Component }>(
   "../../registry/default/particles/p-*.svelte",
-  { eager: true },
 );
 
 type OwnershipFile = {
@@ -114,9 +112,10 @@ describe("D9 date, navigation, and table documentation", () => {
     );
   });
 
-  test.each(expectedParticles)("server-renders %s", (id) => {
-    const module = particleModules[`../../registry/default/particles/${id}.svelte`];
-    expect(module).toBeDefined();
+  test.each(expectedParticles)("server-renders %s", async (id) => {
+    const load = particleLoaders[`../../registry/default/particles/${id}.svelte`];
+    expect(load).toBeDefined();
+    const module = await load?.();
     const body = render(module?.default as Component).body;
 
     if (source(`apps/ui/registry/default/particles/${id}.svelte`).includes("HugeiconsIcon")) {
@@ -125,18 +124,15 @@ describe("D9 date, navigation, and table documentation", () => {
     }
   });
 
-  test("compiles the Breadcrumb usage fence with actual named package exports", () => {
+  test("compiles the Breadcrumb usage fence with the public namespace", () => {
     const page = source("apps/ui/content/docs/components/breadcrumb.svx");
     const usage = /## Usage\s+```svelte\n([\s\S]*?)\n```/.exec(page)?.[1];
     expect(usage).toBeDefined();
     expect(() => compile(usage ?? "", { generate: "server", runes: true })).not.toThrow();
 
-    const packageImport = /import\s*\{([\s\S]*?)\}\s*from "@coss-sv\/ui";/.exec(usage ?? "")?.[1];
-    expect(packageImport).toBeDefined();
-    for (const [, component] of (usage ?? "").matchAll(
-      /<(Breadcrumb(?:List|Item|Link|Page|Separator|Ellipsis)?)\b/g,
-    )) {
-      expect(packageImport).toMatch(new RegExp(`\\b${component}\\b`));
+    expect(usage).toContain('import * as Breadcrumb from "@/components/ui/breadcrumb/index.js";');
+    for (const component of ["Root", "List", "Item", "Link", "Page", "Separator", "Ellipsis"]) {
+      expect(usage).toContain(`<Breadcrumb.${component}`);
     }
   });
 
@@ -146,17 +142,20 @@ describe("D9 date, navigation, and table documentation", () => {
     expect(usage).toBeDefined();
     expect(() => compile(usage ?? "", { generate: "server", runes: true })).not.toThrow();
 
-    expect(page).toContain('pnpm="pnpm add @coss-sv/ui @hugeicons/core-free-icons"');
+    expect(page).not.toContain("pnpm=");
+    expect(usage).toContain('import { buttonVariants } from "@/components/ui/button/index.js";');
+    expect(usage).toContain('import { Calendar } from "@/components/ui/calendar/index.js";');
+    expect(usage).toContain('import * as Popover from "@/components/ui/popover/index.js";');
+    expect(usage).toContain('import HugeiconsIcon from "@/hugeicons-icon.svelte";');
     expect(usage).toContain(
-      'import { buttonVariants, Calendar, HugeiconsIcon, Popover } from "@coss-sv/ui";',
+      'import Calendar03Icon from "@hugeicons/core-free-icons/Calendar03Icon";',
     );
-    expect(usage).toContain('import { Calendar03Icon } from "@hugeicons/core-free-icons";');
     expect(page).not.toContain('from "@hugeicons/svelte"');
 
-    const packageIndex = source("packages/ui/src/index.ts");
-    for (const exportedName of ["buttonVariants", "Calendar", "HugeiconsIcon", "Popover"]) {
-      expect(packageIndex).toMatch(new RegExp(`(?:export[\\s\\S]*?)\\b${exportedName}\\b`));
-    }
+    expect(source("packages/ui/src/components/ui/button/index.ts")).toContain("buttonVariants");
+    expect(source("packages/ui/src/components/ui/calendar/index.ts")).toContain("Calendar");
+    expect(source("packages/ui/src/components/ui/popover/index.ts")).toContain("Root");
+    expect(source("packages/ui/src/lib/hugeicons-icon.svelte")).toContain("<svg");
   });
 
   test.each(Array.from({ length: 7 }, (_, index) => `p-breadcrumb-${index + 1}`))(
@@ -192,13 +191,7 @@ describe("D9 date, navigation, and table documentation", () => {
     const filename = resolve(appRoot, `content/docs/components/${slug}.svx`);
     const result = await preprocess(
       source(`apps/ui/content/docs/components/${slug}.svx`),
-      [
-        documentationComponents({
-          loadParticleSource: async () => highlightSource("<button>Preview</button>", "svelte"),
-        }),
-        mdsvex({ extensions: [".svx"] }),
-        modernizeDocumentationOutput(),
-      ],
+      [documentationComponents(), mdsvex({ extensions: [".svx"] }), modernizeDocumentationOutput()],
       { filename },
     );
     expect(() => compile(result.code, { filename, runes: true })).not.toThrow();
@@ -219,11 +212,13 @@ describe("D9 date, navigation, and table documentation", () => {
     }
   });
 
-  test("freezes date examples and preserves high-risk contracts", () => {
+  test("uses runtime dates in production examples and preserves high-risk contracts", () => {
     for (const id of expectedParticles.filter(
       (id) => id.startsWith("p-calendar-") || id.startsWith("p-date-picker-"),
     )) {
-      expect(source(`apps/ui/registry/default/particles/${id}.svelte`)).toContain("2026");
+      const particle = source(`apps/ui/registry/default/particles/${id}.svelte`);
+      expect(particle, id).not.toMatch(/2026[,-]|2026-08-28/);
+      expect(particle, id).not.toMatch(/\btoday=\{|\{today\}\s*\/?>/);
     }
     expect(source("apps/ui/registry/default/particles/p-calendar-22.svelte")).toContain(
       "numberOfMonths={2}",
@@ -280,11 +275,14 @@ describe("D9 date, navigation, and table documentation", () => {
   });
 
   test("preserves exact date-fns display semantics and the complete editable-time algorithm", async () => {
-    const appointment = render(
-      particleModules["../../registry/default/particles/p-calendar-19.svelte"]
-        ?.default as Component,
-    ).body;
-    expect(appointment).toContain("Friday, 28");
+    const loadAppointment =
+      particleLoaders["../../registry/default/particles/p-calendar-19.svelte"];
+    expect(loadAppointment).toBeDefined();
+    const appointmentModule = await loadAppointment?.();
+    const appointment = render(appointmentModule?.default as Component).body;
+    const today = new Date();
+    const weekday = new Intl.DateTimeFormat("en-US", { weekday: "long" }).format(today);
+    expect(appointment).toContain(`${weekday}, ${today.getDate()}`);
 
     const calendarModule = await import("../../registry/default/particles/p-calendar-25.svelte");
     expect(calendarModule.formatTimeInput("615")).toBe("6:15");

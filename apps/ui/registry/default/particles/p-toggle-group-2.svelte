@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
 
   export const meta = defineParticleMeta({
     components: ["toggle-group"],
@@ -12,7 +12,9 @@
 
 <script lang="ts">
   import { HugeiconsIcon, ToggleGroup } from "@coss-sv/ui";
-  import { TextBoldIcon, TextItalicIcon, TextUnderlineIcon } from "@hugeicons/core-free-icons";
+  import TextBoldIcon from "@hugeicons/core-free-icons/TextBoldIcon";
+  import TextItalicIcon from "@hugeicons/core-free-icons/TextItalicIcon";
+  import TextUnderlineIcon from "@hugeicons/core-free-icons/TextUnderlineIcon";
 
   const tools = [
     { icon: TextBoldIcon, label: "Toggle bold", value: "bold" },

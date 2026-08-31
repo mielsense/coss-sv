@@ -3,7 +3,6 @@ import { fileURLToPath } from "node:url";
 import { mdsvex } from "mdsvex";
 import { compile, preprocess } from "svelte/compiler";
 import { describe, expect, test } from "vitest";
-import { highlightSource } from "../../src/lib/code/highlight.js";
 import { compileDocs } from "../../src/lib/content/compiler.js";
 import {
   documentationComponents,
@@ -16,10 +15,6 @@ const layout = resolve(appRoot, "src/lib/content/DocumentationLayout.svelte");
 
 describe("documentation MDsveX layout", () => {
   test("injects shared documentation components without page-local imports", async () => {
-    const particleSource = await highlightSource(
-      '<script lang="ts">\nlet open = $state(false);\n</script>',
-      "svelte",
-    );
     const preprocessor = mdsvex({
       extensions: [".svx"],
       layout,
@@ -27,17 +22,17 @@ describe("documentation MDsveX layout", () => {
     });
     const result = await preprocess(
       `---\ntitle: Accordion\ndescription: Accordion documentation.\n---\n\n<ComponentPreview name="p-accordion-1" />`,
-      [
-        documentationComponents({ loadParticleSource: async () => particleSource }),
-        preprocessor,
-        modernizeDocumentationOutput(),
-      ],
+      [documentationComponents(), preprocessor, modernizeDocumentationOutput()],
       { filename: resolve(appRoot, "content/docs/components/accordion.svx") },
     );
 
     expect(result.code).toContain("import { ApiTable, Callout, CodeSource, ComponentPreview");
-    expect(result.code).toContain("$state(false)");
-    expect(result.code).toMatch(/<ComponentPreview name="p-accordion-1" source=\{[^}]+\}/);
+    expect(result.code).toContain(
+      '<ComponentPreview name="p-accordion-1" loader={__cossParticleLoader0} />',
+    );
+    expect(result.code).toContain(
+      'const __cossParticleLoader0 = () => import("$particles/p-accordion-1.svelte");',
+    );
     expect(result.code).toContain("import Layout_MDSVEX_DEFAULT");
     expect(result.code).toContain("<script module>");
     expect(result.code).not.toContain('context="module"');
@@ -87,6 +82,24 @@ let count = $state(0);
     );
   });
 
+  test("resolves inline component source blocks from the generated registry", async () => {
+    const filename = resolve(appRoot, "content/docs/components/segmented-control.svx");
+    const source = `---
+title: Segmented Control
+description: Shared segmented control styles.
+---
+
+<ComponentSource name="segmented-control" title="lib/segmented-control.ts" />`;
+    const transformed = await documentationComponents().markup?.({ content: source, filename });
+
+    expect(transformed?.code).not.toContain("<ComponentSource");
+    expect(transformed?.code).toContain(
+      '<CodeSource source={__cossInlineComponentSource0} title="lib/segmented-control.ts" />',
+    );
+    expect(transformed?.code).toContain("const __cossInlineComponentSource0");
+    expect(transformed?.code).toContain("segmentedControlItemVariants");
+  });
+
   test("renders heading ids from the compiler slug and removes explicit id syntax", async () => {
     const source =
       "---\ntitle: Accordion\ndescription: Accordion documentation.\n---\n\n# Accordion\n\n## API `Root` {#root-api}";
@@ -103,7 +116,9 @@ let count = $state(0);
     );
 
     expect(result.code).toContain('<h1 id="accordion">Accordion</h1>');
-    expect(result.code).toContain('<h2 id="root-api">API <code>Root</code></h2>');
+    expect(result.code).toContain(
+      '<LinkedHeading id="root-api" level="2">API <code>Root</code></LinkedHeading>',
+    );
     expect(result.code).not.toContain("{#root-api}");
     compile(result.code, { filename: "accordion.svelte", runes: true });
 
@@ -112,10 +127,37 @@ let count = $state(0);
       pages: [{ kind: "component", slug: "accordion", source }],
       particleIds: new Set(),
     });
-    const renderedIds = Array.from(result.code.matchAll(/<h[1-6] id="([^"]+)"/g), (match) =>
-      String(match[1]),
+    const renderedIds = Array.from(
+      result.code.matchAll(/<(?:h[1-6]|LinkedHeading) id="([^"]+)"/g),
+      (match) => String(match[1]),
     );
     expect(renderedIds).toEqual(compiledDocs.pages[0]?.tableOfContents.map(({ id }) => id));
+  });
+
+  test("wraps Markdown tables in the responsive documentation table", async () => {
+    const source = `---
+title: Input Group
+description: Input group API.
+---
+
+| Prop | Type |
+| --- | --- |
+| align | \`"inline-start" \\| "inline-end"\` |`;
+    const result = await preprocess(
+      source,
+      [
+        documentationComponents(),
+        mdsvex({
+          extensions: [".svx"],
+          remarkPlugins: [documentationHeadings],
+        }),
+      ],
+      { filename: resolve(appRoot, "content/docs/components/input-group.svx") },
+    );
+
+    expect(result.code).toMatch(/<DocsTable>\s*<thead>/);
+    expect(result.code).not.toContain("<table>");
+    compile(result.code, { filename: "input-group.svelte", runes: true });
   });
 
   test("matches compiler duplicate heading ids without leaking slugs between documents", async () => {
@@ -146,7 +188,9 @@ description: Button heading coverage.
     ]);
 
     const ids = (code: string) =>
-      Array.from(code.matchAll(/<h[1-6] id="([^"]+)"/g), (match) => String(match[1]));
+      Array.from(code.matchAll(/<(?:h[1-6]|LinkedHeading) id="([^"]+)"/g), (match) =>
+        String(match[1]),
+      );
     expect(ids(first.code)).toEqual(["button", "link", "link-1"]);
     expect(ids(second.code)).toEqual(["button", "link", "link-1"]);
     expect(ids(first.code)).toEqual(compiledDocs.pages[0]?.tableOfContents.map(({ id }) => id));

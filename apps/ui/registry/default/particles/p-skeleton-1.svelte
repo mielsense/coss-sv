@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
 
   export const meta = defineParticleMeta({
     components: ["avatar", "button", "skeleton"],
@@ -14,7 +14,8 @@
 
 <script lang="ts">
   import { Avatar, Button, HugeiconsIcon, Skeleton } from "@coss-sv/ui";
-  import { UserRoundPlusIcon, UsersRoundIcon } from "@hugeicons/core-free-icons";
+  import UserRoundPlusIcon from "@hugeicons/core-free-icons/UserRoundPlusIcon";
+  import UsersRoundIcon from "@hugeicons/core-free-icons/UsersRoundIcon";
 
   const users = [
     {
@@ -81,7 +82,8 @@
                 strokeWidth={2}
               />
               <span class="truncate">
-                {user.followers}<span class="max-sm:hidden"> followers</span>
+                {user.followers}
+                <span class="max-sm:hidden">followers</span>
               </span>
             </div>
           </div>

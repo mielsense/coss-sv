@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
   export const meta = defineParticleMeta({
     components: ["calendar", "field", "input-group"],
     id: "p-calendar-18",
@@ -10,28 +10,38 @@
 </script>
 
 <script lang="ts">
-  import { Clock01Icon } from "@hugeicons/core-free-icons";
+  import Clock01Icon from "@hugeicons/core-free-icons/Clock01Icon";
   import { Calendar, Field, HugeiconsIcon, InputGroup } from "@coss-sv/ui";
-  const today = new Date(2026, 7, 28, 12);
-  let date = $state<Date | undefined>(today);
-  let month = $state(today);
+  let date = $state<Date | undefined>(new Date());
+  let month = $state(new Date());
   let timeValue = $state("12:00:00");
+
+  function selectDate(selected: Date | undefined): void {
+    date = selected;
+    if (selected) month = selected;
+  }
 </script>
 
 <div class="flex flex-col gap-2">
-  <Calendar mode="single" bind:month bind:selected={date} {today} /><Field.Root
-    class="flex-row items-center gap-3"
-    ><Field.Label class="whitespace-nowrap text-xs">Enter time</Field.Label><InputGroup.Root
+  <Calendar
+    mode="single"
+    {month}
+    onMonthChange={(value) => (month = value)}
+    selected={date}
+    onSelect={selectDate}
+  /><Field.Root class="flex-row items-center gap-3">
+    <Field.Label class="whitespace-nowrap text-xs">Enter time</Field.Label><InputGroup.Root
       class="grow"
-      ><InputGroup.Input
+    >
+      <InputGroup.Input
         aria-label="Select time"
         class="*:[input]:[&::-webkit-calendar-picker-indicator]:hidden *:[input]:[&::-webkit-calendar-picker-indicator]:appearance-none"
         step="1"
         type="time"
         bind:value={timeValue}
-      /><InputGroup.Addon
-        ><HugeiconsIcon icon={Clock01Icon} aria-hidden="true" strokeWidth={2} /></InputGroup.Addon
-      ></InputGroup.Root
-    ></Field.Root
-  >
+      /><InputGroup.Addon>
+        <HugeiconsIcon icon={Clock01Icon} aria-hidden="true" strokeWidth={2} />
+      </InputGroup.Addon>
+    </InputGroup.Root>
+  </Field.Root>
 </div>

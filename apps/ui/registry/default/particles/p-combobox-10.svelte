@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
   export const meta = defineParticleMeta({
     components: ["button", "combobox"],
     containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64",
@@ -12,7 +12,8 @@
 
 <script lang="ts">
   import { buttonVariants, Combobox, HugeiconsIcon } from "@coss-sv/ui";
-  import { Search01Icon, UnfoldMoreIcon } from "@hugeicons/core-free-icons";
+  import Search01Icon from "@hugeicons/core-free-icons/Search01Icon";
+  import UnfoldMoreIcon from "@hugeicons/core-free-icons/UnfoldMoreIcon";
 
   interface Country {
     code: string;
@@ -455,12 +456,12 @@
       </Combobox.Input>
     </div>
     <Combobox.Empty>No countries found.</Combobox.Empty>
-    <Combobox.List
-      ><Combobox.Collection>
-        {#snippet children(country: Country)}<Combobox.Item value={country}
-            >{country.label}</Combobox.Item
-          >{/snippet}
-      </Combobox.Collection></Combobox.List
-    >
+    <Combobox.List>
+      <Combobox.Collection>
+        {#snippet children(country: Country)}<Combobox.Item value={country}>
+            {country.label}
+          </Combobox.Item>{/snippet}
+      </Combobox.Collection>
+    </Combobox.List>
   </Combobox.Popup>
 </Combobox.Root>

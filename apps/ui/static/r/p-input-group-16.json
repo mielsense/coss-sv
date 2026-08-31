@@ -10,7 +10,7 @@
 	],
 	"files": [
 		{
-			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n  export const meta = defineParticleMeta({\n    components: [\"input-group\", \"spinner\"],\n    containerClass: \"**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64\",\n    id: \"p-input-group-16\",\n    interactive: true,\n    responsive: false,\n    title: \"Input group with loading spinner\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import * as InputGroup from \"$COMPONENTS$/ui/input-group/index.js\";\n  import { Spinner } from \"$COMPONENTS$/ui/spinner/index.js\";\n</script>\n\n<InputGroup.Root\n  ><InputGroup.Input disabled placeholder=\"Searching…\" type=\"search\" />\n  <InputGroup.Addon align=\"inline-end\"><Spinner /></InputGroup.Addon></InputGroup.Root\n>\n",
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n  export const meta = defineParticleMeta({\n    components: [\"input-group\", \"spinner\"],\n    containerClass: \"**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64\",\n    id: \"p-input-group-16\",\n    interactive: true,\n    responsive: false,\n    title: \"Input group with loading spinner\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import * as InputGroup from \"$UI$/input-group/index.js\";\n  import { Spinner } from \"$UI$/spinner/index.js\";\n</script>\n\n<InputGroup.Root>\n  <InputGroup.Input disabled placeholder=\"Searching…\" type=\"search\" />\n  <InputGroup.Addon align=\"inline-end\"><Spinner /></InputGroup.Addon>\n</InputGroup.Root>\n",
 			"type": "registry:block",
 			"target": "p-input-group-16.svelte"
 		}

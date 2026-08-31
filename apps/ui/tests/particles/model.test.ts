@@ -1,11 +1,11 @@
 import { describe, expect, test } from "vitest";
-import { particleCatalog, particleCategories } from "$lib/particles/catalog.js";
+import { particleCatalog, particleCategories } from "@/particles/catalog.js";
 import {
   filterParticles,
   getParticleSearchItems,
   groupParticleSearchItems,
   parseParticleTags,
-} from "$lib/particles/model.js";
+} from "@/particles/model.js";
 
 function required<T>(value: T | undefined, label: string): T {
   if (value === undefined) throw new Error(`Missing ${label}`);

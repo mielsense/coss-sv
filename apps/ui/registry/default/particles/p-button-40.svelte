@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
 
   export const meta = defineParticleMeta({
     components: ["button", "group", "spinner", "toast", "tooltip"],
@@ -20,8 +20,11 @@
     Toast,
     Tooltip,
   } from "@coss-sv/ui";
-  import { Cancel01Icon, Download01Icon } from "@hugeicons/core-free-icons";
+  import Cancel01Icon from "@hugeicons/core-free-icons/Cancel01Icon";
+  import Download01Icon from "@hugeicons/core-free-icons/Download01Icon";
+  import { onDestroy } from "svelte";
 
+  const toastManager = new Toast.Manager();
   let downloading = $state(false);
   let progress = $state(0);
   let abortController: AbortController | null = null;
@@ -40,7 +43,7 @@
     downloading = true;
     progress = 0;
     abortController = new AbortController();
-    infoToastId = Toast.toastManager.add({
+    infoToastId = toastManager.add({
       description: "Your download will begin once ready.",
       title: "Generating report…",
       type: "info",
@@ -63,9 +66,9 @@
         );
       });
     } catch (error) {
-      if (infoToastId) Toast.toastManager.close(infoToastId);
+      if (infoToastId) toastManager.close(infoToastId);
       infoToastId = null;
-      Toast.toastManager.add(
+      toastManager.add(
         error instanceof DOMException && error.name === "AbortError"
           ? {
               description: "Report generation was cancelled.",
@@ -89,9 +92,11 @@
   function cancel() {
     abortController?.abort();
   }
+
+  onDestroy(() => abortController?.abort());
 </script>
 
-<Toast.Provider>
+<Toast.Provider {toastManager}>
   <Tooltip.Provider delay={0}>
     {#if downloading}
       <Group.Root>

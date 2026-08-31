@@ -1,94 +1,60 @@
 ---
-title: Skills
-description: Give your coding agent deep knowledge of COSS for Svelte components, patterns, and review rules.
+title: Agent Skill
+description: Teach coding agents how to install, compose, and debug COSS for Svelte components.
 ---
 
-# Skills
+The `coss-svelte` skill gives a coding agent the port-specific context it needs before changing a
+component. Install it once, then ask the agent to use it whenever it adds, customizes, migrates, or
+debugs COSS for Svelte.
 
-Give your coding agent deep knowledge of COSS for Svelte components, patterns, and review rules.
+## Install the agent skill
 
-<CopyMarkdownButton url="/docs/skills.md" />
+Install the skill directly from this repository:
 
-Skills give coding agents structured knowledge about a component library: APIs, composition patterns,
-styling conventions, migration rules, and common pitfalls. With the right project instructions, an
-agent can use COSS primitives without guessing.
-
-For example, you can ask your agent to:
-
-- _"Add a settings dialog with a form and save/cancel buttons."_
-- _"Add a select with grouped options and a search filter."_
-- _"Migrate this shadcn-svelte menu to COSS for Svelte."_
-- _"Build a toast notification for form submission errors."_
-
-## Install
-
-COSS for Svelte does not publish an Agent Skills package yet. Do not install the upstream React skill
-and assume its APIs apply to this port.
-
-Agents working in this repository start with `AGENTS.md`. It points to the port specification, the
-active plan, and the rules that protect source provenance and component parity. A future public skill
-will have its own install command once the Svelte API and registry are stable.
-
-Learn more about the skills ecosystem at [skills.sh](https://skills.sh).
-
-## What's included
-
-The repository instructions cover the full porting workflow.
-
-### Component knowledge
-
-Before changing a component, an agent reads the complete COSS registry source, documentation page,
-and every particle that imports it from the permitted `reference/apps/ui` boundary. It then reads the
-complete matching Shards source, documentation, tests, examples, and exported types.
-
-### Styling conventions
-
-The instructions cover Tailwind v4 token usage, the semantic color system, Hugeicons sizing,
-`data-slot` selectors, `--alpha()` syntax, and the font-variable contract: `--font-sans`,
-`--font-mono`, and `--font-heading`.
-
-All interface icons use Hugeicons data through the shared SSR-safe renderer:
-
-```svelte
-<script lang="ts">
-  import { Copy01Icon } from "@hugeicons/core-free-icons";
-  import { Button, HugeiconsIcon } from "@coss-sv/ui";
-</script>
-
-<Button aria-label="Copy" size="icon" variant="outline">
-  <HugeiconsIcon aria-hidden="true" icon={Copy01Icon} strokeWidth={2} />
-</Button>
+```bash
+npx skills add mielsense/coss-sv --skill coss-svelte
 ```
 
-### Migration patterns
+The installed skill includes a component catalog and an implementation guide. It directs the agent
+to the current Svelte documentation before choosing a registry item, import, compound part, prop, or
+state contract.
 
-The rules cover namespace composition, trigger delegation, controlled and uncontrolled bindings,
-Select item data, Toggle Group multiple selection, Slider values, and the callback contracts used by
-Shards-backed components.
+[Read the skills CLI documentation](https://skills.sh/docs), or [review the published
+SKILL.md](/skill.md) before installing it. The GitHub command works directly and does not depend on a
+skills.sh directory listing.
 
-### CLI and registry
+## What the skill covers
 
-The guides document installation through the shadcn-svelte CLI, custom registry URLs, dependency
-discovery, and manual install paths.
+- The complete component catalog and the current Markdown documentation routes
+- Registry installation with the shadcn-svelte CLI and the documented `@/` alias
+- Svelte namespace composition such as `Card.Header`, `Dialog.Popup`, and `InputGroup.Addon`
+- The boundary between the COSS visual contract and Shards UI behavior
+- Controlled state, callback details, overlay handles, and toast managers
+- Tailwind tokens, component variants, Hugeicons, accessibility, and reduced motion
+- A debugging order for registry, composition, state, layout, and keyboard problems
 
-### Particle examples
+The skill treats the current Svelte page as the public contract. It does not translate Base UI or
+React APIs from the original project into consumer code.
 
-Every component review includes the upstream particle catalog. Agents use those real compositions to
-port production examples instead of inventing minimal stubs.
+## Ask an agent to use it
 
-## How it works
+Name the skill and the outcome you want:
 
-1. The coding agent reads `AGENTS.md`, the port specification, and the active plan before editing.
-2. It reads the complete source evidence for the assigned component or page, then the relevant Svelte
-   Edge references.
-3. It writes Svelte 5 with `$props()`, snippets, callback props, typed contexts, native attributes,
-   and hydration-stable IDs.
-4. It uses the matching COSS particles and the live reference instead of relying on memory.
-5. Parity, accessibility, and Svelte-quality reviewers repeat the source inspection before approving
-   the exact commit.
+```text
+Use the coss-svelte skill to add an accessible settings dialog with a labelled form and save and
+cancel actions. Start from the closest documented particle.
+```
 
-## Supported agents
+For a compound control, ask the agent to preserve Svelte namespace composition:
 
-These instructions are plain repository files and can be read by any agent that supports project
-instructions, including Claude Code, Cursor, Codex, Cline, Windsurf, and GitHub Copilot. An agent is
-not considered compatible until it performs the same source, test, browser, and review workflow.
+```text
+Use the coss-svelte skill to build a searchable country selector. Verify the exact Combobox API,
+keyboard behavior, focus return, and reduced-motion state before changing component source.
+```
+
+## Without an installed skill
+
+Agents that cannot install repository skills can read [the documentation index](/llms.txt), [the
+full documentation snapshot](/llms-full.txt), or the Markdown form of any page, such as [the Button
+guide](/docs/components/button.md). The same skill and bundled references are also published under
+`/.well-known/agent-skills/coss-svelte/`.

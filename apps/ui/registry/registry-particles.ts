@@ -2,12 +2,14 @@ import { readFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { particleCatalog } from "../src/lib/particles/catalog.js";
+import { registryHooks } from "./registry-hooks.js";
 import { defineRegistryItems } from "./registry.js";
 import { registryUi } from "./registry-ui.js";
 
 const registryRoot = dirname(fileURLToPath(import.meta.url));
 const particleCatalogByName = new Map(particleCatalog.map((entry) => [entry.name, entry]));
 const componentRegistryNames = new Set<string>(registryUi.map(({ name }) => name));
+const hookRegistryNames = new Set<string>(registryHooks.map(({ name }) => name));
 
 const d6ParticleIds = [
   "p-field-1",
@@ -529,6 +531,8 @@ function particle(name: (typeof particleIds)[number]) {
   const source = readFileSync(resolve(registryRoot, `default/particles/${name}.svelte`), "utf8");
   const catalogEntry = particleCatalogByName.get(name);
   if (!catalogEntry) throw new Error(`Missing COSS particle catalog entry for ${name}.`);
+  const usesDateFormat = source.includes("../lib/date-format.js");
+  const usesDemoDelay = source.includes("../lib/demo-delay.js");
   const usesHugeicons = source.includes("HugeiconsIcon");
   return {
     categories: [category],
@@ -545,9 +549,14 @@ function particle(name: (typeof particleIds)[number]) {
       "local:particle-metadata",
       ...catalogEntry.registryDependencies
         .map((dependency) => dependency.replace(/^@coss\//, ""))
-        .filter((dependency) => componentRegistryNames.has(dependency))
+        .filter(
+          (dependency) =>
+            componentRegistryNames.has(dependency) || hookRegistryNames.has(dependency),
+        )
         .map((dependency) => `local:${dependency}`),
       ...(usesHugeicons ? ["local:hugeicons-icon"] : []),
+      ...(usesDateFormat ? ["local:date-format"] : []),
+      ...(usesDemoDelay ? ["local:demo-delay"] : []),
     ],
     type: "registry:block" as const,
   };
@@ -780,29 +789,14 @@ export const registryParticles = defineRegistryItems([
   { ...d9Particle("p-calendar-23"), name: "p-calendar-23" },
   { ...d9Particle("p-calendar-24"), name: "p-calendar-24" },
   { ...d9Particle("p-calendar-25"), name: "p-calendar-25" },
-  {
-    ...d9Particle("p-date-picker-1", { registryDependencies: ["local:date-format"] }),
-    name: "p-date-picker-1",
-  },
+  { ...d9Particle("p-date-picker-1"), name: "p-date-picker-1" },
   { ...d9Particle("p-date-picker-2"), name: "p-date-picker-2" },
-  {
-    ...d9Particle("p-date-picker-3", { registryDependencies: ["local:date-format"] }),
-    name: "p-date-picker-3",
-  },
-  {
-    ...d9Particle("p-date-picker-4", { registryDependencies: ["local:date-format"] }),
-    name: "p-date-picker-4",
-  },
+  { ...d9Particle("p-date-picker-3"), name: "p-date-picker-3" },
+  { ...d9Particle("p-date-picker-4"), name: "p-date-picker-4" },
   { ...d9Particle("p-date-picker-5"), name: "p-date-picker-5" },
-  {
-    ...d9Particle("p-date-picker-6", { registryDependencies: ["local:date-format"] }),
-    name: "p-date-picker-6",
-  },
+  { ...d9Particle("p-date-picker-6"), name: "p-date-picker-6" },
   { ...d9Particle("p-date-picker-7"), name: "p-date-picker-7" },
-  {
-    ...d9Particle("p-date-picker-8", { registryDependencies: ["local:date-format"] }),
-    name: "p-date-picker-8",
-  },
+  { ...d9Particle("p-date-picker-8"), name: "p-date-picker-8" },
   { ...d9Particle("p-date-picker-9"), name: "p-date-picker-9" },
   { ...d9Particle("p-pagination-1"), name: "p-pagination-1" },
   { ...d9Particle("p-pagination-2"), name: "p-pagination-2" },

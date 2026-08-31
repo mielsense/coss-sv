@@ -1,22 +1,23 @@
 <script lang="ts">
   import * as Tabs from "@coss-sv/ui/components/ui/tabs";
+  import { nearViewport } from "@/particles/near-viewport.js";
+  import { validateParticleMeta } from "@/registry/particle-metadata.js";
+  import type { ParticleModuleLoader, ParticlePreviewEntry } from "@/registry/particle-previews.js";
   import type { HTMLAttributes } from "svelte/elements";
-  import type {
-    PreviewAlignment,
-    PreviewTheme,
-    PreviewWidth,
-  } from "../../../routes/preview/[name]/preview-contract.js";
+  import type { Component } from "svelte";
+  import type { PreviewAlignment, PreviewTheme, PreviewWidth } from "@/preview/contract.js";
   import type { HighlightedSource } from "../../code/highlight.js";
   import CodeSource from "./CodeSource.svelte";
-  import PreviewPresentation from "./PreviewPresentation.svelte";
 
   type Props = HTMLAttributes<HTMLElement> & {
     align?: PreviewAlignment;
+    component?: Component;
     containerClass?: string | undefined;
     hideCode?: boolean;
     iframeHeight?: number;
+    loader?: ParticleModuleLoader;
     name: string;
-    source: HighlightedSource;
+    source?: HighlightedSource;
     theme?: PreviewTheme;
     title?: string;
     width?: PreviewWidth;
@@ -24,10 +25,12 @@
 
   let {
     align = "center",
+    component: Preview,
     class: className,
     containerClass,
     hideCode = false,
-    iframeHeight = 450,
+    iframeHeight,
+    loader,
     name,
     source,
     theme,
@@ -40,29 +43,153 @@
   const panelId = `${instanceId}-panel`;
   const previewTabId = `${instanceId}-preview-tab`;
   const sourceTabId = `${instanceId}-source-tab`;
+  let previewEntry = $state.raw<ParticlePreviewEntry>();
+  let previewRequest = $state.raw<Promise<ParticlePreviewEntry | undefined>>();
+  let requestedPreviewName: string | undefined;
+  let requestedPreviewLoader: ParticleModuleLoader | undefined;
+  const resolvedContainerClass = $derived([previewEntry?.meta.containerClass, containerClass]);
+  const resolvedHeight = $derived(iframeHeight ?? 450);
+  let sourceRequest: Promise<HighlightedSource> | undefined;
+  let requestedSourceName: string | undefined;
+
+  function requestPreview(): void {
+    if (
+      Preview ||
+      (previewRequest && requestedPreviewName === name && requestedPreviewLoader === loader)
+    )
+      return;
+    const requestedName = name;
+    const requestedLoader = loader;
+    requestedPreviewName = requestedName;
+    requestedPreviewLoader = requestedLoader;
+    previewRequest = loadPreview(requestedName, requestedLoader).then((entry) => {
+      if (
+        requestedPreviewName === requestedName &&
+        requestedPreviewLoader === requestedLoader &&
+        name === requestedName &&
+        loader === requestedLoader
+      )
+        previewEntry = entry;
+      return entry;
+    });
+  }
+
+  async function loadPreview(
+    particleName: string,
+    particleLoader: ParticleModuleLoader | undefined,
+  ): Promise<ParticlePreviewEntry | undefined> {
+    if (!particleLoader) {
+      const { getParticlePreview } = await import("@/registry/particle-previews.js");
+      return getParticlePreview(particleName);
+    }
+
+    const module = await particleLoader();
+    const meta = validateParticleMeta(module.meta);
+    if (meta.id !== particleName) {
+      throw new Error(`Particle metadata id ${meta.id} does not match module ${particleName}`);
+    }
+    return Object.freeze({
+      component: module.default,
+      meta,
+      modulePath: `$particles/${particleName}.svelte`,
+    });
+  }
+
+  const loadWhenVisible = nearViewport(requestPreview);
+
+  async function requestParticleSource(particleName: string): Promise<HighlightedSource> {
+    const response = await fetch(`/api/particle-source/${encodeURIComponent(particleName)}`);
+    const result = (await response.json()) as HighlightedSource | { message?: string };
+    if (!response.ok || !("raw" in result)) {
+      throw new Error(
+        "message" in result && result.message ? result.message : "Source unavailable.",
+      );
+    }
+    return result;
+  }
+
+  function getSource(): Promise<HighlightedSource> {
+    if (source) return Promise.resolve(source);
+    if (!sourceRequest || requestedSourceName !== name) {
+      requestedSourceName = name;
+      sourceRequest = requestParticleSource(name);
+    }
+    return sourceRequest;
+  }
 </script>
 
 {#snippet panelContent()}
-  <PreviewPresentation
-    {align}
-    {containerClass}
-    {iframeHeight}
-    {name}
-    {theme}
-    {title}
-    {width}
-    data-preview-panel="true"
-    hidden={tab !== "preview"}
-  />
-  <div class="absolute inset-0 overflow-hidden" data-source-panel="true" hidden={tab !== "code"}>
-    <CodeSource embedded height={iframeHeight} {source} />
-  </div>
+  {#if tab === "preview"}
+    <div
+      class={[
+        "absolute inset-0 h-[var(--preview-height)] min-w-0 overflow-auto bg-background hidden:hidden",
+        ...resolvedContainerClass,
+        theme === "dark" && "dark",
+      ]}
+      data-preview-panel="true"
+      data-preview-width={width}
+      style:--preview-height={`${resolvedHeight}px`}
+      style:--preview-width={width === "mobile" ? "390px" : width === "tablet" ? "768px" : "100%"}
+    >
+      <div
+        class={[
+          "mx-auto flex min-h-[var(--preview-height)] w-[min(100%,var(--preview-width))] justify-center py-10",
+          width === "mobile" ? "px-6" : "px-10",
+          align === "center" ? "items-center" : align === "start" ? "items-start" : "items-end",
+        ]}
+        data-align={align}
+        data-preview-inner
+      >
+        <div class="flex w-full justify-center">
+          <div data-slot="preview">
+            {#if Preview}
+              <Preview />
+            {:else}
+              {#if previewRequest}
+                {#await previewRequest}
+                  <span class="sr-only" data-preview-loading="true">Loading {title} preview…</span>
+                {:then entry}
+                  {#if entry}
+                    {const LoadedPreview = entry.component}
+                    <LoadedPreview />
+                  {:else}
+                    <p class="text-muted-foreground text-sm">Preview unavailable.</p>
+                  {/if}
+                {:catch error}
+                  <p class="text-destructive text-sm" data-preview-load-error="true">
+                    {error instanceof Error ? error.message : "Preview unavailable."}
+                  </p>
+                {/await}
+              {:else}
+                <span class="sr-only" data-preview-loading="true">Loading {title} preview…</span>
+              {/if}
+            {/if}
+          </div>
+        </div>
+      </div>
+    </div>
+  {/if}
+  {#if tab === "code"}
+    <div class="absolute inset-0 overflow-hidden" data-source-panel="true">
+      {#await getSource()}
+        <p class="p-4 text-muted-foreground text-sm" data-source-loading="true">Loading source…</p>
+      {:then loadedSource}
+        <CodeSource embedded height={resolvedHeight} source={loadedSource} />
+      {:catch error}
+        <p class="p-4 text-destructive text-sm" data-source-load-error="true">
+          {error instanceof Error ? error.message : "Source unavailable."}
+        </p>
+      {/await}
+    </div>
+  {/if}
 {/snippet}
 
 <section
-  class={`group relative my-4 mb-12 flex flex-col gap-2 ${className ?? ""}`}
+  class={`group relative my-8 flex flex-col gap-2 ${className ?? ""}`}
   data-particle={name}
+  data-preview-requested={previewRequest ? "true" : undefined}
   {...rest}
+  {@attach loadWhenVisible}
 >
   <Tabs.Root bind:value={tab}>
     <div class="flex items-center justify-between">
@@ -86,7 +213,7 @@
       id={panelId}
       class="relative overflow-hidden rounded-xl border not-dark:bg-card"
       data-tab={tab}
-      style:height={`calc(${iframeHeight}px + 2px)`}
+      style:height={`calc(${resolvedHeight}px + 2px)`}
     >
       {@render panelContent()}
     </div>
@@ -97,7 +224,7 @@
       aria-labelledby={tab === "preview" ? previewTabId : sourceTabId}
       class="relative overflow-hidden rounded-xl border not-dark:bg-card"
       data-tab={tab}
-      style:height={`calc(${iframeHeight}px + 2px)`}
+      style:height={`calc(${resolvedHeight}px + 2px)`}
     >
       {@render panelContent()}
     </div>

@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
   export const meta = defineParticleMeta({
     components: ["input-group"],
     containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64",
@@ -14,12 +14,11 @@
   import { InputGroup } from "@coss-sv/ui";
 </script>
 
-<InputGroup.Root
-  ><InputGroup.Input
+<InputGroup.Root>
+  <InputGroup.Input
     aria-label="Set your URL"
     class="*:[input]:ps-0!"
     placeholder="coss"
     type="search"
-  /><InputGroup.Addon><InputGroup.Text>i.cal.com/</InputGroup.Text></InputGroup.Addon
-  ></InputGroup.Root
->
+  /><InputGroup.Addon><InputGroup.Text>i.cal.com/</InputGroup.Text></InputGroup.Addon>
+</InputGroup.Root>

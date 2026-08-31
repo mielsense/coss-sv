@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
   export const meta = defineParticleMeta({
     components: ["autocomplete", "calendar", "field"],
     id: "p-calendar-25",
@@ -94,16 +94,17 @@
 </script>
 
 <script lang="ts">
-  import { Clock01Icon } from "@hugeicons/core-free-icons";
+  import Clock01Icon from "@hugeicons/core-free-icons/Clock01Icon";
   import { Autocomplete, Calendar, Field, HugeiconsIcon } from "@coss-sv/ui";
   const times = Array.from(
     { length: 96 },
     (_, index) =>
       `${String(Math.floor(index / 4)).padStart(2, "0")}:${String((index % 4) * 15).padStart(2, "0")}`,
   );
-  const today = new Date(2026, 7, 28, 12);
-  let date = $state<Date | undefined>(today);
-  let month = $state(today);
+  const selectedDate = new Date();
+  selectedDate.setHours(12, 0, 0, 0);
+  let date = $state<Date | undefined>(selectedDate);
+  let month = $state(new Date());
   let time = $state("12:00");
   let isEditing = $state(false);
 
@@ -144,18 +145,19 @@
 <div class="flex w-fit flex-col gap-2">
   <Calendar
     mode="single"
-    bind:month
+    {month}
+    onMonthChange={(value) => (month = value)}
     selected={date}
     onSelect={handleDaySelect}
-    {today}
-  /><Field.Root class="w-0 min-w-full flex-row items-center gap-3"
-    ><Field.Label class="whitespace-nowrap text-xs">Enter time</Field.Label><Autocomplete.Root
+  /><Field.Root class="w-0 min-w-full flex-row items-center gap-3">
+    <Field.Label class="whitespace-nowrap text-xs">Enter time</Field.Label><Autocomplete.Root
       autoHighlight
       bind:value={() => time, handleTimeChange}
       filter={(item: string, query: string) => filterTime(item, isEditing ? query : "")}
       items={times}
       openOnInputClick
-      ><Autocomplete.Input
+    >
+      <Autocomplete.Input
         aria-label="Enter time"
         inputmode="numeric"
         maxlength={5}
@@ -166,15 +168,15 @@
         }}
         placeholder="HH:mm"
         startAddon={clock}
-      /><Autocomplete.Popup class={matchingTimes.length === 0 ? "hidden" : undefined}
-        ><Autocomplete.List
-          ><Autocomplete.Collection
-            >{#snippet children(item: string)}<Autocomplete.Item value={item}
-                >{item}</Autocomplete.Item
-              >{/snippet}</Autocomplete.Collection
-          ></Autocomplete.List
-        ></Autocomplete.Popup
-      ></Autocomplete.Root
-    ></Field.Root
-  >
+      /><Autocomplete.Popup class={matchingTimes.length === 0 ? "hidden" : undefined}>
+        <Autocomplete.List>
+          <Autocomplete.Collection>
+            {#snippet children(item: string)}<Autocomplete.Item value={item}>
+                {item}
+              </Autocomplete.Item>{/snippet}
+          </Autocomplete.Collection>
+        </Autocomplete.List>
+      </Autocomplete.Popup>
+    </Autocomplete.Root>
+  </Field.Root>
 </div>

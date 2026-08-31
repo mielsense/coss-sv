@@ -103,6 +103,6 @@ describe("D4 Select-dependent card particles", () => {
   });
 
   test("keeps the p-card-7 square bottom seam", () => {
-    expect(source("p-card-7")).toContain('<Card class="rounded-b-none!">');
+    expect(source("p-card-7")).toContain('<Card.Root class="rounded-b-none!">');
   });
 });

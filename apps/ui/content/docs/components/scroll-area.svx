@@ -10,34 +10,13 @@ links:
 
 ## Installation
 
-<InstallCommand
-  pnpm="pnpm add @coss-sv/ui"
-  shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/scroll-area.json"
-/>
-
-For a manual installation:
-
-<Steps>
-
-<Step>Install the following dependency:</Step>
-
-```bash
-pnpm add @shardsui/svelte
-```
-
-<Step>Copy and paste the following code into your project.</Step>
-
-<ComponentSource name="scroll-area" title="components/ui/scroll-area.svelte" />
-
-<Step>Update the import paths to match your project setup.</Step>
-
-</Steps>
+<InstallCommand shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/scroll-area.json" />
 
 ## Usage
 
 ```svelte
 <script lang="ts">
-  import { ScrollArea } from "@coss-sv/ui";
+  import { ScrollArea } from "@/components/ui/scroll-area/index.js";
 </script>
 
 <ScrollArea class="h-64 rounded-md border">
@@ -140,5 +119,5 @@ Horizontal scroll still works when children define their own width (e.g. `w-max`
 
 ## Changelog
 
-- [July 31, 2026](/docs/changelog#scroll-area--overscroll-contain) — **`ScrollArea`** no longer applies overscroll contain by default; pass optional **`overscrollContain`** for nested surfaces. Dialog, sheet, drawer, combobox, autocomplete, and sidebar already opt in.
+- [July 31, 2026](/docs/changelog#scroll-area-overscroll-contain) — **`ScrollArea`** no longer applies overscroll contain by default; pass optional **`overscrollContain`** for nested surfaces. Dialog, sheet, drawer, combobox, autocomplete, and sidebar already opt in.
 - [May 29, 2026](/docs/changelog#scroll-area) — **`ScrollArea`** adds optional **`fill`** (default **`false`**); pass **`fill`** for flex layouts that need the content wrapper to stretch (e.g. sidebar footers with **`mt-auto`**).

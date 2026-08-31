@@ -8,11 +8,12 @@
 		"./button.json",
 		"./checkbox.json",
 		"./field.json",
-		"./form.json"
+		"./form.json",
+		"./demo-delay.json"
 	],
 	"files": [
 		{
-			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\n  export const meta = defineParticleMeta({\n    components: [\"button\", \"checkbox\", \"field\", \"form\"],\n    id: \"p-checkbox-5\",\n    interactive: true,\n    responsive: false,\n    title: \"Checkbox form\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { Button } from \"$COMPONENTS$/ui/button/index.js\";\n  import { Checkbox } from \"$COMPONENTS$/ui/checkbox/index.js\";\n  import * as Field from \"$COMPONENTS$/ui/field/index.js\";\n  import { Form } from \"$COMPONENTS$/ui/form/index.js\";\n\n  let loading = $state(false);\n  async function submit(event: SubmitEvent) {\n    event.preventDefault();\n    const formData = new FormData(event.currentTarget as HTMLFormElement);\n    loading = true;\n    await new Promise((resolve) => window.setTimeout(resolve, 800));\n    loading = false;\n    window.alert(`Terms: ${formData.get(\"terms\")}`);\n  }\n</script>\n\n<Form class=\"flex w-auto flex-col gap-4\" onsubmit={submit}>\n  <Field.Root name=\"terms\">\n    <Field.Label><Checkbox checked value=\"yes\" />Accept terms and conditions</Field.Label>\n  </Field.Root>\n  <Button {loading} type=\"submit\">Submit</Button>\n</Form>\n",
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\n  export const meta = defineParticleMeta({\n    components: [\"button\", \"checkbox\", \"field\", \"form\"],\n    id: \"p-checkbox-5\",\n    interactive: true,\n    responsive: false,\n    title: \"Checkbox form\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { Button } from \"$UI$/button/index.js\";\n  import { Checkbox } from \"$UI$/checkbox/index.js\";\n  import * as Field from \"$UI$/field/index.js\";\n  import { Form } from \"$UI$/form/index.js\";\n  import { createDemoDelay } from \"../lib/demo-delay.js\";\n\n  const delay = createDemoDelay();\n  let loading = $state(false);\n  async function submit(event: SubmitEvent) {\n    event.preventDefault();\n    const formData = new FormData(event.currentTarget as HTMLFormElement);\n    loading = true;\n    if (!(await delay())) return;\n    loading = false;\n    window.alert(`Terms: ${formData.get(\"terms\")}`);\n  }\n</script>\n\n<Form class=\"flex w-auto flex-col gap-4\" onsubmit={submit}>\n  <Field.Root name=\"terms\">\n    <Field.Label><Checkbox checked value=\"yes\" />Accept terms and conditions</Field.Label>\n  </Field.Root>\n  <Button {loading} type=\"submit\">Submit</Button>\n</Form>\n",
 			"type": "registry:block",
 			"target": "p-checkbox-5.svelte"
 		}

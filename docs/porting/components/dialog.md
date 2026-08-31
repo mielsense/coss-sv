@@ -12,7 +12,7 @@
 - `reference/apps/ui/registry/default/particles/p-dialog-6.tsx`
 - `reference/apps/ui/registry/default/particles/p-drawer-12.tsx`, which imports Dialog for its wide-screen branch
 
-Every listed file was read in full. No file under `reference/packages/ui/**` was opened or used.
+Every listed file was read in full. No file from the excluded COSS package subtree was opened or used.
 
 ## Local Shards source
 

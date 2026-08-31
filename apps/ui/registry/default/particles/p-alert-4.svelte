@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
 
   export const meta = defineParticleMeta({
     components: ["alert"],
@@ -12,11 +12,11 @@
 
 <script lang="ts">
   import { Alert, AlertDescription, AlertTitle, HugeiconsIcon } from "@coss-sv/ui";
-  import { InformationCircleIcon } from "@hugeicons/core-free-icons";
+  import InformationCircleIcon from "@hugeicons/core-free-icons/InformationCircleIcon";
 </script>
 
-<Alert variant="info"
-  ><HugeiconsIcon aria-hidden="true" icon={InformationCircleIcon} strokeWidth={2} /><AlertTitle
-    >Heads up!</AlertTitle
-  ><AlertDescription>Describe what can be done about it here.</AlertDescription></Alert
->
+<Alert variant="info">
+  <HugeiconsIcon aria-hidden="true" icon={InformationCircleIcon} strokeWidth={2} /><AlertTitle>
+    Heads up!
+  </AlertTitle><AlertDescription>Describe what can be done about it here.</AlertDescription>
+</Alert>

@@ -13,7 +13,7 @@
 	],
 	"files": [
 		{
-			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\n  export const meta = defineParticleMeta({\n    components: [\"avatar\"],\n    id: \"p-avatar-6\",\n    interactive: false,\n    responsive: false,\n    title: \"Avatar icon fallback\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import * as Avatar from \"$COMPONENTS$/ui/avatar/index.js\";\n  import HugeiconsIcon from \"$LIB$/hugeicons-icon.svelte\";\n  import { UserIcon } from \"@hugeicons/core-free-icons\";\n</script>\n\n<Avatar.Root\n  ><Avatar.Fallback\n    ><HugeiconsIcon\n      aria-hidden=\"true\"\n      class=\"size-4\"\n      icon={UserIcon}\n      strokeWidth={2}\n    /></Avatar.Fallback\n  ></Avatar.Root\n>\n",
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\n  export const meta = defineParticleMeta({\n    components: [\"avatar\"],\n    id: \"p-avatar-6\",\n    interactive: false,\n    responsive: false,\n    title: \"Avatar icon fallback\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import * as Avatar from \"$UI$/avatar/index.js\";\n  import HugeiconsIcon from \"$LIB$/hugeicons-icon.svelte\";\n  import UserIcon from \"@hugeicons/core-free-icons/UserIcon\";\n</script>\n\n<Avatar.Root>\n  <Avatar.Fallback>\n    <HugeiconsIcon aria-hidden=\"true\" class=\"size-4\" icon={UserIcon} strokeWidth={2} />\n  </Avatar.Fallback>\n</Avatar.Root>\n",
 			"type": "registry:block",
 			"target": "p-avatar-6.svelte"
 		}

@@ -10,16 +10,13 @@ links:
 
 ## Installation
 
-<InstallCommand
-  pnpm="pnpm add @coss-sv/ui"
-  shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/autocomplete.json"
-/>
+<InstallCommand shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/autocomplete.json" />
 
 ## Usage
 
 ```svelte
 <script lang="ts">
-  import * as Autocomplete from "@coss-sv/ui/components/ui/autocomplete";
+  import * as Autocomplete from "@/components/ui/autocomplete/index.js";
 
   const items = [
     { value: "apple", label: "Apple" },

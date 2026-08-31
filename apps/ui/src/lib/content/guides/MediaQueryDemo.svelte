@@ -1,6 +1,7 @@
 <script lang="ts">
   import { Badge } from "@coss-sv/ui";
-  import { MediaQuery } from "svelte/reactivity";
+  import { useMediaQuery } from "../../../../registry/default/hooks/use-media-query.svelte.js";
+  import type { MediaQuery } from "svelte/reactivity";
 
   type Row = {
     description?: string;
@@ -13,28 +14,28 @@
       rows: [
         {
           description: "≥ 640px",
-          label: 'new MediaQuery("(min-width: 640px)")',
-          query: new MediaQuery("(min-width: 640px)", false),
+          label: 'useMediaQuery("sm")',
+          query: useMediaQuery("sm"),
         },
         {
           description: "≥ 800px",
-          label: 'new MediaQuery("(min-width: 800px)")',
-          query: new MediaQuery("(min-width: 800px)", false),
+          label: 'useMediaQuery("md")',
+          query: useMediaQuery("md"),
         },
         {
           description: "≥ 1024px",
-          label: 'new MediaQuery("(min-width: 1024px)")',
-          query: new MediaQuery("(min-width: 1024px)", false),
+          label: 'useMediaQuery("lg")',
+          query: useMediaQuery("lg"),
         },
         {
           description: "≥ 1280px",
-          label: 'new MediaQuery("(min-width: 1280px)")',
-          query: new MediaQuery("(min-width: 1280px)", false),
+          label: 'useMediaQuery("xl")',
+          query: useMediaQuery("xl"),
         },
         {
           description: "≥ 1536px",
-          label: 'new MediaQuery("(min-width: 1536px)")',
-          query: new MediaQuery("(min-width: 1536px)", false),
+          label: 'useMediaQuery("2xl")',
+          query: useMediaQuery("2xl"),
         },
       ],
       title: "Min-width (breakpoint and above)",
@@ -43,18 +44,18 @@
       rows: [
         {
           description: "< 640px",
-          label: 'new MediaQuery("(max-width: 639px)")',
-          query: new MediaQuery("(max-width: 639px)", false),
+          label: 'useMediaQuery("max-sm")',
+          query: useMediaQuery("max-sm"),
         },
         {
           description: "< 800px",
-          label: 'new MediaQuery("(max-width: 799px)")',
-          query: new MediaQuery("(max-width: 799px)", false),
+          label: 'useMediaQuery("max-md")',
+          query: useMediaQuery("max-md"),
         },
         {
           description: "< 1024px",
-          label: 'new MediaQuery("(max-width: 1023px)")',
-          query: new MediaQuery("(max-width: 1023px)", false),
+          label: 'useMediaQuery("max-lg")',
+          query: useMediaQuery("max-lg"),
         },
       ],
       title: "Max-width (below breakpoint)",
@@ -63,18 +64,18 @@
       rows: [
         {
           description: "640 - 799px",
-          label: 'new MediaQuery("(min-width: 640px) and (max-width: 799px)")',
-          query: new MediaQuery("(min-width: 640px) and (max-width: 799px)", false),
+          label: 'useMediaQuery("sm:max-md")',
+          query: useMediaQuery("sm:max-md"),
         },
         {
           description: "800 - 1023px",
-          label: 'new MediaQuery("(min-width: 800px) and (max-width: 1023px)")',
-          query: new MediaQuery("(min-width: 800px) and (max-width: 1023px)", false),
+          label: 'useMediaQuery("md:max-lg")',
+          query: useMediaQuery("md:max-lg"),
         },
         {
           description: "1024 - 1279px",
-          label: 'new MediaQuery("(min-width: 1024px) and (max-width: 1279px)")',
-          query: new MediaQuery("(min-width: 1024px) and (max-width: 1279px)", false),
+          label: 'useMediaQuery("lg:max-xl")',
+          query: useMediaQuery("lg:max-xl"),
         },
       ],
       title: "Ranges",
@@ -83,21 +84,21 @@
       rows: [
         {
           description: "touch",
-          label: 'new MediaQuery("(pointer: coarse)")',
-          query: new MediaQuery("(pointer: coarse)", false),
+          label: 'useMediaQuery({ pointer: "coarse" })',
+          query: useMediaQuery({ pointer: "coarse" }),
         },
         {
           description: "mouse",
-          label: 'new MediaQuery("(pointer: fine)")',
-          query: new MediaQuery("(pointer: fine)", false),
+          label: 'useMediaQuery({ pointer: "fine" })',
+          query: useMediaQuery({ pointer: "fine" }),
         },
         {
-          label: 'new MediaQuery("(prefers-color-scheme: dark)")',
-          query: new MediaQuery("(prefers-color-scheme: dark)", false),
+          label: 'useMediaQuery("(prefers-color-scheme: dark)")',
+          query: useMediaQuery("(prefers-color-scheme: dark)"),
         },
         {
-          label: 'new MediaQuery("(prefers-reduced-motion: reduce)")',
-          query: new MediaQuery("(prefers-reduced-motion: reduce)", false),
+          label: 'useMediaQuery("(prefers-reduced-motion: reduce)")',
+          query: useMediaQuery("(prefers-reduced-motion: reduce)"),
         },
       ],
       title: "Device & preferences",

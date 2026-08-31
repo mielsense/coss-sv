@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
   export const meta = defineParticleMeta({
     components: ["button", "combobox", "field", "form"],
     containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64",
@@ -12,7 +12,9 @@
 
 <script lang="ts">
   import { Button, Combobox, Field, Form } from "@coss-sv/ui";
+  import { createDemoDelay } from "../lib/demo-delay.js";
 
+  const delay = createDemoDelay();
   const items = [
     { label: "Apple", value: "apple" },
     { label: "Banana", value: "banana" },
@@ -31,7 +33,7 @@
     event.preventDefault();
     const selected = new FormData(event.currentTarget as HTMLFormElement).get("item");
     loading = true;
-    await new Promise((resolve) => setTimeout(resolve, 800));
+    if (!(await delay())) return;
     loading = false;
     alert(
       `Favorite item: ${items.find((item) => item.label === selected)?.value ?? selected ?? ""}`,
@@ -40,18 +42,19 @@
 </script>
 
 <Form class="flex w-full max-w-64 flex-col gap-4" onsubmit={submit}>
-  <Field.Root name="item"
-    ><Field.Label>Favorite item</Field.Label>
-    <Combobox.Root {items} name="item" required
-      ><Combobox.Input placeholder="Select an item..." /><Combobox.Popup
-        ><Combobox.Empty>No results found.</Combobox.Empty><Combobox.List
-          ><Combobox.Collection>
-            {#snippet children(item: Item)}<Combobox.Item value={item}>{item.label}</Combobox.Item
-              >{/snippet}
-          </Combobox.Collection></Combobox.List
-        ></Combobox.Popup
-      ></Combobox.Root
-    >
+  <Field.Root name="item">
+    <Field.Label>Favorite item</Field.Label>
+    <Combobox.Root {items} name="item" required>
+      <Combobox.Input placeholder="Select an item..." /><Combobox.Popup>
+        <Combobox.Empty>No results found.</Combobox.Empty><Combobox.List>
+          <Combobox.Collection>
+            {#snippet children(item: Item)}<Combobox.Item value={item}>
+                {item.label}
+              </Combobox.Item>{/snippet}
+          </Combobox.Collection>
+        </Combobox.List>
+      </Combobox.Popup>
+    </Combobox.Root>
     <Field.Error>Please select a item.</Field.Error>
   </Field.Root>
   <Button {loading} type="submit">Submit</Button>

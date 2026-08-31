@@ -1,4 +1,4 @@
-import type { ContentRecord } from "$lib/content/compiler.js";
+import type { GeneratedContentRecord } from "@/content/compiler.js";
 
 export const documentationOrigin = "https://coss-sv.vercel.app";
 
@@ -14,7 +14,7 @@ const rootOrder = [
 
 const hookOrder = ["hooks-use-media-query", "hooks-use-copy-to-clipboard"] as const;
 
-function recordSlug(record: ContentRecord): string {
+function recordSlug(record: GeneratedContentRecord): string {
   if (record.slug === "introduction") return "index";
   if (record.slug === "hooks-use-media-query") return "hooks/use-media-query";
   if (record.slug === "hooks-use-copy-to-clipboard") return "hooks/use-copy-to-clipboard";
@@ -29,10 +29,10 @@ function markdownUrl(slug: string): string {
   return `${documentationOrigin}/docs/${slug}.md`;
 }
 
-function orderedRecords(records: readonly ContentRecord[]): ContentRecord[] {
+function orderedRecords(records: readonly GeneratedContentRecord[]): GeneratedContentRecord[] {
   const bySlug = new Map(records.map((record) => [record.slug, record]));
   const selected = new Set<string>();
-  const ordered: ContentRecord[] = [];
+  const ordered: GeneratedContentRecord[] = [];
 
   for (const slug of rootOrder) {
     const record = bySlug.get(slug);
@@ -60,15 +60,15 @@ function orderedRecords(records: readonly ContentRecord[]): ContentRecord[] {
   return ordered;
 }
 
-function indexLine(record: ContentRecord): string {
+function indexLine(record: GeneratedContentRecord): string {
   const slug = recordSlug(record);
   return `- [${record.metadata.title}](${markdownUrl(slug)}): ${record.metadata.description}`;
 }
 
 export function findDocumentationRecord(
-  records: readonly ContentRecord[],
+  records: readonly GeneratedContentRecord[],
   publicSlug: string,
-): ContentRecord | undefined {
+): GeneratedContentRecord | undefined {
   const normalized = publicSlug.replace(/^\/+|\/+$/g, "");
   return records.find((record) => {
     const slug = recordSlug(record);
@@ -77,7 +77,7 @@ export function findDocumentationRecord(
 }
 
 export function createMarkdownDocument(
-  record: ContentRecord,
+  record: GeneratedContentRecord,
   publicSlug = recordSlug(record),
 ): string {
   const canonicalSlug = publicSlug === "introduction" ? "index" : publicSlug;
@@ -89,7 +89,7 @@ export function createMarkdownDocument(
   return `${title}> ${record.metadata.description}\n\n[Canonical documentation](${documentationOrigin}${htmlPath(canonicalSlug)})\n\n${body}\n`;
 }
 
-export function createLlmsIndex(records: readonly ContentRecord[]): string {
+export function createLlmsIndex(records: readonly GeneratedContentRecord[]): string {
   const ordered = orderedRecords(records);
   const overview = ordered.filter((record) => rootOrder.includes(record.slug as never));
   const components = ordered.filter((record) => record.kind === "component");
@@ -116,7 +116,7 @@ ${hooks.map(indexLine).join("\n")}
 `;
 }
 
-export function createLlmsFullText(records: readonly ContentRecord[]): string {
+export function createLlmsFullText(records: readonly GeneratedContentRecord[]): string {
   const documents = orderedRecords(records)
     .map((record) => {
       const slug = recordSlug(record);

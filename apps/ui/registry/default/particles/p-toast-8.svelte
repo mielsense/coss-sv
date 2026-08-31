@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
 
   export const meta = defineParticleMeta({
     components: ["button", "spinner", "toast"],
@@ -14,6 +14,7 @@
   import { Button, Spinner, Toast } from "@coss-sv/ui";
   import { onDestroy } from "svelte";
 
+  const toastManager = new Toast.Manager();
   let button = $state<HTMLButtonElement | null>(null);
   let submitting = $state(false);
   let toastId: string | null = null;
@@ -22,14 +23,14 @@
   function submit() {
     if (!button || submitting) return;
     if (toastId) {
-      Toast.anchoredToastManager.close(toastId);
+      toastManager.close(toastId);
       toastId = null;
     }
     submitting = true;
     submitTimer = setTimeout(() => {
       submitting = false;
       if (button)
-        toastId = Toast.anchoredToastManager.add({
+        toastId = toastManager.add({
           description: "The server is not responding. Please try again later.",
           positionerProps: { anchor: button, sideOffset: 4 },
           title: "Error submitting form",
@@ -43,8 +44,8 @@
   });
 </script>
 
-<Toast.AnchoredProvider
-  ><Button bind:ref={button} disabled={submitting} onclick={submit} variant="outline"
-    >{#if submitting}<Spinner />Submitting…{:else}Submit{/if}</Button
-  ></Toast.AnchoredProvider
->
+<Toast.AnchoredProvider {toastManager}>
+  <Button bind:ref={button} disabled={submitting} onclick={submit} variant="outline">
+    {#if submitting}<Spinner />Submitting…{:else}Submit{/if}
+  </Button>
+</Toast.AnchoredProvider>

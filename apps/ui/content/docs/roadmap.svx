@@ -3,12 +3,6 @@ title: Roadmap
 description: Current state of coss ui and where we’re headed next.
 ---
 
-# Roadmap
-
-Current state of coss ui and where we’re headed next.
-
-<CopyMarkdownButton url="/docs/roadmap.md" />
-
 ## Upstream COSS roadmap
 
 **coss ui** is the evolution of **Origin UI**, an open-source collection of React and Tailwind

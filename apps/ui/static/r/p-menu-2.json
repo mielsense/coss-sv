@@ -10,7 +10,7 @@
 	],
 	"files": [
 		{
-			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n  export const meta = defineParticleMeta({\n    components: [\"button\", \"menu\"],\n    id: \"p-menu-2\",\n    interactive: true,\n    responsive: false,\n    title: \"Menu with hover\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { buttonVariants } from \"$COMPONENTS$/ui/button/index.js\";\n  import * as Menu from \"$COMPONENTS$/ui/menu/index.js\";\n</script>\n\n<Menu.Root\n  ><Menu.Trigger class={buttonVariants({ variant: \"outline\" })} openOnHover>Hover me</Menu.Trigger\n  ><Menu.Popup><Menu.Item>Item one</Menu.Item><Menu.Item>Item two</Menu.Item></Menu.Popup\n  ></Menu.Root\n>\n",
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n  export const meta = defineParticleMeta({\n    components: [\"button\", \"menu\"],\n    id: \"p-menu-2\",\n    interactive: true,\n    responsive: false,\n    title: \"Menu with hover\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { buttonVariants } from \"$UI$/button/index.js\";\n  import * as Menu from \"$UI$/menu/index.js\";\n</script>\n\n<Menu.Root>\n  <Menu.Trigger class={buttonVariants({ variant: \"outline\" })} openOnHover>\n    Hover me\n  </Menu.Trigger><Menu.Popup>\n    <Menu.Item>Item one</Menu.Item><Menu.Item>Item two</Menu.Item>\n  </Menu.Popup>\n</Menu.Root>\n",
 			"type": "registry:block",
 			"target": "p-menu-2.svelte"
 		}

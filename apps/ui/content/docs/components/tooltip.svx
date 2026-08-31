@@ -10,16 +10,13 @@ links:
 
 ## Installation
 
-<InstallCommand
-  pnpm="pnpm add @coss-sv/ui"
-  shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/tooltip.json"
-/>
+<InstallCommand shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/tooltip.json" />
 
 ## Usage
 
 ```svelte
 <script lang="ts">
-  import * as Tooltip from "@coss-sv/ui/components/ui/tooltip";
+  import * as Tooltip from "@/components/ui/tooltip/index.js";
 </script>
 
 <Tooltip.Root>

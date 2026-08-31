@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
 
   export const meta = defineParticleMeta({
     components: ["badge"],
@@ -14,6 +14,7 @@
   import { Badge } from "@coss-sv/ui";
 </script>
 
-<Badge variant="outline"
-  ><span aria-hidden="true" class="size-1.5 rounded-full bg-amber-500"></span>Pending</Badge
->
+<Badge variant="outline">
+  <span aria-hidden="true" class="size-1.5 rounded-full bg-amber-500"></span>
+  Pending
+</Badge>

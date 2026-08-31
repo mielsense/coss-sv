@@ -10,16 +10,13 @@ links:
 
 ## Installation
 
-<InstallCommand
-  pnpm="pnpm add @coss-sv/ui"
-  shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/fieldset.json"
-/>
+<InstallCommand shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/fieldset.json" />
 
 ## Usage
 
 ```svelte
 <script lang="ts">
-  import { Fieldset } from "@coss-sv/ui";
+  import * as Fieldset from "@/components/ui/fieldset/index.js";
 
   const uid = $props.id();
   const legendId = `${uid}-legend`;

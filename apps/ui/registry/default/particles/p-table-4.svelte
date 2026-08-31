@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
   export const meta = defineParticleMeta({
     components: ["badge", "button", "checkbox", "frame", "pagination", "select", "table"],
     containerClass: "**:data-[slot=preview]:w-full sm:**:data-[slot=preview]:max-w-4xl",
@@ -12,11 +12,9 @@
 </script>
 
 <script lang="ts">
-  import {
-    AirplaneTakeOff01Icon,
-    ArrowDown01Icon,
-    ArrowUp01Icon,
-  } from "@hugeicons/core-free-icons";
+  import AirplaneTakeOff01Icon from "@hugeicons/core-free-icons/AirplaneTakeOff01Icon";
+  import ArrowDown01Icon from "@hugeicons/core-free-icons/ArrowDown01Icon";
+  import ArrowUp01Icon from "@hugeicons/core-free-icons/ArrowUp01Icon";
   import {
     createPaginatedRowModel,
     createSortedRowModel,
@@ -420,13 +418,14 @@
   );
 </script>
 
-<Frame class="w-full"
-  ><Table.Root class="table-fixed" variant="card"
-    ><Table.Header
-      >{#each table.getHeaderGroups() as group (group.id)}<Table.Row class="hover:bg-transparent"
-          >{#each group.headers as header (header.id)}<Table.Head
+<Frame class="w-full">
+  <Table.Root class="table-fixed" variant="card">
+    <Table.Header>
+      {#each table.getHeaderGroups() as group (group.id)}<Table.Row class="hover:bg-transparent">
+          {#each group.headers as header (header.id)}<Table.Head
               style={header.column.getSize() ? `width: ${header.column.getSize()}px` : undefined}
-              >{#if header.column.id === "select"}<Checkbox
+            >
+              {#if header.column.id === "select"}<Checkbox
                   aria-label="Select all rows"
                   checked={table.getIsAllPageRowsSelected()}
                   indeterminate={table.getIsSomePageRowsSelected() &&
@@ -436,7 +435,8 @@
                   class="flex h-full w-full cursor-pointer select-none items-center justify-between gap-2 text-left"
                   type="button"
                   onclick={() => header.column.toggleSorting()}
-                  >{header.column.columnDef
+                >
+                  {header.column.columnDef
                     .header}{#if header.column.getIsSorted() === "asc"}<HugeiconsIcon
                       aria-hidden="true"
                       class="size-4 shrink-0 opacity-80"
@@ -447,15 +447,16 @@
                       class="size-4 shrink-0 opacity-80"
                       icon={ArrowDown01Icon}
                       strokeWidth={2}
-                    />{/if}</button
-                >{:else}{header.column.columnDef.header}{/if}</Table.Head
-            >{/each}</Table.Row
-        >{/each}</Table.Header
-    ><Table.Body
-      >{#each table.getRowModel().rows as row (row.id)}<Table.Row
+                    />{/if}
+                </button>{:else}{header.column.columnDef.header}{/if}
+            </Table.Head>{/each}
+        </Table.Row>{/each}
+    </Table.Header><Table.Body>
+      {#each table.getRowModel().rows as row (row.id)}<Table.Row
           data-state={row.getIsSelected() ? "selected" : undefined}
-          >{#each row.getAllCells() as cell (cell.id)}<Table.Cell
-              >{#if cell.column.id === "select"}<Checkbox
+        >
+          {#each row.getAllCells() as cell (cell.id)}<Table.Cell>
+              {#if cell.column.id === "select"}<Checkbox
                   aria-label="Select row"
                   checked={row.getIsSelected()}
                   onCheckedChange={(value) => row.toggleSelected(Boolean(value))}
@@ -496,51 +497,51 @@
                   <div>{row.original.arrivalTime}</div>
                 </div>{:else if cell.column.id === "destination"}<div class="font-medium">
                   {row.original.destination}
-                </div>{:else if cell.column.id === "status"}<Badge variant="outline"
-                  ><span
+                </div>{:else if cell.column.id === "status"}<Badge variant="outline">
+                  <span
                     aria-hidden="true"
                     class={cn("size-1.5 rounded-full", statusColor(row.original.status))}
-                  ></span>{row.original.status}</Badge
-                >{:else if cell.column.id === "terminal"}<Badge
+                  ></span>
+                  {row.original.status}
+                </Badge>{:else if cell.column.id === "terminal"}<Badge
                   class="font-normal tabular-nums"
                   size="lg"
                   variant="outline"
-                  ><HugeiconsIcon
-                    icon={AirplaneTakeOff01Icon}
-                    aria-hidden="true"
-                    strokeWidth={2}
-                  /><span>{row.original.terminal}</span></Badge
-                >{:else}{row.original.gate}{/if}</Table.Cell
-            >{/each}</Table.Row
-        >{:else}<Table.Row
-          ><Table.Cell class="h-24 text-center" colspan={columns.length}>No results.</Table.Cell
-          ></Table.Row
-        >{/each}</Table.Body
-    ></Table.Root
-  ><FrameFooter class="p-2"
-    ><div class="flex items-center justify-between gap-2">
+                >
+                  <HugeiconsIcon icon={AirplaneTakeOff01Icon} aria-hidden="true" strokeWidth={2} />
+                  <span>{row.original.terminal}</span>
+                </Badge>{:else}{row.original.gate}{/if}
+            </Table.Cell>{/each}
+        </Table.Row>{:else}<Table.Row>
+          <Table.Cell class="h-24 text-center" colspan={columns.length}>No results.</Table.Cell>
+        </Table.Row>{/each}
+    </Table.Body>
+  </Table.Root><FrameFooter class="p-2">
+    <div class="flex items-center justify-between gap-2">
       <div class="flex items-center gap-2 whitespace-nowrap">
         <p class="text-muted-foreground text-sm">Viewing</p>
         <Select.Root
           items={rangeItems}
           value={page.pageIndex + 1}
           onValueChange={(value) => typeof value === "number" && table.setPageIndex(value - 1)}
-          ><Select.Trigger aria-label="Select result range" class="w-fit min-w-none" size="sm"
-            ><Select.Value /></Select.Trigger
-          ><Select.Popup
-            >{#each rangeItems as item (item.value)}<Select.Item value={item.value}
-                >{item.label}</Select.Item
-              >{/each}</Select.Popup
-          ></Select.Root
         >
+          <Select.Trigger aria-label="Select result range" class="w-fit min-w-none" size="sm">
+            <Select.Value />
+          </Select.Trigger><Select.Popup>
+            {#each rangeItems as item (item.value)}<Select.Item value={item.value}>
+                {item.label}
+              </Select.Item>{/each}
+          </Select.Popup>
+        </Select.Root>
         <p class="text-muted-foreground text-sm">
-          of <strong class="font-medium text-foreground">{table.getRowCount()}</strong> results
+          of <strong class="font-medium text-foreground">{table.getRowCount()}</strong>
+          results
         </p>
       </div>
-      <Pagination.Root class="justify-end"
-        ><Pagination.Content
-          ><Pagination.Item
-            ><Pagination.Previous
+      <Pagination.Root class="justify-end">
+        <Pagination.Content>
+          <Pagination.Item>
+            <Pagination.Previous
               aria-disabled={!table.getCanPreviousPage()}
               class="sm:*:[svg]:hidden"
               as="button"
@@ -548,9 +549,9 @@
               onclick={() => table.getCanPreviousPage() && table.previousPage()}
               size="sm"
               type="button"
-            /></Pagination.Item
-          ><Pagination.Item
-            ><Pagination.Next
+            />
+          </Pagination.Item><Pagination.Item>
+            <Pagination.Next
               aria-disabled={!table.getCanNextPage()}
               class="sm:*:[svg]:hidden"
               as="button"
@@ -558,10 +559,10 @@
               onclick={() => table.getCanNextPage() && table.nextPage()}
               size="sm"
               type="button"
-            /></Pagination.Item
-          ></Pagination.Content
-        ></Pagination.Root
-      >
-    </div></FrameFooter
-  ></Frame
->
+            />
+          </Pagination.Item>
+        </Pagination.Content>
+      </Pagination.Root>
+    </div>
+  </FrameFooter>
+</Frame>

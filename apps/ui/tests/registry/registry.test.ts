@@ -11,7 +11,7 @@ import {
   writeFile,
 } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { dirname, join, resolve } from "node:path";
+import { dirname, join, relative, resolve } from "node:path";
 import { afterEach, describe, expect, test } from "vitest";
 import {
   assertGeneratedFileCurrent,
@@ -20,7 +20,11 @@ import {
   validateRegistry,
 } from "../../registry/registry.js";
 import { registryUi } from "../../registry/registry-ui.js";
-import { buildValidatedRegistry, withStagedRegistry } from "../../scripts/registry/build.mjs";
+import {
+  buildValidatedRegistry,
+  prepareSourceForRegistryBuild,
+  withStagedRegistry,
+} from "../../scripts/registry/build.mjs";
 import { appRoot, findPrivateSmokeArtifacts, runLocalShadcn } from "../../scripts/registry/lib.mjs";
 
 const temporaryDirectories: string[] = [];
@@ -34,6 +38,29 @@ test("registry smoke permits real production items and still detects private fix
       "private-leaf.json",
     ]),
   ).toEqual(["private-bundle.json", "private-leaf.json"]);
+});
+
+test("stages the bare application alias without corrupting scoped packages", () => {
+  const prepared = prepareSourceForRegistryBuild(
+    [
+      'import { Button } from "@/components/ui/button/index.js";',
+      'import { cn } from "@/utils.js";',
+      'import helper from "@/helper.js";',
+      'import { Select } from "@shardsui/svelte/select";',
+    ].join("\n"),
+    {
+      components: "@/components",
+      hooks: "@/hooks",
+      lib: "@",
+      ui: "@/components/ui",
+      utils: "@/utils",
+    },
+  );
+
+  expect(prepared).toContain("__COSS_REGISTRY_UI__/button/index.js");
+  expect(prepared).toContain("__COSS_REGISTRY_UTILS__.js");
+  expect(prepared).toContain("__COSS_REGISTRY_LIB__/helper.js");
+  expect(prepared).toContain('from "@shardsui/svelte/select"');
 });
 
 async function makeSource(relativePath = "leaf/leaf.svelte") {
@@ -126,7 +153,7 @@ describe("registry validation", () => {
         const source = await readFile(sourcePath, "utf8");
         for (const match of source.matchAll(importPattern)) {
           const specifier = match[1] ?? "";
-          if (specifier === "$lib/hugeicons-icon.svelte" && !closure.has("hugeicons-icon")) {
+          if (specifier === "@/hugeicons-icon.svelte" && !closure.has("hugeicons-icon")) {
             missing.push(`${item.name} -> hugeicons-icon (${file.path})`);
           }
           if (!specifier.startsWith("../")) continue;
@@ -134,6 +161,32 @@ describe("registry validation", () => {
           const component = target.match(/packages\/ui\/src\/components\/ui\/([^/]+)/)?.[1];
           if (component && component !== item.name && !closure.has(component)) {
             missing.push(`${item.name} -> ${component} (${file.path})`);
+          }
+        }
+      }
+    }
+
+    expect(missing).toEqual([]);
+  });
+
+  test("ships every same-directory module imported by a UI item", async () => {
+    const missing: string[] = [];
+    const importPattern = /(?:from\s*|import\s*)["']([^"']+)["']/g;
+
+    for (const item of registryUi.filter(({ name }) => name !== "ui")) {
+      const shippedFiles = new Set(item.files.map((file) => resolve(appRoot, file.path)));
+      for (const file of item.files) {
+        const sourcePath = resolve(appRoot, file.path);
+        const source = await readFile(sourcePath, "utf8");
+        for (const match of source.matchAll(importPattern)) {
+          const specifier = match[1] ?? "";
+          if (!specifier.startsWith("./")) continue;
+          const importedPath = resolve(dirname(sourcePath), specifier);
+          const sourceModule = importedPath.endsWith(".js")
+            ? `${importedPath.slice(0, -".js".length)}.ts`
+            : importedPath;
+          if (!shippedFiles.has(sourceModule)) {
+            missing.push(`${item.name}: ${relative(appRoot, sourceModule)}`);
           }
         }
       }

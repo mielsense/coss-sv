@@ -1,9 +1,6 @@
 import AxeBuilder from "@axe-core/playwright";
 import type { Locator, Page, TestInfo } from "@playwright/test";
-import {
-  type PreviewWidth,
-  previewWidths,
-} from "../../../apps/ui/src/routes/preview/[name]/preview-contract.js";
+import { type PreviewWidth, previewWidths } from "../../../apps/ui/src/lib/preview/contract.js";
 import { createLocalPreviewOrigins, targetPreviewPort } from "./ports.js";
 
 type ConsoleGuard = {
@@ -226,8 +223,30 @@ export async function runKeyboardTrace(page: Page, testInfo: TestInfo, keys: str
   return trace;
 }
 
-export async function assertNoAxeViolations(page: Page, include = "body") {
-  const results = await new AxeBuilder({ page }).include(include).analyze();
+export async function assertNoAxeViolations(
+  page: Page,
+  include = "body",
+  disabledRules: string[] = [],
+) {
+  const usesManualTimers = await page.evaluate(
+    () => window.__COSS_PREVIEW_RUNTIME__?.config.timers === "manual",
+  );
+  if (usesManualTimers) {
+    await page.evaluate(() => window.__COSS_PREVIEW_RUNTIME__.setTimerMode("real"));
+  }
+
+  const results = await (async () => {
+    try {
+      const builder = new AxeBuilder({ page }).include(include);
+      if (disabledRules.length > 0) builder.disableRules(disabledRules);
+      return await builder.analyze();
+    } finally {
+      if (usesManualTimers) {
+        await page.evaluate(() => window.__COSS_PREVIEW_RUNTIME__.setTimerMode("manual"));
+      }
+    }
+  })();
+
   if (results.violations.length > 0) {
     const summary = results.violations.map((violation) => ({
       id: violation.id,

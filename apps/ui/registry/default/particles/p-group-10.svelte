@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
   export const meta = defineParticleMeta({
     components: ["button", "group"],
     id: "p-group-10",
@@ -11,7 +11,8 @@
 
 <script lang="ts">
   import { Button, Group, HugeiconsIcon } from "@coss-sv/ui";
-  import { ArrowLeft01Icon, ArrowRight01Icon } from "@hugeicons/core-free-icons";
+  import ArrowLeft01Icon from "@hugeicons/core-free-icons/ArrowLeft01Icon";
+  import ArrowRight01Icon from "@hugeicons/core-free-icons/ArrowRight01Icon";
 </script>
 
 <Group.Root aria-label="Pagination">

@@ -4,6 +4,7 @@ export { default as CodeSource } from "./CodeSource.svelte";
 export { default as ComponentStatus } from "./ComponentStatus.svelte";
 export { default as CopyButton } from "./CopyButton.svelte";
 export { default as CopyMarkdownButton } from "../guides/CopyMarkdownButton.svelte";
+export { default as DocsTable } from "./DocsTable.svelte";
 export { default as EarlyAccessCallout } from "../guides/EarlyAccessCallout.svelte";
 export { default as FileTree } from "./FileTree.svelte";
 export { default as InstallCommand } from "./InstallCommand.svelte";

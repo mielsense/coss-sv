@@ -1,19 +1,17 @@
 <script lang="ts">
-  import {
-    Add01Icon,
-    AlertCircleIcon,
-    Calendar03Icon,
-    Cancel01Icon,
-    ChevronDownIcon,
-    ChevronLeftIcon,
-    ChevronRightIcon,
-    InformationCircleIcon,
-    MinusSignIcon,
-    MoreHorizontalIcon,
-    Search01Icon,
-    TextFontIcon,
-    UserRoundIcon,
-  } from "@hugeicons/core-free-icons";
+  import Add01Icon from "@hugeicons/core-free-icons/Add01Icon";
+  import AlertCircleIcon from "@hugeicons/core-free-icons/AlertCircleIcon";
+  import Calendar03Icon from "@hugeicons/core-free-icons/Calendar03Icon";
+  import Cancel01Icon from "@hugeicons/core-free-icons/Cancel01Icon";
+  import ChevronDownIcon from "@hugeicons/core-free-icons/ChevronDownIcon";
+  import ChevronLeftIcon from "@hugeicons/core-free-icons/ChevronLeftIcon";
+  import ChevronRightIcon from "@hugeicons/core-free-icons/ChevronRightIcon";
+  import InformationCircleIcon from "@hugeicons/core-free-icons/InformationCircleIcon";
+  import MinusSignIcon from "@hugeicons/core-free-icons/MinusSignIcon";
+  import MoreHorizontalIcon from "@hugeicons/core-free-icons/MoreHorizontalIcon";
+  import Search01Icon from "@hugeicons/core-free-icons/Search01Icon";
+  import TextFontIcon from "@hugeicons/core-free-icons/TextFontIcon";
+  import UserRoundIcon from "@hugeicons/core-free-icons/UserRoundIcon";
   import { HugeiconsIcon, cn } from "@coss-sv/ui";
 
   const icons = {

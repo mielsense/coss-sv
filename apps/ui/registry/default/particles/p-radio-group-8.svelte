@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
 
   export const meta = defineParticleMeta({
     components: ["radio-group", "segmented-control"],
@@ -25,10 +25,10 @@
   class={segmentedControlRootClassName}
   value="monthly"
 >
-  <RadioGroup.RadioPrimitive.Root class={itemClassName} value="monthly"
-    >Monthly</RadioGroup.RadioPrimitive.Root
-  >
-  <RadioGroup.RadioPrimitive.Root class={itemClassName} value="yearly"
-    >Yearly</RadioGroup.RadioPrimitive.Root
-  >
+  <RadioGroup.RadioPrimitive.Root class={itemClassName} value="monthly">
+    Monthly
+  </RadioGroup.RadioPrimitive.Root>
+  <RadioGroup.RadioPrimitive.Root class={itemClassName} value="yearly">
+    Yearly
+  </RadioGroup.RadioPrimitive.Root>
 </RadioGroup.RadioGroupPrimitive>

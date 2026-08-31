@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
   export const meta = defineParticleMeta({
     components: ["select"],
     containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64",
@@ -27,21 +27,20 @@
   aria-label="Select status"
   value={items[0]}
   itemToStringValue={(item: Item) => item.value}
-  ><Select.Trigger
-    ><Select.Value
-      >{#snippet children(item: Item | null)}{#if item}<span class="flex items-center gap-2"
-            ><span aria-hidden="true" class={["size-2 rounded-full", item.color]}></span><span
-              class="truncate">{item.label}</span
-            ></span
-          >{/if}{/snippet}</Select.Value
-    ></Select.Trigger
-  ><Select.Popup
-    >{#each items as item (item.value)}<Select.Item value={item}
-        ><span class="flex items-center gap-2"
-          ><span aria-hidden="true" class={["size-2 rounded-full", item.color]}></span><span
-            class="truncate">{item.label}</span
-          ></span
-        ></Select.Item
-      >{/each}</Select.Popup
-  ></Select.Root
 >
+  <Select.Trigger>
+    <Select.Value>
+      {#snippet children(item: Item | null)}{#if item}<span class="flex items-center gap-2">
+            <span aria-hidden="true" class={["size-2 rounded-full", item.color]}></span>
+            <span class="truncate">{item.label}</span>
+          </span>{/if}{/snippet}
+    </Select.Value>
+  </Select.Trigger><Select.Popup>
+    {#each items as item (item.value)}<Select.Item value={item}>
+        <span class="flex items-center gap-2">
+          <span aria-hidden="true" class={["size-2 rounded-full", item.color]}></span>
+          <span class="truncate">{item.label}</span>
+        </span>
+      </Select.Item>{/each}
+  </Select.Popup>
+</Select.Root>

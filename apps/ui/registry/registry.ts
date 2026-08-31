@@ -63,6 +63,14 @@ export type RegistryAliases = {
   hooks?: string;
 };
 
+export const registryAliases = {
+  lib: "@",
+  ui: "@/components/ui",
+  components: "@/components",
+  utils: "@/utils",
+  hooks: "@/hooks",
+} satisfies Required<RegistryAliases>;
+
 export type RegistryDefinition = {
   $schema?: string;
   name: string;
@@ -93,6 +101,7 @@ const logicalTrustRoot = resolve(appRoot, "../..");
 const defaultSourceRoots = [
   resolve(appRoot, "../../packages/ui/src"),
   resolve(appRoot, "registry/default/lib"),
+  resolve(appRoot, "registry/default/hooks"),
   resolve(appRoot, "registry/default/particles"),
   resolve(appRoot, "src/lib/registry"),
 ];
@@ -112,13 +121,7 @@ export function createRegistry(items: readonly RegistryItem[]): RegistryDefiniti
     $schema: "https://shadcn-svelte.com/schema/registry.json",
     name: "coss-sv",
     homepage: "https://coss-sv.vercel.app",
-    aliases: {
-      lib: "$lib",
-      ui: "$lib/components/ui",
-      components: "$lib/components",
-      utils: "$lib/utils",
-      hooks: "$lib/hooks",
-    },
+    aliases: { ...registryAliases },
     items: [...items].sort((left, right) => left.name.localeCompare(right.name)),
   };
 }

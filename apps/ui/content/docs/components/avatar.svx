@@ -10,16 +10,13 @@ links:
 
 ## Installation
 
-<InstallCommand
-  pnpm="pnpm add @coss-sv/ui"
-  shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/avatar.json"
-/>
+<InstallCommand shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/avatar.json" />
 
 ## Usage
 
 ```svelte
 <script lang="ts">
-  import * as Avatar from "@coss-sv/ui/components/ui/avatar";
+  import * as Avatar from "@/components/ui/avatar/index.js";
 </script>
 
 <Avatar.Root>

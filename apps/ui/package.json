@@ -20,7 +20,7 @@
     "test": "pnpm docs:compile && pnpm test:unit",
     "test:browser": "vitest run --config vitest.browser.config.ts && vitest run --config tests/docs/vitest.d5.browser.config.ts && vitest run --config tests/docs/vitest.d5.reduced-motion.browser.config.ts",
     "test:unit": "pnpm docs:compile && vitest run && pnpm test:browser && pnpm registry:test",
-    "test:e2e": "node tests/site/command-menu.browser.mjs && node tests/site/docs-shell.browser.mjs && node tests/site/preview-card.browser.mjs && node tests/site/preview-runtime.browser.mjs && node tests/site/particles.browser.mjs && node tests/site/d7-overlays.browser.mjs && node tests/docs/d5-controls.preview.browser.mjs && node tests/docs/d9-navigation.preview.browser.mjs"
+    "test:e2e": "node scripts/ensure-preview-build.mjs && node tests/site/command-menu.browser.mjs && node tests/site/docs-shell.browser.mjs && node tests/site/preview-card.browser.mjs && node tests/site/preview-runtime.browser.mjs && node tests/site/all-docs-routes.browser.mjs && node tests/site/particles.browser.mjs && node tests/site/d7-overlays.browser.mjs && node tests/docs/d5-controls.preview.browser.mjs && node tests/docs/d9-navigation.preview.browser.mjs && node tests/docs/d11-guides.browser.mjs"
   },
   "dependencies": {
     "@coss-sv/ui": "workspace:*",

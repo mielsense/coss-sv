@@ -9,7 +9,7 @@
 	],
 	"files": [
 		{
-			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n  export const meta = defineParticleMeta({\n    components: [\"calendar\"],\n    id: \"p-calendar-2\",\n    interactive: true,\n    responsive: true,\n    title: \"Responsive calendar\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { Calendar } from \"$COMPONENTS$/ui/calendar/index.js\";\n  let date = $state<Date | undefined>(new Date(2026, 7, 28, 12));\n</script>\n\n<Calendar\n  class=\"[--cell-size:--spacing(11)] sm:[--cell-size:--spacing(10)]\"\n  mode=\"single\"\n  bind:selected={date}\n  today={new Date(2026, 7, 28, 12)}\n/>\n",
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n  export const meta = defineParticleMeta({\n    components: [\"calendar\"],\n    id: \"p-calendar-2\",\n    interactive: true,\n    responsive: true,\n    title: \"Responsive calendar\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { Calendar } from \"$UI$/calendar/index.js\";\n  let date = $state<Date | undefined>(new Date());\n</script>\n\n<Calendar\n  class=\"[--cell-size:--spacing(11)] sm:[--cell-size:--spacing(10)]\"\n  mode=\"single\"\n  bind:selected={date}\n/>\n",
 			"type": "registry:block",
 			"target": "p-calendar-2.svelte"
 		}

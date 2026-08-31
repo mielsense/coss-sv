@@ -71,24 +71,54 @@ async function openParticle(id) {
     /missing_context/i,
     `${id} must not depend on a previously rendered Field`,
   );
-  assert.match(html, /data-preview-ready="true"/, `${id} production preview should be ready`);
+  assert.match(
+    html,
+    /data-preview-loading="true"/,
+    `${id} should stream a lightweight lazy-loading shell`,
+  );
+  assert.match(html, new RegExp(`data-preview-name="${id}"`));
 }
 
-async function inspectInputGroupServerValue() {
+async function inspectInputGroupServerShell() {
   const response = await fetch(
     `${baseUrl}/preview/p-input-group-18?theme=light&width=desktop&timers=real`,
   );
   const html = await response.text();
-  const input = html.match(/<input[^>]*placeholder="Enter email"[^>]*>/)?.[0];
 
   assert.equal(response.status, 200, "p-input-group-18 SSR preview should return 200");
-  assert.ok(input, "p-input-group-18 SSR should include its email input");
-  assert.match(input, /value="hello@coss\.com"/, "JS-free SSR should include the COSS default");
-  assert.doesNotMatch(
-    input,
-    /defaultvalue/i,
-    "SSR must not leak an invalid defaultvalue attribute",
+  assert.match(
+    html,
+    /data-preview-loading="true"/,
+    "SSR should preserve the lazy preview boundary instead of eagerly importing every particle",
   );
+  assert.doesNotMatch(
+    html,
+    /placeholder="Enter email"/,
+    "the lazy shell should stay component-free",
+  );
+}
+
+async function inspectD6RuntimeParticles(ids) {
+  const browser = await chromium.launch({ headless: true });
+  try {
+    const page = await browser.newPage({ viewport: { height: 900, width: 1440 } });
+    const diagnostics = [];
+    page.on("pageerror", (error) => diagnostics.push(error.message));
+
+    for (const id of ids) {
+      const response = await page.goto(
+        `${baseUrl}/preview/${id}?theme=light&width=desktop&timers=real`,
+        { waitUntil: "domcontentloaded" },
+      );
+      assert.equal(response?.status(), 200, `${id} runtime preview should return 200`);
+      await page.locator('[data-preview-ready="true"]').waitFor();
+      assert.doesNotMatch(await page.locator("body").innerText(), /missing_context/i);
+    }
+
+    assert.deepEqual(diagnostics, []);
+  } finally {
+    await browser.close();
+  }
 }
 
 async function inspectFieldValidityPreview() {
@@ -184,7 +214,8 @@ try {
     if (coldStartParticles.includes(id) || id === "p-field-1") continue;
     await openParticle(id);
   }
-  await inspectInputGroupServerValue();
+  await inspectInputGroupServerShell();
+  await inspectD6RuntimeParticles(d6Particles);
   await inspectFieldValidityPreview();
   await inspectInputGroupDefaultValue();
 } finally {

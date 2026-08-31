@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
   export const meta = defineParticleMeta({
     components: ["button", "select", "toggle-group", "toolbar", "tooltip"],
     id: "p-toolbar-1",
@@ -18,13 +18,11 @@
     Toolbar,
     Tooltip,
   } from "@coss-sv/ui";
-  import {
-    DollarSignIcon,
-    PercentIcon,
-    TextAlignCenterIcon,
-    TextAlignLeftIcon,
-    TextAlignRightIcon,
-  } from "@hugeicons/core-free-icons";
+  import DollarSignIcon from "@hugeicons/core-free-icons/DollarSignIcon";
+  import PercentIcon from "@hugeicons/core-free-icons/PercentIcon";
+  import TextAlignCenterIcon from "@hugeicons/core-free-icons/TextAlignCenterIcon";
+  import TextAlignLeftIcon from "@hugeicons/core-free-icons/TextAlignLeftIcon";
+  import TextAlignRightIcon from "@hugeicons/core-free-icons/TextAlignRightIcon";
 
   const fonts = [
     { label: "Helvetica", value: "helvetica" },

@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
   export const meta = defineParticleMeta({
     components: ["calendar", "scroll-area", "toggle", "toggle-group"],
     id: "p-calendar-19",
@@ -11,7 +11,7 @@
 
 <script lang="ts">
   import { Calendar, ScrollArea, Toggle, ToggleGroup } from "@coss-sv/ui";
-  const today = new Date(2026, 7, 28, 12);
+  const today = new Date();
   let date = $state(today);
   let time = $state<string | null>(null);
   const slots = [
@@ -51,26 +51,28 @@
         time = null;
       }
     }}
-    {today}
   />
   <div class="relative w-full max-sm:h-48 sm:w-40">
     <div class="absolute inset-0 max-sm:border-t">
-      <ScrollArea class="h-full sm:border-s" overscrollContain scrollbarGutter scrollFade
-        ><div class="flex flex-col gap-3 py-3 sm:pt-0 sm:pb-2">
+      <ScrollArea class="h-full sm:border-s" overscrollContain scrollbarGutter scrollFade>
+        <div class="flex flex-col gap-3 py-3 sm:pt-0 sm:pb-2">
           <div class="flex shrink-0 items-center font-medium text-sm sm:h-8 sm:px-5">{weekday}</div>
           <ToggleGroup.Root
             class="grid w-full gap-1.5 max-sm:grid-cols-2 sm:px-5"
             value={time ? [time] : []}
             onValueChange={(values) => (time = values[0] ?? null)}
-            >{#each slots as slot (slot.time)}<Toggle
+          >
+            {#each slots as slot (slot.time)}<Toggle
                 disabled={!slot.available}
                 size="sm"
                 value={slot.time}
-                variant="outline">{slot.time}</Toggle
-              >{/each}</ToggleGroup.Root
-          >
-        </div></ScrollArea
-      >
+                variant="outline"
+              >
+                {slot.time}
+              </Toggle>{/each}
+          </ToggleGroup.Root>
+        </div>
+      </ScrollArea>
     </div>
   </div>
 </div>

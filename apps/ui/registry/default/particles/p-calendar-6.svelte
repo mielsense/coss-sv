@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
   export const meta = defineParticleMeta({
     components: ["calendar", "combobox"],
     id: "p-calendar-6",
@@ -11,8 +11,7 @@
 
 <script lang="ts">
   import { Calendar, Combobox, type CalendarDropdownContext } from "@coss-sv/ui";
-  const today = new Date(2026, 7, 28, 12);
-  let date = $state<Date | undefined>(today);
+  let date = $state<Date | undefined>(new Date());
 </script>
 
 {#snippet dropdown(props: CalendarDropdownContext)}
@@ -28,25 +27,26 @@
       class="**:[input]:w-0 **:[input]:flex-1"
       onfocus={(event) => event.currentTarget.select()}
     />
-    <Combobox.Popup aria-label={props["aria-label"]}
-      ><Combobox.Empty>No items found.</Combobox.Empty><Combobox.List
-        ><Combobox.Collection
-          >{#snippet children(item: (typeof props.options)[number])}<Combobox.Item
+    <Combobox.Popup aria-label={props["aria-label"]}>
+      <Combobox.Empty>No items found.</Combobox.Empty><Combobox.List>
+        <Combobox.Collection>
+          {#snippet children(item: (typeof props.options)[number])}<Combobox.Item
               disabled={item.disabled}
-              value={item}>{item.label}</Combobox.Item
-            >{/snippet}</Combobox.Collection
-        ></Combobox.List
-      ></Combobox.Popup
-    >
+              value={item}
+            >
+              {item.label}
+            </Combobox.Item>{/snippet}
+        </Combobox.Collection>
+      </Combobox.List>
+    </Combobox.Popup>
   </Combobox.Root>
 {/snippet}
 
 <Calendar
   captionLayout="dropdown"
   components={{ Dropdown: dropdown }}
-  endMonth={new Date(2030, 11, 1, 12)}
+  endMonth={new Date(2030, 11)}
   mode="single"
   bind:selected={date}
-  startMonth={new Date(1930, 0, 1, 12)}
-  {today}
+  startMonth={new Date(1930, 0)}
 />

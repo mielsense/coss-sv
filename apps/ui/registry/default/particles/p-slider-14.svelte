@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
   export const meta = defineParticleMeta({
     components: ["button", "field", "slider"],
     id: "p-slider-14",
@@ -12,7 +12,8 @@
 
 <script lang="ts">
   import { Button, Field, HugeiconsIcon, Slider } from "@coss-sv/ui";
-  import { MinusSignIcon, PlusSignIcon } from "@hugeicons/core-free-icons";
+  import MinusSignIcon from "@hugeicons/core-free-icons/MinusSignIcon";
+  import PlusSignIcon from "@hugeicons/core-free-icons/PlusSignIcon";
 
   const min = 0;
   const max = 200;
@@ -29,8 +30,9 @@
       onclick={() => (value = Math.max(min, value - step))}
       size="icon"
       variant="outline"
-      ><HugeiconsIcon aria-hidden="true" icon={MinusSignIcon} strokeWidth={2} /></Button
     >
+      <HugeiconsIcon aria-hidden="true" icon={MinusSignIcon} strokeWidth={2} />
+    </Button>
     <Slider.Root aria-label="Credits slider" class="flex-1" {max} {min} {step} bind:value />
     <Button
       aria-label="Increase value"
@@ -38,7 +40,8 @@
       onclick={() => (value = Math.min(max, value + step))}
       size="icon"
       variant="outline"
-      ><HugeiconsIcon aria-hidden="true" icon={PlusSignIcon} strokeWidth={2} /></Button
     >
+      <HugeiconsIcon aria-hidden="true" icon={PlusSignIcon} strokeWidth={2} />
+    </Button>
   </div>
 </Field.Root>

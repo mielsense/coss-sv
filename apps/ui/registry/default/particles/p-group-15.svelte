@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
   export const meta = defineParticleMeta({
     components: ["button", "group", "input", "select"],
     id: "p-group-15",
@@ -11,7 +11,7 @@
 
 <script lang="ts">
   import { Button, Group, HugeiconsIcon, Input, Select } from "@coss-sv/ui";
-  import { Search01Icon } from "@hugeicons/core-free-icons";
+  import Search01Icon from "@hugeicons/core-free-icons/Search01Icon";
 
   const protocols = [
     { label: "http", value: "http" },
@@ -31,22 +31,22 @@
 <Group.Root aria-label="URL search">
   <Select.Root bind:value={protocol} items={protocols}>
     <Select.Trigger class="w-fit min-w-none"><Select.Value /></Select.Trigger>
-    <Select.Popup
-      >{#each protocols as item (item.value)}
+    <Select.Popup>
+      {#each protocols as item (item.value)}
         <Select.Item value={item.value}>{item.label}</Select.Item>
-      {/each}</Select.Popup
-    >
+      {/each}
+    </Select.Popup>
   </Select.Root>
   <Group.Separator />
   <Input aria-label="URL" class="flex-1" value="coss.com" type="text" />
   <Group.Separator />
   <Select.Root bind:value={subdomain} items={subdomains}>
     <Select.Trigger class="w-fit min-w-none"><Select.Value /></Select.Trigger>
-    <Select.Popup
-      >{#each subdomains as item (item.value)}
+    <Select.Popup>
+      {#each subdomains as item (item.value)}
         <Select.Item value={item.value}>{item.label}</Select.Item>
-      {/each}</Select.Popup
-    >
+      {/each}
+    </Select.Popup>
   </Select.Root>
   <Group.Separator />
   <Button aria-label="Search" size="icon" variant="outline">

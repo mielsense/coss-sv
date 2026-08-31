@@ -3,12 +3,6 @@ title: Get Started
 description: A quick guide to adding your first Svelte component.
 ---
 
-# Get Started
-
-A quick guide to adding your first Svelte component.
-
-<CopyMarkdownButton url="/docs/get-started.md" />
-
 This guide provides the essentials for adding **COSS for Svelte** components to your Svelte 5
 application.
 
@@ -131,7 +125,7 @@ parts when the defaults work, or the primitive when you need a different composi
 
 ```svelte
 <script lang="ts">
-  import * as Slider from "$lib/components/ui/slider/index.js";
+  import * as Slider from "@/components/ui/slider/index.js";
 </script>
 
 <Slider.Root value={40}>
@@ -163,8 +157,8 @@ callback contracts.
 The documentation gives coding agents the component structure and local rules they need to make
 changes. It includes:
 
-- [Agent instructions](/docs/skills) with the source, Svelte, parity, and review rules used by this
-  repository. A public Svelte skill is not available yet.
+- An installable [Agent Skill](/docs/skills) with the component catalog, Svelte conventions, and
+  registry workflow used by this port.
 - An [llms.txt](/llms.txt) file that maps the documentation and component structure for an agent.
 - A **Copy Markdown** button on every guide in this lane for sharing exact page content with a coding
   agent.

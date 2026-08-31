@@ -10,16 +10,13 @@ links:
 
 ## Installation
 
-<InstallCommand
-  pnpm="pnpm add @coss-sv/ui"
-  shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/button.json"
-/>
+<InstallCommand shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/button.json" />
 
 ## Usage
 
 ```svelte
 <script lang="ts">
-  import { Button } from "@coss-sv/ui/components/ui/button";
+  import { Button } from "@/components/ui/button/index.js";
 </script>
 
 <Button>Button</Button>

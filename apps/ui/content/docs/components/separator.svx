@@ -10,16 +10,13 @@ links:
 
 ## Installation
 
-<InstallCommand
-  pnpm="pnpm add @coss-sv/ui"
-  shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/separator.json"
-/>
+<InstallCommand shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/separator.json" />
 
 ## Usage
 
 ```svelte
 <script lang="ts">
-  import { Separator } from "@coss-sv/ui/components/ui/separator";
+  import { Separator } from "@/components/ui/separator/index.js";
 </script>
 
 <Separator />

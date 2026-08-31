@@ -7,16 +7,13 @@ description: A numeric input element with increment and decrement buttons, and a
 
 ## Installation
 
-<InstallCommand
-  pnpm="pnpm add @coss-sv/ui"
-  shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/number-field.json"
-/>
+<InstallCommand shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/number-field.json" />
 
 ## Usage
 
 ```svelte
 <script lang="ts">
-  import { NumberField } from "@coss-sv/ui";
+  import * as NumberField from "@/components/ui/number-field/index.js";
 </script>
 
 <NumberField.Root defaultValue={0}>

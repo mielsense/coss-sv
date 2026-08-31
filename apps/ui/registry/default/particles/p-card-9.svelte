@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
 
   export const meta = defineParticleMeta({
     components: ["button", "card", "field", "form", "frame", "input", "select"],
@@ -13,10 +13,9 @@
 </script>
 
 <script lang="ts">
+  import * as Card from "@coss-sv/ui/components/ui/card";
   import {
     Button,
-    Card,
-    CardPanel,
     Field,
     Form,
     Frame,
@@ -41,8 +40,8 @@
     <FrameTitle>Create project</FrameTitle>
     <FrameDescription>Deploy your new project in one-click.</FrameDescription>
   </FrameHeader>
-  <Card>
-    <CardPanel>
+  <Card.Root>
+    <Card.Panel>
       <Form class="flex w-full flex-col gap-4">
         <Field.Root>
           <Field.Label>Name</Field.Label>
@@ -61,6 +60,6 @@
         </Field.Root>
         <Button class="w-full" type="submit">Deploy</Button>
       </Form>
-    </CardPanel>
-  </Card>
+    </Card.Panel>
+  </Card.Root>
 </Frame>

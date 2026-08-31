@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
   export const meta = defineParticleMeta({
     components: ["number-field", "slider"],
     id: "p-slider-13",
@@ -33,8 +33,10 @@
     {min}
     onValueChange={(next) => updateValue(0, next)}
     size="sm"
-    value={values[0]}><NumberField.Group><NumberField.Input /></NumberField.Group></NumberField.Root
+    value={values[0]}
   >
+    <NumberField.Group><NumberField.Input /></NumberField.Group>
+  </NumberField.Root>
   <Slider.Root
     aria-label="Dual range slider"
     class="flex-1 *:min-w-0!"
@@ -49,6 +51,8 @@
     min={values[0]}
     onValueChange={(next) => updateValue(1, next)}
     size="sm"
-    value={values[1]}><NumberField.Group><NumberField.Input /></NumberField.Group></NumberField.Root
+    value={values[1]}
   >
+    <NumberField.Group><NumberField.Input /></NumberField.Group>
+  </NumberField.Root>
 </div>

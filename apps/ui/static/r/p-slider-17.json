@@ -9,7 +9,7 @@
 	],
 	"files": [
 		{
-			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\n  export const meta = defineParticleMeta({\n    components: [\"slider\"],\n    id: \"p-slider-17\",\n    interactive: true,\n    responsive: false,\n    title: \"Vertical slider\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import * as Slider from \"$COMPONENTS$/ui/slider/index.js\";\n</script>\n\n<Slider.Root aria-label=\"Value\" defaultValue={50} orientation=\"vertical\" />\n",
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\n  export const meta = defineParticleMeta({\n    components: [\"slider\"],\n    id: \"p-slider-17\",\n    interactive: true,\n    responsive: false,\n    title: \"Vertical slider\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import * as Slider from \"$UI$/slider/index.js\";\n</script>\n\n<Slider.Root aria-label=\"Value\" defaultValue={50} orientation=\"vertical\" />\n",
 			"type": "registry:block",
 			"target": "p-slider-17.svelte"
 		}

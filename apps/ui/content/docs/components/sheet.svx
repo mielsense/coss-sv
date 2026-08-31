@@ -10,16 +10,13 @@ links:
 
 ## Installation
 
-<InstallCommand
-  pnpm="pnpm add @coss-sv/ui"
-  shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/sheet.json"
-/>
+<InstallCommand shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/sheet.json" />
 
 ## Usage
 
 ```svelte
 <script lang="ts">
-  import * as Sheet from "@coss-sv/ui/components/ui/sheet";
+  import * as Sheet from "@/components/ui/sheet/index.js";
 </script>
 
 <Sheet.Root>

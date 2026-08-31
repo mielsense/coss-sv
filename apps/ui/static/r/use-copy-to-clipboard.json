@@ -1,0 +1,13 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "use-copy-to-clipboard",
+	"type": "registry:hook",
+	"description": "Copies text and exposes temporary success feedback.",
+	"files": [
+		{
+			"content": "import { onDestroy } from \"svelte\";\n\nexport type CopyToClipboardOptions = {\n  timeout?: number;\n  onCopy?: () => void;\n};\n\nexport type CopyToClipboard = {\n  copyToClipboard: (value: string) => void;\n  readonly isCopied: boolean;\n};\n\nexport function useCopyToClipboard({\n  timeout = 2_000,\n  onCopy,\n}: CopyToClipboardOptions = {}): CopyToClipboard {\n  let isCopied = $state(false);\n  let resetTimer: ReturnType<typeof setTimeout> | undefined;\n  let destroyed = false;\n\n  function copyToClipboard(value: string): void {\n    if (destroyed || !value || typeof window === \"undefined\" || !navigator.clipboard?.writeText) {\n      return;\n    }\n\n    void navigator.clipboard.writeText(value).then(() => {\n      if (destroyed) return;\n      clearTimeout(resetTimer);\n      isCopied = true;\n      onCopy?.();\n\n      if (timeout !== 0) {\n        resetTimer = setTimeout(() => {\n          isCopied = false;\n          resetTimer = undefined;\n        }, timeout);\n      }\n    }, console.error);\n  }\n\n  onDestroy(() => {\n    destroyed = true;\n    clearTimeout(resetTimer);\n  });\n\n  return {\n    copyToClipboard,\n    get isCopied() {\n      return isCopied;\n    },\n  };\n}\n",
+			"type": "registry:hook",
+			"target": "use-copy-to-clipboard.svelte.ts"
+		}
+	]
+}

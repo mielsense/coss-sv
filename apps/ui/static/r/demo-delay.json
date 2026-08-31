@@ -1,0 +1,13 @@
+{
+	"$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+	"name": "demo-delay",
+	"type": "registry:lib",
+	"description": "Cancels simulated form delays when a particle preview is destroyed.",
+	"files": [
+		{
+			"content": "import { onDestroy } from \"svelte\";\n\nexport type DemoDelay = (duration?: number) => Promise<boolean>;\n\n/** Creates a demo-only delay that resolves false when its component is destroyed. */\nexport function createDemoDelay(): DemoDelay {\n  const pending = new Map<ReturnType<typeof setTimeout>, (completed: boolean) => void>();\n  let destroyed = false;\n\n  onDestroy(() => {\n    destroyed = true;\n    for (const [timer, resolve] of pending) {\n      clearTimeout(timer);\n      resolve(false);\n    }\n    pending.clear();\n  });\n\n  return (duration = 800) => {\n    if (destroyed) return Promise.resolve(false);\n\n    return new Promise((resolve) => {\n      const timer = setTimeout(() => {\n        pending.delete(timer);\n        resolve(true);\n      }, duration);\n      pending.set(timer, resolve);\n    });\n  };\n}\n",
+			"type": "registry:lib",
+			"target": "demo-delay.ts"
+		}
+	]
+}

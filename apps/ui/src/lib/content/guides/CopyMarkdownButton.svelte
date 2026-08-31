@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { Copy01Icon, Tick01Icon } from "@hugeicons/core-free-icons";
+  import Copy01Icon from "@hugeicons/core-free-icons/Copy01Icon";
+  import Tick02Icon from "@hugeicons/core-free-icons/Tick02Icon";
   import { Button, HugeiconsIcon } from "@coss-sv/ui";
-  import { onDestroy } from "svelte";
 
   let { url }: { url: string } = $props();
 
@@ -9,7 +9,6 @@
   let error = $state("");
   let timer: number | undefined;
   let controller: AbortController | undefined;
-  let destroyed = false;
   let generation = 0;
 
   function clearFeedbackTimer(): void {
@@ -18,20 +17,10 @@
   }
 
   function isCurrent(operation: number, signal: AbortSignal): boolean {
-    return !destroyed && operation === generation && !signal.aborted;
-  }
-
-  function destroy(): void {
-    destroyed = true;
-    generation += 1;
-    controller?.abort();
-    controller = undefined;
-    clearFeedbackTimer();
+    return operation === generation && !signal.aborted;
   }
 
   async function copyMarkdown(): Promise<void> {
-    if (destroyed) return;
-
     const operation = ++generation;
     controller?.abort();
     const requestController = new AbortController();
@@ -69,13 +58,22 @@
     }
   }
 
-  onDestroy(destroy);
+  $effect(() => {
+    void url;
+
+    return () => {
+      generation += 1;
+      controller?.abort();
+      controller = undefined;
+      clearFeedbackTimer();
+      copied = false;
+      error = "";
+    };
+  });
 </script>
 
-<div class="my-5">
-  <Button aria-label="Copy Markdown" onclick={copyMarkdown} size="sm" variant="outline">
-    <HugeiconsIcon aria-hidden="true" icon={copied ? Tick01Icon : Copy01Icon} strokeWidth={2} />
-    Copy Markdown
-  </Button>
-  <span aria-live="polite" class="sr-only">{error}</span>
-</div>
+<Button aria-label="Copy Markdown" onclick={copyMarkdown} size="xs" variant="outline">
+  <HugeiconsIcon aria-hidden="true" icon={copied ? Tick02Icon : Copy01Icon} strokeWidth={2.5} />
+  Copy Markdown
+</Button>
+<span aria-live="polite" class="sr-only">{error}</span>

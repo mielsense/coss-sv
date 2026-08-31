@@ -9,7 +9,7 @@
 	],
 	"files": [
 		{
-			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\n  export const meta = defineParticleMeta({\n    components: [\"toggle\"],\n    id: \"p-toggle-6\",\n    interactive: true,\n    responsive: false,\n    title: \"Disabled toggle\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { Toggle } from \"$COMPONENTS$/ui/toggle/index.js\";\n</script>\n\n<Toggle disabled variant=\"outline\">Disabled</Toggle>\n",
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\n  export const meta = defineParticleMeta({\n    components: [\"toggle\"],\n    id: \"p-toggle-6\",\n    interactive: true,\n    responsive: false,\n    title: \"Disabled toggle\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { Toggle } from \"$UI$/toggle/index.js\";\n</script>\n\n<Toggle disabled variant=\"outline\">Disabled</Toggle>\n",
 			"type": "registry:block",
 			"target": "p-toggle-6.svelte"
 		}

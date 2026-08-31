@@ -5,7 +5,6 @@ import type { Component } from "svelte";
 import { compile, preprocess } from "svelte/compiler";
 import { render } from "svelte/server";
 import { describe, expect, test } from "vitest";
-import { highlightSource } from "../../src/lib/code/highlight.js";
 import {
   documentationComponents,
   modernizeDocumentationOutput,
@@ -13,9 +12,8 @@ import {
 
 const appRoot = resolve(import.meta.dirname, "../..");
 const repositoryRoot = resolve(appRoot, "../..");
-const particleModules = import.meta.glob<{ default: Component }>(
+const particleLoaders = import.meta.glob<{ default: Component }>(
   "../../registry/default/particles/p-*.svelte",
-  { eager: true },
 );
 
 type OwnershipFile = {
@@ -142,9 +140,10 @@ describe("D7 overlay documentation", () => {
 
   test.each(expectedParticles)(
     "server-renders %s without browser globals or missing exports",
-    (id) => {
-      const module = particleModules[`../../registry/default/particles/${id}.svelte`];
-      expect(module).toBeDefined();
+    async (id) => {
+      const load = particleLoaders[`../../registry/default/particles/${id}.svelte`];
+      expect(load).toBeDefined();
+      const module = await load?.();
       expect(() => render(module?.default as Component)).not.toThrow();
     },
   );
@@ -166,13 +165,7 @@ describe("D7 overlay documentation", () => {
     const filename = resolve(appRoot, `content/docs/components/${slug}.svx`);
     const result = await preprocess(
       source(`apps/ui/content/docs/components/${slug}.svx`),
-      [
-        documentationComponents({
-          loadParticleSource: async () => highlightSource("<button>Preview</button>", "svelte"),
-        }),
-        mdsvex({ extensions: [".svx"] }),
-        modernizeDocumentationOutput(),
-      ],
+      [documentationComponents(), mdsvex({ extensions: [".svx"] }), modernizeDocumentationOutput()],
       { filename },
     );
     expect(() => compile(result.code, { filename, runes: true })).not.toThrow();
@@ -230,7 +223,7 @@ describe("D7 overlay documentation", () => {
       "p-tooltip-4",
     ]) {
       const particle = source(`apps/ui/registry/default/particles/${id}.svelte`);
-      expect(particle).toContain('from "@hugeicons/core-free-icons"');
+      expect(particle).toContain('from "@hugeicons/core-free-icons/');
       expect(particle).not.toContain("@hugeicons/svelte");
       expect(particle).toContain("strokeWidth={2}");
     }

@@ -1,9 +1,25 @@
-import { readFile } from "node:fs/promises";
+import { access, readFile } from "node:fs/promises";
 import { describe, expect, test } from "vitest";
 
 type Rgb = [red: number, green: number, blue: number];
 
-const css = await readFile(new URL("../../app.css", import.meta.url), "utf8");
+const themeCss = await readFile(new URL("../../styles/theme.css", import.meta.url), "utf8");
+const contentCss = await readFile(new URL("../../styles/content.css", import.meta.url), "utf8");
+const homeSource = await readFile(
+  new URL("../../routes/(site)/+page.svelte", import.meta.url),
+  "utf8",
+);
+const thumbnailSource = await readFile(
+  new URL("./CategoryThumbnail.svelte", import.meta.url),
+  "utf8",
+);
+const headerSource = await readFile(new URL("./SiteHeader.svelte", import.meta.url), "utf8");
+const badgeSource = await readFile(new URL("./NewBadge.svelte", import.meta.url), "utf8");
+const contentPageSource = await readFile(new URL("./ContentPage.svelte", import.meta.url), "utf8");
+const docsTableSource = await readFile(
+  new URL("../content/components/DocsTable.svelte", import.meta.url),
+  "utf8",
+);
 
 function rgb(hex: string): Rgb {
   return [1, 3, 5].map((offset) => Number.parseInt(hex.slice(offset, offset + 2), 16)) as Rgb;
@@ -24,18 +40,19 @@ function contrast(foreground: string, background: string): number {
 
 describe("documentation color contracts", () => {
   test("keeps Svelte orange scoped to the site chrome", () => {
-    expect(css).toMatch(/\.site-shell\s*\{[^}]*--site-primary:\s*#ff3e00;/s);
-    expect(css).not.toMatch(/(^|\n)\s*--primary:\s*#ff3e00/);
-    expect(css).toContain("--thumb-primary-to: var(--primary);");
-    expect(css).toMatch(
-      /\.site-button\[data-primary="true"\]\s*\{[^}]*background:\s*var\(--site-primary\);/s,
-    );
+    expect(themeCss).toMatch(/\.site-shell\s*\{[^}]*--site-primary:\s*#ff3e00;/s);
+    expect(themeCss).not.toMatch(/(^|\n)\s*--primary:\s*#ff3e00/);
+    expect(themeCss).toContain("--thumb-primary-to: var(--primary);");
+    expect(homeSource).toContain("bg-site-primary");
+    expect(headerSource).toContain("bg-[#ff3e00]");
+    expect(headerSource).toContain("text-[#171717]");
   });
 
   test.each([
     ["light body text", "#272727", "#fafafa"],
     ["light muted text", "#686868", "#fafafa"],
     ["light primary action", "#fff8f5", "#c93200"],
+    ["Svelte badge", "#171717", "#ff3e00"],
     ["dark body text", "#f4f4f4", "#111111"],
     ["dark muted text", "#9d9d9d", "#111111"],
   ])("%s clears WCAG AA", (_label, foreground, background) => {
@@ -43,87 +60,74 @@ describe("documentation color contracts", () => {
   });
 
   test("defines explicit light and dark component tokens", () => {
-    expect(css).toMatch(/\.site-shell\s*\{[^}]*--site-background:\s*#fafafa;/s);
-    expect(css).toMatch(/html\.dark \.site-shell\s*\{[^}]*--site-background:\s*#111111;/s);
-    expect(css).toMatch(
+    expect(themeCss).toMatch(/\.site-shell\s*\{[^}]*--site-background:\s*#fafafa;/s);
+    expect(themeCss).toMatch(/html\.dark \.site-shell\s*\{[^}]*--site-background:\s*#111111;/s);
+    expect(themeCss).toMatch(
       /html\.dark \.site-shell\s*\{[^}]*--site-muted:\s*var\(--muted-foreground\);/s,
     );
-    expect(css).toMatch(/html\.dark\s*\{[^}]*--muted-foreground:\s*#818181;/s);
+    expect(themeCss).toMatch(/html\.dark\s*\{[^}]*--muted-foreground:\s*#818181;/s);
   });
 });
 
 describe("documentation layout and interaction contracts", () => {
-  test("locks the measured COSS hero and card geometry", () => {
-    expect(css).toMatch(/\.hero\s*\{[^}]*padding-block:\s*2rem;/s);
-    expect(css).toMatch(
-      /@media \(min-width: 48rem\)[\s\S]*?\.hero\s*\{[^}]*padding-block:\s*3rem;/,
-    );
-    expect(css).toMatch(
-      /@media \(min-width: 64rem\)[\s\S]*?\.hero\s*\{[^}]*padding-block:\s*4rem;/,
-    );
-    expect(css).not.toMatch(/\.hero-section\s*\{[^}]*min-height:/s);
-    expect(css).toMatch(/\.category-preview\s*\{[^}]*min-height:\s*13\.75rem;/s);
-    expect(css).toMatch(/\.category-preview\s*\{[^}]*overflow-x:\s*auto;/s);
-    expect(css).toMatch(/\.category-thumbnail\s*\{[^}]*padding:\s*1\.5rem 2rem;/s);
+  test("expresses page-owned geometry with Tailwind utilities", () => {
+    expect(homeSource).toContain("py-8");
+    expect(homeSource).toContain("md:py-12");
+    expect(homeSource).toContain("lg:py-16");
+    expect(homeSource).toContain("h-55");
+    expect(homeSource).toContain("overflow-x-auto");
+    expect(thumbnailSource).toContain("px-8 py-6");
   });
 
-  test("uses the exact COSS type metrics and separately licensed heading face", () => {
-    const rootRule = css.match(/:root\s*\{([^}]*)\}/)?.[1] ?? "";
-    const headingRule = css.match(/\.hero h1,[\s\S]*?\{([^}]*)\}/)?.[1] ?? "";
+  test("uses the exact COSS type metrics with the licensed Cal Sans variable face", () => {
+    const rootRule = themeCss.match(/:root\s*\{([^}]*)\}/)?.[1] ?? "";
 
-    expect(css).toContain('font-family: "Cal Sans";');
-    expect(css).toContain('src: url("/fonts/cal-sans/CalSansVF.woff2") format("woff2");');
-    expect(css).toMatch(/body\s*\{[^}]*font-family:[^}]*"Cal Sans"/s);
-    expect(css).toMatch(/\.hero h1,[\s\S]*?font-family:\s*"Cal Sans"/);
-    expect(css).not.toMatch(/\.hero h1[^}]*letter-spacing:/s);
+    expect(themeCss).toContain('font-family: "Cal Sans";');
+    expect(themeCss).toContain('src: url("/fonts/cal-sans/CalSansVF.woff2") format("woff2");');
+    expect(rootRule).toContain('--site-font-sans:\n    "Cal Sans", ui-sans-serif, system-ui');
+    expect(themeCss).toMatch(/body\s*\{[^}]*--font-sans:\s*var\(--site-font-sans\)/s);
+    expect(themeCss).toMatch(/body\s*\{[^}]*font-family:\s*var\(--site-font-sans\)/s);
+    expect(homeSource).toContain("font-heading text-4xl leading-10 font-bold");
+    expect(homeSource).toContain("text-site-muted text-sm leading-5");
     expect(rootRule).not.toContain("font-variation-settings");
-    expect(headingRule).not.toContain("font-variation-settings");
-    expect(css).toMatch(
-      /\.category-card p\s*\{[^}]*font-size:\s*0\.875rem;[^}]*line-height:\s*1\.25rem;/s,
-    );
   });
 
   test("uses the upstream responsive column progression", () => {
-    expect(css).toMatch(/@media \(min-width: 40rem\)[\s\S]*repeat\(2,/);
-    expect(css).toMatch(/@media \(min-width: 64rem\)[\s\S]*repeat\(3,/);
-    expect(css).toMatch(/@media \(min-width: 80rem\)[\s\S]*repeat\(4,/);
+    expect(homeSource).toContain("sm:grid-cols-2");
+    expect(homeSource).toContain("lg:grid-cols-3");
+    expect(homeSource).toContain("min-[80rem]:grid-cols-4");
   });
 
-  test("keeps the COSS container gutters and neutral preview tokens", () => {
-    const htmlRule = css.match(/(?:^|\n)html\s*\{([^}]*)\}/)?.[1] ?? "";
+  test("keeps page typography in Tailwind and custom CSS limited to generated code", async () => {
+    const htmlRule = themeCss.match(/(?:^|\n)html\s*\{([^}]*)\}/)?.[1] ?? "";
 
     expect(htmlRule).not.toContain("min-width");
-    expect(css).toMatch(
+    expect(themeCss).toMatch(
       /\.site-container\s*\{[^}]*max-width:\s*88\.5rem;[^}]*padding-inline:\s*1rem;/s,
     );
-    expect(css).toMatch(
+    expect(themeCss).toMatch(
       /@media \(min-width: 64rem\)[\s\S]*?\.site-container\s*\{[^}]*padding-inline:\s*1\.5rem;/,
     );
-    expect(css).toMatch(/\.category-preview\s*\{[^}]*--btn-to:\s*var\(--primary\)/s);
-    expect(css).not.toMatch(/\.category-preview\s*\{[^}]*--site-primary/s);
+    expect(contentCss).toContain(".shiki");
+    expect(contentCss).toContain(".docs-code-block");
+    expect(contentCss).not.toContain(".content-page");
+    expect(contentPageSource).toContain("[&>h2]:mt-12");
+    expect(contentPageSource).toContain("[&>p:not(:first-child)]:mt-6");
+    expect(docsTableSource).toContain("max-w-full overflow-x-auto");
+    await expect(access(new URL("../../app.css", import.meta.url))).rejects.toThrow();
   });
 
-  test("matches COSS button, badge, and fixed marker behavior", () => {
-    expect(css).toMatch(/\.hero-actions\s*\{[^}]*display:\s*flex;[^}]*gap:\s*0\.5rem;/s);
-    expect(css).not.toMatch(/\.hero-actions\s*\{[^}]*flex-wrap:/s);
-    expect(css).toMatch(
-      /\.site-button\s*\{[^}]*border-radius:\s*0\.625rem;[^}]*font-weight:\s*500;/s,
-    );
-    expect(css).toMatch(/\.site-button\s*\{[^}]*white-space:\s*nowrap;/s);
-    expect(css).toMatch(/\.site-button\[data-primary="true"\]\s*\{[^}]*box-shadow:[^}]*inset/s);
-    expect(css).toMatch(/\.site-button:active,[\s\S]*?\.site-button\[data-pressed="true"\]/);
-    expect(css).toMatch(
-      /\.new-badge\s*\{[^}]*height:\s*1\.125rem;[^}]*background:\s*var\(--info-muted\);/s,
-    );
-    expect(css).toMatch(/\.header-markers\s*\{[^}]*position:\s*fixed;/s);
-  });
-
-  test("keeps visible focus and reduced-motion fallbacks", () => {
-    expect(css).toContain("outline: 2px solid var(--site-primary);");
-    expect(css).toContain("outline-offset: 3px;");
-    expect(css).toContain("@media (prefers-reduced-motion: reduce)");
-    expect(css).not.toMatch(
-      /:focus-visible\s*\{[^}]*(?:outline:\s*none|outline-color:\s*transparent)/s,
-    );
+  test("keeps COSS controls, badges, focus, and reduced-motion behavior in component markup", () => {
+    expect(homeSource).toContain("rounded-[0.625rem]");
+    expect(homeSource).toContain("font-medium");
+    expect(homeSource).toContain("whitespace-nowrap");
+    expect(homeSource).toContain("active:shadow-");
+    expect(badgeSource).toContain("h-4.5");
+    expect(badgeSource).toContain("bg-info/8");
+    expect(themeCss).toContain(".header-markers");
+    expect(headerSource).toContain("focus-visible:outline-2");
+    expect(thumbnailSource).toContain("motion-reduce:transition-none");
+    expect(contentPageSource).toContain("[&_a:focus-visible]:outline-site-primary");
+    expect(contentPageSource).not.toContain("focus-visible:outline-none");
   });
 });

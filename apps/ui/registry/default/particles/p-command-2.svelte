@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
 
   export const meta = defineParticleMeta({
     components: [
@@ -33,15 +33,13 @@
     Skeleton,
     Spinner,
   } from "@coss-sv/ui";
-  import {
-    ArrowDown01Icon,
-    ArrowLeft01Icon,
-    ArrowUp01Icon,
-    CircleQuestionMarkIcon,
-    CornerDownLeftIcon,
-    Search01Icon,
-    SparklesIcon,
-  } from "@hugeicons/core-free-icons";
+  import ArrowDown01Icon from "@hugeicons/core-free-icons/ArrowDown01Icon";
+  import ArrowLeft01Icon from "@hugeicons/core-free-icons/ArrowLeft01Icon";
+  import ArrowUp01Icon from "@hugeicons/core-free-icons/ArrowUp01Icon";
+  import CircleQuestionMarkIcon from "@hugeicons/core-free-icons/CircleQuestionMarkIcon";
+  import CornerDownLeftIcon from "@hugeicons/core-free-icons/CornerDownLeftIcon";
+  import Search01Icon from "@hugeicons/core-free-icons/Search01Icon";
+  import SparklesIcon from "@hugeicons/core-free-icons/SparklesIcon";
   import { onDestroy, tick } from "svelte";
   import type { Attachment } from "svelte/attachments";
 
@@ -270,18 +268,14 @@ You can customize project settings at any time by clicking the settings icon in 
             <Command.Empty class="not-empty:py-12">
               {#if searchQuery.trim()}
                 <div class="wrap-break-word flex flex-col flex-wrap items-center gap-2">
-                  <EmptyMedia variant="icon"
-                    ><HugeiconsIcon
-                      aria-hidden="true"
-                      icon={Search01Icon}
-                      strokeWidth={2}
-                    /></EmptyMedia
-                  >
+                  <EmptyMedia variant="icon">
+                    <HugeiconsIcon aria-hidden="true" icon={Search01Icon} strokeWidth={2} />
+                  </EmptyMedia>
                   <p>No results found.</p>
                   <p>
-                    Press <Kbd>Enter</Kbd> to ask AI about:<br /><strong
-                      class="font-medium text-foreground">{searchQuery}</strong
-                    >
+                    Press <Kbd>Enter</Kbd> to ask AI about:
+                    <br />
+                    <strong class="font-medium text-foreground">{searchQuery}</strong>
                   </p>
                 </div>
               {/if}
@@ -292,11 +286,10 @@ You can customize project settings at any time by clicking the settings icon in 
                   <Command.GroupLabel>{group.value}</Command.GroupLabel>
                   <Command.Collection>
                     {#snippet children(item: Item)}
-                      <Command.Item onclick={close} value={item}
-                        ><span class="flex-1">{item.label}</span
-                        >{#if item.shortcut}<Command.Shortcut>{item.shortcut}</Command.Shortcut
-                          >{/if}</Command.Item
-                      >
+                      <Command.Item onclick={close} value={item}>
+                        <span class="flex-1">{item.label}</span>
+                        {#if item.shortcut}<Command.Shortcut>{item.shortcut}</Command.Shortcut>{/if}
+                      </Command.Item>
                     {/snippet}
                   </Command.Collection>
                 </Command.Group>
@@ -308,35 +301,31 @@ You can customize project settings at any time by clicking the settings icon in 
             {#if hasResults}
               <div class="flex items-center gap-4">
                 <div class="flex items-center gap-2">
-                  <KbdGroup
-                    ><Kbd
-                      ><HugeiconsIcon
-                        aria-hidden="true"
-                        icon={ArrowUp01Icon}
-                        strokeWidth={2}
-                      /></Kbd
-                    ><Kbd
-                      ><HugeiconsIcon
-                        aria-hidden="true"
-                        icon={ArrowDown01Icon}
-                        strokeWidth={2}
-                      /></Kbd
-                    ></KbdGroup
-                  ><span>Navigate</span>
+                  <KbdGroup>
+                    <Kbd>
+                      <HugeiconsIcon aria-hidden="true" icon={ArrowUp01Icon} strokeWidth={2} />
+                    </Kbd><Kbd>
+                      <HugeiconsIcon aria-hidden="true" icon={ArrowDown01Icon} strokeWidth={2} />
+                    </Kbd>
+                  </KbdGroup>
+                  <span>Navigate</span>
                 </div>
                 <div class="flex items-center gap-2">
-                  <Kbd
-                    ><HugeiconsIcon
-                      aria-hidden="true"
-                      icon={CornerDownLeftIcon}
-                      strokeWidth={2}
-                    /></Kbd
-                  ><span>Open</span>
+                  <Kbd>
+                    <HugeiconsIcon aria-hidden="true" icon={CornerDownLeftIcon} strokeWidth={2} />
+                  </Kbd>
+                  <span>Open</span>
                 </div>
               </div>
-              <div class="flex items-center gap-2"><Kbd>Esc</Kbd><span>Close</span></div>
+              <div class="flex items-center gap-2">
+                <Kbd>Esc</Kbd>
+                <span>Close</span>
+              </div>
             {:else}
-              <div class="ms-auto flex items-center gap-2"><Kbd>Esc</Kbd><span>Close</span></div>
+              <div class="ms-auto flex items-center gap-2">
+                <Kbd>Esc</Kbd>
+                <span>Close</span>
+              </div>
             {/if}
           </Command.Footer>
         </Command.Root>
@@ -426,8 +415,10 @@ You can customize project settings at any time by clicking the settings icon in 
                     {#each referenceLinks as link (`${link.url}-${link.title}`)}<Button
                         href={link.url}
                         size="sm"
-                        variant="secondary">{link.title}</Button
-                      >{/each}
+                        variant="secondary"
+                      >
+                        {link.title}
+                      </Button>{/each}
                   </div>{/if}
               {/if}
             </div>
@@ -449,13 +440,15 @@ You can customize project settings at any time by clicking the settings icon in 
                   strokeWidth={2}
                 />
               </div>
-              You asked:<span>"{submittedQuery}"</span>
+              You asked:
+              <span>"{submittedQuery}"</span>
             </div>
           {:else}
             <div class="flex items-center gap-2">
-              <Kbd
-                ><HugeiconsIcon aria-hidden="true" icon={CornerDownLeftIcon} strokeWidth={2} /></Kbd
-              ><span>Ask AI</span>
+              <Kbd>
+                <HugeiconsIcon aria-hidden="true" icon={CornerDownLeftIcon} strokeWidth={2} />
+              </Kbd>
+              <span>Ask AI</span>
             </div>
           {/if}
         </Command.Footer>

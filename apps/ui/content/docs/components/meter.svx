@@ -10,16 +10,13 @@ links:
 
 ## Installation
 
-<InstallCommand
-  pnpm="pnpm add @coss-sv/ui"
-  shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/meter.json"
-/>
+<InstallCommand shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/meter.json" />
 
 ## Usage
 
 ```svelte
 <script lang="ts">
-  import * as Meter from "@coss-sv/ui/components/ui/meter";
+  import * as Meter from "@/components/ui/meter/index.js";
 </script>
 
 <Meter.Root value={40}>

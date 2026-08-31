@@ -7,16 +7,13 @@ description: A loading state skeleton for your components.
 
 ## Installation
 
-<InstallCommand
-  pnpm="pnpm add @coss-sv/ui"
-  shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/skeleton.json"
-/>
+<InstallCommand shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/skeleton.json" />
 
 ## Usage
 
 ```svelte
 <script lang="ts">
-  import { Skeleton } from "@coss-sv/ui/components/ui/skeleton";
+  import { Skeleton } from "@/components/ui/skeleton/index.js";
 </script>
 
 <Skeleton class="size-10 rounded-full" />

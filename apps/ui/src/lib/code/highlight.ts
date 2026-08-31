@@ -1,4 +1,4 @@
-import { bundledLanguages, type BundledLanguage, codeToTokensWithThemes } from "shiki";
+import { documentationHighlighter, resolveDocumentationLanguage } from "./shiki.js";
 
 export type HighlightedTokenStyle = {
   color: string;
@@ -19,10 +19,6 @@ export type HighlightedSource = {
   raw: string;
 };
 
-function supportedLanguage(language: string): BundledLanguage | "text" {
-  return Object.hasOwn(bundledLanguages, language) ? (language as BundledLanguage) : "text";
-}
-
 function tokenStyle(
   style: { color?: string; fontStyle?: number } | undefined,
 ): HighlightedTokenStyle {
@@ -36,8 +32,9 @@ function tokenStyle(
 }
 
 export async function highlightSource(raw: string, language: string): Promise<HighlightedSource> {
-  const lines = await codeToTokensWithThemes(raw, {
-    lang: supportedLanguage(language),
+  const highlighter = await documentationHighlighter;
+  const lines = highlighter.codeToTokensWithThemes(raw, {
+    lang: resolveDocumentationLanguage(language),
     themes: {
       dark: "github-dark",
       light: "github-light",

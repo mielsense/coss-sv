@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta, type ParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta, type ParticleMeta } from "@/registry/particle-metadata.js";
 
   const particleMeta = {
     components: [
@@ -38,13 +38,11 @@
     Switch,
     Tooltip,
   } from "@coss-sv/ui";
-  import {
-    Add01Icon,
-    Cancel01Icon,
-    Copy01Icon,
-    Search01Icon,
-    UnfoldMoreIcon,
-  } from "@hugeicons/core-free-icons";
+  import Add01Icon from "@hugeicons/core-free-icons/Add01Icon";
+  import Cancel01Icon from "@hugeicons/core-free-icons/Cancel01Icon";
+  import Copy01Icon from "@hugeicons/core-free-icons/Copy01Icon";
+  import Search01Icon from "@hugeicons/core-free-icons/Search01Icon";
+  import UnfoldMoreIcon from "@hugeicons/core-free-icons/UnfoldMoreIcon";
 
   const days = [
     "Monday",

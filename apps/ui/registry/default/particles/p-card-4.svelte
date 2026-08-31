@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
 
   export const meta = defineParticleMeta({
     components: ["button", "card", "field", "form", "input", "select"],
@@ -13,22 +13,9 @@
 </script>
 
 <script lang="ts">
-  import {
-    Button,
-    Card,
-    CardDescription,
-    CardFrame,
-    CardFrameFooter,
-    CardHeader,
-    CardPanel,
-    CardTitle,
-    Field,
-    Form,
-    HugeiconsIcon,
-    Input,
-    Select,
-  } from "@coss-sv/ui";
-  import { AlertCircleIcon } from "@hugeicons/core-free-icons";
+  import * as Card from "@coss-sv/ui/components/ui/card";
+  import { Button, Field, Form, HugeiconsIcon, Input, Select } from "@coss-sv/ui";
+  import AlertCircleIcon from "@hugeicons/core-free-icons/AlertCircleIcon";
 
   const frameworkOptions = [
     { label: "Next.js", value: "next" },
@@ -39,13 +26,13 @@
   let framework = $state("next");
 </script>
 
-<CardFrame class="w-full max-w-xs">
-  <Card>
-    <CardHeader>
-      <CardTitle>Create project</CardTitle>
-      <CardDescription>Deploy your new project in one-click.</CardDescription>
-    </CardHeader>
-    <CardPanel>
+<Card.Frame class="w-full max-w-xs">
+  <Card.Root>
+    <Card.Header>
+      <Card.Title>Create project</Card.Title>
+      <Card.Description>Deploy your new project in one-click.</Card.Description>
+    </Card.Header>
+    <Card.Panel>
       <Form class="flex w-full flex-col gap-4">
         <Field.Root>
           <Field.Label>Name</Field.Label>
@@ -64,9 +51,9 @@
         </Field.Root>
         <Button class="w-full" type="submit">Deploy</Button>
       </Form>
-    </CardPanel>
-  </Card>
-  <CardFrameFooter>
+    </Card.Panel>
+  </Card.Root>
+  <Card.FrameFooter>
     <div class="flex gap-1 text-muted-foreground text-xs">
       <HugeiconsIcon
         aria-hidden="true"
@@ -76,5 +63,5 @@
       />
       <p>This will take a few seconds to complete.</p>
     </div>
-  </CardFrameFooter>
-</CardFrame>
+  </Card.FrameFooter>
+</Card.Frame>

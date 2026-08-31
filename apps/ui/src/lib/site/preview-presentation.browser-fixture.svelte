@@ -1,6 +1,8 @@
 <script lang="ts">
-  import "../../app.css";
-  import type { PreviewTheme } from "../../routes/preview/[name]/preview-contract.js";
+  import "../../tailwind.css";
+  import "../../styles/theme.css";
+  import "../../styles/content.css";
+  import type { PreviewTheme } from "@/preview/contract.js";
   import PreviewPresentation from "./PreviewPresentation.svelte";
 
   let { theme }: { theme?: PreviewTheme } = $props();

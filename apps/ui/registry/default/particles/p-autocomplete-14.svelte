@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
 
   export const meta = defineParticleMeta({
     components: ["autocomplete"],
@@ -13,7 +13,7 @@
 
 <script lang="ts">
   import { Autocomplete, HugeiconsIcon } from "@coss-sv/ui";
-  import { Search01Icon } from "@hugeicons/core-free-icons";
+  import Search01Icon from "@hugeicons/core-free-icons/Search01Icon";
 
   const items = [
     { label: "Apple", value: "apple" },

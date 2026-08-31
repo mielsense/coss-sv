@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
 
   export const meta = defineParticleMeta({
     components: ["field", "fieldset", "radio-group"],
@@ -33,14 +33,16 @@
     <span class="absolute top-2 bottom-0 left-2.5 w-[34px] rounded-ss bg-white shadow-sm">
       <span class="absolute left-2.5 top-2.5 size-4 rounded-full bg-neutral-300"></span>
       <span class="absolute bottom-6 left-2.5 right-0 h-1 rounded-s-full bg-neutral-200"></span>
-      <span class="absolute bottom-[17px] left-2.5 right-0 h-1 rounded-s-full bg-neutral-200"
+      <span
+        class="absolute bottom-[17px] left-2.5 right-0 h-1 rounded-s-full bg-neutral-200"
       ></span>
       <span class="absolute bottom-2.5 left-2.5 right-0 h-1 rounded-s-full bg-neutral-200"></span>
     </span>
     <span class="absolute top-2 right-0 bottom-0 left-[54px] rounded-ss bg-neutral-800 shadow-sm">
       <span class="absolute left-2.5 top-2.5 size-4 rounded-full bg-neutral-600"></span>
       <span class="absolute bottom-6 left-2.5 right-0 h-1 rounded-s-full bg-neutral-700"></span>
-      <span class="absolute bottom-[17px] left-2.5 right-0 h-1 rounded-s-full bg-neutral-700"
+      <span
+        class="absolute bottom-[17px] left-2.5 right-0 h-1 rounded-s-full bg-neutral-700"
       ></span>
       <span class="absolute bottom-2.5 left-2.5 right-0 h-1 rounded-s-full bg-neutral-700"></span>
     </span>

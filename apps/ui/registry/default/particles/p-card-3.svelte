@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
 
   export const meta = defineParticleMeta({
     components: ["button", "card", "field", "form", "input"],
@@ -13,28 +13,17 @@
 </script>
 
 <script lang="ts">
-  import {
-    Button,
-    Card,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardPanel,
-    CardTitle,
-    Field,
-    Form,
-    HugeiconsIcon,
-    Input,
-  } from "@coss-sv/ui";
-  import { ShieldAlertIcon } from "@hugeicons/core-free-icons";
+  import * as Card from "@coss-sv/ui/components/ui/card";
+  import { Button, Field, Form, HugeiconsIcon, Input } from "@coss-sv/ui";
+  import ShieldAlertIcon from "@hugeicons/core-free-icons/ShieldAlertIcon";
 </script>
 
-<Card class="w-full max-w-xs">
-  <CardHeader class="border-b">
-    <CardTitle>Login to your account</CardTitle>
-    <CardDescription>Enter email and password to login</CardDescription>
-  </CardHeader>
-  <CardPanel>
+<Card.Root class="w-full max-w-xs">
+  <Card.Header class="border-b">
+    <Card.Title>Login to your account</Card.Title>
+    <Card.Description>Enter email and password to login</Card.Description>
+  </Card.Header>
+  <Card.Panel>
     <Form class="flex w-full flex-col gap-4">
       <Field.Root>
         <Field.Label>Email</Field.Label>
@@ -46,8 +35,8 @@
       </Field.Root>
       <Button class="w-full" type="submit">Login</Button>
     </Form>
-  </CardPanel>
-  <CardFooter class="border-t">
+  </Card.Panel>
+  <Card.Footer class="border-t">
     <div class="flex gap-1 text-muted-foreground text-xs">
       <HugeiconsIcon
         aria-hidden="true"
@@ -57,5 +46,5 @@
       />
       <p>The information you enter is encrypted and stored securely.</p>
     </div>
-  </CardFooter>
-</Card>
+  </Card.Footer>
+</Card.Root>

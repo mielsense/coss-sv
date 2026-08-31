@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
   export const meta = defineParticleMeta({
     components: ["calendar"],
     id: "p-calendar-7",
@@ -11,9 +11,8 @@
 
 <script lang="ts">
   import { Calendar } from "@coss-sv/ui";
-  const today = new Date(2026, 7, 28, 12);
-  const addDays = (date: Date, days: number) =>
-    new Date(date.getFullYear(), date.getMonth(), date.getDate() + days, 12);
+  import { addCalendarDays } from "../lib/date-format.js";
+  const today = new Date();
 </script>
 
 <Calendar
@@ -21,10 +20,9 @@
     { before: today },
     today,
     { dayOfWeek: [0, 6] },
-    { from: addDays(today, 14), to: addDays(today, 16) },
-    { from: addDays(today, 23), to: addDays(today, 24) },
+    { from: addCalendarDays(today, 14), to: addCalendarDays(today, 16) },
+    { from: addCalendarDays(today, 23), to: addCalendarDays(today, 24) },
   ]}
   excludeDisabled
   mode="range"
-  {today}
 />

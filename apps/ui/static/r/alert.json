@@ -25,7 +25,7 @@
 			"target": "alert/alert-title.svelte"
 		},
 		{
-			"content": "export type { AlertProps, AlertVariant } from \"./alert.svelte\";\nexport { default as Alert } from \"./alert.svelte\";\nexport { default as AlertAction } from \"./alert-action.svelte\";\nexport { default as AlertDescription } from \"./alert-description.svelte\";\nexport { default as AlertTitle } from \"./alert-title.svelte\";\n",
+			"content": "export type { AlertProps, AlertVariant } from \"./alert.svelte\";\nexport { default as Alert, default as Root } from \"./alert.svelte\";\nexport { default as Action, default as AlertAction } from \"./alert-action.svelte\";\nexport { default as AlertDescription, default as Description } from \"./alert-description.svelte\";\nexport { default as AlertTitle, default as Title } from \"./alert-title.svelte\";\n",
 			"type": "registry:ui",
 			"target": "alert/index.ts"
 		}

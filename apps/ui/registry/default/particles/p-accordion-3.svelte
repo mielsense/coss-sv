@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
 
   export const meta = defineParticleMeta({
     components: ["accordion"],
@@ -24,17 +24,18 @@
     </Accordion.Panel>
   </Accordion.Item>
   <Accordion.Item value="item-2">
-    <Accordion.Header><Accordion.Trigger>How do I get started?</Accordion.Trigger></Accordion.Header
-    >
+    <Accordion.Header>
+      <Accordion.Trigger>How do I get started?</Accordion.Trigger>
+    </Accordion.Header>
     <Accordion.Panel>
       Head to the "Quick start" guide in the docs. If you've used unstyled libraries before, you'll
       feel at home.
     </Accordion.Panel>
   </Accordion.Item>
   <Accordion.Item value="item-3">
-    <Accordion.Header
-      ><Accordion.Trigger>Can I use it for my project?</Accordion.Trigger></Accordion.Header
-    >
+    <Accordion.Header>
+      <Accordion.Trigger>Can I use it for my project?</Accordion.Trigger>
+    </Accordion.Header>
     <Accordion.Panel>Of course! Base UI is free and open source.</Accordion.Panel>
   </Accordion.Item>
 </Accordion.Root>

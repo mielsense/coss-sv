@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
   export const meta = defineParticleMeta({
     components: ["number-field", "slider"],
     id: "p-slider-19",
@@ -25,7 +25,7 @@
     orientation="vertical"
     bind:value
   />
-  <NumberField.Root aria-label="Enter slider value" class="w-16" {max} {min} size="sm" bind:value
-    ><NumberField.Group><NumberField.Input /></NumberField.Group></NumberField.Root
-  >
+  <NumberField.Root aria-label="Enter slider value" class="w-16" {max} {min} size="sm" bind:value>
+    <NumberField.Group><NumberField.Input /></NumberField.Group>
+  </NumberField.Root>
 </div>

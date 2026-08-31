@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
 
   export const meta = defineParticleMeta({
     components: ["button", "group", "input", "tooltip"],
@@ -12,16 +12,16 @@
 
 <script lang="ts">
   import { buttonVariants, Group, HugeiconsIcon, Input, Tooltip } from "@coss-sv/ui";
-  import { Copy01Icon, Tick01Icon } from "@hugeicons/core-free-icons";
+  import Copy01Icon from "@hugeicons/core-free-icons/Copy01Icon";
+  import Tick01Icon from "@hugeicons/core-free-icons/Tick01Icon";
+  import { useCopyToClipboard } from "../hooks/use-copy-to-clipboard.svelte.js";
 
   let input: HTMLInputElement | null = $state(null);
-  let isCopied = $state(false);
+  const clipboard = useCopyToClipboard();
 
-  async function copy() {
+  function copy() {
     if (!input) return;
-    await navigator.clipboard.writeText(input.value);
-    isCopied = true;
-    setTimeout(() => (isCopied = false), 1500);
+    clipboard.copyToClipboard(input.value);
   }
 </script>
 
@@ -34,7 +34,11 @@
       class={buttonVariants({ size: "icon", variant: "outline" })}
       onclick={copy}
     >
-      <HugeiconsIcon aria-hidden="true" icon={isCopied ? Tick01Icon : Copy01Icon} strokeWidth={2} />
+      <HugeiconsIcon
+        aria-hidden="true"
+        icon={clipboard.isCopied ? Tick01Icon : Copy01Icon}
+        strokeWidth={2}
+      />
     </Tooltip.Trigger>
     <Tooltip.Popup><p>Copy to clipboard</p></Tooltip.Popup>
   </Tooltip.Root>

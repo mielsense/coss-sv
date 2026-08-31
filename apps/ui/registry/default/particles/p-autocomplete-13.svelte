@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
   export const meta = defineParticleMeta({
     components: ["autocomplete", "button", "field", "form"],
     containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64",
@@ -12,7 +12,9 @@
 
 <script lang="ts">
   import { Autocomplete, Button, Field, Form } from "@coss-sv/ui";
+  import { createDemoDelay } from "../lib/demo-delay.js";
 
+  const delay = createDemoDelay();
   const items = [
     "Apple",
     "Banana",
@@ -33,7 +35,7 @@
     const selected = new FormData(form).get("item");
     const value = items.find((item) => item.label === selected)?.value ?? selected ?? "";
     loading = true;
-    await new Promise((resolve) => setTimeout(resolve, 800));
+    if (!(await delay())) return;
     loading = false;
     alert(`Favorite item: ${value}`);
   }
@@ -46,13 +48,13 @@
       <Autocomplete.Input placeholder="Search items…" />
       <Autocomplete.Popup>
         <Autocomplete.Empty>No items found.</Autocomplete.Empty>
-        <Autocomplete.List
-          ><Autocomplete.Collection>
-            {#snippet children(item: Item)}<Autocomplete.Item value={item}
-                >{item.label}</Autocomplete.Item
-              >{/snippet}
-          </Autocomplete.Collection></Autocomplete.List
-        >
+        <Autocomplete.List>
+          <Autocomplete.Collection>
+            {#snippet children(item: Item)}<Autocomplete.Item value={item}>
+                {item.label}
+              </Autocomplete.Item>{/snippet}
+          </Autocomplete.Collection>
+        </Autocomplete.List>
       </Autocomplete.Popup>
     </Autocomplete.Root>
     <Field.Error>Please select a item.</Field.Error>

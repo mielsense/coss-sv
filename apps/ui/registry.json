@@ -3,11 +3,11 @@
   "name": "coss-sv",
   "homepage": "https://coss-sv.vercel.app",
   "aliases": {
-    "lib": "$lib",
-    "ui": "$lib/components/ui",
-    "components": "$lib/components",
-    "utils": "$lib/utils",
-    "hooks": "$lib/hooks"
+    "lib": "@",
+    "ui": "@/components/ui",
+    "components": "@/components",
+    "utils": "@/utils",
+    "hooks": "@/hooks"
   },
   "items": [
     {
@@ -140,7 +140,8 @@
       ],
       "registryDependencies": [
         "local:hugeicons-icon",
-        "local:scroll-area"
+        "local:scroll-area",
+        "local:selection-change-context"
       ],
       "files": [
         {
@@ -177,6 +178,10 @@
         },
         {
           "path": "../../packages/ui/src/components/ui/autocomplete/autocomplete-popup.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/autocomplete/autocomplete-root.svelte",
           "type": "registry:ui"
         },
         {
@@ -410,6 +415,19 @@
       ]
     },
     {
+      "name": "change-event-details",
+      "type": "registry:lib",
+      "description": "Creates cancelable COSS change callback details from native events.",
+      "dependencies": [],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "../../packages/ui/src/lib/change-event-details.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
       "name": "checkbox",
       "type": "registry:ui",
       "description": "Lets a user select or clear an option.",
@@ -418,6 +436,7 @@
         "@shardsui/svelte@0.1.0-beta.0"
       ],
       "registryDependencies": [
+        "local:change-event-details",
         "local:hugeicons-icon"
       ],
       "files": [
@@ -439,6 +458,7 @@
         "@shardsui/svelte@0.1.0-beta.0"
       ],
       "registryDependencies": [
+        "local:change-event-details",
         "local:checkbox"
       ],
       "files": [
@@ -515,7 +535,8 @@
       ],
       "registryDependencies": [
         "local:hugeicons-icon",
-        "local:scroll-area"
+        "local:scroll-area",
+        "local:selection-change-context"
       ],
       "files": [
         {
@@ -623,6 +644,10 @@
         },
         {
           "path": "../../packages/ui/src/components/ui/command/command-dialog-popup.svelte",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/command/command-dialog-root.svelte",
           "type": "registry:ui"
         },
         {
@@ -787,6 +812,19 @@
       "files": [
         {
           "path": "registry/default/lib/date-format.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "demo-delay",
+      "type": "registry:lib",
+      "description": "Cancels simulated form delays when a particle preview is destroyed.",
+      "dependencies": [],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "registry/default/lib/demo-delay.ts",
           "type": "registry:lib"
         }
       ]
@@ -1496,10 +1534,6 @@
           "type": "registry:ui"
         },
         {
-          "path": "../../packages/ui/src/components/ui/otp-field/field-relationships.ts",
-          "type": "registry:ui"
-        },
-        {
           "path": "../../packages/ui/src/components/ui/otp-field/otp-field-input.svelte",
           "type": "registry:ui"
         },
@@ -1885,7 +1919,8 @@
         "local:autocomplete",
         "local:button",
         "local:field",
-        "local:form"
+        "local:form",
+        "local:demo-delay"
       ],
       "type": "registry:block"
     },
@@ -3786,7 +3821,8 @@
       "name": "p-calendar-10",
       "registryDependencies": [
         "local:particle-metadata",
-        "local:calendar"
+        "local:calendar",
+        "local:date-format"
       ],
       "type": "registry:block"
     },
@@ -3884,7 +3920,8 @@
       "registryDependencies": [
         "local:particle-metadata",
         "local:calendar",
-        "local:button"
+        "local:button",
+        "local:date-format"
       ],
       "type": "registry:block"
     },
@@ -3904,7 +3941,8 @@
       "registryDependencies": [
         "local:particle-metadata",
         "local:calendar",
-        "local:button"
+        "local:button",
+        "local:date-format"
       ],
       "type": "registry:block"
     },
@@ -3928,7 +3966,8 @@
         "local:calendar",
         "local:field",
         "local:input-group",
-        "local:hugeicons-icon"
+        "local:hugeicons-icon",
+        "local:date-format"
       ],
       "type": "registry:block"
     },
@@ -4013,7 +4052,8 @@
       "registryDependencies": [
         "local:particle-metadata",
         "local:calendar",
-        "local:button"
+        "local:button",
+        "local:date-format"
       ],
       "type": "registry:block"
     },
@@ -4033,7 +4073,8 @@
       "registryDependencies": [
         "local:particle-metadata",
         "local:calendar",
-        "local:button"
+        "local:button",
+        "local:date-format"
       ],
       "type": "registry:block"
     },
@@ -4052,7 +4093,8 @@
       "name": "p-calendar-22",
       "registryDependencies": [
         "local:particle-metadata",
-        "local:calendar"
+        "local:calendar",
+        "local:date-format"
       ],
       "type": "registry:block"
     },
@@ -4071,7 +4113,8 @@
       "name": "p-calendar-23",
       "registryDependencies": [
         "local:particle-metadata",
-        "local:calendar"
+        "local:calendar",
+        "local:date-format"
       ],
       "type": "registry:block"
     },
@@ -4090,7 +4133,8 @@
       "name": "p-calendar-24",
       "registryDependencies": [
         "local:particle-metadata",
-        "local:calendar"
+        "local:calendar",
+        "local:date-format"
       ],
       "type": "registry:block"
     },
@@ -4211,7 +4255,8 @@
       "name": "p-calendar-7",
       "registryDependencies": [
         "local:particle-metadata",
-        "local:calendar"
+        "local:calendar",
+        "local:date-format"
       ],
       "type": "registry:block"
     },
@@ -4230,7 +4275,8 @@
       "name": "p-calendar-8",
       "registryDependencies": [
         "local:particle-metadata",
-        "local:calendar"
+        "local:calendar",
+        "local:date-format"
       ],
       "type": "registry:block"
     },
@@ -4637,7 +4683,8 @@
         "local:button",
         "local:checkbox",
         "local:field",
-        "local:form"
+        "local:form",
+        "local:demo-delay"
       ],
       "type": "registry:block"
     },
@@ -4745,7 +4792,8 @@
         "local:checkbox-group",
         "local:field",
         "local:fieldset",
-        "local:form"
+        "local:form",
+        "local:demo-delay"
       ],
       "type": "registry:block"
     },
@@ -4831,7 +4879,8 @@
         "local:button",
         "local:combobox",
         "local:field",
-        "local:form"
+        "local:form",
+        "local:demo-delay"
       ],
       "type": "registry:block"
     },
@@ -4853,7 +4902,8 @@
         "local:button",
         "local:combobox",
         "local:field",
-        "local:form"
+        "local:form",
+        "local:demo-delay"
       ],
       "type": "registry:block"
     },
@@ -5519,7 +5569,8 @@
         "local:calendar",
         "local:input-group",
         "local:popover",
-        "local:hugeicons-icon"
+        "local:hugeicons-icon",
+        "local:date-format"
       ],
       "type": "registry:block"
     },
@@ -5838,7 +5889,8 @@
         "local:drawer",
         "local:field",
         "local:form",
-        "local:input"
+        "local:input",
+        "local:use-media-query"
       ],
       "type": "registry:block"
     },
@@ -5862,6 +5914,7 @@
         "local:button",
         "local:drawer",
         "local:menu",
+        "local:use-media-query",
         "local:hugeicons-icon"
       ],
       "type": "registry:block"
@@ -6274,7 +6327,8 @@
         "local:field",
         "local:form",
         "local:input",
-        "local:select"
+        "local:select",
+        "local:demo-delay"
       ],
       "type": "registry:block"
     },
@@ -6481,7 +6535,8 @@
         "local:button",
         "local:field",
         "local:form",
-        "local:input"
+        "local:input",
+        "local:demo-delay"
       ],
       "type": "registry:block"
     },
@@ -6503,7 +6558,8 @@
         "local:button",
         "local:field",
         "local:form",
-        "local:input"
+        "local:input",
+        "local:demo-delay"
       ],
       "type": "registry:block"
     },
@@ -6868,6 +6924,7 @@
         "local:group",
         "local:input",
         "local:tooltip",
+        "local:use-copy-to-clipboard",
         "local:hugeicons-icon"
       ],
       "type": "registry:block"
@@ -8086,6 +8143,7 @@
         "local:button",
         "local:input-group",
         "local:tooltip",
+        "local:use-copy-to-clipboard",
         "local:hugeicons-icon"
       ],
       "type": "registry:block"
@@ -8482,7 +8540,8 @@
         "local:button",
         "local:field",
         "local:form",
-        "local:number-field"
+        "local:number-field",
+        "local:demo-delay"
       ],
       "type": "registry:block"
     },
@@ -9172,7 +9231,8 @@
         "local:field",
         "local:fieldset",
         "local:form",
-        "local:radio-group"
+        "local:radio-group",
+        "local:demo-delay"
       ],
       "type": "registry:block"
     },
@@ -9408,7 +9468,8 @@
         "local:button",
         "local:field",
         "local:form",
-        "local:select"
+        "local:select",
+        "local:demo-delay"
       ],
       "type": "registry:block"
     },
@@ -10257,7 +10318,8 @@
         "local:field",
         "local:fieldset",
         "local:form",
-        "local:slider"
+        "local:slider",
+        "local:demo-delay"
       ],
       "type": "registry:block"
     },
@@ -10511,7 +10573,8 @@
         "local:button",
         "local:field",
         "local:form",
-        "local:switch"
+        "local:switch",
+        "local:demo-delay"
       ],
       "type": "registry:block"
     },
@@ -11353,7 +11416,8 @@
         "local:button",
         "local:field",
         "local:form",
-        "local:textarea"
+        "local:textarea",
+        "local:demo-delay"
       ],
       "type": "registry:block"
     },
@@ -11644,6 +11708,7 @@
         "local:button",
         "local:toast",
         "local:tooltip",
+        "local:use-copy-to-clipboard",
         "local:hugeicons-icon"
       ],
       "type": "registry:block"
@@ -12346,7 +12411,9 @@
       "dependencies": [
         "@shardsui/svelte@0.1.0-beta.0"
       ],
-      "registryDependencies": [],
+      "registryDependencies": [
+        "local:change-event-details"
+      ],
       "files": [
         {
           "path": "../../packages/ui/src/components/ui/radio-group/radio-group-root.svelte",
@@ -12407,7 +12474,8 @@
         "@shardsui/svelte@0.1.0-beta.0"
       ],
       "registryDependencies": [
-        "local:hugeicons-icon"
+        "local:hugeicons-icon",
+        "local:selection-change-context"
       ],
       "files": [
         {
@@ -12461,6 +12529,21 @@
         {
           "path": "../../packages/ui/src/components/ui/select/select-value.svelte",
           "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "selection-change-context",
+      "type": "registry:lib",
+      "description": "Shares native selection events with COSS-compatible root change callbacks.",
+      "dependencies": [],
+      "registryDependencies": [
+        "local:change-event-details"
+      ],
+      "files": [
+        {
+          "path": "../../packages/ui/src/lib/selection-change-context.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -12693,7 +12776,9 @@
       "dependencies": [
         "@shardsui/svelte@0.1.0-beta.0"
       ],
-      "registryDependencies": [],
+      "registryDependencies": [
+        "local:change-event-details"
+      ],
       "files": [
         {
           "path": "../../packages/ui/src/components/ui/slider/slider-root.svelte",
@@ -12757,7 +12842,9 @@
       "dependencies": [
         "@shardsui/svelte@0.1.0-beta.0"
       ],
-      "registryDependencies": [],
+      "registryDependencies": [
+        "local:change-event-details"
+      ],
       "files": [
         {
           "path": "../../packages/ui/src/components/ui/switch/switch.svelte",
@@ -12821,8 +12908,14 @@
       "dependencies": [
         "@shardsui/svelte@0.1.0-beta.0"
       ],
-      "registryDependencies": [],
+      "registryDependencies": [
+        "local:change-event-details"
+      ],
       "files": [
+        {
+          "path": "../../packages/ui/src/components/ui/tabs/tabs-change-details.ts",
+          "type": "registry:ui"
+        },
         {
           "path": "../../packages/ui/src/components/ui/tabs/tabs-root.svelte",
           "type": "registry:ui"
@@ -12845,6 +12938,10 @@
         },
         {
           "path": "../../packages/ui/src/components/ui/tabs/tabs-styles.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/tabs/tabs-value.ts",
           "type": "registry:ui"
         },
         {
@@ -12938,8 +13035,14 @@
       "dependencies": [
         "@shardsui/svelte@0.1.0-beta.0"
       ],
-      "registryDependencies": [],
+      "registryDependencies": [
+        "local:change-event-details"
+      ],
       "files": [
+        {
+          "path": "../../packages/ui/src/components/ui/toggle/group-change-context.ts",
+          "type": "registry:ui"
+        },
         {
           "path": "../../packages/ui/src/components/ui/toggle/toggle.svelte",
           "type": "registry:ui"
@@ -12962,10 +13065,15 @@
         "@shardsui/svelte@0.1.0-beta.0"
       ],
       "registryDependencies": [
+        "local:change-event-details",
         "local:separator",
         "local:toggle"
       ],
       "files": [
+        {
+          "path": "../../packages/ui/src/components/ui/toggle-group/change-event-details.ts",
+          "type": "registry:ui"
+        },
         {
           "path": "../../packages/ui/src/components/ui/toggle-group/toggle-group-root.svelte",
           "type": "registry:ui"
@@ -13152,6 +13260,32 @@
         "local:tooltip"
       ],
       "files": []
+    },
+    {
+      "name": "use-copy-to-clipboard",
+      "type": "registry:hook",
+      "description": "Copies text and exposes temporary success feedback.",
+      "dependencies": [],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "registry/default/hooks/use-copy-to-clipboard.svelte.ts",
+          "type": "registry:hook"
+        }
+      ]
+    },
+    {
+      "name": "use-media-query",
+      "type": "registry:hook",
+      "description": "Creates reactive media queries from breakpoint shorthand or CSS queries.",
+      "dependencies": [],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "registry/default/hooks/use-media-query.svelte.ts",
+          "type": "registry:hook"
+        }
+      ]
     }
   ]
 }

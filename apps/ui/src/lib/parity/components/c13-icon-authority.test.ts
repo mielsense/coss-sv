@@ -33,7 +33,7 @@ describe("C13 parity fixture icon authority", () => {
       const source = readFileSync(resolve(fixtureRoot, fileName), "utf8");
 
       expect(source, fileName).toContain('from "@coss-sv/ui"');
-      expect(source, fileName).toContain('from "@hugeicons/core-free-icons"');
+      expect(source, fileName).toContain('from "@hugeicons/core-free-icons/');
       expect(source, fileName).not.toMatch(/<svg|<path|lucide/i);
 
       for (const icon of icons) {

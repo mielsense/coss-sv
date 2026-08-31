@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
   export const meta = defineParticleMeta({
     components: ["calendar"],
     id: "p-calendar-24",
@@ -12,32 +12,40 @@
 
 <script lang="ts">
   import { Calendar, cn, type CalendarDayButtonProps } from "@coss-sv/ui";
-  const today = new Date(2026, 7, 28, 12);
-  let date = $state<Date | undefined>(today);
+  import { onMount } from "svelte";
+  import { addCalendarDays } from "../lib/date-format.js";
+  let date = $state<Date | undefined>(new Date());
   const key = (value: Date) =>
     `${value.getFullYear()}-${String(value.getMonth() + 1).padStart(2, "0")}-${String(value.getDate()).padStart(2, "0")}`;
-  const prices: Record<string, number> = Object.fromEntries(
-    Array.from({ length: 180 }, (_, index) => {
-      const current = new Date(2026, 7, 28 + index, 12);
-      return [key(current), 80 + ((index * 47) % 121)];
-    }),
-  );
+  let prices = $state<Record<string, number>>({});
+
+  onMount(() => {
+    const start = new Date();
+    prices = Object.fromEntries(
+      Array.from({ length: 180 }, (_, index) => [
+        key(addCalendarDays(start, index)),
+        Math.floor(Math.random() * 121) + 80,
+      ]),
+    );
+  });
 </script>
 
-{#snippet dayButton(props: CalendarDayButtonProps)}
-  {const price = prices[key(props.day.date)]}
-  <button {...props} type="button"
-    ><span class="flex flex-col"
-      >{@render props.children()}{#if price}<span
+{#snippet dayButton({ day, modifiers: _, children, ...props }: CalendarDayButtonProps)}
+  {const price = prices[key(day.date)]}
+  <button {...props} type="button">
+    <span class="flex flex-col">
+      {@render children()}{#if price}<span
           class={cn(
             "font-normal text-xs",
             price < 100
               ? "text-emerald-500"
               : "in-data-selected:text-primary-foreground/70 text-muted-foreground",
-          )}>${price}</span
-        >{/if}</span
-    ></button
-  >
+          )}
+        >
+          ${price}
+        </span>{/if}
+    </span>
+  </button>
 {/snippet}
 
 <Calendar
@@ -56,5 +64,4 @@
   bind:selected={date}
   pagedNavigation
   showOutsideDays={false}
-  {today}
 />

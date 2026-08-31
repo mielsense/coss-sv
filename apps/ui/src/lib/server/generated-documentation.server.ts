@@ -1,8 +1,8 @@
 import generatedContent from "../../../.svelte-kit/generated/docs-content.json";
-import type { ContentRecord } from "$lib/content/compiler.js";
+import type { GeneratedContentRecord } from "@/content/compiler.js";
 
 type GeneratedContent = {
-  pages: ContentRecord[];
+  pages: GeneratedContentRecord[];
   version: 1;
 };
 

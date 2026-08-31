@@ -7,38 +7,28 @@ description: A framed container for grouping related information.
 
 ## Installation
 
-<InstallCommand
-  pnpm="pnpm add @coss-sv/ui"
-  shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/frame.json"
-/>
+<InstallCommand shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/frame.json" />
 
 ## Usage
 
 ```svelte
 <script lang="ts">
-  import {
-    Frame,
-    FrameDescription,
-    FrameFooter,
-    FrameHeader,
-    FramePanel,
-    FrameTitle,
-  } from "@coss-sv/ui/components/ui/frame";
+  import * as Frame from "@/components/ui/frame/index.js";
 </script>
 
-<Frame>
-  <FrameHeader>
-    <FrameTitle>Title</FrameTitle>
-    <FrameDescription>Description</FrameDescription>
-  </FrameHeader>
-  <FramePanel>Content</FramePanel>
-  <FrameFooter>Footer</FrameFooter>
-</Frame>
+<Frame.Root>
+  <Frame.Header>
+    <Frame.Title>Title</Frame.Title>
+    <Frame.Description>Description</Frame.Description>
+  </Frame.Header>
+  <Frame.Panel>Content</Frame.Panel>
+  <Frame.Footer>Footer</Frame.Footer>
+</Frame.Root>
 ```
 
 ## API Reference
 
-### Frame
+### Frame.Root
 
 The main container component for grouping related information.
 
@@ -46,7 +36,7 @@ The main container component for grouping related information.
 | ------- | -------- | ------- |
 | `class` | `string` |         |
 
-### FramePanel
+### Frame.Panel
 
 A panel container for frame content.
 
@@ -55,10 +45,10 @@ A panel container for frame content.
 | `class` | `string` |         |
 
 ```svelte
-<FramePanel>Content</FramePanel>
+<Frame.Panel>Content</Frame.Panel>
 ```
 
-### FrameHeader
+### Frame.Header
 
 Header section for the frame.
 
@@ -67,13 +57,13 @@ Header section for the frame.
 | `class` | `string` |         |
 
 ```svelte
-<FrameHeader>
-  <FrameTitle>Title</FrameTitle>
-  <FrameDescription>Description</FrameDescription>
-</FrameHeader>
+<Frame.Header>
+  <Frame.Title>Title</Frame.Title>
+  <Frame.Description>Description</Frame.Description>
+</Frame.Header>
 ```
 
-### FrameTitle
+### Frame.Title
 
 Title text for the frame header.
 
@@ -82,10 +72,10 @@ Title text for the frame header.
 | `class` | `string` |         |
 
 ```svelte
-<FrameTitle>Title</FrameTitle>
+<Frame.Title>Title</Frame.Title>
 ```
 
-### FrameDescription
+### Frame.Description
 
 Description text for the frame header.
 
@@ -94,10 +84,10 @@ Description text for the frame header.
 | `class` | `string` |         |
 
 ```svelte
-<FrameDescription>Description</FrameDescription>
+<Frame.Description>Description</Frame.Description>
 ```
 
-### FrameFooter
+### Frame.Footer
 
 Footer section for the frame.
 
@@ -106,7 +96,7 @@ Footer section for the frame.
 | `class` | `string` |         |
 
 ```svelte
-<FrameFooter>Footer</FrameFooter>
+<Frame.Footer>Footer</Frame.Footer>
 ```
 
 ## Examples

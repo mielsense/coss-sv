@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
 
   export const meta = defineParticleMeta({
     components: ["slider"],
@@ -20,7 +20,8 @@
     aria-hidden="true"
     class="mb-3 flex w-full items-center justify-between gap-2 font-medium text-muted-foreground text-xs"
   >
-    <span>Low</span><span>High</span>
+    <span>Low</span>
+    <span>High</span>
   </div>
   <Slider.Root aria-label="Intensity level from low to high" defaultValue={50} step={10} />
 </div>

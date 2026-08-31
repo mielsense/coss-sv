@@ -1,11 +1,12 @@
-import { readFile } from "node:fs/promises";
+import { access, readFile } from "node:fs/promises";
 import { render } from "svelte/server";
 import { describe, expect, test } from "vitest";
 import ErrorPage from "../../routes/+error.svelte";
-import HomePage from "../../routes/+page.svelte";
-import CreditsPage from "../../routes/credits/+page.svelte";
-import HealthPage from "../../routes/preview/_health/+page.svelte";
+import HomePage from "../../routes/(site)/+page.svelte";
+import CreditsPage from "../../routes/(site)/credits/+page.svelte";
+import HealthPage from "../../routes/(preview)/preview/_health/+page.svelte";
 import SiteFooter from "./SiteFooter.svelte";
+import { componentCategories } from "./categories.js";
 
 describe("documentation routes", () => {
   test("the home route preserves the COSS page hierarchy with Svelte product facts", () => {
@@ -35,9 +36,13 @@ describe("documentation routes", () => {
     expect(mobileNav).toContain('aria-label="Toggle Menu"');
     expect(header).toContain("coss.com");
     expect(header).toContain(">ui</span>");
+    expect(header).toContain("bg-[#ff3e00]");
+    expect(header).toContain("text-[#171717]");
+    expect(header).toContain(">Svelte</span");
     expect(header).toContain("aria-current=");
     expect(footer).toContain('href="/"');
-    expect(footer).toContain("coss.com <span>ui</span>");
+    expect(footer).toContain("coss.com <span");
+    expect(footer).toContain(">ui</span>");
     expect(footer).toContain("Unofficial Svelte port made by");
     expect(footer).toContain("https://github.com/mielsense");
     expect(footer).toContain('href="/credits"');
@@ -52,7 +57,7 @@ describe("documentation routes", () => {
     );
 
     for (const { file, source } of sources) {
-      expect(source, file).toContain('from "@hugeicons/core-free-icons"');
+      expect(source, file).toContain('from "@hugeicons/core-free-icons/');
       expect(source, file).toContain("HugeiconsIcon");
       expect(source, file).not.toContain("<svg");
       expect(source, file).not.toContain("<path");
@@ -101,14 +106,29 @@ describe("documentation routes", () => {
     expect(body).toContain("ready");
   });
 
+  test("every component navigation entry has an HTML route behind one docs loader", async () => {
+    await Promise.all(
+      componentCategories.map(({ slug }) =>
+        expect(
+          access(
+            new URL(`../../routes/(site)/docs/components/${slug}/+page.svelte`, import.meta.url),
+          ),
+        ).resolves.toBeUndefined(),
+      ),
+    );
+    await expect(
+      access(new URL("../../routes/(site)/docs/+layout.server.ts", import.meta.url)),
+    ).resolves.toBeUndefined();
+  });
+
   test("exports and production-wires the preview presentation", async () => {
     const siteIndex = await readFile(new URL("./index.ts", import.meta.url), "utf8");
     const presentationRoute = await readFile(
-      new URL("../../routes/docs/preview/[name]/+page.svelte", import.meta.url),
+      new URL("../../routes/(site)/docs/preview/[name]/+page.svelte", import.meta.url),
       "utf8",
     );
     const presentationLayout = await readFile(
-      new URL("../../routes/docs/preview/+layout@.svelte", import.meta.url),
+      new URL("../../routes/(site)/docs/preview/+layout@(site).svelte", import.meta.url),
       "utf8",
     );
 
@@ -116,7 +136,7 @@ describe("documentation routes", () => {
       'export { default as PreviewPresentation } from "./PreviewPresentation.svelte";',
     );
     expect(presentationRoute).toContain(
-      'import { PreviewPresentation } from "$lib/site/index.js";',
+      'import { ContentPage, PreviewPresentation } from "@/site/index.js";',
     );
     expect(presentationRoute).toContain("<PreviewPresentation");
     expect(presentationLayout).toContain("{@render children()}");
@@ -139,7 +159,9 @@ describe("documentation routes", () => {
 
   test("the error route keeps the upstream 404 copy and recovery action", () => {
     const { body } = render(ErrorPage, {
-      context: new Map([["__request__", { page: { status: 404 } }]]),
+      context: new Map([
+        ["__request__", { page: { status: 404, url: new URL("https://example.com/missing") } }],
+      ]),
     });
 
     expect(body).toContain("Page Not Found");
@@ -150,16 +172,16 @@ describe("documentation routes", () => {
 
 describe("theme boundaries", () => {
   test("the Svelte orange token belongs only to documentation chrome", async () => {
-    const appCss = await readFile(new URL("../../app.css", import.meta.url), "utf8");
+    const themeCss = await readFile(new URL("../../styles/theme.css", import.meta.url), "utf8");
     const previewCss = await readFile(
-      new URL("../../routes/preview/preview.css", import.meta.url),
+      new URL("../../routes/(preview)/preview/preview.css", import.meta.url),
       "utf8",
     );
 
-    expect(appCss).toMatch(/\.site-shell\s*\{[^}]*--site-primary:\s*#ff3e00;/s);
-    expect(appCss).not.toMatch(/(^|\n)\s*--primary:\s*#ff3e00/);
-    expect(appCss).toMatch(/\.site-shell\s*\{[^}]*--site-accent:/s);
-    expect(appCss).toMatch(/html\.dark \.site-shell\s*\{[^}]*--site-accent:/s);
+    expect(themeCss).toMatch(/\.site-shell\s*\{[^}]*--site-primary:\s*#ff3e00;/s);
+    expect(themeCss).not.toMatch(/(^|\n)\s*--primary:\s*#ff3e00/);
+    expect(themeCss).toMatch(/\.site-shell\s*\{[^}]*--site-accent:/s);
+    expect(themeCss).toMatch(/html\.dark \.site-shell\s*\{[^}]*--site-accent:/s);
     expect(previewCss).not.toContain("--site-");
     expect(previewCss).toMatch(
       /\.preview-canvas,\s*\[data-preview-theme="light"\]\s*\{[^}]*--primary:/s,
@@ -173,46 +195,33 @@ describe("theme boundaries", () => {
   });
 
   test("the mobile dialog keeps the measured COSS width and edge shadow", async () => {
-    const appCss = await readFile(new URL("../../app.css", import.meta.url), "utf8");
-    const dialogRule =
-      [...appCss.matchAll(/\.mobile-menu-dialog\s*\{([^}]*)\}/g)]
-        .map((match) => match[1] ?? "")
-        .find((rule) => rule.includes("width:")) ?? "";
-    const panelRule = appCss.match(/\.mobile-menu-panel\s*\{([^}]*)\}/)?.[1] ?? "";
-    const viewportRule = appCss.match(/\.mobile-menu-viewport\s*\{([^}]*)\}/)?.[1] ?? "";
-    const footerRule =
-      [...appCss.matchAll(/(?:^|\n)\.site-footer\s*\{([^}]*)\}/g)]
-        .map((match) => match[1] ?? "")
-        .find((rule) => rule.includes("padding-block:")) ?? "";
-    const footerInnerRule = appCss.match(/(?:^|\n)\.footer-inner\s*\{([^}]*)\}/)?.[1] ?? "";
+    const mobileNav = await readFile(new URL("./MobileNav.svelte", import.meta.url), "utf8");
+    const footer = await readFile(new URL("./SiteFooter.svelte", import.meta.url), "utf8");
 
-    expect(dialogRule).toContain("width: min(22rem, calc(100% - 3rem));");
-    expect(dialogRule).toContain("0 10px 15px -3px rgb(0 0 0 / 5%)");
-    expect(dialogRule).toContain("0 4px 6px -4px rgb(0 0 0 / 5%)");
-    expect(panelRule).toContain("outline: none;");
-    expect(panelRule).toContain("touch-action: pan-y;");
-    expect(panelRule).not.toContain("box-shadow");
-    expect(viewportRule).toContain("touch-action: none;");
-    expect(dialogRule).toContain("transform: translateX(var(--drawer-swipe-movement-x));");
-    expect(footerRule).toContain("padding-block: 1.5rem;");
-    expect(footerInnerRule).toContain("justify-content: space-between;");
-    expect(appCss).not.toMatch(
-      /@media \(max-width: 39\.999rem\)[\s\S]*?\.footer-inner\s*\{[^}]*min-height:/,
-    );
+    expect(mobileNav).toContain("w-[min(22rem,calc(100%-3rem))]");
+    expect(mobileNav).toContain("0_10px_15px_-3px_rgb(0_0_0/5%)");
+    expect(mobileNav).toContain("0_4px_6px_-4px_rgb(0_0_0/5%)");
+    expect(mobileNav).toContain("outline-none");
+    expect(mobileNav).toContain("touch-pan-y");
+    expect(mobileNav).toContain("touch-none");
+    expect(mobileNav).toContain("translate-x-[var(--drawer-swipe-movement-x)]");
+    expect(footer).toContain("py-6");
+    expect(footer).toContain("justify-between");
   });
 
   test("routes the upstream header, CTA, and Introduction entry through /docs", async () => {
     const pageSource = await readFile(
-      new URL("../../routes/+page.svelte", import.meta.url),
+      new URL("../../routes/(site)/+page.svelte", import.meta.url),
       "utf8",
     );
     const siteSource = await readFile(new URL("./site.ts", import.meta.url), "utf8");
     const docsRoute = await readFile(
-      new URL("../../routes/docs/+page.svelte", import.meta.url),
+      new URL("../../routes/(site)/docs/+page.svelte", import.meta.url),
       "utf8",
     );
 
-    expect(pageSource).toContain('href="/docs">Get started</a>');
+    expect(pageSource).toContain('href="/docs"');
+    expect(pageSource).toContain("Get started");
     expect(siteSource.match(/href: "\/docs"/g)).toHaveLength(2);
     expect(siteSource).not.toContain('/docs/introduction", label: "Introduction"');
     expect(docsRoute).toContain("$content/docs/introduction.svx");
@@ -220,70 +229,83 @@ describe("theme boundaries", () => {
 
   test("the docs route uses the measured three-column COSS shell", async () => {
     const docsLayout = await readFile(
-      new URL("../../routes/docs/+layout.svelte", import.meta.url),
+      new URL("../../routes/(site)/docs/+layout.svelte", import.meta.url),
       "utf8",
     );
     const sidebar = await readFile(new URL("./DocsSidebar.svelte", import.meta.url), "utf8");
     const toc = await readFile(new URL("./DocsToc.svelte", import.meta.url), "utf8");
-    const appCss = await readFile(new URL("../../app.css", import.meta.url), "utf8");
-
     expect(docsLayout).toContain("<DocsSidebar />");
-    expect(docsLayout).toContain("<DocsToc />");
-    expect(docsLayout).toContain("docs-card-panel docs-content");
-    expect(sidebar).toContain("componentCategories");
+    expect(docsLayout).toContain("<DocsToc items={documentation?.tableOfContents ?? []} />");
+    expect(docsLayout).toContain("docs-content flex flex-col");
+    expect(docsLayout).toContain("grid-cols-[15rem_minmax(0,1fr)_18rem]");
+    expect(docsLayout).toContain("lg:m-8 lg:mx-4");
+    expect(docsLayout).toContain("lg:p-8");
+    expect(sidebar).toContain("documentationNavigationGroups");
     expect(sidebar).toContain(
       'aria-current={page.url.pathname === item.href ? "page" : undefined}',
     );
     expect(toc).toContain("IntersectionObserver");
-    expect(toc).toContain(".docs-content h2[id]");
-    expect(appCss).toMatch(
-      /@media \(min-width: 80rem\)[\s\S]*?\.docs-layout\s*\{[^}]*grid-template-columns:\s*15rem minmax\(0, 1fr\) 18rem;/,
-    );
-    expect(appCss).toMatch(/\.docs-column\s*\{[^}]*margin:\s*2rem 1rem 2rem 1rem;/s);
-    expect(appCss).toMatch(/\.docs-card-panel\s*\{[^}]*padding:\s*2rem;/s);
+    expect(toc).toContain("document.getElementById(id)");
+    expect(toc).not.toContain("MutationObserver");
   });
 
-  test("the root layout renders navigation during SSR and removes chrome from previews", async () => {
-    const layout = await readFile(new URL("../../routes/+layout.svelte", import.meta.url), "utf8");
-
-    expect(layout).toContain('page.url.pathname.startsWith("/preview")');
-    expect(layout.indexOf('import "../tailwind.css";')).toBeLessThan(
-      layout.indexOf('import "../app.css";'),
+  test("pathless route groups isolate the site, preview, API, and machine surfaces", async () => {
+    const rootLayout = await readFile(
+      new URL("../../routes/+layout.svelte", import.meta.url),
+      "utf8",
     );
-    expect(layout).toContain("<SiteHeader />");
-    expect(layout).not.toContain("onMount");
-    expect(layout).not.toContain("hydrated");
-    expect(layout).not.toContain("mounted");
-  });
-
-  test("the preview imports canonical component tokens before its canvas overrides", async () => {
-    const previewLayout = await readFile(
-      new URL("../../routes/preview/+layout.svelte", import.meta.url),
+    const siteLayout = await readFile(
+      new URL("../../routes/(site)/+layout.svelte", import.meta.url),
       "utf8",
     );
 
-    const componentStyles = previewLayout.indexOf('import "@coss-sv/ui/styles/globals.css";');
-    const canvasStyles = previewLayout.indexOf('import "./preview.css";');
+    expect(rootLayout).toContain('import "../tailwind.css";');
+    expect(rootLayout).toContain('import "../styles/theme.css";');
+    expect(rootLayout).toContain('import "../styles/content.css";');
+    expect(rootLayout).not.toContain("SiteHeader");
+    expect(rootLayout).not.toContain("page.url.pathname");
+    expect(siteLayout).toContain("<SiteHeader />");
+    expect(siteLayout).toContain("<SiteFooter />");
+    await expect(
+      access(new URL("../../routes/(preview)/preview", import.meta.url)),
+    ).resolves.toBeUndefined();
+    await expect(
+      access(new URL("../../routes/(api)/api", import.meta.url)),
+    ).resolves.toBeUndefined();
+    await expect(
+      access(new URL("../../routes/(machine)/llms.txt", import.meta.url)),
+    ).resolves.toBeUndefined();
+  });
 
-    expect(componentStyles).toBeGreaterThan(-1);
-    expect(canvasStyles).toBeGreaterThan(componentStyles);
+  test("the preview inherits canonical tokens before applying canvas overrides", async () => {
+    const rootLayout = await readFile(
+      new URL("../../routes/+layout.svelte", import.meta.url),
+      "utf8",
+    );
+    const previewLayout = await readFile(
+      new URL("../../routes/(preview)/preview/+layout.svelte", import.meta.url),
+      "utf8",
+    );
+
+    expect(rootLayout).toContain('import "@coss-sv/ui/styles/globals.css";');
+    expect(previewLayout).toContain('import "./preview.css";');
+    expect(previewLayout).not.toContain("@coss-sv/ui/styles/globals.css");
   });
 
   test("the preview registry discovers component parity fixtures without aggregate edits", async () => {
     const registry = await readFile(
-      new URL("../../routes/preview/[name]/preview-registry.ts", import.meta.url),
+      new URL("../../routes/(preview)/preview/[name]/preview-registry.ts", import.meta.url),
       "utf8",
     );
 
-    expect(registry).toContain(
-      'import.meta.glob<PreviewModule>(\n  "../../../lib/parity/components/*.svelte"',
-    );
+    expect(registry).toContain("import.meta.glob<PreviewModule>(");
+    expect(registry).toContain('"../../../../lib/parity/components/*.svelte"');
     expect(registry).toContain("Object.entries(componentModules)");
   });
 
   test("the preview centers horizontally and applies each vertical alignment", async () => {
     const previewPage = await readFile(
-      new URL("../../routes/preview/[name]/+page.svelte", import.meta.url),
+      new URL("../../routes/(preview)/preview/[name]/+page.svelte", import.meta.url),
       "utf8",
     );
     const frameRule = previewPage.match(/\.preview-frame\s*\{([^}]*)\}/)?.[1] ?? "";

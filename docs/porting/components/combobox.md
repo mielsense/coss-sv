@@ -6,7 +6,7 @@
 - `reference/apps/ui/content/docs/components/combobox.mdx`
 - `reference/apps/ui/registry/default/particles/p-combobox-1.tsx` through `p-combobox-20.tsx`
 
-The registry wrapper, documentation page, and all twenty direct particles were read in full from the MIT-designated `reference/apps/ui/**` subtree. The importer inventory was checked for indirect combobox compositions. No source from `reference/packages/ui/**` was used.
+The registry wrapper, documentation page, and all twenty direct particles were read in full from the MIT-designated `reference/apps/ui/**` subtree. The importer inventory was checked for indirect combobox compositions. No source from the excluded COSS package subtree was used.
 
 The particles cover sizes, disabled and invalid states, add-ons, clear and trigger controls, groups, object values, custom and async filtering, loading and empty states, controlled input text, single and multiple selection, chips, chip removal, and external anchors.
 

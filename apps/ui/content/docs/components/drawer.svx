@@ -10,16 +10,13 @@ links:
 
 ## Installation
 
-<InstallCommand
-  pnpm="pnpm add @coss-sv/ui"
-  shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/drawer.json"
-/>
+<InstallCommand shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/drawer.json" />
 
 ## Usage
 
 ```svelte
 <script lang="ts">
-  import * as Drawer from "@coss-sv/ui/components/ui/drawer";
+  import * as Drawer from "@/components/ui/drawer/index.js";
 </script>
 
 <Drawer.Root>

@@ -7,16 +7,13 @@ description: Renders an accessible label associated with controls.
 
 ## Installation
 
-<InstallCommand
-  pnpm="pnpm add @coss-sv/ui"
-  shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/label.json"
-/>
+<InstallCommand shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/label.json" />
 
 ## Usage
 
 ```svelte
 <script lang="ts">
-  import { Label } from "@coss-sv/ui";
+  import { Label } from "@/components/ui/label/index.js";
 </script>
 
 <Label for="email">Email</Label>
@@ -39,3 +36,5 @@ A label component that can render as a different element.
 For accessible labelling and validation, prefer using `Field.Label`. See some [related examples](/docs/components/field).
 
 ### With Checkbox
+
+<ComponentPreview name="p-checkbox-1" />

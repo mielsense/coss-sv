@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
   export const meta = defineParticleMeta({
     components: ["button", "input-group", "label"],
     containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64",
@@ -12,7 +12,10 @@
 
 <script lang="ts">
   import { Button, HugeiconsIcon, InputGroup, Label } from "@coss-sv/ui";
-  import { Cancel01Icon, Tick01Icon, ViewIcon, ViewOffIcon } from "@hugeicons/core-free-icons";
+  import Cancel01Icon from "@hugeicons/core-free-icons/Cancel01Icon";
+  import Tick01Icon from "@hugeicons/core-free-icons/Tick01Icon";
+  import ViewIcon from "@hugeicons/core-free-icons/ViewIcon";
+  import ViewOffIcon from "@hugeicons/core-free-icons/ViewOffIcon";
 
   const id = $props.id();
   const requirements = [
@@ -100,9 +103,9 @@
         />
         <span class="text-xs {requirement.met ? 'text-emerald-600' : 'text-muted-foreground'}">
           {requirement.text}
-          <span class="sr-only"
-            >{requirement.met ? " - Requirement met" : " - Requirement not met"}</span
-          >
+          <span class="sr-only">
+            {requirement.met ? " - Requirement met" : " - Requirement not met"}
+          </span>
         </span>
       </li>
     {/each}

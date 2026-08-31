@@ -1,4 +1,3 @@
-import AxeBuilder from "@axe-core/playwright";
 import { expect, type Page, test } from "@playwright/test";
 import { assertNoAxeViolations, monitorConsole, openReadyPreview } from "./helpers/preview.js";
 
@@ -8,11 +7,7 @@ async function assertThemeGroupAxe(page: Page, theme: string) {
     return;
   }
 
-  const results = await new AxeBuilder({ page })
-    .include('[data-particle="p-radio-group-6"]')
-    .disableRules(["color-contrast"])
-    .analyze();
-  expect(results.violations).toEqual([]);
+  await assertNoAxeViolations(page, '[data-particle="p-radio-group-6"]', ["color-contrast"]);
 }
 
 test("labels the COSS form and theme Radio Groups without browser errors", async ({
@@ -67,10 +62,12 @@ test("submits the p-radio-group-5 value captured before its loading delay", asyn
   await submit.click();
   await expect(submit).toHaveAttribute("data-loading", "");
   await particle.getByRole("radio", { name: "Vite" }).click();
+  const flush = page.evaluate(() => window.__COSS_PREVIEW_RUNTIME__.flushTimers());
   const dialog = await dialogPromise;
 
   expect(dialog.message()).toBe("Selected: next");
   await dialog.dismiss();
+  await flush;
   await expect(submit).not.toHaveAttribute("data-loading");
   guard.assertNoErrors();
 });

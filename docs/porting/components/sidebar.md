@@ -10,7 +10,7 @@
 - COSS Sidebar skill reference: `reference/apps/ui/skills/coss/references/primitives/sidebar.md`, read in full.
 - COSS has no Sidebar documentation page and no dedicated `p-sidebar-*` particle family at this revision. A repository-wide search under the permitted `reference/apps/ui/**` boundary found no particle importing the Sidebar module.
 
-The implementation does not use `reference/packages/ui/**` or another AGPL-default path.
+The implementation does not use the excluded COSS package subtree or another AGPL-default path.
 
 ## Upstream API and defaults
 

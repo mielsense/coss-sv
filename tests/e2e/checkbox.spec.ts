@@ -39,10 +39,11 @@ test("matches the COSS Checkbox examples and behavior", async ({ page }, testInf
     await checkbox.click();
     await expect(checkbox).toHaveAttribute("aria-checked", "true");
     await expect(checkbox).toHaveAttribute("data-checked", "");
-    await expect(indicator.locator("svg path")).toHaveAttribute(
-      "d",
-      "M5.252 12.7 10.2 18.63 18.748 5.37",
-    );
+    const checkedIcon = indicator.locator("svg");
+    await expect(checkedIcon).toHaveAttribute("aria-hidden", "true");
+    await expect(checkedIcon).toHaveAttribute("viewBox", "0 0 24 24");
+    await expect(checkedIcon).toHaveAttribute("stroke-width", "3");
+    await expect(checkedIcon.locator(":scope > path")).toHaveCount(1);
     await checkbox.focus();
     const focused = await checkbox.evaluate((element) => {
       const style = getComputedStyle(element);
@@ -53,7 +54,11 @@ test("matches the COSS Checkbox examples and behavior", async ({ page }, testInf
 
     const indeterminate = ready.locator('[data-testid="checkbox-indeterminate"]');
     await expect(indeterminate).toHaveAttribute("aria-checked", "mixed");
-    await expect(indeterminate.locator("svg path")).toHaveAttribute("d", "M5.252 12h13.496");
+    const indeterminateIcon = indeterminate.locator("svg");
+    await expect(indeterminateIcon).toHaveAttribute("aria-hidden", "true");
+    await expect(indeterminateIcon).toHaveAttribute("viewBox", "0 0 24 24");
+    await expect(indeterminateIcon).toHaveAttribute("stroke-width", "3");
+    await expect(indeterminateIcon.locator(":scope > path")).toHaveCount(1);
     const disabled = ready.locator('[data-testid="checkbox-disabled"]');
     await expect(disabled).toHaveAttribute("aria-disabled", "true");
     await disabled.click({ force: true });

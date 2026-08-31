@@ -9,7 +9,7 @@
 	],
 	"files": [
 		{
-			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\n  export const meta = defineParticleMeta({\n    components: [\"badge\"],\n    id: \"p-badge-6\",\n    interactive: false,\n    responsive: false,\n    title: \"Badge example 6\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { Badge } from \"$COMPONENTS$/ui/badge/index.js\";\n</script>\n\n<Badge variant=\"success\">Badge</Badge>\n",
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\n  export const meta = defineParticleMeta({\n    components: [\"badge\"],\n    id: \"p-badge-6\",\n    interactive: false,\n    responsive: false,\n    title: \"Badge example 6\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { Badge } from \"$UI$/badge/index.js\";\n</script>\n\n<Badge variant=\"success\">Badge</Badge>\n",
 			"type": "registry:block",
 			"target": "p-badge-6.svelte"
 		}

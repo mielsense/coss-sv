@@ -79,7 +79,7 @@ try {
   await page.goto(`${baseUrl}/particles`);
   await page.locator("h1", { hasText: "Browse Particles" }).waitFor();
   assert.equal(
-    await page.getByText(/Discover 320 ready-to-use particles/).count(),
+    await page.getByText(/Discover 508 ready-to-use particles/).count(),
     1,
     "the description must reflect the currently published inventory",
   );
@@ -91,7 +91,7 @@ try {
 
   await page.getByRole("option", { name: "Button", exact: true }).click();
   await page.waitForURL(/tags=button$/);
-  assert.equal(await page.locator("[data-particle-card]").count(), 60);
+  assert.equal(await page.locator("[data-particle-card]").count(), 90);
   assert.equal(
     await page.locator("[data-particle-card]").first().getAttribute("data-particle-card"),
     "p-button-1",

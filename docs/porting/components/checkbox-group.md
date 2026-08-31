@@ -50,7 +50,7 @@
   - `shardsui/packages/shardsui/tests/checkbox/checkbox-indicator.test.ts`
   - every fixture under `shardsui/packages/shardsui/tests/checkbox/fixtures/`: `basic-checkbox.svelte`, `button-checkbox.svelte`, `checkbox-enter-animation.svelte`, `checkbox-exit-animation.svelte`, `checkbox-external-errors.svelte`, `checkbox-group-filled.svelte`, `checkbox-implicit-field-label.svelte`, `checkbox-in-field.svelte`, `checkbox-indicator-props.svelte`, `checkbox-native-validation.svelte`, `checkbox-revalidate-external.svelte`, `checkbox-sibling-label.svelte`, `checkbox-validation.svelte`, `checkbox-veto.svelte`, `checkbox-with-field-label.svelte`, `click-propagation-checkbox.svelte`, `controlled-checkbox.svelte`, `described-by.svelte`, `empty-id-checkbox.svelte`, `external-form.svelte`, `form-disabled-submit.svelte`, `form-no-submit.svelte`, `form.svelte`, `indicator-outside-root.svelte`, `linked-label-checkbox.svelte`, `native-form.svelte`, and `wrapping-label-checkbox.svelte`
 
-All files above were read directly for this port. No file under `reference/packages/ui/**` was used.
+All files above were read directly for this port. No file from the excluded COSS package subtree was used.
 
 ## COSS contract
 
@@ -127,7 +127,7 @@ Additional consumer particles are not Checkbox Group documentation examples. `p-
 - SSR and export tests: `packages/ui/src/components/ui/checkbox-group/checkbox-group.test.ts`
 - Type tests: `packages/ui/src/components/ui/checkbox-group/checkbox-group.types.test.ts`
 - Browser, keyboard, disabled parent select/clear, triggerless cancellation, rejected child and repeated-parent bindings, parent form/required projection, nested-parent, and form tests: `packages/ui/src/components/ui/checkbox-group/checkbox-group.browser.test.ts`
-- Real built-route SSR-to-hydration stable-ID and submit-side-effect tests: `tests/e2e/checkbox-group.spec.ts`
+- Built-route parent/child ID stability and submit-side-effect tests: `tests/e2e/checkbox-group.spec.ts`
 - Deterministic fixture: `apps/ui/src/lib/parity/components/checkbox-group.svelte`
 - Target route: `/preview/checkbox-group?theme=light&width=desktop`
 - Reference route: `/ui/docs/components/checkbox-group`

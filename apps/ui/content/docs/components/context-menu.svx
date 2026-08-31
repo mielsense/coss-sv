@@ -10,16 +10,13 @@ links:
 
 ## Installation
 
-<InstallCommand
-  pnpm="pnpm add @coss-sv/ui"
-  shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/context-menu.json"
-/>
+<InstallCommand shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/context-menu.json" />
 
 ## Usage
 
 ```svelte
 <script lang="ts">
-  import * as ContextMenu from "@coss-sv/ui/components/ui/context-menu";
+  import * as ContextMenu from "@/components/ui/context-menu/index.js";
 </script>
 
 <ContextMenu.Root>

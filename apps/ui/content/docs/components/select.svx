@@ -10,16 +10,13 @@ links:
 
 ## Installation
 
-<InstallCommand
-  pnpm="pnpm add @coss-sv/ui"
-  shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/select.json"
-/>
+<InstallCommand shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/select.json" />
 
 ## Usage
 
 ```svelte
 <script lang="ts">
-  import * as Select from "@coss-sv/ui/components/ui/select";
+  import * as Select from "@/components/ui/select/index.js";
 
   const items = [
     { label: "Select framework", value: null },
@@ -98,7 +95,7 @@ A standalone button styled like a `Select.Trigger`. Use `selectTriggerClass` on 
 
 ```svelte
 <script lang="ts">
-  import { selectTriggerClass } from "@coss-sv/ui/components/ui/select";
+  import { selectTriggerClass } from "@/components/ui/select/index.js";
 </script>
 
 <Combobox.Trigger class={selectTriggerClass}>
@@ -108,7 +105,7 @@ A standalone button styled like a `Select.Trigger`. Use `selectTriggerClass` on 
 
 ## Examples
 
-For accessible labelling and validation, prefer using the `Field` component to wrap selects. See the related example: [Select field](/ui/docs/components/field#select-field).
+For accessible labelling and validation, prefer using the `Field` component to wrap selects. See the related example: [Select field](/docs/components/field#select-field).
 
 ### Small Size
 

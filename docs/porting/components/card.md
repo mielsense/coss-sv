@@ -19,18 +19,25 @@ implementation.
 
 ## COSS contract
 
-The port includes `Card`, `CardHeader`, `CardTitle`, `CardDescription`, `CardAction`, `CardPanel`, `CardContent`, `CardFooter`, `CardFrame`, `CardFrameHeader`, `CardFrameTitle`, `CardFrameDescription`, `CardFrameAction`, and `CardFrameFooter`. `CardContent` is the same component value as `CardPanel`.
+The canonical Svelte API is the `Card` namespace: `Card.Root`, `Card.Header`, `Card.Title`,
+`Card.Description`, `Card.Action`, `Card.Panel`, `Card.Content`, `Card.Footer`, `Card.Frame`,
+`Card.FrameHeader`, `Card.FrameTitle`, `Card.FrameDescription`, `Card.FrameAction`, and
+`Card.FrameFooter`. `Card.Content` is the same component value as `Card.Panel`. The original flat
+exports remain compatibility aliases for existing consumers, but documentation and particles use
+the namespace API.
 
 Every part defaults to `div`, supports polymorphic rendering, keeps its `data-slot`, and preserves the complete source class string. This includes frame clipping variables, nested-card selectors, table-container selectors, pseudo-element highlights, and conditional panel/header/footer spacing.
 
 The parity fixture maps two upstream particles without hybrid copy:
 
 - p-card-1: Create project header and description; Name input; Framework Select with Next.js, Vite, Remix, and Astro; Deploy submit button; and the exact completion notice.
-- p-card-11: Project frame header and description; outline Add button; nested Card/Panel/Empty hierarchy; and the exact “No projects yet” copy.
+- p-card-11: Project frame header and description; outline Add button; nested Card/Panel/Empty hierarchy; and the exact "No projects yet" copy.
 
 ## Svelte mapping and proof
 
 - Base UI `render` becomes an explicit `as` prop on production Card parts.
+- Direct component imports use `import * as Card from "@coss-sv/ui/components/ui/card"`; Svelte's
+  native dotted component syntax keeps compound parts grouped without React-style flat names.
 - A private zero-DOM `CardPart` component centralizes class merging, snippet rendering, native prop forwarding, and bindable refs.
 - The Select particles use `Select.Root`, `Select.Trigger`, `Select.Value`, `Select.Popup`, and
   `Select.Item` from `@coss-sv/ui`. No particle imports Shards source or package internals.
@@ -46,7 +53,7 @@ Automated headless comparison used the running pinned React card docs for p-card
 
 - p-card-1 matches at 320×318 desktop and 308×334 mobile. Its Input is 30px/34px high, Select trigger 32px/36px, and Deploy button 32px/36px.
 - p-card-11 matches at 498×394 desktop and 308×350 mobile. Its nested Card has the same width as the frame; Add is 32px/36px high.
-- Card and CardFrame keep a 16px outer radius. Deploy uses the primary treatment; Add uses the outline treatment.
+- `Card.Root` and `Card.Frame` keep a 16px outer radius. Deploy uses the primary treatment; Add uses the outline treatment.
 
 The keyboard test follows Name → Framework, opens the Shards Select with ArrowDown, verifies all four options, moves focus from Next.js to Vite, commits with Enter, then continues to Deploy and Add. The focused Playwright gate covers light and dark themes, both widths, exact hierarchy and copy, geometry, console errors, and axe.
 

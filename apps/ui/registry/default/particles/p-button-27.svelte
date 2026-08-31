@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
 
   export const meta = defineParticleMeta({
     components: ["button", "group"],
@@ -12,11 +12,11 @@
 
 <script lang="ts">
   import { Button, Group, HugeiconsIcon } from "@coss-sv/ui";
-  import { QrCodeIcon } from "@hugeicons/core-free-icons";
+  import QrCodeIcon from "@hugeicons/core-free-icons/QrCodeIcon";
 </script>
 
-<Group.Root
-  ><Button aria-label="QR code" size="icon"
-    ><HugeiconsIcon aria-hidden="true" icon={QrCodeIcon} strokeWidth={2} /></Button
-  ><Group.Separator class="bg-primary/72" /><Button>Sign in</Button></Group.Root
->
+<Group.Root>
+  <Button aria-label="QR code" size="icon">
+    <HugeiconsIcon aria-hidden="true" icon={QrCodeIcon} strokeWidth={2} />
+  </Button><Group.Separator class="bg-primary/72" /><Button>Sign in</Button>
+</Group.Root>

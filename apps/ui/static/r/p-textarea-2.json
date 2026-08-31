@@ -9,7 +9,7 @@
 	],
 	"files": [
 		{
-			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\n  export const meta = defineParticleMeta({\n    components: [\"textarea\"],\n    containerClass: \"**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64\",\n    id: \"p-textarea-2\",\n    interactive: true,\n    responsive: false,\n    title: \"Small textarea\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { Textarea } from \"$COMPONENTS$/ui/textarea/index.js\";\n</script>\n\n<Textarea placeholder=\"Type your message here\" size=\"sm\" />\n",
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\n  export const meta = defineParticleMeta({\n    components: [\"textarea\"],\n    containerClass: \"**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64\",\n    id: \"p-textarea-2\",\n    interactive: true,\n    responsive: false,\n    title: \"Small textarea\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { Textarea } from \"$UI$/textarea/index.js\";\n</script>\n\n<Textarea placeholder=\"Type your message here\" size=\"sm\" />\n",
 			"type": "registry:block",
 			"target": "p-textarea-2.svelte"
 		}

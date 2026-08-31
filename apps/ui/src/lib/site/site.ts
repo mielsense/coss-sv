@@ -10,8 +10,8 @@ export const overviewNavigation = [
   { href: "/docs", label: "Introduction" },
   { href: "/docs/get-started", label: "Get Started" },
   { href: "/docs/styling", label: "Styling" },
-  { href: "/docs/radix-migration", label: "Migrating from Radix" },
-  { href: "/docs/skills", label: "Skills" },
+  { href: "/docs/radix-migration", label: "Migrating from shadcn-svelte and Bits UI" },
+  { href: "/docs/skills", label: "Agent Skill" },
   { href: "/docs/changelog", label: "Changelog" },
   { href: "/docs/roadmap", label: "Roadmap" },
 ] as const;

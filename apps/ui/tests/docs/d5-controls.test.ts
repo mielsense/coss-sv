@@ -12,19 +12,23 @@ import Availability7 from "../../registry/default/particles/p-switch-7.svelte";
 import Availability8 from "../../registry/default/particles/p-switch-8.svelte";
 import Availability9 from "../../registry/default/particles/p-switch-9.svelte";
 
-const compiledParticles = import.meta.glob(
-  [
-    "../../registry/default/particles/p-button-*.svelte",
-    "../../registry/default/particles/p-checkbox-*.svelte",
-    "../../registry/default/particles/p-checkbox-group-*.svelte",
-    "../../registry/default/particles/p-radio-group-*.svelte",
-    "../../registry/default/particles/p-slider-*.svelte",
-    "../../registry/default/particles/p-switch-*.svelte",
-    "../../registry/default/particles/p-toggle-*.svelte",
-    "../../registry/default/particles/p-toggle-group-*.svelte",
-  ],
-  { eager: true },
-);
+type ControlParticleModule = {
+  meta: {
+    colSpan?: number;
+    containerClass?: string;
+  };
+};
+
+const particleLoaders = import.meta.glob<ControlParticleModule>([
+  "../../registry/default/particles/p-button-*.svelte",
+  "../../registry/default/particles/p-checkbox-*.svelte",
+  "../../registry/default/particles/p-checkbox-group-*.svelte",
+  "../../registry/default/particles/p-radio-group-*.svelte",
+  "../../registry/default/particles/p-slider-*.svelte",
+  "../../registry/default/particles/p-switch-*.svelte",
+  "../../registry/default/particles/p-toggle-*.svelte",
+  "../../registry/default/particles/p-toggle-group-*.svelte",
+]);
 
 const appRoot = resolve(import.meta.dirname, "../..");
 const repositoryRoot = resolve(appRoot, "../..");
@@ -149,8 +153,11 @@ function source(path: string): string {
 }
 
 describe("D5 control documentation inventory", () => {
-  test("compiles every matched control particle, including D9 segmented radio examples", () => {
-    expect(Object.keys(compiledParticles)).toHaveLength(108);
+  test("compiles every matched control particle sequentially", async () => {
+    expect(Object.keys(particleLoaders)).toHaveLength(108);
+    for (const load of Object.values(particleLoaders)) {
+      await expect(load()).resolves.toBeDefined();
+    }
   });
 
   test("keeps the locked 105-particle ownership set exact", () => {
@@ -185,16 +192,11 @@ describe("D5 control documentation inventory", () => {
 
   test.each(Object.entries(expectedPreviewMetadata))(
     "preserves the upstream preview geometry metadata for %s",
-    (id, expected) => {
+    async (id, expected) => {
       const modulePath = `../../registry/default/particles/${id}.svelte`;
-      const particleModule = compiledParticles[modulePath] as
-        | {
-            meta: {
-              colSpan?: number;
-              containerClass?: string;
-            };
-          }
-        | undefined;
+      const load = particleLoaders[modulePath];
+      expect(load).toBeDefined();
+      const particleModule = await load?.();
 
       expect(particleModule?.meta.containerClass).toBe(expected.containerClass);
       if ("colSpan" in expected) {
@@ -207,7 +209,7 @@ describe("D5 control documentation inventory", () => {
     "ports the exact upstream %s page and preview order",
     (slug) => {
       const page = source(`apps/ui/content/docs/components/${slug}.svx`);
-      const route = `apps/ui/src/routes/docs/components/${slug}/+page.svelte`;
+      const route = `apps/ui/src/routes/(site)/docs/components/${slug}/+page.svelte`;
       expect(existsSync(resolve(repositoryRoot, route))).toBe(true);
       expect(page).toContain("<InstallCommand");
       expect(page).toContain("pnpm dlx shadcn-svelte@latest add");

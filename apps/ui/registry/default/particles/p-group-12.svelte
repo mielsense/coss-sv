@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
   export const meta = defineParticleMeta({
     components: ["button", "group", "input-group", "tooltip"],
     id: "p-group-12",
@@ -11,7 +11,8 @@
 
 <script lang="ts">
   import { Button, buttonVariants, Group, HugeiconsIcon, InputGroup, Tooltip } from "@coss-sv/ui";
-  import { Attachment01Icon, Mic01Icon } from "@hugeicons/core-free-icons";
+  import Attachment01Icon from "@hugeicons/core-free-icons/Attachment01Icon";
+  import Mic01Icon from "@hugeicons/core-free-icons/Mic01Icon";
 </script>
 
 <Group.Root aria-label="Message composer" class="[--radius-lg:9999px] [--radius:9999rem]">

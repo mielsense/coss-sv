@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
 
   export const meta = defineParticleMeta({
     components: ["button", "checkbox", "checkbox-group", "field", "fieldset", "form"],
@@ -12,7 +12,9 @@
 
 <script lang="ts">
   import { Button, CheckboxGroup, Field, Fieldset, Form } from "@coss-sv/ui";
+  import { createDemoDelay } from "../lib/demo-delay.js";
 
+  const delay = createDemoDelay();
   const frameworks = [
     { value: "next", label: "Next.js" },
     { value: "vite", label: "Vite" },
@@ -23,7 +25,7 @@
     event.preventDefault();
     const formData = new FormData(event.currentTarget as HTMLFormElement);
     loading = true;
-    await new Promise((resolve) => window.setTimeout(resolve, 800));
+    if (!(await delay())) return;
     loading = false;
     window.alert(`Selected: ${formData.getAll("frameworks").join(", ") || "none"}`);
   }

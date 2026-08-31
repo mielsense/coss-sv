@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
 
   export const meta = defineParticleMeta({
     components: ["button", "collapsible", "frame"],
@@ -13,7 +13,8 @@
 
 <script lang="ts">
   import { Button, Collapsible, Frame, FrameHeader, FramePanel, HugeiconsIcon } from "@coss-sv/ui";
-  import { ChevronDownIcon, TrashIcon } from "@hugeicons/core-free-icons";
+  import ChevronDownIcon from "@hugeicons/core-free-icons/ChevronDownIcon";
+  import TrashIcon from "@hugeicons/core-free-icons/TrashIcon";
 </script>
 
 <Frame class="w-full">

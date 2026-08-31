@@ -13,7 +13,7 @@
 	],
 	"files": [
 		{
-			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\n  export const meta = defineParticleMeta({\n    components: [\"button\"],\n    id: \"p-button-14\",\n    interactive: true,\n    responsive: false,\n    title: \"Small icon button\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { Button } from \"$COMPONENTS$/ui/button/index.js\";\n  import HugeiconsIcon from \"$LIB$/hugeicons-icon.svelte\";\n  import { Add01Icon } from \"@hugeicons/core-free-icons\";\n</script>\n\n<Button aria-label=\"Add\" size=\"icon-sm\"\n  ><HugeiconsIcon aria-hidden=\"true\" icon={Add01Icon} strokeWidth={2} /></Button\n>\n",
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\n  export const meta = defineParticleMeta({\n    components: [\"button\"],\n    id: \"p-button-14\",\n    interactive: true,\n    responsive: false,\n    title: \"Small icon button\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { Button } from \"$UI$/button/index.js\";\n  import HugeiconsIcon from \"$LIB$/hugeicons-icon.svelte\";\n  import Add01Icon from \"@hugeicons/core-free-icons/Add01Icon\";\n</script>\n\n<Button aria-label=\"Add\" size=\"icon-sm\">\n  <HugeiconsIcon aria-hidden=\"true\" icon={Add01Icon} strokeWidth={2} />\n</Button>\n",
 			"type": "registry:block",
 			"target": "p-button-14.svelte"
 		}

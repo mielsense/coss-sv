@@ -1,16 +1,12 @@
 import { describe, expect, test } from "vitest";
-import { highlightSource } from "../../src/lib/code/highlight.js";
 import {
-  type CompileDocsOptions,
   compileDocs as compileDocumentation,
+  type CompileDocsOptions,
   type SourcePage,
 } from "../../src/lib/content/compiler.js";
 
-function compileDocs(options: Omit<CompileDocsOptions, "loadParticleSource">) {
-  return compileDocumentation({
-    ...options,
-    loadParticleSource: async () => highlightSource("<button>Example</button>", "svelte"),
-  });
+function compileDocs(options: CompileDocsOptions) {
+  return compileDocumentation(options);
 }
 
 const accordionSource = `---
@@ -28,7 +24,7 @@ links:
 
 \`\`\`svelte
 <script lang="ts">
-  import * as Accordion from "$lib/components/ui/accordion";
+  import * as Accordion from "@/components/ui/accordion";
 </script>
 
 <Accordion.Root>
@@ -37,7 +33,6 @@ links:
 \`\`\`
 
 <InstallCommand
-  pnpm="pnpm add @shardsui/svelte"
   shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://example.com/r/accordion.json"
 />
 `;
@@ -83,11 +78,11 @@ describe("documentation compiler", () => {
     const block = result.bySlug.get("accordion")?.codeBlocks[0];
 
     expect(block?.language).toBe("svelte");
-    expect(block?.raw).toContain('import * as Accordion from "$lib/components/ui/accordion";');
+    expect(block?.raw).toContain('import * as Accordion from "@/components/ui/accordion";');
     expect(block?.lines.flat().some((token) => token.light.color !== token.dark.color)).toBe(true);
   });
 
-  test("resolves previews and exposes pnpm and shadcn-svelte install commands only", async () => {
+  test("resolves previews and exposes the registry install command", async () => {
     const result = await compileDocs({
       order: ["accordion", "button"],
       pages,
@@ -98,15 +93,13 @@ describe("documentation compiler", () => {
     expect(accordion?.previews[0]).toMatchObject({
       align: "start",
       id: "p-accordion-1",
-      source: { language: "svelte", raw: "<button>Example</button>" },
     });
     expect(accordion?.installCommands).toEqual([
       {
-        pnpm: "pnpm add @shardsui/svelte",
         shadcnSvelte: "pnpm dlx shadcn-svelte@latest add https://example.com/r/accordion.json",
       },
     ]);
-    expect(Object.keys(accordion?.installCommands[0] ?? {})).toEqual(["pnpm", "shadcnSvelte"]);
+    expect(Object.keys(accordion?.installCommands[0] ?? {})).toEqual(["shadcnSvelte"]);
   });
 
   test("accepts typed Svelte API metadata and preserves heading IDs for Markdown routes", async () => {
@@ -232,17 +225,12 @@ description: Button heading coverage.
   });
 
   test.each([
-    ["pnpm", "bun add @coss-sv/ui", /pnpm command must use pnpm/],
-    ["pnpm", "npm install @coss-sv/ui", /pnpm command must use pnpm/],
-    ["pnpm", "pnpm add react", /pnpm command must not install React/],
     ["shadcnSvelte", "npm exec shadcn-svelte@latest add accordion", /must use pnpm/],
     ["shadcnSvelte", "pnpm dlx shadcn@latest add accordion", /must use shadcn-svelte/],
     ["shadcnSvelte", "pnpm dlx shadcn-svelte@latest add react", /must not install React/],
   ] as const)("rejects invalid %s install command semantics", async (attribute, command, error) => {
     const invalid = accordionSource.replace(
-      attribute === "pnpm"
-        ? 'pnpm="pnpm add @shardsui/svelte"'
-        : 'shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://example.com/r/accordion.json"',
+      'shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://example.com/r/accordion.json"',
       `${attribute}="${command}"`,
     );
 

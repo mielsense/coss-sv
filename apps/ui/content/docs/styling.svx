@@ -3,12 +3,6 @@ title: Styling
 description: Configure COSS color, radius, typography, and overlay tokens with Tailwind CSS v4.
 ---
 
-# Styling
-
-A guide to styling components with the COSS color system.
-
-<CopyMarkdownButton url="/docs/styling.md" />
-
 ## Overview
 
 This library is optimized for specific semantic color tokens that provide crisp, contrasted borders

@@ -52,7 +52,7 @@ Popover uses `ChevronDownIcon` for the same reason.
 The same rule covers the copied Select markup in the Card, Number Field, and Toolbar parity
 fixtures.
 
-No source under `reference/packages/ui/**` was read or used.
+No source from the excluded COSS package subtree was read or used.
 
 ## Shards evidence
 
@@ -67,7 +67,7 @@ attachments, portals, and state contracts unchanged; only glyph rendering is rep
 
 `fixture-icon.svelte` owns the parity-only semantic map and delegates every glyph to the public
 central renderer. The package Sidebar trigger imports the same renderer internally through
-`$lib/hugeicons-icon.svelte`. Source tests enumerate every migrated fixture, reject direct
+`@/hugeicons-icon.svelte`. Source tests enumerate every migrated fixture, reject direct
 `@hugeicons/svelte` imports and copied glyph markup, preserve the three theme illustrations, and
 bind all 204 icon component and snippet sites to explicit official datasets. The contract includes
 popup-only, conditional, and dynamic sites that closed-state SSR does not emit, plus the direct

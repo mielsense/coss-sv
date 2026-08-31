@@ -7,16 +7,13 @@ description: A badge or a component that looks like a badge.
 
 ## Installation
 
-<InstallCommand
-  pnpm="pnpm add @coss-sv/ui"
-  shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/badge.json"
-/>
+<InstallCommand shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/badge.json" />
 
 ## Usage
 
 ```svelte
 <script lang="ts">
-  import { Badge } from "@coss-sv/ui/components/ui/badge";
+  import { Badge } from "@/components/ui/badge/index.js";
 </script>
 
 <Badge>Badge</Badge>
@@ -28,7 +25,7 @@ Use the `as` prop to render another element with the badge styles. Here is a lin
 
 ```svelte
 <script lang="ts">
-  import { Badge } from "@coss-sv/ui/components/ui/badge";
+  import { Badge } from "@/components/ui/badge/index.js";
 </script>
 
 <Badge as="a" href="/pricing">New</Badge>

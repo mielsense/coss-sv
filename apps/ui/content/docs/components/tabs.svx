@@ -10,10 +10,7 @@ links:
 
 ## Installation
 
-<InstallCommand
-  pnpm="pnpm add @coss-sv/ui"
-  shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/tabs.json"
-/>
+<InstallCommand shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/tabs.json" />
 
 The registry installs the shared segmented-control styling automatically.
 
@@ -21,7 +18,7 @@ The registry installs the shared segmented-control styling automatically.
 
 ```svelte
 <script lang="ts">
-  import * as Tabs from "@coss-sv/ui/components/ui/tabs";
+  import * as Tabs from "@/components/ui/tabs/index.js";
 </script>
 
 <Tabs.Root defaultValue="tab-1">

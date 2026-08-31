@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
 
   export const meta = defineParticleMeta({
     components: ["label", "radio-group"],
@@ -22,9 +22,9 @@
 
 <RadioGroup.Root defaultValue="next">
   {#each frameworks as framework (framework.value)}
-    <Label
-      ><RadioGroup.Item disabled={framework.value === "vite"} value={framework.value} />
-      {framework.label}</Label
-    >
+    <Label>
+      <RadioGroup.Item disabled={framework.value === "vite"} value={framework.value} />
+      {framework.label}
+    </Label>
   {/each}
 </RadioGroup.Root>

@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
   export const meta = defineParticleMeta({
     components: ["number-field"],
     containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64",
@@ -14,8 +14,8 @@
   import { NumberField } from "@coss-sv/ui";
 </script>
 
-<NumberField.Root defaultValue={42} disabled
-  ><NumberField.Group
-    ><NumberField.Decrement /><NumberField.Input /><NumberField.Increment /></NumberField.Group
-  ></NumberField.Root
->
+<NumberField.Root defaultValue={42} disabled>
+  <NumberField.Group>
+    <NumberField.Decrement /><NumberField.Input /><NumberField.Increment />
+  </NumberField.Group>
+</NumberField.Root>

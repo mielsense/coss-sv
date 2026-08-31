@@ -1,21 +1,17 @@
 # Port deviations
 
-## Calendar month control marker
+## Label checkbox preview identifier
 
-- Component: Calendar.
-- Upstream behavior: React DayPicker treats a supplied `month` prop as controlled, with
-  or without `onMonthChange`.
-- Port behavior: the Svelte Calendar treats `month` as controlled when `onMonthChange` is
-  present. A callback-free `bind:month` is two-way. A bare `month={value}` without the
-  callback can navigate locally.
-- Reason: supported Svelte component APIs do not expose whether a `$bindable` prop is
-  bound. Treating every defined `month` as controlled prevents ordinary callback-free
-  bindings from updating their parent.
-- Approval: coordinator decision for CAL-CONTROL-01 on 2026-08-28. The coordinator
-  rejected private compiler and runtime introspection.
-- Evidence: `calendar.browser.test.ts` covers callback-free binding, ignored controlled
-  changes, and adding or removing the callback without remounting. The focused Calendar
-  browser suite is required in both implementation and independent review.
+- Component or page: Label documentation, “With Checkbox”.
+- Upstream behavior: the page requests `checkbox-demo`, but no source with that identifier exists
+  anywhere inside the permitted `reference/apps/ui/**` subtree.
+- Port behavior: the page renders `p-checkbox-1`, whose permitted upstream source contains the
+  exact documented `Label` and `Checkbox` composition.
+- Reason: this repairs a dangling upstream identifier without inventing a 509th particle or using
+  source outside the MIT-designated subtree.
+- Approval: coordinator source-boundary decision on 2026-08-31.
+- Evidence: `docs/porting/components/label.md` records the exhaustive source search, and
+  `apps/ui/tests/docs/d6-form-inputs.test.ts` locks the corrected preview order and identifier.
 
 ## Tabs particle 13 tooltip trigger wrapper
 

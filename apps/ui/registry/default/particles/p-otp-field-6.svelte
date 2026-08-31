@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
   export const meta = defineParticleMeta({
     components: ["field", "otp-field"],
     id: "p-otp-field-6",
@@ -11,6 +11,7 @@
 
 <script lang="ts">
   import { Field, OTPField } from "@coss-sv/ui";
+  import { onDestroy } from "svelte";
 
   const length = 6;
   let focusedIndex = $state(0);
@@ -45,6 +46,8 @@
       invalidPulse = 0;
     }, 400);
   }
+
+  onDestroy(() => clearTimeout(timer));
 </script>
 
 <Field.Root class="items-center">

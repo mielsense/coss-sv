@@ -7,16 +7,14 @@ description: A component for visually grouping a series of controls.
 
 ## Installation
 
-<InstallCommand
-  pnpm="pnpm add @coss-sv/ui"
-  shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/group.json"
-/>
+<InstallCommand shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/group.json" />
 
 ## Usage
 
 ```svelte
 <script lang="ts">
-  import { Button, Group } from "@coss-sv/ui";
+  import { Button } from "@/components/ui/button/index.js";
+  import * as Group from "@/components/ui/group/index.js";
 </script>
 
 <Group.Root>

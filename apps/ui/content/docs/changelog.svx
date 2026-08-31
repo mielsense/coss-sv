@@ -3,12 +3,6 @@ title: Changelog
 description: Breaking changes, migration guides, and notable updates.
 ---
 
-# Changelog
-
-Breaking changes, migration guides, and notable updates.
-
-<CopyMarkdownButton url="/docs/changelog.md" />
-
 ## Upstream COSS history
 
 The dated entries below preserve the pinned upstream COSS changelog. They describe the React library
@@ -21,7 +15,7 @@ material.
 
 **`TabsList`** now supports a **`size`** prop with **`"sm"`**, **`"default"`**, and **`"lg"`** values. The size propagates to its **`TabsTab`** children, and an individual tab can override the inherited size when necessary.
 
-The default Tabs appearance now uses the same optical item sizing as the [Segmented Control](/ui/docs/components/segmented-control) pattern. The default rendered height is slightly smaller than before so the inset active indicator remains visually balanced beside a Button of the corresponding size.
+The default Tabs appearance now uses the same optical item sizing as the [Segmented Control](/docs/components/segmented-control) pattern. The default rendered height is slightly smaller than before so the inset active indicator remains visually balanced beside a Button of the corresponding size.
 
 Tabs now imports its size map and **`segmentedControlItemLayoutClassName`** from the **`@coss/segmented-control`** registry library. That class covers the shared icon gap, size, and opacity treatment. **`segmentedControlItemVariants`** includes it, and **`TabsTab`** uses it instead of inlining the same utilities. **`@coss/tabs`** declares this as a registry dependency, so the shadcn CLI installs it automatically with a fresh installation or CLI-managed update.
 
@@ -115,7 +109,7 @@ If you import Base UI OTP primitives directly in your app, update:
 
 ### Context Menu
 
-**`@coss/context-menu`** is a new registry component for right-click and long-press action menus anchored to the pointer. See the [Context Menu](/ui/docs/components/context-menu) docs for installation and examples.
+**`@coss/context-menu`** is a new registry component for right-click and long-press action menus anchored to the pointer. See the [Context Menu](/docs/components/context-menu) docs for installation and examples.
 
 **Install:**
 
@@ -235,7 +229,7 @@ The coss Form component no longer adds default Tailwind layout. Add className="f
 
 ### OTP Field
 
-The **`input-otp.tsx`** registry component has been removed in favor of **`otp-field.tsx`** (`@coss/otp-field`), which wraps Base UI OTP Field. See the [OTP Field](/ui/docs/components/otp-field) docs and [migration guide](/ui/docs/radix-migration#otp-field) for API details.
+The **`input-otp.tsx`** registry component has been removed in favor of **`otp-field.tsx`** (`@coss/otp-field`), which wraps Base UI OTP Field. See the [OTP Field](/docs/components/otp-field) docs and [migration guide](/docs/radix-migration#otp-field) for API details.
 
 **Migration:**
 
@@ -261,7 +255,7 @@ Replace the removed @coss/input-otp / components/ui/input-otp.tsx with @coss/otp
 
 ### Table
 
-`Table` now supports an optional **`variant`** prop: **`"default"`** (the default) or **`"card"`**. Omitting it keeps the same appearance as before. Use **`variant="card"`** for the card-style grid (separated rows, rounded cells, updated hover/footer treatment)—including tables inside a [Frame](/ui/docs/components/frame) or [CardFrame](/ui/docs/components/card) as shown in the [Table docs](/ui/docs/components/table).
+`Table` now supports an optional **`variant`** prop: **`"default"`** (the default) or **`"card"`**. Omitting it keeps the same appearance as before. Use **`variant="card"`** for the card-style grid (separated rows, rounded cells, updated hover/footer treatment)—including tables inside a [Frame](/docs/components/frame) or [CardFrame](/docs/components/card) as shown in the [Table docs](/docs/components/table).
 
 **Migration:**
 

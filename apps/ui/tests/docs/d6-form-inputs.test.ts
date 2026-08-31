@@ -5,37 +5,33 @@ import { compile } from "svelte/compiler";
 import { render } from "svelte/server";
 import { describe, expect, test } from "vitest";
 
-const compiledParticles = import.meta.glob(
-  [
-    "../../registry/default/particles/p-field-*.svelte",
-    "../../registry/default/particles/p-fieldset-*.svelte",
-    "../../registry/default/particles/p-form-*.svelte",
-    "../../registry/default/particles/p-group-*.svelte",
-    "../../registry/default/particles/p-input-*.svelte",
-    "!../../registry/default/particles/p-input-12.svelte",
-    "../../registry/default/particles/p-input-group-*.svelte",
-    "../../registry/default/particles/p-number-field-*.svelte",
-    "../../registry/default/particles/p-otp-field-*.svelte",
-    "../../registry/default/particles/p-textarea-*.svelte",
-  ],
-  { eager: true },
-);
+type SvelteModule = { default: Component };
 
-const compiledPages = import.meta.glob(
-  [
-    "../../content/docs/components/input.svx",
-    "../../content/docs/components/label.svx",
-    "../../content/docs/components/textarea.svx",
-    "../../content/docs/components/field.svx",
-    "../../content/docs/components/fieldset.svx",
-    "../../content/docs/components/form.svx",
-    "../../content/docs/components/group.svx",
-    "../../content/docs/components/input-group.svx",
-    "../../content/docs/components/number-field.svx",
-    "../../content/docs/components/otp-field.svx",
-  ],
-  { eager: true },
-);
+const particleLoaders = import.meta.glob<SvelteModule>([
+  "../../registry/default/particles/p-field-*.svelte",
+  "../../registry/default/particles/p-fieldset-*.svelte",
+  "../../registry/default/particles/p-form-*.svelte",
+  "../../registry/default/particles/p-group-*.svelte",
+  "../../registry/default/particles/p-input-*.svelte",
+  "!../../registry/default/particles/p-input-12.svelte",
+  "../../registry/default/particles/p-input-group-*.svelte",
+  "../../registry/default/particles/p-number-field-*.svelte",
+  "../../registry/default/particles/p-otp-field-*.svelte",
+  "../../registry/default/particles/p-textarea-*.svelte",
+]);
+
+const pageLoaders = import.meta.glob<SvelteModule>([
+  "../../content/docs/components/input.svx",
+  "../../content/docs/components/label.svx",
+  "../../content/docs/components/textarea.svx",
+  "../../content/docs/components/field.svx",
+  "../../content/docs/components/fieldset.svx",
+  "../../content/docs/components/form.svx",
+  "../../content/docs/components/group.svx",
+  "../../content/docs/components/input-group.svx",
+  "../../content/docs/components/number-field.svx",
+  "../../content/docs/components/otp-field.svx",
+]);
 
 const appRoot = resolve(import.meta.dirname, "../..");
 const repositoryRoot = resolve(appRoot, "../..");
@@ -80,7 +76,7 @@ const expectedPagePreviews = {
     "p-input-7",
     "p-form-1",
   ],
-  label: ["p-input-6"],
+  label: ["p-input-6", "p-checkbox-1"],
   textarea: range("p-textarea", 1, 6),
   field: range("p-field", 1, 18),
   fieldset: ["p-fieldset-1"],
@@ -139,23 +135,23 @@ describe("D6 form and input documentation inventory", () => {
   });
 
   test("compiles the exact 124 owned Svelte particles", () => {
-    expect(Object.keys(compiledParticles)).toHaveLength(124);
+    expect(Object.keys(particleLoaders)).toHaveLength(124);
   });
 
-  test("SSR renders every owned particle without throwing", () => {
-    for (const [path, module] of Object.entries(compiledParticles)) {
-      const component = (module as { default: Component }).default;
+  test("SSR renders every owned particle sequentially without throwing", async () => {
+    for (const [path, load] of Object.entries(particleLoaders)) {
+      const { default: component } = await load();
       const body = render(component).body;
       expect(body, path).toContain("data-slot=");
     }
   });
 
-  test("server-renders canonical Fieldset particles with resolvable legend names", () => {
+  test("server-renders canonical Fieldset particles with resolvable legend names", async () => {
     for (const id of ["p-fieldset-1", "p-field-13", "p-field-14"]) {
-      const entry = Object.entries(compiledParticles).find(([path]) =>
+      const entry = Object.entries(particleLoaders).find(([path]) =>
         path.endsWith(`/${id}.svelte`),
       );
-      const component = (entry?.[1] as { default?: Component } | undefined)?.default;
+      const component = (await entry?.[1]())?.default;
       expect(component, id).toBeDefined();
 
       const body = render(component as Component).body;
@@ -167,22 +163,23 @@ describe("D6 form and input documentation inventory", () => {
     }
   });
 
-  test("compiles and SSR renders all ten D6 pages", () => {
-    expect(Object.keys(compiledPages)).toHaveLength(10);
-    for (const [path, module] of Object.entries(compiledPages)) {
-      const component = (module as { default: Component }).default;
+  test("compiles and SSR renders all ten D6 pages sequentially", async () => {
+    expect(Object.keys(pageLoaders)).toHaveLength(10);
+    for (const [path, load] of Object.entries(pageLoaders)) {
+      const { default: component } = await load();
       expect(render(component).body, path).toContain("data-slot=");
     }
-  });
+  }, 20_000);
 
-  test("omits only the unportable upstream Label preview", () => {
+  test("repairs the dangling upstream Label preview with its canonical checkbox particle", () => {
     const label = source("apps/ui/content/docs/components/label.svx");
     const evidence = source("docs/porting/components/label.md");
 
     expect(label).toContain("### With Checkbox");
     expect(label).not.toContain("checkbox-demo");
+    expect(label).toContain('<ComponentPreview name="p-checkbox-1" />');
     expect(evidence).toContain("no `checkbox-demo` particle exists");
-    expect(evidence).toContain("omits only the dangling preview reference");
+    expect(evidence).toContain("uses the canonical `p-checkbox-1` particle");
   });
 
   test("keeps the locked D6 ownership set exact", () => {
@@ -195,15 +192,18 @@ describe("D6 form and input documentation inventory", () => {
     expect(actual).toEqual([...expectedParticles].sort());
   });
 
-  test("exposes every D6 documentation page through a typed route", () => {
+  test("exposes every D6 documentation page through the shared typed docs layout", () => {
+    const layoutLoader = source("apps/ui/src/routes/(site)/docs/+layout.server.ts");
+    const layout = source("apps/ui/src/routes/(site)/docs/+layout.svelte");
+
+    expect(layoutLoader).toContain("findGeneratedDocumentationRecord");
+    expect(layout).toContain("documentation.metadata.title");
     for (const slug of expectedPageSlugs) {
-      const routeRoot = `apps/ui/src/routes/docs/components/${slug}`;
+      const routeRoot = `apps/ui/src/routes/(site)/docs/components/${slug}`;
       const page = source(`${routeRoot}/+page.svelte`);
-      const loader = source(`${routeRoot}/+page.server.ts`);
 
       expect(page).toContain(`$content/docs/components/${slug}.svx`);
-      expect(page).toContain("data.documentation.metadata.title");
-      expect(loader).toContain(`generatedDocumentationRecord("components/${slug}")`);
+      expect(existsSync(resolve(repositoryRoot, `${routeRoot}/+page.server.ts`))).toBe(false);
     }
   });
 
@@ -311,18 +311,19 @@ describe("D6 form and input documentation inventory", () => {
 
   test("preserves the Input Group focus-order alert with the central Hugeicons renderer", () => {
     const page = source("apps/ui/content/docs/components/input-group.svx");
-    expect(page).toMatch(
-      /import\s*{\s*Alert,\s*AlertDescription,\s*HugeiconsIcon\s*}\s*from\s*"@coss-sv\/ui"/,
+    const callout = source("apps/ui/src/lib/content/components/Callout.svelte");
+
+    expect(page).toContain("<Callout>");
+    expect(callout).toContain('import * as Alert from "@coss-sv/ui/components/ui/alert";');
+    expect(callout).toContain(
+      'import InformationCircleIcon from "@hugeicons/core-free-icons/InformationCircleIcon";',
     );
-    expect(page).toMatch(
-      /import\s*{\s*InformationCircleIcon\s*}\s*from\s*"@hugeicons\/core-free-icons"/,
-    );
-    expect(page).toContain('<Alert class="bg-muted/24">');
-    expect(page).toContain(
+    expect(callout).toContain('<Alert.Root class="my-6 bg-muted/24" {variant}>');
+    expect(callout).toContain(
       '<HugeiconsIcon aria-hidden="true" icon={InformationCircleIcon} strokeWidth={2} />',
     );
-    expect(page).toMatch(
-      /For proper focus navigation, the `InputGroup\.Addon` component should be placed after the input\s+in the DOM order\./,
+    expect(page.replace(/\s+/g, " ")).toContain(
+      "For proper focus navigation, the `InputGroup.Addon` component should be placed after the input in the DOM order.",
     );
   });
 

@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
   export const meta = defineParticleMeta({
     components: ["autocomplete", "spinner"],
     containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64",
@@ -12,7 +12,7 @@
 
 <script lang="ts">
   import { Autocomplete, HugeiconsIcon, Spinner } from "@coss-sv/ui";
-  import { Location01Icon } from "@hugeicons/core-free-icons";
+  import Location01Icon from "@hugeicons/core-free-icons/Location01Icon";
   import { onDestroy } from "svelte";
 
   type AddressSuggestion = {
@@ -180,7 +180,10 @@
   filter={null}
   items={suggestions}
   itemToStringValue={(item: AddressSuggestion) => item.text}
-  onValueChange={search}
+  onValueChange={(value, details) => {
+    search(value);
+    if (details.reason === "item-press") resetSession();
+  }}
   value={searchValue}
 >
   <Autocomplete.Input
@@ -198,28 +201,29 @@
   {#if searchValue.trim()}
     <Autocomplete.Popup aria-busy={loading || undefined} class="max-w-(--anchor-width) *:min-w-0">
       <Autocomplete.Status class="text-muted-foreground">
-        {#if loading}<span class="flex items-center justify-between gap-2"
-            >Searching addresses... <Spinner class="size-4.5 sm:size-4" /></span
-          >
+        {#if loading}<span class="flex items-center justify-between gap-2">
+            Searching addresses... <Spinner class="size-4.5 sm:size-4" />
+          </span>
         {:else if error}<span class="font-normal text-destructive text-sm">{error}</span>
-        {:else if suggestions.length === 0}<span class="font-normal text-muted-foreground text-sm"
-            >No addresses found for "{searchValue}"</span
-          >
+        {:else if suggestions.length === 0}<span class="font-normal text-muted-foreground text-sm">
+            No addresses found for "{searchValue}"
+          </span>
         {:else}{suggestions.length} suggestion{suggestions.length === 1 ? "" : "s"} found{/if}
       </Autocomplete.Status>
-      <Autocomplete.List
-        ><Autocomplete.Collection>
+      <Autocomplete.List>
+        <Autocomplete.Collection>
           {#snippet children(suggestion: AddressSuggestion)}
-            <Autocomplete.Item onclick={resetSession} value={suggestion}
-              ><span class="flex w-full min-w-0 flex-col"
-                ><span class="truncate font-medium">{suggestion.mainText}</span><span
-                  class="truncate text-muted-foreground text-xs">{suggestion.secondaryText}</span
-                ></span
-              ></Autocomplete.Item
-            >
+            <Autocomplete.Item value={suggestion}>
+              <span class="flex w-full min-w-0 flex-col">
+                <span class="truncate font-medium">{suggestion.mainText}</span>
+                <span class="truncate text-muted-foreground text-xs">
+                  {suggestion.secondaryText}
+                </span>
+              </span>
+            </Autocomplete.Item>
           {/snippet}
-        </Autocomplete.Collection></Autocomplete.List
-      >
+        </Autocomplete.Collection>
+      </Autocomplete.List>
     </Autocomplete.Popup>
   {/if}
 </Autocomplete.Root>

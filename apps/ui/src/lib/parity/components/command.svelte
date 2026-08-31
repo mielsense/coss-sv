@@ -11,15 +11,13 @@
     Skeleton,
     Spinner,
   } from "@coss-sv/ui";
-  import {
-    ArrowDown02Icon,
-    ArrowLeft02Icon,
-    ArrowUp02Icon,
-    CircleQuestionMarkIcon,
-    CornerDownLeftIcon,
-    Search01Icon,
-    SparklesIcon,
-  } from "@hugeicons/core-free-icons";
+  import ArrowDown02Icon from "@hugeicons/core-free-icons/ArrowDown02Icon";
+  import ArrowLeft02Icon from "@hugeicons/core-free-icons/ArrowLeft02Icon";
+  import ArrowUp02Icon from "@hugeicons/core-free-icons/ArrowUp02Icon";
+  import CircleQuestionMarkIcon from "@hugeicons/core-free-icons/CircleQuestionMarkIcon";
+  import CornerDownLeftIcon from "@hugeicons/core-free-icons/CornerDownLeftIcon";
+  import Search01Icon from "@hugeicons/core-free-icons/Search01Icon";
+  import SparklesIcon from "@hugeicons/core-free-icons/SparklesIcon";
   import * as Command from "../../../../../../packages/ui/dist/components/ui/command/index.js";
 
   type Item = { keywords?: string[]; label: string; shortcut?: string; value: string };

@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
 
   export const meta = defineParticleMeta({
     components: ["collapsible"],
@@ -12,7 +12,7 @@
 
 <script lang="ts">
   import { Collapsible, HugeiconsIcon } from "@coss-sv/ui";
-  import { ChevronDownIcon } from "@hugeicons/core-free-icons";
+  import ChevronDownIcon from "@hugeicons/core-free-icons/ChevronDownIcon";
 </script>
 
 <Collapsible.Root>

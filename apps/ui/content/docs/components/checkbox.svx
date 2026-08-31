@@ -10,16 +10,13 @@ links:
 
 ## Installation
 
-<InstallCommand
-  pnpm="pnpm add @coss-sv/ui"
-  shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/checkbox.json"
-/>
+<InstallCommand shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/checkbox.json" />
 
 ## Usage
 
 ```svelte
 <script lang="ts">
-  import { Checkbox } from "@coss-sv/ui/components/ui/checkbox";
+  import { Checkbox } from "@/components/ui/checkbox/index.js";
 </script>
 
 <Checkbox aria-label="Accept terms" />

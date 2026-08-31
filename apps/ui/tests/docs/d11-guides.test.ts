@@ -38,7 +38,7 @@ describe("D11 guide sources", () => {
     }
   });
 
-  test("uses pnpm, shadcn-svelte, Svelte source, and Hugeicons only", async () => {
+  test("uses registry installs, local aliases, Svelte source, and Hugeicons only", async () => {
     const currentSvelteGuides = guideRoutes.filter((slug) => slug !== "changelog");
     const text = (
       await Promise.all([...currentSvelteGuides, ...hookRecords].map((slug) => source(slug)))
@@ -47,10 +47,14 @@ describe("D11 guide sources", () => {
     const sveltePortStatus = changelog.slice(changelog.indexOf("## Svelte port status"));
 
     expect(text).toContain("pnpm dlx shadcn-svelte@latest");
-    expect(text).toContain("@coss-sv/ui");
+    expect(text).toContain("@/components/ui/");
+    expect(text).not.toContain('from "@coss-sv/ui"');
+    expect(text).toContain("npx skills add mielsense/coss-sv --skill coss-svelte");
     expect(text).toContain("HugeiconsIcon");
     expect(text).not.toMatch(/```(?:tsx|jsx)\b/);
-    expect(text).not.toMatch(/\b(?:bun|bunx|npm|npx|yarn)\b/);
+    expect(text.replace("npx skills add mielsense/coss-sv --skill coss-svelte", "")).not.toMatch(
+      /\b(?:bun|bunx|npm|npx|yarn)\b/,
+    );
     expect(text).not.toContain("lucide");
     expect(text).not.toContain("@hugeicons/svelte");
     expect(text).not.toContain("@base-ui/react");
@@ -59,18 +63,25 @@ describe("D11 guide sources", () => {
     expect(sveltePortStatus).not.toMatch(/\b(?:bun|bunx|npm|npx|yarn)\b/);
   });
 
-  test("documents native Svelte replacements instead of inventing package hooks", async () => {
+  test("ports both hooks with Svelte-native reactive contracts", async () => {
     const mediaQuery = await source("hooks-use-media-query");
     const clipboard = await source("hooks-use-copy-to-clipboard");
 
-    expect(mediaQuery).toContain('import { MediaQuery } from "svelte/reactivity"');
-    expect(mediaQuery).toMatch(/does\s+not export a `useMediaQuery` hook/);
-    expect(clipboard).toMatch(/does\s+not export a `useCopyToClipboard` hook/);
-    expect(clipboard).toContain("navigator.clipboard.writeText");
+    expect(mediaQuery).toContain('useMediaQuery("md")');
+    expect(mediaQuery).toContain('useMediaQuery({ max: "md", pointer: "coarse" })');
+    expect(mediaQuery).toContain("useIsMobile");
+    expect(mediaQuery).toContain("Viewport &lt; breakpoint");
+    expect(mediaQuery).not.toContain("Viewport < breakpoint");
+    expect(mediaQuery).not.toContain('<ComponentSource name="use-media-query"');
+    expect(clipboard).toContain("useCopyToClipboard");
+    expect(clipboard).not.toContain('<ComponentSource name="use-copy-to-clipboard"');
   });
 
   test("keeps the COSS source boundary and Miel attribution visible", async () => {
-    const credits = await readFile(resolve(appRoot, "src/routes/credits/+page.svelte"), "utf8");
+    const credits = await readFile(
+      resolve(appRoot, "src/routes/(site)/credits/+page.svelte"),
+      "utf8",
+    );
     expect(credits).toContain("Unofficial Svelte port made by");
     expect(credits).toContain("19620ae8cae81e30775f2cde03829326cb4916b2");
     expect(credits).toContain("reference/apps/ui");
@@ -148,12 +159,18 @@ describe("D11 guide sources", () => {
       "utf8",
     );
     const clipboard = await source("hooks-use-copy-to-clipboard");
+    const clipboardHook = await readFile(
+      resolve(appRoot, "registry/default/hooks/use-copy-to-clipboard.svelte.ts"),
+      "utf8",
+    );
     const mediaDemo = await readFile(
       resolve(appRoot, "src/lib/content/guides/MediaQueryDemo.svelte"),
       "utf8",
     );
 
-    expect(button).toContain("onDestroy");
+    expect(button).toContain("$effect(() =>");
+    expect(button).toContain("void url");
+    expect(button).toContain("return () =>");
     expect(button).toContain("clearTimeout(timer)");
     expect(button).toContain("new AbortController()");
     expect(button).toContain("controller?.abort()");
@@ -162,9 +179,10 @@ describe("D11 guide sources", () => {
     expect(button).toContain("Copy Markdown");
     expect(button).not.toMatch(/copied\s*\?\s*["']Copied["']/);
     expect(clipboard).toContain('aria-hidden="true"');
-    expect(clipboard.match(/new AbortController\(\)/g)).toHaveLength(2);
-    expect(clipboard.match(/onDestroy\(destroy\)/g)).toHaveLength(2);
-    expect(clipboard.match(/generation/g)?.length).toBeGreaterThanOrEqual(8);
+    expect(clipboardHook).toContain("navigator.clipboard.writeText");
+    expect(clipboardHook).toContain("clearTimeout(resetTimer)");
+    expect(clipboardHook).toContain("onDestroy");
+    expect(clipboardHook).toContain("destroyed = true");
     expect(mediaDemo).toContain('title: "Device & preferences"');
   });
 

@@ -10,16 +10,13 @@ links:
 
 ## Installation
 
-<InstallCommand
-  pnpm="pnpm add @coss-sv/ui"
-  shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/slider.json"
-/>
+<InstallCommand shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/slider.json" />
 
 ## Usage
 
 ```svelte
 <script lang="ts">
-  import * as Slider from "@coss-sv/ui/components/ui/slider";
+  import * as Slider from "@/components/ui/slider/index.js";
 </script>
 
 <Slider.Root aria-label="Volume" defaultValue={50} />

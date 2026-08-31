@@ -2,7 +2,8 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
   import { page } from "$app/state";
-  import { LabelIcon, Search01Icon } from "@hugeicons/core-free-icons";
+  import LabelIcon from "@hugeicons/core-free-icons/LabelIcon";
+  import Search01Icon from "@hugeicons/core-free-icons/Search01Icon";
   import { Combobox, HugeiconsIcon } from "@coss-sv/ui";
   import type { ParticleCatalogEntry } from "./catalog.js";
   import { groupParticleSearchItems, type ParticleSearchItem } from "./model.js";

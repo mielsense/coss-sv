@@ -8,11 +8,11 @@
 - COSS pages: `reference/apps/ui/content/docs/components/calendar.mdx` and `date-picker.mdx`
 - COSS particles: `p-calendar-1.tsx` through `p-calendar-25.tsx`, plus
   `p-date-picker-1.tsx` through `p-date-picker-9.tsx`
-- Exact upstream adapter source: the nested React DayPicker 10.0.1 installed under
-  `reference/node_modules/@daypicker/react/node_modules/react-day-picker`
+- Exact third-party adapter source: React DayPicker 10.0.1, licensed under MIT and
+  recorded in `THIRD_PARTY_NOTICES.md`
 
 The COSS files under `reference/apps/ui/**` are the only COSS source used here. No file
-under `reference/packages/ui/**` was opened or adapted.
+from the excluded COSS package subtree was opened or adapted.
 
 ## Contract taken from COSS and DayPicker 10
 
@@ -92,15 +92,14 @@ Other locales keep the month first. The same order applies to native selects and
 `components.Dropdown` replacements.
 
 Selection is controlled whenever `onSelect` is present, including when `selected` is
-undefined. Month state is controlled whenever `onMonthChange` is present. The callback
-reports a proposed month while an ignored parent value remains rendered. Without the
-callback, `bind:month` updates both the parent and the visible month. Adding or removing
-the callback updates the control mode without remounting. This public callback marker is
-the approved Svelte adaptation recorded in `docs/porting/DEVIATIONS.md`; Svelte does not
-expose whether a `$bindable` prop has a binding. Values emitted through `bind:selected` or
-`bind:month` remain canonical calendar dates and are not converted through the IANA zone
-a second time. `defaultSelected` and `defaultMonth` remain internal state, including
-across hydration when their corresponding control input is absent.
+undefined. Month state follows DayPicker exactly: supplying `month` makes it controlled,
+while omitting `month` keeps `defaultMonth` and navigation internal even when
+`onMonthChange` observes proposals. Controlled examples update parent state explicitly in
+`onMonthChange`; a bare `month={value}` remains rendered when navigation is ignored.
+Values emitted through `bind:selected` or the month callback remain canonical calendar
+dates and are not converted through the IANA zone a second time. `defaultSelected` and
+`defaultMonth` remain internal state, including across hydration when their corresponding
+control input is absent.
 
 Roving focus only targets visible, enabled days. A disabled selected date falls back to the
 first enabled day. Month changes and externally controlled months recompute the target;
@@ -138,8 +137,8 @@ the architecture or dependency choice.
 - `calendar.browser.test.ts` checks all selection modes, callback data, disabled and
   unavailable dates, the full keyboard model, enabled roving focus, navigation exhaustion,
   controlled and bound state, live callback-marker transitions, controlled undefined
-  selection, callback-free month binding, GMT-12 and GMT+14 noon-safe callback and
-  bound values, externally controlled month bounds, native dropdowns, cross-year reversed
+  selection, controlled and uncontrolled month behavior, GMT-12 and GMT+14 noon-safe callback
+  values, externally controlled month bounds, native dropdowns, cross-year reversed
   months, locale-aware native and replacement dropdown order, replacement hosts,
   last-focused keyboard re-entry, stopped navigation-key propagation, and Shards Popover
   focus restoration.

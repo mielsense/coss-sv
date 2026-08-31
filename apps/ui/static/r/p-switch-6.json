@@ -9,7 +9,7 @@
 	],
 	"files": [
 		{
-			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\n  export const meta = defineParticleMeta({\n    components: [\"switch\"],\n    id: \"p-switch-6\",\n    interactive: true,\n    responsive: false,\n    title: \"Custom switch size\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { Switch } from \"$COMPONENTS$/ui/switch/index.js\";\n</script>\n\n<Switch\n  aria-label=\"Custom size\"\n  class=\"[--thumb-size:--spacing(4)] sm:[--thumb-size:--spacing(3)]\"\n/>\n",
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\n  export const meta = defineParticleMeta({\n    components: [\"switch\"],\n    id: \"p-switch-6\",\n    interactive: true,\n    responsive: false,\n    title: \"Custom switch size\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { Switch } from \"$UI$/switch/index.js\";\n</script>\n\n<Switch\n  aria-label=\"Custom size\"\n  class=\"[--thumb-size:--spacing(4)] sm:[--thumb-size:--spacing(3)]\"\n/>\n",
 			"type": "registry:block",
 			"target": "p-switch-6.svelte"
 		}

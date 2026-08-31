@@ -8,12 +8,12 @@
 	],
 	"files": [
 		{
-			"content": "<script module lang=\"ts\">\n  import { Form as FormPrimitive } from \"@shardsui/svelte\";\n  import type { ComponentProps } from \"svelte\";\n\n  export type FormProps = ComponentProps<typeof FormPrimitive>;\n</script>\n\n<script lang=\"ts\">\n  let { class: className, ref = $bindable(null), ...props }: FormProps = $props();\n\n  let primitive: { validate: (fieldName?: string) => void } | undefined;\n\n  export function validate(fieldName?: string): void {\n    primitive?.validate(fieldName);\n  }\n</script>\n\n<FormPrimitive bind:this={primitive} bind:ref data-slot=\"form\" class={className} {...props} />\n",
+			"content": "<script module lang=\"ts\">\n  import { Form as FormPrimitive } from \"@shardsui/svelte/form\";\n  import type { ComponentProps } from \"svelte\";\n\n  export type FormProps = ComponentProps<typeof FormPrimitive>;\n</script>\n\n<script lang=\"ts\">\n  let { class: className, ref = $bindable(null), ...props }: FormProps = $props();\n\n  let primitive: { validate: (fieldName?: string) => void } | undefined;\n\n  export function validate(fieldName?: string): void {\n    primitive?.validate(fieldName);\n  }\n</script>\n\n<FormPrimitive bind:this={primitive} bind:ref data-slot=\"form\" class={className} {...props} />\n",
 			"type": "registry:ui",
 			"target": "form/form.svelte"
 		},
 		{
-			"content": "export { Form as FormPrimitive } from \"@shardsui/svelte\";\nexport type { FormProps } from \"./form.svelte\";\nexport { default as Form, default as Root } from \"./form.svelte\";\n",
+			"content": "export { Form as FormPrimitive } from \"@shardsui/svelte/form\";\nexport type { FormProps } from \"./form.svelte\";\nexport { default as Form, default as Root } from \"./form.svelte\";\n",
 			"type": "registry:ui",
 			"target": "form/index.ts"
 		}

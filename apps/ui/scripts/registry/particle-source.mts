@@ -1,6 +1,8 @@
 import ts from "typescript";
 
 const packageImportPattern = /(^[\t ]*)import\s*\{([^}]*)\}\s*from\s*["']@coss-sv\/ui["'];/gm;
+const directComponentNamespacePattern =
+  /(^[\t ]*)import\s+\*\s+as\s+([A-Za-z_$][\w$]*)\s+from\s+["']@coss-sv\/ui\/components\/ui\/([a-z0-9-]+)(?:\/index(?:\.js)?)?["'];/gm;
 const directHugeiconsPattern =
   /(^[\t ]*)import\s*\{\s*HugeiconsIcon\s*\}\s*from\s*["']@hugeicons\/svelte["'];/gm;
 const segmentedControlImportPattern = /["']@coss-sv\/ui\/lib\/segmented-control["']/g;
@@ -13,10 +15,10 @@ type UiExportOwner = {
 
 function localTarget(moduleSpecifier: string): string | undefined {
   const component = /^\.\/components\/ui\/([^/]+)\/index\.js$/.exec(moduleSpecifier)?.[1];
-  if (component) return `$lib/components/ui/${component}/index.js`;
-  if (moduleSpecifier === "./lib/hugeicons-icon.svelte") return "$lib/hugeicons-icon.svelte";
-  if (moduleSpecifier === "./lib/segmented-control.js") return "$lib/segmented-control.js";
-  if (moduleSpecifier === "./lib/utils.js") return "$lib/utils.js";
+  if (component) return `@/components/ui/${component}/index.js`;
+  if (moduleSpecifier === "./lib/hugeicons-icon.svelte") return "@/hugeicons-icon.svelte";
+  if (moduleSpecifier === "./lib/segmented-control.js") return "@/segmented-control.js";
+  if (moduleSpecifier === "./lib/utils.js") return "@/utils.js";
   return undefined;
 }
 
@@ -117,16 +119,21 @@ export function transformParticleSource(
   exports: ReadonlyMap<string, UiExportOwner>,
 ): string {
   const transformed = source
+    .replace(
+      directComponentNamespacePattern,
+      (_statement, indent: string, namespace: string, component: string) =>
+        `${indent}import * as ${namespace} from "@/components/ui/${component}/index.js";`,
+    )
     .replace(packageImportPattern, (statement, indent: string) =>
       rewritePackageImport(statement, indent, exports),
     )
     .replace(
       directHugeiconsPattern,
       (_statement, indent: string) =>
-        `${indent}import HugeiconsIcon from "$lib/hugeicons-icon.svelte";`,
+        `${indent}import HugeiconsIcon from "@/hugeicons-icon.svelte";`,
     )
-    .replace(segmentedControlImportPattern, '"$lib/segmented-control.js"')
-    .replace(dateFormatImportPattern, '"$lib/date-format.js"');
+    .replace(segmentedControlImportPattern, '"@/segmented-control.js"')
+    .replace(dateFormatImportPattern, '"@/date-format.js"');
 
   if (transformed.includes("@coss-sv/ui") || transformed.includes("@hugeicons/svelte")) {
     throw new Error("Particle source retained a package-only UI or renderer import.");

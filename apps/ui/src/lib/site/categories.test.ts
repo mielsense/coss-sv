@@ -111,7 +111,7 @@ describe("COSS homepage category parity", () => {
       "utf8",
     );
 
-    expect(source).toContain('from "@hugeicons/core-free-icons"');
+    expect(source).toContain('from "@hugeicons/core-free-icons/');
     expect(source).toContain('import { HugeiconsIcon, cn } from "@coss-sv/ui"');
     expect(source).not.toContain("<svg");
     expect(source).not.toContain("<path");

@@ -8,7 +8,7 @@
 - `reference/apps/ui/registry/default/particles/p-alert-dialog-2.tsx`
 - `reference/apps/ui/registry/default/particles/p-dialog-4.tsx`, which nests Alert Dialog in Dialog
 
-Every listed file was read in full. No file under `reference/packages/ui/**` was opened or used.
+Every listed file was read in full. No file from the excluded COSS package subtree was opened or used.
 
 ## Local Shards source
 

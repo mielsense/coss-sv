@@ -7,23 +7,24 @@ import InstallCommand from "../../src/lib/content/components/InstallCommand.svel
 import PreviewCard from "../../src/lib/content/components/PreviewCard.svelte";
 
 describe("documentation components", () => {
-  test("renders only shadcn-svelte and pnpm installation methods", () => {
+  test("renders the registry CLI and manual installation methods", () => {
     const body = render(InstallCommand, {
       props: {
-        pnpm: "pnpm add @shardsui/svelte",
         shadcnSvelte: "pnpm dlx shadcn-svelte@latest add https://example.com/r/accordion.json",
       },
     }).body;
 
-    expect(body).toContain("shadcn-svelte");
+    expect(body).toContain("CLI");
+    expect(body).toContain("Manual");
     expect(body).toContain("pnpm");
     expect(body).not.toMatch(/>npm<|>yarn<|>bun</);
     expect(body).toContain('role="tablist"');
     expect(body).toContain('role="tabpanel"');
-    expect(body).toMatch(/aria-controls="[^"]+-panel"/);
+    expect(body).toContain('aria-selected="true"');
+    expect(body).toContain('aria-selected="false"');
   });
 
-  test("renders explicit preview presentation semantics and the exact source tab", async () => {
+  test("renders explicit preview presentation semantics without eager source DOM", async () => {
     const source = await highlightSource(
       '<script lang="ts">\nlet count = $state(0);\n</script>',
       "svelte",
@@ -31,6 +32,7 @@ describe("documentation components", () => {
     const body = render(PreviewCard, {
       props: {
         align: "start",
+        containerClass: "**:data-[slot=preview]:w-full sm:**:data-[slot=preview]:max-w-[80%]",
         name: "p-accordion-1",
         source,
         theme: "dark",
@@ -40,15 +42,17 @@ describe("documentation components", () => {
     }).body;
 
     expect(body).toContain('data-particle="p-accordion-1"');
-    expect(body).toContain('data-preview-presentation="true"');
+    expect(body).toContain('class="group relative my-8 flex flex-col gap-2 ');
+    expect(body).not.toContain("component-preview");
+    expect(body).toContain("sm:**:data-[slot=preview]:max-w-[80%] dark");
     expect(body).toContain('data-align="start"');
-    expect(body).toContain(
-      "/preview/p-accordion-1?theme=dark&amp;width=mobile&amp;align=start&amp;reducedMotion=no-preference&amp;timers=real",
-    );
+    expect(body).toContain("--preview-width: 390px");
+    expect(body).toContain('data-slot="preview"');
     expect(body).toContain(">Code<");
-    expect(body).toContain("Copy to clipboard");
-    expect(body.replace(/<[^>]*>/g, "")).toContain("$state(0)");
-    expect(body).toContain('title="Accordion preview"');
+    expect(body).not.toContain("data-source-panel");
+    expect(body).not.toContain("Copy to clipboard");
+    expect(body.replace(/<[^>]*>/g, "")).not.toContain("$state(0)");
+    expect(body).not.toContain("<iframe");
     expect(body).toContain('role="tabpanel"');
   });
 
@@ -61,7 +65,23 @@ describe("documentation components", () => {
     expect(body).not.toContain('role="tablist"');
     expect(body).not.toContain('role="tab"');
     expect(body).not.toContain('role="tabpanel"');
-    expect(body).toContain('title="p-button-1 preview"');
+    expect(body).toContain("Loading p-button-1 preview");
+    expect(body).not.toContain("<iframe");
+  });
+
+  test("keeps documentation previews at the upstream 450px height", async () => {
+    const source = await highlightSource("<button>Open dialog</button>", "svelte");
+    const defaultHeight = render(PreviewCard, {
+      props: { name: "p-dialog-5", source },
+    }).body;
+    const explicitHeight = render(PreviewCard, {
+      props: { iframeHeight: 520, name: "p-dialog-5", source },
+    }).body;
+
+    expect(defaultHeight).toContain("--preview-height: 450px");
+    expect(defaultHeight).toContain("height: calc(450px + 2px)");
+    expect(defaultHeight).not.toContain("--preview-height: 640px");
+    expect(explicitHeight).toContain("--preview-height: 520px");
   });
 
   test("renders highlighted token content as text rather than executable HTML", async () => {

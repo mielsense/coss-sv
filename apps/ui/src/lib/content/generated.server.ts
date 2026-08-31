@@ -1,15 +1,18 @@
-import generatedContent from "../../../.svelte-kit/generated/docs-content.json";
-import type { ContentRecord } from "./compiler.js";
+import generatedContent from "../../../.svelte-kit/generated/docs-index.json";
+import type { DocumentationPageData } from "./compiler.js";
+
+type GeneratedIndexRecord = DocumentationPageData & { slug: string };
 
 type GeneratedContent = {
-  pages: ContentRecord[];
+  pages: GeneratedIndexRecord[];
   version: 1;
 };
 
 const generated = generatedContent as GeneratedContent;
 
-export function generatedDocumentationRecord(slug: string): ContentRecord {
+export function findGeneratedDocumentationRecord(slug: string): DocumentationPageData | undefined {
   const record = generated.pages.find((page) => page.slug === slug);
-  if (!record) throw new Error(`missing generated documentation record ${slug}`);
-  return record;
+  return record
+    ? { metadata: record.metadata, tableOfContents: record.tableOfContents }
+    : undefined;
 }

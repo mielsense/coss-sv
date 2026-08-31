@@ -61,7 +61,11 @@ export const registryUiItems = defineRegistryItems([
     type: "registry:ui",
     description: "Suggests and filters values as a user types.",
     dependencies: ["@hugeicons/core-free-icons@4.3.0", "@shardsui/svelte@0.1.0-beta.0"],
-    registryDependencies: ["local:hugeicons-icon", "local:scroll-area"],
+    registryDependencies: [
+      "local:hugeicons-icon",
+      "local:scroll-area",
+      "local:selection-change-context",
+    ],
     files: uiFiles("autocomplete", [
       "autocomplete-clear.svelte",
       "autocomplete-empty.svelte",
@@ -72,6 +76,7 @@ export const registryUiItems = defineRegistryItems([
       "autocomplete-list.svelte",
       "autocomplete-parts.svelte",
       "autocomplete-popup.svelte",
+      "autocomplete-root.svelte",
       "autocomplete-row.svelte",
       "autocomplete-separator.svelte",
       "autocomplete-status.svelte",
@@ -167,7 +172,7 @@ export const registryUiItems = defineRegistryItems([
     type: "registry:ui",
     description: "Lets a user select or clear an option.",
     dependencies: ["@hugeicons/core-free-icons@4.3.0", "@shardsui/svelte@0.1.0-beta.0"],
-    registryDependencies: ["local:hugeicons-icon"],
+    registryDependencies: ["local:change-event-details", "local:hugeicons-icon"],
     files: uiFiles("checkbox", ["checkbox.svelte", "index.ts"]),
   },
   {
@@ -175,7 +180,7 @@ export const registryUiItems = defineRegistryItems([
     type: "registry:ui",
     description: "Coordinates selection across a group of checkboxes.",
     dependencies: ["@shardsui/svelte@0.1.0-beta.0"],
-    registryDependencies: ["local:checkbox"],
+    registryDependencies: ["local:change-event-details", "local:checkbox"],
     files: uiFiles("checkbox-group", [
       "checkbox-group-root.svelte",
       "checkbox-group-item.svelte",
@@ -205,7 +210,11 @@ export const registryUiItems = defineRegistryItems([
     type: "registry:ui",
     description: "Selects one or more values from a filterable collection.",
     dependencies: ["@hugeicons/core-free-icons@4.3.0", "@shardsui/svelte@0.1.0-beta.0"],
-    registryDependencies: ["local:hugeicons-icon", "local:scroll-area"],
+    registryDependencies: [
+      "local:hugeicons-icon",
+      "local:scroll-area",
+      "local:selection-change-context",
+    ],
     files: uiFiles("combobox", [
       "combobox-chip-remove.svelte",
       "combobox-chip.svelte",
@@ -239,6 +248,7 @@ export const registryUiItems = defineRegistryItems([
     files: uiFiles("command", [
       "command-dialog-backdrop.svelte",
       "command-dialog-popup.svelte",
+      "command-dialog-root.svelte",
       "command-dialog-trigger.svelte",
       "command-dialog-viewport.svelte",
       "command-empty.svelte",
@@ -542,7 +552,6 @@ export const registryUiItems = defineRegistryItems([
     registryDependencies: ["local:field", "local:separator"],
     files: uiFiles("otp-field", [
       "context.ts",
-      "field-relationships.ts",
       "otp-field-input.svelte",
       "otp-field-machine.ts",
       "otp-field-root.svelte",
@@ -618,7 +627,7 @@ export const registryUiItems = defineRegistryItems([
     type: "registry:ui",
     description: "Lets a user choose one option from a set.",
     dependencies: ["@shardsui/svelte@0.1.0-beta.0"],
-    registryDependencies: [],
+    registryDependencies: ["local:change-event-details"],
     files: uiFiles("radio-group", [
       "radio-group-root.svelte",
       "radio-group-item.svelte",
@@ -638,7 +647,7 @@ export const registryUiItems = defineRegistryItems([
     type: "registry:ui",
     description: "Chooses a value from a popup list.",
     dependencies: ["@hugeicons/core-free-icons@4.3.0", "@shardsui/svelte@0.1.0-beta.0"],
-    registryDependencies: ["local:hugeicons-icon"],
+    registryDependencies: ["local:hugeicons-icon", "local:selection-change-context"],
     files: uiFiles("select", [
       "context.svelte.ts",
       "index.ts",
@@ -746,7 +755,7 @@ export const registryUiItems = defineRegistryItems([
     type: "registry:ui",
     description: "Selects one or more values within a range.",
     dependencies: ["@shardsui/svelte@0.1.0-beta.0"],
-    registryDependencies: [],
+    registryDependencies: ["local:change-event-details"],
     files: uiFiles("slider", [
       "slider-root.svelte",
       "slider-control.svelte",
@@ -771,7 +780,7 @@ export const registryUiItems = defineRegistryItems([
     type: "registry:ui",
     description: "Turns a setting on or off.",
     dependencies: ["@shardsui/svelte@0.1.0-beta.0"],
-    registryDependencies: [],
+    registryDependencies: ["local:change-event-details"],
     files: uiFiles("switch", ["switch.svelte", "index.ts"]),
   },
   {
@@ -797,14 +806,16 @@ export const registryUiItems = defineRegistryItems([
     type: "registry:ui",
     description: "Switches between related panels in the same region.",
     dependencies: ["@shardsui/svelte@0.1.0-beta.0"],
-    registryDependencies: [],
+    registryDependencies: ["local:change-event-details"],
     files: uiFiles("tabs", [
+      "tabs-change-details.ts",
       "tabs-root.svelte",
       "tabs-list.svelte",
       "tabs-tab.svelte",
       "tabs-panel.svelte",
       "tabs-indicator.svelte",
       "tabs-styles.ts",
+      "tabs-value.ts",
       "context.ts",
       "index.ts",
     ]),
@@ -841,16 +852,22 @@ export const registryUiItems = defineRegistryItems([
     type: "registry:ui",
     description: "Switches a single control between pressed and unpressed states.",
     dependencies: ["@shardsui/svelte@0.1.0-beta.0"],
-    registryDependencies: [],
-    files: uiFiles("toggle", ["toggle.svelte", "toggle-variants.ts", "index.ts"]),
+    registryDependencies: ["local:change-event-details"],
+    files: uiFiles("toggle", [
+      "group-change-context.ts",
+      "toggle.svelte",
+      "toggle-variants.ts",
+      "index.ts",
+    ]),
   },
   {
     name: "toggle-group",
     type: "registry:ui",
     description: "Groups related toggle controls with shared selection behavior.",
     dependencies: ["@shardsui/svelte@0.1.0-beta.0"],
-    registryDependencies: ["local:separator", "local:toggle"],
+    registryDependencies: ["local:change-event-details", "local:separator", "local:toggle"],
     files: uiFiles("toggle-group", [
+      "change-event-details.ts",
       "toggle-group-root.svelte",
       "toggle-group-item.svelte",
       "toggle-group-separator.svelte",

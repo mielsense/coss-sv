@@ -3,7 +3,7 @@
 ## Source boundary
 
 The port uses only the MIT-designated COSS files under `reference/apps/ui/**`. No
-source from `reference/packages/ui/**` was used.
+source from the excluded COSS package subtree was used.
 
 ## COSS files inspected
 

@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
   export const meta = defineParticleMeta({
     components: ["select"],
     containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64",
@@ -39,13 +39,16 @@
   aria-label="Select timezone"
   value={timezones.find((item) => item.value === "Europe/London")}
   itemToStringValue={(item: Timezone) => item.value}
-  ><Select.Trigger
-    ><Select.Value
-      >{#snippet children(item: Timezone | null)}{#if item}<span class="truncate">{item.label}</span
-          >{/if}{/snippet}</Select.Value
-    ></Select.Trigger
-  ><Select.Popup
-    >{#each timezones as item (item.value)}<Select.Item value={item}>{item.label}</Select.Item
-      >{/each}</Select.Popup
-  ></Select.Root
 >
+  <Select.Trigger>
+    <Select.Value>
+      {#snippet children(item: Timezone | null)}{#if item}<span class="truncate">
+            {item.label}
+          </span>{/if}{/snippet}
+    </Select.Value>
+  </Select.Trigger><Select.Popup>
+    {#each timezones as item (item.value)}<Select.Item value={item}>
+        {item.label}
+      </Select.Item>{/each}
+  </Select.Popup>
+</Select.Root>

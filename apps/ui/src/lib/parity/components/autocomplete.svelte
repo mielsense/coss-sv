@@ -1,6 +1,7 @@
 <script lang="ts">
   import { Button, Field, Form, HugeiconsIcon, Label, Spinner } from "@coss-sv/ui";
-  import { Location01Icon, Search01Icon } from "@hugeicons/core-free-icons";
+  import Location01Icon from "@hugeicons/core-free-icons/Location01Icon";
+  import Search01Icon from "@hugeicons/core-free-icons/Search01Icon";
   import * as Autocomplete from "../../../../../../packages/ui/dist/components/ui/autocomplete/index.js";
 
   type Item = { label: string; value: string };

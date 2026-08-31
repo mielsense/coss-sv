@@ -1,15 +1,16 @@
-import { resolve } from "node:path";
 import { svelte } from "@sveltejs/vite-plugin-svelte";
 import tailwindcss from "@tailwindcss/vite";
 import { playwright } from "@vitest/browser-playwright";
 import { defineConfig } from "vitest/config";
+import { appAliases } from "../../vite.aliases.js";
 
 export default defineConfig({
-  plugins: [tailwindcss(), svelte()],
+  optimizeDeps: {
+    noDiscovery: true,
+  },
+  plugins: [tailwindcss(), svelte({ configFile: false })],
   resolve: {
-    alias: {
-      $lib: resolve(import.meta.dirname, "../../src/lib"),
-    },
+    alias: appAliases,
   },
   test: {
     browser: {

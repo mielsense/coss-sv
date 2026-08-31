@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
 
   export const meta = defineParticleMeta({
     components: ["badge"],
@@ -12,9 +12,9 @@
 
 <script lang="ts">
   import { Badge, HugeiconsIcon } from "@coss-sv/ui";
-  import { Tick01Icon } from "@hugeicons/core-free-icons";
+  import Tick01Icon from "@hugeicons/core-free-icons/Tick01Icon";
 </script>
 
-<Badge variant="outline"
-  ><HugeiconsIcon aria-hidden="true" icon={Tick01Icon} strokeWidth={2} />Verified</Badge
->
+<Badge variant="outline">
+  <HugeiconsIcon aria-hidden="true" icon={Tick01Icon} strokeWidth={2} />Verified
+</Badge>

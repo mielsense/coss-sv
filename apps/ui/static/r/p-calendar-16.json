@@ -6,11 +6,12 @@
 	"registryDependencies": [
 		"./particle-metadata.json",
 		"./calendar.json",
-		"./button.json"
+		"./button.json",
+		"./date-format.json"
 	],
 	"files": [
 		{
-			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n  export const meta = defineParticleMeta({\n    components: [\"button\", \"calendar\"],\n    id: \"p-calendar-16\",\n    interactive: true,\n    responsive: false,\n    title: \"Calendar today control\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { Button } from \"$COMPONENTS$/ui/button/index.js\";\n  import { Calendar } from \"$COMPONENTS$/ui/calendar/index.js\";\n  const today = new Date(2026, 7, 28, 12);\n  const selectedDay = new Date(2026, 6, 31, 12);\n  let month = $state(selectedDay);\n  let date = $state<Date | undefined>(selectedDay);\n</script>\n\n<div class=\"flex flex-col items-start gap-2\">\n  <Calendar mode=\"single\" bind:month bind:selected={date} {today} /><Button\n    onclick={() => {\n      date = today;\n      month = today;\n    }}\n    size=\"sm\"\n    variant=\"outline\">Today</Button\n  >\n</div>\n",
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n  export const meta = defineParticleMeta({\n    components: [\"button\", \"calendar\"],\n    id: \"p-calendar-16\",\n    interactive: true,\n    responsive: false,\n    title: \"Calendar today control\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { Button } from \"$UI$/button/index.js\";\n  import { Calendar } from \"$UI$/calendar/index.js\";\n  import { addCalendarDays } from \"$LIB$/date-format.js\";\n  const today = new Date();\n  const selectedDay = addCalendarDays(today, -28);\n  let month = $state(selectedDay);\n  let date = $state<Date | undefined>(selectedDay);\n</script>\n\n<div class=\"flex flex-col items-start gap-2\">\n  <Calendar\n    mode=\"single\"\n    {month}\n    onMonthChange={(value) => (month = value)}\n    bind:selected={date}\n  /><Button\n    onclick={() => {\n      date = today;\n      month = today;\n    }}\n    size=\"sm\"\n    variant=\"outline\"\n  >\n    Today\n  </Button>\n</div>\n",
 			"type": "registry:block",
 			"target": "p-calendar-16.svelte"
 		}

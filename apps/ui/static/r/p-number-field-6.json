@@ -9,7 +9,7 @@
 	],
 	"files": [
 		{
-			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n  export const meta = defineParticleMeta({\n    components: [\"number-field\"],\n    containerClass: \"**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64\",\n    id: \"p-number-field-6\",\n    interactive: true,\n    responsive: false,\n    title: \"Number field with scrub\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import * as NumberField from \"$COMPONENTS$/ui/number-field/index.js\";\n</script>\n\n<NumberField.Root defaultValue={0}\n  ><NumberField.ScrubArea label=\"Quantity\" />\n  <NumberField.Group\n    ><NumberField.Decrement /><NumberField.Input /><NumberField.Increment /></NumberField.Group\n  ></NumberField.Root\n>\n",
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n  export const meta = defineParticleMeta({\n    components: [\"number-field\"],\n    containerClass: \"**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64\",\n    id: \"p-number-field-6\",\n    interactive: true,\n    responsive: false,\n    title: \"Number field with scrub\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import * as NumberField from \"$UI$/number-field/index.js\";\n</script>\n\n<NumberField.Root defaultValue={0}>\n  <NumberField.ScrubArea label=\"Quantity\" />\n  <NumberField.Group>\n    <NumberField.Decrement /><NumberField.Input /><NumberField.Increment />\n  </NumberField.Group>\n</NumberField.Root>\n",
 			"type": "registry:block",
 			"target": "p-number-field-6.svelte"
 		}

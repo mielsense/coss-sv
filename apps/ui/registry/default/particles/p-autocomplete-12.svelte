@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
   export const meta = defineParticleMeta({
     components: ["autocomplete", "spinner"],
     containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64",
@@ -108,24 +108,24 @@
   {#if searchValue}
     <Autocomplete.Popup aria-busy={loading || undefined}>
       <Autocomplete.Status class="text-muted-foreground">
-        {#if loading}<span class="flex items-center justify-between gap-2 text-muted-foreground"
-            >Searching... <Spinner class="size-4.5 sm:size-4" /></span
-          >
+        {#if loading}<span class="flex items-center justify-between gap-2 text-muted-foreground">
+            Searching... <Spinner class="size-4.5 sm:size-4" />
+          </span>
         {:else if error}<span class="font-normal text-destructive text-sm">{error}</span>
-        {:else if results.length === 0}<span class="font-normal text-muted-foreground text-sm"
-            >Movie or year "{searchValue}" does not exist in the Top 100 IMDb movies</span
-          >
+        {:else if results.length === 0}<span class="font-normal text-muted-foreground text-sm">
+            Movie or year "{searchValue}" does not exist in the Top 100 IMDb movies
+          </span>
         {:else}{results.length} result{results.length === 1 ? "" : "s"} found{/if}
       </Autocomplete.Status>
       <Autocomplete.List>
         <Autocomplete.Collection>
           {#snippet children(movie: Movie)}
-            <Autocomplete.Item value={movie}
-              ><div class="flex w-full flex-col gap-1">
+            <Autocomplete.Item value={movie}>
+              <div class="flex w-full flex-col gap-1">
                 <div class="font-medium">{movie.title}</div>
                 <div class="text-muted-foreground text-xs">{movie.year}</div>
-              </div></Autocomplete.Item
-            >
+              </div>
+            </Autocomplete.Item>
           {/snippet}
         </Autocomplete.Collection>
       </Autocomplete.List>

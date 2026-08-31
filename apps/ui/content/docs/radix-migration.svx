@@ -3,12 +3,6 @@ title: Migrating from shadcn-svelte and Bits UI
 description: Move an existing Svelte component set to the Shards-backed COSS for Svelte wrappers.
 ---
 
-# Migrating from shadcn-svelte and Bits UI
-
-Move an existing Svelte component set to the Shards-backed COSS for Svelte wrappers.
-
-<CopyMarkdownButton url="/docs/radix-migration.md" />
-
 The upstream COSS guide helps React applications move from Radix and shadcn/ui to COSS and Base UI.
 For this port, the equivalent job is moving a Svelte application from shadcn-svelte or direct Bits UI
 parts to the COSS wrappers backed by Shards UI.
@@ -23,7 +17,7 @@ and nested parts read it through context.
 
 ```svelte
 <script lang="ts">
-  import * as Dialog from "$lib/components/ui/dialog/index.js";
+  import * as Dialog from "@/components/ui/dialog/index.js";
 </script>
 
 <Dialog.Root>
@@ -49,7 +43,7 @@ Replace a flat list of component imports with a namespace for compound component
 
 ```svelte
 <script lang="ts">
-  import * as Accordion from "$lib/components/ui/accordion/index.js";
+  import * as Accordion from "@/components/ui/accordion/index.js";
 </script>
 
 <Accordion.Root defaultValue={["item-1"]}>
@@ -69,8 +63,8 @@ instead of wrapping a Button solely to delegate its element.
 
 ```svelte
 <script lang="ts">
-  import { buttonVariants } from "$lib/components/ui/button/index.js";
-  import * as Dialog from "$lib/components/ui/dialog/index.js";
+  import { buttonVariants } from "@/components/ui/button/index.js";
+  import * as Dialog from "@/components/ui/dialog/index.js";
 </script>
 
 <Dialog.Root>
@@ -93,7 +87,7 @@ needs a side effect.
 
 ```svelte
 <script lang="ts">
-  import * as Dialog from "$lib/components/ui/dialog/index.js";
+  import * as Dialog from "@/components/ui/dialog/index.js";
   let open = $state(false);
 </script>
 
@@ -321,7 +315,7 @@ groups. Use `Command.DialogRoot`, `Command.DialogTrigger`, and `Command.DialogPo
 
 ```svelte
 <script lang="ts">
-  import { Command } from "@coss-sv/ui";
+  import * as Command from "@/components/ui/command/index.js";
 
   type CommandItem = {
     label: string;
@@ -432,7 +426,7 @@ not take an index.
 
 ```svelte
 <script lang="ts">
-  import * as OTPField from "$lib/components/ui/otp-field/index.js";
+  import * as OTPField from "@/components/ui/otp-field/index.js";
   let value = $state("");
 </script>
 
@@ -507,7 +501,7 @@ value and render the same values as items.
 
 ```svelte
 <script lang="ts">
-  import * as Select from "$lib/components/ui/select/index.js";
+  import * as Select from "@/components/ui/select/index.js";
 
   const frameworks = [
     { label: "Select a framework", value: null },
@@ -576,7 +570,7 @@ Wrap the application content in `Toast.Provider` and call a manager from event h
 
 ```svelte
 <script lang="ts">
-  import * as Toast from "$lib/components/ui/toast/index.js";
+  import * as Toast from "@/components/ui/toast/index.js";
   const manager = new Toast.Manager();
 </script>
 

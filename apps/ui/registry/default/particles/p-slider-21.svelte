@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
   export const meta = defineParticleMeta({
     components: ["button", "fieldset", "label", "number-field", "slider"],
     id: "p-slider-21",
@@ -12,7 +12,7 @@
 
 <script lang="ts">
   import { Button, Fieldset, HugeiconsIcon, Label, NumberField, Slider } from "@coss-sv/ui";
-  import { RotateLeft01Icon } from "@hugeicons/core-free-icons";
+  import RotateLeft01Icon from "@hugeicons/core-free-icons/RotateLeft01Icon";
 
   const min = -10;
   const max = 10;
@@ -46,17 +46,18 @@
           onValueChange={(next) => updateValue(axis as Axis, next)}
           size="sm"
           value={values[axis as Axis]}
-          ><NumberField.Group><NumberField.Input /></NumberField.Group></NumberField.Root
         >
+          <NumberField.Group><NumberField.Input /></NumberField.Group>
+        </NumberField.Root>
       </div>
     {/each}
   </div>
-  <Button class="w-full" onclick={() => (values = { x: 0, y: 0, z: 0 })} variant="outline"
-    ><HugeiconsIcon
+  <Button class="w-full" onclick={() => (values = { x: 0, y: 0, z: 0 })} variant="outline">
+    <HugeiconsIcon
       aria-hidden="true"
       class="-ms-1 opacity-60"
       icon={RotateLeft01Icon}
       strokeWidth={2}
-    />Reset</Button
-  >
+    />Reset
+  </Button>
 </Fieldset.Root>

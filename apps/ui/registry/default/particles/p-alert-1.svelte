@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
 
   export const meta = defineParticleMeta({
     components: ["alert"],
@@ -14,8 +14,8 @@
   import { Alert, AlertDescription, AlertTitle } from "@coss-sv/ui";
 </script>
 
-<Alert
-  ><AlertTitle>Heads up!</AlertTitle><AlertDescription
-    ><p>Describe what can be done about it here.</p></AlertDescription
-  ></Alert
->
+<Alert>
+  <AlertTitle>Heads up!</AlertTitle><AlertDescription>
+    <p>Describe what can be done about it here.</p>
+  </AlertDescription>
+</Alert>

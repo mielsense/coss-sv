@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
   export const meta = defineParticleMeta({
     components: ["button", "input-group", "number-field", "slider"],
     id: "p-slider-22",
@@ -69,24 +69,28 @@
     <Slider.Root aria-label="Price range" class="*:min-w-0!" {max} {min} bind:value={values} />
   </div>
   <div class="flex items-center justify-between gap-4">
-    <InputGroup.Root
-      ><NumberField.Root
+    <InputGroup.Root>
+      <NumberField.Root
         aria-label="Minimum price"
         max={values[1]}
         {min}
         onValueChange={(next) => updateValue(0, next)}
-        value={values[0]}><NumberField.Input class="text-left" /></NumberField.Root
-      ><InputGroup.Addon><InputGroup.Text>$</InputGroup.Text></InputGroup.Addon></InputGroup.Root
-    >
-    <InputGroup.Root
-      ><NumberField.Root
+        value={values[0]}
+      >
+        <NumberField.Input class="text-left" />
+      </NumberField.Root><InputGroup.Addon><InputGroup.Text>$</InputGroup.Text></InputGroup.Addon>
+    </InputGroup.Root>
+    <InputGroup.Root>
+      <NumberField.Root
         aria-label="Maximum price"
         {max}
         min={values[0]}
         onValueChange={(next) => updateValue(1, next)}
-        value={values[1]}><NumberField.Input class="text-left" /></NumberField.Root
-      ><InputGroup.Addon><InputGroup.Text>$</InputGroup.Text></InputGroup.Addon></InputGroup.Root
-    >
+        value={values[1]}
+      >
+        <NumberField.Input class="text-left" />
+      </NumberField.Root><InputGroup.Addon><InputGroup.Text>$</InputGroup.Text></InputGroup.Addon>
+    </InputGroup.Root>
   </div>
   <Button class="w-full" variant="outline">Show {countInRange} items</Button>
 </div>

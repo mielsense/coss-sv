@@ -15,7 +15,7 @@
 <figure
   class={[
     "relative overflow-hidden bg-code text-code-foreground",
-    embedded ? "m-0 rounded-none border-0" : "my-6 rounded-xl border",
+    embedded ? "m-0 h-[var(--source-height)] rounded-none border-0" : "my-6 rounded-xl border",
   ]}
   data-preview-source={embedded ? "embedded" : undefined}
   style:--source-height={`${height}px`}
@@ -31,11 +31,13 @@
   <pre
     class={[
       "shiki max-w-full text-xs",
-      embedded ? "m-0 overflow-auto rounded-none border-0 p-0" : "overflow-x-auto px-4 py-3.5",
+      embedded
+        ? "m-0 box-border h-[var(--source-height)] overflow-auto rounded-none border-0 [padding:14px_16px_14px_0] text-[0.8125rem] leading-6"
+        : "overflow-x-auto px-4 py-3.5",
     ]}
     data-language={source.language}><code data-line-numbers={embedded ? "" : undefined}
       >{#each source.lines as line, lineIndex (lineIndex)}<span
-          class="line"
+          class={["line", embedded && "block w-full min-w-max py-0.5"]}
           data-line={embedded ? "" : undefined}
           >{#each line as token, tokenIndex (`${lineIndex}-${tokenIndex}`)}<span
               style:--shiki-light={token.light.color}
@@ -47,42 +49,16 @@
               style:--shiki-dark-font-weight={token.dark.fontWeight}
               style:--shiki-dark-text-decoration={token.dark.textDecoration}>{token.content}</span
             >{/each}</span
-        >{#if lineIndex < source.lines.length - 1}{"\n"}{/if}{/each}</code
+        >{#if !embedded && lineIndex < source.lines.length - 1}{"\n"}{/if}{/each}</code
     ></pre>
 </figure>
 
 <style>
-  figure[data-preview-source="embedded"] {
-    height: var(--source-height);
-    margin: 0;
-    border: 0;
-    border-radius: 0;
-  }
-
-  figure[data-preview-source="embedded"] pre {
-    box-sizing: border-box;
-    height: var(--source-height);
-    margin: 0;
-    overflow: auto;
-    border: 0;
-    border-radius: 0;
-    padding: 14px 16px 14px 0;
-    font-size: 0.8125rem;
-    line-height: 1.5;
-  }
-
-  figure[data-preview-source="embedded"] code {
+  code[data-line-numbers] {
     counter-reset: line;
   }
 
-  figure[data-preview-source="embedded"] [data-line] {
-    display: block;
-    width: 100%;
-    min-width: max-content;
-    padding-block: 2px;
-  }
-
-  figure[data-preview-source="embedded"] [data-line]::before {
+  [data-line]::before {
     display: inline-block;
     box-sizing: border-box;
     width: 64px;

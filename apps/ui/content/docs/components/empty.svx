@@ -7,80 +7,72 @@ description: A container for displaying empty state information.
 
 ## Installation
 
-<InstallCommand
-  pnpm="pnpm add @coss-sv/ui @hugeicons/core-free-icons"
-  shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/empty.json"
-/>
+<InstallCommand shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/empty.json" />
 
 ## Usage
 
 ```svelte
 <script lang="ts">
-  import {
-    Avatar,
-    Button,
-    Empty,
-    EmptyContent,
-    EmptyDescription,
-    EmptyHeader,
-    EmptyMedia,
-    EmptyTitle,
-  } from "@coss-sv/ui";
-  import { Database01Icon } from "@hugeicons/core-free-icons";
+  import Database01Icon from "@hugeicons/core-free-icons/Database01Icon";
+  import * as Avatar from "@/components/ui/avatar/index.js";
+  import { Button } from "@/components/ui/button/index.js";
+  import * as Empty from "@/components/ui/empty/index.js";
+  import HugeiconsIcon from "@/hugeicons-icon.svelte";
 </script>
 
-<Empty>
-  <EmptyHeader>
-    <EmptyMedia variant="icon">
+<Empty.Root>
+  <Empty.Header>
+    <Empty.Media variant="icon">
       <HugeiconsIcon aria-hidden="true" icon={Database01Icon} strokeWidth={2} />
-    </EmptyMedia>
-    <EmptyTitle>No data</EmptyTitle>
-    <EmptyDescription>No data found</EmptyDescription>
-  </EmptyHeader>
-  <EmptyContent>
+    </Empty.Media>
+    <Empty.Title>No data</Empty.Title>
+    <Empty.Description>No data found</Empty.Description>
+  </Empty.Header>
+  <Empty.Content>
     <Button>Add data</Button>
-  </EmptyContent>
-</Empty>
+  </Empty.Content>
+</Empty.Root>
 ```
 
 ## API Reference
 
-The API design of this component is modeled after [shadcn/ui's empty component](https://ui.shadcn.com/docs/components/empty) to ensure familiarity and consistency for developers already using shadcn. This standardization makes it easier to adopt **coss ui** while maintaining API parity with the patterns developers already know and love.
+The API follows [shadcn/ui's empty component](https://ui.shadcn.com/docs/components/empty), adapted
+to Svelte namespace composition.
 
-### Empty
+### Empty.Root
 
-The main component of the empty state. Wraps the `EmptyHeader` and `EmptyContent` components.
-
-| Prop    | Type     | Default |
-| ------- | -------- | ------- |
-| `class` | `string` |         |
-
-```svelte
-<Empty>
-  <EmptyHeader />
-  <EmptyContent />
-</Empty>
-```
-
-### EmptyHeader
-
-The `EmptyHeader` component wraps the empty media, title, and description.
+The main component of the empty state. Wraps the `Empty.Header` and `Empty.Content` components.
 
 | Prop    | Type     | Default |
 | ------- | -------- | ------- |
 | `class` | `string` |         |
 
 ```svelte
-<EmptyHeader>
-  <EmptyMedia />
-  <EmptyTitle />
-  <EmptyDescription />
-</EmptyHeader>
+<Empty.Root>
+  <Empty.Header />
+  <Empty.Content />
+</Empty.Root>
 ```
 
-### EmptyMedia
+### Empty.Header
 
-Use the `EmptyMedia` component to display the media of the empty state such as an icon or an image. You can also use it to display other components such as an avatar.
+The `Empty.Header` component wraps the empty media, title, and description.
+
+| Prop    | Type     | Default |
+| ------- | -------- | ------- |
+| `class` | `string` |         |
+
+```svelte
+<Empty.Header>
+  <Empty.Media />
+  <Empty.Title />
+  <Empty.Description />
+</Empty.Header>
+```
+
+### Empty.Media
+
+Use the `Empty.Media` component to display the media of the empty state such as an icon or an image. You can also use it to display other components such as an avatar.
 
 | Prop      | Type                  | Default   |
 | --------- | --------------------- | --------- |
@@ -88,54 +80,54 @@ Use the `EmptyMedia` component to display the media of the empty state such as a
 | `class`   | `string`              |           |
 
 ```svelte
-<EmptyMedia variant="icon">
+<Empty.Media variant="icon">
   <HugeiconsIcon aria-hidden="true" icon={Database01Icon} strokeWidth={2} />
-</EmptyMedia>
+</Empty.Media>
 ```
 
 ```svelte
-<EmptyMedia>
+<Empty.Media>
   <Avatar.Root>
     <Avatar.Image src="..." />
     <Avatar.Fallback>JD</Avatar.Fallback>
   </Avatar.Root>
-</EmptyMedia>
+</Empty.Media>
 ```
 
-### EmptyTitle
+### Empty.Title
 
-Use the `EmptyTitle` component to display the title of the empty state.
+Use the `Empty.Title` component to display the title of the empty state.
 
 | Prop    | Type     | Default |
 | ------- | -------- | ------- |
 | `class` | `string` |         |
 
 ```svelte
-<EmptyTitle>No data</EmptyTitle>
+<Empty.Title>No data</Empty.Title>
 ```
 
-### EmptyDescription
+### Empty.Description
 
-Use the `EmptyDescription` component to display the description of the empty state.
+Use the `Empty.Description` component to display the description of the empty state.
 
 | Prop    | Type     | Default |
 | ------- | -------- | ------- |
 | `class` | `string` |         |
 
 ```svelte
-<EmptyDescription>You do not have any notifications.</EmptyDescription>
+<Empty.Description>You do not have any notifications.</Empty.Description>
 ```
 
-### EmptyContent
+### Empty.Content
 
-Use the `EmptyContent` component to display the content of the empty state such as a button, input or a link.
+Use the `Empty.Content` component to display the content of the empty state such as a button, input or a link.
 
 | Prop    | Type     | Default |
 | ------- | -------- | ------- |
 | `class` | `string` |         |
 
 ```svelte
-<EmptyContent>
+<Empty.Content>
   <Button>Add Project</Button>
-</EmptyContent>
+</Empty.Content>
 ```

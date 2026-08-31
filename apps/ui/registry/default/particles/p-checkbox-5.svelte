@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
 
   export const meta = defineParticleMeta({
     components: ["button", "checkbox", "field", "form"],
@@ -12,13 +12,15 @@
 
 <script lang="ts">
   import { Button, Checkbox, Field, Form } from "@coss-sv/ui";
+  import { createDemoDelay } from "../lib/demo-delay.js";
 
+  const delay = createDemoDelay();
   let loading = $state(false);
   async function submit(event: SubmitEvent) {
     event.preventDefault();
     const formData = new FormData(event.currentTarget as HTMLFormElement);
     loading = true;
-    await new Promise((resolve) => window.setTimeout(resolve, 800));
+    if (!(await delay())) return;
     loading = false;
     window.alert(`Terms: ${formData.get("terms")}`);
   }

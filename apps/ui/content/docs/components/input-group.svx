@@ -3,27 +3,19 @@ title: Input Group
 description: A flexible component for grouping inputs with addons, buttons, and other elements.
 ---
 
-<!-- prettier-ignore -->
-<script lang="ts">
-  import { Alert, AlertDescription, HugeiconsIcon } from "@coss-sv/ui";
-  import { InformationCircleIcon } from "@hugeicons/core-free-icons";
-</script>
-
 <ComponentPreview name="p-input-group-1" />
 
 ## Installation
 
-<InstallCommand
-  pnpm="pnpm add @coss-sv/ui"
-  shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/input-group.json"
-/>
+<InstallCommand shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/input-group.json" />
 
 ## Usage
 
 ```svelte
 <script lang="ts">
-  import { HugeiconsIcon, InputGroup } from "@coss-sv/ui";
-  import { Mail01Icon } from "@hugeicons/core-free-icons";
+  import * as InputGroup from "@/components/ui/input-group/index.js";
+  import HugeiconsIcon from "@/hugeicons-icon.svelte";
+  import Mail01Icon from "@hugeicons/core-free-icons/Mail01Icon";
 </script>
 
 <InputGroup.Root>
@@ -49,18 +41,16 @@ The main component that wraps inputs and addons.
 
 A container for icons, text, buttons, and other elements. It can appear at the inline start, inline end, block start, or block end.
 
-| Prop    | Type                                                             | Default          | Description                    |
-| ------- | ---------------------------------------------------------------- | ---------------- | ------------------------------ |
-| `align` | `"inline-start" \| "inline-end" \| "block-start" \| "block-end"` | `"inline-start"` | Position relative to the input |
-| `class` | `string`                                                         |                  | Additional CSS classes         |
+| Prop       | Type                                                             | Default          | Description                    |
+| ---------- | ---------------------------------------------------------------- | ---------------- | ------------------------------ |
+| `align`    | `"inline-start" \| "inline-end" \| "block-start" \| "block-end"` | `"inline-start"` | Position relative to the input |
+| `class`    | `string`                                                         |                  | Additional CSS classes         |
+| `...props` | `HTMLAttributes<HTMLDivElement>`                                 |                  | Native div attributes          |
 
-<Alert class="bg-muted/24">
-  <HugeiconsIcon aria-hidden="true" icon={InformationCircleIcon} strokeWidth={2} />
-  <AlertDescription>
-    For proper focus navigation, the `InputGroup.Addon` component should be placed after the input
-    in the DOM order.
-  </AlertDescription>
-</Alert>
+<Callout>
+  For proper focus navigation, the `InputGroup.Addon` component should be placed after the input in
+  the DOM order.
+</Callout>
 
 ### InputGroup.Text
 
@@ -75,9 +65,19 @@ A text container for content within an addon. It styles muted text and child ico
 
 An unstyled `Input` that inherits the parent input-group styling. It accepts the same props as `Input`.
 
+| Prop       | Type         | Description                                          |
+| ---------- | ------------ | ---------------------------------------------------- |
+| `class`    | `string`     | Additional CSS classes                               |
+| `...props` | `InputProps` | All `Input` props, including native input attributes |
+
 ### InputGroup.Textarea
 
 An unstyled `Textarea` that inherits the parent input-group styling. It accepts the same props as `Textarea`.
+
+| Prop       | Type            | Description                                                |
+| ---------- | --------------- | ---------------------------------------------------------- |
+| `class`    | `string`        | Additional CSS classes                                     |
+| `...props` | `TextareaProps` | All `Textarea` props, including native textarea attributes |
 
 ## Examples
 

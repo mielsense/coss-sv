@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
   export const meta = defineParticleMeta({
     components: ["label", "number-field"],
     containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64",
@@ -17,9 +17,9 @@
 </script>
 
 <div class="flex flex-col items-start gap-2">
-  <Label for={id}>Quantity</Label><NumberField.Root defaultValue={0} {id}
-    ><NumberField.Group
-      ><NumberField.Decrement /><NumberField.Input /><NumberField.Increment /></NumberField.Group
-    ></NumberField.Root
-  >
+  <Label for={id}>Quantity</Label><NumberField.Root defaultValue={0} {id}>
+    <NumberField.Group>
+      <NumberField.Decrement /><NumberField.Input /><NumberField.Increment />
+    </NumberField.Group>
+  </NumberField.Root>
 </div>

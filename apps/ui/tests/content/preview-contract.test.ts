@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { parsePreviewQuery } from "../../src/routes/preview/[name]/preview-contract.js";
+import { parsePreviewQuery } from "../../src/lib/preview/contract.js";
 
 describe("preview alignment contract", () => {
   test.each(["start", "center", "end"] as const)(

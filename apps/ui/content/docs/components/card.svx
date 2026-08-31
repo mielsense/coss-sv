@@ -7,84 +7,66 @@ description: A content container for grouping related information.
 
 ## Installation
 
-<InstallCommand
-  pnpm="pnpm add @coss-sv/ui @hugeicons/core-free-icons"
-  shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/card.json"
-/>
+<InstallCommand shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/card.json" />
 
 ## Usage
 
 ```svelte
 <script lang="ts">
-  import {
-    Card,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardPanel,
-    CardTitle,
-  } from "@coss-sv/ui/components/ui/card";
+  import * as Card from "@/components/ui/card/index.js";
 </script>
 
-<Card>
-  <CardHeader>
-    <CardTitle>Title</CardTitle>
-    <CardDescription>Description</CardDescription>
-  </CardHeader>
-  <CardPanel>Content</CardPanel>
-  <CardFooter>Footer</CardFooter>
-</Card>
+<Card.Root>
+  <Card.Header>
+    <Card.Title>Title</Card.Title>
+    <Card.Description>Description</Card.Description>
+  </Card.Header>
+  <Card.Panel>Content</Card.Panel>
+  <Card.Footer>Footer</Card.Footer>
+</Card.Root>
 ```
 
-### CardFrame with header action
+### Card.Frame with header action
 
-Use `CardFrame` when you need a framed layout with an action button in the header, such as “Add” or
-“Connect”:
+Use `Card.Frame` when you need a framed layout with an action button in the header, such as "Add" or
+"Connect":
 
 ```svelte
 <script lang="ts">
-  import { Add01Icon } from "@hugeicons/core-free-icons";
-  import { HugeiconsIcon } from "@coss-sv/ui";
-  import { Button } from "@coss-sv/ui/components/ui/button";
-  import {
-    Card,
-    CardFrame,
-    CardFrameAction,
-    CardFrameDescription,
-    CardFrameHeader,
-    CardFrameTitle,
-    CardPanel,
-  } from "@coss-sv/ui/components/ui/card";
+  import Add01Icon from "@hugeicons/core-free-icons/Add01Icon";
+  import HugeiconsIcon from "@/hugeicons-icon.svelte";
+  import { Button } from "@/components/ui/button/index.js";
+  import * as Card from "@/components/ui/card/index.js";
 </script>
 
-<CardFrame>
-  <CardFrameHeader>
-    <CardFrameTitle>Project</CardFrameTitle>
-    <CardFrameDescription>Manage your project settings and configuration</CardFrameDescription>
-    <CardFrameAction>
+<Card.Frame>
+  <Card.FrameHeader>
+    <Card.FrameTitle>Project</Card.FrameTitle>
+    <Card.FrameDescription>Manage your project settings and configuration</Card.FrameDescription>
+    <Card.FrameAction>
       <Button variant="outline">
         <HugeiconsIcon aria-hidden="true" icon={Add01Icon} strokeWidth={2} />
         Add
       </Button>
-    </CardFrameAction>
-  </CardFrameHeader>
-  <Card>
-    <CardPanel>Content</CardPanel>
-  </Card>
-</CardFrame>
+    </Card.FrameAction>
+  </Card.FrameHeader>
+  <Card.Root>
+    <Card.Panel>Content</Card.Panel>
+  </Card.Root>
+</Card.Frame>
 ```
 
-### CardFrame with a table
+### Card.Frame with a table
 
 For lists or data grids, render a [Table](/docs/components/table) with `variant="card"` inside
-`CardFrame` so the grid matches the frame’s border and radius. See the CardFrame example in the Table
-docs. Add the table registry item if it is not already in the project.
+`Card.Frame` so the grid matches the frame's border and radius. See the `Card.Frame` example in the
+Table docs. Add the table registry item if it is not already in the project.
 
 ## API Reference
 
 This is a custom component using a polymorphic Svelte `as` prop, not a direct Shards UI wrapper.
 
-### Card
+### Card.Root
 
 Root container for the card. Supports the `as` prop.
 
@@ -92,54 +74,54 @@ Root container for the card. Supports the `as` prop.
 | ---- | ----------------------------- | ------- | ----------------------------- |
 | `as` | `keyof HTMLElementTagNameMap` | `"div"` | Render as a different element |
 
-### CardHeader
+### Card.Header
 
 Header section container. Supports the `as` prop.
 
-### CardTitle
+### Card.Title
 
 Title text for the card. Supports the `as` prop.
 
-### CardDescription
+### Card.Description
 
 Description text for the card. Supports the `as` prop.
 
-### CardAction
+### Card.Action
 
 Container for action buttons in the header. Automatically positions to the right. Supports the `as` prop.
 
-### CardPanel
+### Card.Panel
 
-Main content area of the card. Also exported as `CardContent`. Supports the `as` prop.
+Main content area of the card. Also exported as `Card.Content`. Supports the `as` prop.
 
-### CardFooter
+### Card.Footer
 
 Footer section for the card. Supports the `as` prop.
 
-## CardFrame API Reference
+## Card.Frame API Reference
 
-`CardFrame` is an alternative layout for cards that groups a header, content, and footer with consistent styling and clipping. Use it when you need a framed card with optional header actions.
+`Card.Frame` is an alternative layout for cards that groups a header, content, and footer with consistent styling and clipping. Use it when you need a framed card with optional header actions.
 
-### CardFrame
+### Card.Frame
 
 Root container for the framed card layout. Supports the `as` prop.
 
-### CardFrameHeader
+### Card.FrameHeader
 
-Header section for the frame. Contains title, description, and optionally `CardFrameAction`. Supports the `as` prop.
+Header section for the frame. Contains title, description, and optionally `Card.FrameAction`. Supports the `as` prop.
 
-### CardFrameTitle
+### Card.FrameTitle
 
 Title text for the frame. Supports the `as` prop.
 
-### CardFrameDescription
+### Card.FrameDescription
 
 Description text for the frame. Supports the `as` prop.
 
-### CardFrameAction
+### Card.FrameAction
 
-Container for action buttons (e.g. "Add", "Edit") in the header. Place it as a sibling of `CardFrameTitle` and `CardFrameDescription` inside `CardFrameHeader`. It is positioned in the top-right via CSS grid (`col-start-2`, `row-span-2`, `self-center`, `justify-self-end`). Use it for primary actions that apply to the entire frame. Supports the `as` prop.
+Container for action buttons (e.g. "Add", "Edit") in the header. Place it as a sibling of `Card.FrameTitle` and `Card.FrameDescription` inside `Card.FrameHeader`. It is positioned in the top-right via CSS grid (`col-start-2`, `row-span-2`, `self-center`, `justify-self-end`). Use it for primary actions that apply to the entire frame. Supports the `as` prop.
 
-### CardFrameFooter
+### Card.FrameFooter
 
 Footer section for the frame. Supports the `as` prop.

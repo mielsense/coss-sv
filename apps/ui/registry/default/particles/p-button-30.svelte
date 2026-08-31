@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
 
   export const meta = defineParticleMeta({
     components: ["button"],
@@ -12,14 +12,14 @@
 
 <script lang="ts">
   import { Button, HugeiconsIcon } from "@coss-sv/ui";
-  import { ArrowRight01Icon } from "@hugeicons/core-free-icons";
+  import ArrowRight01Icon from "@hugeicons/core-free-icons/ArrowRight01Icon";
 </script>
 
-<Button
-  >Get Started<HugeiconsIcon
+<Button>
+  Get Started<HugeiconsIcon
     aria-hidden="true"
     class="transition-transform in-[[data-slot=button]:hover]:translate-x-0.5"
     icon={ArrowRight01Icon}
     strokeWidth={2}
-  /></Button
->
+  />
+</Button>

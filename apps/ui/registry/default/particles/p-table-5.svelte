@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta, type ParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta, type ParticleMeta } from "@/registry/particle-metadata.js";
   const particleMeta = {
     components: ["badge", "table"],
     colSpan: 2,
@@ -30,28 +30,32 @@
   } as const;
 </script>
 
-<Table.Root class="w-full" variant="card"
-  ><Table.Header
-    ><Table.Row
-      ><Table.Head>Project</Table.Head><Table.Head>Status</Table.Head><Table.Head>Team</Table.Head
-      ><Table.Head class="text-right">Budget</Table.Head></Table.Row
-    ></Table.Header
-  ><Table.Body
-    >{#each projects as project (project.project)}<Table.Row
-        ><Table.Cell class="font-medium">{project.project}</Table.Cell><Table.Cell
-          ><Badge variant="outline"
-            ><span aria-hidden="true" class={["size-1.5 rounded-full", statusClass[project.status]]}
-            ></span>{project.status}</Badge
-          ></Table.Cell
-        ><Table.Cell>{project.team}</Table.Cell><Table.Cell class="text-right"
-          >{project.budget}</Table.Cell
-        ></Table.Row
-      >{/each}</Table.Body
-  ><Table.Footer
-    ><Table.Row
-      ><Table.Cell colspan={3}>Total Budget</Table.Cell><Table.Cell class="text-right"
-        >$39,550</Table.Cell
-      ></Table.Row
-    ></Table.Footer
-  ></Table.Root
->
+<Table.Root class="w-full" variant="card">
+  <Table.Header>
+    <Table.Row>
+      <Table.Head>Project</Table.Head><Table.Head>Status</Table.Head><Table.Head>
+        Team
+      </Table.Head><Table.Head class="text-right">Budget</Table.Head>
+    </Table.Row>
+  </Table.Header><Table.Body>
+    {#each projects as project (project.project)}<Table.Row>
+        <Table.Cell class="font-medium">{project.project}</Table.Cell><Table.Cell>
+          <Badge variant="outline">
+            <span
+              aria-hidden="true"
+              class={["size-1.5 rounded-full", statusClass[project.status]]}
+            ></span>
+            {project.status}
+          </Badge>
+        </Table.Cell><Table.Cell>{project.team}</Table.Cell><Table.Cell class="text-right">
+          {project.budget}
+        </Table.Cell>
+      </Table.Row>{/each}
+  </Table.Body><Table.Footer>
+    <Table.Row>
+      <Table.Cell colspan={3}>Total Budget</Table.Cell><Table.Cell class="text-right">
+        $39,550
+      </Table.Cell>
+    </Table.Row>
+  </Table.Footer>
+</Table.Root>

@@ -55,9 +55,11 @@ describe("COSS command and mobile navigation parity", () => {
     expect(source).toContain("<Drawer.Close");
     expect(source).toContain('aria-haspopup="dialog"');
     expect(source).toContain("aria-expanded={menuOpen}");
-    expect(source).toContain("mobile-hooks-heading");
-    expect(source).toContain("mobile-resources-heading");
-    expect(source).toContain("item.docsName ?? item.name");
+    const mobileGroupHeading = "$" + "{group.label.toLowerCase()}";
+    expect(source).toContain(`aria-labelledby={\`mobile-${mobileGroupHeading}-heading\`}`);
+    expect(source).toContain(`id={\`mobile-${mobileGroupHeading}-heading\`}`);
+    expect(source).toContain("documentationNavigationGroups");
+    expect(source).toContain("{item.label}");
     expect(source).not.toContain("<dialog");
     expect(source).not.toContain("showModal");
   });

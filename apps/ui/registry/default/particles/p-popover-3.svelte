@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
   export const meta = defineParticleMeta({
     components: ["avatar", "button", "popover"],
     id: "p-popover-3",
@@ -11,7 +11,8 @@
 
 <script lang="ts">
   import { Avatar, Button, buttonVariants, HugeiconsIcon, Popover } from "@coss-sv/ui";
-  import { Notification01Icon, UserIcon } from "@hugeicons/core-free-icons";
+  import Notification01Icon from "@hugeicons/core-free-icons/Notification01Icon";
+  import UserIcon from "@hugeicons/core-free-icons/UserIcon";
   import type { Snippet } from "svelte";
 
   const popoverHandle = Popover.PopoverCreateHandle<Snippet>();

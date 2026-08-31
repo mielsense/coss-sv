@@ -8,7 +8,7 @@
 - `reference/apps/ui/registry/default/particles/p-sheet-2.tsx`
 - `reference/apps/ui/registry/default/particles/p-sheet-3.tsx`
 
-Every listed file was read in full. No file under `reference/packages/ui/**` was opened or used.
+Every listed file was read in full. No file from the excluded COSS package subtree was opened or used.
 
 ## Local Shards source
 

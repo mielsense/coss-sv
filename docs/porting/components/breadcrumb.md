@@ -11,7 +11,7 @@
 - Shards tests: the focused root, trigger, item, link-item, popup, positioner, submenu-trigger, and typeahead tests under `shardsui/packages/shardsui/tests/menu/`, with `fixtures/basic-menu.svelte`, `menu-with-link-items.svelte`, and `menu-with-submenu.svelte`
 - Shards documentation and examples: `shardsui/docs/src/content/menu.md`, `shardsui/docs/src/lib/components/content/demos/menu/hero/demo.svelte`, and the submenu demo
 
-The search covered every COSS application-tree import of the Breadcrumb barrel. Generated registry JSON was not used as source, and no file under `reference/packages/ui` was read.
+The search covered every COSS application-tree import of the Breadcrumb barrel. Generated registry JSON was not used as source, and no file from the excluded COSS package subtree was read.
 
 ## COSS contract
 

@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
   export const meta = defineParticleMeta({
     components: ["avatar", "badge", "button", "combobox"],
     containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-80",
@@ -12,7 +12,8 @@
 
 <script lang="ts">
   import { Avatar, Badge, Button, Combobox, HugeiconsIcon } from "@coss-sv/ui";
-  import { Cancel01Icon, Search01Icon } from "@hugeicons/core-free-icons";
+  import Cancel01Icon from "@hugeicons/core-free-icons/Cancel01Icon";
+  import Search01Icon from "@hugeicons/core-free-icons/Search01Icon";
 
   type TeamMember = {
     avatar: string;
@@ -98,15 +99,15 @@
           strokeWidth={2}
         />{/snippet}
     </Combobox.Input>
-    <Combobox.Popup
-      ><Combobox.Empty>No team members found.</Combobox.Empty><Combobox.List
-        ><Combobox.Collection>
-          {#snippet children(item: TeamMember)}<Combobox.Item value={item}
-              >{item.label}</Combobox.Item
-            >{/snippet}
-        </Combobox.Collection></Combobox.List
-      ></Combobox.Popup
-    >
+    <Combobox.Popup>
+      <Combobox.Empty>No team members found.</Combobox.Empty><Combobox.List>
+        <Combobox.Collection>
+          {#snippet children(item: TeamMember)}<Combobox.Item value={item}>
+              {item.label}
+            </Combobox.Item>{/snippet}
+        </Combobox.Collection>
+      </Combobox.List>
+    </Combobox.Popup>
   </Combobox.Root>
   {#if selected.length}
     <ul class="flex flex-col gap-2">
@@ -114,11 +115,13 @@
         <li
           class="flex items-center gap-2 rounded-lg border border-input p-1 ps-2 text-base sm:text-sm"
         >
-          <Avatar.Root class="size-5"
-            ><Avatar.Image alt={member.label} src={member.avatar} /><Avatar.Fallback
-              class="text-[.625rem]">{member.initials}</Avatar.Fallback
-            ></Avatar.Root
-          >
+          <Avatar.Root class="size-5">
+            <Avatar.Image alt={member.label} src={member.avatar} /><Avatar.Fallback
+              class="text-[.625rem]"
+            >
+              {member.initials}
+            </Avatar.Fallback>
+          </Avatar.Root>
           <span class="truncate font-medium">{member.label}</span>
           <Badge class="ms-auto" size="default" variant="outline">{member.priority}</Badge>
           <span class="text-muted-foreground tabular-nums">{member.weight}%</span>

@@ -1,61 +1,65 @@
 <script lang="ts">
-  import {
-    CheckmarkCircle02Icon,
-    Copy01Icon,
-    InformationCircleIcon,
-  } from "@hugeicons/core-free-icons";
-  import {
-    buttonVariants,
-    Card,
-    CardFrame,
-    CardFrameFooter,
-    CardPanel,
-    Drawer,
-    HugeiconsIcon,
-  } from "@coss-sv/ui";
-  import type { Component } from "svelte";
+  import InformationCircleIcon from "@hugeicons/core-free-icons/InformationCircleIcon";
+  import * as Card from "@coss-sv/ui/components/ui/card";
+  import { buttonVariants, Drawer, HugeiconsIcon, Skeleton } from "@coss-sv/ui";
+  import { onDestroy, type Component } from "svelte";
+  import CopyButton from "@/content/components/CopyButton.svelte";
   import type { ParticleCatalogEntry } from "./catalog.js";
+  import { nearViewport } from "./near-viewport.js";
 
   type RegistryResponse = {
     files?: Array<{ content?: string; target?: string }>;
   };
 
   let {
-    component: Preview,
+    loadComponent,
     particle,
   }: {
-    component: Component;
+    loadComponent: () => Promise<Component>;
     particle: ParticleCatalogEntry;
   } = $props();
 
   const registryHref = $derived(`/r/${particle.name}.json`);
-  const installCommand = $derived(
-    `pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app${registryHref}`,
-  );
-  let copied = $state(false);
+  const registryUrl = $derived(`https://coss-sv.vercel.app${registryHref}`);
+  const installCommand = $derived(`pnpm dlx shadcn-svelte@latest add ${registryUrl}`);
+  let previewComponent = $state.raw<Promise<Component>>();
   let source = $state("");
   let sourceError = $state("");
+  let sourceController: AbortController | undefined;
+  let sourceRequest: Promise<void> | undefined;
 
-  async function copyRegistryUrl() {
-    await navigator.clipboard.writeText(new URL(registryHref, window.location.origin).href);
-    copied = true;
-    window.setTimeout(() => (copied = false), 1_500);
+  function requestPreview(): void {
+    previewComponent ??= loadComponent();
   }
 
-  async function loadSource() {
-    if (source || sourceError) return;
-    try {
-      const response = await fetch(registryHref);
-      if (!response.ok) throw new Error(`Registry request returned ${response.status}`);
-      const registry = (await response.json()) as RegistryResponse;
-      source =
-        registry.files?.find(({ target }) => target?.endsWith(`${particle.name}.svelte`))
-          ?.content ?? "";
-      if (!source) sourceError = "Source is unavailable for this particle.";
-    } catch {
-      sourceError = "Source is unavailable for this particle.";
-    }
+  const loadWhenVisible = nearViewport(requestPreview);
+
+  function loadSource(): void {
+    if (source || sourceError || sourceRequest) return;
+    const controller = new AbortController();
+    sourceController = controller;
+    sourceRequest = (async () => {
+      try {
+        const response = await fetch(registryHref, { signal: controller.signal });
+        if (!response.ok) throw new Error(`Registry request returned ${response.status}`);
+        const registry = (await response.json()) as RegistryResponse;
+        if (controller.signal.aborted) return;
+        source =
+          registry.files?.find(({ target }) => target?.endsWith(`${particle.name}.svelte`))
+            ?.content ?? "";
+        if (!source) sourceError = "Source is unavailable for this particle.";
+      } catch (error) {
+        if (!(error instanceof DOMException && error.name === "AbortError")) {
+          sourceError = "Source is unavailable for this particle.";
+        }
+      } finally {
+        if (sourceController === controller) sourceController = undefined;
+        sourceRequest = undefined;
+      }
+    })();
   }
+
+  onDestroy(() => sourceController?.abort());
 </script>
 
 <div
@@ -65,18 +69,30 @@
     particle.meta?.className,
   ]}
   data-particle-card={particle.name}
+  data-preview-requested={previewComponent ? "true" : undefined}
+  {@attach loadWhenVisible}
 >
-  <CardFrame
+  <Card.Frame
     class="w-full after:pointer-events-none after:absolute after:-inset-[5px] after:-z-1 after:rounded-[calc(var(--radius-xl)+4px)] after:border after:border-border/64 dark:bg-background"
   >
-    <Card class="min-h-50 flex-1 flex-col flex-wrap overflow-x-auto dark:bg-background">
-      <CardPanel class="flex flex-1 items-center justify-center lg:px-8 lg:py-12">
+    <Card.Root class="min-h-50 flex-1 flex-col flex-wrap overflow-x-auto dark:bg-background">
+      <Card.Panel class="flex flex-1 items-center justify-center lg:px-8 lg:py-12">
         <div data-particle data-slot="preview">
-          <Preview />
+          {#if previewComponent}
+            {#await previewComponent}
+              <Skeleton class="h-7 w-64" data-particle-loading />
+            {:then Preview}
+              <Preview />
+            {:catch}
+              <p class="text-muted-foreground text-sm">Preview unavailable.</p>
+            {/await}
+          {:else}
+            <Skeleton class="h-7 w-64" data-particle-loading />
+          {/if}
         </div>
-      </CardPanel>
-    </Card>
-    <CardFrameFooter class="flex items-center gap-3 p-2">
+      </Card.Panel>
+    </Card.Root>
+    <Card.FrameFooter class="flex items-center gap-3 p-2">
       <p class="flex flex-1 gap-1 truncate text-muted-foreground text-xs">
         <HugeiconsIcon
           aria-hidden="true"
@@ -87,19 +103,12 @@
         <span class="truncate">{particle.description}</span>
       </p>
       <div class="flex items-center gap-1.5">
-        <button
+        <CopyButton
+          aria-label="Copy registry URL"
           class={buttonVariants({ size: "icon-sm", variant: "outline" })}
-          type="button"
-          onclick={copyRegistryUrl}
           title="Copy registry URL"
-        >
-          <span class="sr-only">{copied ? "Copied" : "Copy registry URL"}</span>
-          <HugeiconsIcon
-            aria-hidden="true"
-            icon={copied ? CheckmarkCircle02Icon : Copy01Icon}
-            strokeWidth={2}
-          />
-        </button>
+          value={registryUrl}
+        />
         <Drawer.Root position="right">
           <Drawer.Trigger
             class={buttonVariants({ class: "text-sm", size: "sm", variant: "outline" })}
@@ -116,19 +125,22 @@
                 <Drawer.Description class="sr-only">
                   Install and inspect {particle.name}.
                 </Drawer.Description>
-                <pre class="overflow-x-auto rounded-xl border bg-muted/40 p-4 text-sm"><code
-                    >{installCommand}</code
-                  ></pre>
+                <div class="relative overflow-hidden rounded-xl border bg-muted/40">
+                  <CopyButton class="absolute top-1.5 right-1.5 z-1" value={installCommand} />
+                  <pre class="overflow-x-auto p-4 pe-12 text-sm"><code>{installCommand}</code></pre>
+                </div>
               </div>
               <div class="flex min-h-0 flex-1 flex-col overflow-hidden">
                 <h2 class="mt-6 mb-4 font-heading font-semibold text-xl">Code</h2>
                 {#if sourceError}
                   <p class="text-muted-foreground text-sm">{sourceError}</p>
                 {:else if source}
-                  <pre
-                    class="min-h-0 flex-1 overflow-auto rounded-xl border bg-muted/40 p-4 text-sm"><code
-                      >{source}</code
-                    ></pre>
+                  <div
+                    class="relative min-h-0 flex-1 overflow-hidden rounded-xl border bg-muted/40"
+                  >
+                    <CopyButton class="absolute top-1.5 right-1.5 z-1" value={source} />
+                    <pre class="h-full overflow-auto p-4 pe-12 text-sm"><code>{source}</code></pre>
+                  </div>
                 {:else}
                   <p class="text-muted-foreground text-sm">Loading source…</p>
                 {/if}
@@ -137,6 +149,6 @@
           </Drawer.Popup>
         </Drawer.Root>
       </div>
-    </CardFrameFooter>
-  </CardFrame>
+    </Card.FrameFooter>
+  </Card.Frame>
 </div>

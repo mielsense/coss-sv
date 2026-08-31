@@ -9,7 +9,7 @@
 	],
 	"files": [
 		{
-			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\n  export const meta = defineParticleMeta({\n    components: [\"input\"],\n    containerClass: \"**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64\",\n    id: \"p-input-17\",\n    interactive: true,\n    responsive: false,\n    title: \"Read-only input\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { Input } from \"$COMPONENTS$/ui/input/index.js\";\n</script>\n\n<Input class=\"read-only:bg-muted\" value=\"This is a read-only input\" readonly type=\"text\" />\n",
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\n  export const meta = defineParticleMeta({\n    components: [\"input\"],\n    containerClass: \"**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64\",\n    id: \"p-input-17\",\n    interactive: true,\n    responsive: false,\n    title: \"Read-only input\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { Input } from \"$UI$/input/index.js\";\n</script>\n\n<Input class=\"read-only:bg-muted\" value=\"This is a read-only input\" readonly type=\"text\" />\n",
 			"type": "registry:block",
 			"target": "p-input-17.svelte"
 		}

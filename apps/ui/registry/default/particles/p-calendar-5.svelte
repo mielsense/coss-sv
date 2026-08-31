@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
   export const meta = defineParticleMeta({
     components: ["calendar", "select"],
     id: "p-calendar-5",
@@ -11,8 +11,7 @@
 
 <script lang="ts">
   import { Calendar, Select, type CalendarDropdownContext } from "@coss-sv/ui";
-  const today = new Date(2026, 7, 28, 12);
-  let date = $state<Date | undefined>(today);
+  let date = $state<Date | undefined>(new Date());
 </script>
 
 {#snippet dropdown(props: CalendarDropdownContext)}
@@ -24,21 +23,22 @@
     value={props.value}
   >
     <Select.Trigger class="min-w-none"><Select.Value /></Select.Trigger>
-    <Select.Popup
-      >{#each props.options as item (item.value)}<Select.Item
+    <Select.Popup>
+      {#each props.options as item (item.value)}<Select.Item
           disabled={item.disabled}
-          value={item.value}>{item.label}</Select.Item
-        >{/each}</Select.Popup
-    >
+          value={item.value}
+        >
+          {item.label}
+        </Select.Item>{/each}
+    </Select.Popup>
   </Select.Root>
 {/snippet}
 
 <Calendar
   captionLayout="dropdown"
   components={{ Dropdown: dropdown }}
-  endMonth={new Date(2030, 11, 1, 12)}
+  endMonth={new Date(2030, 11)}
   mode="single"
   bind:selected={date}
-  startMonth={new Date(1930, 0, 1, 12)}
-  {today}
+  startMonth={new Date(1930, 0)}
 />

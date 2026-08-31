@@ -6,7 +6,9 @@ export default defineConfig({
     expect: {
       requireAssertions: true,
     },
+    fileParallelism: false,
     include: ["tests/registry/**/*.test.ts"],
+    maxWorkers: 1,
     testTimeout: 30_000,
   },
 });

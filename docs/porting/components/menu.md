@@ -7,7 +7,7 @@
 - `reference/apps/ui/registry/default/particles/p-menu-1.tsx` through `p-menu-9.tsx`
 - Every particle under `reference/apps/ui/registry/default/particles/` that imports the Menu wrapper: `p-breadcrumb-1`, `p-breadcrumb-4`, `p-dialog-2`, `p-drawer-13`, `p-group-1`, `p-group-3`, `p-group-4`, `p-group-5`, `p-group-6`, `p-group-13`, `p-input-group-17`, and `p-input-group-18`
 
-The registry wrapper, documentation page, and each importer were read in full from the MIT-designated `reference/apps/ui/**` subtree. No source under `reference/packages/ui/**` was used.
+The registry wrapper, documentation page, and each importer were read in full from the MIT-designated `reference/apps/ui/**` subtree. No source from the excluded COSS package subtree was used.
 
 The nine direct particles cover the complete visible Menu surface: icons and shortcuts, disabled and destructive items, open-on-hover, checkbox and switch items, radio items, links, groups and labels, nested submenus, separators, and close-on-click behavior.
 

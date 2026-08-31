@@ -10,16 +10,13 @@ links:
 
 ## Installation
 
-<InstallCommand
-  pnpm="pnpm add @coss-sv/ui"
-  shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/radio-group.json"
-/>
+<InstallCommand shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/radio-group.json" />
 
 ## Usage
 
 ```svelte
 <script lang="ts">
-  import * as RadioGroup from "@coss-sv/ui/components/ui/radio-group";
+  import * as RadioGroup from "@/components/ui/radio-group/index.js";
 </script>
 
 <RadioGroup.Root defaultValue="next">

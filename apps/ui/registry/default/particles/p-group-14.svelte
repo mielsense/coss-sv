@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
   export const meta = defineParticleMeta({
     components: ["button", "group", "number-field", "select"],
     id: "p-group-14",
@@ -11,7 +11,7 @@
 
 <script lang="ts">
   import { Button, Group, HugeiconsIcon, NumberField, Select } from "@coss-sv/ui";
-  import { ArrowRight01Icon } from "@hugeicons/core-free-icons";
+  import ArrowRight01Icon from "@hugeicons/core-free-icons/ArrowRight01Icon";
 
   interface Currency {
     value: string;
@@ -22,13 +22,14 @@
     { label: "Euro", value: "€" },
     { label: "British Pound", value: "£" },
   ];
-  let currency = $state<Currency | null>(currencies[0]);
+  let currency = $state.raw<Currency | null>(currencies[0]);
 </script>
 
 <Group.Root aria-label="Payment amount">
   <Group.Root aria-label="Amount input">
     <Select.Root
       bind:value={currency}
+      isItemEqualToValue={(item, value) => item.value === value.value}
       items={currencies.map((item) => ({ label: item.label, value: item }))}
       itemToStringLabel={(item) => item.label}
       itemToStringValue={(item) => item.value}
@@ -42,8 +43,10 @@
       </Select.Trigger>
       <Select.Popup class="min-w-48">
         {#each currencies as item (item.value)}
-          <Select.Item value={item}>{item.value} <span class="ms-1">{item.label}</span></Select.Item
-          >
+          <Select.Item value={item}>
+            {item.value}
+            <span class="ms-1">{item.label}</span>
+          </Select.Item>
         {/each}
       </Select.Popup>
     </Select.Root>

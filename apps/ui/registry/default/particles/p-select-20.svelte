@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
   export const meta = defineParticleMeta({
     components: ["avatar", "select"],
     containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64",
@@ -43,33 +43,34 @@
   aria-label="Select user"
   value={users[0]}
   itemToStringValue={(item: User) => item.value}
-  ><Select.Trigger class="h-auto py-1.5"
-    ><Select.Value
-      >{#snippet children(item: User | null)}{#if item}<span class="flex items-center gap-2"
-            ><Avatar.Root class="size-8"
-              ><Avatar.Image alt={item.label} src={item.avatar} /><Avatar.Fallback
-                >{item.initials}</Avatar.Fallback
-              ></Avatar.Root
-            ><span class="flex flex-col text-left"
-              ><span class="truncate font-medium">{item.label}</span><span
-                class="truncate text-muted-foreground text-xs">{item.username}</span
-              ></span
-            ></span
-          >{/if}{/snippet}</Select.Value
-    ></Select.Trigger
-  ><Select.Popup
-    >{#each users as item (item.value)}<Select.Item class="py-1.5" value={item}
-        ><span class="flex items-center gap-2"
-          ><Avatar.Root class="size-8"
-            ><Avatar.Image alt={item.label} src={item.avatar} /><Avatar.Fallback
-              >{item.initials}</Avatar.Fallback
-            ></Avatar.Root
-          ><span class="flex flex-col"
-            ><span class="truncate font-medium">{item.label}</span><span
-              class="truncate text-muted-foreground text-xs">{item.username}</span
-            ></span
-          ></span
-        ></Select.Item
-      >{/each}</Select.Popup
-  ></Select.Root
 >
+  <Select.Trigger class="h-auto py-1.5">
+    <Select.Value>
+      {#snippet children(item: User | null)}{#if item}<span class="flex items-center gap-2">
+            <Avatar.Root class="size-8">
+              <Avatar.Image alt={item.label} src={item.avatar} /><Avatar.Fallback>
+                {item.initials}
+              </Avatar.Fallback>
+            </Avatar.Root>
+            <span class="flex flex-col text-left">
+              <span class="truncate font-medium">{item.label}</span>
+              <span class="truncate text-muted-foreground text-xs">{item.username}</span>
+            </span>
+          </span>{/if}{/snippet}
+    </Select.Value>
+  </Select.Trigger><Select.Popup>
+    {#each users as item (item.value)}<Select.Item class="py-1.5" value={item}>
+        <span class="flex items-center gap-2">
+          <Avatar.Root class="size-8">
+            <Avatar.Image alt={item.label} src={item.avatar} /><Avatar.Fallback>
+              {item.initials}
+            </Avatar.Fallback>
+          </Avatar.Root>
+          <span class="flex flex-col">
+            <span class="truncate font-medium">{item.label}</span>
+            <span class="truncate text-muted-foreground text-xs">{item.username}</span>
+          </span>
+        </span>
+      </Select.Item>{/each}
+  </Select.Popup>
+</Select.Root>

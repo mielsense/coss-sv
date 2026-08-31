@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
   export const meta = defineParticleMeta({
     components: ["button", "input-group", "tooltip"],
     containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64",
@@ -12,7 +12,10 @@
 
 <script lang="ts">
   import { buttonVariants, HugeiconsIcon, InputGroup, Tooltip } from "@coss-sv/ui";
-  import { Loading02Icon, Mic01Icon, Search01Icon } from "@hugeicons/core-free-icons";
+  import Loading02Icon from "@hugeicons/core-free-icons/Loading02Icon";
+  import Mic01Icon from "@hugeicons/core-free-icons/Mic01Icon";
+  import Search01Icon from "@hugeicons/core-free-icons/Search01Icon";
+  import { onDestroy } from "svelte";
 
   let value = $state("");
   let loading = $state(false);
@@ -23,6 +26,8 @@
     loading = Boolean(next);
     if (next) timer = setTimeout(() => (loading = false), 500);
   }
+
+  onDestroy(() => clearTimeout(timer));
 </script>
 
 <InputGroup.Root>

@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
   export const meta = defineParticleMeta({
     components: ["fieldset", "slider"],
     id: "p-slider-15",
@@ -21,9 +21,9 @@
 </script>
 
 <Fieldset.Root class="flex w-full flex-col gap-3">
-  <Fieldset.Legend class="tabular-nums"
-    >From {formatPrice(values[0] ?? min)} to {formatPrice(values[1] ?? max)}</Fieldset.Legend
-  >
+  <Fieldset.Legend class="tabular-nums">
+    From {formatPrice(values[0] ?? min)} to {formatPrice(values[1] ?? max)}
+  </Fieldset.Legend>
   <Slider.Root
     aria-label="Price range"
     class="flex-1"

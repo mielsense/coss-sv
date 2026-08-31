@@ -10,16 +10,13 @@ links:
 
 ## Installation
 
-<InstallCommand
-  pnpm="pnpm add @coss-sv/ui"
-  shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/toast.json"
-/>
+<InstallCommand shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/toast.json" />
 
 Add `Toast.Provider` and `Toast.AnchoredProvider` to your app layout.
 
 ```svelte title="src/routes/+layout.svelte"
 <script lang="ts">
-  import { Toast } from "@coss-sv/ui";
+  import * as Toast from "@/components/ui/toast/index.js";
   import type { Snippet } from "svelte";
 
   let { children }: { children: Snippet } = $props();
@@ -38,7 +35,7 @@ Add `Toast.Provider` and `Toast.AnchoredProvider` to your app layout.
 
 ```svelte
 <script lang="ts">
-  import { Toast } from "@coss-sv/ui";
+  import * as Toast from "@/components/ui/toast/index.js";
 
   function createEvent() {
     Toast.toastManager.add({
@@ -135,11 +132,38 @@ Manager for stacked toasts. Use `Toast.toastManager.add()` to show a toast. A la
 
 Manager for anchored toasts. Pass `positionerProps.anchor` to `add()`. Repeated calls with the same `id` update the existing toast.
 
-### Rendered toast parts
+### Toast.ToastPrimitive.Viewport
 
-The providers render the COSS-styled viewport, root, title, description, action, and anchored positioner around Shards UI toast parts. Use `Toast.ToastPrimitive` when a custom lower-level composition needs direct Shards parts.
+Viewport container for toasts. The COSS-styled providers render Shards UI's `Toast.Viewport`
+internally. Use `Toast.ToastPrimitive.Viewport` for a custom lower-level composition.
 
-See the [Shards Toast API](https://shardsui.com/svelte/toast) for manager options, swipe behavior, priority, focus management, and primitive props.
+### Toast.ToastPrimitive.Root
+
+Individual toast container. The COSS-styled providers render Shards UI's `Toast.Root` internally.
+Use `Toast.ToastPrimitive.Root` for a custom lower-level composition.
+
+### Toast.ToastPrimitive.Title
+
+Title text for the toast. The providers render `Toast.ToastPrimitive.Title` from each manager
+record's `title` value.
+
+### Toast.ToastPrimitive.Description
+
+Description text for the toast. The providers render `Toast.ToastPrimitive.Description` from each
+manager record's `description` value.
+
+### Toast.ToastPrimitive.Action
+
+Action button for the toast. Set `actionProps` when adding a toast; the providers render the action
+with the COSS small-button style through `Toast.ToastPrimitive.Action`.
+
+### Toast.ToastPrimitive.Close
+
+Close control for a custom toast composition. Use `Toast.ToastPrimitive.Close`, or call
+`Toast.toastManager.close(id)` and `Toast.anchoredToastManager.close(id)` from application logic.
+
+See the [Shards Toast API](https://shardsui.com/svelte/toast) for manager options, swipe behavior,
+priority, focus management, and primitive props.
 
 ## Examples
 

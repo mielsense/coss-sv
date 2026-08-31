@@ -72,7 +72,7 @@
 
   @media (width < 40rem) {
     .breadcrumb-preview {
-      padding-inline: 2.5625rem;
+      padding-inline: 1.0625rem;
     }
   }
 </style>

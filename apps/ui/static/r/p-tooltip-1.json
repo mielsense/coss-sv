@@ -10,7 +10,7 @@
 	],
 	"files": [
 		{
-			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n  export const meta = defineParticleMeta({\n    components: [\"button\", \"tooltip\"],\n    id: \"p-tooltip-1\",\n    interactive: true,\n    responsive: true,\n    title: \"Basic tooltip\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { buttonVariants } from \"$COMPONENTS$/ui/button/index.js\";\n  import * as Tooltip from \"$COMPONENTS$/ui/tooltip/index.js\";\n</script>\n\n<Tooltip.Root>\n  <Tooltip.Trigger class={buttonVariants({ variant: \"outline\" })}>\n    Hover me\n  </Tooltip.Trigger><Tooltip.Popup>Helpful hint</Tooltip.Popup>\n</Tooltip.Root>\n",
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n  export const meta = defineParticleMeta({\n    components: [\"button\", \"tooltip\"],\n    id: \"p-tooltip-1\",\n    interactive: true,\n    responsive: true,\n    title: \"Basic tooltip\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { buttonVariants } from \"$UI$/button/index.js\";\n  import * as Tooltip from \"$UI$/tooltip/index.js\";\n</script>\n\n<Tooltip.Root>\n  <Tooltip.Trigger class={buttonVariants({ variant: \"outline\" })}>\n    Hover me\n  </Tooltip.Trigger><Tooltip.Popup>Helpful hint</Tooltip.Popup>\n</Tooltip.Root>\n",
 			"type": "registry:block",
 			"target": "p-tooltip-1.svelte"
 		}

@@ -10,7 +10,7 @@
 	],
 	"files": [
 		{
-			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\n  export const meta = defineParticleMeta({\n    components: [\"label\", \"switch\"],\n    id: \"p-switch-1\",\n    interactive: true,\n    responsive: false,\n    title: \"Basic switch\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { Label } from \"$COMPONENTS$/ui/label/index.js\";\n  import { Switch } from \"$COMPONENTS$/ui/switch/index.js\";\n</script>\n\n<Label\n  ><Switch aria-label=\"Marketing emails\" />\n  Marketing emails</Label\n>\n",
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\n  export const meta = defineParticleMeta({\n    components: [\"label\", \"switch\"],\n    id: \"p-switch-1\",\n    interactive: true,\n    responsive: false,\n    title: \"Basic switch\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { Label } from \"$UI$/label/index.js\";\n  import { Switch } from \"$UI$/switch/index.js\";\n</script>\n\n<Label>\n  <Switch aria-label=\"Marketing emails\" />\n  Marketing emails\n</Label>\n",
 			"type": "registry:block",
 			"target": "p-switch-1.svelte"
 		}

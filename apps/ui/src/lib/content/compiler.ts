@@ -1,7 +1,6 @@
 import { type HighlightedSource, highlightSource } from "../code/highlight.js";
 import { createDocumentationHeadingSlugger } from "./headings.js";
 import { withoutFencedCode } from "./markdown.js";
-import type { ParticleSourceLoader } from "./particle-source.js";
 
 export type PageKind = "root" | "component" | "hook" | "migration" | "changelog";
 
@@ -31,11 +30,9 @@ export type SourcePage = {
 export type PreviewReference = {
   id: string;
   align: "center" | "start" | "end";
-  source: HighlightedSource;
 };
 
 export type InstallCommands = {
-  pnpm: string;
   shadcnSvelte: string;
 };
 
@@ -58,12 +55,19 @@ export type ContentRecord = {
   tableOfContents: TableOfContentsItem[];
 };
 
+export type GeneratedContentRecord = Pick<
+  ContentRecord,
+  "kind" | "markdown" | "metadata" | "slug" | "tableOfContents"
+>;
+
+export type DocumentationPageData = Pick<GeneratedContentRecord, "metadata" | "tableOfContents">;
+
 export type CompileDocsOptions = {
   api?: Record<string, ApiProperty[]>;
+  includeCodeBlocks?: boolean;
   order: string[];
   pages: SourcePage[];
   particleIds: ReadonlySet<string>;
-  loadParticleSource?: ParticleSourceLoader;
 };
 
 export type CompiledDocs = {
@@ -134,10 +138,7 @@ function tableOfContents(markdown: string): TableOfContentsItem[] {
   });
 }
 
-function previewReferences(
-  markdown: string,
-  particleIds: ReadonlySet<string>,
-): Array<Omit<PreviewReference, "source">> {
+function previewReferences(markdown: string, particleIds: ReadonlySet<string>): PreviewReference[] {
   return Array.from(
     withoutFencedCode(markdown).matchAll(
       /<ComponentPreview\b((?:[^>"']|"[^"]*"|'[^']*')*?)\s*\/?\s*>/g,
@@ -161,14 +162,10 @@ function installCommands(markdown: string): InstallCommands[] {
   return Array.from(withoutFencedCode(markdown).matchAll(/<InstallCommand\b([\s\S]*?)\/>/g)).map(
     (match) => {
       const attributes = match[1] ?? "";
-      const pnpm = /\bpnpm=["']([^"']+)["']/.exec(attributes)?.[1];
       const shadcnSvelte = /\bshadcnSvelte=["']([^"']+)["']/.exec(attributes)?.[1];
-      if (!pnpm || !shadcnSvelte) {
-        throw new Error("InstallCommand requires pnpm and shadcnSvelte commands");
-      }
-      validatePnpmCommand(pnpm);
+      if (!shadcnSvelte) throw new Error("InstallCommand requires a shadcnSvelte command");
       validateShadcnSvelteCommand(shadcnSvelte);
-      return { pnpm, shadcnSvelte };
+      return { shadcnSvelte };
     },
   );
 }
@@ -176,14 +173,6 @@ function installCommands(markdown: string): InstallCommands[] {
 const reactCommand =
   /(?:^|[\s/])(?:@base-ui\/react|@types\/react|react(?:-dom)?)(?:@[^\s]+)?(?=\s|$)/i;
 const otherPackageManager = /(?:^|\s)(?:bun|bunx|npm|npx|yarn)(?=\s|$)/i;
-
-function validatePnpmCommand(command: string): void {
-  const normalized = command.trim();
-  if (!/^pnpm(?:\s|$)/i.test(normalized) || otherPackageManager.test(normalized)) {
-    throw new Error("pnpm command must use pnpm");
-  }
-  if (reactCommand.test(command)) throw new Error("pnpm command must not install React");
-}
 
 function validateShadcnSvelteCommand(command: string): void {
   const normalized = command.trim();
@@ -198,22 +187,23 @@ function validateShadcnSvelteCommand(command: string): void {
   }
 }
 
-async function codeBlocks(markdown: string): Promise<HighlightedSource[]> {
+async function codeBlocks(
+  markdown: string,
+  includeHighlightedBlocks: boolean,
+): Promise<HighlightedSource[]> {
   const blocks = Array.from(markdown.matchAll(/^```([^\s`]*)[^\n]*\n([\s\S]*?)\n```\s*$/gm));
-  return Promise.all(
-    blocks.map(async (match) => {
-      const language = match[1] || "text";
-      const raw = match[2] ?? "";
-      if (
-        language === "tsx" ||
-        language === "jsx" ||
-        /\bfrom\s+["'](?:react|react-dom|next\/|@base-ui\/react)/.test(raw)
-      ) {
-        throw new Error("React source is not allowed in Svelte documentation");
-      }
-      return highlightSource(raw, language);
-    }),
-  );
+  const sources = blocks.map((match) => ({ language: match[1] || "text", raw: match[2] ?? "" }));
+  for (const { language, raw } of sources) {
+    if (
+      language === "tsx" ||
+      language === "jsx" ||
+      /\bfrom\s+["'](?:react|react-dom|next\/|@base-ui\/react)/.test(raw)
+    ) {
+      throw new Error("React source is not allowed in Svelte documentation");
+    }
+  }
+  if (!includeHighlightedBlocks) return [];
+  return Promise.all(sources.map(({ language, raw }) => highlightSource(raw, language)));
 }
 
 function validateApi(slug: string, api: readonly ApiProperty[]): ApiProperty[] {
@@ -240,19 +230,10 @@ export async function compileDocs(options: CompileDocsOptions): Promise<Compiled
       const page = sources.get(slug);
       if (!page) throw new Error(`documentation metadata references missing slug ${slug}`);
       const { body, metadata } = parseFrontmatter(page.source, slug);
-      const previewDescriptors = previewReferences(body, options.particleIds);
-      if (previewDescriptors.length > 0 && !options.loadParticleSource) {
-        throw new Error(`documentation compiler needs a particle source loader for ${slug}`);
-      }
-      const previews = await Promise.all(
-        previewDescriptors.map(async (preview) => ({
-          ...preview,
-          source: await (options.loadParticleSource as ParticleSourceLoader)(preview.id),
-        })),
-      );
+      const previews = previewReferences(body, options.particleIds);
       return {
         api: validateApi(slug, options.api?.[slug] ?? []),
-        codeBlocks: await codeBlocks(body),
+        codeBlocks: await codeBlocks(body, options.includeCodeBlocks ?? true),
         installCommands: installCommands(body),
         kind: page.kind,
         markdown: body,

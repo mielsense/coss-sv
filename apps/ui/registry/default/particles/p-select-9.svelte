@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
   export const meta = defineParticleMeta({
     components: ["select"],
     containerClass: "**:data-[slot=preview]:w-full **:data-[slot=preview]:max-w-64",
@@ -12,7 +12,10 @@
 
 <script lang="ts">
   import { HugeiconsIcon, Select } from "@coss-sv/ui";
-  import { CodeIcon, GlobeIcon, Layers01Icon, ZapIcon } from "@hugeicons/core-free-icons";
+  import CodeIcon from "@hugeicons/core-free-icons/CodeIcon";
+  import GlobeIcon from "@hugeicons/core-free-icons/GlobeIcon";
+  import Layers01Icon from "@hugeicons/core-free-icons/Layers01Icon";
+  import ZapIcon from "@hugeicons/core-free-icons/ZapIcon";
 
   const items = [
     { icon: Layers01Icon, label: "Components", value: "components" },
@@ -28,22 +31,20 @@
   value={items[0]}
   itemToStringValue={(item: Item) => item.value}
 >
-  <Select.Trigger
-    ><Select.Value
-      >{#snippet children(item: Item | null)}{#if item}<span class="flex items-center gap-2"
-            ><HugeiconsIcon aria-hidden="true" icon={item.icon} strokeWidth={2} /><span
-              class="truncate">{item.label}</span
-            ></span
-          >{/if}{/snippet}</Select.Value
-    ></Select.Trigger
-  >
-  <Select.Popup
-    >{#each items as item (item.value)}<Select.Item value={item}
-        ><span class="flex items-center gap-2"
-          ><HugeiconsIcon aria-hidden="true" icon={item.icon} strokeWidth={2} /><span
-            class="truncate">{item.label}</span
-          ></span
-        ></Select.Item
-      >{/each}</Select.Popup
-  ></Select.Root
->
+  <Select.Trigger>
+    <Select.Value>
+      {#snippet children(item: Item | null)}{#if item}<span class="flex items-center gap-2">
+            <HugeiconsIcon aria-hidden="true" icon={item.icon} strokeWidth={2} />
+            <span class="truncate">{item.label}</span>
+          </span>{/if}{/snippet}
+    </Select.Value>
+  </Select.Trigger>
+  <Select.Popup>
+    {#each items as item (item.value)}<Select.Item value={item}>
+        <span class="flex items-center gap-2">
+          <HugeiconsIcon aria-hidden="true" icon={item.icon} strokeWidth={2} />
+          <span class="truncate">{item.label}</span>
+        </span>
+      </Select.Item>{/each}
+  </Select.Popup>
+</Select.Root>

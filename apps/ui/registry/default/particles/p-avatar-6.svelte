@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
 
   export const meta = defineParticleMeta({
     components: ["avatar"],
@@ -12,16 +12,11 @@
 
 <script lang="ts">
   import { Avatar, HugeiconsIcon } from "@coss-sv/ui";
-  import { UserIcon } from "@hugeicons/core-free-icons";
+  import UserIcon from "@hugeicons/core-free-icons/UserIcon";
 </script>
 
-<Avatar.Root
-  ><Avatar.Fallback
-    ><HugeiconsIcon
-      aria-hidden="true"
-      class="size-4"
-      icon={UserIcon}
-      strokeWidth={2}
-    /></Avatar.Fallback
-  ></Avatar.Root
->
+<Avatar.Root>
+  <Avatar.Fallback>
+    <HugeiconsIcon aria-hidden="true" class="size-4" icon={UserIcon} strokeWidth={2} />
+  </Avatar.Fallback>
+</Avatar.Root>

@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
 
   export const meta = defineParticleMeta({
     components: ["button"],
@@ -12,13 +12,11 @@
 
 <script lang="ts">
   import { Button, HugeiconsIcon } from "@coss-sv/ui";
-  import {
-    ArrowDown01Icon,
-    ArrowLeft01Icon,
-    ArrowRight01Icon,
-    ArrowUp01Icon,
-    CircleIcon,
-  } from "@hugeicons/core-free-icons";
+  import ArrowDown01Icon from "@hugeicons/core-free-icons/ArrowDown01Icon";
+  import ArrowLeft01Icon from "@hugeicons/core-free-icons/ArrowLeft01Icon";
+  import ArrowRight01Icon from "@hugeicons/core-free-icons/ArrowRight01Icon";
+  import ArrowUp01Icon from "@hugeicons/core-free-icons/ArrowUp01Icon";
+  import CircleIcon from "@hugeicons/core-free-icons/CircleIcon";
 </script>
 
 <div class="inline-grid w-fit grid-cols-3 gap-1">

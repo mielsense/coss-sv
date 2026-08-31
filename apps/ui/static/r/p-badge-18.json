@@ -9,7 +9,7 @@
 	],
 	"files": [
 		{
-			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\n  export const meta = defineParticleMeta({\n    components: [\"badge\"],\n    id: \"p-badge-18\",\n    interactive: false,\n    responsive: false,\n    title: \"Failed badge\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { Badge } from \"$COMPONENTS$/ui/badge/index.js\";\n</script>\n\n<Badge variant=\"outline\"\n  ><span aria-hidden=\"true\" class=\"size-1.5 rounded-full bg-red-500\"></span>Failed</Badge\n>\n",
+			"content": "<script module lang=\"ts\">\n  import { defineParticleMeta } from \"$LIB$/registry/particle-metadata.js\";\n\n  export const meta = defineParticleMeta({\n    components: [\"badge\"],\n    id: \"p-badge-18\",\n    interactive: false,\n    responsive: false,\n    title: \"Failed badge\",\n  });\n</script>\n\n<script lang=\"ts\">\n  import { Badge } from \"$UI$/badge/index.js\";\n</script>\n\n<Badge variant=\"outline\">\n  <span aria-hidden=\"true\" class=\"size-1.5 rounded-full bg-red-500\"></span>\n  Failed\n</Badge>\n",
 			"type": "registry:block",
 			"target": "p-badge-18.svelte"
 		}

@@ -10,16 +10,13 @@ links:
 
 ## Installation
 
-<InstallCommand
-  pnpm="pnpm add @coss-sv/ui"
-  shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/preview-card.json"
-/>
+<InstallCommand shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/preview-card.json" />
 
 ## Usage
 
 ```svelte
 <script lang="ts">
-  import * as PreviewCard from "@coss-sv/ui/components/ui/preview-card";
+  import * as PreviewCard from "@/components/ui/preview-card/index.js";
 </script>
 
 <PreviewCard.Root>

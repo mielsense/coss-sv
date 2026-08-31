@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
 
   export const meta = defineParticleMeta({
     components: ["toast", "toggle", "tooltip"],
@@ -12,9 +12,10 @@
 
 <script lang="ts">
   import { HugeiconsIcon, Toast, Toggle, Tooltip } from "@coss-sv/ui";
-  import { Bookmark01Icon } from "@hugeicons/core-free-icons";
+  import Bookmark01Icon from "@hugeicons/core-free-icons/Bookmark01Icon";
   import { tick } from "svelte";
 
+  const toastManager = new Toast.Manager();
   let bookmarked = $state(false);
   let anchor = $state<HTMLElement | null>(null);
   let toastId: string | null = null;
@@ -24,10 +25,10 @@
 
   function toggleBookmark(pressed: boolean) {
     bookmarked = pressed;
-    if (toastId) Toast.anchoredToastManager.close(toastId);
+    if (toastId) toastManager.close(toastId);
     toastId = null;
     if (pressed && anchor) {
-      toastId = Toast.anchoredToastManager.add({
+      toastId = toastManager.add({
         data: { tooltipStyle: true },
         positionerProps: { anchor },
         timeout: 2000,
@@ -43,27 +44,25 @@
   }
 </script>
 
-<Toast.Provider>
-  <Toast.AnchoredProvider>
-    <Tooltip.Root handle={tooltipHandle}>
-      <Tooltip.Trigger
-        as="div"
-        bind:ref={anchor}
-        class="inline-flex"
-        handle={tooltipHandle}
-        id={triggerId}
+<Toast.AnchoredProvider {toastManager}>
+  <Tooltip.Root handle={tooltipHandle}>
+    <Tooltip.Trigger
+      as="div"
+      bind:ref={anchor}
+      class="inline-flex"
+      handle={tooltipHandle}
+      id={triggerId}
+    >
+      <Toggle
+        aria-label={bookmarked ? "Remove bookmark" : "Bookmark this"}
+        onblur={() => tooltipHandle.close()}
+        onfocus={(event) => void openTooltipOnFocus(event.currentTarget)}
+        onPressedChange={toggleBookmark}
+        pressed={bookmarked}
       >
-        <Toggle
-          aria-label={bookmarked ? "Remove bookmark" : "Bookmark this"}
-          onblur={() => tooltipHandle.close()}
-          onfocus={(event) => void openTooltipOnFocus(event.currentTarget)}
-          onPressedChange={toggleBookmark}
-          pressed={bookmarked}
-        >
-          <HugeiconsIcon aria-hidden="true" icon={Bookmark01Icon} strokeWidth={2} />
-        </Toggle>
-      </Tooltip.Trigger>
-      <Tooltip.Popup>{bookmarked ? "Remove bookmark" : "Bookmark this"}</Tooltip.Popup>
-    </Tooltip.Root>
-  </Toast.AnchoredProvider>
-</Toast.Provider>
+        <HugeiconsIcon aria-hidden="true" icon={Bookmark01Icon} strokeWidth={2} />
+      </Toggle>
+    </Tooltip.Trigger>
+    <Tooltip.Popup>{bookmarked ? "Remove bookmark" : "Bookmark this"}</Tooltip.Popup>
+  </Tooltip.Root>
+</Toast.AnchoredProvider>

@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import { defineParticleMeta } from "$lib/registry/particle-metadata.js";
+  import { defineParticleMeta } from "@/registry/particle-metadata.js";
 
   export const meta = defineParticleMeta({
     components: ["field", "switch"],
@@ -15,8 +15,8 @@
 </script>
 
 <Field.Root>
-  <Field.Label
-    ><Switch />
-    Email notifications</Field.Label
-  >
+  <Field.Label>
+    <Switch />
+    Email notifications
+  </Field.Label>
 </Field.Root>
