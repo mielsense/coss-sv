@@ -42,7 +42,7 @@
       >
       <span class="text-site-muted/64" aria-hidden="true">ui</span>
       <span
-        class="inline-flex min-h-5.5 items-center rounded-md bg-[#ff3e00] px-2 font-sans text-[#171717] text-[0.6875rem] leading-none font-[650] tracking-[-0.01em]"
+        class="inline-flex min-h-5.5 items-center rounded-md bg-[#ff3e00] px-2 font-sans text-site-foreground text-[0.6875rem] leading-none font-[650] tracking-[-0.01em]"
         >Svelte</span
       >
     </div>

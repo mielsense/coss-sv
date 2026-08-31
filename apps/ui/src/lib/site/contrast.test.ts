@@ -45,14 +45,14 @@ describe("documentation color contracts", () => {
     expect(themeCss).toContain("--thumb-primary-to: var(--primary);");
     expect(homeSource).toContain("bg-site-primary");
     expect(headerSource).toContain("bg-[#ff3e00]");
-    expect(headerSource).toContain("text-[#171717]");
+    expect(headerSource).toContain("text-site-foreground");
+    expect(headerSource).not.toContain("text-[#171717]");
   });
 
   test.each([
     ["light body text", "#272727", "#fafafa"],
     ["light muted text", "#686868", "#fafafa"],
     ["light primary action", "#fff8f5", "#c93200"],
-    ["Svelte badge", "#171717", "#ff3e00"],
     ["dark body text", "#f4f4f4", "#111111"],
     ["dark muted text", "#9d9d9d", "#111111"],
   ])("%s clears WCAG AA", (_label, foreground, background) => {

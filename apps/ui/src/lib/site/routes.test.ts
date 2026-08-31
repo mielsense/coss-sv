@@ -37,7 +37,8 @@ describe("documentation routes", () => {
     expect(header).toContain("coss.com");
     expect(header).toContain(">ui</span>");
     expect(header).toContain("bg-[#ff3e00]");
-    expect(header).toContain("text-[#171717]");
+    expect(header).toContain("text-site-foreground");
+    expect(header).not.toContain("text-[#171717]");
     expect(header).toContain(">Svelte</span");
     expect(header).toContain("aria-current=");
     expect(footer).toContain('href="/"');
