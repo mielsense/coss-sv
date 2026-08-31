@@ -1,0 +1,7 @@
+interface:
+  display_name: COSS for Svelte
+  short_description: Build with the COSS Svelte 5 component port
+  brand_color: "#ff3e00"
+  default_prompt: Use $coss-svelte to install or compose the exact COSS for Svelte component for this task.
+policy:
+  allow_implicit_invocation: true
