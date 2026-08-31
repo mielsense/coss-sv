@@ -92,7 +92,7 @@
     "@vitest/browser": "catalog:dev",
     "@vitest/browser-playwright": "catalog:dev",
     "playwright": "catalog:dev",
-    "publint": "0.3.23",
+    "publint": "0.3.24",
     "svelte": "catalog:dev",
     "svelte-check": "catalog:dev",
     "typescript": "catalog:dev",
