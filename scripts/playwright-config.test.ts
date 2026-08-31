@@ -18,3 +18,9 @@ test("the package test projects run one file in one worker at a time", () => {
   assert.equal(source.match(/fileParallelism:\s*false/g)?.length, 2);
   assert.equal(source.match(/maxWorkers:\s*1/g)?.length, 2);
 });
+
+test("the root browser harness prebundles Testing Library's CommonJS dependencies", () => {
+  const source = readFileSync(new URL("../vitest.workspace.ts", import.meta.url), "utf8");
+
+  assert.match(source, /"@testing-library\/svelte > @testing-library\/dom"/);
+});

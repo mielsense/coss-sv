@@ -6,7 +6,7 @@ import { defineConfig } from "vitest/config";
 export default defineConfig({
   plugins: [svelte({ configFile: false }), svelteTesting({ resolveBrowser: false })],
   optimizeDeps: {
-    include: ["@testing-library/svelte > @testing-library/dom > aria-query"],
+    include: ["@testing-library/svelte", "@testing-library/svelte > @testing-library/dom"],
     noDiscovery: true,
   },
   test: {
