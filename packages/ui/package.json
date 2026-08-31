@@ -98,7 +98,7 @@
     "typescript": "catalog:dev",
     "vite": "catalog:dev",
     "vitest": "catalog:dev",
-    "vitest-browser-svelte": "2.1.1"
+    "vitest-browser-svelte": "3.0.0"
   },
   "publishConfig": {
     "access": "public"
