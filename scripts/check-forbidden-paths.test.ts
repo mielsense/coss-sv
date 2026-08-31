@@ -5,7 +5,7 @@ import { findForbiddenPaths } from "./check-forbidden-paths.mjs";
 
 test("accepts ordinary repository paths", () => {
   assert.deepEqual(
-    findForbiddenPaths(["apps/ui/src/routes/+page.svelte", "packages/ui/src/index.ts"]),
+    findForbiddenPaths(["apps/ui/src/routes/(site)/+page.svelte", "packages/ui/src/index.ts"]),
     [],
   );
 });

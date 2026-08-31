@@ -1,27 +1,34 @@
-name: ci
+name: CI
 
 on:
   push:
     branches: [main]
   pull_request:
+  workflow_dispatch:
 
 concurrency:
-  group: ci-${{ github.workflow }}-${{ github.ref }}
+  group: ci-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 permissions:
   contents: read
 
+env:
+  CI: true
+  NODE_OPTIONS: --max-old-space-size=768
+
 jobs:
   quality:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 45
     steps:
       - name: Check out repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
 
       - name: Check out pinned COSS reference
-        uses: actions/checkout@v6
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:
           repository: cosscom/coss
           ref: 19620ae8cae81e30775f2cde03829326cb4916b2
@@ -29,15 +36,15 @@ jobs:
           persist-credentials: false
 
       - name: Install pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1 # v4
         with:
           version: 10.22.0
           run_install: false
 
       - name: Install Node.js
-        uses: actions/setup-node@v7
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
-          node-version: 24
+          node-version-file: .node-version
           cache: pnpm
 
       - name: Install dependencies
@@ -59,7 +66,7 @@ jobs:
         run: pnpm check
 
       - name: Check parity inventory
-        run: pnpm parity:check
+        run: node scripts/parity/inventory.mts --require-complete
 
       - name: Check registry output
         run: pnpm registry:check
@@ -70,11 +77,29 @@ jobs:
       - name: Run tests
         run: pnpm test
 
+      - name: Run component parity browser tests
+        run: pnpm test:e2e
+
       - name: Build packages and documentation
         run: pnpm build
+
+      - name: Check the published package surface
+        run: pnpm --filter @coss-sv/ui pack:check
 
       - name: Smoke-test registry installation
         run: pnpm --filter @coss-sv/docs registry:smoke
 
       - name: Run documentation browser tests
         run: pnpm test:docs:e2e
+
+      - name: Upload browser failure evidence
+        if: failure()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: browser-failure-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            artifacts
+            playwright-report
+            test-results
+          if-no-files-found: ignore
+          retention-days: 7

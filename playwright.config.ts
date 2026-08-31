@@ -1,29 +1,31 @@
 import { delimiter, dirname } from "node:path";
 import { defineConfig, devices } from "@playwright/test";
-import { targetPreviewBaseUrl, targetPreviewPort } from "./tests/e2e/helpers/ports.js";
+import { targetPreviewBaseUrl, targetPreviewPort } from "./tests/e2e/helpers/ports.ts";
 
-export const referenceBaseUrl = "http://127.0.0.1:4000/ui";
 export const targetBaseUrl = targetPreviewBaseUrl(targetPreviewPort);
 
-const referenceCommand =
-  // biome-ignore lint/suspicious/noUndeclaredEnvVars: CI may override the pnpm-only temporary reference launcher.
-  process.env.COSS_REFERENCE_COMMAND?.trim() || "exec node scripts/parity/start-reference.mts";
-const webServerEnvironment = {
-  ...process.env,
-  PATH: [dirname(process.execPath), process.env.PATH].filter(Boolean).join(delimiter),
+const inheritedEnvironment = { ...process.env };
+delete inheritedEnvironment.NO_COLOR;
+
+function withHeapLimit(value: string | undefined, megabytes: number): string {
+  return [
+    ...(value?.split(/\s+/).filter((option) => !option.startsWith("--max-old-space-size=")) ?? []),
+    `--max-old-space-size=${megabytes}`,
+  ].join(" ");
+}
+
+const commonWebServerEnvironment = {
+  ...inheritedEnvironment,
+  PATH: [dirname(process.execPath), inheritedEnvironment.PATH].filter(Boolean).join(delimiter),
+};
+const targetWebServerEnvironment = {
+  ...commonWebServerEnvironment,
+  NODE_OPTIONS: withHeapLimit(inheritedEnvironment.NODE_OPTIONS, 768),
 };
 const webServer = [
   {
-    command: referenceCommand,
-    env: webServerEnvironment,
-    gracefulShutdown: { signal: "SIGTERM", timeout: 60_000 },
-    url: referenceBaseUrl,
-    reuseExistingServer: !process.env.CI,
-    timeout: 300_000,
-  },
-  {
     command: `pnpm --filter @coss-sv/ui build && pnpm --filter @coss-sv/docs build && pnpm --filter @coss-sv/docs preview --host 127.0.0.1 --port ${targetPreviewPort}`,
-    env: webServerEnvironment,
+    env: targetWebServerEnvironment,
     url: `${targetBaseUrl}/preview/_health`,
     reuseExistingServer: !process.env.CI,
     timeout: 180_000,
@@ -33,10 +35,10 @@ const webServer = [
 export default defineConfig({
   testDir: "./tests/e2e",
   outputDir: "./artifacts/playwright/results",
-  fullyParallel: true,
+  fullyParallel: false,
   forbidOnly: Boolean(process.env.CI),
   retries: process.env.CI ? 1 : 0,
-  workers: process.env.CI ? 2 : undefined,
+  workers: 2,
   reporter: [["list"], ["html", { open: "never", outputFolder: "artifacts/playwright/report" }]],
   timeout: 45_000,
   expect: {

@@ -34,8 +34,8 @@ export function validateWorkspace(root = process.cwd()) {
     issues.push('packageManager must be exactly "pnpm@10.22.0"');
   }
 
-  if (packageJson.engines?.node !== ">=22.18 <25") {
-    issues.push('engines.node must be exactly ">=22.18 <25"');
+  if (![">=22.18 <25", ">=22.18"].includes(packageJson.engines?.node)) {
+    issues.push('engines.node must be ">=22.18 <25" or ">=22.18"');
   }
 
   for (const script of requiredScripts) {

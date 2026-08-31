@@ -4,9 +4,10 @@ import { playwright } from "@vitest/browser-playwright";
 import { defineConfig } from "vitest/config";
 
 export default defineConfig({
-  plugins: [svelte(), svelteTesting({ resolveBrowser: false })],
+  plugins: [svelte({ configFile: false }), svelteTesting({ resolveBrowser: false })],
   optimizeDeps: {
     include: ["@testing-library/svelte > @testing-library/dom > aria-query"],
+    noDiscovery: true,
   },
   test: {
     expect: {

@@ -8,23 +8,36 @@ updates:
       time: "06:00"
       timezone: Europe/Paris
     groups:
-      development-tooling:
+      svelte-tooling:
+        patterns:
+          - "svelte"
+          - "@sveltejs/*"
+          - "*svelte*"
+          - "vite"
+          - "vitest"
+          - "@vitest/*"
+      quality-tooling:
         dependency-type: development
-        update-types:
-          - minor
-          - patch
-    open-pull-requests-limit: 10
+        patterns:
+          - "@biomejs/*"
+          - "@playwright/*"
+          - "playwright"
+          - "prettier*"
+          - "turbo"
+          - "typescript"
+    labels:
+      - dependencies
+    open-pull-requests-limit: 6
 
   - package-ecosystem: github-actions
     directory: /
     schedule:
-      interval: weekly
-      day: monday
-      time: "06:30"
-      timezone: Europe/Paris
+      interval: monthly
     groups:
       actions:
         patterns:
           - "*"
-    open-pull-requests-limit: 5
-
+    labels:
+      - dependencies
+      - ci
+    open-pull-requests-limit: 3

@@ -229,7 +229,7 @@ export function collectReferenceInventory(root = repositoryRoot): ReferenceInven
       "doc",
       id,
       source,
-      join(root, `apps/ui/content/docs/${id}.svx`),
+      join(root, `apps/ui/content/docs/${id === "index" ? "introduction" : id}.svx`),
       "apps/ui/src/lib/content/docs-manifest.ts",
     );
   });
@@ -242,7 +242,7 @@ export function collectReferenceInventory(root = repositoryRoot): ReferenceInven
       "doc",
       `hooks/${id}`,
       source,
-      join(root, `apps/ui/content/docs/hooks/${id}.svx`),
+      join(root, `apps/ui/content/docs/hooks-${id}.svx`),
       "apps/ui/src/lib/content/docs-manifest.ts",
     );
   });
@@ -1782,7 +1782,13 @@ function promotedTargetError(root: string, item: ParityEntry) {
 
   const expectedComponentRoot = `packages/ui/src/components/ui/${item.id}`;
   const expectedParticle = `apps/ui/registry/default/particles/${item.id}.svelte`;
-  const expectedDoc = `apps/ui/content/docs/${item.id}.svx`;
+  const docTargetId =
+    item.id === "index"
+      ? "introduction"
+      : item.id.startsWith("hooks/")
+        ? `hooks-${item.id.slice("hooks/".length)}`
+        : item.id;
+  const expectedDoc = `apps/ui/content/docs/${docTargetId}.svx`;
   const isCanonical =
     (item.kind === "component" && path === expectedComponentRoot) ||
     (item.kind === "particle" && path === expectedParticle) ||

@@ -1,0 +1,61 @@
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+language: en-US
+early_access: false
+
+reviews:
+  profile: chill
+  request_changes_workflow: false
+  high_level_summary: true
+  poem: false
+  in_progress_fortune: false
+  review_status: true
+  review_details: true
+  collapse_walkthrough: true
+  sequence_diagrams: false
+  auto_review:
+    enabled: true
+    drafts: false
+    auto_incremental_review: true
+    auto_pause_after_reviewed_commits: 5
+    ignore_title_keywords:
+      - WIP
+      - "[skip review]"
+    ignore_usernames:
+      - "dependabot[bot]"
+      - "github-actions[bot]"
+  path_filters:
+    - "!apps/ui/registry.json"
+    - "!apps/ui/static/r/**"
+    - "!pnpm-lock.yaml"
+  path_instructions:
+    - path: "packages/ui/src/components/ui/**"
+      instructions: |
+        Treat the pinned COSS application source as the visual and content target and the matching
+        Shards UI primitive as the behavioral foundation. Check Svelte 5 API quality, forwarded
+        native attributes, compound namespace exports, keyboard and focus behavior, accessibility,
+        reduced motion, light and dark themes, tests, documentation, registry output, and the
+        component's evidence record. Flag React-era Svelte syntax and undocumented deviations.
+    - path: "apps/ui/content/**"
+      instructions: |
+        Check visible copy, examples, spacing, and API tables against the pinned COSS docs. Consumer
+        examples must use Svelte syntax, the documented @/ alias, and namespace composition such as
+        Card.Header. Prefer Tailwind utilities for ordinary docs layout and keep custom CSS limited
+        to selectors, motion, or geometry that utilities cannot express cleanly.
+    - path: "apps/ui/registry/**"
+      instructions: |
+        Check source provenance, dependency declarations, consumer-safe aliases, particle metadata,
+        deterministic generation, and parity with the package implementation. Registry transport
+        placeholders such as $LIB$ are intentional; authored $lib/ imports are not.
+    - path: "skills/coss-svelte/**"
+      instructions: |
+        Check that the skill matches current component pages, registry commands, Svelte namespace
+        APIs, Shards UI boundaries, accessibility, motion, and published machine-readable routes.
+        Do not allow it to invent props or translate React and Base UI APIs into consumer guidance.
+    - path: ".github/**"
+      instructions: |
+        Review workflow triggers, fork safety, least-privilege permissions, immutable action pins,
+        concurrency, deterministic evidence, and whether required checks remain runnable by public
+        contributors. Do not recommend publication or write permissions for pull-request jobs.
+
+chat:
+  auto_reply: true

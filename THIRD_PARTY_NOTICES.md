@@ -48,7 +48,7 @@ SOFTWARE.
 
 Source: <https://github.com/hugeicons/hugeicons>
 
-This project uses the `@hugeicons/svelte` renderer at version 1.1.5 and icons from `@hugeicons/core-free-icons` at version 4.3.0. The renderer, free icon pack, and upstream source are MIT-licensed. No Hugeicons Pro assets are included.
+This project uses icon data from `@hugeicons/core-free-icons` at version 4.3.0 with a local SSR-safe Svelte renderer. The installed package metadata declares the icon pack MIT-licensed. No Hugeicons Pro assets are included.
 
 ```text
 MIT License
@@ -128,6 +128,37 @@ The exact COSS data-table examples use the official Svelte adapter, `@tanstack/s
 MIT License
 
 Copyright (c) 2016 Tanner Linsley
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
+
+## React DayPicker 10.0.1
+
+The Calendar implementation was informed by React DayPicker's public behavior, types, DOM
+contract, and class names. React DayPicker is licensed under the MIT License.
+
+Source: https://github.com/gpbl/react-day-picker/tree/v10.0.1
+
+```text
+The MIT License (MIT)
+
+Copyright (c) 2014-2026 Giampaolo Bellavite <io@gpbl.dev> and contributors
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

@@ -8,6 +8,8 @@ export const forbiddenRoots = [
   "artifacts",
   "playwright-report",
   "test-results",
+  ".playwright-cli",
+  ".playwright-mcp",
 ];
 
 export function findForbiddenPaths(paths) {

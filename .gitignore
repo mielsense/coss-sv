@@ -11,6 +11,9 @@ coverage/
 playwright-report/
 test-results/
 artifacts/
+.playwright-cli/
+.playwright-mcp/
+apps/ui/.registry-smoke-*/
 
 # Local deployment and environment files
 .vercel/
@@ -22,8 +25,11 @@ artifacts/
 reference/
 shardsui/
 .worktrees/
+.agents/
+.claude/
+.codebase-memory/
 
 # Editor and operating-system files
 .DS_Store
 *.log
-
+pnpm-debug.log*

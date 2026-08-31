@@ -15,6 +15,9 @@ import {
   assertEffectivePackageManagerPath,
   assertIsolatedChildEnvironment,
   createIsolatedChildEnvironment,
+  createReferenceWorkspaceCompatibilityLinks,
+  parentProcessExists,
+  referenceServerArguments,
 } from "./reference-environment.mts";
 import {
   convertReferencePackageToPinnedPnpmWorkspace,
@@ -71,6 +74,7 @@ const childEnvironment = createIsolatedChildEnvironment(temporaryParent);
 let activeChild: ChildProcess | undefined;
 let interruptedSignal: NodeJS.Signals | undefined;
 let temporaryParentRemoved = false;
+const launcherParentPid = process.ppid;
 
 function assertSourceUnchanged() {
   if (!sourcePackageBefore.equals(readFileSync(sourcePackagePath))) {
@@ -124,7 +128,7 @@ function runPnpm(arguments_: string[], captureOutput = false) {
 
 function runReferenceServer() {
   return new Promise<void>((resolvePromise, reject) => {
-    activeChild = spawn("pnpm", ["--filter", "ui", "dev"], {
+    activeChild = spawn("pnpm", referenceServerArguments(), {
       cwd: temporaryReference,
       detached: process.platform !== "win32",
       env: childEnvironment,
@@ -165,6 +169,13 @@ function stopReference(signal: NodeJS.Signals) {
 
 process.once("SIGINT", () => stopReference("SIGINT"));
 process.once("SIGTERM", () => stopReference("SIGTERM"));
+const parentWatch = setInterval(() => {
+  if (parentProcessExists(launcherParentPid)) return;
+  const hadActiveChild = activeChild !== undefined;
+  stopReference("SIGTERM");
+  if (!hadActiveChild) process.exit(143);
+}, 1_000);
+parentWatch.unref();
 
 function cleanupTemporaryParent() {
   if (temporaryParentRemoved) return;
@@ -222,6 +233,7 @@ try {
   if (!generatedPnpmLock.equals(readFileSync(generatedPnpmLockPath))) {
     throw new Error("Frozen reference install changed the converted pnpm lockfile.");
   }
+  createReferenceWorkspaceCompatibilityLinks(temporaryReference);
   assertSourceUnchanged();
   await runReferenceServer();
 } catch (error) {

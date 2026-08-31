@@ -2,12 +2,27 @@
   "name": "coss-sv",
   "version": "0.0.0",
   "private": true,
+  "description": "Unofficial high-fidelity Svelte 5 port of the COSS UI component library.",
   "type": "module",
   "packageManager": "pnpm@10.22.0",
   "engines": {
     "node": ">=22.18 <25"
   },
   "license": "MIT",
+  "author": "Miel",
+  "homepage": "https://coss-sv.vercel.app",
+  "bugs": {
+    "url": "https://github.com/mielsense/coss-sv/issues"
+  },
+  "keywords": [
+    "components",
+    "coss",
+    "shadcn-svelte",
+    "shards-ui",
+    "svelte",
+    "sveltekit",
+    "tailwindcss"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/mielsense/coss-sv.git"
@@ -15,20 +30,20 @@
   "scripts": {
     "build": "turbo run build",
     "check": "turbo run check",
-    "ci": "pnpm verify && pnpm test && pnpm build && pnpm test:docs:e2e",
+    "ci": "pnpm verify && pnpm test && pnpm build && pnpm test:e2e && pnpm --filter @coss-sv/ui pack:check && pnpm --filter @coss-sv/docs registry:smoke && pnpm test:docs:e2e",
     "dev": "turbo run dev --parallel",
     "format": "pnpm format:biome && pnpm format:svelte",
-    "format:biome": "biome format --write --vcs-root=. .github apps docs packages scripts tests AGENTS.md CODE_OF_CONDUCT.md CONTRIBUTING.md NOTICE.md README.md SECURITY.md THIRD_PARTY_NOTICES.md biome.json package.json playwright.config.ts pnpm-workspace.yaml turbo.json vitest.workspace.ts",
-    "format:biome:check": "biome format --vcs-root=. .github apps docs packages scripts tests AGENTS.md CODE_OF_CONDUCT.md CONTRIBUTING.md NOTICE.md README.md SECURITY.md THIRD_PARTY_NOTICES.md biome.json package.json playwright.config.ts pnpm-workspace.yaml turbo.json vitest.workspace.ts",
+    "format:biome": "biome format --write --vcs-root=. .github apps docs packages scripts skills tests .coderabbit.yaml AGENTS.md CODE_OF_CONDUCT.md CONTRIBUTING.md NOTICE.md README.md SECURITY.md THIRD_PARTY_NOTICES.md biome.json package.json playwright.config.ts pnpm-workspace.yaml turbo.json vitest.workspace.ts",
+    "format:biome:check": "biome format --vcs-root=. .github apps docs packages scripts skills tests .coderabbit.yaml AGENTS.md CODE_OF_CONDUCT.md CONTRIBUTING.md NOTICE.md README.md SECURITY.md THIRD_PARTY_NOTICES.md biome.json package.json playwright.config.ts pnpm-workspace.yaml turbo.json vitest.workspace.ts",
     "format:check": "pnpm format:biome:check && pnpm format:svelte:check",
     "format:svelte": "prettier --write \"apps/**/*.svelte\" \"packages/**/*.svelte\" && prettier --write --parser mdx \"apps/**/*.svx\"",
     "format:svelte:check": "prettier --check \"apps/**/*.svelte\" \"packages/**/*.svelte\" && prettier --check --parser mdx \"apps/**/*.svx\"",
-    "lint": "biome lint --vcs-root=. .github apps docs packages scripts tests AGENTS.md CODE_OF_CONDUCT.md CONTRIBUTING.md NOTICE.md README.md SECURITY.md THIRD_PARTY_NOTICES.md biome.json package.json playwright.config.ts pnpm-workspace.yaml turbo.json vitest.workspace.ts",
+    "lint": "biome lint --vcs-root=. .github apps docs packages scripts skills tests .coderabbit.yaml AGENTS.md CODE_OF_CONDUCT.md CONTRIBUTING.md NOTICE.md README.md SECURITY.md THIRD_PARTY_NOTICES.md biome.json package.json playwright.config.ts pnpm-workspace.yaml turbo.json vitest.workspace.ts",
     "parity:check": "node scripts/parity/inventory.mts --check",
     "parity:write": "node scripts/parity/inventory.mts --write",
     "registry:build": "pnpm --dir=apps/ui run registry:build",
     "registry:check": "pnpm --dir=apps/ui run registry:check",
-    "test": "pnpm test:repo && turbo run build && pnpm test:harness && turbo run test:unit",
+    "test": "pnpm test:repo && turbo run build && pnpm test:harness && turbo run test:unit --concurrency=1",
     "test:docs:browser": "pnpm --filter @coss-sv/docs test:browser",
     "test:docs:e2e": "pnpm --filter @coss-sv/docs test:e2e",
     "test:e2e": "playwright test --config playwright.config.ts",

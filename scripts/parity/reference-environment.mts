@@ -1,4 +1,11 @@
-import { mkdirSync, writeFileSync } from "node:fs";
+import {
+  existsSync,
+  mkdirSync,
+  readFileSync,
+  realpathSync,
+  symlinkSync,
+  writeFileSync,
+} from "node:fs";
 import { delimiter, dirname, isAbsolute, relative, resolve } from "node:path";
 
 export const isolatedPathEnvironmentKeys = [
@@ -21,6 +28,23 @@ export const isolatedPathEnvironmentKeys = [
   "TMPDIR",
 ] as const;
 
+export function referenceServerArguments(): string[] {
+  return ["--filter", "ui", "exec", "next", "dev", "--webpack", "--port", "4000"];
+}
+
+export function parentProcessExists(
+  pid: number,
+  probe: (pid: number, signal: 0) => unknown = process.kill,
+): boolean {
+  try {
+    probe(pid, 0);
+    return true;
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code === "ESRCH") return false;
+    throw error;
+  }
+}
+
 function assertBelowRoot(root: string, value: string, key: string) {
   const normalizedRoot = resolve(root);
   const normalizedValue = resolve(value);
@@ -28,6 +52,32 @@ function assertBelowRoot(root: string, value: string, key: string) {
   if (!isAbsolute(normalizedValue) || pathFromRoot.startsWith("..") || isAbsolute(pathFromRoot)) {
     throw new Error(`${key} escapes the temporary reference root: ${value}`);
   }
+}
+
+export function createReferenceWorkspaceCompatibilityLinks(root: string) {
+  const packageRoot = resolve(root, "packages/ui");
+  const packageManifest = JSON.parse(
+    readFileSync(resolve(packageRoot, "package.json"), "utf8"),
+  ) as {
+    name?: unknown;
+  };
+  if (packageManifest.name !== "@coss/ui") {
+    throw new Error("Pinned reference packages/ui must be the @coss/ui workspace package.");
+  }
+
+  const link = resolve(root, "apps/node_modules/@coss/ui");
+  assertBelowRoot(root, packageRoot, "@coss/ui workspace package");
+  assertBelowRoot(root, link, "@coss/ui compatibility link");
+  if (existsSync(link)) {
+    throw new Error(`Refusing to replace an existing compatibility link: ${link}`);
+  }
+
+  mkdirSync(dirname(link), { recursive: true });
+  symlinkSync(relative(dirname(link), packageRoot), link, "dir");
+  if (realpathSync(link) !== realpathSync(packageRoot)) {
+    throw new Error("The @coss/ui compatibility link did not resolve to packages/ui.");
+  }
+  return link;
 }
 
 export function assertIsolatedChildEnvironment(

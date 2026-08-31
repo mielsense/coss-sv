@@ -201,7 +201,7 @@ Single-element components use named imports:
 
 ```svelte
 <script lang="ts">
-  import { Button } from "$lib/components/ui/button/index.js";
+  import { Button } from "@/components/ui/button/index.js";
 </script>
 
 <Button>Save changes</Button>
@@ -211,7 +211,7 @@ Compound components use namespace imports and an explicit `.Root` part:
 
 ```svelte
 <script lang="ts">
-  import * as Accordion from "$lib/components/ui/accordion/index.js";
+  import * as Accordion from "@/components/ui/accordion/index.js";
 </script>
 
 <Accordion.Root>
