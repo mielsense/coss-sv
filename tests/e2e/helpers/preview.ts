@@ -1,6 +1,7 @@
 import AxeBuilder from "@axe-core/playwright";
 import type { Locator, Page, TestInfo } from "@playwright/test";
 import { type PreviewWidth, previewWidths } from "../../../apps/ui/src/lib/preview/contract.js";
+export { assertFontMetricWidth } from "./font-metrics.js";
 import { createLocalPreviewOrigins, targetPreviewPort } from "./ports.js";
 
 type ConsoleGuard = {
@@ -26,22 +27,6 @@ export const previewViewportHeights = {
   tablet: 1024,
   desktop: 800,
 } as const satisfies Record<PreviewWidth, number>;
-
-export function assertFontMetricWidth(
-  received: number | undefined,
-  expected: number,
-  maximumRelativeDifference = 0.015,
-): void {
-  if (received === undefined) throw new Error("Element has no measurable width.");
-
-  const tolerance = Math.max(1, expected * maximumRelativeDifference);
-  const difference = Math.abs(received - expected);
-  if (difference > tolerance) {
-    throw new Error(
-      `Expected font-derived width ${received}px to be within ${tolerance}px of ${expected}px.`,
-    );
-  }
-}
 
 export async function cssColorsToRgba(page: Page, colors: readonly string[]): Promise<number[][]> {
   return page.evaluate((values) => {
