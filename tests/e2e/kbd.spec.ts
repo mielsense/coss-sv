@@ -1,5 +1,10 @@
 import { expect, type Page, test } from "@playwright/test";
-import { assertNoAxeViolations, monitorConsole, openReadyPreview } from "./helpers/preview.js";
+import {
+  assertFontMetricWidth,
+  assertNoAxeViolations,
+  monitorConsole,
+  openReadyPreview,
+} from "./helpers/preview.js";
 
 async function assertKbdAxe(page: Page, theme: "dark" | "light") {
   if (theme === "light") {
@@ -42,7 +47,7 @@ test("renders the exact Kbd particle contract at desktop and mobile widths", asy
     const particleBox = await particleRoot.boundingBox();
     const viewport = page.viewportSize();
     if (!viewport) throw new Error("Kbd parity page has no viewport.");
-    expect(particleBox?.width).toBeCloseTo(251.695, 1);
+    assertFontMetricWidth(particleBox?.width, 251.695);
     expect(particleBox?.height).toBe(112);
     expect((particleBox?.x ?? 0) + (particleBox?.width ?? 0) / 2).toBeCloseTo(
       viewport.width / 2,

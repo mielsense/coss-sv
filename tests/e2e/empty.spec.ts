@@ -1,5 +1,10 @@
 import { expect, test } from "@playwright/test";
-import { assertNoAxeViolations, monitorConsole, openReadyPreview } from "./helpers/preview.js";
+import {
+  assertFontMetricWidth,
+  assertNoAxeViolations,
+  monitorConsole,
+  openReadyPreview,
+} from "./helpers/preview.js";
 
 test("renders the exact p-empty-1 particle at desktop and mobile widths", async ({
   page,
@@ -45,7 +50,7 @@ test("renders the exact p-empty-1 particle at desktop and mobile widths", async 
       });
       return { buttons, height: rect.height, width: rect.width };
     });
-    expect(measurements.width).toBeCloseTo(width === "desktop" ? 287.25 : 311.609_375, 3);
+    assertFontMetricWidth(measurements.width, width === "desktop" ? 287.25 : 311.609_375);
     expect(measurements.height).toBe(width === "desktop" ? 324 : 264);
     expect(measurements.buttons.map(({ height }) => height)).toEqual(
       width === "desktop" ? [28, 28] : [32, 32],
@@ -56,7 +61,7 @@ test("renders the exact p-empty-1 particle at desktop and mobile widths", async 
     const expectedButtonWidths =
       width === "desktop" ? [124.546_875, 106.703_125] : [138.031_25, 117.578_125];
     for (const [index, expectedWidth] of expectedButtonWidths.entries()) {
-      expect(measurements.buttons[index]?.width).toBeCloseTo(expectedWidth, 3);
+      assertFontMetricWidth(measurements.buttons[index]?.width, expectedWidth);
     }
 
     await page.keyboard.press("Tab");

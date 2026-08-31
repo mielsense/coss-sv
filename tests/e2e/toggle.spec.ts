@@ -1,5 +1,6 @@
 import { expect, test } from "@playwright/test";
 import {
+  assertFontMetricWidth,
   assertNoAxeViolations,
   monitorConsole,
   openReadyPreview,
@@ -60,7 +61,7 @@ test("matches the seven COSS Toggle particles at desktop and mobile widths", asy
         height: expected[index].height,
         paddingInline: `${[7, 7, 7, 5, 9, 7][index]}px`,
       });
-      expect(renderedWidth).toBeCloseTo(expected[index].width, 1);
+      assertFontMetricWidth(renderedWidth, expected[index].width);
     }
 
     await expect(particles.nth(0).getByRole("button", { name: "Toggle" })).toHaveAttribute(

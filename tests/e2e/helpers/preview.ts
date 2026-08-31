@@ -27,6 +27,22 @@ export const previewViewportHeights = {
   desktop: 800,
 } as const satisfies Record<PreviewWidth, number>;
 
+export function assertFontMetricWidth(
+  received: number | undefined,
+  expected: number,
+  maximumRelativeDifference = 0.015,
+): void {
+  if (received === undefined) throw new Error("Element has no measurable width.");
+
+  const tolerance = Math.max(1, expected * maximumRelativeDifference);
+  const difference = Math.abs(received - expected);
+  if (difference > tolerance) {
+    throw new Error(
+      `Expected font-derived width ${received}px to be within ${tolerance}px of ${expected}px.`,
+    );
+  }
+}
+
 export async function cssColorsToRgba(page: Page, colors: readonly string[]): Promise<number[][]> {
   return page.evaluate((values) => {
     const canvas = document.createElement("canvas");

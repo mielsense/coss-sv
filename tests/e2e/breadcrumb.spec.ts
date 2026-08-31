@@ -1,5 +1,6 @@
 import { expect, type Page, test } from "@playwright/test";
 import {
+  assertFontMetricWidth,
   assertNoAxeViolations,
   monitorConsole,
   openReadyPreview,
@@ -61,7 +62,7 @@ test("renders the complete Breadcrumb contract at desktop and mobile widths", as
     expect(listStyle.fontSize).toBe("14px");
     expect(listStyle.gap).toBe(width === "mobile" ? "6px" : "10px");
     expect(listStyle.height).toBe(width === "mobile" ? 46 : 20);
-    expect(listStyle.width).toBeCloseTo(width === "mobile" ? 308 : 332.05, 1);
+    assertFontMetricWidth(listStyle.width, width === "mobile" ? 308 : 332.05);
 
     const triggerBox = await menuTrigger.boundingBox();
     expect(triggerBox).toMatchObject({
