@@ -6,6 +6,7 @@
   import { filterParticles, getParticleSearchItems, parseParticleTags } from "@/particles/model.js";
   import type { Component } from "svelte";
   import { getParticlePreview } from "@/registry/particle-previews.js";
+  import { getParticleSource } from "@/registry/particle-sources.js";
 
   const availableParticles = particleCatalog;
   const searchItems = getParticleSearchItems(availableParticles);
@@ -54,7 +55,11 @@
       data-particle-grid
     >
       {#each filteredParticles as particle (particle.name)}
-        <ParticleCard loadComponent={() => loadParticleComponent(particle.name)} {particle} />
+        <ParticleCard
+          loadComponent={() => loadParticleComponent(particle.name)}
+          loadSource={() => getParticleSource(particle.name)}
+          {particle}
+        />
       {/each}
     </div>
   {/if}

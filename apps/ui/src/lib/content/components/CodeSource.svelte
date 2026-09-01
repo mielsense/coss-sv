@@ -1,24 +1,50 @@
 <script lang="ts">
-  import type { HighlightedSource } from "../../code/highlight.js";
+  import type {
+    HighlightedSource,
+    HighlightedToken,
+    HighlightedTokenStyle,
+  } from "../../code/highlight.js";
   import CopyButton from "./CopyButton.svelte";
+
+  const fallbackStyle: HighlightedTokenStyle = {
+    dark: {
+      color: "currentColor",
+      fontStyle: "normal",
+      fontWeight: "normal",
+      textDecoration: "none",
+    },
+    light: {
+      color: "currentColor",
+      fontStyle: "normal",
+      fontWeight: "normal",
+      textDecoration: "none",
+    },
+  };
 
   type Props = {
     embedded?: boolean;
+    fill?: boolean;
     height?: number;
     source: HighlightedSource;
     title?: string;
   };
 
-  let { embedded = false, height = 450, source, title }: Props = $props();
+  let { embedded = false, fill = false, height = 450, source, title }: Props = $props();
+
+  function styleFor(token: HighlightedToken): HighlightedTokenStyle {
+    return source.palette[token[1]] ?? fallbackStyle;
+  }
 </script>
 
 <figure
   class={[
     "relative overflow-hidden bg-code text-code-foreground",
-    embedded ? "m-0 h-[var(--source-height)] rounded-none border-0" : "my-6 rounded-xl border",
+    embedded
+      ? ["m-0 rounded-none border-0", fill ? "h-full" : "h-[var(--source-height)]"]
+      : "my-6 rounded-xl border",
   ]}
   data-preview-source={embedded ? "embedded" : undefined}
-  style:--source-height={`${height}px`}
+  style:--source-height={fill ? undefined : `${height}px`}
 >
   {#if title}
     <figcaption class="flex min-h-10 items-center border-b px-4 font-mono text-xs opacity-80">
@@ -32,22 +58,26 @@
     class={[
       "shiki max-w-full text-xs",
       embedded
-        ? "m-0 box-border h-[var(--source-height)] overflow-auto rounded-none border-0 [padding:14px_16px_14px_0] text-[0.8125rem] leading-6"
+        ? [
+            "m-0 box-border overflow-auto rounded-none border-0 [padding:14px_16px_14px_0] text-[0.8125rem] leading-6",
+            fill ? "h-full" : "h-[var(--source-height)]",
+          ]
         : "overflow-x-auto px-4 py-3.5",
     ]}
     data-language={source.language}><code data-line-numbers={embedded ? "" : undefined}
       >{#each source.lines as line, lineIndex (lineIndex)}<span
           class={["line", embedded && "block w-full min-w-max py-0.5"]}
           data-line={embedded ? "" : undefined}
-          >{#each line as token, tokenIndex (`${lineIndex}-${tokenIndex}`)}<span
-              style:--shiki-light={token.light.color}
-              style:--shiki-light-font-style={token.light.fontStyle}
-              style:--shiki-light-font-weight={token.light.fontWeight}
-              style:--shiki-light-text-decoration={token.light.textDecoration}
-              style:--shiki-dark={token.dark.color}
-              style:--shiki-dark-font-style={token.dark.fontStyle}
-              style:--shiki-dark-font-weight={token.dark.fontWeight}
-              style:--shiki-dark-text-decoration={token.dark.textDecoration}>{token.content}</span
+          >{#each line as token, tokenIndex (`${lineIndex}-${tokenIndex}`)}{const tokenStyle =
+              styleFor(token)}<span
+              style:--shiki-light={tokenStyle.light.color}
+              style:--shiki-light-font-style={tokenStyle.light.fontStyle}
+              style:--shiki-light-font-weight={tokenStyle.light.fontWeight}
+              style:--shiki-light-text-decoration={tokenStyle.light.textDecoration}
+              style:--shiki-dark={tokenStyle.dark.color}
+              style:--shiki-dark-font-style={tokenStyle.dark.fontStyle}
+              style:--shiki-dark-font-weight={tokenStyle.dark.fontWeight}
+              style:--shiki-dark-text-decoration={tokenStyle.dark.textDecoration}>{token[0]}</span
             >{/each}</span
         >{#if !embedded && lineIndex < source.lines.length - 1}{"\n"}{/if}{/each}</code
     ></pre>

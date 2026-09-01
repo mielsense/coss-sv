@@ -65,8 +65,20 @@ describe("documentation test memory safety", () => {
     const observer = source("src/lib/particles/near-viewport.ts");
 
     expect(page).toContain("loadComponent={() => loadParticleComponent(particle.name)}");
+    expect(page).toContain("loadSource={() => getParticleSource(particle.name)}");
     expect(page).not.toMatch(/component=\{(?:particleComponent|loadParticleComponent)\(/);
     expect(card).toContain("nearViewport(requestPreview)");
+    const requestPreview = card.match(
+      /function requestPreview\(\): void \{([\s\S]*?)\n {2}\}/,
+    )?.[1];
+    expect(requestPreview).not.toContain("requestSource");
+    expect(card).toContain("onpointerenter={requestSource}");
+    expect(card).toContain("onfocus={requestSource}");
+    expect(card).not.toContain("onMount(requestSource)");
+    expect(card).toContain("await sourceRequest");
+    expect(card).toContain("open={drawerOpen}");
+    expect(card).not.toContain('aria-hidden="true"></div>');
+    expect(card).not.toContain("fetch(");
     expect(observer.match(/new IntersectionObserver/g)).toHaveLength(1);
     expect(observer).toContain('rootMargin: "600px 0px"');
     expect(card).toContain("{@attach loadWhenVisible}");
@@ -86,14 +98,17 @@ describe("documentation test memory safety", () => {
     expect(transformed?.code).toContain(
       'const __cossParticleLoader1 = () => import("$particles/p-button-2.svelte");',
     );
-    expect(transformed?.code).not.toMatch(/<ComponentPreview[^>]+(?:component|source)=\{/);
+    expect(transformed?.code).not.toMatch(/<ComponentPreview[^>]+component=\{/);
     expect(transformed?.code.match(/loader=\{__cossParticleLoader\d+\}/g)).toHaveLength(2);
+    expect(transformed?.code.match(/source=\{__cossParticleSource\d+\}/g)).toHaveLength(2);
+    expect(transformed?.code.match(/const __cossParticleSource\d+ =/g)).toHaveLength(2);
     expect(transformed?.code.match(/<ComponentPreview name=/g)).toHaveLength(2);
     expect(transformed?.code).not.toContain("<iframe");
     const previewCard = source("src/lib/content/components/PreviewCard.svelte");
     expect(previewCard).not.toContain("<iframe");
     expect(previewCard).toContain('{#if tab === "code"}');
-    expect(previewCard).toContain("/api/particle-source/");
+    expect(previewCard).not.toContain("/api/particle-source/");
+    expect(previewCard).not.toContain("Loading source");
   });
 
   test("server-renders the heaviest docs page without eager hidden source trees", async () => {

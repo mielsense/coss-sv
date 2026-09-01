@@ -3,74 +3,33 @@
   import { HugeiconsIcon } from "@coss-sv/ui";
   import * as Tabs from "@coss-sv/ui/components/ui/tabs";
   import { onMount } from "svelte";
-  import type { ComponentSourceBundle, ComponentSourceFile } from "@/content/component-source.js";
+  import type { ComponentSourceFile } from "@/content/component-source.js";
   import CodeSource from "./CodeSource.svelte";
   import CopyButton from "./CopyButton.svelte";
 
   let {
     dependencies = [],
     files = [],
-    registryNames = [],
     shadcnSvelte,
   }: {
     dependencies?: readonly string[];
     files?: readonly ComponentSourceFile[];
-    registryNames?: readonly string[];
     shadcnSvelte: string;
   } = $props();
   let selected = $state<Tabs.TabsValue>("cli");
   let selectedFile = $state<Tabs.TabsValue>();
-  let remoteSource = $state<ComponentSourceBundle>();
-  let sourceError = $state<string>();
-  let sourceLoading = $state(false);
-  const resolvedDependencies = $derived(remoteSource?.dependencies ?? dependencies);
-  const resolvedFiles = $derived(remoteSource?.files ?? files);
-  const dependencyCommand = $derived(`pnpm add ${resolvedDependencies.join(" ")}`);
+  const dependencyCommand = $derived(`pnpm add ${dependencies.join(" ")}`);
 
   onMount(() => {
     const saved = localStorage.getItem("coss-installation-method");
     if (saved === "cli" || saved === "manual") selected = saved;
-    selectedFile ??= resolvedFiles[0]?.path;
+    selectedFile ??= files[0]?.path;
   });
 
   $effect(() => {
     if (selected === "cli" || selected === "manual") {
       localStorage.setItem("coss-installation-method", selected);
     }
-  });
-
-  $effect(() => {
-    if (selected !== "manual" || files.length > 0 || registryNames.length === 0 || remoteSource) {
-      return;
-    }
-
-    const controller = new AbortController();
-    const params = new URLSearchParams();
-    for (const name of registryNames) params.append("name", name);
-    sourceLoading = true;
-    sourceError = undefined;
-    void fetch(`/api/registry-source?${params}`, { signal: controller.signal })
-      .then(async (response) => {
-        const result = (await response.json()) as ComponentSourceBundle | { message?: string };
-        if (!response.ok || !("files" in result)) {
-          throw new Error(
-            "message" in result && result.message
-              ? result.message
-              : "Component source unavailable.",
-          );
-        }
-        remoteSource = result;
-        selectedFile ??= result.files[0]?.path;
-      })
-      .catch((error: unknown) => {
-        if (error instanceof DOMException && error.name === "AbortError") return;
-        sourceError = error instanceof Error ? error.message : "Component source unavailable.";
-      })
-      .finally(() => {
-        if (!controller.signal.aborted) sourceLoading = false;
-      });
-
-    return () => controller.abort();
   });
 </script>
 
@@ -106,7 +65,7 @@
 
   <Tabs.Panel value="manual">
     <ol class="m-0 grid gap-6 ps-6 [&_li]:ps-1 [&_p]:mb-3 [&_p]:mt-0">
-      {#if resolvedDependencies.length > 0}
+      {#if dependencies.length > 0}
         <li>
           <p>Install the following dependencies:</p>
           <div
@@ -133,28 +92,24 @@
       {/if}
       <li>
         <p>Copy and paste the following component files into your project.</p>
-        {#if resolvedFiles.length > 0}
+        {#if files.length > 0}
           <Tabs.Root class="min-w-0 [&_figure]:mt-2" bind:value={selectedFile}>
             <Tabs.List
               aria-label="Component source files"
               class="max-w-full overflow-x-auto bg-transparent p-0 *:data-[slot=tab-indicator]:rounded-lg *:data-[slot=tab-indicator]:bg-accent *:data-[slot=tab-indicator]:shadow-none"
             >
-              {#each resolvedFiles as file (file.path)}
+              {#each files as file (file.path)}
                 <Tabs.Tab class="rounded-lg font-mono text-xs" value={file.path}>
                   {file.path.split("/").at(-1)}
                 </Tabs.Tab>
               {/each}
             </Tabs.List>
-            {#each resolvedFiles as file (file.path)}
+            {#each files as file (file.path)}
               <Tabs.Panel value={file.path}>
                 <CodeSource source={file.source} title={file.path} />
               </Tabs.Panel>
             {/each}
           </Tabs.Root>
-        {:else if sourceLoading}
-          <p class="text-muted-foreground text-sm">Loading component source…</p>
-        {:else if sourceError}
-          <p class="text-destructive text-sm">{sourceError}</p>
         {:else}
           <p class="text-muted-foreground text-sm">Component source is unavailable.</p>
         {/if}

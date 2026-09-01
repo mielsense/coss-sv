@@ -79,7 +79,14 @@ describe("documentation compiler", () => {
 
     expect(block?.language).toBe("svelte");
     expect(block?.raw).toContain('import * as Accordion from "@/components/ui/accordion";');
-    expect(block?.lines.flat().some((token) => token.light.color !== token.dark.color)).toBe(true);
+    expect(block?.palette.length).toBeLessThan(block?.lines.flat().length ?? 0);
+    expect(
+      block?.lines
+        .flat()
+        .some(
+          (token) => block.palette[token[1]]?.light.color !== block.palette[token[1]]?.dark.color,
+        ),
+    ).toBe(true);
   });
 
   test("resolves previews and exposes the registry install command", async () => {

@@ -17,7 +17,7 @@
     iframeHeight?: number;
     loader?: ParticleModuleLoader;
     name: string;
-    source?: HighlightedSource;
+    source: HighlightedSource;
     theme?: PreviewTheme;
     title?: string;
     width?: PreviewWidth;
@@ -49,8 +49,6 @@
   let requestedPreviewLoader: ParticleModuleLoader | undefined;
   const resolvedContainerClass = $derived([previewEntry?.meta.containerClass, containerClass]);
   const resolvedHeight = $derived(iframeHeight ?? 450);
-  let sourceRequest: Promise<HighlightedSource> | undefined;
-  let requestedSourceName: string | undefined;
 
   function requestPreview(): void {
     if (
@@ -96,26 +94,6 @@
   }
 
   const loadWhenVisible = nearViewport(requestPreview);
-
-  async function requestParticleSource(particleName: string): Promise<HighlightedSource> {
-    const response = await fetch(`/api/particle-source/${encodeURIComponent(particleName)}`);
-    const result = (await response.json()) as HighlightedSource | { message?: string };
-    if (!response.ok || !("raw" in result)) {
-      throw new Error(
-        "message" in result && result.message ? result.message : "Source unavailable.",
-      );
-    }
-    return result;
-  }
-
-  function getSource(): Promise<HighlightedSource> {
-    if (source) return Promise.resolve(source);
-    if (!sourceRequest || requestedSourceName !== name) {
-      requestedSourceName = name;
-      sourceRequest = requestParticleSource(name);
-    }
-    return sourceRequest;
-  }
 </script>
 
 {#snippet panelContent()}
@@ -171,15 +149,7 @@
   {/if}
   {#if tab === "code"}
     <div class="absolute inset-0 overflow-hidden" data-source-panel="true">
-      {#await getSource()}
-        <p class="p-4 text-muted-foreground text-sm" data-source-loading="true">Loading source…</p>
-      {:then loadedSource}
-        <CodeSource embedded height={resolvedHeight} source={loadedSource} />
-      {:catch error}
-        <p class="p-4 text-destructive text-sm" data-source-load-error="true">
-          {error instanceof Error ? error.message : "Source unavailable."}
-        </p>
-      {/await}
+      <CodeSource embedded height={resolvedHeight} {source} />
     </div>
   {/if}
 {/snippet}

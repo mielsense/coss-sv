@@ -2,31 +2,34 @@
   import InformationCircleIcon from "@hugeicons/core-free-icons/InformationCircleIcon";
   import * as Card from "@coss-sv/ui/components/ui/card";
   import { buttonVariants, Drawer, HugeiconsIcon, Skeleton } from "@coss-sv/ui";
-  import { onDestroy, type Component } from "svelte";
+  import type { Component } from "svelte";
+  import CodeSource from "@/content/components/CodeSource.svelte";
   import CopyButton from "@/content/components/CopyButton.svelte";
+  import type { HighlightedSource } from "@/code/highlight.js";
   import type { ParticleCatalogEntry } from "./catalog.js";
   import { nearViewport } from "./near-viewport.js";
-
-  type RegistryResponse = {
-    files?: Array<{ content?: string; target?: string }>;
-  };
+  import ParticleInstallCommand from "./ParticleInstallCommand.svelte";
 
   let {
     loadComponent,
+    loadSource,
     particle,
   }: {
     loadComponent: () => Promise<Component>;
+    loadSource: () => Promise<HighlightedSource>;
     particle: ParticleCatalogEntry;
   } = $props();
 
   const registryHref = $derived(`/r/${particle.name}.json`);
   const registryUrl = $derived(`https://coss-sv.vercel.app${registryHref}`);
-  const installCommand = $derived(`pnpm dlx shadcn-svelte@latest add ${registryUrl}`);
+  const openInV0Url = $derived(
+    `https://v0.dev/chat/api/open?url=${encodeURIComponent(registryUrl)}`,
+  );
+  let drawerOpen = $state(false);
   let previewComponent = $state.raw<Promise<Component>>();
-  let source = $state("");
+  let source = $state.raw<HighlightedSource>();
   let sourceError = $state("");
-  let sourceController: AbortController | undefined;
-  let sourceRequest: Promise<void> | undefined;
+  let sourceRequest = $state.raw<Promise<void>>();
 
   function requestPreview(): void {
     previewComponent ??= loadComponent();
@@ -34,32 +37,22 @@
 
   const loadWhenVisible = nearViewport(requestPreview);
 
-  function loadSource(): void {
+  function requestSource(): void {
     if (source || sourceError || sourceRequest) return;
-    const controller = new AbortController();
-    sourceController = controller;
-    sourceRequest = (async () => {
-      try {
-        const response = await fetch(registryHref, { signal: controller.signal });
-        if (!response.ok) throw new Error(`Registry request returned ${response.status}`);
-        const registry = (await response.json()) as RegistryResponse;
-        if (controller.signal.aborted) return;
-        source =
-          registry.files?.find(({ target }) => target?.endsWith(`${particle.name}.svelte`))
-            ?.content ?? "";
-        if (!source) sourceError = "Source is unavailable for this particle.";
-      } catch (error) {
-        if (!(error instanceof DOMException && error.name === "AbortError")) {
-          sourceError = "Source is unavailable for this particle.";
-        }
-      } finally {
-        if (sourceController === controller) sourceController = undefined;
-        sourceRequest = undefined;
-      }
-    })();
+    sourceRequest = loadSource()
+      .then((loadedSource) => {
+        source = loadedSource;
+      })
+      .catch((error: unknown) => {
+        sourceError = error instanceof Error ? error.message : "Source is unavailable.";
+      });
   }
 
-  onDestroy(() => sourceController?.abort());
+  async function openDrawer(): Promise<void> {
+    requestSource();
+    await sourceRequest;
+    drawerOpen = true;
+  }
 </script>
 
 <div
@@ -109,13 +102,24 @@
           title="Copy registry URL"
           value={registryUrl}
         />
-        <Drawer.Root position="right">
-          <Drawer.Trigger
+        <Drawer.Root
+          onOpenChange={(open) => (drawerOpen = open)}
+          open={drawerOpen}
+          position="right"
+        >
+          <button
+            aria-expanded={drawerOpen}
+            aria-haspopup="dialog"
             class={buttonVariants({ class: "text-sm", size: "sm", variant: "outline" })}
-            onclick={loadSource}
+            data-slot="drawer-trigger"
+            onfocus={requestSource}
+            onclick={() => void openDrawer()}
+            onpointerenter={requestSource}
+            ontouchstart={requestSource}
+            type="button"
           >
             View code
-          </Drawer.Trigger>
+          </button>
           <Drawer.Popup class="max-w-4xl" showBar showCloseButton={false} variant="straight">
             <Drawer.Content class="flex flex-1 flex-col overflow-hidden p-6">
               <div>
@@ -125,24 +129,29 @@
                 <Drawer.Description class="sr-only">
                   Install and inspect {particle.name}.
                 </Drawer.Description>
-                <div class="relative overflow-hidden rounded-xl border bg-muted/40">
-                  <CopyButton class="absolute top-1.5 right-1.5 z-1" value={installCommand} />
-                  <pre class="overflow-x-auto p-4 pe-12 text-sm"><code>{installCommand}</code></pre>
-                </div>
+                <ParticleInstallCommand {registryUrl} />
               </div>
               <div class="flex min-h-0 flex-1 flex-col overflow-hidden">
-                <h2 class="mt-6 mb-4 font-heading font-semibold text-xl">Code</h2>
+                <div class="flex items-center justify-between gap-2">
+                  <h2 class="mt-6 mb-4 font-heading font-semibold text-xl">Code</h2>
+                  <a
+                    class={buttonVariants({ variant: "outline" })}
+                    href={openInV0Url}
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Open in <span class="sr-only">v0</span><span
+                      aria-hidden="true"
+                      class="font-semibold tracking-tight">v0</span
+                    >
+                  </a>
+                </div>
                 {#if sourceError}
                   <p class="text-muted-foreground text-sm">{sourceError}</p>
                 {:else if source}
-                  <div
-                    class="relative min-h-0 flex-1 overflow-hidden rounded-xl border bg-muted/40"
-                  >
-                    <CopyButton class="absolute top-1.5 right-1.5 z-1" value={source} />
-                    <pre class="h-full overflow-auto p-4 pe-12 text-sm"><code>{source}</code></pre>
+                  <div class="relative min-h-0 flex-1 overflow-hidden rounded-xl border bg-code">
+                    <CodeSource embedded fill {source} />
                   </div>
-                {:else}
-                  <p class="text-muted-foreground text-sm">Loading source…</p>
                 {/if}
               </div>
             </Drawer.Content>

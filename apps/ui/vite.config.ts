@@ -7,6 +7,7 @@ import { mdsvex } from "mdsvex";
 import { searchForWorkspaceRoot } from "vite";
 import { defineConfig } from "vitest/config";
 import { hugeiconsSubpathImports } from "../../scripts/vite/hugeicons-subpath-imports.js";
+import { highlightedParticleSource } from "../../scripts/vite/highlighted-particle-source.js";
 import { appAliases } from "./vite.aliases.js";
 import {
   documentationComponents,
@@ -22,6 +23,7 @@ export default defineConfig({
     },
   },
   plugins: [
+    highlightedParticleSource(),
     hugeiconsSubpathImports(),
     tailwindcss(),
     sveltekit({

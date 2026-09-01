@@ -5,6 +5,7 @@ import { loadRegistryComponentSource } from "../server/registry-component-source
 import { createFilesystemRegistryDocumentLoader } from "../server/registry-source-filesystem.js";
 import { createDocumentationHeadingSlugger } from "./headings.js";
 import { withoutFencedCode } from "./markdown.js";
+import { highlightRegistryParticleSource } from "./particle-source.js";
 
 export const documentationComponentNames = [
   "ApiTable",
@@ -119,12 +120,14 @@ export const documentationHeadings: Plugin = () => (tree) => {
   }
 };
 
-function injectPreviewLoaders(content: string): { declarations: string[]; source: string } {
+async function injectPreviewLoaders(
+  content: string,
+): Promise<{ declarations: string[]; source: string }> {
   const masked = withoutFencedCode(content);
   const matches = [...masked.matchAll(/<ComponentPreview\b((?:[^>"']|"[^"]*"|'[^']*')*?)\s*\/>/g)];
   const declarations: string[] = [];
   const replacements: Array<{ end: number; start: number; value: string }> = [];
-  const variables = new Map<string, string>();
+  const ids = new Set<string>();
 
   for (const match of matches) {
     const attributes = match[1] ?? "";
@@ -143,19 +146,40 @@ function injectPreviewLoaders(content: string): { declarations: string[]; source
       throw new Error(`ComponentPreview loader for ${id} is compiler-owned`);
     }
 
-    let variable = variables.get(id);
-    if (!variable) {
-      variable = `__cossParticleLoader${variables.size}`;
-      variables.set(id, variable);
-      declarations.push(`const ${variable} = () => import("$particles/${id}.svelte");`);
-    }
+    ids.add(id);
+  }
 
+  const previewSources = await Promise.all(
+    [...ids].map(async (id, index) => {
+      const loader = `__cossParticleLoader${index}`;
+      const source = `__cossParticleSource${index}`;
+      const highlighted = await highlightRegistryParticleSource(id, await loadRegistryDocument(id));
+      return { highlighted, id, loader, source };
+    }),
+  );
+  const variables = new Map(
+    previewSources.map(({ id, loader, source }) => [id, { loader, source }] as const),
+  );
+  for (const { highlighted, id, loader, source } of previewSources) {
+    declarations.push(`const ${loader} = () => import("$particles/${id}.svelte");`);
+    declarations.push(`const ${source} = ${serializeForScript(highlighted)};`);
+  }
+
+  for (const match of matches) {
+    const attributes = match[1] ?? "";
+    const id = /\bname=["']([^"']+)["']/.exec(attributes)?.[1];
+    if (!id) continue;
+    const variablesForParticle = variables.get(id);
+    if (!variablesForParticle) continue;
     const start = match.index ?? 0;
     const original = content.slice(start, start + match[0].length);
     replacements.push({
       end: start + match[0].length,
       start,
-      value: original.replace(/\s*\/>$/, ` loader={${variable}} />`),
+      value: original.replace(
+        /\s*\/>$/,
+        ` loader={${variablesForParticle.loader}} source={${variablesForParticle.source}} />`,
+      ),
     });
   }
 
@@ -172,9 +196,10 @@ async function injectInstallSources(
 ): Promise<{ declarations: string[]; source: string }> {
   const masked = withoutFencedCode(content);
   const matches = [...masked.matchAll(/<InstallCommand\b([\s\S]*?)\/>/g)];
+  const declarations: string[] = [];
   const replacements: Array<{ end: number; start: number; value: string }> = [];
 
-  for (const match of matches) {
+  for (const [index, match] of matches.entries()) {
     const attributes = match[1] ?? "";
     if (/\bfiles\s*=/.test(attributes)) {
       throw new Error("InstallCommand component source is compiler-owned");
@@ -185,12 +210,17 @@ async function injectInstallSources(
     if (components.length === 0) {
       throw new Error("InstallCommand is missing a component registry URL");
     }
+    const bundle = await loadRegistryComponentSource(components, loadRegistryDocument);
+    const dependencies = `__cossInstallDependencies${index}`;
+    const files = `__cossInstallFiles${index}`;
+    declarations.push(`const ${dependencies} = ${serializeForScript(bundle.dependencies)};`);
+    declarations.push(`const ${files} = ${serializeForScript(bundle.files)};`);
     const start = match.index ?? 0;
     const original = content.slice(start, start + match[0].length);
     replacements.push({
       end: start + match[0].length,
       start,
-      value: original.replace(/\s*\/>$/, ` registryNames={${serializeForScript(components)}} />`),
+      value: original.replace(/\s*\/>$/, ` dependencies={${dependencies}} files={${files}} />`),
     });
   }
 
@@ -199,7 +229,7 @@ async function injectInstallSources(
     transformed = `${transformed.slice(0, replacement.start)}${replacement.value}${transformed.slice(replacement.end)}`;
   }
   return {
-    declarations: [],
+    declarations,
     source: transformed,
   };
 }
@@ -246,7 +276,7 @@ export function documentationComponents(): PreprocessorGroup {
     name: "coss-sv-documentation-components",
     async markup({ content, filename }) {
       if (!filename?.endsWith(".svx")) return;
-      const previews = injectPreviewLoaders(content);
+      const previews = await injectPreviewLoaders(content);
       const installs = await injectInstallSources(previews.source);
       const inlineSources = await injectInlineComponentSources(installs.source);
       const injectedDeclarations = [

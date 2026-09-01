@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import { spawn } from "node:child_process";
+import { readFile } from "node:fs/promises";
 import { createServer } from "node:net";
 import { fileURLToPath } from "node:url";
 import { chromium } from "playwright";
@@ -11,6 +12,22 @@ const viteExecutable = fileURLToPath(
   new URL("../../node_modules/vite/bin/vite.js", import.meta.url),
 );
 let preview;
+
+const manifest = JSON.parse(
+  await readFile(
+    new URL("../../.svelte-kit/output/client/.vite/manifest.json", import.meta.url),
+    "utf8",
+  ),
+);
+const sourceChunk = Object.entries(manifest).find(
+  ([key]) => key.includes("coss-sv:particle-source:") && key.endsWith("p-button-41.svelte.js"),
+)?.[1]?.file;
+assert.equal(
+  typeof sourceChunk,
+  "string",
+  "the p-button-41 source chunk must exist in the manifest",
+);
+const sourceChunkPath = `/${sourceChunk}`;
 
 async function availablePort() {
   const probe = createServer();
@@ -72,10 +89,12 @@ const context = await browser.newContext({
 await mockOpenAnalytics(context);
 const page = await context.newPage();
 const diagnostics = [];
+const requestedPaths = [];
 page.on("pageerror", (error) => diagnostics.push(error.message));
 page.on("console", (message) => {
   if (message.type() === "error") diagnostics.push(message.text());
 });
+page.on("request", (request) => requestedPaths.push(new URL(request.url()).pathname));
 
 try {
   await page.goto(`${baseUrl}/particles`);
@@ -126,14 +145,56 @@ try {
   );
 
   const firstViewCode = page.getByRole("button", { name: "View code", exact: true }).first();
+  assert.equal(
+    requestedPaths.includes(sourceChunkPath),
+    false,
+    "visibility-loading a preview must not download its source chunk",
+  );
   await firstViewCode.click();
   const dialog = page.getByRole("dialog");
   await dialog.waitFor();
+  const installTabs = dialog.getByRole("tablist", { name: "Package manager" });
+  assert.equal(await installTabs.getByRole("tab").count(), 4);
+  assert.deepEqual(await installTabs.getByRole("tab").allTextContents(), [
+    "bun",
+    "npm",
+    "pnpm",
+    "yarn",
+  ]);
   assert.equal(
-    await dialog.locator("code").first().textContent(),
+    await installTabs.getByRole("tab", { name: "pnpm", exact: true }).getAttribute("aria-selected"),
+    "true",
+  );
+  assert.equal(
+    await dialog.locator('[data-install-command="pnpm"] code').textContent(),
     "pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/p-button-41.json",
   );
-  await dialog.getByText('id: "p-button-41"', { exact: false }).waitFor();
+  await installTabs.getByRole("tab", { name: "bun", exact: true }).click();
+  assert.equal(
+    await dialog.locator('[data-install-command="bun"] code').textContent(),
+    "bunx --bun shadcn-svelte@latest add https://coss-sv.vercel.app/r/p-button-41.json",
+  );
+  const openInV0 = dialog.getByRole("link", { name: "Open in v0", exact: true });
+  assert.equal(
+    await openInV0.getAttribute("href"),
+    "https://v0.dev/chat/api/open?url=https%3A%2F%2Fcoss-sv.vercel.app%2Fr%2Fp-button-41.json",
+  );
+  const drawerSource = dialog.locator("[data-preview-source] pre");
+  assert.equal(await drawerSource.count(), 1);
+  assert.equal(await dialog.locator("[data-source-loading]").count(), 0);
+  assert.equal(requestedPaths.includes(sourceChunkPath), true);
+  assert.ok((await drawerSource.locator("[data-line]").count()) > 1);
+  const drawerSourceText = (await drawerSource.textContent()) ?? "";
+  assert.match(drawerSourceText, /\$lib\/components\/ui\/button\/index\.js/);
+  assert.doesNotMatch(drawerSourceText, /defineParticleMeta|id:\s*["']p-button-41/);
+  assert.equal(
+    requestedPaths.some((path) => path === "/r/p-button-41.json"),
+    false,
+  );
+  assert.equal(
+    requestedPaths.some((path) => path.startsWith("/api/particle-source/")),
+    false,
+  );
   await page.keyboard.press("Escape");
   await dialog.waitFor({ state: "detached" });
   assert.equal(await firstViewCode.evaluate((element) => element === document.activeElement), true);
@@ -141,12 +202,17 @@ try {
   await page.goto(`${baseUrl}/docs/components/skeleton`);
   const skeletonExample = page.locator('[data-particle="p-skeleton-1"]');
   await skeletonExample.getByRole("tab", { name: "Code" }).click();
+  assert.equal(await skeletonExample.locator("[data-source-loading]").count(), 0);
   const skeletonSource = skeletonExample.locator("[data-source-panel] pre");
   await skeletonSource.waitFor();
   const skeletonSourceText = (await skeletonSource.textContent()) ?? "";
   assert.match(skeletonSourceText, /\$lib\/components\/ui\/skeleton\/index\.js/);
   assert.match(skeletonSourceText, /<Avatar\.Root/);
   assert.equal(await skeletonExample.locator("[data-source-load-error]").count(), 0);
+  assert.equal(
+    requestedPaths.some((path) => path.startsWith("/api/particle-source/")),
+    false,
+  );
 
   await page.goto(`${baseUrl}/particles?tags=not-real`);
   assert.equal(

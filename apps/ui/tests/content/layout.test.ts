@@ -28,11 +28,13 @@ describe("documentation MDsveX layout", () => {
 
     expect(result.code).toContain("import { ApiTable, Callout, CodeSource, ComponentPreview");
     expect(result.code).toContain(
-      '<ComponentPreview name="p-accordion-1" loader={__cossParticleLoader0} />',
+      '<ComponentPreview name="p-accordion-1" loader={__cossParticleLoader0} source={__cossParticleSource0} />',
     );
     expect(result.code).toContain(
       'const __cossParticleLoader0 = () => import("$particles/p-accordion-1.svelte");',
     );
+    expect(result.code).toContain("const __cossParticleSource0 =");
+    expect(result.code).toContain("$lib/components/ui/accordion/index.js");
     expect(result.code).toContain("import Layout_MDSVEX_DEFAULT");
     expect(result.code).toContain("<script module>");
     expect(result.code).not.toContain('context="module"');
@@ -98,6 +100,23 @@ description: Shared segmented control styles.
     );
     expect(transformed?.code).toContain("const __cossInlineComponentSource0");
     expect(transformed?.code).toContain("segmentedControlItemVariants");
+  });
+
+  test("embeds manual installation files instead of requesting them in the browser", async () => {
+    const filename = resolve(appRoot, "content/docs/components/accordion.svx");
+    const source = `---
+title: Accordion
+description: Accordion documentation.
+---
+
+<InstallCommand shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/accordion.json" />`;
+    const transformed = await documentationComponents().markup?.({ content: source, filename });
+
+    expect(transformed?.code).toContain("files={__cossInstallFiles0}");
+    expect(transformed?.code).toContain("dependencies={__cossInstallDependencies0}");
+    expect(transformed?.code).toContain("const __cossInstallFiles0 =");
+    expect(transformed?.code).toContain("components/ui/accordion/");
+    expect(transformed?.code).not.toContain("registryNames=");
   });
 
   test("renders heading ids from the compiler slug and removes explicit id syntax", async () => {
