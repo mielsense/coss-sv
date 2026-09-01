@@ -50,7 +50,7 @@
       <nav class="hidden items-center gap-2 text-sm lg:flex" aria-label="Primary navigation">
         {#each primaryNavigation as item (item.href)}
           <a
-            class="inline-flex min-h-8 items-center justify-center rounded-lg border border-transparent bg-transparent px-2.5 font-medium no-underline hover:bg-site-foreground/4 focus-visible:outline-2 focus-visible:outline-site-primary focus-visible:outline-offset-3 aria-[current=page]:text-site-primary data-[pressed=true]:bg-site-foreground/4"
+            class="inline-flex min-h-8 items-center justify-center rounded-lg border border-transparent bg-transparent px-2.5 font-medium no-underline hover:bg-site-foreground/4 focus-visible:outline-2 focus-visible:outline-site-primary focus-visible:outline-offset-3 data-[pressed=true]:bg-site-foreground/4"
             href={item.href}
             aria-current={page.url.pathname.startsWith(item.href) ? "page" : undefined}
             data-pressed={page.url.pathname.startsWith(item.href) ? "true" : undefined}
