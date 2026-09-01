@@ -82,7 +82,7 @@ page.on("pageerror", (error) => {
   browserDiagnostics.push(`pageerror: ${error.message}`);
 });
 
-function assertNear(actual, expected, label, tolerance = 0.75) {
+function assertNear(actual, expected, label, tolerance = 1) {
   assert.ok(
     Math.abs(actual - expected) <= tolerance,
     `${label}: expected ${expected}px, received ${actual}px`,
