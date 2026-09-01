@@ -60,6 +60,20 @@ async function waitForPreview() {
   throw new Error(`Particles test server did not become ready at ${baseUrl}`);
 }
 
+async function selectTab(tab, name) {
+  await tab.waitFor();
+  for (let attempt = 0; attempt < 40; attempt += 1) {
+    if ((await tab.getAttribute("aria-selected")) === "true") return;
+    await tab.click();
+    await new Promise((resolve) => setTimeout(resolve, 50));
+  }
+  assert.equal(
+    await tab.getAttribute("aria-selected"),
+    "true",
+    `${name} tab did not become active`,
+  );
+}
+
 if (!baseUrl) {
   const port = await availablePort();
   baseUrl = `http://127.0.0.1:${port}`;
@@ -169,7 +183,7 @@ try {
     await dialog.locator('[data-install-command="pnpm"] code').textContent(),
     "pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/p-button-41.json",
   );
-  await installTabs.getByRole("tab", { name: "bun", exact: true }).click();
+  await selectTab(installTabs.getByRole("tab", { name: "bun", exact: true }), "bun");
   assert.equal(
     await dialog.locator('[data-install-command="bun"] code').textContent(),
     "bunx --bun shadcn-svelte@latest add https://coss-sv.vercel.app/r/p-button-41.json",
@@ -201,7 +215,7 @@ try {
 
   await page.goto(`${baseUrl}/docs/components/skeleton`);
   const skeletonExample = page.locator('[data-particle="p-skeleton-1"]');
-  await skeletonExample.getByRole("tab", { name: "Code" }).click();
+  await selectTab(skeletonExample.getByRole("tab", { name: "Code" }), "Code");
   assert.equal(await skeletonExample.locator("[data-source-loading]").count(), 0);
   const skeletonSource = skeletonExample.locator("[data-source-panel] pre");
   await skeletonSource.waitFor();
@@ -221,26 +235,34 @@ try {
     "pnpm",
     "yarn",
   ]);
-  await docsPackageManagers.getByRole("tab", { name: "npm", exact: true }).click();
+  await selectTab(docsPackageManagers.getByRole("tab", { name: "npm", exact: true }), "npm");
   assert.equal(
     await page.locator('[data-install-command="npm"] code').textContent(),
     "npx shadcn-svelte@latest add https://coss-sv.vercel.app/r/skeleton.json",
   );
   await page.goto(`${baseUrl}/docs/components/accordion`);
-  await page
-    .getByRole("tablist", { name: "Installation method" })
-    .getByRole("tab", { name: "Manual", exact: true })
-    .click();
-  const dependencyPackageManagers = page.getByRole("tablist", { name: "Package manager" });
+  await selectTab(
+    page
+      .getByRole("tablist", { name: "Installation method" })
+      .getByRole("tab", { name: "Manual", exact: true }),
+    "Manual",
+  );
+  const manualInstallation = page.getByRole("tabpanel", { name: "Manual" });
+  const dependencyPackageManagers = manualInstallation.getByRole("tablist", {
+    name: "Package manager",
+  });
   assert.deepEqual(await dependencyPackageManagers.getByRole("tab").allTextContents(), [
     "bun",
     "npm",
     "pnpm",
     "yarn",
   ]);
-  await dependencyPackageManagers.getByRole("tab", { name: "yarn", exact: true }).click();
+  await selectTab(
+    dependencyPackageManagers.getByRole("tab", { name: "yarn", exact: true }),
+    "yarn",
+  );
   assert.match(
-    (await page.locator('[data-install-command="yarn"] code').textContent()) ?? "",
+    (await manualInstallation.locator('[data-install-command="yarn"] code').textContent()) ?? "",
     /^yarn add /,
   );
 
