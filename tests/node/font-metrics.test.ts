@@ -8,6 +8,7 @@ describe("font-derived width assertions", () => {
     expect(() => assertFontMetricWidth(48, 49.046875)).not.toThrow();
     expect(() => assertFontMetricWidth(318, 311.609375)).not.toThrow();
     expect(() => assertFontMetricWidth(70, 68.0078125)).not.toThrow();
+    expect(() => assertFontMetricWidth(143, 138.03125)).not.toThrow();
   });
 
   test("rejects layout drift outside the renderer envelope", () => {
