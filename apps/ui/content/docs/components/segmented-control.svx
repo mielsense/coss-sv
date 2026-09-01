@@ -51,7 +51,7 @@ The library exports a root class, an item recipe, and a shared item layout class
     segmentedControlItemLayoutClassName,
     segmentedControlItemVariants,
     segmentedControlRootClassName,
-  } from "@/segmented-control.js";
+  } from "$lib/segmented-control.js";
 </script>
 ```
 

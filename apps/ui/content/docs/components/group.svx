@@ -13,8 +13,8 @@ description: A component for visually grouping a series of controls.
 
 ```svelte
 <script lang="ts">
-  import { Button } from "@/components/ui/button/index.js";
-  import * as Group from "@/components/ui/group/index.js";
+  import { Button } from "$lib/components/ui/button/index.js";
+  import * as Group from "$lib/components/ui/group/index.js";
 </script>
 
 <Group.Root>

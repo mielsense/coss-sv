@@ -13,7 +13,7 @@ description: Displays the path to the current resource using a hierarchy of link
 
 ```svelte
 <script lang="ts">
-  import * as Breadcrumb from "@/components/ui/breadcrumb/index.js";
+  import * as Breadcrumb from "$lib/components/ui/breadcrumb/index.js";
 </script>
 
 <Breadcrumb.Root>

@@ -138,7 +138,7 @@ Use **`href`** only for plain anchor links with no router **`Link`**.
 +   MenuLinkItem,
     MenuPopup,
     MenuTrigger,
-  } from "@/components/ui/menu"
+  } from "$lib/components/ui/menu"
 ~~~
 
 <!-- prettier-ignore -->
@@ -241,8 +241,8 @@ The **`input-otp.tsx`** registry component has been removed in favor of **`otp-f
 
 <!-- prettier-ignore -->
 ~~~diff
-- import { ... } from "@/components/ui/input-otp"
-+ import { ... } from "@/components/ui/otp-field"
+- import { ... } from "$lib/components/ui/input-otp"
++ import { ... } from "$lib/components/ui/otp-field"
 ~~~
 
 **Agent migration prompt:**
@@ -282,8 +282,8 @@ After upgrading @coss/table, Table supports an optional variant prop: "default" 
 
 <!-- prettier-ignore -->
 ~~~diff
-- import { Toggle, ToggleGroup } from "@/components/ui/toggle-group"
-+ import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
+- import { Toggle, ToggleGroup } from "$lib/components/ui/toggle-group"
++ import { ToggleGroup, ToggleGroupItem } from "$lib/components/ui/toggle-group"
 ~~~
 
 <!-- prettier-ignore -->

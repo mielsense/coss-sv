@@ -13,7 +13,7 @@ description: A native textarea element.
 
 ```svelte
 <script lang="ts">
-  import { Textarea } from "@/components/ui/textarea/index.js";
+  import { Textarea } from "$lib/components/ui/textarea/index.js";
 </script>
 
 <Textarea />

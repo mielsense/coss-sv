@@ -13,7 +13,7 @@ description: Renders an accessible label associated with controls.
 
 ```svelte
 <script lang="ts">
-  import { Label } from "@/components/ui/label/index.js";
+  import { Label } from "$lib/components/ui/label/index.js";
 </script>
 
 <Label for="email">Email</Label>

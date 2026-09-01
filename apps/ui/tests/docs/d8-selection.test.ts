@@ -373,7 +373,9 @@ describe("D8 selection, command, and menu documentation", () => {
 
   test("documents Toggle-composed toolbar controls instead of plain buttons", () => {
     const page = source("apps/ui/content/docs/components/toolbar.svx");
-    expect(page).toContain('import * as ToggleGroup from "@/components/ui/toggle-group/index.js";');
+    expect(page).toContain(
+      'import * as ToggleGroup from "$lib/components/ui/toggle-group/index.js";',
+    );
     expect(page).toContain('<ToggleGroup.Item value="bold">Bold</ToggleGroup.Item>');
     expect(page).toContain('<ToggleGroup.Item value="underline">Underline</ToggleGroup.Item>');
     expect(page).not.toContain("<Toolbar.Button>Bold</Toolbar.Button>");

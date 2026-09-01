@@ -19,7 +19,7 @@ reactive result through `.current`.
 
 ```svelte
 <script lang="ts">
-  import { useMediaQuery } from "@/hooks/use-media-query.svelte.js";
+  import { useMediaQuery } from "$lib/hooks/use-media-query.svelte.js";
 
   // Min-width (breakpoint and above) — like md:
   const isDesktop = useMediaQuery("md");
@@ -62,7 +62,7 @@ The primary use case is mounting one component instead of another based on the v
 
 ```svelte
 <script lang="ts">
-  import { useMediaQuery } from "@/hooks/use-media-query.svelte.js";
+  import { useMediaQuery } from "$lib/hooks/use-media-query.svelte.js";
 
   const isDesktop = useMediaQuery("lg");
 </script>
@@ -131,7 +131,7 @@ The helper also exports `useIsMobile` for parity with COSS and shadcn's `use-mob
 
 ```svelte
 <script lang="ts">
-  import { useIsMobile } from "@/hooks/use-media-query.svelte.js";
+  import { useIsMobile } from "$lib/hooks/use-media-query.svelte.js";
 
   const isMobile = useIsMobile(); // equivalent to useMediaQuery("max-md")
 </script>

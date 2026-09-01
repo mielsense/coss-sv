@@ -16,7 +16,7 @@ Add `Toast.Provider` and `Toast.AnchoredProvider` to your app layout.
 
 ```svelte title="src/routes/+layout.svelte"
 <script lang="ts">
-  import * as Toast from "@/components/ui/toast/index.js";
+  import * as Toast from "$lib/components/ui/toast/index.js";
   import type { Snippet } from "svelte";
 
   let { children }: { children: Snippet } = $props();
@@ -35,7 +35,7 @@ Add `Toast.Provider` and `Toast.AnchoredProvider` to your app layout.
 
 ```svelte
 <script lang="ts">
-  import * as Toast from "@/components/ui/toast/index.js";
+  import * as Toast from "$lib/components/ui/toast/index.js";
 
   function createEvent() {
     Toast.toastManager.add({

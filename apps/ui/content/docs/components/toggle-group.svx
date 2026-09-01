@@ -16,7 +16,7 @@ links:
 
 ```svelte
 <script lang="ts">
-  import * as ToggleGroup from "@/components/ui/toggle-group/index.js";
+  import * as ToggleGroup from "$lib/components/ui/toggle-group/index.js";
 </script>
 
 <ToggleGroup.Root>

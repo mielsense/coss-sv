@@ -125,7 +125,7 @@ parts when the defaults work, or the primitive when you need a different composi
 
 ```svelte
 <script lang="ts">
-  import * as Slider from "@/components/ui/slider/index.js";
+  import * as Slider from "$lib/components/ui/slider/index.js";
 </script>
 
 <Slider.Root value={40}>

@@ -13,7 +13,7 @@ description: A loading state skeleton for your components.
 
 ```svelte
 <script lang="ts">
-  import { Skeleton } from "@/components/ui/skeleton/index.js";
+  import { Skeleton } from "$lib/components/ui/skeleton/index.js";
 </script>
 
 <Skeleton class="size-10 rounded-full" />

@@ -19,10 +19,10 @@ The Date Picker is a composition pattern, not a standalone component. Install th
 
 ```svelte
 <script lang="ts">
-  import { buttonVariants } from "@/components/ui/button/index.js";
-  import { Calendar } from "@/components/ui/calendar/index.js";
-  import * as Popover from "@/components/ui/popover/index.js";
-  import HugeiconsIcon from "@/hugeicons-icon.svelte";
+  import { buttonVariants } from "$lib/components/ui/button/index.js";
+  import { Calendar } from "$lib/components/ui/calendar/index.js";
+  import * as Popover from "$lib/components/ui/popover/index.js";
+  import HugeiconsIcon from "$lib/hugeicons-icon.svelte";
   import Calendar03Icon from "@hugeicons/core-free-icons/Calendar03Icon";
 
   let date = $state<Date>();

@@ -13,7 +13,7 @@ description: A callout for displaying important information.
 
 ```svelte
 <script lang="ts">
-  import * as Alert from "@/components/ui/alert/index.js";
+  import * as Alert from "$lib/components/ui/alert/index.js";
 </script>
 
 <Alert.Root>

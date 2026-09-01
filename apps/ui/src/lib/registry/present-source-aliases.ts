@@ -1,9 +1,9 @@
 const displayedAliases = {
-  components: "@/components",
-  hooks: "@/hooks",
-  lib: "@",
-  ui: "@/components/ui",
-  utils: "@/utils",
+  components: "$lib/components",
+  hooks: "$lib/hooks",
+  lib: "$lib",
+  ui: "$lib/components/ui",
+  utils: "$lib/utils",
 } as const;
 
 export function presentRegistryAliases(source: string): string {

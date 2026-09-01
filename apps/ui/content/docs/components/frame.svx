@@ -13,7 +13,7 @@ description: A framed container for grouping related information.
 
 ```svelte
 <script lang="ts">
-  import * as Frame from "@/components/ui/frame/index.js";
+  import * as Frame from "$lib/components/ui/frame/index.js";
 </script>
 
 <Frame.Root>

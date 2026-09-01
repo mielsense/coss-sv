@@ -16,7 +16,7 @@ links:
 
 ```svelte
 <script lang="ts">
-  import * as Menu from "@/components/ui/menu/index.js";
+  import * as Menu from "$lib/components/ui/menu/index.js";
 </script>
 
 <Menu.Root>

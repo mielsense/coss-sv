@@ -26,7 +26,7 @@ skills.sh directory listing.
 ## What the skill covers
 
 - The complete component catalog and the current Markdown documentation routes
-- Registry installation with the shadcn-svelte CLI and the documented `@/` alias
+- Registry installation with the shadcn-svelte CLI and the documented `$lib/` alias
 - Svelte namespace composition such as `Card.Header`, `Dialog.Popup`, and `InputGroup.Addon`
 - The boundary between the COSS visual contract and Shards UI behavior
 - Controlled state, callback details, overlay handles, and toast managers

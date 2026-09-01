@@ -245,7 +245,7 @@ describe("D4 disclosure and surface documentation inventory", () => {
     );
     expect(source("apps/ui/content/docs/components/tabs.svx")).toContain("<Tabs.Root");
     const cardPage = source("apps/ui/content/docs/components/card.svx");
-    expect(cardPage).toContain('import * as Card from "@/components/ui/card/index.js";');
+    expect(cardPage).toContain('import * as Card from "$lib/components/ui/card/index.js";');
     expect(cardPage).toContain("<Card.Root>");
     expect(cardPage).toContain("<Card.Header>");
     expect(cardPage).toContain("<Card.Panel>Content</Card.Panel>");
@@ -506,9 +506,10 @@ describe("D4 disclosure and surface documentation inventory", () => {
         `pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/${slug}.json`,
       );
       expect(displayedImports.length).toBeGreaterThan(0);
-      expect(displayedImports.filter((specifier) => specifier.startsWith("@/"))).not.toHaveLength(
-        0,
-      );
+      expect(
+        displayedImports.filter((specifier) => specifier.startsWith("$lib/")),
+      ).not.toHaveLength(0);
+      expect(displayedImports.filter((specifier) => specifier.startsWith("@/"))).toHaveLength(0);
       expect(displayedPackages.toSorted()).toEqual(expectedExternalPackages[slug].toSorted());
     },
   );

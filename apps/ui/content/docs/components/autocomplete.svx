@@ -16,7 +16,7 @@ links:
 
 ```svelte
 <script lang="ts">
-  import * as Autocomplete from "@/components/ui/autocomplete/index.js";
+  import * as Autocomplete from "$lib/components/ui/autocomplete/index.js";
 
   const items = [
     { value: "apple", label: "Apple" },

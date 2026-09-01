@@ -16,7 +16,7 @@ links:
 
 ```svelte
 <script lang="ts">
-  import * as Fieldset from "@/components/ui/fieldset/index.js";
+  import * as Fieldset from "$lib/components/ui/fieldset/index.js";
 
   const uid = $props.id();
   const legendId = `${uid}-legend`;

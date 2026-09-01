@@ -13,7 +13,7 @@ description: A numeric input element with increment and decrement buttons, and a
 
 ```svelte
 <script lang="ts">
-  import * as NumberField from "@/components/ui/number-field/index.js";
+  import * as NumberField from "$lib/components/ui/number-field/index.js";
 </script>
 
 <NumberField.Root defaultValue={0}>

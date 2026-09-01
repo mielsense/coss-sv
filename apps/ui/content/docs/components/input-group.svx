@@ -13,8 +13,8 @@ description: A flexible component for grouping inputs with addons, buttons, and 
 
 ```svelte
 <script lang="ts">
-  import * as InputGroup from "@/components/ui/input-group/index.js";
-  import HugeiconsIcon from "@/hugeicons-icon.svelte";
+  import * as InputGroup from "$lib/components/ui/input-group/index.js";
+  import HugeiconsIcon from "$lib/hugeicons-icon.svelte";
   import Mail01Icon from "@hugeicons/core-free-icons/Mail01Icon";
 </script>
 

@@ -13,7 +13,7 @@ description: A component for displaying keyboard keys and shortcuts.
 
 ```svelte
 <script lang="ts">
-  import * as Kbd from "@/components/ui/kbd/index.js";
+  import * as Kbd from "$lib/components/ui/kbd/index.js";
 </script>
 ```
 

@@ -40,8 +40,8 @@ describe("registry component source", () => {
       "components/ui/button/button.svelte",
       "lib/hugeicons-icon.svelte",
     ]);
-    expect(result.files[0]?.source.raw).toContain('from "@/utils.js"');
-    expect(result.files[1]?.source.raw).toContain('from "@/value.js"');
+    expect(result.files[0]?.source.raw).toContain('from "$lib/utils.js"');
+    expect(result.files[1]?.source.raw).toContain('from "$lib/value.js"');
   });
 
   test("rejects an aggregate before highlighting an unbounded source graph", async () => {

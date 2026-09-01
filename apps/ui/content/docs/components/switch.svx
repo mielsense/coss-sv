@@ -16,7 +16,7 @@ links:
 
 ```svelte
 <script lang="ts">
-  import { Switch } from "@/components/ui/switch/index.js";
+  import { Switch } from "$lib/components/ui/switch/index.js";
 </script>
 
 <Switch aria-label="Marketing emails" />

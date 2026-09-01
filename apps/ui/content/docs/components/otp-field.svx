@@ -15,7 +15,7 @@ This component provides a Svelte implementation of the COSS OTP Field behavior. 
 
 ```svelte
 <script lang="ts">
-  import * as OTPField from "@/components/ui/otp-field/index.js";
+  import * as OTPField from "$lib/components/ui/otp-field/index.js";
 </script>
 
 <OTPField.Root aria-label="Verification code" length={6}>

@@ -16,7 +16,7 @@ links:
 
 ```svelte
 <script lang="ts">
-  import * as PreviewCard from "@/components/ui/preview-card/index.js";
+  import * as PreviewCard from "$lib/components/ui/preview-card/index.js";
 </script>
 
 <PreviewCard.Root>

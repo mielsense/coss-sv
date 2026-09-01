@@ -16,7 +16,7 @@ links:
 
 ```svelte
 <script lang="ts">
-  import * as Sheet from "@/components/ui/sheet/index.js";
+  import * as Sheet from "$lib/components/ui/sheet/index.js";
 </script>
 
 <Sheet.Root>

@@ -16,7 +16,7 @@ links:
 
 ```svelte
 <script lang="ts">
-  import * as Popover from "@/components/ui/popover/index.js";
+  import * as Popover from "$lib/components/ui/popover/index.js";
 </script>
 
 <Popover.Root>

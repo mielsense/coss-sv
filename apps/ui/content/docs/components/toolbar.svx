@@ -16,8 +16,8 @@ links:
 
 ```svelte
 <script lang="ts">
-  import * as ToggleGroup from "@/components/ui/toggle-group/index.js";
-  import * as Toolbar from "@/components/ui/toolbar/index.js";
+  import * as ToggleGroup from "$lib/components/ui/toggle-group/index.js";
+  import * as Toolbar from "$lib/components/ui/toolbar/index.js";
 </script>
 
 <Toolbar.Root aria-label="Formatting">

@@ -13,7 +13,7 @@ description: A content container for grouping related information.
 
 ```svelte
 <script lang="ts">
-  import * as Card from "@/components/ui/card/index.js";
+  import * as Card from "$lib/components/ui/card/index.js";
 </script>
 
 <Card.Root>
@@ -34,9 +34,9 @@ Use `Card.Frame` when you need a framed layout with an action button in the head
 ```svelte
 <script lang="ts">
   import Add01Icon from "@hugeicons/core-free-icons/Add01Icon";
-  import HugeiconsIcon from "@/hugeicons-icon.svelte";
-  import { Button } from "@/components/ui/button/index.js";
-  import * as Card from "@/components/ui/card/index.js";
+  import HugeiconsIcon from "$lib/hugeicons-icon.svelte";
+  import { Button } from "$lib/components/ui/button/index.js";
+  import * as Card from "$lib/components/ui/card/index.js";
 </script>
 
 <Card.Frame>

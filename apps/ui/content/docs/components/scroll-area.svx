@@ -16,7 +16,7 @@ links:
 
 ```svelte
 <script lang="ts">
-  import { ScrollArea } from "@/components/ui/scroll-area/index.js";
+  import { ScrollArea } from "$lib/components/ui/scroll-area/index.js";
 </script>
 
 <ScrollArea class="h-64 rounded-md border">

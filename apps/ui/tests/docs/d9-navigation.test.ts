@@ -130,7 +130,9 @@ describe("D9 date, navigation, and table documentation", () => {
     expect(usage).toBeDefined();
     expect(() => compile(usage ?? "", { generate: "server", runes: true })).not.toThrow();
 
-    expect(usage).toContain('import * as Breadcrumb from "@/components/ui/breadcrumb/index.js";');
+    expect(usage).toContain(
+      'import * as Breadcrumb from "$lib/components/ui/breadcrumb/index.js";',
+    );
     for (const component of ["Root", "List", "Item", "Link", "Page", "Separator", "Ellipsis"]) {
       expect(usage).toContain(`<Breadcrumb.${component}`);
     }
@@ -143,10 +145,10 @@ describe("D9 date, navigation, and table documentation", () => {
     expect(() => compile(usage ?? "", { generate: "server", runes: true })).not.toThrow();
 
     expect(page).not.toContain("pnpm=");
-    expect(usage).toContain('import { buttonVariants } from "@/components/ui/button/index.js";');
-    expect(usage).toContain('import { Calendar } from "@/components/ui/calendar/index.js";');
-    expect(usage).toContain('import * as Popover from "@/components/ui/popover/index.js";');
-    expect(usage).toContain('import HugeiconsIcon from "@/hugeicons-icon.svelte";');
+    expect(usage).toContain('import { buttonVariants } from "$lib/components/ui/button/index.js";');
+    expect(usage).toContain('import { Calendar } from "$lib/components/ui/calendar/index.js";');
+    expect(usage).toContain('import * as Popover from "$lib/components/ui/popover/index.js";');
+    expect(usage).toContain('import HugeiconsIcon from "$lib/hugeicons-icon.svelte";');
     expect(usage).toContain(
       'import Calendar03Icon from "@hugeicons/core-free-icons/Calendar03Icon";',
     );

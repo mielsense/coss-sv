@@ -13,7 +13,7 @@ description: A date picker component with range and multi-select support.
 
 ```svelte
 <script lang="ts">
-  import { Calendar } from "@/components/ui/calendar/index.js";
+  import { Calendar } from "$lib/components/ui/calendar/index.js";
 </script>
 
 <Calendar />
@@ -42,7 +42,7 @@ A calendar component for date selection.
 | `components`      | `CalendarComponents`                                             |            | Svelte snippets that replace calendar parts. |
 
 For the full contract, use the exported `CalendarProps` type from
-`@/components/ui/calendar/index.js`.
+`$lib/components/ui/calendar/index.js`.
 
 ### Customizing Cell Size
 

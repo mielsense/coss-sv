@@ -16,7 +16,7 @@ links:
 
 ```svelte
 <script lang="ts">
-  import * as Meter from "@/components/ui/meter/index.js";
+  import * as Meter from "$lib/components/ui/meter/index.js";
 </script>
 
 <Meter.Root value={40}>

@@ -13,7 +13,7 @@ description: A badge or a component that looks like a badge.
 
 ```svelte
 <script lang="ts">
-  import { Badge } from "@/components/ui/badge/index.js";
+  import { Badge } from "$lib/components/ui/badge/index.js";
 </script>
 
 <Badge>Badge</Badge>
@@ -25,7 +25,7 @@ Use the `as` prop to render another element with the badge styles. Here is a lin
 
 ```svelte
 <script lang="ts">
-  import { Badge } from "@/components/ui/badge/index.js";
+  import { Badge } from "$lib/components/ui/badge/index.js";
 </script>
 
 <Badge as="a" href="/pricing">New</Badge>

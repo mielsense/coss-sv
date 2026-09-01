@@ -16,7 +16,7 @@ links:
 
 ```svelte
 <script lang="ts">
-  import * as Select from "@/components/ui/select/index.js";
+  import * as Select from "$lib/components/ui/select/index.js";
 
   const items = [
     { label: "Select framework", value: null },
@@ -95,7 +95,7 @@ A standalone button styled like a `Select.Trigger`. Use `selectTriggerClass` on 
 
 ```svelte
 <script lang="ts">
-  import { selectTriggerClass } from "@/components/ui/select/index.js";
+  import { selectTriggerClass } from "$lib/components/ui/select/index.js";
 </script>
 
 <Combobox.Trigger class={selectTriggerClass}>

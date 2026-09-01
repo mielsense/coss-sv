@@ -47,7 +47,8 @@ describe("D11 guide sources", () => {
     const sveltePortStatus = changelog.slice(changelog.indexOf("## Svelte port status"));
 
     expect(text).toContain("pnpm dlx shadcn-svelte@latest");
-    expect(text).toContain("@/components/ui/");
+    expect(text).toContain("$lib/components/ui/");
+    expect(text).not.toContain("@/");
     expect(text).not.toContain('from "@coss-sv/ui"');
     expect(text).toContain("npx skills add mielsense/coss-sv --skill coss-svelte");
     expect(text).toContain("HugeiconsIcon");

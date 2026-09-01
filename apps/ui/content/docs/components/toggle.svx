@@ -16,7 +16,7 @@ links:
 
 ```svelte
 <script lang="ts">
-  import { Toggle } from "@/components/ui/toggle/index.js";
+  import { Toggle } from "$lib/components/ui/toggle/index.js";
 </script>
 
 <Toggle>Toggle</Toggle>

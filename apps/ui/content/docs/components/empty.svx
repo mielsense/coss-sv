@@ -14,10 +14,10 @@ description: A container for displaying empty state information.
 ```svelte
 <script lang="ts">
   import Database01Icon from "@hugeicons/core-free-icons/Database01Icon";
-  import * as Avatar from "@/components/ui/avatar/index.js";
-  import { Button } from "@/components/ui/button/index.js";
-  import * as Empty from "@/components/ui/empty/index.js";
-  import HugeiconsIcon from "@/hugeicons-icon.svelte";
+  import * as Avatar from "$lib/components/ui/avatar/index.js";
+  import { Button } from "$lib/components/ui/button/index.js";
+  import * as Empty from "$lib/components/ui/empty/index.js";
+  import HugeiconsIcon from "$lib/hugeicons-icon.svelte";
 </script>
 
 <Empty.Root>

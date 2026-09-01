@@ -13,7 +13,7 @@ description: An indicator that can be used to show a loading state.
 
 ```svelte
 <script lang="ts">
-  import { Spinner } from "@/components/ui/spinner/index.js";
+  import { Spinner } from "$lib/components/ui/spinner/index.js";
 </script>
 
 <Spinner />

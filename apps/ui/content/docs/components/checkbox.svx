@@ -16,7 +16,7 @@ links:
 
 ```svelte
 <script lang="ts">
-  import { Checkbox } from "@/components/ui/checkbox/index.js";
+  import { Checkbox } from "$lib/components/ui/checkbox/index.js";
 </script>
 
 <Checkbox aria-label="Accept terms" />

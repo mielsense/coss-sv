@@ -16,8 +16,8 @@ links:
 
 ```svelte
 <script lang="ts">
-  import { Label } from "@/components/ui/label/index.js";
-  import * as CheckboxGroup from "@/components/ui/checkbox-group/index.js";
+  import { Label } from "$lib/components/ui/label/index.js";
+  import * as CheckboxGroup from "$lib/components/ui/checkbox-group/index.js";
 </script>
 
 <CheckboxGroup.Root aria-label="Select frameworks" defaultValue={["next"]}>

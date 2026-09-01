@@ -13,7 +13,7 @@ description: A simple table component for displaying tabular data.
 
 ```svelte
 <script lang="ts">
-  import * as Table from "@/components/ui/table/index.js";
+  import * as Table from "$lib/components/ui/table/index.js";
 </script>
 
 <Table.Root>

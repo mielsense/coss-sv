@@ -43,11 +43,11 @@ describe("particle source presentation", () => {
           'import helper from "$LIB$/helper.js";\n',
       ),
     ).toBe(
-      'import Root from "@/components/ui/root.svelte";\n' +
-        'import Item from "@/components/ui/item.svelte";\n' +
-        'import hook from "@/hooks/hook.svelte.js";\n' +
-        'import { cn } from "@/utils";\n' +
-        'import helper from "@/helper.js";\n',
+      'import Root from "$lib/components/ui/root.svelte";\n' +
+        'import Item from "$lib/components/ui/item.svelte";\n' +
+        'import hook from "$lib/hooks/hook.svelte.js";\n' +
+        'import { cn } from "$lib/utils";\n' +
+        'import helper from "$lib/helper.js";\n',
     );
   });
 

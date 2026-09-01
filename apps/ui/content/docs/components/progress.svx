@@ -16,7 +16,7 @@ links:
 
 ```svelte
 <script lang="ts">
-  import * as Progress from "@/components/ui/progress/index.js";
+  import * as Progress from "$lib/components/ui/progress/index.js";
 </script>
 
 <Progress.Root value={40} />

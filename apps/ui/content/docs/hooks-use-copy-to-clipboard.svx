@@ -16,7 +16,7 @@ useful for copy buttons that briefly confirm success.
 
 ```svelte
 <script lang="ts">
-  import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard.svelte.js";
+  import { useCopyToClipboard } from "$lib/hooks/use-copy-to-clipboard.svelte.js";
 
   let { text }: { text: string } = $props();
   const clipboard = useCopyToClipboard();
@@ -55,9 +55,9 @@ Swap an icon briefly to confirm the copy:
 <script lang="ts">
   import Copy01Icon from "@hugeicons/core-free-icons/Copy01Icon";
   import Tick01Icon from "@hugeicons/core-free-icons/Tick01Icon";
-  import { Button } from "@/components/ui/button/index.js";
-  import HugeiconsIcon from "@/hugeicons-icon.svelte";
-  import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard.svelte.js";
+  import { Button } from "$lib/components/ui/button/index.js";
+  import HugeiconsIcon from "$lib/hugeicons-icon.svelte";
+  import { useCopyToClipboard } from "$lib/hooks/use-copy-to-clipboard.svelte.js";
 
   let { value }: { value: string } = $props();
   const clipboard = useCopyToClipboard();

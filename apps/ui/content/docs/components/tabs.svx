@@ -18,7 +18,7 @@ The registry installs the shared segmented-control styling automatically.
 
 ```svelte
 <script lang="ts">
-  import * as Tabs from "@/components/ui/tabs/index.js";
+  import * as Tabs from "$lib/components/ui/tabs/index.js";
 </script>
 
 <Tabs.Root defaultValue="tab-1">
