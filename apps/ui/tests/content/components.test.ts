@@ -5,19 +5,43 @@ import ApiTable from "../../src/lib/content/components/ApiTable.svelte";
 import CodeSource from "../../src/lib/content/components/CodeSource.svelte";
 import InstallCommand from "../../src/lib/content/components/InstallCommand.svelte";
 import PreviewCard from "../../src/lib/content/components/PreviewCard.svelte";
+import {
+  dependencyInstallCommands,
+  shadcnInstallCommands,
+} from "../../src/lib/content/install-commands.js";
 
 describe("documentation components", () => {
-  test("renders the registry CLI and manual installation methods", () => {
+  test("renders every package manager for CLI and manual installation", () => {
     const body = render(InstallCommand, {
       props: {
+        dependencies: ["bits-ui", "mode-watcher"],
         shadcnSvelte: "pnpm dlx shadcn-svelte@latest add https://example.com/r/accordion.json",
       },
     }).body;
 
     expect(body).toContain("CLI");
     expect(body).toContain("Manual");
-    expect(body).toContain("pnpm");
-    expect(body).not.toMatch(/>npm<|>yarn<|>bun</);
+    for (const manager of ["bun", "npm", "pnpm", "yarn"]) {
+      expect(body).toContain(`>${manager}<!---->`);
+    }
+    expect(
+      shadcnInstallCommands("https://example.com/r/accordion.json").map(
+        (command) => command.command,
+      ),
+    ).toEqual([
+      "bunx --bun shadcn-svelte@latest add https://example.com/r/accordion.json",
+      "npx shadcn-svelte@latest add https://example.com/r/accordion.json",
+      "pnpm dlx shadcn-svelte@latest add https://example.com/r/accordion.json",
+      "yarn dlx shadcn-svelte@latest add https://example.com/r/accordion.json",
+    ]);
+    expect(
+      dependencyInstallCommands(["bits-ui", "mode-watcher"]).map((item) => item.command),
+    ).toEqual([
+      "bun add bits-ui mode-watcher",
+      "npm install bits-ui mode-watcher",
+      "pnpm add bits-ui mode-watcher",
+      "yarn add bits-ui mode-watcher",
+    ]);
     expect(body).toContain('role="tablist"');
     expect(body).toContain('role="tabpanel"');
     expect(body).toContain('aria-selected="true"');

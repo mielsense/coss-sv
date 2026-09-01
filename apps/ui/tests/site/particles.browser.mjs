@@ -214,6 +214,36 @@ try {
     false,
   );
 
+  const docsPackageManagers = page.getByRole("tablist", { name: "Package manager" });
+  assert.deepEqual(await docsPackageManagers.getByRole("tab").allTextContents(), [
+    "bun",
+    "npm",
+    "pnpm",
+    "yarn",
+  ]);
+  await docsPackageManagers.getByRole("tab", { name: "npm", exact: true }).click();
+  assert.equal(
+    await page.locator('[data-install-command="npm"] code').textContent(),
+    "npx shadcn-svelte@latest add https://coss-sv.vercel.app/r/skeleton.json",
+  );
+  await page.goto(`${baseUrl}/docs/components/accordion`);
+  await page
+    .getByRole("tablist", { name: "Installation method" })
+    .getByRole("tab", { name: "Manual", exact: true })
+    .click();
+  const dependencyPackageManagers = page.getByRole("tablist", { name: "Package manager" });
+  assert.deepEqual(await dependencyPackageManagers.getByRole("tab").allTextContents(), [
+    "bun",
+    "npm",
+    "pnpm",
+    "yarn",
+  ]);
+  await dependencyPackageManagers.getByRole("tab", { name: "yarn", exact: true }).click();
+  assert.match(
+    (await page.locator('[data-install-command="yarn"] code').textContent()) ?? "",
+    /^yarn add /,
+  );
+
   await page.goto(`${baseUrl}/particles?tags=not-real`);
   assert.equal(
     await page.getByText("No particles found for the selected filters", { exact: true }).count(),

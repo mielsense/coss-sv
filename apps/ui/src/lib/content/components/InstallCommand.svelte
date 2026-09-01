@@ -1,11 +1,14 @@
 <script lang="ts">
-  import ComputerTerminal02Icon from "@hugeicons/core-free-icons/ComputerTerminal02Icon";
-  import { HugeiconsIcon } from "@coss-sv/ui";
   import * as Tabs from "@coss-sv/ui/components/ui/tabs";
   import { onMount } from "svelte";
   import type { ComponentSourceFile } from "@/content/component-source.js";
+  import {
+    dependencyInstallCommands,
+    type PackageManager,
+    shadcnInstallCommands,
+  } from "@/content/install-commands.js";
   import CodeSource from "./CodeSource.svelte";
-  import CopyButton from "./CopyButton.svelte";
+  import PackageManagerCommand from "./PackageManagerCommand.svelte";
 
   let {
     dependencies = [],
@@ -18,11 +21,25 @@
   } = $props();
   let selected = $state<Tabs.TabsValue>("cli");
   let selectedFile = $state<Tabs.TabsValue>();
-  const dependencyCommand = $derived(`pnpm add ${dependencies.join(" ")}`);
+  let packageManager = $state<PackageManager>("pnpm");
+  const registryTargets = $derived(
+    shadcnSvelte.replace(/^pnpm dlx shadcn-svelte@latest add\s+/, ""),
+  );
+  const cliCommands = $derived(shadcnInstallCommands(registryTargets));
+  const dependencyCommands = $derived(dependencyInstallCommands(dependencies));
 
   onMount(() => {
     const saved = localStorage.getItem("coss-installation-method");
     if (saved === "cli" || saved === "manual") selected = saved;
+    const savedPackageManager = localStorage.getItem("coss-package-manager");
+    if (
+      savedPackageManager === "bun" ||
+      savedPackageManager === "npm" ||
+      savedPackageManager === "pnpm" ||
+      savedPackageManager === "yarn"
+    ) {
+      packageManager = savedPackageManager;
+    }
     selectedFile ??= files[0]?.path;
   });
 
@@ -30,6 +47,7 @@
     if (selected === "cli" || selected === "manual") {
       localStorage.setItem("coss-installation-method", selected);
     }
+    localStorage.setItem("coss-package-manager", packageManager);
   });
 </script>
 
@@ -43,24 +61,7 @@
   </Tabs.List>
 
   <Tabs.Panel value="cli">
-    <div
-      class="relative overflow-hidden rounded-xl border border-border/64 bg-code text-code-foreground [&_code]:font-mono [&_code]:text-[0.8125rem] [&_code]:leading-none [&_pre]:m-0 [&_pre]:overflow-x-auto [&_pre]:rounded-none [&_pre]:border-0 [&_pre]:px-4 [&_pre]:py-3.5"
-    >
-      <div class="flex min-h-10 items-center gap-2 border-border/64 border-b px-4 py-1 font-mono">
-        <HugeiconsIcon
-          aria-hidden="true"
-          class="size-4"
-          icon={ComputerTerminal02Icon}
-          strokeWidth={2}
-        />
-        <span
-          class="rounded-lg bg-accent px-2.5 py-1.5 text-foreground text-[0.8125rem] font-medium"
-          >pnpm</span
-        >
-      </div>
-      <pre><code>{shadcnSvelte}</code></pre>
-      <CopyButton class="absolute top-1.5 right-1.5 z-3" value={shadcnSvelte} />
-    </div>
+    <PackageManagerCommand commands={cliCommands} bind:value={packageManager} />
   </Tabs.Panel>
 
   <Tabs.Panel value="manual">
@@ -68,26 +69,7 @@
       {#if dependencies.length > 0}
         <li>
           <p>Install the following dependencies:</p>
-          <div
-            class="relative overflow-hidden rounded-xl border border-border/64 bg-code text-code-foreground [&_code]:font-mono [&_code]:text-[0.8125rem] [&_code]:leading-none [&_pre]:m-0 [&_pre]:overflow-x-auto [&_pre]:rounded-none [&_pre]:border-0 [&_pre]:px-4 [&_pre]:py-3.5"
-          >
-            <div
-              class="flex min-h-10 items-center gap-2 border-border/64 border-b px-4 py-1 font-mono"
-            >
-              <HugeiconsIcon
-                aria-hidden="true"
-                class="size-4"
-                icon={ComputerTerminal02Icon}
-                strokeWidth={2}
-              />
-              <span
-                class="rounded-lg bg-accent px-2.5 py-1.5 text-foreground text-[0.8125rem] font-medium"
-                >pnpm</span
-              >
-            </div>
-            <pre><code>{dependencyCommand}</code></pre>
-            <CopyButton class="absolute top-1.5 right-1.5 z-3" value={dependencyCommand} />
-          </div>
+          <PackageManagerCommand commands={dependencyCommands} bind:value={packageManager} />
         </li>
       {/if}
       <li>
