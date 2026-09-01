@@ -6,6 +6,7 @@ export const targetBaseUrl = targetPreviewBaseUrl(targetPreviewPort);
 
 const inheritedEnvironment = { ...process.env };
 delete inheritedEnvironment.NO_COLOR;
+const firefoxTooltipTest = /tooltip-firefox\.spec\.ts/;
 
 function withHeapLimit(value: string | undefined, megabytes: number): string {
   return [
@@ -60,6 +61,7 @@ export default defineConfig({
   projects: [
     {
       name: "light",
+      testIgnore: firefoxTooltipTest,
       use: {
         colorScheme: "light",
         reducedMotion: "reduce",
@@ -67,6 +69,7 @@ export default defineConfig({
     },
     {
       name: "dark",
+      testIgnore: firefoxTooltipTest,
       use: {
         colorScheme: "dark",
         reducedMotion: "reduce",
@@ -74,7 +77,17 @@ export default defineConfig({
     },
     {
       name: "motion",
+      testIgnore: firefoxTooltipTest,
       use: {
+        colorScheme: "light",
+        reducedMotion: "no-preference",
+      },
+    },
+    {
+      name: "firefox-tooltip",
+      testMatch: firefoxTooltipTest,
+      use: {
+        ...devices["Desktop Firefox"],
         colorScheme: "light",
         reducedMotion: "no-preference",
       },
