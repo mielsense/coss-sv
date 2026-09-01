@@ -1,7 +1,7 @@
 import { access, mkdir, mkdtemp, readdir, readFile, rm, writeFile } from "node:fs/promises";
 import { createServer, type Server } from "node:http";
 import type { AddressInfo } from "node:net";
-import { dirname, join, resolve } from "node:path";
+import { delimiter, dirname, join, resolve } from "node:path";
 import {
   type RegistryDefinition,
   type RegistryItem,
@@ -363,9 +363,15 @@ async function closeServer(server: Server | undefined): Promise<void> {
 }
 
 function isolatedEnvironment(temporaryRoot: string): NodeJS.ProcessEnv {
-  const childPath = [resolve(dirname(process.execPath)), "/usr/local/bin", "/usr/bin", "/bin"].join(
-    ":",
-  );
+  const childPath = [
+    resolve(dirname(process.execPath)),
+    process.env.PNPM_HOME,
+    "/usr/local/bin",
+    "/usr/bin",
+    "/bin",
+  ]
+    .filter((path): path is string => Boolean(path))
+    .join(delimiter);
 
   return {
     ...process.env,
