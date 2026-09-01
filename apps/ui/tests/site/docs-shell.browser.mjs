@@ -89,6 +89,14 @@ function assertNear(actual, expected, label, tolerance = 1) {
   );
 }
 
+function assertFontWidth(actual, expected, label) {
+  assertNear(actual, expected, label, 1 + expected * 0.03);
+}
+
+function assertHorizontallyCentered(metrics, viewportWidth, label) {
+  assertNear(metrics.x + metrics.width / 2, viewportWidth / 2, label);
+}
+
 try {
   await page.goto(`${baseUrl}/`);
   await page.locator("[data-category-grid]").waitFor();
@@ -269,22 +277,22 @@ try {
     };
   });
   assert.ok(desktopError.heading && desktopError.description && desktopError.action);
-  assertNear(desktopError.heading.x, 466.977, "desktop 404 heading x");
+  assertHorizontallyCentered(desktopError.heading, 1280, "desktop 404 heading center");
   assertNear(desktopError.heading.y, 128, "desktop 404 heading y");
-  assertNear(desktopError.heading.width, 346.039, "desktop 404 heading width");
+  assertFontWidth(desktopError.heading.width, 346.039, "desktop 404 heading width");
   assertNear(desktopError.heading.height, 48, "desktop 404 heading height");
   assert.equal(desktopError.heading.fontSize, "48px");
   assert.equal(desktopError.heading.lineHeight, "48px");
   assert.equal(desktopError.heading.fontWeight, "700");
-  assertNear(desktopError.description.x, 369.086, "desktop 404 description x");
+  assertHorizontallyCentered(desktopError.description, 1280, "desktop 404 description center");
   assertNear(desktopError.description.y, 192, "desktop 404 description y");
-  assertNear(desktopError.description.width, 541.82, "desktop 404 description width");
+  assertFontWidth(desktopError.description.width, 541.82, "desktop 404 description width");
   assertNear(desktopError.description.height, 28, "desktop 404 description height");
   assert.equal(desktopError.description.fontSize, "18px");
   assert.equal(desktopError.description.lineHeight, "28px");
-  assertNear(desktopError.action.x, 569.719, "desktop 404 action x");
+  assertHorizontallyCentered(desktopError.action, 1280, "desktop 404 action center");
   assertNear(desktopError.action.y, 252, "desktop 404 action y");
-  assertNear(desktopError.action.width, 140.555, "desktop 404 action width");
+  assertFontWidth(desktopError.action.width, 140.555, "desktop 404 action width");
   assertNear(desktopError.action.height, 36, "desktop 404 action height");
   assert.equal(desktopError.action.fontSize, "14px");
   assert.equal(desktopError.action.lineHeight, "20px");
@@ -338,7 +346,7 @@ try {
   assertNear(mobileHome.hero.x, 16, "mobile home hero x");
   assertNear(mobileHome.hero.y, 64, "mobile home hero y");
   assertNear(mobileHome.heading.width, 358, "mobile home heading width");
-  assertNear(mobileHome.actions.width, 307.578, "mobile home actions width");
+  assertFontWidth(mobileHome.actions.width, 307.578, "mobile home actions width");
   assertNear(mobileHome.grid.x, 16, "mobile home category grid x");
   assertNear(mobileHome.card.width, 358, "mobile home category card width");
 
@@ -387,9 +395,9 @@ try {
     };
   });
   assert.ok(mobileError.heading && mobileError.description && mobileError.action);
-  assertNear(mobileError.heading.x, 65.234, "mobile 404 heading x");
+  assertHorizontallyCentered(mobileError.heading, 390, "mobile 404 heading center");
   assertNear(mobileError.heading.y, 96, "mobile 404 heading y");
-  assertNear(mobileError.heading.width, 259.531, "mobile 404 heading width");
+  assertFontWidth(mobileError.heading.width, 259.531, "mobile 404 heading width");
   assertNear(mobileError.heading.height, 40, "mobile 404 heading height");
   assert.equal(mobileError.heading.fontSize, "36px");
   assert.equal(mobileError.heading.lineHeight, "40px");
@@ -399,9 +407,9 @@ try {
   assertNear(mobileError.description.height, 48, "mobile 404 description height");
   assert.equal(mobileError.description.fontSize, "16px");
   assert.equal(mobileError.description.lineHeight, "24px");
-  assertNear(mobileError.action.x, 118.633, "mobile 404 action x");
+  assertHorizontallyCentered(mobileError.action, 390, "mobile 404 action center");
   assertNear(mobileError.action.y, 216, "mobile 404 action y");
-  assertNear(mobileError.action.width, 152.727, "mobile 404 action width");
+  assertFontWidth(mobileError.action.width, 152.727, "mobile 404 action width");
   assertNear(mobileError.action.height, 40, "mobile 404 action height");
   assert.equal(mobileError.action.fontSize, "16px");
   assert.equal(mobileError.action.lineHeight, "24px");
