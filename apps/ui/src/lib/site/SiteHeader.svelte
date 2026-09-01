@@ -6,7 +6,7 @@
   import { onMount } from "svelte";
   import CommandMenu from "./CommandMenu.svelte";
   import MobileNav from "./MobileNav.svelte";
-  import { primaryNavigation, upstreamUrl } from "./site.js";
+  import { primaryNavigation, repositoryUrl } from "./site.js";
 
   let hydrated = $state(false);
 
@@ -62,11 +62,11 @@
       <span class="ms-2 hidden h-5 w-px bg-site-border md:block" aria-hidden="true"></span>
       <a
         class="inline-flex min-h-8 w-8 items-center justify-center gap-1.5 rounded-lg border border-transparent bg-transparent p-0 text-site-muted text-[0.8125rem] no-underline hover:bg-site-foreground/4 focus-visible:outline-2 focus-visible:outline-site-primary focus-visible:outline-offset-3 sm:w-auto sm:px-2 [&_svg]:size-4"
-        href={upstreamUrl}
-        aria-label="COSS upstream repository"
+        href={repositoryUrl}
+        aria-label="COSS for Svelte repository"
       >
         <HugeiconsIcon aria-hidden="true" icon={GithubIcon} strokeWidth={2} />
-        <span class="hidden sm:inline">10.4k</span>
+        <span class="hidden sm:inline">0</span>
       </a>
       <button
         class="inline-flex size-8 cursor-pointer items-center justify-center rounded-lg border border-site-border bg-transparent p-0 shadow-[0_1px_2px_rgb(0_0_0/4%)] hover:bg-site-foreground/4 focus-visible:outline-2 focus-visible:outline-site-primary focus-visible:outline-offset-3 [&_svg]:size-4"

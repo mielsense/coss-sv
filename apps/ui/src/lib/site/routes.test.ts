@@ -20,16 +20,20 @@ describe("documentation routes", () => {
     expect(body).not.toContain("github.com/mielsense/coss-sv");
   });
 
-  test("shared chrome retains COSS provenance and identifies the Svelte port", async () => {
+  test("shared chrome links to the Svelte port and keeps upstream provenance separate", async () => {
     const header = await readFile(new URL("./SiteHeader.svelte", import.meta.url), "utf8");
     const commandMenu = await readFile(new URL("./CommandMenu.svelte", import.meta.url), "utf8");
     const mobileNav = await readFile(new URL("./MobileNav.svelte", import.meta.url), "utf8");
     const site = await readFile(new URL("./site.ts", import.meta.url), "utf8");
     const footer = render(SiteFooter).body;
 
-    expect(header).toContain("upstreamUrl");
+    expect(header).toContain("repositoryUrl");
+    expect(header).not.toContain("upstreamUrl");
+    expect(site).toContain("https://github.com/mielsense/coss-sv");
     expect(site).toContain("https://github.com/cosscom/coss");
-    expect(header).toContain("10.4k");
+    expect(header).not.toContain("10.4k");
+    expect(header).toContain('aria-label="COSS for Svelte repository"');
+    expect(header).toContain('<span class="hidden sm:inline">0</span>');
     expect(header).toContain('data-theme-glyph="contrast"');
     expect(header).not.toContain("M12 2v2m0 16v2");
     expect(commandMenu).toContain('aria-label="Search documentation"');
