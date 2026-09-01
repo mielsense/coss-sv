@@ -91,6 +91,12 @@ try {
     "true",
   );
 
+  const search = page.getByRole("combobox", { name: "Search components" });
+  await search.fill("spi");
+  assert.equal(await page.getByRole("option", { name: "Spinner", exact: true }).count(), 1);
+  assert.equal(await page.getByRole("option", { name: "Accordion", exact: true }).count(), 0);
+  await search.fill("");
+
   await page.getByRole("option", { name: "Button", exact: true }).click();
   await page.waitForURL(/tags=button$/);
   assert.equal(await page.locator("[data-particle-card]").count(), 90);
@@ -131,6 +137,16 @@ try {
   await page.keyboard.press("Escape");
   await dialog.waitFor({ state: "detached" });
   assert.equal(await firstViewCode.evaluate((element) => element === document.activeElement), true);
+
+  await page.goto(`${baseUrl}/docs/components/skeleton`);
+  const skeletonExample = page.locator('[data-particle="p-skeleton-1"]');
+  await skeletonExample.getByRole("tab", { name: "Code" }).click();
+  const skeletonSource = skeletonExample.locator("[data-source-panel] pre");
+  await skeletonSource.waitFor();
+  const skeletonSourceText = (await skeletonSource.textContent()) ?? "";
+  assert.match(skeletonSourceText, /\$lib\/components\/ui\/skeleton\/index\.js/);
+  assert.match(skeletonSourceText, /<Avatar\.Root/);
+  assert.equal(await skeletonExample.locator("[data-source-load-error]").count(), 0);
 
   await page.goto(`${baseUrl}/particles?tags=not-real`);
   assert.equal(

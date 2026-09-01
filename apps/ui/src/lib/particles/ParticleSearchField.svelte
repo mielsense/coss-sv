@@ -6,7 +6,11 @@
   import Search01Icon from "@hugeicons/core-free-icons/Search01Icon";
   import { Combobox, HugeiconsIcon } from "@coss-sv/ui";
   import type { ParticleCatalogEntry } from "./catalog.js";
-  import { groupParticleSearchItems, type ParticleSearchItem } from "./model.js";
+  import {
+    groupParticleSearchItems,
+    type ParticleSearchGroup,
+    type ParticleSearchItem,
+  } from "./model.js";
 
   let {
     items,
@@ -71,31 +75,33 @@
     <Combobox.Popup>
       <Combobox.Empty>No filters found.</Combobox.Empty>
       <Combobox.List>
-        {#each groupedItems as group (group.type)}
-          {#if group.type === "disabled"}
-            <Combobox.Separator class="my-2" />
-          {/if}
-          <Combobox.Group items={group.items}>
-            <Combobox.GroupLabel>
-              {group.type === "enabled" ? "Filter particles" : "No matches"}
-            </Combobox.GroupLabel>
-            <Combobox.Collection>
-              {#snippet children(item: ParticleSearchItem)}
-                <Combobox.Item disabled={group.type === "disabled"} value={item}>
-                  <span class="flex items-center gap-2">
-                    <HugeiconsIcon
-                      aria-hidden="true"
-                      class="opacity-80"
-                      icon={LabelIcon}
-                      strokeWidth={2}
-                    />
-                    <span>{item.label}</span>
-                  </span>
-                </Combobox.Item>
-              {/snippet}
-            </Combobox.Collection>
-          </Combobox.Group>
-        {/each}
+        <Combobox.Collection>
+          {#snippet children(group: ParticleSearchGroup)}
+            {#if group.type === "disabled"}
+              <Combobox.Separator class="my-2" />
+            {/if}
+            <Combobox.Group items={group.items}>
+              <Combobox.GroupLabel>
+                {group.type === "enabled" ? "Filter particles" : "No matches"}
+              </Combobox.GroupLabel>
+              <Combobox.Collection>
+                {#snippet children(item: ParticleSearchItem)}
+                  <Combobox.Item disabled={group.type === "disabled"} value={item}>
+                    <span class="flex items-center gap-2">
+                      <HugeiconsIcon
+                        aria-hidden="true"
+                        class="opacity-80"
+                        icon={LabelIcon}
+                        strokeWidth={2}
+                      />
+                      <span>{item.label}</span>
+                    </span>
+                  </Combobox.Item>
+                {/snippet}
+              </Combobox.Collection>
+            </Combobox.Group>
+          {/snippet}
+        </Combobox.Collection>
       </Combobox.List>
     </Combobox.Popup>
   </Combobox.Root>

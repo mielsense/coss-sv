@@ -7,7 +7,7 @@ type VercelConfig = {
     headers: Array<{ key: string; value: string }>;
     source: string;
   }>;
-  redirects: Array<{
+  redirects?: Array<{
     destination: string;
     permanent: boolean;
     source: string;
@@ -35,13 +35,9 @@ describe("Vercel registry delivery", () => {
     );
   });
 
-  test("redirects extensionless registry requests to JSON temporarily", async () => {
+  test("does not redirect explicit registry JSON URLs", async () => {
     const config = await readConfig();
 
-    expect(config.redirects).toContainEqual({
-      source: "/r/:name",
-      destination: "/r/:name.json",
-      permanent: false,
-    });
+    expect(config.redirects ?? []).toEqual([]);
   });
 });
