@@ -33,6 +33,11 @@ test("types single and multiple values, input synchronization, native attributes
     onValueChange: (_value: string[]) => undefined,
     value: ["Apple"],
   } satisfies ComboboxRootProps<string, true>;
+  const nullableMultiple = {
+    items: ["Apple"],
+    multiple: true,
+    value: null,
+  } satisfies ComboboxRootProps<string, true>;
   const input = { "aria-label": "Fruit", showClear: true, size: "sm" } satisfies ComboboxInputProps;
   const clear = { children, "data-testid": "clear" } satisfies ComboboxClearProps;
   const popup = { children, portalProps: { keepMounted: true } } satisfies ComboboxPopupProps;
@@ -50,6 +55,7 @@ test("types single and multiple values, input synchronization, native attributes
   } satisfies ComboboxValueProps<string, true>;
   expect(single.value).toBe("Apple");
   expect(multiple.value).toEqual(["Apple"]);
+  expect(nullableMultiple.value).toBeNull();
   expect(input.size).toBe("sm");
   expect(clear.children).toBe(children);
   expect(popup.portalProps?.keepMounted).toBe(true);

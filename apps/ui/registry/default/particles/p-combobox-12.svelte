@@ -28,7 +28,7 @@
     { label: "Pear", value: "pear" },
   ] as const;
   type Item = (typeof items)[number];
-  let value = $state<Item[]>([]);
+  let value = $state.raw<Item[]>([]);
   let loading = $state(false);
   async function submit(event: SubmitEvent): Promise<void> {
     event.preventDefault();

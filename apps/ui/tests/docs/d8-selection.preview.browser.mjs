@@ -120,6 +120,14 @@ try {
 
   await openParticle("p-combobox-9");
   const combobox = page.getByRole("combobox", { name: "Select a item" });
+  await combobox.click();
+  const apple = page.getByRole("option", { name: "Apple", exact: true });
+  assert.equal(await apple.getAttribute("aria-selected"), "true");
+  await apple.click();
+  assert.equal(await apple.getAttribute("aria-selected"), "false");
+  assert.equal(await page.locator('[data-slot="combobox-chip"]').count(), 1);
+  await apple.click();
+  assert.equal(await apple.getAttribute("aria-selected"), "true");
   await combobox.fill("banana");
   await page.getByRole("option", { name: "Banana" }).click();
   const bananaChip = page.locator('[data-slot="combobox-chip"]').filter({ hasText: "Banana" });

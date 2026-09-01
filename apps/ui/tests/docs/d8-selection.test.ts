@@ -251,6 +251,20 @@ describe("D8 selection, command, and menu documentation", () => {
     expect(body).not.toContain('aria-label="Select a item"');
   });
 
+  test("keeps object-valued multiple Combobox selections outside deep state proxies", () => {
+    for (const id of [
+      "p-combobox-9",
+      "p-combobox-12",
+      "p-combobox-14",
+      "p-combobox-19",
+      "p-combobox-20",
+    ]) {
+      expect(source(`apps/ui/registry/default/particles/${id}.svelte`)).toMatch(
+        /\$state\.raw<[^>]+\[\]>/,
+      );
+    }
+  });
+
   test("keeps Command AI parity state, scrolling, focus hooks, and response footer", () => {
     const particle = source("apps/ui/registry/default/particles/p-command-2.svelte");
     expect(particle).toContain("<ScrollArea");

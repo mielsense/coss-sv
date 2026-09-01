@@ -40,6 +40,15 @@ describe("D8 selection, command, and menu examples", () => {
     const view = mount(ComboboxExample, { target: document.body });
     const input = page.getByRole("combobox", { name: "Select a item" });
     await input.click();
+    const apple = page.getByRole("option", { name: "Apple", exact: true });
+    await expect.element(apple).toHaveAttribute("aria-selected", "true");
+    await apple.click();
+    await expect.element(apple).toHaveAttribute("aria-selected", "false");
+    await expect
+      .poll(() => document.querySelectorAll('[data-slot="combobox-chip"]'))
+      .toHaveLength(1);
+    await apple.click();
+    await expect.element(apple).toHaveAttribute("aria-selected", "true");
     await userEvent.fill(input, "banana");
     await page.getByRole("option", { name: "Banana" }).click();
     await expect.element(page.getByText("Banana", { exact: true })).toBeVisible();
@@ -375,6 +384,15 @@ describe("D8 selection, command, and menu examples", () => {
     await page.getByRole("option", { name: "Apple", exact: true }).click();
     await input.fill("Banana");
     await page.getByRole("option", { name: "Banana", exact: true }).click();
+    await input.fill("");
+    await input.click();
+    await expect
+      .element(page.getByRole("option", { name: "Apple", exact: true }))
+      .toHaveAttribute("aria-selected", "true");
+    await expect
+      .element(page.getByRole("option", { name: "Banana", exact: true }))
+      .toHaveAttribute("aria-selected", "true");
+    await userEvent.keyboard("{Escape}");
     await page.getByRole("button", { name: "Submit" }).click();
 
     await expect

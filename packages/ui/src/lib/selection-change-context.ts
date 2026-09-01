@@ -54,10 +54,16 @@ export function setSelectionChangeContext(context: SelectionChangeContext): Sele
   return setContext(selectionChangeContextKey, context);
 }
 
-function flattenSelectionItems<Value>(items: unknown): Value[] {
+function flattenSelectionItems<Value>(items: unknown, unwrapDescriptors: boolean): Value[] {
   const values: Value[] = [];
   const append = (entry: unknown): void => {
-    if (entry && typeof entry === "object" && "label" in entry && "value" in entry) {
+    if (
+      unwrapDescriptors &&
+      entry &&
+      typeof entry === "object" &&
+      "label" in entry &&
+      "value" in entry
+    ) {
       values.push((entry as { value: Value }).value);
     } else {
       values.push(entry as Value);
@@ -93,6 +99,39 @@ function hasSamePrimitiveFields(left: unknown, right: unknown): boolean {
   );
 }
 
+function canonicalizeFromItems<Value>(
+  value: Value,
+  items: readonly Value[],
+  isItemEqualToValue?: (item: Value, value: Value) => boolean,
+  itemToString?: (item: Value) => string,
+): Value {
+  for (const item of items) {
+    if (isItemEqualToValue) {
+      if (isItemEqualToValue(item, value)) return item;
+      continue;
+    }
+    if (Object.is(item, value)) return item;
+    if (itemToString && itemToString(item) === itemToString(value)) return item;
+    if (hasSamePrimitiveFields(item, value)) return item;
+  }
+  return value;
+}
+
+function canonicalizeComboboxFromItems<Value>(
+  value: Value,
+  items: readonly Value[],
+  isItemEqualToValue?: (item: Value, value: Value) => boolean,
+): Value {
+  for (const item of items) {
+    if (isItemEqualToValue) {
+      if (isItemEqualToValue(item, value)) return item;
+      continue;
+    }
+    if (Object.is(item, value)) return item;
+  }
+  return value;
+}
+
 /** Restores a selected object's identity after it crosses a reactive primitive boundary. */
 export function canonicalizeSelectionValue<Value>(
   value: Value,
@@ -100,13 +139,37 @@ export function canonicalizeSelectionValue<Value>(
   isItemEqualToValue?: (item: Value, value: Value) => boolean,
   itemToString?: (item: Value) => string,
 ): Value {
-  for (const item of flattenSelectionItems<Value>(items)) {
-    if (Object.is(item, value)) return item;
-    if (isItemEqualToValue?.(item, value)) return item;
-    if (itemToString && itemToString(item) === itemToString(value)) return item;
-    if (hasSamePrimitiveFields(item, value)) return item;
-  }
-  return value;
+  return canonicalizeFromItems(
+    value,
+    flattenSelectionItems<Value>(items, true),
+    isItemEqualToValue,
+    itemToString,
+  );
+}
+
+/** Restores a Combobox item's identity without treating `{ label, value }` items as wrappers. */
+export function canonicalizeComboboxSelectionValue<Value>(
+  value: Value,
+  items: unknown,
+  isItemEqualToValue?: (item: Value, value: Value) => boolean,
+): Value {
+  return canonicalizeComboboxFromItems(
+    value,
+    flattenSelectionItems<Value>(items, false),
+    isItemEqualToValue,
+  );
+}
+
+/** Restores multiple Combobox item identities while flattening the item collection once. */
+export function canonicalizeComboboxSelectionValues<Value>(
+  values: readonly Value[],
+  items: unknown,
+  isItemEqualToValue?: (item: Value, value: Value) => boolean,
+): Value[] {
+  const flattenedItems = flattenSelectionItems<Value>(items, false);
+  return values.map((value) =>
+    canonicalizeComboboxFromItems(value, flattenedItems, isItemEqualToValue),
+  );
 }
 
 export function areSelectionValuesEqual(left: unknown, right: unknown): boolean {

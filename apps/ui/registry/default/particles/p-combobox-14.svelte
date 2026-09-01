@@ -27,7 +27,7 @@
     { label: "Pear", value: "pear" },
   ] as const;
   type Item = (typeof items)[number];
-  let value = $state<Item[]>([items[0], items[3]]);
+  let value = $state.raw<Item[]>([items[0], items[3]]);
 </script>
 
 <Combobox.Root {items} multiple bind:value name="fruits">

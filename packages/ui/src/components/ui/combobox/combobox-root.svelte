@@ -40,7 +40,7 @@
   > & {
     defaultInputValue?: string;
     defaultOpen?: boolean;
-    defaultValue?: ComboboxValue<Value, Multiple>;
+    defaultValue?: ComboboxValue<Value, Multiple> | null;
     filter?:
       | null
       | ((item: Value, query: string, itemToString?: (item: Value) => string) => boolean);
@@ -62,7 +62,7 @@
       eventDetails: ComboboxChangeEventDetails,
     ) => void;
     open?: boolean;
-    value?: ComboboxValue<Value, Multiple> | undefined;
+    value?: ComboboxValue<Value, Multiple> | null | undefined;
   };
 
   type ComboboxPrimitiveRootProps<Value, Multiple extends boolean | undefined> = Omit<
@@ -76,7 +76,7 @@
       index: number,
     ) => void;
     onOpenChange?: (open: boolean) => void;
-    onValueChange?: (value: ComboboxValue<Value, Multiple>) => void;
+    onValueChange?: (value: ComboboxValue<Value, Multiple> | null) => void;
   };
 </script>
 
@@ -87,7 +87,8 @@
   import { createGenericEventDetails } from "@/change-event-details.js";
   import {
     areSelectionValuesEqual,
-    canonicalizeSelectionValue,
+    canonicalizeComboboxSelectionValue,
+    canonicalizeComboboxSelectionValues,
     createSelectionChangeContext,
     setSelectionChangeContext,
   } from "@/selection-change-context.js";
@@ -125,7 +126,7 @@
   let pendingInput: { canceled: boolean; value: string } | undefined;
   let pendingOpen: { canceled: boolean; value: boolean } | undefined;
   const currentValue = $derived(
-    valueControlled ? (value as ComboboxValue<Value, Multiple>) : internalValue,
+    valueControlled ? (value as ComboboxValue<Value, Multiple> | null) : internalValue,
   );
   const currentInputValue = $derived(inputControlled ? (inputValue as string) : internalInputValue);
   const currentOpen = $derived(openControlled ? (open as boolean) : internalOpen);
@@ -140,28 +141,31 @@
     "inputValue" | "open" | "value"
   >;
 
-  function getValue(): ComboboxValue<Value, Multiple> {
+  function getValue(): ComboboxValue<Value, Multiple> | null {
     return currentValue;
   }
 
-  function canonicalize(next: ComboboxValue<Value, Multiple>): ComboboxValue<Value, Multiple> {
-    const stringify = itemToStringValue ?? itemToStringLabel;
+  function canonicalize(
+    next: ComboboxValue<Value, Multiple> | null,
+  ): ComboboxValue<Value, Multiple> {
     if (multiple) {
-      return (next as Value[]).map((item) =>
-        canonicalizeSelectionValue(item, items, isItemEqualToValue, stringify),
+      if (!Array.isArray(next)) return [] as ComboboxValue<Value, Multiple>;
+      return canonicalizeComboboxSelectionValues(
+        next as Value[],
+        items,
+        isItemEqualToValue,
       ) as ComboboxValue<Value, Multiple>;
     }
     return next === null
-      ? next
-      : (canonicalizeSelectionValue(
+      ? (next as ComboboxValue<Value, Multiple>)
+      : (canonicalizeComboboxSelectionValue(
           next as Value,
           items,
           isItemEqualToValue,
-          stringify,
         ) as ComboboxValue<Value, Multiple>);
   }
 
-  function setValue(next: ComboboxValue<Value, Multiple>): void {
+  function setValue(next: ComboboxValue<Value, Multiple> | null): void {
     const canonicalValue = canonicalize(next);
     if (pendingValue && areSelectionValuesEqual(pendingValue.value, canonicalValue)) {
       const { canceled } = pendingValue;
@@ -172,7 +176,7 @@
     value = canonicalValue;
   }
 
-  function handleValueChange(next: ComboboxValue<Value, Multiple>): void {
+  function handleValueChange(next: ComboboxValue<Value, Multiple> | null): void {
     const canonicalValue = canonicalize(next);
     const details = change.details();
     onValueChange?.(canonicalValue, details);

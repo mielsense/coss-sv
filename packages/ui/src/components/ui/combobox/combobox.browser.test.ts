@@ -43,6 +43,52 @@ describe("Combobox browser contract", () => {
     ).toEqual(["Grape", "Banana"]);
   });
 
+  test("recognizes and toggles raw object values in multiple mode", async () => {
+    render(Fixture);
+    const input = page.getByRole("combobox", { name: "Choose multiple people" });
+    await input.click();
+    const ada = page.getByRole("option", { name: "Ada Lovelace" });
+
+    await expect.element(ada).toHaveAttribute("aria-selected", "true");
+    await ada.click();
+
+    await expect
+      .element(page.getByTestId("multiple-people-value"))
+      .toHaveTextContent("Grace Hopper");
+    await expect.element(ada).toHaveAttribute("aria-selected", "false");
+  });
+
+  test("honors an explicit comparer for reactive objects with duplicate labels", async () => {
+    render(Fixture);
+    const input = page.getByRole("combobox", { name: "Choose duplicate-name people" });
+    await input.click();
+    const options = page.getByRole("option", { name: "Same name" });
+
+    await expect.element(options.nth(0)).toHaveAttribute("aria-selected", "false");
+    await expect.element(options.nth(1)).toHaveAttribute("aria-selected", "true");
+    await options.nth(0).click();
+
+    await expect
+      .element(page.getByTestId("duplicate-name-value"))
+      .toHaveTextContent("second,first");
+    await expect.element(options.nth(0)).toHaveAttribute("aria-selected", "true");
+    await options.nth(1).click();
+
+    await expect.element(page.getByTestId("duplicate-name-value")).toHaveTextContent("first");
+    await expect.element(options.nth(1)).toHaveAttribute("aria-selected", "false");
+  });
+
+  test("normalizes a controlled null value in multiple mode", async () => {
+    render(Fixture);
+    const input = page.getByRole("combobox", { name: "Choose from a nullable value" });
+    await input.click();
+    await page.getByRole("option", { name: "Ada Lovelace" }).click();
+
+    await expect
+      .element(page.getByTestId("nullable-people-value"))
+      .toHaveTextContent("Ada Lovelace");
+  });
+
   test("preserves exact object identity", async () => {
     render(Fixture);
     const input = page.getByRole("combobox", { name: "Choose person" });

@@ -74,7 +74,7 @@
     },
   ];
   let comboboxOpen = $state(false);
-  let selected = $state<TeamMember[]>(teamMembers.slice(0, 2));
+  let selected = $state.raw<TeamMember[]>(teamMembers.slice(0, 2));
   function remove(value: string): void {
     selected = selected.filter((item) => item.value !== value);
   }
