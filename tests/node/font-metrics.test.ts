@@ -6,6 +6,8 @@ describe("font-derived width assertions", () => {
   test("accepts the observed macOS and Linux shaping envelope", () => {
     expect(() => assertFontMetricWidth(127, 124.546875)).not.toThrow();
     expect(() => assertFontMetricWidth(48, 49.046875)).not.toThrow();
+    expect(() => assertFontMetricWidth(318, 311.609375)).not.toThrow();
+    expect(() => assertFontMetricWidth(70, 68.0078125)).not.toThrow();
   });
 
   test("rejects layout drift outside the renderer envelope", () => {

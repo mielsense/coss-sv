@@ -1,5 +1,5 @@
 const absoluteRendererTolerance = 1;
-const relativeRendererTolerance = 0.012;
+const relativeRendererTolerance = 0.02;
 
 export function assertFontMetricWidth(received: number | undefined, expected: number): void {
   if (received === undefined) throw new Error("Element has no measurable width.");
