@@ -3,6 +3,7 @@ import { spawn } from "node:child_process";
 import { createServer } from "node:net";
 import { fileURLToPath } from "node:url";
 import { chromium } from "playwright";
+import { mockOpenAnalytics } from "../browser/instrumentation.mjs";
 
 const appDirectory = fileURLToPath(new URL("../..", import.meta.url));
 const viteExecutable = fileURLToPath(
@@ -45,6 +46,7 @@ async function waitForPreview() {
 
 const browser = await chromium.launch({ headless: true });
 const page = await browser.newPage({ viewport: { height: 844, width: 390 } });
+await mockOpenAnalytics(page);
 const diagnostics = [];
 page.on("console", (message) => {
   if (["error", "warning"].includes(message.type()))
@@ -91,7 +93,10 @@ async function expectTooltipFromFocus({ buttonName, particle, side, text }) {
       `${particle} vertical anchor alignment`,
     );
   } else {
-    assert.ok(tooltipBox.y + tooltipBox.height <= triggerBox.y, `${particle} top-side anchor`);
+    assert.ok(
+      tooltipBox.y + tooltipBox.height <= triggerBox.y,
+      `${particle} top-side anchor: trigger=${JSON.stringify(triggerBox)} tooltip=${JSON.stringify(tooltipBox)}`,
+    );
     assert.ok(
       Math.abs(tooltipBox.x + tooltipBox.width / 2 - (triggerBox.x + triggerBox.width / 2)) <= 2,
       `${particle} horizontal anchor alignment`,

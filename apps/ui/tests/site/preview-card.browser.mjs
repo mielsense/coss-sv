@@ -4,6 +4,7 @@ import { readFile } from "node:fs/promises";
 import { createServer } from "node:net";
 import { fileURLToPath } from "node:url";
 import { chromium } from "playwright";
+import { mockOpenAnalytics } from "../browser/instrumentation.mjs";
 
 let baseUrl = process.env.COSS_TEST_BASE_URL;
 const appDirectory = fileURLToPath(new URL("../..", import.meta.url));
@@ -81,6 +82,7 @@ const context = await browser.newContext({
   permissions: ["clipboard-read", "clipboard-write"],
   viewport: { height: 900, width: 1280 },
 });
+await mockOpenAnalytics(context);
 const page = await context.newPage();
 const diagnostics = [];
 const requestedPaths = new Set();

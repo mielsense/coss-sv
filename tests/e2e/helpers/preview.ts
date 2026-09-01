@@ -19,6 +19,7 @@ type ExternalRequestGuard = {
 export const fixedClockTime = "2026-01-15T12:00:00.000Z";
 export const localPreviewOrigins = createLocalPreviewOrigins(targetPreviewPort);
 export const previewSansFont = '14px "Cal Sans"';
+const mockedTestInstrumentation = new Set(["https://c.getopen.so/oa.js"]);
 
 const deterministicPages = new WeakMap<Page, ExternalRequestGuard>();
 
@@ -123,6 +124,10 @@ export async function prepareDeterministicPage(page: Page): Promise<ExternalRequ
       url.protocol === "blob:"
     ) {
       await route.continue();
+      return;
+    }
+    if (mockedTestInstrumentation.has(request.url())) {
+      await route.fulfill({ body: "", contentType: "application/javascript", status: 200 });
       return;
     }
 

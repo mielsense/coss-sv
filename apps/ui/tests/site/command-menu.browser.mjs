@@ -3,6 +3,7 @@ import { spawn } from "node:child_process";
 import { createServer } from "node:net";
 import { fileURLToPath } from "node:url";
 import { chromium } from "playwright";
+import { mockOpenAnalytics } from "../browser/instrumentation.mjs";
 
 let baseUrl = process.env.COSS_TEST_BASE_URL;
 const appDirectory = fileURLToPath(new URL("../..", import.meta.url));
@@ -75,6 +76,7 @@ const context = await browser.newContext({
   permissions: ["clipboard-read", "clipboard-write"],
   viewport: { width: 1280, height: 720 },
 });
+await mockOpenAnalytics(context);
 const page = await context.newPage();
 
 async function thumbnailStyles() {

@@ -5,6 +5,7 @@ import { createServer } from "node:net";
 import { join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
 import { chromium } from "playwright";
+import { mockOpenAnalytics } from "../browser/instrumentation.mjs";
 
 let baseUrl = process.env.COSS_TEST_BASE_URL;
 const appDirectory = fileURLToPath(new URL("../..", import.meta.url));
@@ -83,6 +84,7 @@ if (!baseUrl) {
 
 const browser = await chromium.launch({ headless: true });
 const context = await browser.newContext({ colorScheme: "light" });
+await mockOpenAnalytics(context);
 let activeRoute = "/docs";
 const diagnostics = [];
 function observe(pageToObserve) {

@@ -3,6 +3,7 @@ import { spawn } from "node:child_process";
 import { createServer } from "node:net";
 import { fileURLToPath } from "node:url";
 import { chromium } from "playwright";
+import { mockOpenAnalytics } from "../browser/instrumentation.mjs";
 
 let baseUrl = process.env.COSS_TEST_BASE_URL;
 const appDirectory = fileURLToPath(new URL("../..", import.meta.url));
@@ -74,6 +75,7 @@ const context = await browser.newContext({
   permissions: ["clipboard-read", "clipboard-write"],
   viewport: { height: 900, width: 1280 },
 });
+await mockOpenAnalytics(context);
 const page = await context.newPage();
 const diagnostics = [];
 
@@ -104,6 +106,7 @@ try {
   const initialIcon = await iconPaths();
   await copyMarkdown.click();
   assert.equal(await copyMarkdown.innerText(), "Copy Markdown");
+  await copyMarkdown.locator(`svg path[d="${copiedPath}"]`).waitFor();
   assert.equal(await showsCopiedIcon(), true, "successful copy should swap only the icon");
   assert.match(await page.evaluate(() => navigator.clipboard.readText()), /^# Get Started/m);
   await page.waitForTimeout(1_200);

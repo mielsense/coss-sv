@@ -4,6 +4,7 @@ import { readFile } from "node:fs/promises";
 import { createServer } from "node:net";
 import { fileURLToPath } from "node:url";
 import { chromium } from "playwright";
+import { mockOpenAnalytics } from "../browser/instrumentation.mjs";
 
 const appDirectory = fileURLToPath(new URL("../..", import.meta.url));
 const repositoryRoot = fileURLToPath(new URL("../../../..", import.meta.url));
@@ -102,6 +103,7 @@ async function inspectD6RuntimeParticles(ids) {
   const browser = await chromium.launch({ headless: true });
   try {
     const page = await browser.newPage({ viewport: { height: 900, width: 1440 } });
+    await mockOpenAnalytics(page);
     const diagnostics = [];
     page.on("pageerror", (error) => diagnostics.push(error.message));
 
@@ -125,6 +127,7 @@ async function inspectFieldValidityPreview() {
   const browser = await chromium.launch({ headless: true });
   try {
     const page = await browser.newPage({ viewport: { height: 900, width: 1440 } });
+    await mockOpenAnalytics(page);
     await page.goto(`${baseUrl}/preview/p-field-5?theme=light&width=desktop&timers=real`, {
       waitUntil: "networkidle",
     });
@@ -171,6 +174,7 @@ async function inspectInputGroupDefaultValue() {
   const browser = await chromium.launch({ headless: true });
   try {
     const page = await browser.newPage({ viewport: { height: 900, width: 1440 } });
+    await mockOpenAnalytics(page);
     await page.goto(`${baseUrl}/preview/p-input-group-18?theme=light&width=desktop&timers=real`, {
       waitUntil: "networkidle",
     });
