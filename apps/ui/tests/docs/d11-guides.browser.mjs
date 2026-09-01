@@ -184,10 +184,11 @@ try {
   const demo = page.locator("[data-testid='media-query-demo']");
   await demo.waitFor();
   await demo.getByRole("heading", { name: "Device & preferences", exact: true }).waitFor();
-  assert.equal((await demo.getByText("true", { exact: true }).count()) > 0, true);
+  const smallBreakpoint = demo.locator("li").filter({ hasText: 'useMediaQuery("sm")' });
+  await smallBreakpoint.getByText("true", { exact: true }).waitFor();
   await page.setViewportSize({ height: 844, width: 390 });
   await page.waitForFunction(() => document.documentElement.clientWidth === 390);
-  assert.equal((await demo.getByText("false", { exact: true }).count()) > 0, true);
+  await smallBreakpoint.getByText("false", { exact: true }).waitFor();
   assert.equal(await page.locator("[data-docs-frame]").count(), 1);
 
   await page.goto(`${baseUrl}/credits`);
