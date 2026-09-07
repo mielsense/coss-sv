@@ -14,6 +14,30 @@ const appRoot = fileURLToPath(new URL("../..", import.meta.url));
 const layout = resolve(appRoot, "src/lib/content/DocumentationLayout.svelte");
 
 describe("documentation MDsveX layout", () => {
+  test.each(["<script-widget></script-widget>", "<SCRIPT></SCRIPT>"])(
+    "does not inject Svelte imports into a non-instance tag: %s",
+    async (tag) => {
+      const filename = resolve(appRoot, "content/docs/example.svx");
+      const transformed = await documentationComponents().markup?.({
+        content: `${tag}\n\n# Example`,
+        filename,
+      });
+      expect(transformed?.code).toContain(tag);
+      expect(transformed?.code).toContain('<script lang="ts">\nimport {');
+    },
+  );
+
+  test("locates a multiline script opening without stopping inside a quoted attribute", async () => {
+    const filename = resolve(appRoot, "content/docs/example.svx");
+    const opening = '<script\n lang="ts" data-note="a > b">';
+    const transformed = await documentationComponents().markup?.({
+      content: `${opening}\nlet count = $state(0);\n</script>\n\n# Example`,
+      filename,
+    });
+    expect(transformed?.code).toContain(`${opening}\nimport {`);
+    expect(transformed?.code?.match(/<script/g)).toHaveLength(1);
+  });
+
   test("injects shared documentation components without page-local imports", async () => {
     const preprocessor = mdsvex({
       extensions: [".svx"],

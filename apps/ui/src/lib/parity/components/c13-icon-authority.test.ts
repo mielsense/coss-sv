@@ -63,7 +63,7 @@ describe("C13 parity fixture icon authority", () => {
     expect(category.match(/<svg\b/g)).toHaveLength(1);
     expect(
       category
-        ?.replace(/<[^>]+>/g, "")
+        ?.replace(/<[^>]+>/g, " ")
         .replaceAll("&gt;", ">")
         .replace(/\s+/g, " ")
         .trim(),

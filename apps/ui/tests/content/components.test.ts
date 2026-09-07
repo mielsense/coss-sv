@@ -75,7 +75,7 @@ describe("documentation components", () => {
     expect(body).toContain(">Code<");
     expect(body).not.toContain("data-source-panel");
     expect(body).not.toContain("Copy to clipboard");
-    expect(body.replace(/<[^>]*>/g, "")).not.toContain("$state(0)");
+    expect(body.replace(/<[^>]*>/g, " ")).not.toContain("$state(0)");
     expect(body).not.toContain("<iframe");
     expect(body).toContain('role="tabpanel"');
   });

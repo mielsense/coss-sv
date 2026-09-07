@@ -44,6 +44,29 @@ function frontmatterEnd(content: string): number {
   return /^---\r?\n[\s\S]*?\r?\n---\r?\n?/.exec(content)?.[0].length ?? 0;
 }
 
+function scriptOpening(content: string, offset: number) {
+  let start = offset;
+  while (start < content.length && /\s/.test(content[start] ?? "")) start += 1;
+  // Svelte instance scripts are lowercase. Uppercase SCRIPT is a component,
+  // and script-widget is a custom element. This locates code; it does not sanitize HTML.
+  if (!content.startsWith("<script", start)) return;
+  const attributesStart = start + "<script".length;
+  const next = content[attributesStart];
+  if (next !== ">" && !/\s/.test(next ?? "")) return;
+
+  let quote: string | undefined;
+  for (let index = attributesStart; index < content.length; index += 1) {
+    const character = content[index];
+    if (quote) {
+      if (character === quote) quote = undefined;
+    } else if (character === '"' || character === "'") {
+      quote = character;
+    } else if (character === ">") {
+      return { attributes: content.slice(attributesStart, index), end: index + 1 };
+    }
+  }
+}
+
 function instanceScriptOpeningEnd(content: string): number | undefined {
   let fencedBy: "```" | "~~~" | undefined;
   let offset = frontmatterEnd(content);
@@ -57,13 +80,13 @@ function instanceScriptOpeningEnd(content: string): number | undefined {
       continue;
     }
     if (!fencedBy) {
-      const opening = /^\s*<script\b([^>]*)>/.exec(line);
+      const opening = scriptOpening(content, offset);
       if (opening) {
-        const attributes = opening[1] ?? "";
+        const attributes = opening.attributes;
         const moduleScript =
           /(?:^|\s)module(?:\s|$)/.test(attributes) ||
           /\bcontext\s*=\s*["']module["']/.test(attributes);
-        if (!moduleScript) return offset + (opening.index ?? 0) + opening[0].length;
+        if (!moduleScript) return opening.end;
       }
     }
     offset += line.length;

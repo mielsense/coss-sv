@@ -532,7 +532,8 @@ function isGeneratedSourceName(path: string) {
 }
 
 function withoutHtmlComments(source: string) {
-  return source.replaceAll(/<!--[\s\S]*?-->/g, "").trim();
+  // Preserve a separator so removing a comment cannot join two markup fragments.
+  return source.replaceAll(/<!--[\s\S]*?-->/g, " ").trim();
 }
 
 function isPlaceholderText(source: string) {

@@ -20,7 +20,7 @@ describe("Combobox SSR and export contract", () => {
     const bareClear = body.match(/<button[^>]*data-testid="bare-clear"[^>]*>(.*?)<\/button>/s);
     expect(bareClear).not.toBeNull();
     expect(bareClear?.[0]).not.toContain("aria-label");
-    expect(bareClear?.[1]?.replace(/<!--.*?-->/gs, "")).toBe("");
+    expect(bareClear?.[1]).toMatch(/^(?:<!--[\s\S]*?-->)*$/);
   });
   test("keeps addon and end-adornment selectors on the input control", () => {
     const { body } = render(Fixture);
@@ -43,7 +43,7 @@ describe("Combobox SSR and export contract", () => {
       /<button[^>]*data-testid="bare-combobox-trigger"[^>]*>(.*?)<\/button>/s,
     );
     expect(trigger).not.toBeNull();
-    expect(trigger?.[1]?.replace(/<!--.*?-->/gs, "")).toBe("");
+    expect(trigger?.[1]).toMatch(/^(?:<!--[\s\S]*?-->)*$/);
   });
   test("renders a typed custom object value snippet without recursion", () => {
     const { body } = render(Fixture);

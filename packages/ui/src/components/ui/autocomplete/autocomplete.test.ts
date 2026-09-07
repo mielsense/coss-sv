@@ -37,7 +37,7 @@ describe("Autocomplete SSR and export contract", () => {
       /<button[^>]*data-testid="bare-autocomplete-trigger"[^>]*>(.*?)<\/button>/s,
     );
     expect(trigger).not.toBeNull();
-    expect(trigger?.[1]?.replace(/<!--.*?-->/gs, "")).toBe("");
+    expect(trigger?.[1]).toMatch(/^(?:<!--[\s\S]*?-->)*$/);
   });
 
   test("exports the compound and long-form API", () => {

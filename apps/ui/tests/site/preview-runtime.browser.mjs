@@ -139,6 +139,11 @@ try {
 
     const surface = page.locator("[data-preview-ready='true']");
     await surface.waitFor();
+    assert.equal(
+      await page.locator('script[src="https://c.getopen.so/oa.js"]').count(),
+      0,
+      "standalone previews must not load site analytics",
+    );
     const environment = await surface.evaluate((element) => ({
       color: getComputedStyle(element).getPropertyValue("--primary").trim(),
       config: window.__COSS_PREVIEW_RUNTIME__.config,

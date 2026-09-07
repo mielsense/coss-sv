@@ -47,7 +47,7 @@ describe("D4 Select-dependent card particles", () => {
     (particle) => {
       const body = render(particle.component).body;
       const text = body
-        .replace(/<!--[\s\S]*?-->/g, "")
+        .replace(/<!--[\s\S]*?-->/g, " ")
         .replace(/<[^>]+>/g, " ")
         .replace(/\s+/g, " ")
         .trim();
