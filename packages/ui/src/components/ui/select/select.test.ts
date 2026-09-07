@@ -1,5 +1,6 @@
 import { render } from "svelte/server";
 import { describe, expect, test } from "vitest";
+import { canonicalizeSelectionValue } from "@/selection-change-context.js";
 import * as Select from "./index.js";
 import Fixture from "./select.ssr-fixture.svelte";
 
@@ -30,5 +31,33 @@ describe("Select SSR and export contract", () => {
     expect(Select.Select).toBe(Select.Root);
     expect(Select.SelectContent).toBe(Select.Popup);
     expect(Select.SelectPrimitive).toBeTypeOf("object");
+  });
+});
+
+describe("Select object identity contract", () => {
+  test("does not merge distinct values with equal primitive fields", () => {
+    const first = { label: "Alex", details: { team: "first" } };
+    const second = { label: "Alex", details: { team: "second" } };
+    const items = [
+      { label: "Alex", value: first },
+      { label: "Alex", value: second },
+    ];
+    expect(canonicalizeSelectionValue(second, items)).toBe(second);
+    const external = { label: "Alex", details: { team: "external" } };
+    expect(canonicalizeSelectionValue(external, items)).toBe(external);
+  });
+
+  test("uses the explicit comparer for separately created equivalent values", () => {
+    const first = { id: 1, label: "Alex" };
+    const second = { id: 2, label: "Alex" };
+    const items = [
+      {
+        items: [
+          { label: "Alex", value: first },
+          { label: "Alex", value: second },
+        ],
+      },
+    ];
+    expect(canonicalizeSelectionValue({ ...second }, items, (a, b) => a.id === b.id)).toBe(second);
   });
 });

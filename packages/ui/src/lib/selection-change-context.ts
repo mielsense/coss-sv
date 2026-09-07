@@ -85,39 +85,7 @@ function flattenSelectionItems<Value>(items: unknown, unwrapDescriptors: boolean
   return values;
 }
 
-function hasSamePrimitiveFields(left: unknown, right: unknown): boolean {
-  if (!left || !right || typeof left !== "object" || typeof right !== "object") return false;
-  const keys = Object.keys(left).filter((key) => {
-    const value = (left as Record<string, unknown>)[key];
-    return value === null || typeof value !== "object";
-  });
-  return (
-    keys.length > 0 &&
-    keys.every(
-      (key) => (left as Record<string, unknown>)[key] === (right as Record<string, unknown>)[key],
-    )
-  );
-}
-
 function canonicalizeFromItems<Value>(
-  value: Value,
-  items: readonly Value[],
-  isItemEqualToValue?: (item: Value, value: Value) => boolean,
-  itemToString?: (item: Value) => string,
-): Value {
-  for (const item of items) {
-    if (isItemEqualToValue) {
-      if (isItemEqualToValue(item, value)) return item;
-      continue;
-    }
-    if (Object.is(item, value)) return item;
-    if (itemToString && itemToString(item) === itemToString(value)) return item;
-    if (hasSamePrimitiveFields(item, value)) return item;
-  }
-  return value;
-}
-
-function canonicalizeComboboxFromItems<Value>(
   value: Value,
   items: readonly Value[],
   isItemEqualToValue?: (item: Value, value: Value) => boolean,
@@ -137,13 +105,11 @@ export function canonicalizeSelectionValue<Value>(
   value: Value,
   items: unknown,
   isItemEqualToValue?: (item: Value, value: Value) => boolean,
-  itemToString?: (item: Value) => string,
 ): Value {
   return canonicalizeFromItems(
     value,
     flattenSelectionItems<Value>(items, true),
     isItemEqualToValue,
-    itemToString,
   );
 }
 
@@ -153,7 +119,7 @@ export function canonicalizeComboboxSelectionValue<Value>(
   items: unknown,
   isItemEqualToValue?: (item: Value, value: Value) => boolean,
 ): Value {
-  return canonicalizeComboboxFromItems(
+  return canonicalizeFromItems(
     value,
     flattenSelectionItems<Value>(items, false),
     isItemEqualToValue,
@@ -167,9 +133,7 @@ export function canonicalizeComboboxSelectionValues<Value>(
   isItemEqualToValue?: (item: Value, value: Value) => boolean,
 ): Value[] {
   const flattenedItems = flattenSelectionItems<Value>(items, false);
-  return values.map((value) =>
-    canonicalizeComboboxFromItems(value, flattenedItems, isItemEqualToValue),
-  );
+  return values.map((value) => canonicalizeFromItems(value, flattenedItems, isItemEqualToValue));
 }
 
 export function areSelectionValuesEqual(left: unknown, right: unknown): boolean {

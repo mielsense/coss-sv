@@ -119,20 +119,17 @@
   }
 
   function canonicalize(next: SelectValue<Value, Multiple>): SelectValue<Value, Multiple> {
-    const stringify = itemToStringValue ?? itemToStringLabel;
     if (multiple) {
       return (next as Value[]).map((item) =>
-        canonicalizeSelectionValue(item, items, isItemEqualToValue, stringify),
+        canonicalizeSelectionValue(item, items, isItemEqualToValue),
       ) as SelectValue<Value, Multiple>;
     }
     return next === null
       ? next
-      : (canonicalizeSelectionValue(
-          next as Value,
-          items,
-          isItemEqualToValue,
-          stringify,
-        ) as SelectValue<Value, Multiple>);
+      : (canonicalizeSelectionValue(next as Value, items, isItemEqualToValue) as SelectValue<
+          Value,
+          Multiple
+        >);
   }
 
   function setValue(next: SelectValue<Value, Multiple>): void {

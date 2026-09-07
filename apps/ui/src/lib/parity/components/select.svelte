@@ -66,6 +66,12 @@
     { label: "Banana", value: "banana" },
     { label: "Orange", value: "orange" },
   ];
+  const duplicatePeople = [
+    { id: "first", label: "Alex" },
+    { id: "second", label: "Alex" },
+  ];
+  let duplicatePerson = $state.raw<(typeof duplicatePeople)[number] | null>(null);
+  let duplicateIdentity = $state(false);
   let selectedLanguages = $state(["javascript", "typescript"]);
 </script>
 
@@ -442,6 +448,28 @@
         {/each}</Select.Popup
       ></Select.Root
     >
+  </section>
+  <section data-particle="select-duplicate-labels">
+    <div>
+      <Select.Root
+        bind:value={duplicatePerson}
+        items={duplicatePeople.map((person) => ({ label: person.label, value: person }))}
+        itemToStringLabel={(person) => person.label}
+        onValueChange={(person) => (duplicateIdentity = person === duplicatePeople[1])}
+      >
+        <Select.Trigger aria-label="Duplicate labels"
+          ><Select.Value placeholder="Choose Alex" /></Select.Trigger
+        >
+        <Select.Popup>
+          {#each duplicatePeople as person (person.id)}
+            <Select.Item value={person}>{person.label}</Select.Item>
+          {/each}
+        </Select.Popup>
+      </Select.Root>
+      <output data-testid="duplicate-person"
+        >{duplicatePerson?.id}:{duplicateIdentity ? "same" : "different"}</output
+      >
+    </div>
   </section>
 </div>
 

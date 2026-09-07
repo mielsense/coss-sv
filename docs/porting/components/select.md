@@ -50,3 +50,32 @@ The icon-authority repair reread the COSS wrapper, the icon-bearing particles, a
 The documentation lane freshly reread the complete permitted COSS Select MDX page, all 23 Select particles, every importing particle, and the complete local Shards Select source, documentation, demos, tests, fixtures, and exported types. The Svelte page preserves the source preview order `1–6, 23, 7–10, p-combobox-18, 11` and the authored API and example copy. The 23 modules preserve the exact long lists, groups, icons, object values, multiple selection, form example, positioning variants, and visible labels.
 
 The source/SSR gate imports and renders all 23 modules. Browser and production-preview coverage verify multiple keyboard selection, Escape dismissal, focus restoration, form-safe behavior, and reduced motion. The Codex in-app Browser measured both COSS and Svelte triggers at `256×32` pixels with `10px` radii, `0 11px` padding, `14px` type, and `20px` line height. Chrome was not used. The coordinator-owned documentation manifest still needs to enroll `components/select`.
+
+
+## September 8 selection identity audit
+
+The permitted COSS registry exports Base UI Select.Root directly. Its object examples pass the
+selected object through Select.Item; display labels and serialized values are separate concerns.
+Fresh source inspection covered that complete registry and documentation page, all Select particles,
+and the importing compositions. The local Shards Select root, item, registry, equality helper,
+object-value demo and object-value tests were inspected. Shards defaults to Object.is and forwards
+the actual item to both the callback and binding setter. An explicit isItemEqualToValue comparer
+supports separately created equivalent values.
+
+The wrapper added a different rule: it could canonicalize a second object to the first object with
+the same display label or primitive fields. A browser regression with two people named Alex failed:
+clicking the second option returned the first person's id. The fix removes those inferred equality
+rules. Both Select and Combobox now share the existing exact-identity/comparer implementation;
+Select still unwraps its item descriptors and Combobox still preserves raw descriptor-shaped values.
+Unmatched external values remain unchanged. This also removes duplicate canonicalization code.
+
+The new browser regression passes. All 17 focused Select and Combobox browser tests and 14 SSR/type
+and identity tests pass; package pnpm check reports zero errors or warnings, and its build passes.
+The private Select parity fixture exposes the duplicate-label case. In-app inspection at port 5105
+confirmed that clicking the second Alex displays second:same, including exact callback identity.
+No visual classes, primitive markup, or public component props changed.
+
+Audit contract: select-duplicate-label-identity; correctness; high severity and confidence;
+packages/ui/src/lib/selection-change-context.ts and select-root.svelte; no version or flag blocker;
+canonical owner Svelte Edge references/runes.md (identity and reactive boundaries). Patch scope is
+Select canonicalization plus its focused regressions; Combobox behavior is unchanged.
