@@ -168,3 +168,40 @@ This matches the COSS state contract: an undefined proposal from reselecting the
 or one-day range does not clear the current value. Production browser coverage exercises both paths.
 Every D9-owned calendar icon uses the package's SSR-safe Hugeicons renderer with the official icon
 data and an explicit two-pixel stroke.
+
+## September 8 stability audit
+
+Fresh source inspection covered the complete permitted Calendar registry source, Calendar and
+Date Picker documentation, all 25 Calendar particles, and all nine Date Picker particles.
+Shards has no Calendar primitive; its Input, Field, and Popover source was inspected for the
+surrounding compositions. The selection correction changes only the Calendar-owned date state.
+
+An external instant such as `2026-08-16T00:30:00Z` displays as August 15 in
+`America/Los_Angeles`. Rendering already normalized that selection, but click handling compared
+the displayed date with the original instant. Reselecting August 15 consequently returned a
+new single date, or appended a second date in multiple mode. Two browser regressions failed
+before the correction. Click handling now uses the same canonical selection as rendering,
+including the multiple-selection identity check for required and minimum limits.
+
+The installed MIT React DayPicker 10.0.1 source confirms the contract. Its
+`dist/esm/DayPicker.js` converts single, multiple, and range selections with `toTimeZone`
+before calling the selection hooks. `dist/esm/selection/useSingle.js` uses the same
+`isSameDay` comparison for highlighting and deselection. The dependency was inspected in
+the temporary reference launcher installation. No excluded COSS package source was used.
+
+The in-app reference Calendar documentation at port 4000 showed a selected September 8 cell
+with a 36 px day button. Clicking the selected day removed selection. The exact time-zone
+boundary is covered by the focused browser regressions because the upstream documentation
+has no time-zone example.
+
+The Calendar SSR test now asserts that the hidden cell contains only complete HTML comments,
+instead of removing comment delimiters before comparing. This removes the test-only CodeQL
+incomplete multi-character sanitization pattern without introducing a sanitizer.
+
+Validation: all 39 focused Calendar browser, SSR, utility, and type tests pass after the
+correction, including the existing noon-safe GMT-12 and GMT+14 cases.
+
+The repaired port was also inspected in the in-app browser at
+`http://127.0.0.1:5102/preview/p-calendar-1?theme=light&width=desktop`. Its selected day
+button matched the reference at 36 px and deselected on click. `pnpm check` passed with
+zero Svelte errors or warnings in both packages and the documentation application.

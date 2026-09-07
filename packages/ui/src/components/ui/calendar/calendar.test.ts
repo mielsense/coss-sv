@@ -299,7 +299,7 @@ describe("Calendar SSR contract", () => {
     });
 
     const hiddenCell = body.match(/<td[^>]*data-day="2026-01-15"[^>]*>(.*?)<\/td>/s)?.[1];
-    expect(hiddenCell?.replaceAll(/<!--[\s\S]*?-->/g, "")).toBe("");
+    expect(hiddenCell).toMatch(/^(?:<!--[\s\S]*?-->)*$/);
     expect(body).toMatch(/data-day="2026-01-15"[^>]*data-hidden="true"/);
     expect(body).toMatch(/class="[^"]*is-payday[^"]*"[^>]*data-day="2026-01-16"/);
     expect(body).toMatch(/data-day="2026-01-16"[^>]*style="color: rgb\(1 2 3\);"/);

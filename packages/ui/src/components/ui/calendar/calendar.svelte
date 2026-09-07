@@ -567,8 +567,8 @@
       required,
       resetOnSelect,
     };
-    let next = resolveCanonicalSelection(mode, triggerDate, renderedSelection, selectionOptions);
-    if (mode === "multiple" && next === renderedSelection) {
+    let next = resolveCanonicalSelection(mode, triggerDate, comparisonSelection, selectionOptions);
+    if (mode === "multiple" && next === comparisonSelection) {
       onDayClick?.(triggerDate, modifierValues, event);
       return;
     }

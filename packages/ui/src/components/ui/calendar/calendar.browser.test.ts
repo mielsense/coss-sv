@@ -6,15 +6,56 @@ import Calendar from "./calendar.svelte";
 import CalendarComponentsFixture from "./calendar-components.browser-fixture.svelte";
 import CalendarFixture from "./calendar.browser-fixture.svelte";
 import { CALENDAR_SSR_FIXTURE_GZIP_BASE64 } from "./calendar.ssr-fixture.js";
-import type { CalendarSingleProps } from "./calendar.types.js";
+import type { CalendarMultipleProps, CalendarSingleProps } from "./calendar.types.js";
 
 const SingleCalendar = Calendar as Component<CalendarSingleProps>;
+const MultipleCalendar = Calendar as Component<CalendarMultipleProps>;
 
 afterEach(() => {
   document.body.innerHTML = "";
 });
 
 describe("Calendar browser contract", () => {
+  test("removes an external instant from multiple selection on its displayed date", async () => {
+    const onSelect = vi.fn();
+    render(MultipleCalendar, {
+      props: {
+        mode: "multiple",
+        defaultMonth: new Date("2026-08-16T12:00:00Z"),
+        selected: [new Date("2026-08-16T00:30:00Z")],
+        timeZone: "America/Los_Angeles",
+        onSelect,
+      },
+    });
+    const cell = document.querySelector('[data-day="2026-08-15"]');
+    expect(cell).toHaveAttribute("data-selected", "true");
+    const button = cell?.querySelector("button");
+    if (!button) throw new Error("Selected time-zone date is missing");
+    button.click();
+    await tick();
+    expect(onSelect.mock.calls[0]?.[0]).toEqual([]);
+  });
+
+  test("deselects an external instant on its displayed time-zone date", async () => {
+    const onSelect = vi.fn();
+    render(SingleCalendar, {
+      props: {
+        defaultMonth: new Date("2026-08-16T12:00:00Z"),
+        selected: new Date("2026-08-16T00:30:00Z"),
+        timeZone: "America/Los_Angeles",
+        onSelect,
+      },
+    });
+    const cell = document.querySelector('[data-day="2026-08-15"]');
+    expect(cell).toHaveAttribute("data-selected", "true");
+    const button = cell?.querySelector("button");
+    if (!button) throw new Error("Selected time-zone date is missing");
+    button.click();
+    await tick();
+    expect(onSelect).toHaveBeenCalled();
+    expect(onSelect.mock.calls[0]?.[0]).toBeUndefined();
+  });
+
   test("delegates every DayPicker host without nested duplicate elements", async () => {
     render(CalendarComponentsFixture);
     const root = page.getByTestId("all-calendar-components").element();
