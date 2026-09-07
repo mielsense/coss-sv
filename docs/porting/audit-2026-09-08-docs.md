@@ -53,6 +53,11 @@ was checked against Unslop.
 
 ## Validation
 
+The Svelte review also found a duplicate-control example in Get Started. `Slider.Root` always
+renders its styled control after any custom children. The guide now uses the self-closing styled
+root with an accessible label and `defaultValue`. The complete wrapper and local Shards slider root
+were read to verify this composition.
+
 - `pnpm check`: passed, zero Svelte diagnostics.
 - Focused `preview-state.browser.mjs`: failed before the fix, passed after it.
 - In-app reference inspection: checkbox remained checked through Code and Preview.

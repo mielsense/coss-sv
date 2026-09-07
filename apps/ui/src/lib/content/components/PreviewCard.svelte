@@ -97,56 +97,56 @@
 </script>
 
 {#snippet panelContent()}
+  <div
+    class={[
+      "absolute inset-0 h-[var(--preview-height)] min-w-0 overflow-auto bg-background hidden:hidden",
+      ...resolvedContainerClass,
+      theme === "dark" && "dark",
+    ]}
+    data-preview-panel="true"
+    data-preview-width={width}
+    hidden={tab !== "preview"}
+    inert={tab !== "preview"}
+    style:--preview-height={`${resolvedHeight}px`}
+    style:--preview-width={width === "mobile" ? "390px" : width === "tablet" ? "768px" : "100%"}
+  >
     <div
       class={[
-        "absolute inset-0 h-[var(--preview-height)] min-w-0 overflow-auto bg-background hidden:hidden",
-        ...resolvedContainerClass,
-        theme === "dark" && "dark",
+        "mx-auto flex min-h-[var(--preview-height)] w-[min(100%,var(--preview-width))] justify-center py-10",
+        width === "mobile" ? "px-6" : "px-10",
+        align === "center" ? "items-center" : align === "start" ? "items-start" : "items-end",
       ]}
-      data-preview-panel="true"
-      data-preview-width={width}
-      hidden={tab !== "preview"}
-      inert={tab !== "preview"}
-      style:--preview-height={`${resolvedHeight}px`}
-      style:--preview-width={width === "mobile" ? "390px" : width === "tablet" ? "768px" : "100%"}
+      data-align={align}
+      data-preview-inner
     >
-      <div
-        class={[
-          "mx-auto flex min-h-[var(--preview-height)] w-[min(100%,var(--preview-width))] justify-center py-10",
-          width === "mobile" ? "px-6" : "px-10",
-          align === "center" ? "items-center" : align === "start" ? "items-start" : "items-end",
-        ]}
-        data-align={align}
-        data-preview-inner
-      >
-        <div class="flex w-full justify-center">
-          <div data-slot="preview">
-            {#if Preview}
-              <Preview />
-            {:else}
-              {#if previewRequest}
-                {#await previewRequest}
-                  <span class="sr-only" data-preview-loading="true">Loading {title} preview…</span>
-                {:then entry}
-                  {#if entry}
-                    {const LoadedPreview = entry.component}
-                    <LoadedPreview />
-                  {:else}
-                    <p class="text-muted-foreground text-sm">Preview unavailable.</p>
-                  {/if}
-                {:catch error}
-                  <p class="text-destructive text-sm" data-preview-load-error="true">
-                    {error instanceof Error ? error.message : "Preview unavailable."}
-                  </p>
-                {/await}
-              {:else}
+      <div class="flex w-full justify-center">
+        <div data-slot="preview">
+          {#if Preview}
+            <Preview />
+          {:else}
+            {#if previewRequest}
+              {#await previewRequest}
                 <span class="sr-only" data-preview-loading="true">Loading {title} preview…</span>
-              {/if}
+              {:then entry}
+                {#if entry}
+                  {const LoadedPreview = entry.component}
+                  <LoadedPreview />
+                {:else}
+                  <p class="text-muted-foreground text-sm">Preview unavailable.</p>
+                {/if}
+              {:catch error}
+                <p class="text-destructive text-sm" data-preview-load-error="true">
+                  {error instanceof Error ? error.message : "Preview unavailable."}
+                </p>
+              {/await}
+            {:else}
+              <span class="sr-only" data-preview-loading="true">Loading {title} preview…</span>
             {/if}
-          </div>
+          {/if}
         </div>
       </div>
     </div>
+  </div>
   {#if tab === "code"}
     <div class="absolute inset-0 overflow-hidden" data-source-panel="true">
       <CodeSource embedded height={resolvedHeight} {source} />

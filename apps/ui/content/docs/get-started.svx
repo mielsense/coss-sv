@@ -132,12 +132,7 @@ parts when the defaults work, or the primitive when you need a different composi
   import * as Slider from "$lib/components/ui/slider/index.js";
 </script>
 
-<Slider.Root value={40}>
-  <Slider.Control>
-    <Slider.Track><Slider.Indicator /></Slider.Track>
-    <Slider.Thumb />
-  </Slider.Control>
-</Slider.Root>
+<Slider.Root aria-label="Volume" defaultValue={40} />
 ```
 
 For direct primitive access, import the explicit `SliderPrimitive` export from the same module. An
