@@ -119,6 +119,9 @@ try {
     "the description must reflect the currently published inventory",
   );
   assert.equal(await page.locator("[data-particle-card]").count(), 0);
+  await page
+    .locator('[role="combobox"][aria-label="Search components"][aria-expanded="true"]')
+    .waitFor();
   assert.equal(
     await page.getByRole("combobox", { name: "Search components" }).getAttribute("aria-expanded"),
     "true",

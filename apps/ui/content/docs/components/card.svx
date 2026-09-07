@@ -70,9 +70,12 @@ This is a custom component using a polymorphic Svelte `as` prop, not a direct Sh
 
 Root container for the card. Supports the `as` prop.
 
-| Prop | Type                          | Default | Description                   |
-| ---- | ----------------------------- | ------- | ----------------------------- |
-| `as` | `keyof HTMLElementTagNameMap` | `"div"` | Render as a different element |
+| Prop | Type      | Default | Description                             |
+| ---- | --------- | ------- | --------------------------------------- |
+| `as` | `CardTag` | `"div"` | Render as a supported container element |
+
+`CardTag` includes container elements such as `article`, `section`, `header`, `footer`, `a`, and
+`button`. It excludes void elements because card parts render children.
 
 ### Card.Header
 

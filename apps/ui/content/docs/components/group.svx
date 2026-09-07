@@ -100,9 +100,9 @@ Unlike shadcn's ButtonGroup, `Group.Separator` is required between all controls,
 
 Use this component for text such as labels or prefixes.
 
-| Prop | Type                          | Default  |
-| ---- | ----------------------------- | -------- |
-| `as` | `keyof HTMLElementTagNameMap` | `"span"` |
+| Prop | Type                          | Default |
+| ---- | ----------------------------- | ------- |
+| `as` | `keyof HTMLElementTagNameMap` | `"div"` |
 
 ```svelte
 <Group.Root>

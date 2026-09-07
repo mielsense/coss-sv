@@ -38,10 +38,10 @@ Shards UI does not provide a native Textarea part. This component wraps the nati
 
 Styled native textarea element with custom size options.
 
-| Prop       | Type                                  | Default     | Description                                                                      |
-| ---------- | ------------------------------------- | ----------- | -------------------------------------------------------------------------------- |
-| `size`     | `"sm" \| "default" \| "lg" \| number` | `"default"` | Controls the textarea padding. Number values pass to the native `rows` attribute |
-| `unstyled` | `boolean`                             | `false`     | Removes all default styling                                                      |
+| Prop       | Type                                  | Default     | Description                                                                                                          |
+| ---------- | ------------------------------------- | ----------- | -------------------------------------------------------------------------------------------------------------------- |
+| `size`     | `"sm" \| "default" \| "lg" \| number` | `"default"` | Controls the textarea padding. Numeric values retain the default padding; use the native `rows` prop for a row count |
+| `unstyled` | `boolean`                             | `false`     | Removes the outer control styling while retaining the inner textarea styles                                          |
 
 ## Examples
 
