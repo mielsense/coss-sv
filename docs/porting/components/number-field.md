@@ -90,3 +90,17 @@ The increment and decrement buttons now render `PlusSignIcon` and `MinusSignIcon
 Fresh inspection covered `p-number-field-1` through `p-number-field-11` and the complete Number Field page. The page preserves the first ten upstream previews, API parts, locale/range/step/format examples, Scrub Area behavior, labels, validation, and Zod form integration. `p-number-field-11` remains an additional registry example.
 
 The reviewed package implementation now gives the `p-number-field-7` input `role="spinbutton"` and an accessible-name relationship without particle-only ARIA. The D6 browser regression verifies those semantics together with Increase, ArrowDown, Home, the minimum boundary, and disabled Decrease.
+
+## September 8 stability audit
+
+Fresh inspection covered the complete MIT registry component and documentation page, all 20 particles importing Number Field, local Shards Input alias and Field.Control implementation/types, the Input documentation/test, and the local Number Field state, input, stepper, scrub, and form tests. Shards has no Number Field component; the numeric state and native form integration belong to this wrapper. Svelte Edge runes, snippets, attachments, best-practices and testing references informed this change.
+
+The Codex in-app browser compared the live COSS page with the port at 1280 by 800 while the pinned local reference server was starting. The default control remains 256 by 32 px, with a 178 by 30 px input and two 38 by 30 px buttons, all using 14 px text. The browser also inspected the source form and ArrowUp behavior. No visual classes changed.
+
+Two defects had failing browser regressions before the fix. Canceling an input-change callback left the rejected text visible and announced while the bound and submitted value remained unchanged. The input now retains the accepted text and does not mark a canceled edit for a later commit. Native form reset left the bound number unchanged, and external form owners were not handled. A cleanup-capable attachment on the submission input now observes its current native form owner, waits until reset dispatch ends, honors preventDefault, and restores the default through the binding before synchronizing formatted text and form data. It emits no extra change or commit callbacks.
+
+Reset is an explicit stability correction under the requested audit, not a claim of matching the observed upstream behavior: the live COSS form stayed at 2 after incrementing its default 1 and calling form.reset(). The port deliberately restores a native reset contract, matching the documented Svelte form binding behavior. Controlled bindings that decline a reset retain their actual value in both inputs.
+
+Validation: the original three regression cases failed with values 5 instead of 2, 8 instead of 3, and rejected text 9 instead of 2. The repaired package passed Number Field SSR/type tests, existing browser tests, and the new reset/cancellation cases. Package svelte-check reported no errors or warnings. Review probes live at /preview/number-field?theme=light&width=desktop.
+
+The repaired lane also passed in-app browser probes at http://127.0.0.1:5101/preview/number-field?theme=light&width=desktop. A rejected edit to 9 immediately retained display and binding 2. Editing the reset probe to 5 produced display, binding, and FormData values of 5; reset restored all three to 2. The final focused suite contains 18 browser tests and 11 SSR/type tests.

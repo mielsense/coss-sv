@@ -14,6 +14,8 @@
   import FixtureIcon from "./fixture-icon.svelte";
 
   let controlled = $state<number | null>(25);
+  let resetValue = $state<number | null>(2);
+  let canceledValue = $state<number | null>(2);
   let loading = $state(false);
   let sliderValue = $state(25);
   let rangeValues = $state([0, 20]);
@@ -464,6 +466,29 @@
       </NumberField.Group>
     </NumberField.Root>
     <output data-testid="controlled-number-state">{controlled}</output>
+    <form data-testid="number-reset-form">
+      <NumberField.Root
+        bind:value={resetValue}
+        defaultValue={2}
+        name="quantity"
+        aria-label="Reset quantity"
+      >
+        <NumberField.Group><NumberField.Input data-testid="number-reset-input" /></NumberField.Group
+        >
+      </NumberField.Root>
+      <button type="reset">Reset quantity</button>
+    </form>
+    <output data-testid="number-reset-value">{resetValue}</output>
+    <NumberField.Root
+      bind:value={canceledValue}
+      aria-label="Canceled quantity"
+      onValueChange={(_value, details) => details.cancel()}
+    >
+      <NumberField.Group
+        ><NumberField.Input data-testid="number-canceled-input" /></NumberField.Group
+      >
+    </NumberField.Root>
+    <output data-testid="number-canceled-value">{canceledValue}</output>
   </section>
 </div>
 

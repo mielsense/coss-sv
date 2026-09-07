@@ -151,6 +151,7 @@
   let scrubLabelId = $state<string | undefined>();
   let editing = $state(false);
   let dirtyInput = $state(false);
+  const initialDefaultValue = untrack(() => defaultValue);
   const interactionStep = $derived(step === "any" ? 1 : step);
   const wheelScrub = $derived(allowWheelScrub ?? allowWheel);
   const id = $derived(idProp ?? relationships?.resolveDefaultControlId(uid) ?? uid);
@@ -261,20 +262,18 @@
       next === `${numberLocale.minus}${numberLocale.decimal}`;
     if (parsed === null && next !== "" && !partial) return;
     editing = true;
-    dirtyInput = true;
-    raw = next;
     if (
       parsed !== null &&
       (allowOutOfRange ||
         (parsed >= (min ?? Number.NEGATIVE_INFINITY) &&
           parsed <= (max ?? Number.POSITIVE_INFINITY)))
     ) {
-      updateValue(parsed, "input-change", event, { clamp: false });
-      raw = next;
+      if (updateValue(parsed, "input-change", event, { clamp: false }) === "canceled") return;
     } else if (next === "") {
-      updateValue(null, "input-clear", event, { clamp: false });
-      raw = next;
+      if (updateValue(null, "input-clear", event, { clamp: false }) === "canceled") return;
     }
+    dirtyInput = true;
+    raw = next;
   }
 
   function stepBy(
@@ -413,6 +412,26 @@
   });
 
   const refAttachmentKey = createAttachmentKey();
+  const formReset: Attachment<HTMLInputElement> = (node) => {
+    let active = true;
+    const reset = (event: Event): void => {
+      if (event.target !== node.form) return;
+      queueMicrotask(() => {
+        if (!active || event.defaultPrevented) return;
+        value = initialDefaultValue;
+        editing = false;
+        dirtyInput = false;
+        raw = formatNumber(value, locale, format);
+        node.value = value === null ? "" : String(value);
+        if (input) input.value = raw;
+      });
+    };
+    node.ownerDocument.addEventListener("reset", reset, true);
+    return () => {
+      active = false;
+      node.ownerDocument.removeEventListener("reset", reset, true);
+    };
+  };
   const setRef: Attachment<HTMLDivElement> = (node) => {
     ref = node;
     return () => {
@@ -437,6 +456,7 @@
 
 {#snippet rootChildren()}
   <input
+    {@attach formReset}
     bind:this={inputRef}
     aria-hidden="true"
     class="pointer-events-none absolute size-px overflow-hidden whitespace-nowrap [clip-path:inset(50%)] [clip:rect(0_0_0_0)]"
