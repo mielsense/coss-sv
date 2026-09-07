@@ -58,11 +58,15 @@ See the [Styling](/docs/styling) guide for the color tokens, sidebar variables, 
 
 ### Manual installation
 
-1. **Find a component** on the [Components](/docs) or [Particles](/particles) pages.
-2. **Copy the code** from the **Code** tab.
-3. **Create the matching `.svelte` and `.ts` files** in your project and keep their relative paths.
-4. **Install every dependency** listed by the registry item with pnpm.
-5. **Import and use** the component in your app.
+1. Find the component's documentation page and open **Installation > Manual**.
+2. Run the dependency command, then copy each listed `.svelte` and `.ts` file to its displayed path
+   under `src/lib`. The file list includes the component's local dependencies.
+3. Update the imports if your project uses different aliases, then import the component in your app.
+
+The **Code** tab beside a preview contains the example that uses the component. To copy an example
+from the docs or **View code** on the [Particles](/particles) page, install its components first,
+then copy the example into a separate `.svelte` file. Its imports identify the component modules and
+any additional package dependencies it needs.
 
 ## Styling
 

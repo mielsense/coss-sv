@@ -1,11 +1,11 @@
 <script lang="ts">
   import * as Tabs from "@coss-sv/ui/components/ui/tabs";
+  import type { Component } from "svelte";
+  import type { HTMLAttributes } from "svelte/elements";
   import { nearViewport } from "@/particles/near-viewport.js";
+  import type { PreviewAlignment, PreviewTheme, PreviewWidth } from "@/preview/contract.js";
   import { validateParticleMeta } from "@/registry/particle-metadata.js";
   import type { ParticleModuleLoader, ParticlePreviewEntry } from "@/registry/particle-previews.js";
-  import type { HTMLAttributes } from "svelte/elements";
-  import type { Component } from "svelte";
-  import type { PreviewAlignment, PreviewTheme, PreviewWidth } from "@/preview/contract.js";
   import type { HighlightedSource } from "../../code/highlight.js";
   import CodeSource from "./CodeSource.svelte";
 
@@ -97,7 +97,6 @@
 </script>
 
 {#snippet panelContent()}
-  {#if tab === "preview"}
     <div
       class={[
         "absolute inset-0 h-[var(--preview-height)] min-w-0 overflow-auto bg-background hidden:hidden",
@@ -106,6 +105,8 @@
       ]}
       data-preview-panel="true"
       data-preview-width={width}
+      hidden={tab !== "preview"}
+      inert={tab !== "preview"}
       style:--preview-height={`${resolvedHeight}px`}
       style:--preview-width={width === "mobile" ? "390px" : width === "tablet" ? "768px" : "100%"}
     >
@@ -146,7 +147,6 @@
         </div>
       </div>
     </div>
-  {/if}
   {#if tab === "code"}
     <div class="absolute inset-0 overflow-hidden" data-source-panel="true">
       <CodeSource embedded height={resolvedHeight} {source} />

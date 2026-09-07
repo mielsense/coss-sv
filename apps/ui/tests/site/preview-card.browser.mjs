@@ -187,6 +187,37 @@ try {
   assert.equal(await hiddenCode.locator("iframe").count(), 0);
   assert.equal(await hiddenCode.getByText("Preview fixture", { exact: true }).count(), 1);
 
+  {
+    await page.goto(`${baseUrl}/docs/components/checkbox`, { waitUntil: "domcontentloaded" });
+    const card = page.locator('[data-particle="p-checkbox-1"]');
+    const checkbox = card.getByRole("checkbox");
+    await checkbox.check();
+    assert.equal(await checkbox.isChecked(), true);
+    await card.getByRole("tab", { name: "Code", exact: true }).click();
+    assert.equal(await checkbox.count(), 0, "hidden preview controls leave the accessibility tree");
+    const retainedCheckbox = card.locator('[data-preview-panel] [role="checkbox"]');
+    assert.equal(
+      await retainedCheckbox.count(),
+      1,
+      "switching to code preserves the preview instance",
+    );
+    assert.equal(await retainedCheckbox.isVisible(), false);
+    await retainedCheckbox.evaluate((element) => element.focus());
+    assert.equal(
+      await retainedCheckbox.evaluate((element) => element === document.activeElement),
+      false,
+      "hidden preview controls cannot receive focus",
+    );
+    await card.getByRole("tab", { name: "Preview", exact: true }).click();
+    assert.equal(
+      await checkbox.isChecked(),
+      true,
+      "returning to preview preserves the user's value",
+    );
+    await checkbox.uncheck();
+    assert.equal(await checkbox.isChecked(), false, "the retained preview remains interactive");
+  }
+
   assert.deepEqual(diagnostics, []);
   console.log("PreviewCard direct rendering, tabs, source, clipboard, and theming passed.");
 } finally {
