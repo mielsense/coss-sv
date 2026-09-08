@@ -20,7 +20,7 @@
   ] as const;
 </script>
 
-<Select.Root aria-label="Select framework" {items} value="next">
+<Select.Root aria-label="Select framework" {items} defaultValue="next">
   <Select.Trigger><Select.Value /></Select.Trigger>
   <Select.Popup>
     {#each items as item (item.value)}<Select.Item value={item.value}>

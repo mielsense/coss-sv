@@ -20,7 +20,7 @@
   ];
 </script>
 
-<Select.Root aria-label="Select fruit" value={items[0]} {items}>
+<Select.Root aria-label="Select fruit" defaultValue={items[0]} {items}>
   <Select.Label>Fruits</Select.Label><Select.Trigger><Select.Value /></Select.Trigger><Select.Popup>
     {#each items as item (item.value)}<Select.Item value={item}>{item.label}</Select.Item>{/each}
   </Select.Popup>

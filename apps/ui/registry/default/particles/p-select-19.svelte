@@ -41,7 +41,7 @@
 
 <Select.Root
   aria-label="Select user"
-  value={users[0]}
+  defaultValue={users[0]}
   itemToStringValue={(item: User) => item.value}
 >
   <Select.Trigger>

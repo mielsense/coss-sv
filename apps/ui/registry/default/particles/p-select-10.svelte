@@ -24,7 +24,7 @@
 
 <Select.Root
   aria-label="Select framework with command"
-  value={items[0]}
+  defaultValue={items[0]}
   itemToStringValue={(item: Item) => item.value}
 >
   <Select.Trigger class="py-1">

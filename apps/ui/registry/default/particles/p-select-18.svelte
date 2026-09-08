@@ -23,7 +23,7 @@
 
 <Select.Root
   aria-label="Select plan"
-  value={items[1]}
+  defaultValue={items[1]}
   itemToStringValue={(item: Item) => item.value}
 >
   <Select.Trigger>

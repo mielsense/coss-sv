@@ -45,7 +45,7 @@
 
 <Select.Root
   aria-label="Select country"
-  value={allItems.find((item) => item.value === "ca")}
+  defaultValue={allItems.find((item) => item.value === "ca") ?? null}
   itemToStringValue={(item: Item) => item.value}
 >
   <Select.Trigger>

@@ -27,10 +27,9 @@
   } as const;
   type Language = keyof typeof languages;
   const values = Object.keys(languages) as Language[];
-  let value = $state<Language[]>(["javascript", "typescript"]);
 </script>
 
-<Select.Root aria-label="Select languages" multiple bind:value>
+<Select.Root aria-label="Select languages" multiple defaultValue={["javascript", "typescript"]}>
   <Select.Trigger>
     <Select.Value>
       {#snippet children(selected)}{const selectedValues = Array.isArray(selected)

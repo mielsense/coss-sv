@@ -20,7 +20,7 @@
   ];
 </script>
 
-<Select.Root aria-label="Select filter" value="active" {items}>
+<Select.Root aria-label="Select filter" defaultValue="active" {items}>
   <Select.Trigger class="[--radius-lg:9999px] [--radius:9999px]">
     <Select.Value />
   </Select.Trigger><Select.Popup>

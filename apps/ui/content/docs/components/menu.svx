@@ -34,6 +34,15 @@ links:
     <Menu.CheckboxItem>Repeat</Menu.CheckboxItem>
     <Menu.CheckboxItem variant="switch">Auto save</Menu.CheckboxItem>
     <Menu.Separator />
+    <Menu.Group>
+      <Menu.GroupLabel>Sort by</Menu.GroupLabel>
+      <Menu.RadioGroup>
+        <Menu.RadioItem value="artist">Artist</Menu.RadioItem>
+        <Menu.RadioItem value="album">Album</Menu.RadioItem>
+        <Menu.RadioItem value="title">Title</Menu.RadioItem>
+      </Menu.RadioGroup>
+    </Menu.Group>
+    <Menu.Separator />
     <Menu.Sub>
       <Menu.SubTrigger>Add to playlist</Menu.SubTrigger>
       <Menu.SubPopup>

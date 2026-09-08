@@ -28,7 +28,7 @@
 
 <Select.Root
   aria-label="Select category"
-  value={items[0]}
+  defaultValue={items[0]}
   itemToStringValue={(item: Item) => item.value}
 >
   <Select.Trigger>

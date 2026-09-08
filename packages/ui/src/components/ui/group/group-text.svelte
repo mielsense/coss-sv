@@ -41,11 +41,11 @@
   };
 
   const delegateProps = $derived({
-    ...props,
     ...(children ? { children } : {}),
     "data-slot": "group-text",
     class: cn(baseClass, className),
     [refAttachmentKey]: setRef,
+    ...props,
   } satisfies GroupTextDelegateProps);
 </script>
 

@@ -13,6 +13,10 @@ afterEach(() => {
 describe("Group browser contract", () => {
   test("matches COSS default-attribute and polymorphic layout contracts", async () => {
     render(GroupFixture);
+    await expect
+      .element(page.getByTestId("overridden-text"))
+      .toHaveAttribute("data-slot", "custom-text");
+    await expect.element(page.getByTestId("overridden-text")).toHaveClass(/text-red-500/);
 
     await expect.element(page.getByTestId("default-group")).not.toHaveAttribute("data-orientation");
     await expect

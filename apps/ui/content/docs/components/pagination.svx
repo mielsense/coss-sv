@@ -45,13 +45,20 @@ Individual list item container.
 ### Pagination.Link
 
 Link for page numbers. `isActive` adds `aria-current="page"` and the active visual treatment. Use
-`as` to render another native element.
+`as` to render another native element, or `delegate` to compose a custom component.
 
 | Prop       | Type                          | Default  | Description                             |
 | ---------- | ----------------------------- | -------- | --------------------------------------- |
 | `isActive` | `boolean`                     |          | Highlights the link as the current page |
 | `size`     | `ButtonSize`                  | `"icon"` | Controls the link size                  |
 | `as`       | `keyof HTMLElementTagNameMap` | `"a"`    | Native element to render                |
+
+The `delegate` snippet receives `{ props, ref }`. Forward `props` to your component and bind its
+native element ref to `ref.current`.
+
+| Prop       | Type                                     | Default | Description                                           |
+| ---------- | ---------------------------------------- | ------- | ----------------------------------------------------- |
+| `delegate` | `Snippet<[PaginationLinkDelegateProps]>` | -       | Render a custom component with the link props and ref |
 
 ### Pagination.Previous
 

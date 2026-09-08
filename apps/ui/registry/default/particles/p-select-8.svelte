@@ -21,7 +21,7 @@
   ];
 </script>
 
-<Select.Root aria-label="Select framework with icon" value="next" {items}>
+<Select.Root aria-label="Select framework with icon" defaultValue="next" {items}>
   <Select.Trigger>
     <HugeiconsIcon aria-hidden="true" icon={CableIcon} strokeWidth={2} /><Select.Value />
   </Select.Trigger><Select.Popup alignItemWithTrigger={false}>

@@ -26,12 +26,34 @@ The Date Picker is a composition pattern, not a standalone component. Install th
   import Calendar03Icon from "@hugeicons/core-free-icons/Calendar03Icon";
 
   let date = $state<Date>();
+
+  function formatDatePpp(value: Date): string {
+    const day = value.getDate();
+    const lastTwo = day % 100;
+    const suffix =
+      lastTwo >= 11 && lastTwo <= 13
+        ? "th"
+        : day % 10 === 1
+          ? "st"
+          : day % 10 === 2
+            ? "nd"
+            : day % 10 === 3
+              ? "rd"
+              : "th";
+    const month = new Intl.DateTimeFormat("en-US", { month: "long" }).format(value);
+    return `${month} ${day}${suffix}, ${value.getFullYear()}`;
+  }
 </script>
 
 <Popover.Root>
-  <Popover.Trigger class={buttonVariants({ class: "w-[280px] justify-start", variant: "outline" })}>
+  <Popover.Trigger
+    class={buttonVariants({
+      class: "w-[280px] justify-start text-left font-normal",
+      variant: "outline",
+    })}
+  >
     <HugeiconsIcon aria-hidden="true" icon={Calendar03Icon} strokeWidth={2} />
-    {date ? date.toLocaleDateString() : "Pick a date"}
+    {date ? formatDatePpp(date) : "Pick a date"}
   </Popover.Trigger>
   <Popover.Popup align="start" class="w-auto p-0">
     <Calendar mode="single" bind:selected={date} />

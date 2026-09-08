@@ -29,3 +29,10 @@
 {#snippet labelDelegate(props: GroupTextDelegateProps)}
   <Label {...props} />
 {/snippet}
+
+<Group.Text
+  data-slot="custom-text"
+  data-testid="overridden-text"
+  class="text-red-500"
+  delegate={labelDelegate}>Override</Group.Text
+>

@@ -36,6 +36,7 @@
     "aria-valuenow": ariaValueNow,
     "aria-valuetext": ariaValueText,
     class: className,
+    form: formProp,
     onblur,
     onfocus,
     oninput,
@@ -129,6 +130,22 @@
     inputValue = context.displayValue;
   });
 
+  const displayForm = $derived(formProp ?? context.form);
+  const suppressInheritedName: Attachment<HTMLInputElement> = (node) => {
+    // SSR disassociates a named display control until hydration can remove its name.
+    // Restore native form ownership so validity checks and Enter remain browser-owned.
+    const inheritedName = relationships?.name;
+    const form = displayForm;
+    if (inheritedName === undefined) return;
+    const reconcile = () => {
+      if (node.hasAttribute("name")) node.removeAttribute("name");
+      if (form === undefined) {
+        if (node.hasAttribute("form")) node.removeAttribute("form");
+      } else if (node.getAttribute("form") !== form) node.setAttribute("form", form);
+    };
+    reconcile();
+  };
+
   const inputBehavior: Attachment<HTMLInputElement> = (node) => {
     context.registerInput(node);
     node.addEventListener("blur", handleBlur);
@@ -199,6 +216,7 @@
 
 <InputPrimitive
   {@attach inputBehavior}
+  {@attach suppressInheritedName}
   {@attach reconcileAriaRelationship("aria-describedby", computedDescribedBy)}
   bind:ref
   bind:value={inputValue}
@@ -219,4 +237,5 @@
   type="text"
   {...accessibilityProps}
   {...props}
+  form={relationships?.name === undefined ? displayForm : ""}
 />

@@ -37,7 +37,7 @@
 
 <Select.Root
   aria-label="Select timezone"
-  value={timezones.find((item) => item.value === "Europe/London")}
+  defaultValue={timezones.find((item) => item.value === "Europe/London") ?? null}
   itemToStringValue={(item: Timezone) => item.value}
 >
   <Select.Trigger>

@@ -22,7 +22,7 @@
   ];
 </script>
 
-<Select.Root aria-label="Select framework" value="next" {items}>
+<Select.Root aria-label="Select framework" defaultValue="next" {items}>
   <Select.Trigger><Select.Value /></Select.Trigger><Select.Popup>
     {#each items as item (item.value)}<Select.Item disabled={item.disabled} value={item.value}>
         {item.label}
