@@ -13,6 +13,7 @@
 <script lang="ts" generics="Item = unknown">
   import { Combobox as C } from "@shardsui/svelte/combobox";
   import ScrollArea from "../scroll-area/scroll-area.svelte";
+  import Collection from "./combobox-collection.svelte";
   import { cn } from "@/utils.js";
   let {
     children: child,
@@ -34,7 +35,7 @@
     {...props}
     >{#snippet children(state)}
       {#if item}
-        <C.Collection children={item} />
+        <Collection children={item} />
       {:else}
         {@render child?.(state)}
       {/if}

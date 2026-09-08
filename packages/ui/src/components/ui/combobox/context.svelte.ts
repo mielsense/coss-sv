@@ -5,6 +5,8 @@ export interface ComboboxWrapperContext {
   getInitialInputValue(insidePopup: boolean): string;
   chipsRef: HTMLElement | null;
   inputRef: HTMLInputElement | null;
+  getCollectionItem(item: unknown): unknown;
+  getGroupItems(items: readonly unknown[] | undefined): readonly unknown[] | undefined;
 }
 
 export const [getComboboxWrapperContext, setComboboxWrapperContext] =

@@ -7,6 +7,8 @@
     SelectionHighlightEventDetails,
   } from "@/change-event-details.js";
 
+  import type { ComboboxItemCollection, ComboboxItemsData } from "./items.js";
+
   type BaseProps = ComponentProps<typeof ShardsCombobox.Root>;
   export type ComboboxChangeEventReason = SelectionChangeEventReason;
   export type ComboboxChangeEventDetails = SelectionChangeEventDetails;
@@ -18,6 +20,7 @@
   export type ComboboxRootProps<
     Value = unknown,
     Multiple extends boolean | undefined = false,
+    Item = Value,
   > = Omit<
     BaseProps,
     | "defaultInputValue"
@@ -42,12 +45,13 @@
     defaultOpen?: boolean;
     defaultValue?: ComboboxValue<Value, Multiple> | null;
     filter?:
+      | undefined
       | null
-      | ((item: Value, query: string, itemToString?: (item: Value) => string) => boolean);
-    filteredItems?: readonly NoInfer<Value>[] | readonly { items: readonly NoInfer<Value>[] }[];
+      | ((item: Item, query: string, itemToString?: (item: Item) => string) => boolean);
+    filteredItems?: ComboboxItemsData<NoInfer<Item>> | undefined;
     inputValue?: string | undefined;
     isItemEqualToValue?: ((item: Value, value: Value) => boolean) | undefined;
-    items?: readonly Value[] | readonly { items: readonly Value[] }[] | undefined;
+    items?: ComboboxItemsData<Value> | ComboboxItemCollection<Item, Value> | undefined;
     itemToStringLabel?: ((item: Value) => string) | undefined;
     itemToStringValue?: ((item: Value) => string) | undefined;
     multiple?: Multiple | undefined;
@@ -80,7 +84,10 @@
   };
 </script>
 
-<script lang="ts" generics="Value = unknown, Multiple extends boolean | undefined = false">
+<script
+  lang="ts"
+  generics="Value = unknown, Multiple extends boolean | undefined = false, Item = Value"
+>
   import { Combobox as ComboboxPrimitive } from "@shardsui/svelte/combobox";
   import type { Component } from "svelte";
   import { untrack } from "svelte";
@@ -94,11 +101,15 @@
   } from "@/selection-change-context.js";
   import { setComboboxInputPlacementContext, setComboboxWrapperContext } from "./context.svelte.js";
 
+  import { isComboboxItemCollection, resolveComboboxItems } from "./items.js";
+
   let {
     children,
     defaultInputValue,
     defaultOpen = false,
     defaultValue,
+    filter,
+    filteredItems,
     inputValue = $bindable(),
     isItemEqualToValue,
     items,
@@ -115,7 +126,36 @@
     // Read the incoming prop separately from the bindable accessor's local override.
     value: suppliedValue,
     ...props
-  }: ComboboxRootProps<Value, Multiple> = $props();
+  }: ComboboxRootProps<Value, Multiple, Item> = $props();
+
+  const collection = $derived(isComboboxItemCollection<Item, Value>(items) ? items : undefined);
+  const itemAdapter = $derived(
+    collection ? resolveComboboxItems(collection, filteredItems) : undefined,
+  );
+  const primitiveItems = $derived(
+    itemAdapter ? itemAdapter.items : (items as ComboboxItemsData<Value> | undefined),
+  );
+  const primitiveFilteredItems = $derived(
+    itemAdapter
+      ? itemAdapter.filteredItems
+      : (filteredItems as ComboboxItemsData<Value> | undefined),
+  );
+  const primitiveLabel = $derived(
+    itemAdapter
+      ? (value: Value) => itemAdapter.getLabel(value) ?? itemToStringLabel?.(value) ?? String(value)
+      : itemToStringLabel,
+  );
+  const primitiveFilter = $derived(
+    collection && itemAdapter && filter
+      ? (value: Value, query: string) => {
+          const item = itemAdapter.filterItem(value);
+          return item !== undefined && filter(item, query, collection.getLabel);
+        }
+      : (filter as
+          | ((item: Value, query: string, itemToString?: (item: Value) => string) => boolean)
+          | null
+          | undefined),
+  );
 
   const valueControlled = untrack(() => value !== undefined);
   const inputControlled = untrack(() => inputValue !== undefined);
@@ -151,6 +191,12 @@
     chipsRef: null as HTMLElement | null,
     inputRef: null as HTMLInputElement | null,
     inputInsidePopup: true,
+    getCollectionItem(item: unknown) {
+      return itemAdapter?.toItem(item) ?? item;
+    },
+    getGroupItems(items: readonly unknown[] | undefined) {
+      return items === undefined ? undefined : (itemAdapter?.groupValues(items) ?? items);
+    },
     getInitialInputValue(insidePopup: boolean) {
       return initialInput ?? (insidePopup ? "" : initialSelectedLabel);
     },
@@ -164,7 +210,7 @@
 
   function selectedInputLabel(selected: unknown): string {
     if (selected == null) return "";
-    if (itemToStringLabel) return itemToStringLabel(selected as Value) ?? "";
+    if (primitiveLabel) return primitiveLabel(selected as Value) ?? "";
     if (typeof selected === "object") {
       if ("label" in selected && selected.label != null) return String(selected.label);
       if ("value" in selected) return String(selected.value);
@@ -227,7 +273,7 @@
       if (!Array.isArray(next)) return [] as ComboboxValue<Value, Multiple>;
       return canonicalizeComboboxSelectionValues(
         next as Value[],
-        items,
+        primitiveItems,
         isItemEqualToValue,
       ) as ComboboxValue<Value, Multiple>;
     }
@@ -235,7 +281,7 @@
       ? (next as ComboboxValue<Value, Multiple>)
       : (canonicalizeComboboxSelectionValue(
           next as Value,
-          items,
+          primitiveItems,
           isItemEqualToValue,
         ) as ComboboxValue<Value, Multiple>);
   }
@@ -339,8 +385,10 @@
   bind:open={getOpen, setOpen}
   bind:value={getValue, setValue}
   {isItemEqualToValue}
-  {items}
-  {itemToStringLabel}
+  items={primitiveItems}
+  filteredItems={primitiveFilteredItems}
+  filter={primitiveFilter}
+  itemToStringLabel={primitiveLabel}
   {itemToStringValue}
   {multiple}
   onInputValueChange={handleInputValueChange}

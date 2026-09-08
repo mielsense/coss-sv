@@ -46,6 +46,37 @@ links:
 </Combobox.Root>
 ```
 
+When your source items are objects but selection should use a stable primitive value, create a typed collection with `createComboboxItems`:
+
+```svelte
+<script lang="ts">
+  import * as Combobox from "$lib/components/ui/combobox/index.js";
+  import { createComboboxItems } from "$lib/components/ui/combobox/index.js";
+
+  const users = [
+    { id: "ada", name: "Ada Lovelace" },
+    { id: "grace", name: "Grace Hopper" },
+  ];
+  type User = (typeof users)[number];
+
+  const userItems = createComboboxItems(users, {
+    getLabel: (user) => user.name,
+    getValue: (user) => user.id,
+  });
+</script>
+
+<Combobox.Root defaultValue="ada" items={userItems}>
+  <Combobox.Input placeholder="Select a user..." />
+  <Combobox.Popup>
+    <Combobox.List>
+      {#snippet item(user: User)}
+        <Combobox.Item value={user.id}>{user.name}</Combobox.Item>
+      {/snippet}
+    </Combobox.List>
+  </Combobox.Popup>
+</Combobox.Root>
+```
+
 ### Multiple Selection
 
 ```svelte
@@ -63,11 +94,12 @@ links:
     { value: "grape", label: "Grape" },
   ] as const;
   type Item = (typeof items)[number];
+  const MultipleValue = Combobox.Value<Item, true>;
 </script>
 
 <Combobox.Root {items} multiple>
   <Combobox.Chips>
-    <Combobox.Value>
+    <MultipleValue>
       {#snippet children(value: Item[])}
         {#each value as item (item.value)}
           <Combobox.Chip aria-label={item.value}>
@@ -79,7 +111,7 @@ links:
           placeholder={value.length > 0 ? undefined : "Select an item..."}
         />
       {/snippet}
-    </Combobox.Value>
+    </MultipleValue>
   </Combobox.Chips>
   <Combobox.Popup>
     <Combobox.Empty>No results found.</Combobox.Empty>
@@ -98,13 +130,28 @@ links:
 
 The root combobox component. Manages the combobox state and provides context to child components.
 
-| Prop       | Type                 | Description                                   |
-| ---------- | -------------------- | --------------------------------------------- |
-| `items`    | `readonly unknown[]` | The array of items to display in the combobox |
-| `multiple` | `boolean`            | Whether to allow multiple selection           |
-| `open`     | `boolean`            | Controls whether the popup is open            |
-| `children` | `Snippet`            | Combobox content                              |
-| `...props` | `ComboboxRootProps`  | All Shards UI Combobox props are supported    |
+| Prop       | Type                                           | Description                                                          |
+| ---------- | ---------------------------------------------- | -------------------------------------------------------------------- |
+| `items`    | `readonly unknown[] \| ComboboxItemCollection` | Items to display, or a collection created with `createComboboxItems` |
+| `multiple` | `boolean`                                      | Whether to allow multiple selection                                  |
+| `open`     | `boolean`                                      | Controls whether the popup is open                                   |
+| `children` | `Snippet`                                      | Combobox content                                                     |
+| `...props` | `ComboboxRootProps`                            | All Shards UI Combobox props are supported                           |
+
+### createComboboxItems
+
+Creates a typed collection that derives selection values and labels from source objects. Pass the collection to `Combobox.Root` and use the derived value on `Combobox.Item`. `Combobox.List` and `Combobox.Collection` snippets receive the source records; `Combobox.Value` receives the selected IDs.
+
+```ts
+createComboboxItems(data, {
+  getLabel: (item) => item.name,
+  getValue: (item) => item.id,
+});
+```
+
+The data can be a flat array, groups with an `items` array, or `undefined` while loading. Each item must have a unique string, number, bigint, or boolean value. Null and undefined represent no selection. `itemToStringLabel` provides the label for selected IDs missing from both `items` and `filteredItems`.
+
+Create static collections outside the component when possible. For reactive data, use `$derived(createComboboxItems(data, options))` to update the collection when the data changes.
 
 ### Combobox.Input
 
