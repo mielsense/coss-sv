@@ -52,7 +52,7 @@
   let shouldHonorDisabledDefaultValue = hasExplicitDefaultValue;
   let didRegisterTabs = false;
 
-  const selectedValue = $derived(isControlled ? (value as Value | null) : internalValue);
+  const selectedValue = $derived(value !== undefined ? value : internalValue);
 
   function orderedTabs(): TabsAdapterTab[] {
     registryVersion;

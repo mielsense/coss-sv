@@ -12,7 +12,7 @@
     allValues?: readonly Value[];
     defaultValue?: Value[];
     onValueChange?: (value: Value[], eventDetails: CheckboxGroupChangeEventDetails) => void;
-    value?: Value[];
+    value?: Value[] | undefined;
   };
 </script>
 

@@ -1,5 +1,14 @@
 <script lang="ts">
-  import { Button, CheckboxGroup, Field, FieldsetLegend, Form, Label } from "@coss-sv/ui";
+  import {
+    Button,
+    Checkbox,
+    ToggleGroup,
+    CheckboxGroup,
+    Field,
+    FieldsetLegend,
+    Form,
+    Label,
+  } from "@coss-sv/ui";
 
   const frameworks = [
     { id: "next", name: "Next.js" },
@@ -20,6 +29,8 @@
     { id: "assign-roles", name: "Assign Roles" },
   ];
 
+  let lateChecked = $state<boolean>();
+  let lateToggles = $state<string[]>();
   let frameworkValue = $state<string[]>([]);
   let mainValue = $state<string[]>([]);
   let managementValue = $state<string[]>([]);
@@ -157,6 +168,20 @@
       </Field.Root>
       <Button {loading} type="submit">Submit</Button>
     </Form>
+  </section>
+  <section data-particle="binding-late-values" class="flex-col gap-3">
+    <Button
+      onclick={() => {
+        lateChecked = true;
+        lateToggles = ["second"];
+      }}>Set late bindings</Button
+    >
+    <Label><Checkbox bind:checked={lateChecked} />Late checkbox</Label>
+    <ToggleGroup.Root bind:value={lateToggles}>
+      <ToggleGroup.Item value="first">First late toggle</ToggleGroup.Item>
+      <ToggleGroup.Item value="second">Second late toggle</ToggleGroup.Item>
+    </ToggleGroup.Root>
+    <output>{String(lateChecked)}:{lateToggles?.join(",") ?? "undefined"}</output>
   </section>
 </div>
 

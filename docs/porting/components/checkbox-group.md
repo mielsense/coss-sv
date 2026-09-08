@@ -137,3 +137,20 @@ Accepted visual or behavioral deviations: none.
 ## D5 documentation port
 
 The D5 lane re-read the complete Checkbox Group MDX page, particles `p-checkbox-group-1` through `p-checkbox-group-5`, the target group context, and the complete matching local Shards source, tests, docs, and examples. The page keeps all five preview IDs and order. Its Svelte usage sample treats `CheckboxGroup.Item` as the control and wraps it with `Label`; it does not nest a second `Checkbox`. The weekly copy editor follows the same item-owned-control contract. The form example prevents native navigation and captures its selected framework before the loading wait; component and built-preview tests assert `Selected: next` and an unchanged query. The live upstream page exposed 5 previews at 1440px; at 390px its h1 was x=16, y=88, 358×36 with no horizontal overflow. The nested example is implemented with the target group context; the coordinator-owned shared metadata index is the remaining route-discovery seam.
+
+
+## September 8 binding audit
+
+The complete wrapper source was compared with the permitted COSS registry implementation and the
+matching local Shards root. The wrapper must observe a Svelte binding that starts undefined and
+receives a defined value later. Initial controlled-state detection previously selected the
+internal fallback forever. The rendered value now reads the current prop when it is defined,
+while initial ownership still governs internal updates. This preserves controlled cancellation
+and the existing uncontrolled lifecycle; Tabs retains automatic fallback when a tab disappears.
+
+`checkbox-group/undefined-bindings.browser.test.ts` covers boolean, scalar, array, input-text, and
+open bindings. `select/select-undefined.browser.test.ts` covers late value/open updates and clearing
+a selection. The tests reproduce the stale state before the correction. CheckboxGroup already
+handled late values correctly and remains a positive control; its only change explicitly permits
+undefined in the binding type under `exactOptionalPropertyTypes`. Other affected optional binding
+types now permit undefined as well.

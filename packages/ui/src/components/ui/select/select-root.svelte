@@ -45,7 +45,7 @@
       value: SelectValue<Value, Multiple>,
       eventDetails: SelectChangeEventDetails,
     ) => void;
-    open?: boolean;
+    open?: boolean | undefined;
     value?: SelectValue<Value, Multiple> | undefined;
   };
 </script>
@@ -88,10 +88,8 @@
   let internalOpen = $state(untrack(() => defaultOpen));
   let pendingValue: { canceled: boolean; value: SelectValue<Value, Multiple> } | undefined;
   let pendingOpen: { canceled: boolean; value: boolean } | undefined;
-  const currentValue = $derived(
-    valueControlled ? (value as SelectValue<Value, Multiple>) : internalValue,
-  );
-  const currentOpen = $derived(openControlled ? (open as boolean) : internalOpen);
+  const currentValue = $derived(value !== undefined ? value : internalValue);
+  const currentOpen = $derived(open !== undefined ? open : internalOpen);
   const change = createSelectionChangeContext();
   setSelectionChangeContext(change);
 

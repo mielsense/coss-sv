@@ -9,7 +9,7 @@
     ComponentProps<typeof ShardsCheckbox.Root>,
     "checked" | "onCheckedChange"
   > & {
-    checked?: boolean;
+    checked?: boolean | undefined;
     defaultChecked?: boolean;
     onCheckedChange?: (checked: boolean, eventDetails: CheckboxChangeEventDetails) => void;
   };
@@ -43,7 +43,7 @@
   let internalChecked = $state(untrack(() => defaultChecked));
   let pendingChange: { canceled: boolean; value: boolean } | undefined;
   let recordedEvent: Event | undefined;
-  const currentChecked = $derived(isControlled ? (checked as boolean) : internalChecked);
+  const currentChecked = $derived(checked !== undefined ? checked : internalChecked);
   const classes = $derived(cn(rootClass, className));
 
   function getChecked(): boolean {

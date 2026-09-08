@@ -12,7 +12,7 @@
   > & {
     defaultPressed?: boolean;
     onPressedChange?: (pressed: boolean, eventDetails: ToggleChangeEventDetails) => void;
-    pressed?: boolean;
+    pressed?: boolean | undefined;
     size?: ToggleSize;
     variant?: ToggleVariant;
   };
@@ -42,7 +42,7 @@
   let internalPressed = $state(untrack(() => defaultPressed));
   let pendingChange: { canceled: boolean; value: boolean } | undefined;
   let recordedEvent: Event | undefined;
-  const currentPressed = $derived(isControlled ? (pressed as boolean) : internalPressed);
+  const currentPressed = $derived(pressed !== undefined ? pressed : internalPressed);
   const classes = $derived(toggleVariants({ class: className, size, variant }));
 
   function getPressed(): boolean {

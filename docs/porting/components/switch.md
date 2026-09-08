@@ -46,3 +46,20 @@ The D5 lane re-read the complete Switch MDX page, particles `p-switch-1` through
 ## Central Hugeicons renderer migration
 
 The p-switch-7, p-switch-8, and p-switch-9 registry sources keep their audited Hugeicons core glyph data, two-pixel strokes, classes, and ARIA attributes. They now render that data with the public SSR-safe HugeiconsIcon exported by @coss-sv/ui. The focused ownership test enumerates each migrated particle, rejects the framework-specific renderer, checks every icon invocation, and verifies server-rendered SVG geometry.
+
+
+## September 8 binding audit
+
+The complete wrapper source was compared with the permitted COSS registry implementation and the
+matching local Shards root. The wrapper must observe a Svelte binding that starts undefined and
+receives a defined value later. Initial controlled-state detection previously selected the
+internal fallback forever. The rendered value now reads the current prop when it is defined,
+while initial ownership still governs internal updates. This preserves controlled cancellation
+and the existing uncontrolled lifecycle; Tabs retains automatic fallback when a tab disappears.
+
+`checkbox-group/undefined-bindings.browser.test.ts` covers boolean, scalar, array, input-text, and
+open bindings. `select/select-undefined.browser.test.ts` covers late value/open updates and clearing
+a selection. The tests reproduce the stale state before the correction. CheckboxGroup already
+handled late values correctly and remains a positive control; its only change explicitly permits
+undefined in the binding type under `exactOptionalPropertyTypes`. Other affected optional binding
+types now permit undefined as well.

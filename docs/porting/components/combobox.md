@@ -55,3 +55,27 @@ The upstream multiple example keeps selected options in the popup, exposes them 
 Svelte does not expose a public way for a component to recover an object's original identity from a deep-state proxy. The five object-valued multiple particles therefore keep their selection arrays in `$state.raw`, which remains reactive on assignment without proxying the item objects. Consumers that need deep state can instead provide `isItemEqualToValue`; the wrapper now treats that comparator as authoritative and keeps `{ label, value }` Combobox items intact during outgoing change normalization. Multiple mode also accepts Shards' controlled `null` value without calling array methods on it.
 
 Browser coverage verifies the raw-state toggle, duplicate labels with an explicit ID comparator, controlled `null`, selection after a bound reassignment, and the production particle preview. The registry publishes the same corrected particle source shown in the documentation.
+
+
+## September 8 binding audit
+
+The complete wrapper source was compared with the permitted COSS registry implementation and the
+matching local Shards root. The wrapper must observe a Svelte binding that starts undefined and
+receives a defined value later. Initial controlled-state detection previously selected the
+internal fallback forever. The rendered value now reads the current prop when it is defined,
+while initial ownership still governs internal updates. This preserves controlled cancellation
+and the existing uncontrolled lifecycle; Tabs retains automatic fallback when a tab disappears.
+
+`checkbox-group/undefined-bindings.browser.test.ts` covers boolean, scalar, array, input-text, and
+open bindings. `select/select-undefined.browser.test.ts` covers late value/open updates and clearing
+a selection. The tests reproduce the stale state before the correction. CheckboxGroup already
+handled late values correctly and remains a positive control; its only change explicitly permits
+undefined in the binding type under `exactOptionalPropertyTypes`. Other affected optional binding
+types now permit undefined as well.
+
+A separate comparison with the raw Shards primitive establishes a remaining label synchronization
+issue: setting only `value` externally updates `Combobox.Value`, but the wrapper input stays empty.
+The primitive updates the input label when `inputValue` is omitted. The wrapper always supplies
+its internal input string to support cancellable input changes, suppressing that primitive path.
+The binding regression asserts selection and independently tests `inputValue`; it does not claim
+to repair label synchronization. The raw primitive comparison is retained as evidence.

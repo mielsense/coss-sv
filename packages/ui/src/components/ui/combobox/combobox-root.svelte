@@ -61,7 +61,7 @@
       value: ComboboxValue<Value, Multiple>,
       eventDetails: ComboboxChangeEventDetails,
     ) => void;
-    open?: boolean;
+    open?: boolean | undefined;
     value?: ComboboxValue<Value, Multiple> | null | undefined;
   };
 
@@ -125,11 +125,9 @@
   let pendingValue: { canceled: boolean; value: ComboboxValue<Value, Multiple> } | undefined;
   let pendingInput: { canceled: boolean; value: string } | undefined;
   let pendingOpen: { canceled: boolean; value: boolean } | undefined;
-  const currentValue = $derived(
-    valueControlled ? (value as ComboboxValue<Value, Multiple> | null) : internalValue,
-  );
-  const currentInputValue = $derived(inputControlled ? (inputValue as string) : internalInputValue);
-  const currentOpen = $derived(openControlled ? (open as boolean) : internalOpen);
+  const currentValue = $derived(value !== undefined ? value : internalValue);
+  const currentInputValue = $derived(inputValue !== undefined ? inputValue : internalInputValue);
+  const currentOpen = $derived(open !== undefined ? open : internalOpen);
   const change = createSelectionChangeContext();
   setSelectionChangeContext(change);
 

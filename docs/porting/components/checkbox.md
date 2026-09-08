@@ -49,3 +49,20 @@ The checked and indeterminate states now render `Tick02Icon` and `MinusSignIcon`
 ## D5 documentation port
 
 The D5 lane re-read the complete Checkbox MDX page, particles `p-checkbox-1` through `p-checkbox-5`, the target Checkbox, and the complete matching local Shards implementation and documentation. The page keeps all five upstream preview IDs and order. The live upstream page exposed 5 previews at 1440px; at 390px its h1 was x=16, y=88, 358×36 with no horizontal overflow. Focused browser coverage verifies labeled checkbox activation and checked state. The form example prevents native navigation, captures `FormData` before its 800ms loading wait, and reports `Terms: yes`; the built preview test asserts that the route query does not change. Shared page metadata remains a coordinator seam.
+
+
+## September 8 binding audit
+
+The complete wrapper source was compared with the permitted COSS registry implementation and the
+matching local Shards root. The wrapper must observe a Svelte binding that starts undefined and
+receives a defined value later. Initial controlled-state detection previously selected the
+internal fallback forever. The rendered value now reads the current prop when it is defined,
+while initial ownership still governs internal updates. This preserves controlled cancellation
+and the existing uncontrolled lifecycle; Tabs retains automatic fallback when a tab disappears.
+
+`checkbox-group/undefined-bindings.browser.test.ts` covers boolean, scalar, array, input-text, and
+open bindings. `select/select-undefined.browser.test.ts` covers late value/open updates and clearing
+a selection. The tests reproduce the stale state before the correction. CheckboxGroup already
+handled late values correctly and remains a positive control; its only change explicitly permits
+undefined in the binding type under `exactOptionalPropertyTypes`. Other affected optional binding
+types now permit undefined as well.

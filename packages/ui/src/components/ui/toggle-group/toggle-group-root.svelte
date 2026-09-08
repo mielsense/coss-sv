@@ -25,7 +25,7 @@
     orientation?: "horizontal" | "vertical";
     ref?: HTMLElement | null;
     size?: ToggleSize;
-    value?: readonly Value[];
+    value?: readonly Value[] | undefined;
     variant?: ToggleVariant;
   };
 </script>
@@ -57,7 +57,7 @@
   let internalValue = $state<readonly Value[]>(untrack(() => defaultValue ?? []));
   let pendingChange: { canceled: boolean; value: readonly Value[] } | undefined;
   let preparedDetails: ToggleGroupChangeEventDetails | undefined;
-  const currentValue = $derived(isControlled ? (value as readonly Value[]) : internalValue);
+  const currentValue = $derived(value !== undefined ? value : internalValue);
   const classes = $derived(toggleGroupClasses({ class: className, orientation, size, variant }));
 
   setToggleGroupItemChangeContext({

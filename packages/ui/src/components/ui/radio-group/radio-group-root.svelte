@@ -36,7 +36,7 @@
   let internalValue = $state<Value | undefined>(untrack(() => defaultValue));
   let pendingChange: { canceled: boolean; value: Value } | undefined;
   let recordedEvent: Event | undefined;
-  const currentValue = $derived(isControlled ? value : internalValue);
+  const currentValue = $derived(value !== undefined ? value : internalValue);
   const classes = $derived(cn("flex flex-col gap-3", className));
 
   function getValue(): Value {
