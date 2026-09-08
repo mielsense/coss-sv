@@ -20,7 +20,14 @@ try {
         const after = getComputedStyle(markers, "::after");
         const frame = document.querySelector("[data-category]");
         const inner = frame.querySelector('[data-slot="card"]');
+        const panelStyle = getComputedStyle(frame.querySelector('[data-slot="card-panel"]'));
+        const descriptionStyle = getComputedStyle(
+          frame.querySelector('[data-slot="card-frame-description"]'),
+        );
         return {
+          panelPadding: panelStyle.padding,
+          descriptionFontSize: descriptionStyle.fontSize,
+          descriptionLineHeight: descriptionStyle.lineHeight,
           left: before.left,
           right: after.right,
           top: before.top,
@@ -37,6 +44,9 @@ try {
           overflow: document.documentElement.scrollWidth > innerWidth,
         };
       });
+      assert.equal(metrics.panelPadding, "24px 32px");
+      assert.equal(metrics.descriptionFontSize, "14px");
+      assert.equal(metrics.descriptionLineHeight, "20px");
       assert.equal(metrics.left, "-15.5px");
       assert.equal(metrics.right, "-15.5px");
       assert.equal(metrics.top, "-3.5px");

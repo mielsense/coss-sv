@@ -194,6 +194,14 @@ export {
   type CollapsibleTriggerProps,
 } from "./components/ui/collapsible/index.js";
 export * as Combobox from "./components/ui/combobox/index.js";
+export {
+  type ComboboxCollectionProps,
+  type ComboboxItemCollection,
+  type ComboboxItemsData,
+  type ComboboxPrimitiveValue,
+  createComboboxItems,
+  type CreateComboboxItemsOptions,
+} from "./components/ui/combobox/index.js";
 export * as Command from "./components/ui/command/index.js";
 export * as ContextMenu from "./components/ui/context-menu/index.js";
 export {

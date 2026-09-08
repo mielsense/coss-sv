@@ -560,6 +560,10 @@
           "type": "registry:ui"
         },
         {
+          "path": "../../packages/ui/src/components/ui/combobox/combobox-collection.svelte",
+          "type": "registry:ui"
+        },
+        {
           "path": "../../packages/ui/src/components/ui/combobox/combobox-empty.svelte",
           "type": "registry:ui"
         },
@@ -621,6 +625,10 @@
         },
         {
           "path": "../../packages/ui/src/components/ui/combobox/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "../../packages/ui/src/components/ui/combobox/items.ts",
           "type": "registry:ui"
         }
       ]

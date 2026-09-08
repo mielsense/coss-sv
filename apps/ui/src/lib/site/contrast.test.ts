@@ -76,7 +76,6 @@ describe("documentation layout and interaction contracts", () => {
     expect(homeSource).toContain("lg:py-16");
     expect(homeSource).toContain("h-55");
     expect(homeSource).toContain("overflow-x-auto");
-    expect(thumbnailSource).toContain("px-8 py-6");
   });
 
   test("uses the exact COSS type metrics with the licensed Cal Sans variable face", () => {
@@ -88,7 +87,6 @@ describe("documentation layout and interaction contracts", () => {
     expect(themeCss).toMatch(/body\s*\{[^}]*--font-sans:\s*var\(--site-font-sans\)/s);
     expect(themeCss).toMatch(/body\s*\{[^}]*font-family:\s*var\(--site-font-sans\)/s);
     expect(homeSource).toContain("font-heading text-4xl leading-10 font-bold");
-    expect(homeSource).toContain("text-site-muted text-sm leading-5");
     expect(rootRule).not.toContain("font-variation-settings");
   });
 

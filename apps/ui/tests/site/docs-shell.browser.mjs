@@ -417,6 +417,13 @@ try {
   assert.equal(await page.locator(".error-code").count(), 0);
   assert.doesNotMatch(await page.locator("body").innerText(), /(^|\s)404(\s|$)/);
   assert.deepEqual(browserDiagnostics, []);
+
+  // Reuse this suite's preview process; each regression suite closes its own browser.
+  process.env.COSS_TEST_BASE_URL = baseUrl;
+  await import("./home-parity.browser.mjs");
+  await import("./install-parity.browser.mjs");
+  await import("./navigation-parity.browser.mjs");
+  await import("./command-copy-lifetime.browser.mjs");
 } finally {
   await browser.close();
   preview?.kill("SIGTERM");

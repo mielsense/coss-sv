@@ -221,6 +221,7 @@ export const registryUiItems = defineRegistryItems([
       "combobox-chips-input.svelte",
       "combobox-chips.svelte",
       "combobox-clear.svelte",
+      "combobox-collection.svelte",
       "combobox-empty.svelte",
       "combobox-group-label.svelte",
       "combobox-group.svelte",
@@ -237,6 +238,7 @@ export const registryUiItems = defineRegistryItems([
       "combobox-value.svelte",
       "context.svelte.ts",
       "index.ts",
+      "items.ts",
     ]),
   },
   {
