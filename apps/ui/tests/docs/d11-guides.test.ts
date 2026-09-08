@@ -30,7 +30,7 @@ describe("D11 guide sources", () => {
   test("compiles all seven root pages and both Svelte hook replacements", async () => {
     const compiled = await compileDocumentationTree({
       contentRoot: resolve(appRoot, "content/docs"),
-      ownershipPath: resolve(repositoryRoot, "docs/porting/docs-ownership.json"),
+      ownershipPath: resolve(repositoryRoot, "apps/ui/scripts/docs/ownership.json"),
     });
 
     for (const slug of [...guideRoutes, ...hookRecords]) {

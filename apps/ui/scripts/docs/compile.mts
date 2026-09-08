@@ -176,7 +176,7 @@ async function runCli(): Promise<void> {
   );
   const ownershipPath = resolve(
     process.env.COSS_DOCS_OWNERSHIP?.trim() ||
-      join(repositoryRoot, "docs/porting/docs-ownership.json"),
+      join(repositoryRoot, "apps/ui/scripts/docs/ownership.json"),
   );
   const outputPath = resolve(
     process.env.COSS_COMPILED_DOCS?.trim() ||

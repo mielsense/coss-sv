@@ -4,7 +4,7 @@
 
 Build an unofficial, high-fidelity Svelte 5 port of the COSS component library and documentation. Rendered styling, behavior, accessibility, examples, and visible copy must match the pinned COSS reference. Implementation must use current, stable Svelte 5 patterns and Shards UI primitives.
 
-Read `docs/specs/2026-08-26-coss-svelte-port-spec.md` and the active plan before changing code.
+The root `docs/` directory contains ignored local agent notes. Read its port specification and active plan when available; a fresh clone does not include them. This guide defines the shared requirements.
 
 ## Source boundary
 

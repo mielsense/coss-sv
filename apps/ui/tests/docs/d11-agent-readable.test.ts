@@ -21,7 +21,7 @@ describe("agent-readable documentation", () => {
     records = (
       await compileDocumentationTree({
         contentRoot: resolve(appRoot, "content/docs"),
-        ownershipPath: resolve(repositoryRoot, "docs/porting/docs-ownership.json"),
+        ownershipPath: resolve(repositoryRoot, "apps/ui/scripts/docs/ownership.json"),
       })
     ).pages;
   }, 15_000);

@@ -112,7 +112,7 @@ type Ownership = {
 };
 describe("D8 selection, command, and menu documentation", () => {
   test("locks the exact 79-particle ownership set", () => {
-    const ownership = JSON.parse(source("docs/porting/docs-ownership.json")) as Ownership;
+    const ownership = JSON.parse(source("apps/ui/scripts/docs/ownership.json")) as Ownership;
     expect(
       ownership.ownership
         .filter((item) => item.implementationLane === "D8")
@@ -122,7 +122,7 @@ describe("D8 selection, command, and menu documentation", () => {
     expect(Object.keys(particleLoaders)).toHaveLength(79);
   });
   test.each(expectedParticles)("ports and server-renders %s with exact metadata", async (id) => {
-    const ownership = JSON.parse(source("docs/porting/docs-ownership.json")) as Ownership;
+    const ownership = JSON.parse(source("apps/ui/scripts/docs/ownership.json")) as Ownership;
     const record = ownership.ownership.find((item) => item.particle === id);
     expect(record).toBeDefined();
     expect(existsSync(resolve(repositoryRoot, record?.targetPath ?? "missing"))).toBe(true);
@@ -212,12 +212,6 @@ describe("D8 selection, command, and menu documentation", () => {
     expect(placesAutocomplete).toContain("import.meta.env.VITE_GOOGLE_MAPS_API_KEY");
     expect(placesAutocomplete).toContain("https://places.googleapis.com/v1/places:autocomplete");
     expect(placesAutocomplete).not.toMatch(/from\s+["']\$env/);
-
-    const autocompleteEvidence = source("docs/porting/components/autocomplete.md");
-    expect(autocompleteEvidence).toContain(
-      "session-scoped token, reused until selection or unmount",
-    );
-    expect(autocompleteEvidence).not.toContain("short-lived session token");
 
     expect(source("apps/ui/registry/default/particles/p-combobox-2.svelte")).toContain(
       'placeholder="Select an item…"',

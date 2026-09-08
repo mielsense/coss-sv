@@ -12,7 +12,7 @@ const viteExecutable = fileURLToPath(
   new URL("../../node_modules/vite/bin/vite.js", import.meta.url),
 );
 const ownership = JSON.parse(
-  await readFile(`${repositoryRoot}/docs/porting/docs-ownership.json`, "utf8"),
+  await readFile(`${repositoryRoot}/apps/ui/scripts/docs/ownership.json`, "utf8"),
 ).ownership;
 const d6Particles = ownership
   .filter(({ implementationLane }) => implementationLane === "D6")

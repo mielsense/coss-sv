@@ -173,17 +173,14 @@ describe("D6 form and input documentation inventory", () => {
 
   test("repairs the dangling upstream Label preview with its canonical checkbox particle", () => {
     const label = source("apps/ui/content/docs/components/label.svx");
-    const evidence = source("docs/porting/components/label.md");
 
     expect(label).toContain("### With Checkbox");
     expect(label).not.toContain("checkbox-demo");
     expect(label).toContain('<ComponentPreview name="p-checkbox-1" />');
-    expect(evidence).toContain("no `checkbox-demo` particle exists");
-    expect(evidence).toContain("uses the canonical `p-checkbox-1` particle");
   });
 
   test("keeps the locked D6 ownership set exact", () => {
-    const ownership = JSON.parse(source("docs/porting/docs-ownership.json")) as OwnershipFile;
+    const ownership = JSON.parse(source("apps/ui/scripts/docs/ownership.json")) as OwnershipFile;
     const actual = ownership.ownership
       .filter(({ implementationLane }) => implementationLane === "D6")
       .map(({ particle }) => particle)
@@ -208,7 +205,7 @@ describe("D6 form and input documentation inventory", () => {
   });
 
   test.each(expectedParticles)("ports %s with exact metadata and modern Svelte source", (id) => {
-    const ownership = JSON.parse(source("docs/porting/docs-ownership.json")) as OwnershipFile;
+    const ownership = JSON.parse(source("apps/ui/scripts/docs/ownership.json")) as OwnershipFile;
     const record = ownership.ownership.find(({ particle }) => particle === id);
     expect(record).toBeDefined();
     expect(existsSync(resolve(repositoryRoot, record?.targetPath ?? "missing"))).toBe(true);

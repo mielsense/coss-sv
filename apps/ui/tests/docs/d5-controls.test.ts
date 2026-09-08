@@ -161,7 +161,7 @@ describe("D5 control documentation inventory", () => {
   });
 
   test("keeps the locked 105-particle ownership set exact", () => {
-    const ownership = JSON.parse(source("docs/porting/docs-ownership.json")) as OwnershipFile;
+    const ownership = JSON.parse(source("apps/ui/scripts/docs/ownership.json")) as OwnershipFile;
     const actual = ownership.ownership
       .filter(({ implementationLane }) => implementationLane === "D5")
       .map(({ particle }) => particle)
@@ -171,7 +171,7 @@ describe("D5 control documentation inventory", () => {
   });
 
   test.each(expectedParticles)("ports %s with exact metadata and modern Svelte source", (id) => {
-    const ownership = JSON.parse(source("docs/porting/docs-ownership.json")) as OwnershipFile;
+    const ownership = JSON.parse(source("apps/ui/scripts/docs/ownership.json")) as OwnershipFile;
     const record = ownership.ownership.find(({ particle }) => particle === id);
     expect(record).toBeDefined();
     expect(existsSync(resolve(repositoryRoot, record?.targetPath ?? "missing"))).toBe(true);

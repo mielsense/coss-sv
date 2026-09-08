@@ -148,7 +148,7 @@ function particlePrefix(particle: string): string {
 }
 
 export function docsOwnershipPath(repositoryRoot = defaultRepositoryRoot): string {
-  return join(repositoryRoot, "docs/porting/docs-ownership.json");
+  return join(repositoryRoot, "apps/ui/scripts/docs/ownership.json");
 }
 
 export function collectDocsInventory(options: CollectDocsInventoryOptions = {}): DocsInventory {
@@ -283,7 +283,7 @@ function runCli(): void {
   if (check) {
     if (!existsSync(path) || readFileSync(path, "utf8") !== output) {
       throw new Error(
-        "docs/porting/docs-ownership.json is stale. Run docs inventory with --write.",
+        "apps/ui/scripts/docs/ownership.json is stale. Run docs inventory with --write.",
       );
     }
     process.stdout.write(

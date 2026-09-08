@@ -108,7 +108,7 @@ describe("typed particle preview registry", () => {
 
   test("discovers every authored file from the locked 508-particle ownership inventory", () => {
     const inventory = JSON.parse(
-      readFileSync(resolve(appRoot, "../../docs/porting/docs-ownership.json"), "utf8"),
+      readFileSync(resolve(appRoot, "../../apps/ui/scripts/docs/ownership.json"), "utf8"),
     ) as DocsOwnership;
     expect(inventory.counts.particles).toBe(508);
 

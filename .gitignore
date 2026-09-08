@@ -33,3 +33,6 @@ shardsui/
 .DS_Store
 *.log
 pnpm-debug.log*
+
+# Local agent planning, porting evidence, and audit notes
+/docs/

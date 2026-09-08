@@ -82,7 +82,7 @@ function source(path: string): string {
 
 describe("D9 date, navigation, and table documentation", () => {
   test("keeps the exact 64-particle ownership inventory", () => {
-    const ownership = JSON.parse(source("docs/porting/docs-ownership.json")) as OwnershipFile;
+    const ownership = JSON.parse(source("apps/ui/scripts/docs/ownership.json")) as OwnershipFile;
     expect(
       ownership.ownership
         .filter(({ implementationLane }) => implementationLane === "D9")
@@ -92,7 +92,7 @@ describe("D9 date, navigation, and table documentation", () => {
   });
 
   test.each(expectedParticles)("ports %s with exact metadata and modern Svelte", (id) => {
-    const ownership = JSON.parse(source("docs/porting/docs-ownership.json")) as OwnershipFile;
+    const ownership = JSON.parse(source("apps/ui/scripts/docs/ownership.json")) as OwnershipFile;
     const record = ownership.ownership.find(({ particle }) => particle === id);
     expect(record).toBeDefined();
     expect(existsSync(resolve(repositoryRoot, record?.targetPath ?? "missing"))).toBe(true);

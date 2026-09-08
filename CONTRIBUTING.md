@@ -6,12 +6,8 @@ styling, accessibility, examples, registry output, and visible docs agree with t
 
 ## Set up the workspace
 
-Read these files before changing code:
-
-- [AGENTS.md](AGENTS.md)
-- [the port specification](docs/specs/2026-08-26-coss-svelte-port-spec.md)
-- [the review procedure](docs/porting/REVIEW-HOWTO.md)
-- [known porting pitfalls](docs/porting/PITFALLS.md)
+Read [AGENTS.md](AGENTS.md) before changing code. Additional agent plans and porting notes may
+be available in the ignored local `docs/` directory; they are not required for a fresh clone.
 
 Use Node.js 22.18 through 24 and pnpm 10.22.0.
 

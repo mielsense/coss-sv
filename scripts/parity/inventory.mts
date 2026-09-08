@@ -1960,8 +1960,14 @@ function withBaseline(inventory: ReferenceInventory, baseline: StatusBaseline): 
   return { ...inventory, entries: applyStatusBaseline(inventory.entries, baseline) };
 }
 
+function readLocalMatrix(path: string) {
+  return existsSync(path)
+    ? readFileSync(path, "utf8")
+    : `# Parity matrix\n\n${startMarker}\n\n${endMarker}\n`;
+}
+
 export function expectedMatrix(root = repositoryRoot) {
-  const current = readFileSync(join(root, "docs/porting/PARITY-MATRIX.md"), "utf8");
+  const current = readLocalMatrix(join(root, "docs/porting/PARITY-MATRIX.md"));
   const inventory = collectReferenceInventory(root);
   return updateGeneratedSection(
     current,
@@ -2013,7 +2019,8 @@ function main() {
     const completedInventory = withBaseline(inventory, baseline);
     const manifests = collectTargetManifests();
     validateTargetManifestParity(completedInventory.entries, manifests);
-    const current = readFileSync(matrixPath, "utf8");
+    const current = readLocalMatrix(matrixPath);
+    mkdirSync(dirname(matrixPath), { recursive: true });
     writeFileSync(matrixPath, updateGeneratedSection(current, renderInventory(completedInventory)));
     writeNormalizedArtifact(completedInventory, manifests);
     console.log("Updated the parity status baseline and generated matrix section.");
@@ -2029,9 +2036,9 @@ function main() {
   validateTargetManifestParity(completedInventory.entries, manifests);
   writeNormalizedArtifact(completedInventory, manifests);
 
-  const current = readFileSync(matrixPath, "utf8");
+  const current = readLocalMatrix(matrixPath);
   const expected = updateGeneratedSection(current, renderInventory(completedInventory));
-  if (current !== expected) {
+  if (existsSync(matrixPath) && current !== expected) {
     throw new Error("docs/porting/PARITY-MATRIX.md is stale. Run pnpm parity:write.");
   }
 

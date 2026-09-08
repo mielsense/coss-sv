@@ -16,7 +16,7 @@ type OwnershipFile = {
 };
 
 const ownership = JSON.parse(
-  readFileSync(resolve(repositoryRoot, "docs/porting/docs-ownership.json"), "utf8"),
+  readFileSync(resolve(repositoryRoot, "apps/ui/scripts/docs/ownership.json"), "utf8"),
 ) as OwnershipFile;
 const records = ownership.ownership.filter(
   ({ implementationLane }) => implementationLane === "D10",

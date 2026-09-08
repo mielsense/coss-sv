@@ -187,7 +187,7 @@ describe("D4 disclosure and surface documentation inventory", () => {
   });
 
   test("keeps the locked 38-particle ownership set exact", () => {
-    const ownership = JSON.parse(source("docs/porting/docs-ownership.json")) as OwnershipFile;
+    const ownership = JSON.parse(source("apps/ui/scripts/docs/ownership.json")) as OwnershipFile;
     const actual = ownership.ownership
       .filter(({ implementationLane }) => implementationLane === "D4")
       .map(({ particle }) => particle)
@@ -197,7 +197,7 @@ describe("D4 disclosure and surface documentation inventory", () => {
   });
 
   test.each(expectedParticles)("ports %s as modern Svelte with exact metadata ownership", (id) => {
-    const ownership = JSON.parse(source("docs/porting/docs-ownership.json")) as OwnershipFile;
+    const ownership = JSON.parse(source("apps/ui/scripts/docs/ownership.json")) as OwnershipFile;
     const record = ownership.ownership.find(({ particle }) => particle === id);
     expect(record).toBeDefined();
     expect(existsSync(resolve(repositoryRoot, record?.targetPath ?? "missing"))).toBe(true);
@@ -518,7 +518,7 @@ describe("D4 disclosure and surface documentation inventory", () => {
   );
 
   test("publishes the tabs landing route with the D9-owned primary preview", () => {
-    const ownership = JSON.parse(source("docs/porting/docs-ownership.json")) as OwnershipFile;
+    const ownership = JSON.parse(source("apps/ui/scripts/docs/ownership.json")) as OwnershipFile;
     const primaryPreview = ownership.ownership.find(({ particle }) => particle === "p-tabs-1");
 
     expect(primaryPreview).toMatchObject({

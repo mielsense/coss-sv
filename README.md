@@ -77,13 +77,12 @@ apps/ui/                    SvelteKit documentation and registry host
 packages/ui/                Svelte component package source
 packages/typescript-config/ shared TypeScript settings
 skills/coss-svelte/         installable coding-agent skill
-docs/porting/               component evidence and parity records
-docs/operations/            release and deployment policy
 scripts/                    registry, parity, policy, and verification tooling
 ```
 
-`reference/` and `shardsui/` are local comparison inputs. They are ignored by Git and never
-published.
+`reference/` and `shardsui/` are local comparison inputs. The root `docs/` directory holds local
+agent plans, audits, and porting evidence. All three directories are ignored by Git. The actual
+documentation site lives in `apps/ui/`, with page content in `apps/ui/content/docs/`.
 
 ## Develop locally
 
@@ -111,9 +110,7 @@ pnpm test:docs:e2e
 ```
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for source inspection, testing, browser comparison, and review
-requirements. Release and deployment responsibilities are recorded in
-[docs/operations/release.md](docs/operations/release.md); browser resource limits are documented in
-[docs/operations/browser-tests.md](docs/operations/browser-tests.md).
+requirements.
 
 ## Provenance and license
 

@@ -120,7 +120,7 @@ describe("documentation particle registry", () => {
 
   test("publishes the approved D4 through D10 inventory with its metadata support file", async () => {
     const ownership = JSON.parse(
-      await readFile(resolve(appRoot, "../../docs/porting/docs-ownership.json"), "utf8"),
+      await readFile(resolve(appRoot, "../../apps/ui/scripts/docs/ownership.json"), "utf8"),
     ) as OwnershipFile;
     const expectedIds = ownership.ownership
       .filter(({ implementationLane }) =>
