@@ -29,7 +29,7 @@
   type Item = (typeof items)[number];
 </script>
 
-<Combobox.Root autoHighlight {items}>
+<Combobox.Root {items}>
   <Combobox.Trigger class={Select.selectTriggerClass}>
     <Combobox.Value placeholder="Select a fruit" />
   </Combobox.Trigger>

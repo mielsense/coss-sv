@@ -26,18 +26,22 @@
     { label: "Pear", value: "pear" },
   ] as const;
   type Item = (typeof items)[number];
-  let value = $state.raw<Item[]>([items[0], items[4]]);
+  const MultipleValue = Combobox.Value<Item, true>;
 </script>
 
-<Combobox.Root {items} multiple bind:value name="fruits">
+<Combobox.Root {items} multiple defaultValue={[items[0], items[4]]}>
   <Combobox.Chips>
-    {#each value as item (item.value)}<Combobox.Chip aria-label={item.label}>
-        {item.label}
-      </Combobox.Chip>{/each}
-    <Combobox.ChipsInput
-      aria-label="Select a item"
-      {...value.length ? {} : { placeholder: "Select a item..." }}
-    />
+    <MultipleValue>
+      {#snippet children(value: Item[])}
+        {#each value as item (item.value)}<Combobox.Chip aria-label={item.label}>
+            {item.label}
+          </Combobox.Chip>{/each}
+        <Combobox.ChipsInput
+          aria-label="Select a item"
+          {...value.length ? {} : { placeholder: "Select a item..." }}
+        />
+      {/snippet}
+    </MultipleValue>
   </Combobox.Chips>
   <Combobox.Popup>
     <Combobox.Empty>No items found.</Combobox.Empty><Combobox.List>

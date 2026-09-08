@@ -38,7 +38,7 @@
 <Combobox.Root
   autoHighlight
   items={timezones}
-  value={timezones.find((item) => item.value === "Europe/London")}
+  defaultValue={timezones.find((item) => item.value === "Europe/London") ?? null}
 >
   <Combobox.Input aria-label="Select timezone" placeholder="Select timezone..." />
   <Combobox.Popup>

@@ -434,7 +434,7 @@
   ];
 </script>
 
-<Combobox.Root items={countries} value={countries[0]}>
+<Combobox.Root items={countries} defaultValue={countries[0] ?? null}>
   <Combobox.Trigger
     class={buttonVariants({ variant: "outline", class: "w-full justify-between font-normal" })}
   >

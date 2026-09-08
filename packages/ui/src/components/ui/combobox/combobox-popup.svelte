@@ -32,7 +32,9 @@
   }: ComboboxPopupProps = $props();
   const context = getComboboxWrapperContext();
   setComboboxInputPlacementContext({ insidePopup: true });
-  const anchor = $derived(anchorProp ?? context.chipsRef ?? undefined);
+  // COSS measures the native input, inside the control's one-pixel border.
+  // Popup-contained search fields retain the primitive's trigger anchor.
+  const anchor = $derived(anchorProp ?? context.chipsRef ?? context.inputRef ?? undefined);
   const alignOffsetProps = $derived(alignOffset === undefined ? {} : { alignOffset });
   const anchorProps = $derived(anchor === undefined ? {} : { anchor });
 </script>

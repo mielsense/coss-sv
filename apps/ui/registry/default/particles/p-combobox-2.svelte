@@ -28,7 +28,7 @@
   type Item = (typeof items)[number];
 </script>
 
-<Combobox.Root {items} value={items[2]} disabled>
+<Combobox.Root {items} defaultValue={items[2]} disabled>
   <Combobox.Input aria-label="Select an item" placeholder="Select an item…"></Combobox.Input>
 
   <Combobox.Popup>

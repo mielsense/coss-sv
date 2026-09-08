@@ -53,6 +53,10 @@
   const context = getComboboxWrapperContext();
   const placement = getComboboxInputPlacementContext();
   const initialValue = untrack(() => context.getInitialInputValue(placement.insidePopup));
+  function setRef(element: HTMLInputElement | null) {
+    ref = element;
+    if (!placement.insidePopup) context.inputRef = element;
+  }
   $effect(() => {
     context.inputInsidePopup = placement.insidePopup;
     return () => {
@@ -118,7 +122,7 @@
   {/if}
   <span class={composedControlClass} data-size={size} data-slot="input-control"
     ><C.Input
-      bind:ref
+      bind:ref={() => ref, setRef}
       value={initialValue}
       class={innerClass}
       data-slot="combobox-input"

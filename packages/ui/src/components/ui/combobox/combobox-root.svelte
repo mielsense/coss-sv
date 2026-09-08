@@ -149,6 +149,7 @@
   const initialSelectedLabel = untrack(() => (multiple ? "" : selectedInputLabel(currentValue)));
   const context = $state({
     chipsRef: null as HTMLElement | null,
+    inputRef: null as HTMLInputElement | null,
     inputInsidePopup: true,
     getInitialInputValue(insidePopup: boolean) {
       return initialInput ?? (insidePopup ? "" : initialSelectedLabel);

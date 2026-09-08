@@ -28,7 +28,7 @@
     { label: "Pear", value: "pear" },
   ] as const;
   type Item = (typeof items)[number];
-  let value = $state.raw<Item[]>([]);
+  const MultipleValue = Combobox.Value<Item, true>;
   let loading = $state(false);
   async function submit(event: SubmitEvent): Promise<void> {
     event.preventDefault();
@@ -47,12 +47,16 @@
 <Form class="flex w-full max-w-64 flex-col gap-4" onsubmit={submit}>
   <Field.Root name="items">
     <Field.Label>Favorite items</Field.Label>
-    <Combobox.Root {items} multiple bind:value name="items" required>
+    <Combobox.Root {items} multiple name="items" required>
       <Combobox.Chips>
-        {#each value as item (item.value)}<Combobox.Chip aria-label={item.label}>
-            {item.label}
-          </Combobox.Chip>{/each}
-        <Combobox.ChipsInput {...value.length ? {} : { placeholder: "Select items…" }} />
+        <MultipleValue>
+          {#snippet children(value: Item[])}
+            {#each value as item (item.value)}<Combobox.Chip aria-label={item.label}>
+                {item.label}
+              </Combobox.Chip>{/each}
+            <Combobox.ChipsInput {...value.length ? {} : { placeholder: "Select items…" }} />
+          {/snippet}
+        </MultipleValue>
       </Combobox.Chips>
       <Combobox.Popup>
         <Combobox.Empty>No items found.</Combobox.Empty><Combobox.List>

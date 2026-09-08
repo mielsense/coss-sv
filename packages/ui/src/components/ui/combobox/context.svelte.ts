@@ -4,6 +4,7 @@ export interface ComboboxWrapperContext {
   inputInsidePopup: boolean;
   getInitialInputValue(insidePopup: boolean): string;
   chipsRef: HTMLElement | null;
+  inputRef: HTMLInputElement | null;
 }
 
 export const [getComboboxWrapperContext, setComboboxWrapperContext] =
