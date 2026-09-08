@@ -67,7 +67,7 @@
 			"target": "menu/menu-shortcut.svelte"
 		},
 		{
-			"content": "<script lang=\"ts\">\n  import MenuPopup from \"./menu-popup.svelte\";\n  import type { MenuSubPopupProps } from \"./menu.types.js\";\n\n  let { align = \"start\", alignOffset, sideOffset = 0, ...props }: MenuSubPopupProps = $props();\n  const resolvedAlignOffset = $derived(alignOffset ?? (align === \"center\" ? undefined : -5));\n</script>\n\n<MenuPopup\n  {align}\n  alignOffset={resolvedAlignOffset}\n  data-slot=\"menu-sub-content\"\n  side=\"inline-end\"\n  {sideOffset}\n  {...props}\n/>\n",
+			"content": "<script lang=\"ts\">\n  import MenuPopup from \"./menu-popup.svelte\";\n  import type { MenuSubPopupProps } from \"./menu.types.js\";\n\n  let {\n    ref = $bindable(null),\n    align = \"start\",\n    alignOffset,\n    sideOffset = 0,\n    ...props\n  }: MenuSubPopupProps = $props();\n  const resolvedAlignOffset = $derived(alignOffset ?? (align === \"center\" ? undefined : -5));\n</script>\n\n<MenuPopup\n  bind:ref\n  {align}\n  alignOffset={resolvedAlignOffset}\n  data-slot=\"menu-sub-content\"\n  side=\"inline-end\"\n  {sideOffset}\n  {...props}\n/>\n",
 			"type": "registry:ui",
 			"target": "menu/menu-sub-popup.svelte"
 		},

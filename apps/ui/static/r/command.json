@@ -43,7 +43,7 @@
 			"target": "command/command-empty.svelte"
 		},
 		{
-			"content": "<script module lang=\"ts\">\n  import type { CommandPartProps } from \"./command-part.svelte\";\n  export type CommandFooterProps = CommandPartProps;\n</script>\n\n<script lang=\"ts\">\n  import Part from \"./command-part.svelte\";\n  let { ...props }: CommandFooterProps = $props();\n</script>\n\n<Part\n  baseClass=\"flex items-center justify-between gap-2 rounded-b-[calc(var(--radius-2xl)-1px)] border-t px-5 py-3 text-muted-foreground text-xs\"\n  dataSlot=\"command-footer\"\n  {...props}\n/>\n",
+			"content": "<script module lang=\"ts\">\n  import type { CommandPartProps } from \"./command-part.svelte\";\n  export type CommandFooterProps = CommandPartProps;\n</script>\n\n<script lang=\"ts\">\n  import Part from \"./command-part.svelte\";\n  let { ref = $bindable(null), ...props }: CommandFooterProps = $props();\n</script>\n\n<Part\n  bind:ref\n  baseClass=\"flex items-center justify-between gap-2 rounded-b-[calc(var(--radius-2xl)-1px)] border-t px-5 py-3 text-muted-foreground text-xs\"\n  dataSlot=\"command-footer\"\n  {...props}\n/>\n",
 			"type": "registry:ui",
 			"target": "command/command-footer.svelte"
 		},
@@ -58,7 +58,7 @@
 			"target": "command/command-group.svelte"
 		},
 		{
-			"content": "<!-- biome-ignore-all lint/a11y/noAutofocus: COSS command palettes focus the search input when opened. -->\n<script module lang=\"ts\">\n  import type { AutocompleteInputProps } from \"../autocomplete/autocomplete-input.svelte\";\n  export type CommandInputProps = AutocompleteInputProps;\n</script>\n\n<script lang=\"ts\">\n  import Search01Icon from \"@hugeicons/core-free-icons/Search01Icon\";\n  import HugeiconsIcon from \"$LIB$/hugeicons-icon.svelte\";\n  import { cn } from \"$UTILS$.js\";\n  import AutocompleteInput from \"../autocomplete/autocomplete-input.svelte\";\n\n  let { class: className, ...props }: CommandInputProps = $props();\n</script>\n\n{#snippet searchIcon()}\n  <HugeiconsIcon aria-hidden=\"true\" icon={Search01Icon} strokeWidth={2} />\n{/snippet}\n<div class=\"px-2.5 py-1.5\">\n  <AutocompleteInput\n    autofocus\n    class={cn(\n      \"border-transparent! bg-transparent! shadow-none before:hidden has-focus-visible:ring-0\",\n      className,\n    )}\n    size=\"lg\"\n    startAddon={searchIcon}\n    {...props}\n  />\n</div>\n",
+			"content": "<!-- biome-ignore-all lint/a11y/noAutofocus: COSS command palettes focus the search input when opened. -->\n<script module lang=\"ts\">\n  import type { AutocompleteInputProps } from \"../autocomplete/autocomplete-input.svelte\";\n  export type CommandInputProps = AutocompleteInputProps;\n</script>\n\n<script lang=\"ts\">\n  import Search01Icon from \"@hugeicons/core-free-icons/Search01Icon\";\n  import HugeiconsIcon from \"$LIB$/hugeicons-icon.svelte\";\n  import { cn } from \"$UTILS$.js\";\n  import AutocompleteInput from \"../autocomplete/autocomplete-input.svelte\";\n\n  let { class: className, ref = $bindable(null), ...props }: CommandInputProps = $props();\n</script>\n\n{#snippet searchIcon()}\n  <HugeiconsIcon aria-hidden=\"true\" icon={Search01Icon} strokeWidth={2} />\n{/snippet}\n<div class=\"px-2.5 py-1.5\">\n  <AutocompleteInput\n    bind:ref\n    autofocus\n    class={cn(\n      \"border-transparent! bg-transparent! shadow-none before:hidden has-focus-visible:ring-0\",\n      className,\n    )}\n    size=\"lg\"\n    startAddon={searchIcon}\n    {...props}\n  />\n</div>\n",
 			"type": "registry:ui",
 			"target": "command/command-input.svelte"
 		},
@@ -68,12 +68,12 @@
 			"target": "command/command-item.svelte"
 		},
 		{
-			"content": "<script module lang=\"ts\">\n  import type { AutocompleteListProps } from \"../autocomplete/autocomplete-list.svelte\";\n  export type CommandListProps = AutocompleteListProps;\n</script>\n\n<script lang=\"ts\">\n  import { cn } from \"$UTILS$.js\";\n  import List from \"../autocomplete/autocomplete-list.svelte\";\n  let { class: className, ...props }: CommandListProps = $props();\n</script>\n\n<List\n  class={cn(\"not-empty:scroll-py-2 not-empty:p-2\", className)}\n  data-slot=\"command-list\"\n  {...props}\n/>\n",
+			"content": "<script module lang=\"ts\">\n  import type { AutocompleteListProps } from \"../autocomplete/autocomplete-list.svelte\";\n  export type CommandListProps = AutocompleteListProps;\n</script>\n\n<script lang=\"ts\">\n  import { cn } from \"$UTILS$.js\";\n  import List from \"../autocomplete/autocomplete-list.svelte\";\n  let { class: className, ref = $bindable(null), ...props }: CommandListProps = $props();\n</script>\n\n<List\n  bind:ref\n  class={cn(\"not-empty:scroll-py-2 not-empty:p-2\", className)}\n  data-slot=\"command-list\"\n  {...props}\n/>\n",
 			"type": "registry:ui",
 			"target": "command/command-list.svelte"
 		},
 		{
-			"content": "<script module lang=\"ts\">\n  import type { CommandPartProps } from \"./command-part.svelte\";\n  export type CommandPanelProps = CommandPartProps;\n</script>\n\n<script lang=\"ts\">\n  import Part from \"./command-part.svelte\";\n  let { ...props }: CommandPanelProps = $props();\n</script>\n\n<Part\n  baseClass=\"relative -mx-px not-has-[+[data-slot=command-footer]]:-mb-px min-h-0 rounded-t-xl not-has-[+[data-slot=command-footer]]:rounded-b-2xl border border-b-0 bg-popover bg-clip-padding shadow-xs/5 [clip-path:inset(0_1px)] not-has-[+[data-slot=command-footer]]:[clip-path:inset(0_1px_1px_1px_round_0_0_calc(var(--radius-2xl)-1px)_calc(var(--radius-2xl)-1px))] before:pointer-events-none before:absolute before:inset-0 before:rounded-t-[calc(var(--radius-xl)-1px)] **:data-[slot=scroll-area-scrollbar]:mt-2\"\n  {...props}\n/>\n",
+			"content": "<script module lang=\"ts\">\n  import type { CommandPartProps } from \"./command-part.svelte\";\n  export type CommandPanelProps = CommandPartProps;\n</script>\n\n<script lang=\"ts\">\n  import Part from \"./command-part.svelte\";\n  let { ref = $bindable(null), ...props }: CommandPanelProps = $props();\n</script>\n\n<Part\n  bind:ref\n  baseClass=\"relative -mx-px not-has-[+[data-slot=command-footer]]:-mb-px min-h-0 rounded-t-xl not-has-[+[data-slot=command-footer]]:rounded-b-2xl border border-b-0 bg-popover bg-clip-padding shadow-xs/5 [clip-path:inset(0_1px)] not-has-[+[data-slot=command-footer]]:[clip-path:inset(0_1px_1px_1px_round_0_0_calc(var(--radius-2xl)-1px)_calc(var(--radius-2xl)-1px))] before:pointer-events-none before:absolute before:inset-0 before:rounded-t-[calc(var(--radius-xl)-1px)] **:data-[slot=scroll-area-scrollbar]:mt-2\"\n  {...props}\n/>\n",
 			"type": "registry:ui",
 			"target": "command/command-panel.svelte"
 		},
@@ -93,7 +93,7 @@
 			"target": "command/command-separator.svelte"
 		},
 		{
-			"content": "<script module lang=\"ts\">\n  import type { CommandPartProps } from \"./command-part.svelte\";\n  export type CommandShortcutProps = CommandPartProps;\n</script>\n\n<script lang=\"ts\">\n  import Part from \"./command-part.svelte\";\n  let { ...props }: CommandShortcutProps = $props();\n</script>\n\n<Part\n  as=\"kbd\"\n  baseClass=\"ms-auto font-medium font-sans text-muted-foreground/72 text-xs tracking-widest\"\n  dataSlot=\"command-shortcut\"\n  {...props}\n/>\n",
+			"content": "<script module lang=\"ts\">\n  import type { CommandPartProps } from \"./command-part.svelte\";\n  export type CommandShortcutProps = CommandPartProps;\n</script>\n\n<script lang=\"ts\">\n  import Part from \"./command-part.svelte\";\n  let { ref = $bindable(null), ...props }: CommandShortcutProps = $props();\n</script>\n\n<Part\n  bind:ref\n  as=\"kbd\"\n  baseClass=\"ms-auto font-medium font-sans text-muted-foreground/72 text-xs tracking-widest\"\n  dataSlot=\"command-shortcut\"\n  {...props}\n/>\n",
 			"type": "registry:ui",
 			"target": "command/command-shortcut.svelte"
 		},

@@ -73,7 +73,7 @@
 			"target": "context-menu/context-menu-shortcut.svelte"
 		},
 		{
-			"content": "<script lang=\"ts\">\n  import ContextMenuPopup from \"./context-menu-popup.svelte\";\n  import type { ContextMenuSubPopupProps } from \"./context-menu.types.js\";\n\n  let {\n    align = \"start\",\n    alignOffset,\n    sideOffset = 0,\n    ...props\n  }: ContextMenuSubPopupProps = $props();\n  const resolvedAlignOffset = $derived(alignOffset ?? (align === \"center\" ? undefined : -5));\n</script>\n\n<ContextMenuPopup\n  {align}\n  alignOffset={resolvedAlignOffset}\n  data-slot=\"context-menu-sub-content\"\n  side=\"inline-end\"\n  {sideOffset}\n  {...props}\n/>\n",
+			"content": "<script lang=\"ts\">\n  import ContextMenuPopup from \"./context-menu-popup.svelte\";\n  import type { ContextMenuSubPopupProps } from \"./context-menu.types.js\";\n\n  let {\n    ref = $bindable(null),\n    align = \"start\",\n    alignOffset,\n    sideOffset = 0,\n    ...props\n  }: ContextMenuSubPopupProps = $props();\n  const resolvedAlignOffset = $derived(alignOffset ?? (align === \"center\" ? undefined : -5));\n</script>\n\n<ContextMenuPopup\n  bind:ref\n  {align}\n  alignOffset={resolvedAlignOffset}\n  data-slot=\"context-menu-sub-content\"\n  side=\"inline-end\"\n  {sideOffset}\n  {...props}\n/>\n",
 			"type": "registry:ui",
 			"target": "context-menu/context-menu-sub-popup.svelte"
 		},
