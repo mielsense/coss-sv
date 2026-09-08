@@ -155,7 +155,7 @@
 {/snippet}
 
 <section
-  class={`group relative my-8 flex flex-col gap-2 ${className ?? ""}`}
+  class={`group relative mt-4 mb-12 flex flex-col gap-2 ${className ?? ""}`}
   data-particle={name}
   data-preview-requested={previewRequest ? "true" : undefined}
   {...rest}

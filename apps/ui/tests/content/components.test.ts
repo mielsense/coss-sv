@@ -66,7 +66,7 @@ describe("documentation components", () => {
     }).body;
 
     expect(body).toContain('data-particle="p-accordion-1"');
-    expect(body).toContain('class="group relative my-8 flex flex-col gap-2 ');
+    expect(body).toContain('class="group relative mt-4 mb-12 flex flex-col gap-2 ');
     expect(body).not.toContain("component-preview");
     expect(body).toContain("sm:**:data-[slot=preview]:max-w-[80%] dark");
     expect(body).toContain('data-align="start"');
