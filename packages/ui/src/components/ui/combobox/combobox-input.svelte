@@ -38,6 +38,7 @@
   let {
     class: className,
     clearProps = {},
+    oncompositionend,
     oninput,
     onkeydown,
     ref = $bindable(null),
@@ -81,6 +82,13 @@
   );
   const adornmentPosition = $derived(size === "sm" ? "end-0" : "end-0.5");
 
+  function handleCompositionEnd(
+    event: Parameters<NonNullable<ComboboxInputProps["oncompositionend"]>>[0],
+  ): void {
+    change?.prepare("input-change", event);
+    oncompositionend?.(event);
+  }
+
   function handleInput(event: Parameters<NonNullable<ComboboxInputProps["oninput"]>>[0]): void {
     change?.prepare("input-change", event);
     oninput?.(event);
@@ -114,6 +122,7 @@
       value={initialValue}
       class={innerClass}
       data-slot="combobox-input"
+      oncompositionend={handleCompositionEnd}
       oninput={handleInput}
       onkeydown={handleKeydown}
       size={nativeSize}

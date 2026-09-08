@@ -146,4 +146,12 @@ A separate browser regression inserts the actual retained SSR output, verifies A
 hydration, hydrates with recovery disabled, edits the query, and applies external Banana. It also
 checks for hydration warnings. An SSR test compares the retained HTML with current server output,
 so the hydration fixture cannot silently become stale. The complete focused browser set contains
-40 passing tests; SSR/type contains 10. Package check/build and focused format/lint checks pass.
+43 passing tests; SSR/type contains 10. Package check/build and focused format/lint checks pass.
+
+The final Svelte review reproduced an IME-specific query-history gap: Shards commits composition
+on `compositionend`, after the prepared input event has expired. The wrapper now prepares that
+native event through the existing change context and records an accepted composition as a query
+edit. Comparative tests dispatch composition start, composing input, a microtask, and composition
+end before refreshing items. Shards preserved the composed text while the wrapper failed before
+the fix. A further regression verifies cancellation restores the accepted label, preserves the
+native composition callback, and still permits a later label refresh.

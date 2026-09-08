@@ -281,7 +281,10 @@
         target.value = currentInputValue;
       }
     }
-    if (!details.isCanceled && details.event instanceof InputEvent) {
+    if (
+      !details.isCanceled &&
+      (details.event instanceof InputEvent || details.event.type === "compositionend")
+    ) {
       queryWasEdited = true;
     }
     pendingInput = { canceled: details.isCanceled, value: next };
