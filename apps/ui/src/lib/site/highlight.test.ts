@@ -1,9 +1,50 @@
 import { readFile } from "node:fs/promises";
+import { chromium } from "playwright";
+import { render } from "svelte/server";
 import { describe, expect, test } from "vitest";
 import { highlightSource } from "../code/highlight.js";
+import PackageManagerCommand from "../content/components/PackageManagerCommand.svelte";
 import { highlightCode } from "./highlight.js";
 
 describe("Shiki multi-theme output", () => {
+  test("gives installation command frames the shared code surface in both themes", async () => {
+    const css = await readFile(new URL("../../styles/content.css", import.meta.url), "utf8");
+    const browser = await chromium.launch({ headless: true });
+    try {
+      const page = await browser.newPage();
+      const { body } = render(PackageManagerCommand, {
+        props: { commands: [{ command: "pnpm add example", value: "pnpm" }] },
+      });
+      await page.setContent(`<style>
+        :root { --color-white: #fff; --background: #fff; --foreground: #262626; }
+        html.dark { --background: #141414; --foreground: #fafafa; }
+        .bg-code { background: var(--code); color: var(--code-foreground); }
+        ${css}
+      </style>${body}`);
+      for (const dark of [false, true]) {
+        const colors = await page.evaluate((dark) => {
+          document.documentElement.classList.toggle("dark", dark);
+          const frame = document.querySelector(".bg-code") as HTMLElement;
+          const styles = getComputedStyle(frame);
+          const sample = document.createElement("div");
+          sample.style.background = dark ? "color-mix(in srgb, #141414 98%, #fff)" : "#fff";
+          document.body.append(sample);
+          const expectedBackground = getComputedStyle(sample).backgroundColor;
+          sample.remove();
+          return {
+            background: styles.backgroundColor,
+            foreground: styles.color,
+            expectedBackground,
+          };
+        }, dark);
+        expect(colors.background).toBe(colors.expectedBackground);
+        expect(colors.foreground).toBe(dark ? "rgb(250, 250, 250)" : "rgb(38, 38, 38)");
+      }
+    } finally {
+      await browser.close();
+    }
+  });
+
   test("matches the pinned COSS light theme in Markdown and source previews", async () => {
     const raw = 'const greeting = "hello";';
     const output = await highlightCode(raw, "typescript");
