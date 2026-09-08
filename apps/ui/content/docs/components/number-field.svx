@@ -98,4 +98,26 @@ For accessible labelling and validation, prefer using `Field` to wrap number fie
 
 ### Form Integration
 
+Set `name` on `NumberField.Root` and leave the surrounding `Field.Root` unnamed. This submits one
+canonical numeric value while preserving the visible input's form owner and Enter submission.
+A named `Field.Root` currently gives both the visible input and the hidden numeric input the same
+name, producing duplicate form entries; formatted input can also submit locale-specific text.
+
+```svelte
+<Field.Root>
+  <NumberField.Root name="quantity" defaultValue={1} min={1} max={100}>
+    <NumberField.ScrubArea label="Quantity" />
+    <NumberField.Group>
+      <NumberField.Decrement />
+      <NumberField.Input />
+      <NumberField.Increment />
+    </NumberField.Group>
+  </NumberField.Root>
+</Field.Root>
+```
+
+An unnamed field does not associate server errors by field name. If your form uses server errors,
+handle their display and invalid state explicitly. The example below validates the submitted
+quantity and shows a success alert; it does not render `Field.Error`.
+
 <ComponentPreview name="p-number-field-10" />

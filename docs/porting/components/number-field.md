@@ -127,3 +127,42 @@ while retaining its form owner and Field registration, or a reviewed native-cont
 No failing experiment was added to the required test suite. Audit classification:
 number-field-inherited-name; form correctness; high confidence; medium severity; Shards API
 limitation, with no Svelte version or experimental-flag blocker.
+
+
+### Form example mitigation
+
+The shipped `p-number-field-10.svelte` example now leaves `Field.Root` unnamed and sets
+`name="quantity"` on `NumberField.Root`. The visible Shards input keeps its native form owner and
+Field registration, while only the canonical numeric input receives the submission name. This is
+an example-level workaround; the inherited-name primitive limitation above remains unresolved.
+The documentation describes the workaround and its limit: the unnamed Field does not associate
+server errors by name. The example has no Field.Error and continues to validate the submitted
+quantity before displaying its success alert.
+
+Source inspection covered the complete permitted `reference/apps/ui/registry/default/particles/p-number-field-10.tsx`,
+its Number Field wrapper, the port's particle, NumberField root/input, Form and Field root wrappers,
+and Shards Input's Field.Control alias and name precedence. The upstream submits one quantity.
+The port's new focused browser regression failed before the change with `["1", "1"]` rather than
+`["1"]`. After the change it verifies one entry at values 1, 2, and 3, the Quantity accessible name,
+ARIA minimum 1 and maximum 100, the increment action, the `Quantity: 2` button-submit alert, and the
+`Quantity: 3` native Enter-submit alert. It uses the actual particle and is included by the existing
+`apps/ui/vitest.browser.config.ts` source-spec glob. No test configuration or package script changed.
+
+In-app DOM/computed-style comparison used the first form preview on the source Number Field docs
+at port 4000 and the modified docs page at port 5108. Both display Quantity and Submit, a 256×32 px
+group, a 178×30 px input, and 14 px text. Both submit one quantity entry. The repaired visible input
+has no name, and both its form property and the canonical input's form property point to the form.
+This records DOM/style evidence, not a screenshot comparison.
+
+Validation: the focused browser regression passes; the documentation compiler accepts all 64 pages;
+Svelte check reports zero errors and warnings after rebuilding the shared package declarations.
+The broader D6 inventory run passed 150 of 151 tests but its sequential 124-particle SSR test hit the
+existing five-second timeout. A second unchanged run passed 149 of 151, with that traversal and the
+Fieldset SSR traversal timing out. Those runs are not reported as a passing full D6 gate. The coordinator then authorized a bounded
+15-second integration timeout on those two collection tests: the first compiles and renders 124
+modules sequentially, while the second imports and renders three composite Fieldset particles.
+Individual assertions and browser waits are unchanged. The example's focused browser path passed
+again after formatting.
+
+The final D6 run passed all 151 tests in 17.48 seconds (16.20 seconds in tests), and the documentation
+production build passed. Focused formatting and lint checks pass.

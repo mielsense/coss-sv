@@ -38,8 +38,8 @@
 </script>
 
 <Form class="flex w-full max-w-64 flex-col gap-4" {errors} onsubmit={submit}>
-  <Field.Root name="quantity">
-    <NumberField.Root defaultValue={1} max={100} min={1}>
+  <Field.Root>
+    <NumberField.Root name="quantity" defaultValue={1} max={100} min={1}>
       <NumberField.ScrubArea label="Quantity" />
       <NumberField.Group>
         <NumberField.Decrement />

@@ -144,7 +144,7 @@ describe("D6 form and input documentation inventory", () => {
       const body = render(component).body;
       expect(body, path).toContain("data-slot=");
     }
-  });
+  }, 15_000);
 
   test("server-renders canonical Fieldset particles with resolvable legend names", async () => {
     for (const id of ["p-fieldset-1", "p-field-13", "p-field-14"]) {
@@ -161,7 +161,7 @@ describe("D6 form and input documentation inventory", () => {
       expect(labelledBy, id).toBeTruthy();
       expect(body, id).toContain(`id="${labelledBy}"`);
     }
-  });
+  }, 15_000);
 
   test("compiles and SSR renders all ten D6 pages sequentially", async () => {
     expect(Object.keys(pageLoaders)).toHaveLength(10);
