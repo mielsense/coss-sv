@@ -218,6 +218,59 @@ try {
     assert.equal(await checkbox.isChecked(), false, "the retained preview remains interactive");
   }
 
+  {
+    await page.goto(`${baseUrl}/docs/components/combobox`, { waitUntil: "networkidle" });
+    const card = page.locator('[data-particle="p-combobox-1"]');
+    const input = card.getByRole("combobox");
+    await input.click();
+    await page.getByRole("option", { name: "Banana", exact: true }).click();
+    assert.equal(await input.inputValue(), "Banana");
+    await card.locator('[data-slot="combobox-trigger"]').click();
+    const banana = page.getByRole("option", { name: "Banana", exact: true });
+    assert.equal(await banana.getAttribute("aria-selected"), "true");
+    assert.equal(await banana.locator("svg path").isVisible(), true);
+    assert.equal(await banana.getAttribute("data-highlighted"), "");
+    assert.equal(
+      await input.getAttribute("aria-activedescendant"),
+      await banana.getAttribute("id"),
+    );
+    await page.keyboard.press("Escape");
+    await card.getByRole("tab", { name: "Code", exact: true }).click();
+    await card.locator("[data-source-panel] pre").waitFor();
+    const source = await card.locator("[data-source-panel]").innerText();
+    assert.ok(
+      source.includes("{#snippet item("),
+      "the shipped example renders items directly in List",
+    );
+    assert.ok(
+      !source.includes("Combobox.Collection"),
+      "the basic example needs no Collection wrapper",
+    );
+    const margins = await card.evaluate((element) => ({
+      top: getComputedStyle(element).marginTop,
+      bottom: getComputedStyle(element).marginBottom,
+    }));
+    assert.deepEqual(margins, { top: "16px", bottom: "48px" });
+
+    for (const dark of [false, true]) {
+      await page.evaluate((nextDark) => {
+        document.documentElement.classList.toggle("dark", nextDark);
+        document.documentElement.classList.toggle("light", !nextDark);
+      }, dark);
+      const codeSurface = await page
+        .locator(".docs-code-block")
+        .first()
+        .evaluate((element) => ({
+          frame: getComputedStyle(element).backgroundColor,
+          pre: getComputedStyle(element.querySelector("pre")).backgroundColor,
+          radius: getComputedStyle(element).borderRadius,
+        }));
+      assert.notEqual(codeSurface.frame, "rgba(0, 0, 0, 0)");
+      assert.equal(codeSurface.pre, "rgba(0, 0, 0, 0)");
+      assert.equal(codeSurface.radius, "14px");
+    }
+  }
+
   assert.deepEqual(diagnostics, []);
   console.log("PreviewCard direct rendering, tabs, source, clipboard, and theming passed.");
 } finally {
