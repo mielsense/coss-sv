@@ -63,3 +63,28 @@ test("accepts external object writes and clearing through an initially undefined
   await page.getByRole("button", { name: "Clear bound person" }).click();
   await expect.element(trigger).toHaveTextContent("Choose");
 });
+
+test("honors an initially undefined function binding that transforms selection", async () => {
+  render(Fixture);
+  const trigger = page.getByRole("combobox", { name: "Transform bound person", exact: true });
+  await trigger.click();
+  await page.getByRole("option", { name: "Grace Hopper" }).click();
+  await expect.element(trigger).toHaveTextContent("Ada Lovelace");
+  await trigger.click();
+  const ada = page.getByRole("option", { name: "Ada Lovelace" });
+  await expect.element(ada).toHaveAttribute("aria-selected", "true");
+  await expect.element(ada.element().querySelector("svg")).toBeVisible();
+});
+
+test("honors an initially undefined function binding that rejects selection with null", async () => {
+  render(Fixture);
+  const trigger = page.getByRole("combobox", { name: "Reject bound person", exact: true });
+  await trigger.click();
+  await page.getByRole("option", { name: "Grace Hopper" }).click();
+  await expect.element(trigger).toHaveTextContent("Choose");
+  await trigger.click();
+  await expect
+    .element(page.getByRole("option", { name: "Grace Hopper" }))
+    .toHaveAttribute("aria-selected", "false");
+  expect(document.querySelector('[role="option"][aria-selected="true"]')).toBeNull();
+});

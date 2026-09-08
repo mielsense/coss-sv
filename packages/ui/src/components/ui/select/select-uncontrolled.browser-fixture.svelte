@@ -8,6 +8,8 @@
   const items = people.map((value) => ({ label: value.name, value }));
   type Person = (typeof people)[number];
   let lateValue = $state.raw<Person | null | undefined>();
+  let transformedValue = $state.raw<Person | null | undefined>();
+  let rejectedValue = $state.raw<Person | null | undefined>();
 </script>
 
 <form data-testid="uncontrolled-select-form">
@@ -48,6 +50,35 @@
 <button type="button" onclick={() => (lateValue = null)}>Clear bound person</button>
 <Select.Root bind:value={lateValue} {items} itemToStringLabel={(item: Person) => item.name}>
   <Select.Trigger aria-label="Late bound person"
+    ><Select.Value placeholder="Choose" /></Select.Trigger
+  >
+  <Select.Popup alignItemWithTrigger={false}>
+    {#each people as person (person.id)}
+      <Select.Item value={person}>{person.name}</Select.Item>
+    {/each}
+  </Select.Popup>
+</Select.Root>
+
+<Select.Root
+  bind:value={() => transformedValue, () => (transformedValue = people[0])}
+  {items}
+  itemToStringLabel={(item: Person) => item.name}
+>
+  <Select.Trigger aria-label="Transform bound person"
+    ><Select.Value placeholder="Choose" /></Select.Trigger
+  >
+  <Select.Popup alignItemWithTrigger={false}>
+    {#each people as person (person.id)}
+      <Select.Item value={person}>{person.name}</Select.Item>
+    {/each}
+  </Select.Popup>
+</Select.Root>
+<Select.Root
+  bind:value={() => rejectedValue, () => (rejectedValue = null)}
+  {items}
+  itemToStringLabel={(item: Person) => item.name}
+>
+  <Select.Trigger aria-label="Reject bound person"
     ><Select.Value placeholder="Choose" /></Select.Trigger
   >
   <Select.Popup alignItemWithTrigger={false}>

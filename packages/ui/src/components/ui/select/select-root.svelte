@@ -76,6 +76,7 @@
     onValueChange,
     open = $bindable(),
     value = $bindable(),
+    value: suppliedValue,
     ...props
   }: SelectRootProps<Value, Multiple> = $props();
 
@@ -85,12 +86,16 @@
     () => defaultValue ?? ((multiple ? [] : null) as SelectValue<Value, Multiple>),
   );
   let internalValue = $state.raw<SelectValue<Value, Multiple>>(initialValue);
-  let lastWrittenValue = $state.raw<SelectValue<Value, Multiple> | undefined>();
   let internalOpen = $state(untrack(() => defaultOpen));
   let pendingValue: { canceled: boolean; value: SelectValue<Value, Multiple> } | undefined;
   let pendingOpen: { canceled: boolean; value: boolean } | undefined;
+  // Read the parent value separately: local bindable writes proxy uncontrolled objects.
   const currentValue = $derived(
-    value !== undefined && (valueControlled || value !== lastWrittenValue) ? value : internalValue,
+    valueControlled && value !== undefined
+      ? value
+      : suppliedValue !== undefined
+        ? suppliedValue
+        : internalValue,
   );
   const currentOpen = $derived(open !== undefined ? open : internalOpen);
   const change = createSelectionChangeContext();
@@ -142,8 +147,6 @@
     }
     if (!valueControlled) internalValue = canonicalValue;
     value = canonicalValue;
-    // An unbound bindable prop proxies object writes; retain the raw selection locally.
-    if (!valueControlled) lastWrittenValue = value;
   }
 
   function handleValueChange(next: SelectValue<Value, Multiple>): void {
