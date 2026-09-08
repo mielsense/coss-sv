@@ -133,7 +133,7 @@ title: Accordion
 description: Accordion documentation.
 ---
 
-<InstallCommand shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/accordion.json" />`;
+<InstallCommand shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss.miel.my/r/accordion.json" />`;
     const transformed = await documentationComponents().markup?.({ content: source, filename });
 
     expect(transformed?.code).toContain("files={__cossInstallFiles0}");

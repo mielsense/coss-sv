@@ -7,7 +7,7 @@ description: A flexible component for grouping inputs with addons, buttons, and 
 
 ## Installation
 
-<InstallCommand shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/input-group.json" />
+<InstallCommand shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss.miel.my/r/input-group.json" />
 
 ## Usage
 

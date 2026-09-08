@@ -9,7 +9,7 @@ This component provides a Svelte implementation of the COSS OTP Field behavior. 
 
 ## Installation
 
-<InstallCommand shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/otp-field.json" />
+<InstallCommand shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss.miel.my/r/otp-field.json" />
 
 ## Usage
 

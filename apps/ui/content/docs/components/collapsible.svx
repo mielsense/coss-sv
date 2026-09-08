@@ -10,7 +10,7 @@ links:
 
 ## Installation
 
-<InstallCommand shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/collapsible.json" />
+<InstallCommand shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss.miel.my/r/collapsible.json" />
 
 ## Usage
 

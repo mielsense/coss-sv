@@ -7,7 +7,7 @@ description: A native textarea element.
 
 ## Installation
 
-<InstallCommand shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/textarea.json" />
+<InstallCommand shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss.miel.my/r/textarea.json" />
 
 ## Usage
 

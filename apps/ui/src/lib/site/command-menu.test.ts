@@ -27,7 +27,7 @@ describe("COSS command and mobile navigation parity", () => {
     expect(source).toContain("onItemHighlighted");
     expect(source).toContain("navigator.clipboard.writeText");
     expect(source).toMatch(
-      /pnpm dlx shadcn-svelte@latest add https:\/\/coss-sv\.vercel\.app\/r\/\$\{item\.componentSlug\}\.json/,
+      /pnpm dlx shadcn-svelte@latest add https:\/\/coss\.miel\.my\/r\/\$\{item\.componentSlug\}\.json/,
     );
     expect(source).not.toContain("add @coss-sv/");
     expect(source).toContain("Go to Page");

@@ -7,7 +7,7 @@ description: A component for visually grouping a series of controls.
 
 ## Installation
 
-<InstallCommand shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/group.json" />
+<InstallCommand shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss.miel.my/r/group.json" />
 
 ## Usage
 

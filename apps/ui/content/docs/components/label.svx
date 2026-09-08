@@ -7,7 +7,7 @@ description: Renders an accessible label associated with controls.
 
 ## Installation
 
-<InstallCommand shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/label.json" />
+<InstallCommand shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss.miel.my/r/label.json" />
 
 ## Usage
 

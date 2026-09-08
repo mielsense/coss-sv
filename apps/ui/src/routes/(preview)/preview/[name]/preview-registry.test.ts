@@ -146,8 +146,7 @@ describe("typed particle preview registry", () => {
         modulePath: "../../../../registry/default/particles/p-button-1.svelte",
       }),
     ).toEqual({
-      installCommand:
-        "pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/p-button-1.json",
+      installCommand: "pnpm dlx shadcn-svelte@latest add https://coss.miel.my/r/p-button-1.json",
       registryHref: "/r/p-button-1.json",
       sourceHref:
         "https://github.com/mielsense/coss-sv/blob/main/apps/ui/registry/default/particles/p-button-1.svelte",

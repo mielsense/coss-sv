@@ -15,7 +15,7 @@ the public paths and API shown in the docs.
 Install the named registry item:
 
 ```bash
-pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/card.json
+pnpm dlx shadcn-svelte@latest add https://coss.miel.my/r/card.json
 ```
 
 The standard documented alias is `@/`. Import the installed source directly:

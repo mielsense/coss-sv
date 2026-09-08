@@ -36,7 +36,7 @@
 
   function componentCommand(item: CommandItem) {
     return item.componentSlug
-      ? `pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/${item.componentSlug}.json`
+      ? `pnpm dlx shadcn-svelte@latest add https://coss.miel.my/r/${item.componentSlug}.json`
       : undefined;
   }
 

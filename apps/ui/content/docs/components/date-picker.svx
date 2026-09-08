@@ -13,7 +13,7 @@ The Date Picker is built using a composition of the `Calendar` and `Popover` com
 
 The Date Picker is a composition pattern, not a standalone component. Install the required components:
 
-<InstallCommand shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/calendar.json https://coss-sv.vercel.app/r/popover.json https://coss-sv.vercel.app/r/button.json" />
+<InstallCommand shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss.miel.my/r/calendar.json https://coss.miel.my/r/popover.json https://coss.miel.my/r/button.json" />
 
 ## Usage
 

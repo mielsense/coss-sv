@@ -23,20 +23,20 @@ https://github.com/cosscom/coss.
 
 Installed copies bundle `references/component-catalog.md` for choosing a component and
 `references/implementation-guide.md` for implementation and debugging. HTTP-only loaders can read
-the same [component catalog](https://coss-sv.vercel.app/.well-known/agent-skills/coss-svelte/references/component-catalog.md)
-and [implementation guide](https://coss-sv.vercel.app/.well-known/agent-skills/coss-svelte/references/implementation-guide.md).
+the same [component catalog](https://coss.miel.my/.well-known/agent-skills/coss-svelte/references/component-catalog.md)
+and [implementation guide](https://coss.miel.my/.well-known/agent-skills/coss-svelte/references/implementation-guide.md).
 
 ## Read the current docs
 
 Do not rely on remembered React, Bits UI, or Shards UI APIs.
 
-- Page index: https://coss-sv.vercel.app/llms.txt
-- Full snapshot: https://coss-sv.vercel.app/llms-full.txt
-- Component Markdown: `https://coss-sv.vercel.app/docs/components/{component}.md`
-- Get started: https://coss-sv.vercel.app/docs/get-started.md
-- Styling: https://coss-sv.vercel.app/docs/styling.md
-- Migration guide: https://coss-sv.vercel.app/docs/radix-migration.md
-- Registry item: `https://coss-sv.vercel.app/r/{item}.json`
+- Page index: https://coss.miel.my/llms.txt
+- Full snapshot: https://coss.miel.my/llms-full.txt
+- Component Markdown: `https://coss.miel.my/docs/components/{component}.md`
+- Get started: https://coss.miel.my/docs/get-started.md
+- Styling: https://coss.miel.my/docs/styling.md
+- Migration guide: https://coss.miel.my/docs/radix-migration.md
+- Registry item: `https://coss.miel.my/r/{item}.json`
 
 The port preserves COSS presentation while using current Svelte 5 and Shards UI behavior. A COSS
 React prop or Base UI composition is source evidence, not a Svelte API. Use the port's current page
@@ -47,7 +47,7 @@ and installed module as the consumer contract.
 Use the exact item name from the component page. The general command is:
 
 ```bash
-pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/{item}.json
+pnpm dlx shadcn-svelte@latest add https://coss.miel.my/r/{item}.json
 ```
 
 Registry output is application-owned source. It follows the alias in the consumer's

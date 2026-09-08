@@ -120,7 +120,7 @@ export function createRegistry(items: readonly RegistryItem[]): RegistryDefiniti
   return {
     $schema: "https://shadcn-svelte.com/schema/registry.json",
     name: "coss-sv",
-    homepage: "https://coss-sv.vercel.app",
+    homepage: "https://coss.miel.my",
     aliases: { ...registryAliases },
     items: [...items].sort((left, right) => left.name.localeCompare(right.name)),
   };

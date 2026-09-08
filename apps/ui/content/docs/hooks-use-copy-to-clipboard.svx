@@ -8,7 +8,7 @@ useful for copy buttons that briefly confirm success.
 
 ## Installation
 
-<InstallCommand shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/use-copy-to-clipboard.json" />
+<InstallCommand shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss.miel.my/r/use-copy-to-clipboard.json" />
 
 ## Usage
 

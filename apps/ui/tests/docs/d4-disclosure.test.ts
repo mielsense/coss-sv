@@ -506,7 +506,7 @@ describe("D4 disclosure and surface documentation inventory", () => {
       ];
 
       expect(install?.[1]).toBe(
-        `pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/${slug}.json`,
+        `pnpm dlx shadcn-svelte@latest add https://coss.miel.my/r/${slug}.json`,
       );
       expect(displayedImports.length).toBeGreaterThan(0);
       expect(

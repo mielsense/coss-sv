@@ -7,7 +7,7 @@ description: A date picker component with range and multi-select support.
 
 ## Installation
 
-<InstallCommand shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/calendar.json" />
+<InstallCommand shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss.miel.my/r/calendar.json" />
 
 ## Usage
 

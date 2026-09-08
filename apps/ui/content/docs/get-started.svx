@@ -33,7 +33,7 @@ Review the aliases selected by the initializer. Registry files use those aliases
 imports into your project. Then add the component from the exact registry URL shown on its page:
 
 ```bash
-pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/button.json
+pnpm dlx shadcn-svelte@latest add https://coss.miel.my/r/button.json
 ```
 
 Unlike the upstream React registry, this Svelte port does not publish an aggregate style preset yet.
@@ -45,13 +45,13 @@ need.
 To add components to an existing project, pass each registry URL to the shadcn-svelte CLI:
 
 ```bash
-pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/button.json https://coss-sv.vercel.app/r/card.json
+pnpm dlx shadcn-svelte@latest add https://coss.miel.my/r/button.json https://coss.miel.my/r/card.json
 ```
 
 The CLI can install several registry items in one command:
 
 ```bash
-pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/avatar.json https://coss-sv.vercel.app/r/dialog.json https://coss-sv.vercel.app/r/tabs.json
+pnpm dlx shadcn-svelte@latest add https://coss.miel.my/r/avatar.json https://coss.miel.my/r/dialog.json https://coss.miel.my/r/tabs.json
 ```
 
 See the [Styling](/docs/styling) guide for the color tokens, sidebar variables, and base styles.

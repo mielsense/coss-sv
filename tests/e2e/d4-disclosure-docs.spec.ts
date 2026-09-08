@@ -91,7 +91,7 @@ for (const id of particles) {
       await expect(ready).toHaveAttribute("data-preview-registry-href", `/r/${id}.json`);
       await expect(ready).toHaveAttribute(
         "data-preview-install-command",
-        `pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/${id}.json`,
+        `pnpm dlx shadcn-svelte@latest add https://coss.miel.my/r/${id}.json`,
       );
       await expect(ready.locator('[data-slot="preview"] > *').first()).toHaveCount(1);
 

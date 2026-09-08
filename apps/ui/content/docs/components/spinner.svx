@@ -7,7 +7,7 @@ description: An indicator that can be used to show a loading state.
 
 ## Installation
 
-<InstallCommand shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/spinner.json" />
+<InstallCommand shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss.miel.my/r/spinner.json" />
 
 ## Usage
 

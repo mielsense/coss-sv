@@ -1,6 +1,6 @@
 import type { GeneratedContentRecord } from "@/content/compiler.js";
 
-export const documentationOrigin = "https://coss-sv.vercel.app";
+export const documentationOrigin = "https://coss.miel.my";
 
 const rootOrder = [
   "introduction",

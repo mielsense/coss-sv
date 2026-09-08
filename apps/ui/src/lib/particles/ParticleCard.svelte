@@ -21,7 +21,7 @@
   } = $props();
 
   const registryHref = $derived(`/r/${particle.name}.json`);
-  const registryUrl = $derived(`https://coss-sv.vercel.app${registryHref}`);
+  const registryUrl = $derived(`https://coss.miel.my${registryHref}`);
   const openInV0Url = $derived(
     `https://v0.dev/chat/api/open?url=${encodeURIComponent(registryUrl)}`,
   );

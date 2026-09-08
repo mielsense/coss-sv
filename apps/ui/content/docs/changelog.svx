@@ -309,7 +309,7 @@ upstream history; do not run them against a Svelte project.
 Install or refresh a Svelte registry item with its current documentation command. For example:
 
 ```bash
-pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/tabs.json
+pnpm dlx shadcn-svelte@latest add https://coss.miel.my/r/tabs.json
 ```
 
 Before accepting generated changes, compare local customizations and run the project typecheck,

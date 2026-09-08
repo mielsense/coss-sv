@@ -7,7 +7,7 @@ description: A badge or a component that looks like a badge.
 
 ## Installation
 
-<InstallCommand shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/badge.json" />
+<InstallCommand shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss.miel.my/r/badge.json" />
 
 ## Usage
 

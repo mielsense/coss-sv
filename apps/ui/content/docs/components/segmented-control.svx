@@ -31,7 +31,7 @@ Segmented controls are provided as particles. Install the implementation and siz
 
 For example, install the default Radio Group version with:
 
-<InstallCommand shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/p-radio-group-8.json" />
+<InstallCommand shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss.miel.my/r/p-radio-group-8.json" />
 
 The CLI installs the shared `segmented-control` styling library and the required primitive automatically.
 
@@ -40,7 +40,7 @@ The CLI installs the shared `segmented-control` styling library and the required
 For a custom composition, install the styling library directly:
 
 ```bash
-pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/segmented-control.json
+pnpm dlx shadcn-svelte@latest add https://coss.miel.my/r/segmented-control.json
 ```
 
 The library exports a root class, an item recipe, and a shared item layout class for icons:

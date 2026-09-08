@@ -7,7 +7,7 @@ description: A component for displaying keyboard keys and shortcuts.
 
 ## Installation
 
-<InstallCommand shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/kbd.json" />
+<InstallCommand shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss.miel.my/r/kbd.json" />
 
 ## Usage
 

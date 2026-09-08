@@ -7,7 +7,7 @@ description: Displays the path to the current resource using a hierarchy of link
 
 ## Installation
 
-<InstallCommand shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/breadcrumb.json" />
+<InstallCommand shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss.miel.my/r/breadcrumb.json" />
 
 ## Usage
 

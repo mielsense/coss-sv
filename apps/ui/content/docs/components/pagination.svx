@@ -7,7 +7,7 @@ description: A pagination with page navigation, next and previous links.
 
 ## Installation
 
-<InstallCommand shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/pagination.json" />
+<InstallCommand shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss.miel.my/r/pagination.json" />
 
 ## Usage
 

@@ -4,7 +4,7 @@
   "description": "High-fidelity Svelte 5 components adapted from the COSS UI library.",
   "license": "MIT",
   "author": "Miel",
-  "homepage": "https://coss-sv.vercel.app",
+  "homepage": "https://coss.miel.my",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/mielsense/coss-sv.git",

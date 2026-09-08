@@ -30,9 +30,9 @@ describe("agent-readable documentation", () => {
     const index = createLlmsIndex(records);
 
     expect(index).toContain("# COSS for Svelte");
-    expect(index).toContain("https://coss-sv.vercel.app/docs/get-started.md");
-    expect(index).toContain("https://coss-sv.vercel.app/docs/components/accordion.md");
-    expect(index).toContain("https://coss-sv.vercel.app/docs/hooks/use-media-query.md");
+    expect(index).toContain("https://coss.miel.my/docs/get-started.md");
+    expect(index).toContain("https://coss.miel.my/docs/components/accordion.md");
+    expect(index).toContain("https://coss.miel.my/docs/hooks/use-media-query.md");
     expect(index).toContain("Unofficial Svelte port made by Miel");
   });
 
@@ -44,7 +44,7 @@ describe("agent-readable documentation", () => {
     const markdown = createMarkdownDocument(record, "get-started");
     expect(markdown).toContain("# Get Started");
     expect(markdown).toContain("pnpm dlx shadcn-svelte@latest init");
-    expect(markdown).toContain("https://coss-sv.vercel.app/docs/get-started");
+    expect(markdown).toContain("https://coss.miel.my/docs/get-started");
     expect(markdown).not.toContain("CopyMarkdownButton");
   });
 

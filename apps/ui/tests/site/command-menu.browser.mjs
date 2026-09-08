@@ -475,7 +475,7 @@ try {
   await page.keyboard.press(process.platform === "darwin" ? "Meta+C" : "Control+C");
   assert.equal(
     await page.evaluate(() => navigator.clipboard.readText()),
-    "pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/separator.json",
+    "pnpm dlx shadcn-svelte@latest add https://coss.miel.my/r/separator.json",
     "the copied component command uses the public URL contract",
   );
 

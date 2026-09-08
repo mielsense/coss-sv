@@ -241,7 +241,7 @@ try {
     }));
     const registryHref = `/r/${id}.json`;
     assert.deepEqual(links, {
-      install: `pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app${registryHref}`,
+      install: `pnpm dlx shadcn-svelte@latest add https://coss.miel.my${registryHref}`,
       registry: registryHref,
       source: `https://github.com/mielsense/coss-sv/blob/main/apps/ui/registry/default/particles/${id}.svelte`,
     });

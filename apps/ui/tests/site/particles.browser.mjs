@@ -184,17 +184,17 @@ try {
   );
   assert.equal(
     await dialog.locator('[data-install-command="pnpm"] code').textContent(),
-    "pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/p-button-41.json",
+    "pnpm dlx shadcn-svelte@latest add https://coss.miel.my/r/p-button-41.json",
   );
   await selectTab(installTabs.getByRole("tab", { name: "bun", exact: true }), "bun");
   assert.equal(
     await dialog.locator('[data-install-command="bun"] code').textContent(),
-    "bunx --bun shadcn-svelte@latest add https://coss-sv.vercel.app/r/p-button-41.json",
+    "bunx --bun shadcn-svelte@latest add https://coss.miel.my/r/p-button-41.json",
   );
   const openInV0 = dialog.getByRole("link", { name: "Open in v0", exact: true });
   assert.equal(
     await openInV0.getAttribute("href"),
-    "https://v0.dev/chat/api/open?url=https%3A%2F%2Fcoss-sv.vercel.app%2Fr%2Fp-button-41.json",
+    "https://v0.dev/chat/api/open?url=https%3A%2F%2Fcoss.miel.my%2Fr%2Fp-button-41.json",
   );
   const drawerSource = dialog.locator("[data-preview-source] pre");
   assert.equal(await drawerSource.count(), 1);
@@ -241,7 +241,7 @@ try {
   await selectTab(docsPackageManagers.getByRole("tab", { name: "npm", exact: true }), "npm");
   assert.equal(
     await page.locator('[data-install-command="npm"] code').textContent(),
-    "npx shadcn-svelte@latest add https://coss-sv.vercel.app/r/skeleton.json",
+    "npx shadcn-svelte@latest add https://coss.miel.my/r/skeleton.json",
   );
   await page.goto(`${baseUrl}/docs/components/accordion`);
   await selectTab(

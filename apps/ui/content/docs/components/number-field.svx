@@ -7,7 +7,7 @@ description: A numeric input element with increment and decrement buttons, and a
 
 ## Installation
 
-<InstallCommand shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/number-field.json" />
+<InstallCommand shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss.miel.my/r/number-field.json" />
 
 ## Usage
 

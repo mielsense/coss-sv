@@ -15,9 +15,9 @@ for choosing the right primitive, not for reconstructing its API from memory.
 
 Documentation routes use the lowercase kebab-case name, for example:
 
-- `https://coss-sv.vercel.app/docs/components/input-group.md`
-- `https://coss-sv.vercel.app/docs/components/alert-dialog.md`
-- `https://coss-sv.vercel.app/docs/components/otp-field.md`
+- `https://coss.miel.my/docs/components/input-group.md`
+- `https://coss.miel.my/docs/components/alert-dialog.md`
+- `https://coss.miel.my/docs/components/otp-field.md`
 
 ## Composition model
 

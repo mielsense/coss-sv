@@ -258,7 +258,7 @@ describe("D6 form and input documentation inventory", () => {
     for (const slug of Object.keys(expectedPagePreviews)) {
       const page = source(`apps/ui/content/docs/components/${slug}.svx`);
       expect(page).toContain(
-        `pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/${slug}.json`,
+        `pnpm dlx shadcn-svelte@latest add https://coss.miel.my/r/${slug}.json`,
       );
     }
 

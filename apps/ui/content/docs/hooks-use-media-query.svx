@@ -8,7 +8,7 @@ class and preserves the Tailwind-like shorthand from COSS.
 
 ## Installation
 
-<InstallCommand shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/use-media-query.json" />
+<InstallCommand shadcnSvelte="pnpm dlx shadcn-svelte@latest add https://coss.miel.my/r/use-media-query.json" />
 
 ## Usage
 

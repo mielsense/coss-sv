@@ -116,7 +116,7 @@ export function getParticleLinks(entry: ParticlePreviewEntry) {
   }
   const registryHref = `/r/${id}.json`;
   return Object.freeze({
-    installCommand: `pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app${registryHref}`,
+    installCommand: `pnpm dlx shadcn-svelte@latest add https://coss.miel.my${registryHref}`,
     registryHref,
     sourceHref: `https://github.com/mielsense/coss-sv/blob/main/apps/ui/registry/default/particles/${id}.svelte`,
   });
