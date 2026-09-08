@@ -56,7 +56,6 @@ Svelte does not expose a public way for a component to recover an object's origi
 
 Browser coverage verifies the raw-state toggle, duplicate labels with an explicit ID comparator, controlled `null`, selection after a bound reassignment, and the production particle preview. The registry publishes the same corrected particle source shown in the documentation.
 
-
 ## September 8 binding audit
 
 The complete wrapper source was compared with the permitted COSS registry implementation and the
@@ -80,7 +79,6 @@ its internal input string to support cancellable input changes, suppressing that
 The binding regression asserts selection and independently tests `inputValue`; it does not claim
 to repair label synchronization. The raw primitive comparison is retained as evidence; the
 follow-up below repairs this separate defect.
-
 
 ## September 8 selected input label follow-up
 
@@ -135,3 +133,17 @@ on the client, so its page response was not used as SSR evidence. In-app inspect
 mounted input showed Apple and an external update changed it to Banana. The canceled-clear
 regression also enables input afterward and selects Banana, checking the event guard does not
 suppress a later selection.
+
+The parity review added an items-refresh regression based on Shards' `value-stale-items` fixture:
+a selected raw object's label is changed in place, then the items array is replaced. The raw
+primitive refreshed its outside input, while the first repair retained the old label. The
+follow-up observes the items collection and records accepted native input edits. A label-only
+refresh preserves an active query, including typing App and then Apple. A new selection or the
+primitive's close-complete callback clears that query history. Eight comparative browser tests
+cover both the raw primitive and wrapper, including close/reopen and callback forwarding.
+
+A separate browser regression inserts the actual retained SSR output, verifies Apple before
+hydration, hydrates with recovery disabled, edits the query, and applies external Banana. It also
+checks for hydration warnings. An SSR test compares the retained HTML with current server output,
+so the hydration fixture cannot silently become stale. The complete focused browser set contains
+40 passing tests; SSR/type contains 10. Package check/build and focused format/lint checks pass.

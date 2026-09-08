@@ -108,6 +108,7 @@
     onInputValueChange,
     onItemHighlighted,
     onOpenChange,
+    onOpenChangeComplete,
     onValueChange,
     open = $bindable(),
     value = $bindable(),
@@ -169,14 +170,19 @@
   let previousSelection = untrack(() => currentValue);
   let previousLabel = untrack(() => (multiple ? "" : selectedInputLabel(currentValue)));
   let wasOutside = false;
+  let queryWasEdited = false;
   // Selection and editable search text are separate primitive states. Reconcile only
   // a changed selection outside the popup; typing alone must retain its query.
   $effect(() => {
+    // A replacement item collection can carry an updated label on a raw selected object.
+    void items;
     const selected = currentValue;
     const label = multiple ? "" : selectedInputLabel(selected);
     const outside = !context.inputInsidePopup && !multiple;
     if (inputValue !== lastWrittenInput) inputExternallyControlled = true;
-    const changed = !Object.is(previousSelection, selected) || previousLabel !== label;
+    const selectionChanged = !Object.is(previousSelection, selected);
+    const changed = selectionChanged || (previousLabel !== label && !queryWasEdited);
+    if (selectionChanged) queryWasEdited = false;
     const initialize = outside && !wasOutside && !hasDefaultInputValue;
     previousSelection = selected;
     previousLabel = label;
@@ -275,6 +281,9 @@
         target.value = currentInputValue;
       }
     }
+    if (!details.isCanceled && details.event instanceof InputEvent) {
+      queryWasEdited = true;
+    }
     pendingInput = { canceled: details.isCanceled, value: next };
   }
 
@@ -298,6 +307,11 @@
     pendingOpen = { canceled: details.isCanceled, value: next };
   }
 
+  function handleOpenChangeComplete(next: boolean): void {
+    if (!next) queryWasEdited = false;
+    onOpenChangeComplete?.(next);
+  }
+
   function handleItemHighlighted(
     highlightedValue: Value | undefined,
     reason: "keyboard" | "none" | "pointer",
@@ -319,6 +333,7 @@
   onInputValueChange={handleInputValueChange}
   onItemHighlighted={handleItemHighlighted}
   onOpenChange={handleOpenChange}
+  onOpenChangeComplete={handleOpenChangeComplete}
   onValueChange={handleValueChange}
   {...props}
 >
