@@ -43,11 +43,9 @@
   <Combobox.Input aria-label="Select timezone" placeholder="Select timezone..." />
   <Combobox.Popup>
     <Combobox.Empty>No timezones found.</Combobox.Empty><Combobox.List>
-      <Combobox.Collection>
-        {#snippet children(item: Timezone)}<Combobox.Item value={item}>
-            {item.label}
-          </Combobox.Item>{/snippet}
-      </Combobox.Collection>
+      {#snippet item(item: Timezone)}<Combobox.Item value={item}>
+          {item.label}
+        </Combobox.Item>{/snippet}
     </Combobox.List>
   </Combobox.Popup>
 </Combobox.Root>

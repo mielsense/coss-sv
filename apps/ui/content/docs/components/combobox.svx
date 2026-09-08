@@ -30,6 +30,7 @@ links:
     { value: "orange", label: "Orange" },
     { value: "grape", label: "Grape" },
   ];
+  type Item = (typeof items)[number];
 </script>
 
 <Combobox.Root {items}>
@@ -37,11 +38,9 @@ links:
   <Combobox.Popup>
     <Combobox.Empty>No results found.</Combobox.Empty>
     <Combobox.List>
-      <Combobox.Collection>
-        {#snippet children(item)}
-          <Combobox.Item value={item}>{item.label}</Combobox.Item>
-        {/snippet}
-      </Combobox.Collection>
+      {#snippet item(item: Item)}
+        <Combobox.Item value={item}>{item.label}</Combobox.Item>
+      {/snippet}
     </Combobox.List>
   </Combobox.Popup>
 </Combobox.Root>
@@ -71,7 +70,7 @@ links:
     <Combobox.Value>
       {#snippet children(value: Item[])}
         {#each value as item (item.value)}
-          <Combobox.Chip aria-label={item.value} value={item.value}>
+          <Combobox.Chip aria-label={item.value}>
             {item.label}
           </Combobox.Chip>
         {/each}
@@ -85,11 +84,9 @@ links:
   <Combobox.Popup>
     <Combobox.Empty>No results found.</Combobox.Empty>
     <Combobox.List>
-      <Combobox.Collection>
-        {#snippet children(item: Item)}
-          <Combobox.Item value={item}>{item.label}</Combobox.Item>
-        {/snippet}
-      </Combobox.Collection>
+      {#snippet item(item: Item)}
+        <Combobox.Item value={item}>{item.label}</Combobox.Item>
+      {/snippet}
     </Combobox.List>
   </Combobox.Popup>
 </Combobox.Root>
@@ -138,11 +135,12 @@ The popup container that displays the combobox options.
 
 A scrollable container for combobox items.
 
-| Prop       | Type                | Description                                         |
-| ---------- | ------------------- | --------------------------------------------------- |
-| `class`    | `string`            | Additional CSS classes to apply to the component    |
-| `children` | `Snippet`           | List content                                        |
-| `...props` | `ComboboxListProps` | All standard combobox list attributes are supported |
+| Prop       | Type                      | Description                                         |
+| ---------- | ------------------------- | --------------------------------------------------- |
+| `class`    | `string`                  | Additional CSS classes to apply to the component    |
+| `item`     | `Snippet<[Item, number]>` | Renders each filtered item and its index            |
+| `children` | `Snippet`                 | Static list content                                 |
+| `...props` | `ComboboxListProps`       | All standard combobox list attributes are supported |
 
 ### Combobox.Item
 

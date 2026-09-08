@@ -38,11 +38,9 @@
   <Combobox.Popup>
     <Combobox.Empty>No results found.</Combobox.Empty>
     <Combobox.List>
-      <Combobox.Collection>
-        {#snippet children(item: Item)}<Combobox.Item value={item}>
-            {item.label}
-          </Combobox.Item>{/snippet}
-      </Combobox.Collection>
+      {#snippet item(item: Item)}<Combobox.Item value={item}>
+          {item.label}
+        </Combobox.Item>{/snippet}
     </Combobox.List>
   </Combobox.Popup>
 </Combobox.Root>

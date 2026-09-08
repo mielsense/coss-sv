@@ -101,11 +101,9 @@
     </Combobox.Input>
     <Combobox.Popup>
       <Combobox.Empty>No team members found.</Combobox.Empty><Combobox.List>
-        <Combobox.Collection>
-          {#snippet children(item: TeamMember)}<Combobox.Item value={item}>
-              {item.label}
-            </Combobox.Item>{/snippet}
-        </Combobox.Collection>
+        {#snippet item(item: TeamMember)}<Combobox.Item value={item}>
+            {item.label}
+          </Combobox.Item>{/snippet}
       </Combobox.List>
     </Combobox.Popup>
   </Combobox.Root>

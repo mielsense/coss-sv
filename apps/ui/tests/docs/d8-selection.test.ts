@@ -374,7 +374,17 @@ describe("D8 selection, command, and menu documentation", () => {
     expect(page).toContain('<Combobox.Input placeholder="Select an item..." />');
     expect(page).toContain("<Combobox.Chips>");
     expect(page).toContain("<Combobox.Value>");
-    expect(page).toContain("<Combobox.Chip aria-label={item.value} value={item.value}>");
+    expect(page).toContain("<Combobox.Chip aria-label={item.value}>");
+    const usage = page.split("## Usage")[1]?.split("## API Reference")[0] ?? "";
+    expect(usage).not.toContain("<Combobox.Collection>");
+    expect([...usage.matchAll(/\{#snippet item\(item: Item\)\}/g)]).toHaveLength(2);
+    const examples = [...usage.matchAll(/```svelte\n([\s\S]*?)\n```/g)];
+    for (const index of [1, 3]) {
+      const example = examples[index]?.[1] ?? "";
+      expect(() =>
+        compile(example, { filename: "combobox-usage.svelte", runes: true }),
+      ).not.toThrow();
+    }
     expect(page).toContain('placeholder={value.length > 0 ? undefined : "Select an item..."}');
     expect([...page.matchAll(/```svelte/g)]).toHaveLength(4);
   });

@@ -76,7 +76,7 @@
   <Combobox.Input aria-label="Search tags" placeholder="e.g. feature" />
   <Combobox.Popup>
     <Combobox.Empty>No tags found.</Combobox.Empty><Combobox.List>
-      {#each groups as group (group.value)}
+      {#snippet item(group: Group)}
         <Combobox.Group items={group.items}>
           <Combobox.GroupLabel>{group.value}</Combobox.GroupLabel><Combobox.Collection>
             {#snippet children(tag: Tag)}<Combobox.Item value={tag}>
@@ -85,7 +85,7 @@
           </Combobox.Collection>
         </Combobox.Group>
         {#if group.value !== "Team"}<Combobox.Separator />{/if}
-      {/each}
+      {/snippet}
     </Combobox.List>
   </Combobox.Popup>
 </Combobox.Root>

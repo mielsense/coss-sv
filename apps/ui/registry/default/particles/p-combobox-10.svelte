@@ -457,11 +457,9 @@
     </div>
     <Combobox.Empty>No countries found.</Combobox.Empty>
     <Combobox.List>
-      <Combobox.Collection>
-        {#snippet children(country: Country)}<Combobox.Item value={country}>
-            {country.label}
-          </Combobox.Item>{/snippet}
-      </Combobox.Collection>
+      {#snippet item(country: Country)}<Combobox.Item value={country}>
+          {country.label}
+        </Combobox.Item>{/snippet}
     </Combobox.List>
   </Combobox.Popup>
 </Combobox.Root>
