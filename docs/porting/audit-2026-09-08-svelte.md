@@ -23,7 +23,7 @@ every combination of states, screen sizes, themes, or keyboard paths received ma
 | form | `form.svelte`, `index.ts` | No concrete defect established |
 | input | `index.ts`, `input.svelte` | No concrete defect established |
 | number-field | `context.ts`, `cursor-grow-icon.svelte`, `index.ts`, `number-field-decrement.svelte`, `number-field-group.svelte`, `number-field-increment.svelte`, `number-field-input.svelte`, `number-field-machine.ts`, `number-field-root.svelte`, `number-field-scrub-area.svelte`, `number-field-step-button.svelte` | Canceled edits and native reset repaired; inherited form name remains a Shards limitation |
-| otp-field | `context.ts`, `index.ts`, `otp-field-input.svelte`, `otp-field-machine.ts`, `otp-field-root.svelte`, `otp-field-separator.svelte` | Canceled native reset identified in subsequent review; separate repair lane pending |
+| otp-field | `context.ts`, `index.ts`, `otp-field-input.svelte`, `otp-field-machine.ts`, `otp-field-root.svelte`, `otp-field-separator.svelte` | Canceled native reset repaired in 8f8bc51; value, slots, and submission remain consistent |
 | radio-group | `index.ts`, `radio-group-item.svelte`, `radio-group-root.svelte` | Late binding repaired |
 | select | `context.svelte.ts`, `index.ts`, `select-button.svelte`, `select-group-label.svelte`, `select-group.svelte`, `select-item.svelte`, `select-label.svelte`, `select-parts.svelte`, `select-popup.svelte`, `select-root.svelte`, `select-separator.svelte`, `select-trigger.svelte`, `select-value.svelte` | Object identity repaired; late value/open bindings repaired |
 | separator | `index.ts`, `separator.svelte` | No concrete defect established |
@@ -42,7 +42,7 @@ every combination of states, screen sizes, themes, or keyboard paths received ma
 | SV-02 | Selection identity | medium | high | Select treated distinct same-label objects as the same item. Selecting the second Alex emitted the first object. Identity/comparer canonicalization now preserves the selected object. | Shared selection canonicalization; fixed in c89873a |
 | SV-03 | Form state | medium | high | Number Field retained stale display/binding on native reset and showed rejected input after callback cancellation. | Number Field adapter; fixed in 68d430d |
 | SV-04 | Form serialization | medium | high | Named Field around Number Field serializes both raw numeric and localized display text. Shards Field.Control prioritizes inherited name and offers no opt-out. | Shards primitive; unresolved, see Number Field evidence |
-| SV-05 | Input synchronization | medium | high | A value-only external Combobox selection update changes Combobox.Value but leaves the visible input empty. The raw Shards positive control updates its label. | Wrapper always supplies inputValue; unresolved |
+| SV-05 | Input synchronization | medium | high | A value-only external Combobox selection update changes Combobox.Value but leaves the visible input empty. The raw Shards positive control updates its label. | Combobox adapter; fixed in 692652c, 66bdac4, and a058864 with SSR seeds, placement-aware selection synchronization, and canceled-edit restoration |
 
 The inspected production files use TypeScript, runes, callback props, snippets, and typed native
 attributes. Generated IDs use hydration-stable `$props.id()`. Mutable component state is scoped to
@@ -71,3 +71,9 @@ Default visual comparison coverage for the other 18 families is recorded in
 `audit-2026-09-08-docs.md`; Number Field's source/target geometry and reset/cancellation inspection
 are recorded in its component evidence. These checks establish the tested defaults and regression
 paths, not exhaustive visual parity. Full repository gates belong to the integration coordinator.
+
+The Combobox follow-up passes 43 focused browser tests and ten SSR/type tests. New regressions
+cover initial labels, external selection, independent initial and late input control, popup/inline
+search, multiple selection, cancellation, and item-label refresh while retaining typed queries, including IME composition. Native input values are seeded for SSR while Shards
+retains live input ownership. An actual SSR-to-hydration regression verifies initial labels, typing,
+and later external selection. See [Combobox evidence](components/combobox.md).
