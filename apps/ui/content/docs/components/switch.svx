@@ -26,14 +26,14 @@ links:
 
 ### Switch
 
-`Switch` includes the COSS thumb and responsive sizing. Use `checked` for an initial value or
+`Switch` includes the COSS thumb and responsive sizing. Use `defaultChecked` for the initial value or
 `bind:checked` for controlled state. Native form props and `onCheckedChange` pass to the Shards root.
 
 See the [Shards Switch API](https://shardsui.com/svelte/switch) for form, validation, and state props.
 
 ## Examples
 
-For accessible labelling and validation, prefer using the `Field` component to wrap checkboxes. See the related example: [Switch field](/docs/components/field#switch-field).
+For accessible labelling and validation, prefer using the `Field` component to wrap switches. See the related example: [Switch field](/docs/components/field#switch-field).
 
 ### Disabled
 

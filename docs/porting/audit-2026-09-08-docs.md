@@ -125,3 +125,41 @@ opened the empty particle chooser. `ParticleSearchField` initializes `open=false
 opens the chooser when no tags are selected. The unchanged suite passed on a subsequent run.
 The test now waits for the expected expanded combobox before asserting or typing; it still fails
 if the chooser never opens. The revised full particles browser script passed on the production site.
+
+
+## Form and control documentation follow-up
+
+The September 8 follow-up corrects four public documentation pages after reading their current
+exports and wrappers, the matching local Shards Field.Control, and the permitted upstream docs.
+
+| ID | File | Category | Severity | Confidence | Evidence and correction | Version or flag blocker | Canonical owner |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| DOC-05 | `apps/ui/content/docs/components/checkbox-group.svx` | API documentation | medium | high | The documented `CheckboxGroup.Checkbox` alias is absent from `packages/ui/src/components/ui/checkbox-group/index.ts`. Document `Item` and the actual `Parent` alias; both require `parent` for parent behavior, as shown in `checkbox-group-item.svelte`. | None | Public package exports |
+| DOC-06 | `apps/ui/content/docs/components/field.svx` | API documentation | medium | high | `field-control.svelte` wraps Shards Control and registers its ID. Shards `field/field-control.svelte` renders only native input or textarea; it does not wrap an arbitrary third-party control. Describe the supported native control contract. | None | Shards Field.Control |
+| DOC-07 | `apps/ui/content/docs/components/slider.svx` and `switch.svx` | Documentation | low | high | Both Examples introductions inherited “wrap checkboxes” from upstream. Name sliders and switches respectively. Switch also incorrectly described `checked` as an initial value; `switch.svelte` exposes `defaultChecked` for that contract. | None | Public wrapper props |
+
+Validation: the documentation compiler accepts all 64 pages. Prettier checks the four changed SVX
+pages; `git diff --check` passes. These are prose corrections; no production Svelte source changed.
+
+### Default form/control comparison coverage
+
+The Codex in-app browser compared the first documentation preview at 1280×800 for each family below,
+using reference `http://localhost:4000/ui/docs/components/<family>` and the stable production port
+`http://localhost:5104/docs/components/<family>`. Text, native control attributes, and up to 16
+component-slot elements were inspected per preview. Visible element tags, roles, rounded heights,
+and font sizes matched, as did visible text. This is a default-state comparison, not an approval of
+all variants, keyboard paths, themes, or responsive sizes. Number Field is covered by its separate
+review lane.
+
+| Families | Result |
+| --- | --- |
+| button, checkbox, checkbox-group, combobox, field, fieldset | Default visible content and geometry match |
+| form, input, otp-field, radio-group, select, separator | Default visible content and geometry match |
+| slider, switch, tabs, toggle, toggle-group, toolbar | Default visible content and geometry match |
+
+Observed implementation differences do not change these visible defaults: the Svelte checkbox and
+radio wrappers retain hidden zero-height indicators, unchecked checkbox-group inputs retain their
+item values, Combobox relies on the native text-input default, Select adds an accessible label, and
+Toolbar preserves concrete control slot names where the reference uses `tooltip-trigger`. These
+observations do not substitute for the form/submission and interaction tests owned by the component
+lane. No additional visible default defect was established by this comparison.

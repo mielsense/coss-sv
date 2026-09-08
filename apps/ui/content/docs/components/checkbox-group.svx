@@ -36,8 +36,9 @@ The root owns an array of selected values. Use `defaultValue` for the initial se
 
 ### CheckboxGroup.Item
 
-An item registers its `value` with the root and shares disabled and form state. The public
-`CheckboxGroup.Checkbox` alias points to the same part.
+An item registers its `value` with the root and shares disabled and form state. Use
+`<CheckboxGroup.Item parent />` for a parent checkbox. `CheckboxGroup.Parent` is an alias for the
+same part and also requires the `parent` prop.
 
 See the [Shards Checkbox Group API](https://shardsui.com/svelte/checkbox-group) for parent selection,
 form values, and validation.

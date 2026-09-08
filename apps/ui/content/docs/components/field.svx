@@ -57,7 +57,7 @@ Error message for the field. Styled wrapper for `Field.Error` from Shards UI wit
 
 ### Field.Control
 
-Alias for `Field.Control` from Shards UI. Use it to register a custom or third-party control with the field context so it participates in labelling, validation, and error state.
+Renders a native input through Shards `Field.Control`, or a textarea with `as="textarea"`. It connects the control to the field label, description, validation, and error state. Use it when styling a native control directly.
 
 `Textarea` does not require `Field.Control`. It wraps the control internally and integrates with `Field` in the same way as `Input` and the other built-in controls.
 
