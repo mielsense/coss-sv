@@ -104,3 +104,26 @@ Reset is an explicit stability correction under the requested audit, not a claim
 Validation: the original three regression cases failed with values 5 instead of 2, 8 instead of 3, and rejected text 9 instead of 2. The repaired package passed Number Field SSR/type tests, existing browser tests, and the new reset/cancellation cases. Package svelte-check reported no errors or warnings. Review probes live at /preview/number-field?theme=light&width=desktop.
 
 The repaired lane also passed in-app browser probes at http://127.0.0.1:5101/preview/number-field?theme=light&width=desktop. A rejected edit to 9 immediately retained display and binding 2. Editing the reset probe to 5 produced display, binding, and FormData values of 5; reset restored all three to 2. The final focused suite contains 18 browser tests and 11 SSR/type tests.
+
+
+### Remaining inherited-name limitation
+
+The audit also confirmed a separate form-submission defect when the surrounding Field.Root supplies
+name. The hidden canonical numeric input and the visible Shards Input both inherit that name.
+In p-number-field-10, FormData contains quantity twice. With name="amount", locale="de-DE", and
+value 1.5, the entries are ["amount", "1.5"] and ["amount", "1,5"]. A consumer taking the last
+entry receives a formatted string rather than the canonical numeric representation.
+
+Shards field-control.svelte computes name as field?.name ?? nameProp ?? undefined. Its public Input
+is an alias of that control. It provides no explicit opt-out for an inherited name, so name=""
+on the NumberField display input cannot override the field. Removing the attribute through a
+case-distinct rest prop worked after hydration but failed the SSR regression. Disassociating the
+display input with form="" also prevents native Enter submission: a focused input submitted once
+before the attribute was set and did not submit after it was set in a real Chromium regression.
+Both experiments were discarded. The reset/cancellation correction does not resolve this issue.
+
+A complete repair needs a supported primitive option to omit the visible control's inherited name
+while retaining its form owner and Field registration, or a reviewed native-control integration.
+No failing experiment was added to the required test suite. Audit classification:
+number-field-inherited-name; form correctness; high confidence; medium severity; Shards API
+limitation, with no Svelte version or experimental-flag blocker.
