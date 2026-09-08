@@ -21,23 +21,23 @@
   let group = $state<string[]>();
 </script>
 
-<button onclick={() => (checked = true)}>Set checkbox</button>
+<button type="button" onclick={() => (checked = true)}>Set checkbox</button>
 <Checkbox bind:checked aria-label="Late checkbox" />
-<button onclick={() => (switched = true)}>Set switch</button>
+<button type="button" onclick={() => (switched = true)}>Set switch</button>
 <Switch bind:checked={switched} aria-label="Late switch" />
-<button onclick={() => (pressed = true)}>Set toggle</button>
+<button type="button" onclick={() => (pressed = true)}>Set toggle</button>
 <Toggle bind:pressed aria-label="Late toggle" />
-<button onclick={() => (radio = "second")}>Set radio</button>
+<button type="button" onclick={() => (radio = "second")}>Set radio</button>
 <RadioGroup.Root bind:value={radio}>
   <RadioGroup.Item value="first" aria-label="First radio" />
   <RadioGroup.Item value="second" aria-label="Second radio" />
 </RadioGroup.Root>
-<button onclick={() => (toggles = ["second"])}>Set toggle group</button>
+<button type="button" onclick={() => (toggles = ["second"])}>Set toggle group</button>
 <ToggleGroup.Root bind:value={toggles}>
   <ToggleGroup.Item value="first">First toggle</ToggleGroup.Item>
   <ToggleGroup.Item value="second">Second toggle</ToggleGroup.Item>
 </ToggleGroup.Root>
-<button onclick={() => (tab = "second")}>Set tab</button>
+<button type="button" onclick={() => (tab = "second")}>Set tab</button>
 <Tabs.Root bind:value={tab}>
   <Tabs.List
     ><Tabs.Tab value="first">First tab</Tabs.Tab><Tabs.Tab value="second">Second tab</Tabs.Tab
@@ -47,16 +47,16 @@
     >Second panel</Tabs.Panel
   >
 </Tabs.Root>
-<button onclick={() => (combo = "Second")}>Set combobox value</button>
+<button type="button" onclick={() => (combo = "Second")}>Set combobox value</button>
 <Combobox.Root bind:value={combo} items={["First", "Second"]}>
   <Combobox.Input aria-label="Late combobox value" />
   <output data-testid="combobox-selection"><Combobox.Value /></output>
 </Combobox.Root>
-<button onclick={() => (comboInput = "Second")}>Set combobox input</button>
+<button type="button" onclick={() => (comboInput = "Second")}>Set combobox input</button>
 <Combobox.Root bind:inputValue={comboInput} items={["First", "Second"]}>
   <Combobox.Input aria-label="Late combobox input" />
 </Combobox.Root>
-<button onclick={() => (comboOpen = true)}>Set combobox open</button>
+<button type="button" onclick={() => (comboOpen = true)}>Set combobox open</button>
 <Combobox.Root bind:open={comboOpen} items={["First", "Second"]}>
   <Combobox.Input aria-label="Late combobox open" />
   <Combobox.Popup
@@ -64,13 +64,13 @@
     ></Combobox.Popup
   >
 </Combobox.Root>
-<button onclick={() => (group = ["second"])}>Set checkbox group</button>
+<button type="button" onclick={() => (group = ["second"])}>Set checkbox group</button>
 <CheckboxGroup.Root bind:value={group}>
   <CheckboxGroup.Item value="first" aria-label="First group checkbox" />
   <CheckboxGroup.Item value="second" aria-label="Second group checkbox" />
 </CheckboxGroup.Root>
 
-<button onclick={() => (shardsValue = "Second")}>Set primitive value</button>
+<button type="button" onclick={() => (shardsValue = "Second")}>Set primitive value</button>
 <ShardsCombobox.Root bind:value={shardsValue} items={["First", "Second"]}
   ><ShardsCombobox.Input aria-label="Primitive selection input" /></ShardsCombobox.Root
 >

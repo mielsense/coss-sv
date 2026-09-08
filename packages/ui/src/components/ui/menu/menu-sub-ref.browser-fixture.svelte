@@ -15,5 +15,7 @@
     </Menu.Popup>
   </Menu.Root>
 {/if}
-<button data-testid="remove-menu" onclick={() => (visible = false)}>Remove menu</button>
+<button type="button" data-testid="remove-menu" onclick={() => (visible = false)}
+  >Remove menu</button
+>
 <output data-testid="sub-ref">{ref?.getAttribute("role") ?? "null"}</output>

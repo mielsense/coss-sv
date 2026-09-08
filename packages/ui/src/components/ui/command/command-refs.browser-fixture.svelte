@@ -23,8 +23,8 @@
     </Command.Footer>
   </Command.Root>
 {/if}
-<button onclick={() => input?.focus()}>Focus search</button>
-<button onclick={() => (visible = false)}>Remove command</button>
+<button type="button" onclick={() => input?.focus()}>Focus search</button>
+<button type="button" onclick={() => (visible = false)}>Remove command</button>
 <output data-testid="ref-tags"
   >{[input, list, panel, footer, shortcut].map((node) => node?.tagName ?? "null").join(",")}</output
 >

@@ -29,7 +29,8 @@
   </NumberField.Root>
   <button type="reset" data-testid="reset">Reset</button>
 </form>
-<button onclick={() => (cancelReset = !cancelReset)} data-testid="cancel-reset">Cancel reset</button
+<button type="button" onclick={() => (cancelReset = !cancelReset)} data-testid="cancel-reset"
+  >Cancel reset</button
 >
 <output data-testid="reset-value">{value}</output>
 <output data-testid="reset-callbacks">{resetChanges}:{resetCommits}</output>
