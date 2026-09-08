@@ -40,17 +40,19 @@
     ...props
   }: PaginationLinkProps = $props();
 
-  const current = $derived(ariaCurrent ?? (isActive ? "page" : undefined));
+  const current = $derived(
+    ariaCurrent === undefined ? (isActive ? "page" : undefined) : ariaCurrent,
+  );
   const classes = $derived(
     cn(buttonVariants({ size, variant: isActive ? "outline" : "ghost" }), className),
   );
   const delegateProps = $derived({
-    ...props,
     "aria-current": current,
     children,
     class: className,
     "data-active": isActive,
     "data-slot": "pagination-link",
+    ...props,
   } as unknown as Omit<ButtonProps, "ref">);
   const delegateRef: PaginationLinkDelegateRef = {
     get current() {

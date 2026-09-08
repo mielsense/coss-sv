@@ -1,3 +1,4 @@
+import { containsOnlyComments } from "@/comment-only-fixture.js";
 import { render } from "svelte/server";
 import { describe, expect, test } from "vitest";
 import Fixture from "./combobox.ssr-fixture.svelte";
@@ -20,7 +21,7 @@ describe("Combobox SSR and export contract", () => {
     const bareClear = body.match(/<button[^>]*data-testid="bare-clear"[^>]*>(.*?)<\/button>/s);
     expect(bareClear).not.toBeNull();
     expect(bareClear?.[0]).not.toContain("aria-label");
-    expect(bareClear?.[1]).toMatch(/^(?:<!--[\s\S]*?-->)*$/);
+    expect(containsOnlyComments(bareClear?.[1])).toBe(true);
   });
   test("keeps addon and end-adornment selectors on the input control", () => {
     const { body } = render(Fixture);
@@ -43,7 +44,7 @@ describe("Combobox SSR and export contract", () => {
       /<button[^>]*data-testid="bare-combobox-trigger"[^>]*>(.*?)<\/button>/s,
     );
     expect(trigger).not.toBeNull();
-    expect(trigger?.[1]).toMatch(/^(?:<!--[\s\S]*?-->)*$/);
+    expect(containsOnlyComments(trigger?.[1])).toBe(true);
   });
   test("renders a typed custom object value snippet without recursion", () => {
     const { body } = render(Fixture);

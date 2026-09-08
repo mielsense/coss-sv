@@ -52,7 +52,14 @@
   {/snippet}
 </Pagination.Previous>
 {#if showDelegated}
-  <Pagination.Next bind:ref={delegatedRef} class="sm:*:[svg]:hidden">
+  <Pagination.Next
+    bind:ref={delegatedRef}
+    class="sm:*:[svg]:hidden"
+    data-slot="custom-next"
+    data-active="custom-active"
+    isActive
+    {...{ "aria-current": null }}
+  >
     {#snippet delegate({ props, ref })}
       <Button
         {...props}

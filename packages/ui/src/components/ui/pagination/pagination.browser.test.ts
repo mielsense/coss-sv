@@ -43,6 +43,9 @@ describe("Pagination browser contract", () => {
 
     const previous = page.getByTestId("delegated-previous");
     const next = page.getByTestId("delegated-next");
+    await expect.element(next).toHaveAttribute("data-slot", "custom-next");
+    await expect.element(next).toHaveAttribute("data-active", "custom-active");
+    await expect.element(next).not.toHaveAttribute("aria-current");
     await expect.element(previous).toBeDisabled();
     await expect.element(previous).toHaveAttribute("aria-label", "Go to previous page");
     expect((await previous.element()).className).toContain("border-input");

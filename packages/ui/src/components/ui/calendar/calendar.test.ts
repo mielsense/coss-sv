@@ -1,3 +1,4 @@
+import { containsOnlyComments } from "@/comment-only-fixture.js";
 import { createRawSnippet, type Component, type Snippet } from "svelte";
 import { render } from "svelte/server";
 import { describe, expect, test, vi } from "vitest";
@@ -299,7 +300,7 @@ describe("Calendar SSR contract", () => {
     });
 
     const hiddenCell = body.match(/<td[^>]*data-day="2026-01-15"[^>]*>(.*?)<\/td>/s)?.[1];
-    expect(hiddenCell).toMatch(/^(?:<!--[\s\S]*?-->)*$/);
+    expect(containsOnlyComments(hiddenCell)).toBe(true);
     expect(body).toMatch(/data-day="2026-01-15"[^>]*data-hidden="true"/);
     expect(body).toMatch(/class="[^"]*is-payday[^"]*"[^>]*data-day="2026-01-16"/);
     expect(body).toMatch(/data-day="2026-01-16"[^>]*style="color: rgb\(1 2 3\);"/);

@@ -1,3 +1,5 @@
+import SearchFixture from "./autocomplete-search.ssr-fixture.svelte";
+import { containsOnlyComments } from "@/comment-only-fixture.js";
 import { render } from "svelte/server";
 import { describe, expect, test } from "vitest";
 import Fixture from "./autocomplete.ssr-fixture.svelte";
@@ -37,7 +39,7 @@ describe("Autocomplete SSR and export contract", () => {
       /<button[^>]*data-testid="bare-autocomplete-trigger"[^>]*>(.*?)<\/button>/s,
     );
     expect(trigger).not.toBeNull();
-    expect(trigger?.[1]).toMatch(/^(?:<!--[\s\S]*?-->)*$/);
+    expect(containsOnlyComments(trigger?.[1])).toBe(true);
   });
 
   test("exports the compound and long-form API", () => {
@@ -46,4 +48,12 @@ describe("Autocomplete SSR and export contract", () => {
     expect(Autocomplete.AutocompletePrimitive).toBeTypeOf("object");
     expect(Autocomplete.useAutocompleteFilter).toBe(Autocomplete.createFilter);
   });
+});
+
+test("suppresses WebKit search decorations only for search inputs", () => {
+  const { body } = render(SearchFixture);
+  for (const part of ["cancel-button", "decoration", "results-button", "results-decoration"]) {
+    expect(body).toContain(`webkit-search-${part}]:appearance-none`);
+  }
+  expect(render(Fixture).body).not.toContain("webkit-search-cancel-button");
 });
