@@ -68,7 +68,7 @@
 			"target": "command/command-item.svelte"
 		},
 		{
-			"content": "<script module lang=\"ts\">\n  import type { AutocompleteListProps } from \"../autocomplete/autocomplete-list.svelte\";\n  export type CommandListProps = AutocompleteListProps;\n</script>\n\n<script lang=\"ts\">\n  import { cn } from \"$UTILS$.js\";\n  import List from \"../autocomplete/autocomplete-list.svelte\";\n  let { class: className, ref = $bindable(null), ...props }: CommandListProps = $props();\n</script>\n\n<List\n  bind:ref\n  class={cn(\"not-empty:scroll-py-2 not-empty:p-2\", className)}\n  data-slot=\"command-list\"\n  {...props}\n/>\n",
+			"content": "<script module lang=\"ts\">\n  import type { AutocompleteListProps } from \"../autocomplete/autocomplete-list.svelte\";\n  export type CommandListProps<Item = unknown> = AutocompleteListProps<Item>;\n</script>\n\n<script lang=\"ts\" generics=\"Item = unknown\">\n  import { cn } from \"$UTILS$.js\";\n  import List from \"../autocomplete/autocomplete-list.svelte\";\n\n  let { class: className, ref = $bindable(null), ...props }: CommandListProps<Item> = $props();\n</script>\n\n<List\n  bind:ref\n  class={cn(\"not-empty:scroll-py-2 not-empty:p-2\", className)}\n  data-slot=\"command-list\"\n  {...props}\n/>\n",
 			"type": "registry:ui",
 			"target": "command/command-list.svelte"
 		},
