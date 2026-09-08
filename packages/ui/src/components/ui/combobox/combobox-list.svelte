@@ -1,19 +1,26 @@
 <script module lang="ts">
   import type { Combobox as ShardsCombobox } from "@shardsui/svelte/combobox";
-  import type { ComponentProps } from "svelte";
-  export type ComboboxListProps = ComponentProps<typeof ShardsCombobox.List>;
+  import type { ComponentProps, Snippet } from "svelte";
+
+  type BaseProps = ComponentProps<typeof ShardsCombobox.List>;
+  export type ComboboxListProps<Item = unknown> = Omit<BaseProps, "children"> &
+    (
+      | { item: Snippet<[Item, number]>; children?: never }
+      | { item?: undefined; children?: BaseProps["children"] }
+    );
 </script>
 
-<script lang="ts">
+<script lang="ts" generics="Item = unknown">
   import { Combobox as C } from "@shardsui/svelte/combobox";
   import ScrollArea from "../scroll-area/scroll-area.svelte";
   import { cn } from "@/utils.js";
   let {
     children: child,
+    item,
     class: className,
     ref = $bindable(null),
     ...props
-  }: ComboboxListProps = $props();
+  }: ComboboxListProps<Item> = $props();
 </script>
 
 <ScrollArea overscrollContain scrollbarGutter scrollFade
@@ -26,7 +33,11 @@
     data-slot="combobox-list"
     {...props}
     >{#snippet children(state)}
-      {@render child?.(state)}
+      {#if item}
+        <C.Collection children={item} />
+      {:else}
+        {@render child?.(state)}
+      {/if}
     {/snippet}</C.List
   ></ScrollArea
 >
