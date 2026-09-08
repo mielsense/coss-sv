@@ -18,5 +18,5 @@ test.each([2, 0, null])(
 test("formats a large count compactly while keeping the exact count in its title", () => {
   const { body } = render(SiteHeader, { props: { repositoryStars: 10600 } });
   expect(body).toContain('title="10600 stars on GitHub"');
-  expect(body).toMatch(/data-repository-stars[^>]*>10.6K</);
+  expect(body).toMatch(/data-repository-stars[^>]*>10.6k</);
 });

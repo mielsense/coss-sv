@@ -14,7 +14,7 @@
     maximumFractionDigits: 1,
   });
   const formattedStars = $derived(
-    repositoryStars === null ? null : starFormatter.format(repositoryStars),
+    repositoryStars === null ? null : starFormatter.format(repositoryStars).toLowerCase(),
   );
   let hydrated = $state(false);
 
