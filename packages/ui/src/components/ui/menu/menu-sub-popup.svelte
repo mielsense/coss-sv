@@ -2,11 +2,18 @@
   import MenuPopup from "./menu-popup.svelte";
   import type { MenuSubPopupProps } from "./menu.types.js";
 
-  let { align = "start", alignOffset, sideOffset = 0, ...props }: MenuSubPopupProps = $props();
+  let {
+    ref = $bindable(null),
+    align = "start",
+    alignOffset,
+    sideOffset = 0,
+    ...props
+  }: MenuSubPopupProps = $props();
   const resolvedAlignOffset = $derived(alignOffset ?? (align === "center" ? undefined : -5));
 </script>
 
 <MenuPopup
+  bind:ref
   {align}
   alignOffset={resolvedAlignOffset}
   data-slot="menu-sub-content"

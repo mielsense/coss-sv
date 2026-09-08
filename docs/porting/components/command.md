@@ -49,3 +49,29 @@ The documentation lane freshly reread the complete permitted COSS Command MDX pa
 Source/SSR coverage imports and renders both modules. Browser coverage verifies the global shortcut, filtering, selection close, normal motion, and reduced motion. The production-preview gate repeats the real dialog flow and rejects console errors. In the Codex in-app Browser, the source and Svelte `Open Command Palette⌘J` triggers both measured `236.42×32` pixels; filtering exposed Linear and selection detached the dialog. Chrome was not used. The coordinator-owned documentation manifest still needs to enroll `components/command`.
 
 The D8 repair ports the complete permitted upstream usage, keyboard-shortcut, grouped-items, and standalone examples into typed Svelte code. Every upstream API section now includes a table generated from the exported target props and Shards primitive types; source regression coverage locks the table inventory and prevents the page from collapsing back to prose stubs.
+
+
+## September 8 DOM ref audit
+
+Fresh inspection covered the complete permitted registry and documentation page, all direct and
+indirect importing particles, the public wrapper types, and the Shards elements that own the DOM
+refs. Input, List, Panel, Footer, and Shortcut exposed a ref prop through their inherited types but only spread it
+into the child component. That did not propagate the mounted element back to a caller using
+Svelte bind:ref. The wrappers now declare a bindable ref and forward that binding to the existing
+child. Classes, native attributes, floating placement, and keyboard behavior are unchanged.
+
+The new browser regression failed before the fix because the caller refs remained null. It now
+checks the actual element tags or menu role and verifies that every ref clears when its owner is
+removed. Command also verifies focusing its search input through the public ref. The combined
+Command, Menu, and Context Menu suites pass 16 browser tests and 14 SSR tests; pnpm check reports
+zero errors and warnings. The three regressions cover the forwarding contract rather than
+reimplementing the primitive state machine.
+
+Audit contract: command-dom-ref-forwarding; correctness/accessibility; medium severity and high
+confidence. Canonical owner: Svelte Edge references/runes.md, deliberate two-way bindings.
+The affected source files are the component wrappers and their adjacent ref browser tests.
+
+In-app inspection of the private Command ref example at port 5102 confirmed the output INPUT.
+Clicking Focus search through ref placed focus in the input labelled Ref search. The published
+upstream command example was also opened: its dialog focused Search for apps and commands…;
+its ref-based return-to-search composition remains the source contract for this repair.

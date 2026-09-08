@@ -10,7 +10,7 @@
   import { cn } from "@/utils.js";
   import AutocompleteInput from "../autocomplete/autocomplete-input.svelte";
 
-  let { class: className, ...props }: CommandInputProps = $props();
+  let { class: className, ref = $bindable(null), ...props }: CommandInputProps = $props();
 </script>
 
 {#snippet searchIcon()}
@@ -18,6 +18,7 @@
 {/snippet}
 <div class="px-2.5 py-1.5">
   <AutocompleteInput
+    bind:ref
     autofocus
     class={cn(
       "border-transparent! bg-transparent! shadow-none before:hidden has-focus-visible:ring-0",

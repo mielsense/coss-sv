@@ -82,6 +82,8 @@ You can customize project settings at any time by clicking the settings icon in 
     { href: "/docs/projects/settings", label: "Project Settings" },
   ];
 
+  const refItems = ["Focus target"];
+  let searchRef = $state<HTMLInputElement | null>(null);
   let paletteOpen = $state(false);
   let aiOpen = $state(false);
   let aiMode = $state(false);
@@ -392,6 +394,20 @@ You can customize project settings at any time by clicking the settings icon in 
         {/if}
       </Command.DialogPopup>
     </Command.DialogRoot>
+  </section>
+  <section data-particle="command-ref-focus">
+    <div>
+      <Command.Root items={refItems}>
+        <Command.Input bind:ref={searchRef} aria-label="Ref search" />
+        <Command.Panel
+          ><Command.List
+            ><Command.Item value="Focus target">Focus target</Command.Item></Command.List
+          ></Command.Panel
+        >
+      </Command.Root>
+      <Button onclick={() => searchRef?.focus()}>Focus search through ref</Button>
+      <output data-testid="command-input-ref">{searchRef?.tagName ?? "null"}</output>
+    </div>
   </section>
 </div>
 

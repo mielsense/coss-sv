@@ -3,6 +3,7 @@
   import type { ContextMenuSubPopupProps } from "./context-menu.types.js";
 
   let {
+    ref = $bindable(null),
     align = "start",
     alignOffset,
     sideOffset = 0,
@@ -12,6 +13,7 @@
 </script>
 
 <ContextMenuPopup
+  bind:ref
   {align}
   alignOffset={resolvedAlignOffset}
   data-slot="context-menu-sub-content"

@@ -44,3 +44,24 @@ Default checkbox and radio indicators use `Tick02Icon`; submenu triggers use `Ch
 The documentation lane freshly reread the complete permitted COSS Context Menu MDX page, all eight Context Menu particles, every consumer, and the complete local Shards Context Menu and shared Menu source, documentation, demos, tests, fixtures, and exported types. The Svelte page preserves the source order `1–8` and exact example copy. The production modules retain pointer opening, links, checkbox, switch, radio, group labels, icons, shortcuts, nested submenus, disabled and destructive rows, and Hugeicons.
 
 Source/SSR coverage imports and renders every module. Browser coverage verifies pointer invocation and Escape dismissal in normal and reduced-motion modes. The production-preview gate verifies that the popup's horizontal center and four-pixel side offset originate from the real right-click point. The Codex in-app Browser measured both source and Svelte trigger surfaces at `384×128` pixels with a `10px` radius, and the Back item opened from a right click. Chrome was not used. The coordinator-owned documentation manifest still needs to enroll `components/context-menu`.
+
+
+## September 8 DOM ref audit
+
+Fresh inspection covered the complete permitted registry and documentation page, all direct and
+indirect importing particles, the public wrapper types, and the Shards elements that own the DOM
+refs. SubPopup exposed a ref prop through their inherited types but only spread it
+into the child component. That did not propagate the mounted element back to a caller using
+Svelte bind:ref. The wrappers now declare a bindable ref and forward that binding to the existing
+child. Classes, native attributes, floating placement, and keyboard behavior are unchanged.
+
+The new browser regression failed before the fix because the caller refs remained null. It now
+checks the actual element tags or menu role and verifies that every ref clears when its owner is
+removed. Command also verifies focusing its search input through the public ref. The combined
+Command, Menu, and Context Menu suites pass 16 browser tests and 14 SSR tests; pnpm check reports
+zero errors and warnings. The three regressions cover the forwarding contract rather than
+reimplementing the primitive state machine.
+
+Audit contract: context-menu-dom-ref-forwarding; correctness/accessibility; medium severity and high
+confidence. Canonical owner: Svelte Edge references/runes.md, deliberate two-way bindings.
+The affected source files are the component wrappers and their adjacent ref browser tests.
