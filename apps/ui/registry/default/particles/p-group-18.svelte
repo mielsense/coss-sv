@@ -18,11 +18,10 @@
     { label: "ftp://", value: "ftp" },
     { label: "sftp://", value: "sftp" },
   ];
-  let protocol = $state("https");
 </script>
 
 <Group.Root aria-label="URL input">
-  <Select.Root bind:value={protocol} items={protocols}>
+  <Select.Root defaultValue="https" items={protocols}>
     <Select.Trigger class="w-fit min-w-none"><Select.Value /></Select.Trigger>
     <Select.Popup>
       {#each protocols as item (item.value)}

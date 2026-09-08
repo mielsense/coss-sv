@@ -16,7 +16,7 @@
 <Group.Root aria-label="Domain input">
   <Group.Text aria-label="Domain" delegate={labelDelegate} for="domain">https://</Group.Text>
   <Group.Separator />
-  <Input aria-label="Domain" value="coss.com" id="domain" type="text" />
+  <Input aria-label="Domain" defaultValue="coss.com" id="domain" type="text" />
 </Group.Root>
 
 {#snippet labelDelegate(props: GroupTextDelegateProps)}

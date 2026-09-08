@@ -113,7 +113,7 @@
     <div
       class={[
         "mx-auto flex min-h-[var(--preview-height)] w-[min(100%,var(--preview-width))] justify-center py-10",
-        width === "mobile" ? "px-6" : "px-10",
+        width === "mobile" ? "px-6" : "px-10 max-sm:px-6",
         align === "center" ? "items-center" : align === "start" ? "items-start" : "items-end",
       ]}
       data-align={align}

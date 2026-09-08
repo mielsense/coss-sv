@@ -14,7 +14,13 @@
 </script>
 
 <Group.Root aria-label="Price input">
-  <Input aria-label="Enter the amount" class="text-right" value="100" id="amount" type="text" />
+  <Input
+    aria-label="Enter the amount"
+    class="text-right"
+    defaultValue="100"
+    id="amount"
+    type="text"
+  />
   <Group.Separator />
   <Group.Text aria-label="Currency" delegate={labelDelegate} for="amount">USD</Group.Text>
 </Group.Root>

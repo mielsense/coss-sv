@@ -25,40 +25,33 @@
     { label: "Kiwi", value: "kiwi" },
     { label: "Peach", value: "peach" },
     { label: "Pear", value: "pear" },
-  ];
-  let value = $state<(typeof items)[number][]>([items[0], items[4]]);
+  ] as const;
+  type Item = (typeof items)[number];
+  const MultipleValue = Combobox.Value<Item, true>;
 </script>
 
 <Field.Root>
   <Field.Label>Fruits</Field.Label>
-  <Combobox.Root
-    bind:value
-    {items}
-    itemToStringLabel={(item) => item.label}
-    itemToStringValue={(item) => item.value}
-    multiple
-  >
+  <Combobox.Root defaultValue={[items[0], items[4]]} {items} multiple>
     <Combobox.Chips>
-      <Combobox.Value>
-        {#snippet children(selected: (typeof items)[number][])}
+      <MultipleValue>
+        {#snippet children(selected: Item[])}
           {#each selected as item (item.value)}
             <Combobox.Chip aria-label={item.label}>{item.label}</Combobox.Chip>
           {/each}
           <Combobox.ChipsInput
             aria-label="Select items"
-            placeholder={selected.length > 0 ? undefined : "Select items…"}
+            {...selected.length > 0 ? {} : { placeholder: "Select items…" }}
           />
         {/snippet}
-      </Combobox.Value>
+      </MultipleValue>
     </Combobox.Chips>
     <Combobox.Popup>
       <Combobox.Empty>No items found.</Combobox.Empty>
       <Combobox.List>
-        <Combobox.Collection>
-          {#snippet children(item: (typeof items)[number])}
-            <Combobox.Item value={item}>{item.label}</Combobox.Item>
-          {/snippet}
-        </Combobox.Collection>
+        {#snippet item(item: Item)}
+          <Combobox.Item value={item}>{item.label}</Combobox.Item>
+        {/snippet}
       </Combobox.List>
     </Combobox.Popup>
   </Combobox.Root>

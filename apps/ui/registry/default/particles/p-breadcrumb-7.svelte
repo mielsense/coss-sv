@@ -25,7 +25,6 @@
     { label: "Sigma", value: "sigma" },
     { label: "Dorado", value: "dorado" },
   ];
-  let value = $state("orion");
 </script>
 
 <Breadcrumb>
@@ -33,7 +32,7 @@
     <BreadcrumbItem>
       <BreadcrumbLink href="/">Databases</BreadcrumbLink>
     </BreadcrumbItem><BreadcrumbSeparator /><BreadcrumbItem>
-      <Select.Root aria-label="Select database" {items} bind:value>
+      <Select.Root aria-label="Select database" {items} defaultValue="orion">
         <Select.Trigger size="sm">
           <HugeiconsIcon aria-hidden="true" icon={Database01Icon} strokeWidth={2} /><Select.Value />
         </Select.Trigger><Select.Popup>

@@ -17,18 +17,17 @@
     value: string;
     label: string;
   }
-  const currencies: Currency[] = [
+  const currencies: readonly [Currency, ...Currency[]] = [
     { label: "US Dollar", value: "$" },
     { label: "Euro", value: "€" },
     { label: "British Pound", value: "£" },
   ];
-  let currency = $state.raw<Currency | null>(currencies[0]);
 </script>
 
 <Group.Root aria-label="Payment amount">
   <Group.Root aria-label="Amount input">
     <Select.Root
-      bind:value={currency}
+      defaultValue={currencies[0]}
       isItemEqualToValue={(item, value) => item.value === value.value}
       items={currencies.map((item) => ({ label: item.label, value: item }))}
       itemToStringLabel={(item) => item.label}

@@ -15,7 +15,7 @@
 
 <Menu.Root>
   <Menu.Trigger class={buttonVariants({ variant: "outline" })}>Open menu</Menu.Trigger><Menu.Popup>
-    <Menu.RadioGroup value="system">
+    <Menu.RadioGroup defaultValue="system">
       <Menu.RadioItem value="light">Light</Menu.RadioItem><Menu.RadioItem value="dark">
         Dark
       </Menu.RadioItem><Menu.RadioItem value="system">System</Menu.RadioItem>

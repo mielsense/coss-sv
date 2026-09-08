@@ -15,4 +15,4 @@
   import { Textarea } from "@coss-sv/ui";
 </script>
 
-<Textarea class="read-only:bg-muted" value="This is a read-only textarea" readonly />
+<Textarea class="read-only:bg-muted" defaultValue="This is a read-only textarea" readonly />

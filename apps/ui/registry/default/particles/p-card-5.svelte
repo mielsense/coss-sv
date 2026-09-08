@@ -22,7 +22,6 @@
     { label: "Remix", value: "remix" },
     { label: "Astro", value: "astro" },
   ];
-  let framework = $state("next");
 </script>
 
 <Card.Frame class="w-full max-w-xs">
@@ -39,7 +38,7 @@
         </Field.Root>
         <Field.Root>
           <Field.Label>Framework</Field.Label>
-          <Select.Root bind:value={framework} items={frameworkOptions}>
+          <Select.Root defaultValue="next" items={frameworkOptions}>
             <Select.Trigger><Select.Value /></Select.Trigger>
             <Select.Popup>
               {#each frameworkOptions as option (option.value)}

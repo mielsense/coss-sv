@@ -31,7 +31,7 @@
       data-docs-frame
     >
       <Card.Root class="min-w-0 max-lg:rounded-none! max-lg:[clip-path:none]! dark:bg-background">
-        <Card.Panel class="docs-content flex flex-col gap-8 p-6 sm:px-6 lg:p-8">
+        <Card.Panel class="docs-content flex flex-col gap-8 px-4 py-6 sm:px-6 lg:p-8">
           {#if documentation}
             <DocumentationHeader {markdownUrl} metadata={documentation.metadata} />
           {/if}

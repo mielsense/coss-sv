@@ -26,7 +26,7 @@
 </script>
 
 <Group.Root aria-label="Url input">
-  <Input aria-label="Url" bind:ref={input} value="https://coss.com" type="text" />
+  <Input aria-label="Url" bind:ref={input} defaultValue="https://coss.com" type="text" />
   <Group.Separator />
   <Tooltip.Root>
     <Tooltip.Trigger

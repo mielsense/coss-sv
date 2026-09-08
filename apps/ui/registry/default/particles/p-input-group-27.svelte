@@ -23,13 +23,20 @@
     { label: "Go", value: "go" },
     { label: "Rust", value: "rust" },
   ];
-  let language = $state("javascript");
   let textarea: HTMLTextAreaElement | null = $state(null);
   let copied = $state(false);
   let mounted = true;
   let resetTimer: ReturnType<typeof setTimeout> | undefined;
   async function copy() {
-    await navigator.clipboard.writeText(textarea?.value || "");
+    try {
+      await navigator.clipboard.writeText(textarea?.value || "");
+    } catch {
+      if (mounted) {
+        copied = false;
+        clearTimeout(resetTimer);
+      }
+      return;
+    }
     if (!mounted) return;
     copied = true;
     clearTimeout(resetTimer);
@@ -53,7 +60,7 @@
     align="block-start"
     class="justify-between rounded-t-lg border-b bg-muted/72 p-2!"
   >
-    <Select.Root bind:value={language} items={languages}>
+    <Select.Root defaultValue="javascript" items={languages}>
       <Select.Trigger class="w-fit" size="sm"><Select.Value /></Select.Trigger>
       <Select.Popup>
         {#each languages as item (item.value)}

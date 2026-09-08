@@ -25,7 +25,7 @@
 </script>
 
 <InputGroup.Root>
-  <InputGroup.Input aria-label="Url" bind:ref={input} value="https://coss.com" type="text" />
+  <InputGroup.Input aria-label="Url" bind:ref={input} defaultValue="https://coss.com" type="text" />
   <InputGroup.Addon align="inline-end">
     <Tooltip.Root>
       <Tooltip.Trigger

@@ -24,11 +24,11 @@
     <Form class="contents">
       <Dialog.Panel class="grid gap-4">
         <Field.Root>
-          <Field.Label>Name</Field.Label><Input value="Margaret Welsh" type="text" />
+          <Field.Label>Name</Field.Label><Input defaultValue="Margaret Welsh" type="text" />
         </Field.Root>
         <Field.Root>
           <Field.Label>Username</Field.Label>
-          <Input value="@maggie.welsh" type="text" />
+          <Input defaultValue="@maggie.welsh" type="text" />
         </Field.Root>
       </Dialog.Panel>
       <Dialog.Footer>

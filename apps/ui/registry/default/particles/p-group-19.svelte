@@ -17,13 +17,12 @@
     { label: ".org", value: "org" },
     { label: ".net", value: "net" },
   ];
-  let domain = $state("com");
 </script>
 
 <Group.Root aria-label="Domain input">
   <Input aria-label="Domain name" placeholder="example" type="text" />
   <Group.Separator />
-  <Select.Root bind:value={domain} items={domains}>
+  <Select.Root defaultValue="com" items={domains}>
     <Select.Trigger class="w-fit min-w-none"><Select.Value /></Select.Trigger>
     <Select.Popup>
       {#each domains as item (item.value)}

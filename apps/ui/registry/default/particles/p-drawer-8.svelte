@@ -44,10 +44,10 @@
             </Drawer.Description>
           </Drawer.Header><Drawer.Panel class="grid gap-4">
             <Field.Root>
-              <Field.Label>Name</Field.Label><Input value="Bora Baloglu" type="text" />
+              <Field.Label>Name</Field.Label><Input defaultValue="Bora Baloglu" type="text" />
             </Field.Root><Field.Root>
               <Field.Label>Email</Field.Label>
-              <Input value="bora@example.com" type="email" />
+              <Input defaultValue="bora@example.com" type="email" />
             </Field.Root>
           </Drawer.Panel><Drawer.Footer>
             <Drawer.Close class={buttonVariants({ variant: "ghost" })}>Cancel</Drawer.Close><Button

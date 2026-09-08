@@ -14,7 +14,7 @@
 </script>
 
 <Group.Root aria-label="Domain input">
-  <Input aria-label="Domain" value="coss" id="domain-suffix" type="text" />
+  <Input aria-label="Domain" defaultValue="coss" id="domain-suffix" type="text" />
   <Group.Separator />
   <Group.Text aria-label="Domain suffix" delegate={labelDelegate} for="domain-suffix">
     .com

@@ -20,7 +20,7 @@
   >
     Right click here
   </ContextMenu.Trigger><ContextMenu.Popup>
-    <ContextMenu.RadioGroup value="system">
+    <ContextMenu.RadioGroup defaultValue="system">
       <ContextMenu.RadioItem value="light">Light</ContextMenu.RadioItem><ContextMenu.RadioItem
         value="dark"
       >

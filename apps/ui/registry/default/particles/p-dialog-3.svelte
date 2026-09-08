@@ -42,11 +42,11 @@
           </Dialog.Header>
           <Dialog.Panel class="grid gap-4">
             <Field.Root>
-              <Field.Label>Name</Field.Label><Input value="Bora Baloglu" type="text" />
+              <Field.Label>Name</Field.Label><Input defaultValue="Bora Baloglu" type="text" />
             </Field.Root>
             <Field.Root>
               <Field.Label>Email</Field.Label>
-              <Input value="bora@example.com" type="text" />
+              <Input defaultValue="bora@example.com" type="text" />
             </Field.Root>
           </Dialog.Panel>
           <Dialog.Footer>

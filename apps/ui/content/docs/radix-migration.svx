@@ -126,7 +126,7 @@ The Svelte namespace keeps the same clearer part names introduced by COSS:
 **Comparison example:**
 
 ```svelte title="shadcn-svelte"
-<Accordion.Root type="multiple" value="item-1">
+<Accordion.Root type="multiple" value={["item-1"]}>
   <Accordion.Item value="item-1">
     <Accordion.Trigger>Title</Accordion.Trigger>
     <Accordion.Content>Content</Accordion.Content>

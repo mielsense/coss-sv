@@ -24,12 +24,10 @@
     { label: "api", value: "api" },
     { label: "cdn", value: "cdn" },
   ];
-  let protocol = $state("both");
-  let subdomain = $state<string | null>(null);
 </script>
 
 <Group.Root aria-label="URL search">
-  <Select.Root bind:value={protocol} items={protocols}>
+  <Select.Root defaultValue="both" items={protocols}>
     <Select.Trigger class="w-fit min-w-none"><Select.Value /></Select.Trigger>
     <Select.Popup>
       {#each protocols as item (item.value)}
@@ -38,9 +36,9 @@
     </Select.Popup>
   </Select.Root>
   <Group.Separator />
-  <Input aria-label="URL" class="flex-1" value="coss.com" type="text" />
+  <Input aria-label="URL" class="flex-1" defaultValue="coss.com" type="text" />
   <Group.Separator />
-  <Select.Root bind:value={subdomain} items={subdomains}>
+  <Select.Root defaultValue={null} items={subdomains}>
     <Select.Trigger class="w-fit min-w-none"><Select.Value /></Select.Trigger>
     <Select.Popup>
       {#each subdomains as item (item.value)}
