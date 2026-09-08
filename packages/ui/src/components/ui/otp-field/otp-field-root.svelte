@@ -286,13 +286,14 @@
         ? (document.getElementById(form) as HTMLFormElement)
         : null
       : node.closest("form");
-    const reset = () => {
+    const reset = (event: Event) => {
       clearTimeout(resetTimer);
       resetTimer = setTimeout(() => {
-        value = initialValue;
+        const resetValue = event.defaultPrevented ? normalizedValue : initialValue;
+        if (!event.defaultPrevented) value = initialValue;
         reorderSlots();
         for (const [index, slot] of slots.entries()) {
-          if (slot.element) slot.element.value = initialValue[index] ?? "";
+          if (slot.element) slot.element.value = resetValue[index] ?? "";
         }
         slotVersion += 1;
       });

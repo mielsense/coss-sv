@@ -283,6 +283,43 @@ describe("OTPField browser contract", () => {
     expect(fieldOwnedForm?.checkValidity()).toBe(false);
   });
 
+  test("preserves OTP state when a later listener cancels the native form reset", async () => {
+    render(OTPFieldFixture);
+    const form = document.querySelector<HTMLFormElement>("#external-otp-form");
+    expect(form).not.toBeNull();
+    await page.getByTestId("external-first").fill("9");
+    await expect.element(page.getByTestId("reset-state")).toHaveTextContent("92");
+    const cancelReset = (event: Event) => event.preventDefault();
+    form?.addEventListener("reset", cancelReset);
+    form?.reset();
+    // The component reconciles native resets in a timer after event dispatch.
+    await new Promise((resolve) => setTimeout(resolve));
+    await expect.element(page.getByTestId("reset-state")).toHaveTextContent("92");
+    await expect.element(page.getByTestId("external-first")).toHaveValue("9");
+    await expect.element(page.getByTestId("external-second")).toHaveValue("2");
+    expect(new FormData(form ?? undefined).getAll("external-code")).toEqual(["92"]);
+    form?.removeEventListener("reset", cancelReset);
+    form?.reset();
+    await expect.element(page.getByTestId("reset-state")).toHaveTextContent("12");
+    await expect.element(page.getByTestId("external-first")).toHaveValue("1");
+    expect(new FormData(form ?? undefined).getAll("external-code")).toEqual(["12"]);
+  });
+
+  test("preserves native internal form slots when a reset is canceled", async () => {
+    render(OTPFieldFixture, { cancelReset: true });
+    const form = document.querySelector<HTMLFormElement>('[data-testid="normalized-otp-form"]');
+    await page.getByTestId("normalized-default-first").fill("9");
+    await expect.element(page.getByTestId("normalized-reset-state")).toHaveTextContent("97");
+    await page.getByTestId("normalized-default-reset").click();
+    await new Promise((resolve) => setTimeout(resolve));
+    await expect.element(page.getByTestId("normalized-reset-state")).toHaveTextContent("97");
+    await expect.element(page.getByTestId("normalized-default-first")).toHaveValue("9");
+    await expect.element(page.getByTestId("normalized-default-second")).toHaveValue("7");
+    expect(new FormData(form ?? undefined).getAll("normalized-default-code")).toEqual(["97"]);
+    await page.getByTestId("normalized-default-second").fill("5");
+    await expect.element(page.getByTestId("normalized-reset-state")).toHaveTextContent("95");
+  });
+
   test("submits the owning form after completion", async () => {
     render(OTPFieldFixture);
     await userEvent.click(page.getByTestId("auto-submit-first"));

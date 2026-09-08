@@ -1,4 +1,6 @@
 <script lang="ts">
+  let resetValue = $state("12");
+  let preventReset = $state(true);
   import { Field, OTPField } from "@coss-sv/ui";
   import { onDestroy } from "svelte";
 
@@ -176,6 +178,27 @@
       {/each}
     </OTPField.Root>
     <output data-testid="otp-state">{controlled}:{completed}</output>
+  </section>
+  <section data-particle="otp-canceled-reset">
+    <form
+      onreset={(event) => {
+        if (preventReset) event.preventDefault();
+      }}
+    >
+      <OTPField.Root
+        bind:value={resetValue}
+        defaultValue="12"
+        length={2}
+        name="reset-code"
+        aria-label="Reset code"
+      >
+        <OTPField.Input aria-label="Reset character 1" />
+        <OTPField.Input aria-label="Reset character 2" />
+      </OTPField.Root>
+      <button type="reset">Reset code</button>
+      <button type="button" onclick={() => (preventReset = false)}>Allow reset</button>
+      <output data-testid="otp-reset-value">{resetValue}</output>
+    </form>
   </section>
 </div>
 

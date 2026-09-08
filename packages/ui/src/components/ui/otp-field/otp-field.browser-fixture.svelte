@@ -2,6 +2,7 @@
   import * as Field from "../field/index.js";
   import * as OTPField from "./index.js";
 
+  let { cancelReset = false }: { cancelReset?: boolean } = $props();
   let value = $state("");
   let complete = $state("");
   let completeCount = $state(0);
@@ -103,7 +104,12 @@
   <OTPField.Input />
 </OTPField.Root>
 
-<form data-testid="normalized-otp-form">
+<form
+  data-testid="normalized-otp-form"
+  onreset={(event) => {
+    if (cancelReset) event.preventDefault();
+  }}
+>
   <OTPField.Root
     aria-label="Normalized default code"
     bind:value={normalizedResetValue}

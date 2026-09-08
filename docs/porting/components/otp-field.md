@@ -73,3 +73,34 @@ Accepted deviations: none.
 Fresh inspection covered all nine owned particles, `p-otp-field-1` through `p-otp-field-4` and `p-otp-field-6` through `p-otp-field-10`, plus the complete OTP Field page. The page preserves all nine previews in source order, exact labels and explanatory copy, normalization, separators, validation states, alphanumeric behavior, placeholder hints, masking, API prose, and changelog.
 
 The auto-validation translation keeps the controlled COSS callback contract: `onValueChange` updates the parent value and invalid state, and the conditionally rendered Shards error uses `match={true}` so it is visible while the particle’s explicit invalid branch is mounted. Browser coverage types `654321`, verifies all six slot values, the exact error, roving Home focus, and password inputs for the masked example.
+
+
+## September 8 canceled native reset repair
+
+Fresh inspection reread the complete permitted OTP registry, documentation page, and all nine
+importing particles. Shards has no OTP primitive; its Input alias and Field.Control registration
+were checked again alongside the local OTP root, slots, native form owner, and reset attachment.
+None of the nine upstream particles exposes form reset cancellation, so this repair makes no
+claim about an unobserved upstream reset state. It corrects the requested native form contract.
+
+A regression registered a reset listener after the component and canceled the event. Before the
+repair, the bound and submitted code changed from 92 to its initial 12 despite cancellation.
+Checking defaultPrevented must happen in the deferred callback, after every listener has run.
+
+A second regression uses a real reset-button click and a Svelte onreset callback. A simple early
+return preserved the bound value but left internal form slots empty. The final handler therefore
+reconciles slots in both cases: with the current normalized value for a canceled event, and with
+the initial value for an allowed event. Only an allowed reset changes the root binding. The
+regressions verify visible slots, bound state, FormData, later typing, and a subsequent allowed
+reset. All 13 OTP browser tests and 10 SSR/type tests pass.
+
+Audit contract: otp-canceled-native-reset; correctness; medium severity, high confidence;
+otp-field-root.svelte reset attachment. No version or flag blocker. Canonical owner: Svelte Edge
+references/runes.md and references/testing.md, with the native cancelable reset event contract.
+The patch changes no markup, styling, label relationships, validation, or keyboard behavior.
+
+The full workspace pnpm check reports zero errors and warnings and builds the UI package.
+Focused Prettier, Biome, and git diff checks pass. In-app inspection on port 5107 typed 92, clicked
+Reset code while cancellation was enabled, and retained slots 9/2, binding 92, and FormData 92.
+After Allow reset, Reset code restored slots 1/2, binding 12, and FormData 12. No external browser
+was used. The private parity fixture exposes this flow for independent review.
