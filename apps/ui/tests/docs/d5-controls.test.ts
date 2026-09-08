@@ -363,7 +363,7 @@ describe("D5 control documentation inventory", () => {
     expect(themeRadio).toContain("peer-data-checked:ring-offset-background");
   });
 
-  test("preserves unchanged COSS guidance with only route and framework adaptations", () => {
+  test("preserves COSS guidance with route, framework, and component-name corrections", () => {
     expect(source("apps/ui/content/docs/components/checkbox.svx")).toContain(
       "For accessible labelling and validation, prefer using the `Field` component to wrap checkboxes. See the related example: [Checkbox field](/docs/components/field#checkbox-field).",
     );
@@ -380,7 +380,7 @@ describe("D5 control documentation inventory", () => {
       "The switch size is controlled by the `--thumb-size` CSS variable. By default, the switch uses responsive sizing with `[--thumb-size:--spacing(5)] sm:[--thumb-size:--spacing(4)]` classes, making it slightly larger on mobile devices (like other interactive elements).",
     );
     expect(source("apps/ui/content/docs/components/slider.svx")).toContain(
-      "For accessible labelling and validation, prefer using the `Field` component to wrap checkboxes. See the related example: [Slider field](/docs/components/field#slider-field).",
+      "For accessible labelling and validation, prefer using the `Field` component to wrap sliders. See the related example: [Slider field](/docs/components/field#slider-field).",
     );
     expect(source("apps/ui/content/docs/components/toggle-group.svx")).toContain(
       "- [Mar 20, 2026](/docs/changelog#toggle-group) — `Toggle` renamed to `ToggleGroupItem`",

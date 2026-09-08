@@ -395,8 +395,11 @@ describe("D4 disclosure and surface documentation inventory", () => {
         normalizedCopy(expectedSections[index]?.[1] ?? "missing description"),
       );
     });
-    expect(sections[0]?.body).toContain(
-      '| `as` | `keyof HTMLElementTagNameMap` | `"div"` | Render as a different element |',
+    expect(normalizedCopy(sections[0]?.body ?? "")).toContain(
+      '| `as` | `CardTag` | `"div"` | Render as a supported container element |',
+    );
+    expect(normalizedCopy(sections[0]?.body ?? "")).toContain(
+      "It excludes void elements because card parts render children.",
     );
   });
 
