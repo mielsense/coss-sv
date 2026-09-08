@@ -19,7 +19,7 @@ This component provides a Svelte implementation of the COSS OTP Field behavior. 
 </script>
 
 <OTPField.Root aria-label="Verification code" length={6}>
-  <OTPField.Input />
+  <OTPField.Input aria-label="Character 1 of 6" />
   <OTPField.Input aria-label="Character 2 of 6" />
   <OTPField.Input aria-label="Character 3 of 6" />
   <OTPField.Separator />
@@ -54,7 +54,7 @@ Renders one OTP character input. Slots use DOM order and do not take an index pr
 | `class`       | `string` | Merges with the default slot styles |
 | `placeholder` | `string` | Native placeholder text             |
 
-Label the OTP control on the root with `aria-label` or a visible `Label` or `Field.Label`. The first input inherits the field label. Give later slots an explicit label such as `Character 2 of 6`.
+A root `aria-label` names the OTP group; it is not copied to the first input. With a root label alone, give every slot an explicit label, as in the usage example. When the control is inside `Field.Root`, the first input inherits `Field.Label`. Give later slots an explicit label such as `Character 2 of 6`.
 
 ### OTPField.Separator
 
