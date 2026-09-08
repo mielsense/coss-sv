@@ -2,11 +2,11 @@ import { access, readFile } from "node:fs/promises";
 import { render } from "svelte/server";
 import { describe, expect, test } from "vitest";
 import ErrorPage from "../../routes/+error.svelte";
+import HealthPage from "../../routes/(preview)/preview/_health/+page.svelte";
 import HomePage from "../../routes/(site)/+page.svelte";
 import CreditsPage from "../../routes/(site)/credits/+page.svelte";
-import HealthPage from "../../routes/(preview)/preview/_health/+page.svelte";
-import SiteFooter from "./SiteFooter.svelte";
 import { componentCategories } from "./categories.js";
+import SiteFooter from "./SiteFooter.svelte";
 
 describe("documentation routes", () => {
   test("the home route preserves the COSS page hierarchy with Svelte product facts", () => {
@@ -33,7 +33,8 @@ describe("documentation routes", () => {
     expect(site).toContain("https://github.com/cosscom/coss");
     expect(header).not.toContain("10.4k");
     expect(header).toContain('aria-label="COSS for Svelte repository"');
-    expect(header).toContain('<span class="hidden sm:inline">0</span>');
+    expect(header).toContain("repositoryStars");
+    expect(header).not.toContain('<span class="hidden sm:inline">0</span>');
     expect(header).toContain('data-theme-glyph="contrast"');
     expect(header).not.toContain("M12 2v2m0 16v2");
     expect(commandMenu).toContain('aria-label="Search documentation"');
@@ -269,7 +270,7 @@ describe("theme boundaries", () => {
     expect(rootLayout).toContain('import "../styles/content.css";');
     expect(rootLayout).not.toContain("SiteHeader");
     expect(rootLayout).not.toContain("page.url.pathname");
-    expect(siteLayout).toContain("<SiteHeader />");
+    expect(siteLayout).toContain("<SiteHeader repositoryStars={data.repositoryStars} />");
     expect(siteLayout).toContain("<SiteFooter />");
     await expect(
       access(new URL("../../routes/(preview)/preview", import.meta.url)),

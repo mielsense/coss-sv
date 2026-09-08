@@ -8,6 +8,14 @@
   import MobileNav from "./MobileNav.svelte";
   import { primaryNavigation, repositoryUrl } from "./site.js";
 
+  let { repositoryStars = null }: { repositoryStars?: number | null } = $props();
+  const starFormatter = new Intl.NumberFormat("en", {
+    notation: "compact",
+    maximumFractionDigits: 1,
+  });
+  const formattedStars = $derived(
+    repositoryStars === null ? null : starFormatter.format(repositoryStars),
+  );
   let hydrated = $state(false);
 
   onMount(() => {
@@ -68,9 +76,12 @@
         })}
         href={repositoryUrl}
         aria-label="COSS for Svelte repository"
+        title={repositoryStars === null ? undefined : `${repositoryStars} stars on GitHub`}
       >
         <HugeiconsIcon aria-hidden="true" icon={GithubIcon} strokeWidth={2} />
-        <span class="hidden sm:inline">0</span>
+        {#if repositoryStars !== null}
+          <span class="hidden sm:inline" data-repository-stars>{formattedStars}</span>
+        {/if}
       </a>
       <button
         class={buttonVariants({ size: "icon", variant: "ghost", class: "size-8" })}

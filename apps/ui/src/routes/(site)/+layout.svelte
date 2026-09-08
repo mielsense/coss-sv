@@ -1,9 +1,9 @@
 <script lang="ts">
   import { page } from "$app/state";
   import { SiteFooter, SiteHeader } from "@/site/index.js";
-  import type { Snippet } from "svelte";
+  import type { LayoutProps } from "./$types";
 
-  let { children }: { children: Snippet } = $props();
+  let { children, data }: LayoutProps = $props();
   const isDocs = $derived(page.url.pathname === "/docs" || page.url.pathname.startsWith("/docs/"));
   const showGlobalFooter = $derived(!isDocs && page.status < 400);
 </script>
@@ -18,7 +18,7 @@
 </svelte:head>
 
 <div class="site-shell">
-  <SiteHeader />
+  <SiteHeader repositoryStars={data.repositoryStars} />
   <main class="min-h-[calc(100vh-8.5rem)]">
     {@render children()}
   </main>
