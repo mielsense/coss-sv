@@ -29,8 +29,8 @@
   --info-muted: color-mix(in srgb, var(--info) 8%, transparent);
   --sidebar: #fafafa;
   --site-foreground: #272727;
-  --site-border: rgb(0 0 0 / 8%);
-  --site-border-soft: rgb(0 0 0 / 5%);
+  --site-border: var(--border);
+  --site-border-soft: color-mix(in oklab, var(--border) 64%, transparent);
   --site-muted: #686868;
   --site-panel: #ffffff;
   --site-overlay: rgb(0 0 0 / 28%);
@@ -94,8 +94,8 @@ body {
   --site-accent-foreground: #c93200;
   --site-background: #fafafa;
   --site-foreground: #272727;
-  --site-border: rgb(0 0 0 / 8%);
-  --site-border-soft: rgb(0 0 0 / 5%);
+  --site-border: var(--border);
+  --site-border-soft: color-mix(in oklab, var(--border) 64%, transparent);
   --site-muted: #686868;
   --site-panel: #ffffff;
   --site-card: color-mix(in srgb, var(--card), var(--sidebar, #fafafa));
@@ -153,21 +153,22 @@ body {
 .frame-markers::before,
 .frame-markers::after {
   position: absolute;
-  top: -4px;
+  top: -3.5px;
   width: 8px;
   height: 8px;
-  border: 1px solid var(--site-border);
+  border: 1px solid var(--border);
   border-radius: 2px;
-  background: var(--site-panel);
+  background: var(--popover);
+  background-clip: padding-box;
   box-shadow: 0 1px 2px rgb(0 0 0 / 5%);
   content: "";
 }
 
 .frame-markers::before {
-  left: -12px;
+  left: -15.5px;
 }
 .frame-markers::after {
-  right: -12px;
+  right: -15.5px;
 }
 
 .header-markers {
@@ -186,9 +187,10 @@ body {
   top: calc(4rem - 4.5px);
   width: 8px;
   height: 8px;
-  border: 1px solid var(--site-border);
+  border: 1px solid var(--border);
   border-radius: 2px;
-  background: var(--site-panel);
+  background: var(--popover);
+  background-clip: padding-box;
   box-shadow: 0 1px 2px rgb(0 0 0 / 5%);
   content: "";
 }
@@ -232,8 +234,8 @@ html.dark {
   --info-muted: color-mix(in srgb, var(--info) 16%, transparent);
   --sidebar: color-mix(in srgb, #0a0a0a 97%, #fff);
   --site-foreground: #f5f5f5;
-  --site-border: rgb(255 255 255 / 8%);
-  --site-border-soft: rgb(255 255 255 / 5%);
+  --site-border: var(--border);
+  --site-border-soft: color-mix(in oklab, var(--border) 64%, transparent);
   --site-muted: var(--muted-foreground);
   --site-panel: var(--popover);
   --site-overlay: rgb(0 0 0 / 58%);
@@ -259,8 +261,8 @@ html.dark .site-shell {
   --site-accent-foreground: #ff6b3a;
   --site-background: #111111;
   --site-foreground: #f5f5f5;
-  --site-border: rgb(255 255 255 / 8%);
-  --site-border-soft: rgb(255 255 255 / 5%);
+  --site-border: var(--border);
+  --site-border-soft: color-mix(in oklab, var(--border) 64%, transparent);
   --site-muted: var(--muted-foreground);
   --site-panel: var(--popover);
   --site-card: color-mix(in srgb, var(--card), var(--sidebar));
@@ -271,4 +273,16 @@ html.dark .site-shell {
   --thumb-primary-from: var(--primary);
   --thumb-primary-to: color-mix(in srgb, var(--primary) 90%, transparent);
   --thumb-shadow: #000000;
+}
+
+.frame-markers::after,
+.header-markers::after {
+  background-color: var(--background);
+}
+
+html.dark .frame-markers::before,
+html.dark .frame-markers::after,
+html.dark .header-markers::before,
+html.dark .header-markers::after {
+  background-clip: border-box;
 }

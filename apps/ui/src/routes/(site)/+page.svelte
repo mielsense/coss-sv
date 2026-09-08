@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { buttonVariants } from "@coss-sv/ui";
+  import * as Card from "@coss-sv/ui/components/ui/card";
   import CategoryThumbnail from "@/site/CategoryThumbnail.svelte";
   import { componentCategories } from "@/site/categories.js";
   import NewBadge from "@/site/NewBadge.svelte";
@@ -34,14 +36,16 @@
           ]}
           href="/docs">Get started</a
         >
-        <a class={siteButtonClass} href="/particles">Browse 508 particles</a>
+        <a class={buttonVariants({ size: "lg", variant: "outline" })} href="/particles"
+          >Browse 508 particles</a
+        >
       </div>
     </div>
   </div>
 </section>
 
 <section
-  class="relative before:absolute before:inset-x-0 before:top-0 before:z-1 before:h-px before:bg-site-border-soft"
+  class="relative before:absolute before:inset-x-0 before:top-0 before:z-1 before:h-px before:bg-border/64"
   aria-label="Components"
 >
   <div class="frame-markers" aria-hidden="true"></div>
@@ -51,34 +55,38 @@
       data-category-grid
     >
       {#each componentCategories as category (category.slug)}
-        <article
-          class="group relative flex min-w-0 flex-col rounded-2xl border border-site-border bg-site-card shadow-[0_0_0_4px_var(--site-background),0_0_0_5px_var(--site-border-soft),0_1px_2px_rgb(0_0_0/3%)] sm:h-79"
+        <Card.Frame
+          as="article"
+          class="group w-full min-w-0 after:pointer-events-none after:absolute after:-inset-[5px] after:-z-1 after:rounded-[calc(var(--radius-xl)+4px)] after:border after:border-border/64"
           data-category={category.slug}
         >
-          <div class="grid grid-rows-[auto_1fr] px-6 py-4 sm:min-h-24">
-            <h2
-              class="m-0 self-center font-heading text-base leading-6 font-bold [font-variation-settings:'GEOM'_50,'opsz'_32]"
+          <Card.FrameHeader class="static grid grid-rows-[auto_1fr]">
+            <Card.FrameTitle
+              as="h2"
+              class="font-heading text-base font-bold [font-variation-settings:'GEOM'_50,'opsz'_32]"
             >
               <a
                 class="no-underline before:absolute before:inset-0 before:z-2 before:rounded-[inherit] focus-visible:before:outline-2 focus-visible:before:outline-site-primary focus-visible:before:outline-offset-3"
                 href={`/docs/components/${category.slug}`}>{category.name}</a
               >
-            </h2>
-            <p
-              class="m-0 line-clamp-2 max-h-10 overflow-hidden text-site-muted text-sm leading-5 sm:h-10"
-            >
+            </Card.FrameTitle>
+            <Card.FrameDescription as="p" class="line-clamp-2 sm:h-[2lh]">
               {category.description}
-            </p>
-          </div>
-          <div
-            class="relative -m-px flex h-55 min-h-55 w-[calc(100%+2px)] flex-none items-center justify-center overflow-x-auto rounded-[0.875rem_0.875rem_1rem_1rem] border-site-border border-t bg-[var(--site-preview)] [--border:rgb(0_0_0/7%)] [--btn-from:color-mix(in_srgb,var(--primary)_90%,transparent)] [--btn-to:var(--primary)] dark:[--border:rgb(255_255_255/3%)] dark:[--btn-from:var(--primary)] dark:[--btn-to:color-mix(in_srgb,var(--primary)_90%,transparent)]"
+            </Card.FrameDescription>
+          </Card.FrameHeader>
+          <Card.Root
+            class="pointer-events-none min-h-55 flex-1 flex-col flex-wrap overflow-x-auto bg-[color-mix(in_srgb,var(--color-card),var(--color-sidebar))] dark:bg-background"
           >
             {#if category.isNew}
               <NewBadge class="absolute top-3 right-3 z-1" />
             {/if}
-            <CategoryThumbnail slug={category.slug} />
-          </div>
-        </article>
+            <Card.Panel
+              class="flex flex-1 items-center justify-center px-8 [--border:rgb(0_0_0/7%)] [--btn-from:color-mix(in_srgb,var(--primary)_90%,transparent)] [--btn-to:var(--primary)] dark:[--border:rgb(255_255_255/3%)] dark:[--btn-from:var(--primary)] dark:[--btn-to:color-mix(in_srgb,var(--primary)_90%,transparent)]"
+            >
+              <CategoryThumbnail slug={category.slug} />
+            </Card.Panel>
+          </Card.Root>
+        </Card.Frame>
       {/each}
     </div>
   </div>

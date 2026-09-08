@@ -56,7 +56,7 @@
 
 {#if slug !== "segmented-control"}
   <div
-    class="flex size-full flex-1 translate-y-0.5 items-center justify-center overflow-visible px-8 py-6 transition-transform duration-180 ease-out group-hover:translate-y-0 motion-reduce:transition-none [&_*]:border-border"
+    class="flex size-full flex-1 translate-y-0.5 items-center justify-center overflow-visible transition-transform duration-200 group-hover:translate-y-0 motion-reduce:transition-none [&_*]:border-border"
     data-thumbnail={slug}
   >
     {#if slug === "accordion"}

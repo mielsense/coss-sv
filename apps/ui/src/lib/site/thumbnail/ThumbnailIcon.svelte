@@ -10,7 +10,7 @@
   import MinusSignIcon from "@hugeicons/core-free-icons/MinusSignIcon";
   import MoreHorizontalIcon from "@hugeicons/core-free-icons/MoreHorizontalIcon";
   import Search01Icon from "@hugeicons/core-free-icons/Search01Icon";
-  import TextFontIcon from "@hugeicons/core-free-icons/TextFontIcon";
+  import InputCursorTextIcon from "@hugeicons/core-free-icons/InputCursorTextIcon";
   import UserRoundIcon from "@hugeicons/core-free-icons/UserRoundIcon";
   import { HugeiconsIcon, cn } from "@coss-sv/ui";
 
@@ -25,7 +25,7 @@
     minus: MinusSignIcon,
     plus: Add01Icon,
     search: Search01Icon,
-    "text-cursor": TextFontIcon,
+    "text-cursor": InputCursorTextIcon,
     user: UserRoundIcon,
     x: Cancel01Icon,
   } as const;
