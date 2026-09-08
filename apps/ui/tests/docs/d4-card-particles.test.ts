@@ -3,13 +3,13 @@ import { resolve } from "node:path";
 import { render } from "svelte/server";
 import { describe, expect, test } from "vitest";
 import Card1 from "../../registry/default/particles/p-card-1.svelte";
-import Card10 from "../../registry/default/particles/p-card-10.svelte";
 import Card4 from "../../registry/default/particles/p-card-4.svelte";
 import Card5 from "../../registry/default/particles/p-card-5.svelte";
 import Card6 from "../../registry/default/particles/p-card-6.svelte";
 import Card7 from "../../registry/default/particles/p-card-7.svelte";
 import Card8 from "../../registry/default/particles/p-card-8.svelte";
 import Card9 from "../../registry/default/particles/p-card-9.svelte";
+import Card10 from "../../registry/default/particles/p-card-10.svelte";
 
 const particleRoot = resolve(import.meta.dirname, "../../registry/default/particles");
 const frameworkOptions = ["Next.js", "Vite", "Remix", "Astro"] as const;
@@ -86,7 +86,7 @@ describe("D4 Select-dependent card particles", () => {
 
       expect(labels).toEqual(frameworkOptions);
       expect(code).toMatch(/import\s*\{[\s\S]*?\bSelect\s*,?[\s\S]*?\}\s*from\s*"@coss-sv\/ui";/);
-      expect(code).toContain("<Select.Root bind:value={framework} items={frameworkOptions}>");
+      expect(code).toContain('<Select.Root defaultValue="next" items={frameworkOptions}>');
       expect(code).toContain("<Select.Trigger><Select.Value /></Select.Trigger>");
       expect(code).not.toMatch(/@shardsui\/svelte|packages\/ui\/(?:src|dist)|<svg\b|lucide/i);
     },

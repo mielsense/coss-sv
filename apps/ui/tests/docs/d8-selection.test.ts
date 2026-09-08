@@ -245,17 +245,34 @@ describe("D8 selection, command, and menu documentation", () => {
     expect(body).not.toContain('aria-label="Select a item"');
   });
 
-  test("keeps object-valued multiple Combobox selections outside deep state proxies", () => {
-    for (const id of [
-      "p-combobox-9",
-      "p-combobox-12",
-      "p-combobox-14",
-      "p-combobox-19",
-      "p-combobox-20",
-    ]) {
-      expect(source(`apps/ui/registry/default/particles/${id}.svelte`)).toMatch(
-        /\$state\.raw<[^>]+\[\]>/,
-      );
+  test("keeps controlled object-valued multiple Combobox selections outside deep state proxies", () => {
+    for (const id of ["p-combobox-19", "p-combobox-20"]) {
+      const particle = source(`apps/ui/registry/default/particles/${id}.svelte`);
+      expect(particle).toContain("let selected = $state.raw<TeamMember[]>");
+      expect(particle).toContain("bind:value={selected}");
+    }
+  });
+
+  test("renders uncontrolled multiple Combobox defaults through typed value snippets", async () => {
+    for (const [id, labels] of [
+      ["p-combobox-9", ["Apple", "Strawberry"]],
+      ["p-combobox-12", []],
+      ["p-combobox-14", ["Apple", "Grape"]],
+    ] as const) {
+      const particle = source(`apps/ui/registry/default/particles/${id}.svelte`);
+      expect(particle).not.toContain("bind:value");
+      expect(particle).toContain("const MultipleValue = Combobox.Value<Item, true>;");
+      expect(particle).toContain("<MultipleValue>");
+      expect(particle).toContain("{#snippet children(value: Item[])}");
+      const module = await particleLoaders[`../../registry/default/particles/${id}.svelte`]?.();
+      const body = render(module?.default as Component).body;
+      const chips = [...body.matchAll(/<[^>]+data-slot="combobox-chip"[^>]*>/g)];
+      expect(chips).toHaveLength(labels.length);
+      for (const [index, label] of labels.entries()) {
+        expect(chips[index]?.[0]).toContain(`aria-label="${label}"`);
+      }
+      if (labels.length === 0) expect(body).toContain('placeholder="Select items…"');
+      else expect(body).not.toContain('placeholder="Select a item..."');
     }
   });
 
@@ -373,20 +390,30 @@ describe("D8 selection, command, and menu documentation", () => {
     expect(page).toContain("### Multiple Selection");
     expect(page).toContain('<Combobox.Input placeholder="Select an item..." />');
     expect(page).toContain("<Combobox.Chips>");
-    expect(page).toContain("<Combobox.Value>");
+    expect(page).toContain("const MultipleValue = Combobox.Value<Item, true>;");
+    expect(page).toContain("<MultipleValue>");
+    expect(page).toContain("{#snippet children(value: Item[])}");
     expect(page).toContain("<Combobox.Chip aria-label={item.value}>");
     const usage = page.split("## Usage")[1]?.split("## API Reference")[0] ?? "";
     expect(usage).not.toContain("<Combobox.Collection>");
     expect([...usage.matchAll(/\{#snippet item\(item: Item\)\}/g)]).toHaveLength(2);
     const examples = [...usage.matchAll(/```svelte\n([\s\S]*?)\n```/g)];
-    for (const index of [1, 3]) {
-      const example = examples[index]?.[1] ?? "";
+    expect(examples).toHaveLength(5);
+    const runnableExamples = examples
+      .map(([, example]) => example ?? "")
+      .filter((example) => example.includes("<Combobox.Root"));
+    expect(runnableExamples).toHaveLength(3);
+    expect(runnableExamples[0]).toContain("<Combobox.Root {items}>");
+    expect(runnableExamples[1]).toContain('<Combobox.Root defaultValue="ada" items={userItems}>');
+    expect(runnableExamples[1]).toContain("createComboboxItems(users,");
+    expect(runnableExamples[2]).toContain("<Combobox.Root {items} multiple>");
+    for (const example of runnableExamples) {
       expect(() =>
         compile(example, { filename: "combobox-usage.svelte", runes: true }),
       ).not.toThrow();
     }
     expect(page).toContain('placeholder={value.length > 0 ? undefined : "Select an item..."}');
-    expect([...page.matchAll(/```svelte/g)]).toHaveLength(4);
+    expect([...page.matchAll(/```svelte/g)]).toHaveLength(5);
   });
 
   test("documents Toggle-composed toolbar controls instead of plain buttons", () => {
