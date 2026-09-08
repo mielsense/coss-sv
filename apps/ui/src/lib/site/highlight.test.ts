@@ -1,8 +1,20 @@
 import { readFile } from "node:fs/promises";
 import { describe, expect, test } from "vitest";
+import { highlightSource } from "../code/highlight.js";
 import { highlightCode } from "./highlight.js";
 
 describe("Shiki multi-theme output", () => {
+  test("matches the pinned COSS light theme in Markdown and source previews", async () => {
+    const raw = 'const greeting = "hello";';
+    const output = await highlightCode(raw, "typescript");
+    const source = await highlightSource(raw, "typescript");
+
+    expect(output).toContain("github-light-default");
+    expect(output).toContain("--shiki-light:#CF222E");
+    expect(source.palette.some((style) => style.light.color === "#CF222E")).toBe(true);
+    expect(source.palette.some((style) => style.dark.color === "#F97583")).toBe(true);
+  });
+
   test("emits light and dark variables for every token presentation property", async () => {
     const output = await highlightCode("***bold italic***\n~~strike~~", "markdown");
 

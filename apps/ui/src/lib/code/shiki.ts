@@ -17,9 +17,14 @@ const supportedLanguages = new Set<string>(languages);
 
 export type DocumentationLanguage = BundledLanguage | "text";
 
+export const documentationThemes = {
+  dark: "github-dark",
+  light: "github-light-default",
+} as const;
+
 export const documentationHighlighter: Promise<Highlighter> = getSingletonHighlighter({
   langs: languages,
-  themes: ["github-dark", "github-light"],
+  themes: Object.values(documentationThemes),
 });
 
 export function resolveDocumentationLanguage(language?: string | null): DocumentationLanguage {

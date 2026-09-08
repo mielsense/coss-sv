@@ -1,4 +1,8 @@
-import { documentationHighlighter, resolveDocumentationLanguage } from "./shiki.js";
+import {
+  documentationHighlighter,
+  documentationThemes,
+  resolveDocumentationLanguage,
+} from "./shiki.js";
 
 export type HighlightedThemeStyle = {
   color: string;
@@ -37,10 +41,7 @@ export async function highlightSource(raw: string, language: string): Promise<Hi
   const highlighter = await documentationHighlighter;
   const lines = highlighter.codeToTokensWithThemes(raw, {
     lang: resolveDocumentationLanguage(language),
-    themes: {
-      dark: "github-dark",
-      light: "github-light",
-    },
+    themes: documentationThemes,
   });
   const palette: HighlightedTokenStyle[] = [];
   const styleIndexes = new Map<string, number>();
