@@ -118,16 +118,14 @@
         {:else}{results.length} result{results.length === 1 ? "" : "s"} found{/if}
       </Autocomplete.Status>
       <Autocomplete.List>
-        <Autocomplete.Collection>
-          {#snippet children(movie: Movie)}
-            <Autocomplete.Item value={movie}>
-              <div class="flex w-full flex-col gap-1">
-                <div class="font-medium">{movie.title}</div>
-                <div class="text-muted-foreground text-xs">{movie.year}</div>
-              </div>
-            </Autocomplete.Item>
-          {/snippet}
-        </Autocomplete.Collection>
+        {#snippet item(movie: Movie)}
+          <Autocomplete.Item value={movie}>
+            <div class="flex w-full flex-col gap-1">
+              <div class="font-medium">{movie.title}</div>
+              <div class="text-muted-foreground text-xs">{movie.year}</div>
+            </div>
+          </Autocomplete.Item>
+        {/snippet}
       </Autocomplete.List>
     </Autocomplete.Popup>
   {/if}

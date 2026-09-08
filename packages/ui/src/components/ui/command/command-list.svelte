@@ -1,12 +1,13 @@
 <script module lang="ts">
   import type { AutocompleteListProps } from "../autocomplete/autocomplete-list.svelte";
-  export type CommandListProps = AutocompleteListProps;
+  export type CommandListProps<Item = unknown> = AutocompleteListProps<Item>;
 </script>
 
-<script lang="ts">
+<script lang="ts" generics="Item = unknown">
   import { cn } from "@/utils.js";
   import List from "../autocomplete/autocomplete-list.svelte";
-  let { class: className, ref = $bindable(null), ...props }: CommandListProps = $props();
+
+  let { class: className, ref = $bindable(null), ...props }: CommandListProps<Item> = $props();
 </script>
 
 <List

@@ -40,11 +40,9 @@ links:
       <Command.Input placeholder="Search..." />
       <Command.Empty>No results found.</Command.Empty>
       <Command.List>
-        <Command.Collection>
-          {#snippet children(item)}
-            <Command.Item value={item}>{item.label}</Command.Item>
-          {/snippet}
-        </Command.Collection>
+        {#snippet item(item: (typeof items)[number])}
+          <Command.Item value={item}>{item.label}</Command.Item>
+        {/snippet}
       </Command.List>
     </Command.Root>
   </Command.DialogPopup>
@@ -112,13 +110,14 @@ The search input field with an integrated search icon. Automatically includes a 
 
 ### Command.List
 
-A scrollable container for command items. It wraps `Autocomplete.List` with scroll functionality.
+A scrollable container for command items. It wraps `Autocomplete.List` with scroll functionality. Use the `item` snippet to render filtered items or groups. Within a group, use `Command.Collection` to render its items.
 
-| Prop       | Type               | Description                                             |
-| ---------- | ------------------ | ------------------------------------------------------- |
-| `class`    | `string`           | Additional CSS classes to apply to the component        |
-| `children` | `Snippet`          | List content                                            |
-| `...props` | `CommandListProps` | All standard autocomplete list attributes are supported |
+| Prop       | Type                           | Description                                                    |
+| ---------- | ------------------------------ | -------------------------------------------------------------- |
+| `class`    | `string`                       | Additional CSS classes to apply to the component               |
+| `item`     | `Snippet<[Item, number]>`      | Renders each filtered item or group; use instead of `children` |
+| `children` | `CommandListProps["children"]` | Static list content                                            |
+| `...props` | `CommandListProps`             | All standard autocomplete list attributes are supported        |
 
 ### Command.Panel
 
@@ -263,19 +262,17 @@ You can add a keyboard shortcut to open the command palette:
   <Command.Input placeholder="Search..." />
   <Command.Empty>No results found.</Command.Empty>
   <Command.List>
-    <Command.Collection>
-      {#snippet children(group)}
-        <Command.Group items={group.items}>
-          <Command.GroupLabel>{group.value}</Command.GroupLabel>
-          <Command.Collection>
-            {#snippet children(item)}
-              <Command.Item value={item.value}>{item.label}</Command.Item>
-            {/snippet}
-          </Command.Collection>
-        </Command.Group>
-        <Command.Separator />
-      {/snippet}
-    </Command.Collection>
+    {#snippet item(group: (typeof groupedItems)[number])}
+      <Command.Group items={group.items}>
+        <Command.GroupLabel>{group.value}</Command.GroupLabel>
+        <Command.Collection>
+          {#snippet children(item: (typeof groupedItems)[number]["items"][number])}
+            <Command.Item value={item.value}>{item.label}</Command.Item>
+          {/snippet}
+        </Command.Collection>
+      </Command.Group>
+      <Command.Separator />
+    {/snippet}
   </Command.List>
 </Command.Root>
 ```
@@ -289,11 +286,9 @@ You can use the Command component without a dialog wrapper:
   <Command.Input placeholder="Type a command..." />
   <Command.Empty>No results found.</Command.Empty>
   <Command.List>
-    <Command.Collection>
-      {#snippet children(item)}
-        <Command.Item value={item.value}>{item.label}</Command.Item>
-      {/snippet}
-    </Command.Collection>
+    {#snippet item(item: (typeof items)[number])}
+      <Command.Item value={item.value}>{item.label}</Command.Item>
+    {/snippet}
   </Command.List>
 </Command.Root>
 ```

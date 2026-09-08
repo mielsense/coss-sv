@@ -31,11 +31,9 @@ links:
   <Autocomplete.Popup>
     <Autocomplete.Empty>No results found.</Autocomplete.Empty>
     <Autocomplete.List>
-      <Autocomplete.Collection>
-        {#snippet children(item)}
-          <Autocomplete.Item value={item}>{item.label}</Autocomplete.Item>
-        {/snippet}
-      </Autocomplete.Collection>
+      {#snippet item(item: (typeof items)[number])}
+        <Autocomplete.Item value={item}>{item.label}</Autocomplete.Item>
+      {/snippet}
     </Autocomplete.List>
   </Autocomplete.Popup>
 </Autocomplete.Root>
@@ -81,13 +79,14 @@ The popup container that displays the autocomplete suggestions.
 
 ### Autocomplete.List
 
-A scrollable container for autocomplete items.
+A scrollable container for autocomplete items. Use the `item` snippet to render filtered items or groups. Within a group, use `Autocomplete.Collection` to render its items.
 
-| Prop       | Type                    | Description                                             |
-| ---------- | ----------------------- | ------------------------------------------------------- |
-| `class`    | `string`                | Additional CSS classes to apply to the component        |
-| `children` | `Snippet`               | List content                                            |
-| `...props` | `AutocompleteListProps` | All standard autocomplete list attributes are supported |
+| Prop       | Type                                | Description                                                    |
+| ---------- | ----------------------------------- | -------------------------------------------------------------- |
+| `class`    | `string`                            | Additional CSS classes to apply to the component               |
+| `item`     | `Snippet<[Item, number]>`           | Renders each filtered item or group; use instead of `children` |
+| `children` | `AutocompleteListProps["children"]` | Static list content                                            |
+| `...props` | `AutocompleteListProps`             | All standard autocomplete list attributes are supported        |
 
 ### Autocomplete.Item
 

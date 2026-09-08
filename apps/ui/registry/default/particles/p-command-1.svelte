@@ -56,7 +56,7 @@
     <Command.Root items={groups}>
       <Command.Input placeholder="Search for apps and commands..." /><Command.Panel>
         <Command.Empty>No results found.</Command.Empty><Command.List>
-          {#each groups as group (group.value)}<Command.Group items={group.items}>
+          {#snippet item(group: Group)}<Command.Group items={group.items}>
               <Command.GroupLabel>{group.value}</Command.GroupLabel><Command.Collection>
                 {#snippet children(item: Item)}<Command.Item
                     onclick={() => (dialogOpen = false)}
@@ -66,7 +66,7 @@
                     {#if item.shortcut}<Command.Shortcut>{item.shortcut}</Command.Shortcut>{/if}
                   </Command.Item>{/snippet}
               </Command.Collection>
-            </Command.Group><Command.Separator />{/each}
+            </Command.Group><Command.Separator />{/snippet}
         </Command.List>
       </Command.Panel><Command.Footer>
         <div class="flex items-center gap-4">

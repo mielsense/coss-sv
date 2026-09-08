@@ -56,11 +56,9 @@
   <Autocomplete.Popup>
     <Autocomplete.Empty>No tags found.</Autocomplete.Empty>
     <Autocomplete.List>
-      <Autocomplete.Collection>
-        {#snippet children(tag: Tag)}
-          <Autocomplete.Item value={tag}>{tag.value}</Autocomplete.Item>
-        {/snippet}
-      </Autocomplete.Collection>
+      {#snippet item(tag: Tag)}
+        <Autocomplete.Item value={tag}>{tag.value}</Autocomplete.Item>
+      {/snippet}
     </Autocomplete.List>
     {#if moreCount > 0}<Autocomplete.Status>
         +{moreCount} more (keep typing to narrow down)

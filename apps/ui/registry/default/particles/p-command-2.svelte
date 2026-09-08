@@ -281,7 +281,7 @@ You can customize project settings at any time by clicking the settings icon in 
               {/if}
             </Command.Empty>
             <Command.List>
-              {#each groups as group (group.value)}
+              {#snippet item(group: Group)}
                 <Command.Group items={group.items}>
                   <Command.GroupLabel>{group.value}</Command.GroupLabel>
                   <Command.Collection>
@@ -294,7 +294,7 @@ You can customize project settings at any time by clicking the settings icon in 
                   </Command.Collection>
                 </Command.Group>
                 <Command.Separator />
-              {/each}
+              {/snippet}
             </Command.List>
           </Command.Panel>
           <Command.Footer>

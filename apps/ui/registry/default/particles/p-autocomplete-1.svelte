@@ -36,11 +36,9 @@
   <Autocomplete.Popup>
     <Autocomplete.Empty>No items found.</Autocomplete.Empty>
     <Autocomplete.List>
-      <Autocomplete.Collection>
-        {#snippet children(item: Item)}
-          <Autocomplete.Item value={item}>{item.label}</Autocomplete.Item>
-        {/snippet}
-      </Autocomplete.Collection>
+      {#snippet item(item: Item)}
+        <Autocomplete.Item value={item}>{item.label}</Autocomplete.Item>
+      {/snippet}
     </Autocomplete.List>
   </Autocomplete.Popup>
 </Autocomplete.Root>

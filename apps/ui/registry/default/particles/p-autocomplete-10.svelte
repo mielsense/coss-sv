@@ -61,7 +61,14 @@
       "Management",
     ].map((label) => ({
       group: "Team" as const,
-      id: `t-${label.toLowerCase().replaceAll(" ", "-")}`,
+      id:
+        label === "Infrastructure"
+          ? "t-infra"
+          : label === "Localization"
+            ? "t-l10n"
+            : label === "Accessibility"
+              ? "t-a11y"
+              : `t-${label.toLowerCase().replaceAll(" ", "-")}`,
       label,
     })),
   ];
@@ -72,11 +79,13 @@
 </script>
 
 <Autocomplete.Root items={groupedTags}>
-  <Autocomplete.Input aria-label="Search tags" placeholder="e.g. feature" />
+  <div class="flex flex-col items-start gap-2">
+    <Autocomplete.Input aria-label="Search tags" placeholder="e.g. feature" />
+  </div>
   <Autocomplete.Popup>
     <Autocomplete.Empty>No tags found.</Autocomplete.Empty>
     <Autocomplete.List>
-      {#each groupedTags as group (group.value)}
+      {#snippet item(group: TagGroup)}
         <Autocomplete.Group items={group.items}>
           <Autocomplete.GroupLabel>{group.value}</Autocomplete.GroupLabel>
           <Autocomplete.Collection>
@@ -86,7 +95,7 @@
           </Autocomplete.Collection>
         </Autocomplete.Group>
         {#if group.value !== "Team"}<Autocomplete.Separator />{/if}
-      {/each}
+      {/snippet}
     </Autocomplete.List>
   </Autocomplete.Popup>
 </Autocomplete.Root>

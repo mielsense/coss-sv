@@ -1,19 +1,27 @@
 <script module lang="ts">
   import type { Autocomplete as ShardsAutocomplete } from "@shardsui/svelte/autocomplete";
-  import type { ComponentProps } from "svelte";
-  export type AutocompleteListProps = ComponentProps<typeof ShardsAutocomplete.List>;
+  import type { ComponentProps, Snippet } from "svelte";
+
+  type BaseProps = ComponentProps<typeof ShardsAutocomplete.List>;
+  export type AutocompleteListProps<Item = unknown> = Omit<BaseProps, "children"> &
+    (
+      | { item: Snippet<[Item, number]>; children?: never }
+      | { item?: undefined; children?: BaseProps["children"] }
+    );
 </script>
 
-<script lang="ts">
+<script lang="ts" generics="Item = unknown">
   import { Autocomplete as AutocompletePrimitive } from "@shardsui/svelte/autocomplete";
-  import ScrollArea from "../scroll-area/scroll-area.svelte";
   import { cn } from "@/utils.js";
+  import ScrollArea from "../scroll-area/scroll-area.svelte";
+
   let {
     class: className,
     children: child,
+    item,
     ref = $bindable(null),
     ...props
-  }: AutocompleteListProps = $props();
+  }: AutocompleteListProps<Item> = $props();
 </script>
 
 <ScrollArea overscrollContain scrollbarGutter scrollFade>
@@ -24,7 +32,11 @@
     {...props}
   >
     {#snippet children(state)}
-      {@render child?.(state)}
+      {#if item}
+        <AutocompletePrimitive.Collection children={item} />
+      {:else}
+        {@render child?.(state)}
+      {/if}
     {/snippet}
   </AutocompletePrimitive.List>
 </ScrollArea>

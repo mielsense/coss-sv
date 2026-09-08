@@ -211,18 +211,16 @@
         {:else}{suggestions.length} suggestion{suggestions.length === 1 ? "" : "s"} found{/if}
       </Autocomplete.Status>
       <Autocomplete.List>
-        <Autocomplete.Collection>
-          {#snippet children(suggestion: AddressSuggestion)}
-            <Autocomplete.Item value={suggestion}>
-              <span class="flex w-full min-w-0 flex-col">
-                <span class="truncate font-medium">{suggestion.mainText}</span>
-                <span class="truncate text-muted-foreground text-xs">
-                  {suggestion.secondaryText}
-                </span>
+        {#snippet item(suggestion: AddressSuggestion)}
+          <Autocomplete.Item value={suggestion}>
+            <span class="flex w-full min-w-0 flex-col">
+              <span class="truncate font-medium">{suggestion.mainText}</span>
+              <span class="truncate text-muted-foreground text-xs">
+                {suggestion.secondaryText}
               </span>
-            </Autocomplete.Item>
-          {/snippet}
-        </Autocomplete.Collection>
+            </span>
+          </Autocomplete.Item>
+        {/snippet}
       </Autocomplete.List>
     </Autocomplete.Popup>
   {/if}
