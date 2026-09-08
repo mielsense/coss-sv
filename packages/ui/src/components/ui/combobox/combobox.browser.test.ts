@@ -119,3 +119,80 @@ describe("Combobox browser contract", () => {
     ).toBe("");
   });
 });
+
+for (const method of ["pointer", "keyboard"] as const) {
+  test(`shows the selected object checkmark after ${method} selection and reopening an unbound combobox`, async () => {
+    render(Fixture);
+    const input = page.getByRole("combobox", { name: "Unbound object selection" });
+    await input.click();
+    if (method === "pointer") {
+      await page.getByRole("option", { name: "Vite", exact: true }).click();
+    } else {
+      await userEvent.keyboard("{ArrowDown}{ArrowDown}{Enter}");
+    }
+    await expect.element(input).toHaveValue("Vite");
+    await input.click();
+    const selected = page.getByRole("option", { name: "Vite", exact: true });
+    await expect.element(selected).toHaveAttribute("aria-selected", "true");
+    await expect.element(selected.element().querySelector("svg")).toBeVisible();
+    expect(selected.element().querySelector("svg path")).not.toBeNull();
+    await expect.element(selected).toHaveAttribute("data-highlighted");
+    await expect.element(input).toHaveAttribute("aria-activedescendant", selected.element().id);
+  });
+}
+
+test("toggles an unbound multiple object without losing its checkmark or adding a duplicate", async () => {
+  render(Fixture);
+  await page.getByRole("combobox", { name: "Unbound multiple objects" }).click();
+  const option = page.getByRole("option", { name: "Vite", exact: true });
+  await option.click();
+  await expect.element(option).toHaveAttribute("aria-selected", "true");
+  await expect.element(option.element().querySelector("svg")).toBeVisible();
+  await option.click();
+  await expect.element(option).toHaveAttribute("aria-selected", "false");
+  await expect.poll(() => option.element().querySelector("svg")).toBeNull();
+});
+
+test("accepts external object replacement and clearing after an initially undefined binding selects", async () => {
+  render(Fixture);
+  const input = page.getByRole("combobox", { name: "Late object selection" });
+  await input.click();
+  await page.getByRole("option", { name: "Vite", exact: true }).click();
+  await input.click();
+  await expect
+    .element(page.getByRole("option", { name: "Vite", exact: true }))
+    .toHaveAttribute("aria-selected", "true");
+  await userEvent.keyboard("{Escape}");
+  await page.getByRole("button", { name: "Replace late object" }).click();
+  await expect.element(input).toHaveValue("Next.js");
+  await input.click();
+  const next = page.getByRole("option", { name: "Next.js", exact: true });
+  await expect.element(next).toHaveAttribute("aria-selected", "true");
+  await expect.element(next.element().querySelector("svg")).toBeVisible();
+  await userEvent.keyboard("{Escape}");
+  await page.getByRole("button", { name: "Clear late object" }).click();
+  await expect.element(input).toHaveValue("");
+  await input.click();
+  await expect
+    .element(page.getByRole("option", { name: "Next.js", exact: true }))
+    .toHaveAttribute("aria-selected", "false");
+});
+
+for (const mode of ["transform", "reject"] as const) {
+  test(`honors an initially undefined function binding that ${mode}s selection`, async () => {
+    render(Fixture);
+    const input = page.getByRole("combobox", { name: `Function binding ${mode}` });
+    await input.click();
+    await page.getByRole("option", { name: "Vite", exact: true }).click();
+    await input.click();
+    await expect
+      .element(page.getByRole("option", { name: "Vite", exact: true }))
+      .toHaveAttribute("aria-selected", "false");
+    const next = page.getByRole("option", { name: "Next.js", exact: true });
+    await expect
+      .element(next)
+      .toHaveAttribute("aria-selected", mode === "transform" ? "true" : "false");
+    if (mode === "transform")
+      await expect.element(next.element().querySelector("svg")).toBeVisible();
+  });
+}

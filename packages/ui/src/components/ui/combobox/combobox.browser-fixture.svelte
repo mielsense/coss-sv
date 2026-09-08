@@ -23,6 +23,9 @@
     duplicateNamePeople[1],
   ]);
   let nullablePeople = $state.raw<(typeof people)[number][] | null>(null);
+  let lateObject = $state.raw<(typeof frameworks)[number] | null>();
+  let transformedObject = $state.raw<(typeof frameworks)[number] | null>();
+  let rejectedObject = $state.raw<(typeof frameworks)[number] | null>();
   let personIdentity = $state("different");
 </script>
 
@@ -178,3 +181,67 @@
     </Combobox.Value>
   </Combobox.Trigger>
 </Combobox.Root>
+
+<Combobox.Root items={frameworks}>
+  <Combobox.Input aria-label="Unbound object selection" />
+  <Combobox.Popup>
+    <Combobox.List>
+      <Combobox.Collection>
+        {#snippet children(item: (typeof frameworks)[number])}
+          <Combobox.Item value={item}>{item.label}</Combobox.Item>
+        {/snippet}
+      </Combobox.Collection>
+    </Combobox.List>
+  </Combobox.Popup>
+</Combobox.Root>
+
+<Combobox.Root items={frameworks} multiple>
+  <Combobox.Chips><Combobox.ChipsInput aria-label="Unbound multiple objects" /></Combobox.Chips>
+  <Combobox.Popup
+    ><Combobox.List
+      ><Combobox.Collection>
+        {#snippet children(item: (typeof frameworks)[number])}
+          <Combobox.Item value={item}>{item.label}</Combobox.Item>
+        {/snippet}
+      </Combobox.Collection></Combobox.List
+    ></Combobox.Popup
+  >
+</Combobox.Root>
+<button type="button" onclick={() => (lateObject = frameworks[0])}>Replace late object</button>
+<button type="button" onclick={() => (lateObject = null)}>Clear late object</button>
+<Combobox.Root items={frameworks} bind:value={lateObject}>
+  <Combobox.Input aria-label="Late object selection" />
+  <Combobox.Popup
+    ><Combobox.List
+      ><Combobox.Collection>
+        {#snippet children(item: (typeof frameworks)[number])}
+          <Combobox.Item value={item}>{item.label}</Combobox.Item>
+        {/snippet}
+      </Combobox.Collection></Combobox.List
+    ></Combobox.Popup
+  >
+</Combobox.Root>
+
+{#each ["transform", "reject"] as mode}
+  <Combobox.Root
+    items={frameworks}
+    bind:value={
+      () => (mode === "transform" ? transformedObject : rejectedObject),
+      () => {
+        if (mode === "transform") transformedObject = frameworks[0];
+        else rejectedObject = null;
+      }
+    }
+  >
+    <Combobox.Input aria-label={`Function binding ${mode}`} />
+    <Combobox.Popup
+      ><Combobox.List
+        ><Combobox.Collection>
+          {#snippet children(item: (typeof frameworks)[number])}
+            <Combobox.Item value={item}>{item.label}</Combobox.Item>
+          {/snippet}
+        </Combobox.Collection></Combobox.List
+      ></Combobox.Popup
+    >
+  </Combobox.Root>
+{/each}

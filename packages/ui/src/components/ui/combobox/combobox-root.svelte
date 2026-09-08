@@ -112,6 +112,8 @@
     onValueChange,
     open = $bindable(),
     value = $bindable(),
+    // Read the incoming prop separately from the bindable accessor's local override.
+    value: suppliedValue,
     ...props
   }: ComboboxRootProps<Value, Multiple> = $props();
 
@@ -130,7 +132,14 @@
   let canceledInputEvent: Event | undefined;
   let pendingInput: { canceled: boolean; value: string } | undefined;
   let pendingOpen: { canceled: boolean; value: boolean } | undefined;
-  const currentValue = $derived(value !== undefined ? value : internalValue);
+  // Unbound bindable writes proxy objects; Shards needs the accepted raw identity.
+  const currentValue = $derived(
+    valueControlled && value !== undefined
+      ? value
+      : suppliedValue !== undefined
+        ? suppliedValue
+        : internalValue,
+  );
   const currentInputValue = $derived(inputValue !== undefined ? inputValue : internalInputValue);
   const currentOpen = $derived(open !== undefined ? open : internalOpen);
   const change = createSelectionChangeContext();
