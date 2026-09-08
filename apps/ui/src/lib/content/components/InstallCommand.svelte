@@ -29,29 +29,39 @@
   const dependencyCommands = $derived(dependencyInstallCommands(dependencies));
 
   onMount(() => {
-    const saved = localStorage.getItem("coss-installation-method");
-    if (saved === "cli" || saved === "manual") selected = saved;
-    const savedPackageManager = localStorage.getItem("coss-package-manager");
-    if (
-      savedPackageManager === "bun" ||
-      savedPackageManager === "npm" ||
-      savedPackageManager === "pnpm" ||
-      savedPackageManager === "yarn"
-    ) {
-      packageManager = savedPackageManager;
-    }
     selectedFile ??= files[0]?.path;
+    try {
+      const saved = localStorage.getItem("coss-installation-method");
+      if (saved === "cli" || saved === "manual") selected = saved;
+      const savedPackageManager = localStorage.getItem("coss-package-manager");
+      if (
+        savedPackageManager === "bun" ||
+        savedPackageManager === "npm" ||
+        savedPackageManager === "pnpm" ||
+        savedPackageManager === "yarn"
+      ) {
+        packageManager = savedPackageManager;
+      }
+    } catch {
+      // Preferences are optional when browser storage is unavailable.
+    }
   });
 
   $effect(() => {
-    if (selected === "cli" || selected === "manual") {
-      localStorage.setItem("coss-installation-method", selected);
+    const method = selected;
+    const manager = packageManager;
+    try {
+      if (method === "cli" || method === "manual") {
+        localStorage.setItem("coss-installation-method", method);
+      }
+      localStorage.setItem("coss-package-manager", manager);
+    } catch {
+      // Controls continue working without persisted preferences.
     }
-    localStorage.setItem("coss-package-manager", packageManager);
   });
 </script>
 
-<Tabs.Root class="relative mt-6 w-full" bind:value={selected}>
+<Tabs.Root class="relative mt-6 min-w-0 w-full" bind:value={selected}>
   <Tabs.List
     aria-label="Installation method"
     class="bg-transparent p-0 *:data-[slot=tab-indicator]:rounded-lg *:data-[slot=tab-indicator]:bg-accent *:data-[slot=tab-indicator]:shadow-none"
@@ -64,8 +74,10 @@
     <PackageManagerCommand commands={cliCommands} bind:value={packageManager} />
   </Tabs.Panel>
 
-  <Tabs.Panel value="manual">
-    <ol class="m-0 grid gap-6 ps-6 [&_li]:ps-1 [&_p]:mb-3 [&_p]:mt-0">
+  <Tabs.Panel class="min-w-0" value="manual">
+    <ol
+      class="m-0 grid min-w-0 grid-cols-[minmax(0,1fr)] gap-6 ps-6 [&_li]:min-w-0 [&_li]:ps-1 [&_p]:mb-3 [&_p]:mt-0"
+    >
       {#if dependencies.length > 0}
         <li>
           <p>Install the following dependencies:</p>
@@ -75,10 +87,10 @@
       <li>
         <p>Copy and paste the following component files into your project.</p>
         {#if files.length > 0}
-          <Tabs.Root class="min-w-0 [&_figure]:mt-2" bind:value={selectedFile}>
+          <Tabs.Root class="min-w-0 w-full" bind:value={selectedFile}>
             <Tabs.List
               aria-label="Component source files"
-              class="max-w-full overflow-x-auto bg-transparent p-0 *:data-[slot=tab-indicator]:rounded-lg *:data-[slot=tab-indicator]:bg-accent *:data-[slot=tab-indicator]:shadow-none"
+              class="min-w-0 max-w-full justify-start overflow-x-auto bg-transparent p-0 *:data-[slot=tab-indicator]:rounded-lg *:data-[slot=tab-indicator]:bg-accent *:data-[slot=tab-indicator]:shadow-none"
             >
               {#each files as file (file.path)}
                 <Tabs.Tab class="rounded-lg font-mono text-xs" value={file.path}>
@@ -87,7 +99,7 @@
               {/each}
             </Tabs.List>
             {#each files as file (file.path)}
-              <Tabs.Panel value={file.path}>
+              <Tabs.Panel class="min-w-0" value={file.path}>
                 <CodeSource source={file.source} title={file.path} />
               </Tabs.Panel>
             {/each}
