@@ -96,6 +96,9 @@ try {
   }
 
   await page.goto(`${baseUrl}/docs/get-started`);
+  await page.waitForFunction(() =>
+    document.querySelector('button[aria-label="Toggle theme"]')?.matches(":enabled"),
+  );
   const copyMarkdown = page.getByRole("button", { name: "Copy Markdown", exact: true });
   const iconPaths = () =>
     copyMarkdown
@@ -123,6 +126,9 @@ try {
   assert.equal(await page.getByRole("button", { name: "Copy Markdown", exact: true }).count(), 1);
 
   await page.goto(`${baseUrl}/docs/get-started`);
+  await page.waitForFunction(() =>
+    document.querySelector('button[aria-label="Toggle theme"]')?.matches(":enabled"),
+  );
   await page.evaluate(async () => {
     await navigator.clipboard.writeText("clipboard sentinel");
     window.__d11FeedbackTimers = 0;
@@ -164,15 +170,22 @@ try {
   await page.unroute("**/docs/get-started.md");
 
   await page.goto(`${baseUrl}/docs/changelog`);
-  assert.equal(await page.getByText("Agent migration prompt:", { exact: true }).count(), 9);
-  assert.equal(
-    await page.locator("pre").filter({ hasText: "Update the local coss Tabs component" }).count(),
-    1,
+  await page.waitForFunction(() =>
+    document.querySelector('button[aria-label="Toggle theme"]')?.matches(":enabled"),
   );
-  assert.equal(
-    await page.getByRole("heading", { level: 2, name: "Svelte port status", exact: true }).count(),
-    1,
-  );
+  await page.getByRole("heading", { level: 2, name: "September 8, 2026", exact: true }).waitFor();
+  await page.getByRole("heading", { level: 2, name: "Agent update prompt", exact: true }).waitFor();
+  assert.equal(await page.getByText("Upstream COSS history", { exact: true }).count(), 0);
+  await page.getByRole("button", { name: "Copy Markdown", exact: true }).click();
+  await page
+    .getByRole("button", { name: "Copy Markdown", exact: true })
+    .locator(`svg path[d="${copiedPath}"]`)
+    .waitFor();
+  const changelogMarkdown = await page.evaluate(() => navigator.clipboard.readText());
+  assert.match(changelogMarkdown, /# Changelog/);
+  assert.match(changelogMarkdown, /## Agent update prompt/);
+  assert.match(changelogMarkdown, /github\.com\/mielsense\/coss-sv\/commit\//);
+  assert.doesNotMatch(changelogMarkdown, /npx shadcn@|@daypicker\/react/);
 
   await page.goto(`${baseUrl}/docs/roadmap`);
   await page

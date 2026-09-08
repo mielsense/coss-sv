@@ -48,7 +48,3 @@ Thin wrapper around Shards UI `Form` with no default layout. Pass `class` for sp
 ### Using with Zod
 
 <ComponentPreview name="p-form-2" />
-
-## Changelog
-
-- [Apr 17, 2026](/docs/changelog#form) - `Form` no longer applies default layout classes. Pass `class` for stacked fields, such as `flex w-full flex-col gap-4`. For overlays, wrap the panel and footer in `<Form class="contents">` with the header outside.

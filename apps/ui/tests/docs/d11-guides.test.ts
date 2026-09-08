@@ -1,4 +1,3 @@
-import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import * as Ui from "@coss-sv/ui";
@@ -39,12 +38,9 @@ describe("D11 guide sources", () => {
   });
 
   test("uses registry installs, local aliases, Svelte source, and Hugeicons only", async () => {
-    const currentSvelteGuides = guideRoutes.filter((slug) => slug !== "changelog");
     const text = (
-      await Promise.all([...currentSvelteGuides, ...hookRecords].map((slug) => source(slug)))
+      await Promise.all([...guideRoutes, ...hookRecords].map((slug) => source(slug)))
     ).join("\n");
-    const changelog = await source("changelog");
-    const sveltePortStatus = changelog.slice(changelog.indexOf("## Svelte port status"));
 
     expect(text).toContain("pnpm dlx shadcn-svelte@latest");
     expect(text).toContain("$lib/components/ui/");
@@ -60,8 +56,6 @@ describe("D11 guide sources", () => {
     expect(text).not.toContain("@hugeicons/svelte");
     expect(text).not.toContain("@base-ui/react");
     expect(text).not.toContain('from "react"');
-    expect(sveltePortStatus).toContain("pnpm dlx shadcn-svelte@latest");
-    expect(sveltePortStatus).not.toMatch(/\b(?:bun|bunx|npm|npx|yarn)\b/);
   });
 
   test("ports both hooks with Svelte-native reactive contracts", async () => {
@@ -117,30 +111,54 @@ describe("D11 guide sources", () => {
     ).not.toThrow();
   });
 
-  test("preserves every exact upstream changelog agent prompt before separate port notes", async () => {
+  test("documents Svelte updates with revision evidence and actions for installed source", async () => {
     const changelog = await source("changelog");
-    const prompts = [
-      ...changelog.matchAll(/\*\*Agent migration prompt:\*\*\s*\n\n```text\n([\s\S]*?)\n```/g),
-    ].map(([, prompt]) =>
-      createHash("sha256")
-        .update(prompt ?? "")
-        .digest("hex"),
-    );
+    expect(changelog).toContain("## Updating an existing project");
+    expect(changelog).toContain("## September 8, 2026");
+    expect(changelog).toContain("## Agent update prompt");
+    expect(changelog).toContain("/docs/changelog.md");
+    expect(changelog).toContain("https://github.com/mielsense/coss-sv/commit/");
+    expect(changelog).toContain("Registry installs copy source files into your project");
+    expect(changelog).toContain("Website-only entries require no component reinstall");
+    expect(changelog).toContain("Preserve local customizations");
+    for (const item of [
+      "combobox",
+      "autocomplete",
+      "command",
+      "select",
+      "number-field",
+      "otp-field",
+    ]) {
+      expect(changelog).toContain(`\`${item}\``);
+    }
+    expect(changelog).not.toContain("## Upstream COSS history");
+    expect(changelog).not.toContain("npx shadcn@");
+    expect(changelog).not.toContain("@daypicker/react");
+  });
 
-    expect(prompts).toEqual([
-      "6ffa7214e9fba34ea39e23d61d85c238d6fc0bbf20489750ecf1b29786f30d82",
-      "2475ddb39bd9036f83722262214fffeb6f35ff53f89cf5483805c4fa4e2f8477",
-      "6149c2bd480d6ca905961a4b6110c2d4d353afa915d7537742b4a2fd10fb88c1",
-      "3f4e9d26acf6b9c45a1b942ceb345fd267e39512ae51206bfee11a9e5fb46098",
-      "0fbd7b6680c39c53488ea243699bba672471a1bdf97b9bcc0769cfdb8aa28a5d",
-      "f735d7da451fcba30260fa83455a6d9d4ab7d6cc098198b1d6479e9b5a0787c4",
-      "ebf904d19148688706adc8d782826f931c353026a8fbb8df0c7ed3273b3b4ede",
-      "39978aabf426ff4f86427688e44550343c870400d066c1627d5401f8ec066765",
-      "187816cf02b524f45a3ef01a71569b4f80cef1819dd1457c0c91190721ad6015",
-    ]);
-    expect(changelog.indexOf("## Upstream COSS history")).toBeLessThan(
-      changelog.indexOf("## Svelte port status"),
+  test("resolves component changelog links to Svelte history headings", async () => {
+    const compiled = await compileDocumentationTree({
+      contentRoot: resolve(appRoot, "content/docs"),
+      ownershipPath: resolve(repositoryRoot, "apps/ui/scripts/docs/ownership.json"),
+    });
+    const changelog = await source("changelog");
+    const headings = new Set(
+      [...changelog.matchAll(/^#{2,3} (.+)$/gm)].map(([, title]) =>
+        (title ?? "")
+          .toLowerCase()
+          .replace(/[^a-z0-9 -]/g, "")
+          .replace(/ /g, "-"),
+      ),
     );
+    for (const slug of compiled.bySlug.keys()) {
+      if (!slug.startsWith("components/")) continue;
+      for (const [, anchor] of (await source(slug)).matchAll(/\/docs\/changelog#([a-z0-9-]+)/g)) {
+        expect(
+          headings.has(anchor ?? ""),
+          `${slug} links to missing changelog heading ${anchor}`,
+        ).toBe(true);
+      }
+    }
   });
 
   test("separates the upstream roadmap from Svelte port status", async () => {
@@ -187,8 +205,8 @@ describe("D11 guide sources", () => {
     expect(mediaDemo).toContain('title: "Device & preferences"');
   });
 
-  test("keeps authored Skills and Get Started prose free of inline-header and dash tells", async () => {
-    for (const slug of ["skills", "get-started"] as const) {
+  test("keeps authored guide prose free of inline-header and dash tells", async () => {
+    for (const slug of ["skills", "get-started", "changelog"] as const) {
       const guide = await source(slug);
       expect(guide).not.toContain("—");
       expect(guide).not.toMatch(/^\s*(?:[-*]|\d+\.)\s+\*\*[^*]+\*\*\s*(?::|[-–—])/m);

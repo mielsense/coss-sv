@@ -181,7 +181,3 @@ Wrap the table in a [Frame](/docs/components/frame) for bordered app-surface fra
 Use [TanStack Table for Svelte](https://tanstack.com/table/latest/docs/framework/svelte/svelte-table) with `variant="card"` when you need column definitions, row selection, and `flexRender` over the same table primitives. Add `@tanstack/svelte-table` to your project for headless state (sorting, pagination, selection) beyond static markup.
 
 <ComponentPreview name="p-table-6" />
-
-## Changelog
-
-- [Apr 12, 2026](/docs/changelog#table) — `Table.Root` adds optional `variant` (`default` or `card`)

@@ -116,8 +116,3 @@ Leave it at the default (`false`) for standalone scroll areas where natural scro
 Shards sets its own content sizing on the content wrapper, which can cause unwanted horizontal scroll in vertical lists and panels (dialogs, comboboxes, sidebars). **`clampContentMinWidth`** defaults to **`true`** and applies `min-width: 0` to prevent that.
 
 Horizontal scroll still works when children define their own width (e.g. `w-max`, table min-width). Set **`clampContentMinWidth={false}`** only if horizontal scroll stops working and the child has no explicit width—rare cases like certain flex chains or long unbreakable inline text without overflow handling.
-
-## Changelog
-
-- [July 31, 2026](/docs/changelog#scroll-area-overscroll-contain) — **`ScrollArea`** no longer applies overscroll contain by default; pass optional **`overscrollContain`** for nested surfaces. Dialog, sheet, drawer, combobox, autocomplete, and sidebar already opt in.
-- [May 29, 2026](/docs/changelog#scroll-area) — **`ScrollArea`** adds optional **`fill`** (default **`false`**); pass **`fill`** for flex layouts that need the content wrapper to stretch (e.g. sidebar footers with **`mt-auto`**).

@@ -64,6 +64,17 @@ only outside the permitted subtree, stop and record a licensing decision before 
   copy.
 - Do not hand-edit generated registry JSON under `apps/ui/static/r/`.
 
+## Record changes for installed projects
+
+Update [the Svelte changelog](apps/ui/content/docs/changelog.svx) when a change affects installed
+components, copied examples, installation, or documented behavior. Group entries by date and name
+exact registry or particle IDs. Describe the previous behavior, the fix, and any application-code
+migration. State whether users need to refresh copied files or take no action.
+
+Link the relevant fix commits once available. Keep website-only and test-only changes separate from
+component updates. Do not copy upstream release history or invent package versions. Users need to
+compare their installed source with a specific Svelte revision.
+
 ## Verify the change
 
 Run focused tests while working. Before opening a pull request, run the full gate with no development

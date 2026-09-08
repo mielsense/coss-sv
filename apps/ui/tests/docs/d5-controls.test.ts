@@ -383,7 +383,7 @@ describe("D5 control documentation inventory", () => {
       "For accessible labelling and validation, prefer using the `Field` component to wrap sliders. See the related example: [Slider field](/docs/components/field#slider-field).",
     );
     expect(source("apps/ui/content/docs/components/toggle-group.svx")).toContain(
-      "- [Mar 20, 2026](/docs/changelog#toggle-group) — `Toggle` renamed to `ToggleGroupItem`",
+      "- [September 8, 2026](/docs/changelog#select-and-bindings-initialized-as-undefined): Bindings initialized as `undefined` now observe later values.",
     );
   });
 });

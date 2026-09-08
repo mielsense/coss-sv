@@ -83,6 +83,4 @@ Calendar with a searchable COSS Combobox for month and year navigation.
 
 ## Changelog
 
-- [July 26, 2026](/docs/changelog#react-daypicker-10) — The pinned COSS reference upgraded to
-  **React DayPicker 10** and moved from **`react-day-picker`** to **`@daypicker/react`**. This
-  Svelte port preserves the resulting COSS behavior and styling without shipping React.
+- [September 8, 2026](/docs/changelog#calendar-selection): Multiple selection normalizes dates before toggling them.

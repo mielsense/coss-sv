@@ -104,4 +104,4 @@ Pass `mask` on the root when the code should be obscured while it is typed, for 
 
 ## Changelog
 
-- [Apr 14, 2026](/docs/changelog#otp-field) - `input-otp.tsx` was replaced by `otp-field.tsx` and `@coss/otp-field` upstream.
+- [September 8, 2026](/docs/changelog#otp-field-reset): Canceled form resets preserve the entered value.
