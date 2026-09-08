@@ -21,11 +21,13 @@
   import Cancel01Icon from "@hugeicons/core-free-icons/Cancel01Icon";
   import UnfoldMoreIcon from "@hugeicons/core-free-icons/UnfoldMoreIcon";
   import { Combobox as C } from "@shardsui/svelte/combobox";
+  import { untrack } from "svelte";
   import HugeiconsIcon from "@/hugeicons-icon.svelte";
   import { getSelectionChangeContext } from "@/selection-change-context.js";
   import { cn } from "@/utils.js";
   import ComboboxClear from "./combobox-clear.svelte";
   import ComboboxTrigger from "./combobox-trigger.svelte";
+  import { getComboboxInputPlacementContext, getComboboxWrapperContext } from "./context.svelte.js";
 
   const controlClass =
     "relative inline-flex w-full rounded-lg border border-input bg-background not-dark:bg-clip-padding text-base shadow-xs/5 ring-ring/24 transition-shadow before:pointer-events-none before:absolute before:inset-0 before:rounded-[calc(var(--radius-lg)-1px)] not-has-disabled:not-has-focus-visible:not-has-aria-invalid:before:shadow-[0_1px_--theme(--color-black/4%)] has-focus-visible:has-aria-invalid:border-destructive/64 has-focus-visible:has-aria-invalid:ring-destructive/16 has-aria-invalid:border-destructive/36 has-focus-visible:border-ring has-autofill:bg-foreground/4 has-disabled:opacity-64 has-[:disabled,:focus-visible,[aria-invalid]]:shadow-none has-focus-visible:ring-[3px] sm:text-sm dark:bg-input/32 dark:has-autofill:bg-foreground/8 dark:has-aria-invalid:ring-destructive/24 dark:not-has-disabled:not-has-focus-visible:not-has-aria-invalid:before:shadow-[0_-1px_--theme(--color-white/6%)]";
@@ -47,6 +49,15 @@
     ...props
   }: ComboboxInputProps = $props();
   const change = getSelectionChangeContext();
+  const context = getComboboxWrapperContext();
+  const placement = getComboboxInputPlacementContext();
+  const initialValue = untrack(() => context.getInitialInputValue(placement.insidePopup));
+  $effect(() => {
+    context.inputInsidePopup = placement.insidePopup;
+    return () => {
+      context.inputInsidePopup = true;
+    };
+  });
   const nativeSize = $derived(typeof size === "number" ? size : undefined);
   const innerClass = $derived(
     cn(
@@ -100,6 +111,7 @@
   <span class={composedControlClass} data-size={size} data-slot="input-control"
     ><C.Input
       bind:ref
+      value={initialValue}
       class={innerClass}
       data-slot="combobox-input"
       oninput={handleInput}

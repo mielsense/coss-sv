@@ -83,6 +83,8 @@
     },
   ];
 
+  let externalSelection = $state<string | null>("Apple");
+  let canceledText = $state("Accepted");
   let chips = $state<Item[]>([items[0] as Item, items[4] as Item]);
   let searchChips = $state<Item[]>([items[0] as Item, items[3] as Item]);
   let selectedTeam = $state<Person[]>([people[0] as Person, people[2] as Person]);
@@ -414,6 +416,24 @@
   </section>
   <section data-particle="p-combobox-19">{@render teamSelection("p-combobox-19")}</section>
   <section data-particle="p-combobox-20">{@render teamSelection("p-combobox-20")}</section>
+  <section data-particle="combobox-external-selection">
+    <div class="flex flex-col gap-2">
+      <Button onclick={() => (externalSelection = "Banana")}>Set external selection</Button>
+      <Button onclick={() => (externalSelection = null)}>Clear external selection</Button>
+      <Combobox.Root bind:value={externalSelection} items={["Apple", "Banana"]}>
+        <Combobox.Input aria-label="External selection" />
+      </Combobox.Root>
+      <output>{externalSelection ?? "null"}</output>
+    </div>
+  </section>
+  <section data-particle="combobox-canceled-input">
+    <Combobox.Root
+      bind:inputValue={canceledText}
+      onInputValueChange={(_, details) => details.cancel()}
+    >
+      <Combobox.Input aria-label="Canceled input" />
+    </Combobox.Root>
+  </section>
 </div>
 
 <style>

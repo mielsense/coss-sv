@@ -1,6 +1,7 @@
 <script module lang="ts">
   import type { Combobox as ShardsCombobox } from "@shardsui/svelte/combobox";
   import type { ComponentProps } from "svelte";
+
   type P = ComponentProps<typeof ShardsCombobox.Positioner>;
   export type ComboboxPopupProps = ComponentProps<typeof ShardsCombobox.Popup> & {
     align?: P["align"];
@@ -15,7 +16,8 @@
 <script lang="ts">
   import { Combobox as C } from "@shardsui/svelte/combobox";
   import { cn } from "@/utils.js";
-  import { getComboboxWrapperContext } from "./context.svelte.js";
+  import { getComboboxWrapperContext, setComboboxInputPlacementContext } from "./context.svelte.js";
+
   let {
     align = "start",
     alignOffset,
@@ -29,6 +31,7 @@
     ...props
   }: ComboboxPopupProps = $props();
   const context = getComboboxWrapperContext();
+  setComboboxInputPlacementContext({ insidePopup: true });
   const anchor = $derived(anchorProp ?? context.chipsRef ?? undefined);
   const alignOffsetProps = $derived(alignOffset === undefined ? {} : { alignOffset });
   const anchorProps = $derived(anchor === undefined ? {} : { anchor });

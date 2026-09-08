@@ -73,9 +73,65 @@ handled late values correctly and remains a positive control; its only change ex
 undefined in the binding type under `exactOptionalPropertyTypes`. Other affected optional binding
 types now permit undefined as well.
 
-A separate comparison with the raw Shards primitive establishes a remaining label synchronization
+A separate comparison with the raw Shards primitive established a label synchronization
 issue: setting only `value` externally updates `Combobox.Value`, but the wrapper input stays empty.
 The primitive updates the input label when `inputValue` is omitted. The wrapper always supplies
 its internal input string to support cancellable input changes, suppressing that primitive path.
 The binding regression asserts selection and independently tests `inputValue`; it does not claim
-to repair label synchronization. The raw primitive comparison is retained as evidence.
+to repair label synchronization. The raw primitive comparison is retained as evidence; the
+follow-up below repairs this separate defect.
+
+
+## September 8 selected input label follow-up
+
+Fresh inspection reread the complete permitted Combobox registry and documentation, the wrapper
+root/input/popup/context, and Shards root, input, selection watchers, and label serialization.
+Earlier source inventory and particle comparisons remain recorded above. Shards synchronizes a
+selected value to an outside single input only when its input text is uncontrolled. The wrapper
+always supplied input text to preserve cancellable callbacks, disabling that primitive path.
+
+The new regressions failed with an empty initial selected label and with `ora` still visible after
+an external selection changed to Banana. Separate regressions found that canceled typing left
+rejected native text visible and that canceling an empty input still cleared the selection.
+
+The wrapper now records input placement through typed per-instance context, including popup and
+inline inputs. A narrow effect reconciles the two separately owned primitive states only when an
+outside single selection changes or its input first mounts. It preserves typed queries between
+selection changes, explicit default input text, and independent input control. Comparing external
+input writes with the last wrapper write distinguishes a later controlled input from the wrapper's
+own binding updates. The effect also delivers the cancellable `none` input-change callback for
+external selection changes; initial label display emits no callback. This bridge retains primitive
+cancellation instead of handing text ownership back to a primitive setter that cannot cancel it.
+
+Canceled native input restores the event target's accepted text. Its event-scoped guard also
+suppresses the primitive's ensuing selection clear, then releases in a microtask. This does not
+change a later independent selection event. No module-global mutable state, DOM search for popup
+placement, shared helper edit, or primitive dependency patch was introduced.
+
+Validation covers initial/default selections, custom object labels, external selection and clear
+after typing, initial and late independent input control, explicit default query, multiple/chips
+(including nested object formatters), popup search, inline search, canceled typing, and canceled
+clearing. All 31 focused browser tests (including existing Combobox and late-binding coverage) and
+9 Combobox SSR/type tests pass. Package check reports zero errors and warnings; package build,
+focused Biome, Prettier, and diff checks pass.
+
+The Codex in-app browser on port 5109 observed initial Apple, external Banana, external clear to
+empty/null, and rejected input restored to Accepted. Existing disabled and timezone fixtures now
+display Orange and (GMT+01:00) Paris. This pass used DOM evaluation for these state transitions;
+the snapshot returned a blank image and the previous reference server was unavailable, so no new
+screenshot or live-reference approval is claimed.
+
+Audit contract: combobox-selected-input-label; correctness; medium severity; high confidence;
+canonical owner: Shards input/selection separation and Svelte Edge runes/context guidance.
+No version or flag blocker. The previous selected-label limitation is resolved for the public
+Combobox Input composition.
+
+The final pass also adds two red-to-green SSR regressions. Public Input now seeds its native
+value from the initial selected label or the explicit input/default query, using the same typed
+placement context to leave popup/inline search empty. Shards retains live text ownership after
+mount. This gives server-rendered inputs their selected labels without running an effect on the
+server. The SSR tests assert the native value attribute. The private preview renders this fixture
+on the client, so its page response was not used as SSR evidence. In-app inspection verified the
+mounted input showed Apple and an external update changed it to Banana. The canceled-clear
+regression also enables input afterward and selects Banana, checking the event guard does not
+suppress a later selection.
