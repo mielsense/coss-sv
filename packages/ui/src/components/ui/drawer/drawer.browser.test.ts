@@ -43,10 +43,18 @@ function pointerSwipe(
   deltaY: number,
   pointerId: number,
 ): void {
+  // Synchronous events can share a timestamp, which makes release velocity zero.
+  // Model a fast swipe with one sample per frame so snap advancement is deterministic.
+  let timeStamp = performance.now();
+  function dispatchPointer(event: PointerEvent): void {
+    timeStamp += 16;
+    Object.defineProperty(event, "timeStamp", { value: timeStamp });
+    target.dispatchEvent(event);
+  }
   const rect = target.getBoundingClientRect();
   const startX = rect.left + rect.width / 2;
   const startY = rect.top + rect.height / 2;
-  target.dispatchEvent(
+  dispatchPointer(
     new PointerEvent("pointerdown", {
       bubbles: true,
       button: 0,
@@ -58,7 +66,7 @@ function pointerSwipe(
       pointerType: "mouse",
     }),
   );
-  target.dispatchEvent(
+  dispatchPointer(
     new PointerEvent("pointermove", {
       bubbles: true,
       buttons: 1,
@@ -69,7 +77,7 @@ function pointerSwipe(
       pointerType: "mouse",
     }),
   );
-  target.dispatchEvent(
+  dispatchPointer(
     new PointerEvent("pointermove", {
       bubbles: true,
       buttons: 1,
@@ -80,7 +88,7 @@ function pointerSwipe(
       pointerType: "mouse",
     }),
   );
-  target.dispatchEvent(
+  dispatchPointer(
     new PointerEvent("pointerup", {
       bubbles: true,
       clientX: startX + deltaX,
