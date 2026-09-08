@@ -1,9 +1,9 @@
 <script lang="ts">
+  import { buttonVariants, HugeiconsIcon, Kbd, KbdGroup } from "@coss-sv/ui";
   import ArrowTurnBackwardIcon from "@hugeicons/core-free-icons/ArrowTurnBackwardIcon";
   import Atom01Icon from "@hugeicons/core-free-icons/Atom01Icon";
   import BookOpen02Icon from "@hugeicons/core-free-icons/BookOpen02Icon";
   import Search01Icon from "@hugeicons/core-free-icons/Search01Icon";
-  import { HugeiconsIcon } from "@coss-sv/ui";
   import { Autocomplete } from "@shardsui/svelte/autocomplete";
   import { Dialog } from "@shardsui/svelte/dialog";
   import { goto } from "$app/navigation";
@@ -131,22 +131,17 @@
 
 <Dialog.Root {open} onOpenChange={setCommandMenuOpen}>
   <Dialog.Trigger
-    class="hidden min-h-8 cursor-pointer items-center justify-center gap-1.5 rounded-lg border border-site-border bg-transparent px-2 shadow-[0_1px_2px_rgb(0_0_0/3%)] hover:bg-site-foreground/4 focus-visible:outline-2 focus-visible:outline-site-primary focus-visible:outline-offset-3 md:inline-flex [&_svg]:size-4"
+    class={buttonVariants({ variant: "outline", class: "hidden md:inline-flex" })}
     type="button"
     aria-label="Search documentation"
     aria-haspopup="dialog"
     data-search-trigger
   >
     <HugeiconsIcon aria-hidden="true" icon={Search01Icon} strokeWidth={2} />
-    <span class="flex gap-0.75"
-      ><kbd
-        class="inline-flex h-4.75 min-w-4.5 items-center justify-center rounded-[0.3rem] border border-site-border-soft bg-site-foreground/3 text-site-muted text-[0.68rem] leading-none"
-        >{isMac ? "⌘" : "Ctrl"}</kbd
-      ><kbd
-        class="inline-flex h-4.75 min-w-4.5 items-center justify-center rounded-[0.3rem] border border-site-border-soft bg-site-foreground/3 text-site-muted text-[0.68rem] leading-none"
-        >K</kbd
-      ></span
-    >
+    <KbdGroup>
+      <Kbd>{isMac ? "⌘" : "Ctrl"}</Kbd>
+      <Kbd class="aspect-square">K</Kbd>
+    </KbdGroup>
   </Dialog.Trigger>
 
   <Dialog.Portal>
