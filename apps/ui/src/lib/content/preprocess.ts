@@ -46,7 +46,11 @@ function frontmatterEnd(content: string): number {
 
 function scriptOpening(content: string, offset: number) {
   let start = offset;
-  while (start < content.length && /\s/.test(content[start] ?? "")) start += 1;
+  while (start < content.length && /\s/.test(content[start] ?? "")) {
+    // The caller visits each line. Do not rescan subsequent blank lines here.
+    if (content[start] === "\n" || content[start] === "\r") return;
+    start += 1;
+  }
   // Svelte instance scripts are lowercase. Uppercase SCRIPT is a component,
   // and script-widget is a custom element. This locates code; it does not sanitize HTML.
   if (!content.startsWith("<script", start)) return;
