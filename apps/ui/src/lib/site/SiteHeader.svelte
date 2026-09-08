@@ -25,7 +25,11 @@
   function setTheme(nextDark: boolean) {
     document.documentElement.classList.toggle("dark", nextDark);
     document.documentElement.classList.toggle("light", !nextDark);
-    localStorage.setItem("coss-sv-theme", nextDark ? "dark" : "light");
+    try {
+      localStorage.setItem("coss-sv-theme", nextDark ? "dark" : "light");
+    } catch {
+      // Theme changes still apply when browser storage is unavailable.
+    }
     document.dispatchEvent(new Event("coss-sv:themechange"));
   }
 

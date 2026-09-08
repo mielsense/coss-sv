@@ -6,6 +6,7 @@
   import Search01Icon from "@hugeicons/core-free-icons/Search01Icon";
   import { Autocomplete } from "@shardsui/svelte/autocomplete";
   import { Dialog } from "@shardsui/svelte/dialog";
+  import { onDestroy } from "svelte";
   import { goto } from "$app/navigation";
   import {
     commandNavigationGroups,
@@ -28,6 +29,8 @@
   let highlighted = $state<CommandItem>();
   let copied = $state(false);
   let isMac = $state(false);
+  let alive = true;
+  let copyRequest = 0;
   let copyTimer: ReturnType<typeof setTimeout> | undefined;
 
   function itemLabel(item: CommandItem | CommandGroup) {
@@ -45,15 +48,31 @@
     const command = componentCommand(highlighted);
     if (!command) return;
 
+    resetCopyFeedback();
+    const request = copyRequest;
     try {
       await navigator.clipboard.writeText(command);
+      if (!alive || request !== copyRequest || !open) return;
       copied = true;
-      if (copyTimer) clearTimeout(copyTimer);
-      copyTimer = setTimeout(() => (copied = false), 1200);
+      copyTimer = setTimeout(() => {
+        if (alive && request === copyRequest) copied = false;
+      }, 1200);
     } catch {
-      copied = false;
+      if (alive && request === copyRequest) copied = false;
     }
   }
+
+  function resetCopyFeedback() {
+    copyRequest += 1;
+    if (copyTimer) clearTimeout(copyTimer);
+    copyTimer = undefined;
+    copied = false;
+  }
+
+  onDestroy(() => {
+    alive = false;
+    resetCopyFeedback();
+  });
 
   function selectItem(item: CommandItem) {
     open = false;
@@ -116,14 +135,10 @@
   });
 
   $effect(() => {
+    resetCopyFeedback();
     if (!open) return;
     query = "";
     highlighted = undefined;
-    copied = false;
-  });
-
-  $effect(() => () => {
-    if (copyTimer) clearTimeout(copyTimer);
   });
 </script>
 
@@ -165,7 +180,7 @@
           itemToStringValue={itemLabel}
           onItemHighlighted={(item) => {
             highlighted = item && "href" in item ? item : undefined;
-            copied = false;
+            resetCopyFeedback();
           }}
         >
           <div

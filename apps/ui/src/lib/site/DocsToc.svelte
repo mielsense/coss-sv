@@ -42,7 +42,7 @@
         >
           {#each visibleItems as item (item.id)}
             <a
-              class="relative py-1 text-site-muted text-[0.8125rem] leading-4.5 no-underline data-[depth=3]:ps-3.5 data-[depth=4]:ps-5.5 aria-[current=location]:text-site-foreground aria-[current=location]:before:absolute aria-[current=location]:before:inset-y-px aria-[current=location]:before:-left-3.25 aria-[current=location]:before:w-0.5 aria-[current=location]:before:rounded-full aria-[current=location]:before:bg-site-primary"
+              class="relative py-1 text-sidebar-foreground text-[0.8125rem] leading-4.5 no-underline transition-colors hover:text-foreground data-[depth=3]:ps-3.5 data-[depth=4]:ps-5.5 aria-[current=location]:text-site-foreground aria-[current=location]:before:absolute aria-[current=location]:before:inset-y-px aria-[current=location]:before:-left-3.25 aria-[current=location]:before:w-0.5 aria-[current=location]:before:rounded-full aria-[current=location]:before:bg-site-primary"
               href={`#${item.id}`}
               aria-current={activeId === item.id ? "location" : undefined}
               data-depth={item.depth}>{item.text}</a

@@ -33,7 +33,7 @@
             {#each group.items as item (item.href)}
               <li>
                 <a
-                  class="flex min-h-8 items-center justify-between gap-2 rounded-lg px-3.5 py-1.5 text-site-muted text-sm leading-5 no-underline hover:text-site-foreground aria-[current=page]:bg-site-foreground/4 aria-[current=page]:text-site-foreground"
+                  class="flex min-h-8 items-center justify-between gap-2 rounded-lg px-3.5 py-1.5 text-sidebar-foreground text-sm leading-5 no-underline hover:text-sidebar-accent-foreground aria-[current=page]:bg-sidebar-accent aria-[current=page]:font-medium aria-[current=page]:text-sidebar-accent-foreground"
                   href={item.href}
                   aria-current={page.url.pathname === item.href ? "page" : undefined}
                 >

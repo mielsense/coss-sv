@@ -8,14 +8,23 @@
   const commands = $derived(shadcnInstallCommands(registryUrl));
 
   onMount(() => {
-    const saved = localStorage.getItem("coss-package-manager");
-    if (saved === "bun" || saved === "npm" || saved === "pnpm" || saved === "yarn") {
-      selected = saved;
+    try {
+      const saved = localStorage.getItem("coss-package-manager");
+      if (saved === "bun" || saved === "npm" || saved === "pnpm" || saved === "yarn") {
+        selected = saved;
+      }
+    } catch {
+      // Package manager preferences are optional.
     }
   });
 
   $effect(() => {
-    localStorage.setItem("coss-package-manager", selected);
+    const manager = selected;
+    try {
+      localStorage.setItem("coss-package-manager", manager);
+    } catch {
+      // Commands remain usable without persisted preferences.
+    }
   });
 </script>
 

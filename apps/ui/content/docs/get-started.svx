@@ -159,5 +159,5 @@ changes. It includes:
 - An installable [Agent Skill](/docs/skills) with the component catalog, Svelte conventions, and
   registry workflow used by this port.
 - An [llms.txt](/llms.txt) file that maps the documentation and component structure for an agent.
-- A **Copy Markdown** button on every guide in this lane for sharing exact page content with a coding
+- A **Copy Markdown** button on every documentation page for sharing its exact content with a coding
   agent.

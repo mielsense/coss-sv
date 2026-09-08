@@ -16,7 +16,7 @@
 
 <Drawer.Root open={menuOpen} onOpenChange={setMenuOpen} swipeDirection="left">
   <Drawer.Trigger
-    class="-ms-1.5 inline-flex size-8 shrink-0 cursor-pointer items-center justify-center rounded-lg border border-transparent bg-transparent p-0 hover:bg-site-foreground/4 focus-visible:outline-2 focus-visible:outline-site-primary focus-visible:outline-offset-3 lg:hidden [&_svg]:size-4"
+    class="-ms-1.5 inline-flex size-8 shrink-0 cursor-pointer items-center justify-center rounded-lg border border-transparent bg-transparent p-0 hover:bg-site-foreground/4 focus-visible:outline-2 focus-visible:outline-site-primary focus-visible:outline-offset-3 lg:hidden [&_svg]:size-5"
     type="button"
     aria-label="Toggle Menu"
     aria-haspopup="dialog"
@@ -47,45 +47,51 @@
           class="relative h-full touch-pan-y overflow-y-auto overscroll-contain bg-site-panel px-6 py-8 outline-none"
           data-mobile-menu-panel
         >
-          <nav class="flex flex-col gap-9" aria-label="Mobile navigation">
-            <section class="flex flex-col gap-0.5" aria-labelledby="mobile-menu-heading">
-              <h2 class="m-0 mb-2.5 text-sm font-semibold" id="mobile-menu-heading">Menu</h2>
-              <a
-                class="flex min-h-9 items-center gap-2 text-site-muted no-underline hover:text-site-accent-foreground"
-                href="/"
-                onclick={() => setMenuOpen(false)}>Home</a
-              >
-              {#each primaryNavigation as item (item.href)}
+          <nav class="flex flex-col gap-12" aria-label="Mobile navigation">
+            <section class="flex flex-col gap-3" aria-labelledby="mobile-menu-heading">
+              <h2 class="m-0 text-sm font-medium" id="mobile-menu-heading">Menu</h2>
+              <div class="flex flex-col gap-1">
                 <a
-                  class="flex min-h-9 items-center gap-2 text-site-muted no-underline hover:text-site-accent-foreground"
-                  href={item.href}
-                  onclick={() => setMenuOpen(false)}>{item.label}</a
+                  class="flex items-center gap-2 py-1.5 text-muted-foreground no-underline hover:text-site-accent-foreground"
+                  href="/"
+                  onclick={() => setMenuOpen(false)}>Home</a
                 >
-              {/each}
-            </section>
-            {#each documentationNavigationGroups as group (group.label)}
-              <section
-                class="flex flex-col gap-0.5"
-                aria-labelledby={`mobile-${group.label.toLowerCase()}-heading`}
-              >
-                <h2
-                  class="m-0 mb-2.5 text-sm font-semibold"
-                  id={`mobile-${group.label.toLowerCase()}-heading`}
-                >
-                  {group.label}
-                </h2>
-                {#each group.items as item (item.href)}
+                {#each primaryNavigation as item (item.href)}
                   <a
-                    class="flex min-h-9 items-center gap-2 text-site-muted no-underline hover:text-site-accent-foreground"
+                    class="flex items-center gap-2 py-1.5 text-muted-foreground no-underline hover:text-site-accent-foreground"
                     href={item.href}
-                    onclick={() => setMenuOpen(false)}
+                    onclick={() => setMenuOpen(false)}>{item.label}</a
                   >
-                    {item.label}
-                    {#if item.isNew}<NewBadge />{/if}
-                  </a>
                 {/each}
-              </section>
-            {/each}
+              </div>
+            </section>
+            <div class="flex flex-col gap-8">
+              {#each documentationNavigationGroups as group (group.label)}
+                <section
+                  class="flex flex-col gap-3"
+                  aria-labelledby={`mobile-${group.label.toLowerCase()}-heading`}
+                >
+                  <h2
+                    class="m-0 text-sm font-medium"
+                    id={`mobile-${group.label.toLowerCase()}-heading`}
+                  >
+                    {group.label}
+                  </h2>
+                  <div class="flex flex-col gap-0.5">
+                    {#each group.items as item (item.href)}
+                      <a
+                        class="flex items-center gap-2 py-1.5 text-muted-foreground no-underline hover:text-site-accent-foreground"
+                        href={item.href}
+                        onclick={() => setMenuOpen(false)}
+                      >
+                        {item.label}
+                        {#if item.isNew}<NewBadge />{/if}
+                      </a>
+                    {/each}
+                  </div>
+                </section>
+              {/each}
+            </div>
           </nav>
         </Drawer.Content>
       </Drawer.Popup>
