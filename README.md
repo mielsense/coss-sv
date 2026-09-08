@@ -12,9 +12,9 @@ particles, a shadcn-svelte registry, and a matching SvelteKit documentation site
 The port keeps the COSS visual language, spacing, motion, examples, and interaction details while
 replacing React and Base UI with Svelte 5 and [Shards UI](https://github.com/abdrizik/shardsui).
 
-[Read the documentation](https://coss-sv.vercel.app/docs) · [Browse the
-components](https://coss-sv.vercel.app/docs/components/accordion) · [Explore the
-particles](https://coss-sv.vercel.app/particles)
+[Read the documentation](https://coss.miel.my/docs) · [Browse the
+components](https://coss.miel.my/docs/components/accordion) · [Explore the
+particles](https://coss.miel.my/particles)
 
 ## Install a component
 
@@ -22,7 +22,7 @@ Use the command shown on the exact component page. Registry installation is the 
 for the current pre-release:
 
 ```bash
-pnpm dlx shadcn-svelte@latest add https://coss-sv.vercel.app/r/card.json
+pnpm dlx shadcn-svelte@latest add https://coss.miel.my/r/card.json
 ```
 
 The registry installs source into your application and resolves imports through the alias in your
@@ -63,12 +63,12 @@ npx skills add mielsense/coss-sv --skill coss-svelte
 
 It teaches agents the registry workflow, component catalog, Svelte composition rules, COSS and
 Shards boundary, accessibility requirements, and debugging order. Read the [Agent Skill
-guide](https://coss-sv.vercel.app/docs/skills) or the published
-[`SKILL.md`](https://coss-sv.vercel.app/skill.md).
+guide](https://coss.miel.my/docs/skills) or the published
+[`SKILL.md`](https://coss.miel.my/skill.md).
 
 Agents without an installed skill can use
-[`llms.txt`](https://coss-sv.vercel.app/llms.txt),
-[`llms-full.txt`](https://coss-sv.vercel.app/llms-full.txt), and the Markdown form of every docs page.
+[`llms.txt`](https://coss.miel.my/llms.txt),
+[`llms-full.txt`](https://coss.miel.my/llms-full.txt), and the Markdown form of every docs page.
 
 ## Repository layout
 
