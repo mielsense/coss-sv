@@ -45,7 +45,7 @@
     "tailwindcss": "catalog:dev",
     "tsx": "catalog:dev",
     "typescript": "catalog:dev",
-    "unified": "9.2.2",
+    "unified": "11.0.5",
     "vite": "catalog:dev",
     "vitest": "catalog:dev"
   }
