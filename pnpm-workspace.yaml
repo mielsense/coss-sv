@@ -6,7 +6,7 @@ catalogs:
   dev:
     '@axe-core/playwright': 4.13.0
     '@playwright/test': 1.62.1
-    '@sveltejs/adapter-vercel': 6.3.4
+    '@sveltejs/adapter-vercel': 6.3.5
     '@sveltejs/kit': 2.70.3
     '@sveltejs/package': 2.5.8
     '@sveltejs/vite-plugin-svelte': 7.3.0
